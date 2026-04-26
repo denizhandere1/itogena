@@ -1,0 +1,764 @@
+﻿koloniSistemKimlik,kovanNoSnapshot,tarih,citaSayisi,bal_cita,yavruluCita,yavruDuzeni,mizac,beslemeTipi,beslemeYapildi,varroaMucadele,anaAriGoruldu,varroaGoruldu,ogulBelirtisi,ogulAtti,bolmeYapildi,kovanSondu,anaUretimGirisimVarMi,anasizBirakildiMi,anasizBaslangicTarihi,larvaYasiGun,memeDurumu,erkekAriDurumu,ciftlesmeDurumu,anaDegisimPlanlandiMi,notlar,sezon,kaynakKoloniNoNottan,kaynakKoloniSistemKimlikNottan,tureyenKoloniNoListesiNottan,tureyenKoloniSistemKimlikleri,olayTipiOneri,ayristirmaGuveni,ayristirmaNotu
+KOL-001,7,2025-04-22,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,13'den bölündü - şurup verildi.,uretim,13,KOL-017,,,child_created_from_split,yüksek,
+KOL-001,7,2025-04-23,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Güçlü - Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-001,7,2025-04-25,4,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,kapalı,,,0,Kapalı göz kırıldı. Ana gözleri tam olarak gözlemlenemedi. Açıklar var. Beslendi. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-001,7,2025-04-28,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-001,7,2025-05-07,2,,,,,,0,,,,1,0,0,1,1,0,,,yok,,,0,Bitmiş. Ana gözü yok. 2 Petek alındı. Diğer kovanlara aktarıldı. 1-6,uretim,,,,,,yüksek,
+KOL-001,7,2025-05-10,0,,,,,,0,,,,,0,0,0,0,0,,,,,,0,BİTTİ BOŞ,uretim,,,,,,yüksek,
+KOL-002,15,2025-04-22,9,,,,,1/1 şurup,1,,,,,0,1,0,0,0,,,,,,0,Bölündü (12) - 1 petek ve şurup verildi.,uretim,,,12,KOL-016,parent_split,yüksek,
+KOL-002,15,2025-04-23,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Temel Petek verildi. Güçlü. Besleme yapıldı,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-002,15,2025-04-25,7,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,Güçlü. 3 Yeni petek var kabartılıyor. Çift besleme yapıldı. Yeni petek verilmedi. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-002,15,2025-04-28,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Filizkıran rüzgarı sebebi ile yalnızca hızlıca besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-002,15,2025-05-05,5,,,,,1/1 şurup,1,,,,1,1,0,0,1,0,,,,,,0,Oğul atmış büyük ihtimalle. 11-16 no'lu kovandaki oğullar tahmin ediliyor. 2 çıta alındı. Ana memesi yapmış beslendi. 20 mayısa kadar besleme yapmayalım.,uretim,,,11-16,KOL-021,parent_swarmed,orta,"Türeyen koloni çözümlenemedi: 16 | Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-002,15,2025-05-07,5,,,,,,0,timol,,,1,0,0,0,1,0,,,,,,0,Her petekte Ana gözü var. 1 Ana gözlü petek silkelenerek alındı ve 05 no'lu kovana aktarıldı. 1 Kara petek verildi. Kendini kurtarabilir. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-05-10,5,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,ana çıkmış,0,Ana çıkmış. Beslendi. Varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-002,15,2025-05-14,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,"Polen var. Besleme yapılmadı. Balı var. Yavru görene kadar, bekleyelim.",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-002,15,2025-05-20,5,,,,,kek,1,,,,,0,0,0,0,0,,,,,,0,Kek verildi. Polen var. Besleme verroa.,uretim,,,,,,yüksek,
+KOL-002,15,2025-05-24,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Beslendi. Ballı petekler var. Kabartıyor.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-002,15,2025-05-27,5,,,yavru yok,,,0,,,,,0,0,0,0,0,,,,,,0,Yavru yok. Polen. Bal.,uretim,,,,,,yüksek,
+KOL-002,15,2025-06-02,5,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,"1 Boş çıta alınıp ayrıca, bir kara petek verildi. Kapalı yavrular görüldü. 3 çıta dolu ve aktif. Beslendi. Varroa. Yavru çok güçlü görünmüyor. Takip etmeli.",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-002,15,2025-06-08,5,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondon verildi.,uretim,,,,,,yüksek,
+KOL-002,15,2025-06-14,5,,,yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,Yavru var. İyi görünüyor. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-06-19,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-06-26,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Petek kabartıyor. İyi görünüyor. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-07-05,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Çoğalıyor. 1 Temel petek ilave. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-07-10,7,,,kapalı yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 Temel petek. Kapalı yavru var. İyi görünüyor. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-07-24,7,,,yavru var,,,0,,,,,0,0,0,0,0,,,,,,0,"Kalabalık. Kabartıyor. Yavru var, İyi",uretim,,,,,,yüksek,
+KOL-002,15,2025-08-04,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,"Yavru güçlü, petek yapıyor, İyi.",uretim,,,,,,yüksek,
+KOL-002,15,2025-08-19,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,2 çıta fazla gibi. Zayıf ama yavrulu. Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-09-07,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Çok kalabalık iyi dürümda. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-09-10,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-09-13,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-002,15,2025-09-15,,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondon verildi.,kis,,,,,,yüksek,
+KOL-002,15,2025-10-13,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Fena değil. Çıta aslında yarı yarıya.,kis,,,,,,yüksek,
+KOL-002,15,2025-11-13,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Sıkıştırıldı. Çuval. İnvert şurup,kis,,,,,,yüksek,
+KOL-002,15,2025-11-17,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-002,15,2025-11-22,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-002,15,2026-01-13,6,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-002,15,2026-01-20,6,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-002,15,2026-02-24,6,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı.,kis,,,,,,yüksek,
+KOL-002,15,2026-02-25,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu.,kis,,,,,,yüksek,
+KOL-002,15,2026-03-07,6,,,kapalı yavru var,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Her şey yolunda. Kapalı yavrular var. Az besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-002,15,2026-03-10,6,,,kapalı yavru var,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Her şey yolunda. Kapalı yavrular var. Az besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-002,15,2026-03-12,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 kabarmış boş petek ilave edildi. Çok az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-002,15,2026-04-01,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-002,15,2026-04-06,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 Temel Petek ilave. Besleme Yapıldı. Varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-002,15,2026-04-09,8,,,,,kristalize bal,1,timol,,,,0,0,0,0,0,,,,,,0,Kristalize bal ile beslendi. Timol,uretim,,,,,,yüksek,
+KOL-003,19,2025-04-22,12,,,,,1/1 şurup,1,,,,,0,1,0,0,0,,,,,,0,Bölündü (2-8) - 1 petek ve şurup verildi.,uretim,,,2-8,KOL-018;KOL-015,parent_split,yüksek,
+KOL-003,19,2025-04-23,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Temel Petek verildi. Güçlü. Besleme yapıldı,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-003,19,2025-04-25,7,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,3 Yeni petek var kabartılıyor. Çift besleme yapıldı. Yeni petek verilmedi. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-003,19,2025-04-28,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Filizkıran rüzgarı sebebi ile yalnızca hızlıca besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-003,19,2025-05-05,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,kontrol edilmeli,0,Bir çıta ilave yapıldı. 15'inci kovandan alınan hafif kabarmış petek verildi. Önceki şurubu almamış. Soğuklu alakalı gibi. Bir dahaki kontrolde ana kontrolü yapılmalı.,uretim,,,,,,yüksek,
+KOL-003,19,2025-05-07,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Şurubu tüketmiş. Yeni şurup verildi. Kabartıyor. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-05-10,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Beslendi varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-003,19,2025-05-14,7,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 Çıta temel petek aldım. Besleme . Varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-003,19,2025-05-20,7,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Beslendi. Varroa. Kabartmış.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-003,19,2025-05-24,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Kara petek ilave. Ballı. Beslendi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-003,19,2025-05-27,8,,,yavru var,,,0,,,,,0,0,0,0,0,,,,,,0,Yavru var. Petekler düzeltildi.,uretim,,,,,,yüksek,
+KOL-003,19,2025-06-02,8,,,günlük var; kapalı yavru var,,,0,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Beslenmedi. Kapalı ve günlükler var. 5 Çıta güçlü. 3 çıta boş. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-06-08,8,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondon verildi.,uretim,,,,,,yüksek,
+KOL-003,19,2025-06-14,8,,,yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,Yavru var. İyi görünüyor. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-06-19,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-06-26,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Son 2 petek boş gibi. Fakat güçlü kapalı yavru görünüyor Bir petek 1 e aktarıldı. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-07-05,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-07-10,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-07-24,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Temel İlave Kabartıyor. Sırlıyor. Balı var.,uretim,,,,,,yüksek,
+KOL-003,19,2025-08-04,6,2,,,,,0,,,,,0,0,0,0,0,,,,,,0,Yavru güçlü. 2 ÇITA BAL alındı.,uretim,,,,,,yüksek,
+KOL-003,19,2025-08-19,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda yavrulu ballı. Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-09-07,6,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,İyi durumda. Sıkışık. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-09-10,6,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-09-13,6,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-003,19,2025-10-13,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Fena değil,kis,,,,,,yüksek,
+KOL-003,19,2025-11-13,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-003,19,2025-11-17,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-003,19,2025-11-22,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-003,19,2026-01-13,6,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-003,19,2026-01-20,6,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-003,19,2026-02-24,6,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı.,kis,,,,,,yüksek,
+KOL-003,19,2026-02-25,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu.,kis,,,,,,yüksek,
+KOL-003,19,2026-03-07,6,,,kapalı yavru var,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı.,uretim,,,,,,yüksek,
+KOL-003,19,2026-03-10,6,,,kapalı yavru var,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı.,uretim,,,,,,yüksek,
+KOL-003,19,2026-03-12,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,40 dan 1 yavrulu çıta verildi. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-003,19,2026-04-01,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-003,19,2026-04-06,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 Temel Petek ilave. Besleme Yapıldı. Varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-003,19,2026-04-09,9,,,,,kristalize bal,1,timol,,,,0,0,0,0,0,,,,,,0,karakovan çıta verildi Dalak yapmış. Gayet iyi. Kristalize bal ile beslendi. Timol,uretim,,,,,,yüksek,
+KOL-004,25 (Eski 20),2025-04-22,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 petek ve şurup verildi. Bölünmedi.,uretim,,,,,,yüksek,
+KOL-004,25 (Eski 20),2025-04-23,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-004,25 (Eski 20),2025-04-25,7,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,1 Yeni temel petek verildi.ift besleme yapıldı.  Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-004,25 (Eski 20),2025-04-28,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-004,25 (Eski 20),2025-05-07,7,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Orta halli. Kabartıyor. Beslendi. Varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-004,25 (Eski 20),2025-05-10,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Beslendi. Varroa. 1 Karakovan eklendi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-004,25 (Eski 20),2025-05-14,7,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 Karakovan çıta aldım. Besleme. Varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-004,25 (Eski 20),2025-05-20,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek ilave. Beslem varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-05-24,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Petek ilave. Beslendi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-004,25 (Eski 20),2025-05-27,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İyi durumda. Bir dahaki kontrolde kat atılabilir.,uretim,,,,,,yüksek,
+KOL-004,25 (Eski 20),2025-06-02,14,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Kat atıldı. 1 Temel petek. Gerisi kabarmış. Beslendi. İyi görünüyor. Varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-004,25 (Eski 20),2025-06-08,12,,,,,,0,,,,,0,1,0,0,0,,,,,,0,Bölündü. (5),uretim,,,5,KOL-025,parent_split,yüksek,
+KOL-004,25 (Eski 20),2025-06-14,7,,,,,,0,timol,,,,0,0,0,0,0,,,kapalı,,,0,Hatalı bölme. Ana bölmede 5'e  gitmiş. Kat alındı. Kapalı ana gözleri imha edildi. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-06-19,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-06-26,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-07-05,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-07-10,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-07-24,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-08-04,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İyi durumda.Yavrulu.,uretim,,,,,,yüksek,
+KOL-004,25 (Eski 20),2025-08-19,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Yavrulu iyi durumda. Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-09-07,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Normal durumda. Karınca dolu. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-09-10,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-09-13,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-004,25 (Eski 20),2025-10-13,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,fena değil,kis,,,,,,yüksek,
+KOL-004,25 (Eski 20),2025-11-13,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-004,25 (Eski 20),2025-11-17,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-004,25 (Eski 20),2025-11-22,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-004,25 (Eski 20),2026-01-13,7,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-004,25 (Eski 20),2026-01-20,7,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-004,25 (Eski 20),2026-02-24,7,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Kalabalık. Fakat kovanda çok nem var. Kovan değişmeli.,kis,,,,,,yüksek,
+KOL-004,25 (Eski 20),2026-02-25,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,25 No'lu kovan ile değiştirildi. Az besleme yapıldı.,kis,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-004,25 (Eski 20),2026-03-07,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-004,25 (Eski 20),2026-03-10,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-004,25 (Eski 20),2026-03-12,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Herhangi bir işlem yapılmadı. Çok az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-004,25 (Eski 20),2026-04-01,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-004,25 (Eski 20),2026-04-06,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 Temel Petek ilave. Besleme Yapıldı. Varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-004,25 (Eski 20),2026-04-09,8,,,,,kristalize bal,1,timol,,,,0,0,0,0,0,,,,,,0,Kristalize bal ile beslendi. Timol,uretim,,,,,,yüksek,
+KOL-005,1,2025-04-22,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,26'dan bölündü - şurup verildi.,uretim,26,KOL-014,,,child_created_from_split,yüksek,
+KOL-005,1,2025-04-23,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Güçlü - 1 temel petek verildi - besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-005,1,2025-04-25,3,,,,,1/1 şurup,1,vetorax,,,1,0,0,0,1,0,,,görülemedi,,,0,Temel petek alındı. Ana memesi gözlenmedi. Şerbet almamış. Yeni şerbet verildi. Varroa Vetorax.,uretim,,,,,,yüksek,
+KOL-005,1,2025-04-28,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Rüzgardan kapağı uçmuş. Arılar duruyordu. Kapağı kapatıldı. İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-005,1,2025-05-07,4,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Varroa. 7'den 1 petek aktarımı yapıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-005,1,2025-05-10,4,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-005,1,2025-05-24,6,,,günlük var,,1/1 şurup,1,,,,,0,0,0,0,0,,1,,,yumurtluyor,0,"Günlükler var. 1 Temel, 1 Kabarmış kara petek ilave. Besleme. Normal koloni düzeni.",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-005,1,2025-06-02,6,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Beslendi. Varroa. Fena değil.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-005,1,2025-06-08,6,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondan verildi.,uretim,,,,,,yüksek,
+KOL-005,1,2025-06-14,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-005,1,2025-06-19,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-005,1,2025-06-26,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Varroa. 19'dan 1 petek aktarımı yapıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-005,1,2025-07-05,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-005,1,2025-07-10,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-005,1,2025-07-24,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Temel petek ilave,uretim,,,,,,yüksek,
+KOL-005,1,2025-08-04,8,,,yavru var,,,0,,,,,0,0,0,0,0,,,,,,0,Yavru var. Bal az.,uretim,,,,,,yüksek,
+KOL-005,1,2025-08-19,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,"2 çıta fazlası var. Yavrulu, gen problemi var. Varroa. Alt Kapak Takıldı.",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-005,1,2025-09-07,0,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kovan sönmüş durumda.,kis,,,,,,yüksek,
+KOL-006,6,2025-04-22,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,26'dan bölündü - şurup verildi.,uretim,26,KOL-014,,,child_created_from_split,yüksek,
+KOL-006,6,2025-04-23,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Zayıf. Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-006,6,2025-04-25,3,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,Ana gözleri açık. Beslendi. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-006,6,2025-04-28,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-006,6,2025-05-07,4,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Varroa. 7'den 1 petek aktarımı yapıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-05-10,4,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-05-24,5,,,günlük var,,1/1 şurup,1,,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Günlükler var. 1 Kabarmış kara petek ilave. Besleme. Normal koloni düzeni.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-006,6,2025-06-02,7,,,günlük var; kapalı yavru var,,1/1 şurup,1,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,İyi durumda. 1 Temel. 1 kara petek verildi. Kapalı ve günlükler var. Beslendi. Varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-006,6,2025-06-08,7,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondan verildi.,uretim,,,,,,yüksek,
+KOL-006,6,2025-06-14,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-06-19,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-06-26,7,,,kapalı yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Varroa. Son iki petek boş görünüyor. Fakat güçlü kapalı yavru var.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-07-05,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-07-10,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-07-24,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-08-04,7,,,yavru var,,,0,,,,,0,0,0,0,0,,,,,,0,Yavru var. Bal az.,uretim,,,,,,yüksek,
+KOL-006,6,2025-08-19,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Zayıf. Varroa. Alt Kapak Takıldı.Gen problem.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-09-07,5,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Fena değil. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-09-10,5,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-09-13,5,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-006,6,2025-10-13,0,,,,,,0,,,,,0,0,0,0,0,,,,,,0,sönmüş,kis,,,,,,yüksek,
+KOL-007,3,2025-04-22,9,,,,,1/1 şurup,1,,,,,0,1,0,0,0,,,,,,0,Bölündü (10) - 1 petek ve şurup verildi.,uretim,,,10,KOL-012,parent_split,yüksek,
+KOL-007,3,2025-04-23,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çok güçlü - 2 temel petek 1 karakovan verildi besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-007,3,2025-04-25,9,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,İyi durumda. Çıtaları kabartıyor. 2 temel petek ve 1 karakovan kabartılıyor. Beslendi. Varroa Vetorax. Kat yakın,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-007,3,2025-04-28,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Filizkıran rüzgarı sebebi ile yalnızca hızlıca besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-007,3,2025-05-05,13,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kat atıldı. Çift besleme yapıldı. Güçlü bir kovan. 1 Kara petek ve 3 temel petek verildi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-007,3,2025-05-07,19,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Çok iyi görünüyor. Sıra ile bir temel bir kara petek şeklinde ballık dolduruldu. 3 Temel 3 Kabarmış. Çift besleme yapıldı. Varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-007,3,2025-05-10,19,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kata çıkmışlar. Çift Besleme. Varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-007,3,2025-05-14,19,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Çift Besleme. Sıra eli kabartıyorlar.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-007,3,2025-05-20,19,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi. Beslendi. Vannoa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-007,3,2025-05-24,19,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Beslendi. Belki 3. kat.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-007,3,2025-06-02,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Ful dolular. Çok iyi durumda. Düşünülüyor. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-06-08,19,,,,,,0,,,,,0,1,0,0,0,,,,,,0,Bölündü (39),uretim,,,39,KOL-015,parent_split,yüksek,
+KOL-007,3,2025-06-14,25,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,3. Kat atıldı. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-06-19,25,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-06-26,25,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-07-05,25,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-07-10,25,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-07-24,24,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Arı az gibi. 3. Kat dağıtılabilir. 22 Ye 1 adet aktarım.,uretim,,,,,,yüksek,
+KOL-007,3,2025-08-04,15,9,,,,,0,,,,,0,0,0,0,0,,,,,,0,9 ÇITA BAL ALINDI,uretim,,,,,,yüksek,
+KOL-007,3,2025-08-19,9,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,"Kat alındı. Mozaik. Gen problem. Yavrulu. Bal yok, Varroa. Alt Kapak Takıldı.",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-09-07,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Kalabalık sıkışık. İyi durumda. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-09-10,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-09-13,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-007,3,2025-10-13,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi durumda,kis,,,,,,yüksek,
+KOL-007,3,2025-11-13,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-007,3,2025-11-17,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-007,3,2025-11-22,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-007,3,2026-01-13,0,,,,,,0,,,,,0,0,0,0,0,,,,,,0,sönmüş,kis,,,,,,yüksek,
+KOL-008,22,2025-04-22,13,,,,,1/1 şurup,1,,,,,0,1,0,0,0,,,,,,0,Bölündü (14-4) - 1 petek ve şurup verildi.,uretim,,,14-4,KOL-010;KOL-011,parent_split,yüksek,
+KOL-008,22,2025-04-23,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Temel Petek verildi. Güçlü. Besleme yapıldı,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2025-04-25,9,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,İyi durumda. 1 Temel petek verildi.  Beslendi. Varroa Vetorax. Kat yakın,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2025-04-28,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Filizkıran rüzgarı sebebi ile yalnızca hızlıca besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2025-05-05,13,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kat atıldı. Çift besleme yapıldı. Güçlü bir kovan. 1 Kara petek ve 3 temel petek verildi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2025-05-07,19,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,"Çok iyi görünüyor. Sıra ile bir temel bir kara petek şeklinde ballık dolduruldu. 2 Temel 3  Kabarmış, 1 kara kovan.. Çift besleme yapıldı. Varroa",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-008,22,2025-05-10,19,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kata çıkmışlar. Çift Besleme. Varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-008,22,2025-05-14,19,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Çift Besleme. Sıra eli kabartıyorlar.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2025-05-20,19,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi. Beslendi. Vannoa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2025-05-24,19,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Beslendi. Belki 3. kat.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2025-06-02,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Ful dolular. Çok iyi durumda. Düşünülüyor. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-06-14,25,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,3. Kat atıldı. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-06-19,25,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-06-26,25,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-07-05,25,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-07-10,26,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 Kabarmış ilave. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-07-24,28,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Çok güzel. 3'den ve 10 'den 1 ilave. Ballı.,uretim,,,,,,yüksek,
+KOL-008,22,2025-08-04,16,12,,,,,0,,,,,0,0,0,0,0,,,,,,0,12 ÇITA BAL ALINDI,uretim,,,,,,yüksek,
+KOL-008,22,2025-08-19,9,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,"Kat alındı. Güçlü, yavrulu. Varroa. Alt Kapak Takıldı.",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-09-07,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,İyi durumda sıkışık. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-09-10,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-09-13,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-008,22,2025-10-13,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi,kis,,,,,,yüksek,
+KOL-008,22,2025-11-13,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-008,22,2025-11-17,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-008,22,2025-11-22,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-008,22,2026-01-13,9,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-008,22,2026-01-20,9,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-008,22,2026-02-24,7,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Kalabalık,kis,,,,,,yüksek,
+KOL-008,22,2026-02-25,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu.,kis,,,,,,yüksek,
+KOL-008,22,2026-03-07,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi yavru düzeni sık. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2026-03-10,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi yavru düzeni sık. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2026-03-12,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Temel petek ilave edildi. Çok az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-008,22,2026-04-01,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-008,22,2026-04-06,9,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Bir adet taze kabarmış petak. Yavru atımı için tam ortaya koydum. Besleme ve varroa mücadelesi,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-008,22,2026-04-09,9,,,,,kristalize bal,1,timol,,,,0,0,0,0,0,,,,,,0,Kristalize bal ile beslendi. Timol,uretim,,,,,,yüksek,
+KOL-009,9,2025-04-23,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,31'den bölündü - şurup verildi.,uretim,31,KOL-020,,,child_created_from_split,yüksek,
+KOL-009,9,2025-04-25,3,,,açık göz var,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,Açık gözler var. Şurubunu bitirememiş. Varroa Vetorax.,uretim,,,,,,yüksek,
+KOL-009,9,2025-04-28,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-009,9,2025-05-07,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-05-10,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-05-24,5,,,günlük var,,1/1 şurup,1,,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Günlükler var. 1 Kabarmış kara petek ilave. Besleme. Normal koloni düzeni.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-009,9,2025-06-02,5,,,günlük var; kapalı yavru var,,1/1 şurup,1,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Kapalı ve günlükler var. Beslendi. Varroa. Gayet iyi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-009,9,2025-06-08,6,,,yavru var,,fondan,1,,,,,0,0,0,0,0,,,,,,0,1 Çıta kabarmış eklendi. Güzel yavru var. Fondan verildi.,uretim,,,,,,yüksek,
+KOL-009,9,2025-06-14,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-06-19,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-06-26,6,,,kapalı yavru var,,,0,,,,,0,0,0,0,0,,,,,,0,İyi durumda. Kapalı yavru var.,uretim,,,,,,yüksek,
+KOL-009,9,2025-07-05,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-07-10,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,"1 Kabarmış, 1 Temel verildi. Varroa",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-07-24,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-08-04,7,1,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 ÇITA BAL alındı.,uretim,,,,,,yüksek,
+KOL-009,9,2025-08-19,6,1,,yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 ÇITA BAL ALINDI. 2 Çıta boş. Çok güzel yavru var. Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-09-07,6,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-09-10,6,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-09-13,6,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-009,9,2025-10-13,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi durumda,kis,,,,,,yüksek,
+KOL-009,9,2025-11-13,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-009,9,2025-11-17,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-009,9,2025-11-22,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-009,9,2026-01-13,6,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-009,9,2026-01-20,6,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-009,9,2026-02-24,4,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Gereksiz çıtalar alındı.,kis,,,,,,yüksek,
+KOL-009,9,2026-02-25,4,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu. Az besleme yapıldı.,kis,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-009,9,2026-03-07,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,26'dan kapalı yavru aktarımı yapıldı. İyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-009,9,2026-03-10,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-009,9,2026-03-12,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek ilave edildi. Çok az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-009,9,2026-04-01,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-009,9,2026-04-06,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Az kabarmış temel petek. Ancak çok kalabalık değil. İzleyelim.,uretim,,,,,,yüksek,
+KOL-009,9,2026-04-09,7,,,,,kristalize bal,1,timol,,,,0,0,0,0,0,,,,,,0,Kristalize bal ile beslendi. Timol,uretim,,,,,,yüksek,
+KOL-010,14,2025-04-22,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,22'den bölündü - şurup verildi.,uretim,22,KOL-008,,,child_created_from_split,yüksek,
+KOL-010,14,2025-04-23,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-010,14,2025-04-25,3,,,açık göz var,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,Açık gözler var. Şurubunu bitirememiş. Yeni şurup verildi. Varroa Vetorax.,uretim,,,,,,yüksek,
+KOL-010,14,2025-04-28,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-010,14,2025-05-07,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-05-10,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-05-24,5,,,günlük var,,1/1 şurup,1,,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Günlükler var. 1 Kabarmış kara petek ilave. Besleme. Normal koloni düzeni.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-010,14,2025-06-02,6,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Bir temel petek ilave. Günlük ve kapalılar var. Beslendi. Varroa. Gayet iyi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-010,14,2025-06-08,7,,,yavru var,,fondan,1,,,,,0,0,0,0,0,,,,,,0,1 Çıta kabarmış eklendi. Güzel yavru var. Fondan verildi.,uretim,,,,,,yüksek,
+KOL-010,14,2025-06-14,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-06-19,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-06-26,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Son 3 çıta boş. Fakat güçlü küpülı yavrular var. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-07-05,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek ilave Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-07-10,9,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek ilave Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-07-24,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ballı. İyi,uretim,,,,,,yüksek,
+KOL-010,14,2025-08-04,5,4,,,,,0,,,,,0,0,0,0,0,,,,,,0,4 ÇITA BAL alındı,uretim,,,,,,yüksek,
+KOL-010,14,2025-08-19,6,1,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 PETEK BAL ALINDI. Yavrulu. Güzel. Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-09-07,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,6 Çıta idi. 1 Çıta  1 nolu kovandan aktarıldı. İyi durumda sıkışık. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-09-10,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-09-13,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-010,14,2025-10-13,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi durumda,kis,,,,,,yüksek,
+KOL-010,14,2025-11-13,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-010,14,2025-11-17,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-010,14,2025-11-22,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-010,14,2026-01-13,7,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-010,14,2026-01-20,7,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-010,14,2026-02-24,5,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Gereksiz çıtalar alındı.,kis,,,,,,yüksek,
+KOL-010,14,2026-02-25,5,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu. Şurubu almamış. Takip,kis,,,,,,yüksek,
+KOL-010,14,2026-03-07,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Şurubu almış Az besleme. İyi görünüyor. Yavrular var.,uretim,,,,,,yüksek,
+KOL-010,14,2026-03-10,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Az besleme. İyi görünüyor.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-010,14,2026-03-12,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Yalnızca besleme yapldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-010,14,2026-04-01,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-010,14,2026-04-06,6,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek ilave Varroa ve besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-010,14,2026-04-09,6,,,,,kristalize bal,1,timol,,,,0,0,0,0,0,,,,,,0,Kristalize bal ile beslendi. Timol,uretim,,,,,,yüksek,
+KOL-011,4,2025-04-22,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,22'den bölündü - şurup verildi.,uretim,22,KOL-008,,,child_created_from_split,yüksek,
+KOL-011,4,2025-04-23,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Güçlü. 1 temel petek verildi - besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-011,4,2025-04-25,3,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,açık,,,0,Temel petek alındı. Açık ana gözleri var. Beslendi. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-011,4,2025-04-28,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-011,4,2025-05-07,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-05-10,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-05-24,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Yavru görülemedi. Bekle. Polenli ballı petekler var.,uretim,,,,,,yüksek,
+KOL-011,4,2025-06-02,5,,,günlük var; kapalı yavru var,,1/1 şurup,1,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Kapalı ve günlükler var. Beslendi. Normal koloni düzeni. Varroa. Beslendi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-011,4,2025-06-08,6,,,yavru var,,fondan,1,,,,,0,0,0,0,0,,,,,,0,1 Çıta kabarmış eklendi. Güzel yavru var. Fondan verildi.,uretim,,,,,,yüksek,
+KOL-011,4,2025-06-14,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-06-19,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-06-26,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Son 2 çıta boş. Fakat güçlü küpülı yavrular var. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-07-05,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-07-10,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,"1 Temel, 1 kabarmış ilave. Varroa.",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-07-24,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-08-04,6,2,,,,,0,,,,,0,0,0,0,0,,,,,,0,2 ÇITA BAL alındı.,uretim,,,,,,yüksek,
+KOL-011,4,2025-08-19,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,"Güzel, yavrulu, iyi durumda. Varroa. Alt Kapak Takıldı.",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-09-07,6,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Çok kalabalık. Sıkışık. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-09-10,6,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-09-13,6,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-011,4,2025-10-13,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi durumda,kis,,,,,,yüksek,
+KOL-011,4,2025-11-13,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-011,4,2025-11-17,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-011,4,2025-11-22,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-011,4,2026-01-13,6,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-011,4,2026-01-20,6,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-011,4,2026-02-24,5,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Gereksiz çıtalar alındı.,kis,,,,,,yüksek,
+KOL-011,4,2026-02-25,5,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu. Az besleme yapıldı.,kis,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-011,4,2026-03-07,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 kabarmış eski çıta verildi. İyi görünüyor. Petek kabartmış.Takip edilecek.,uretim,,,,,,yüksek,
+KOL-011,4,2026-03-10,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Az besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-011,4,2026-03-12,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek ilave edildi. Çok az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-011,4,2026-04-01,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-011,4,2026-04-06,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek ilave Varroa ve besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-011,4,2026-04-09,8,,,,,kristalize bal,1,timol,,,,0,0,0,0,0,,,,,,0,Kristalize bal ile beslendi. Timol,uretim,,,,,,yüksek,
+KOL-012,10,2025-04-22,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,3'den bölündü - şurup verildi.,uretim,3,KOL-007,,,child_created_from_split,orta,Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-04-23,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Güçlü - Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı."
+KOL-012,10,2025-04-25,3,,,,,1/1 şurup,1,vetorax,,,,0,0,1,0,0,,,açık,,,0,"Önceki 2 şerbetten biri bitmiş diğeri bitmemiş. Alındı, yenisi verildi. Açık ana gözleri var. Varroa Vetorax.",uretim,,,,,,orta,Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-04-28,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,orta,Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-05-07,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-05-10,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-05-24,3,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Yavru görülemedi. Bekle. Polenli ballı petekler var.,uretim,,,,,,orta,Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-06-02,4,,,günlük var; kapalı yavru var,,1/1 şurup,1,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Kapalı ve günlükler var. Beslendi. Normal koloni düzeni. Varroa. Beslendi. 1 Temel petek ilave.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı."
+KOL-012,10,2025-06-08,6,,,yavru var,,fondan,1,,,,,0,0,0,0,0,,,,,,0,2 Çıta kabarmış eklendi. Güzel yavru var. Fondan verildi.,uretim,,,,,,orta,Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-06-14,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-06-19,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-06-26,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Son 3 çıta boş. Yavrular Mozaik. Ana iyi değil. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-07-05,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-07-10,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-07-24,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ana gen. Yavru mozaik. 1 çıta 22'lye ilave.,uretim,,,,,,orta,Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-08-04,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İşlem yıok.,uretim,,,,,,orta,Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-08-19,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Zayıf. Gidiici. Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-012,10,2025-09-07,0,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Sönmüş.,kis,,,,,,orta,Header kaynağı 13 iken ilk not kaynağı 3; not esas alındı.
+KOL-013,25,2025-04-22,8,,,,,1/1 şurup,1,,,,,0,1,0,0,0,,,,,,0,Bölündü (30) - 1 petek ve şurup verildi.,uretim,,,30,KOL-019,parent_split,yüksek,
+KOL-013,25,2025-04-23,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-013,25,2025-04-25,7,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,Çıta kabartıyor. 1 Temel petek ilave. 2 besleme yapıldı. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-013,25,2025-04-28,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Filizkıran rüzgarı sebebi ile yalnızca hızlıca besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-013,25,2025-05-07,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. 1 Temel petek ilave. Besleme ve varroa yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-013,25,2025-05-10,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor. Beslendi. 1 Kabartılmış kara petek ilave yapıldı..,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-013,25,2025-05-14,9,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Biraz daha sıkışsın. 2-3 gün sonra bakalım. Kat gerekebilir. Beslendi varroa 9 çıta.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-013,25,2025-05-20,12,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Kat atıldı. Çift besleme.. Varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-013,25,2025-05-24,15,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Telem 2 kabarmış kara petek ilave. Beslenndi.,uretim,,,,,,yüksek,
+KOL-013,25,2025-05-27,17,,,,,,0,,,,,0,0,0,0,0,,,,,,0,5. Kovandan Ballı polenli iki kabarmış petek ilave edildi.,uretim,,,,,,yüksek,
+KOL-013,25,2025-06-02,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 Temel Petek. Gerisi kabarmış. Eklendi. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-06-14,19,,,yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,Yavru var. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-06-19,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-06-26,19,,,kapalı yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor. Kapalı yavrular var.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-07-05,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-07-10,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-07-24,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Çok yavrulu mozaik.,uretim,,,,,,yüksek,
+KOL-013,25,2025-08-04,16,3,,,,,0,,,,,0,0,0,0,0,,,,,,0,3 ÇITA BAL ALINDI. Ballı ve yavrulu. Takip et.,uretim,,,,,,yüksek,
+KOL-013,25,2025-08-19,16,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-08-23,9,2,,,,,0,,,,,0,0,0,0,0,,,,,,0,7 Çıta alınndı. 2 BALLI ÇITA ALINDI. Kat alındı.,uretim,,,,,,yüksek,
+KOL-013,25,2025-09-07,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Sıkışık Gayet iyi diurumda. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-09-10,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-09-13,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-013,25,2025-10-13,9,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,fondan almamış. İyi görünmüyor.,kis,,,,,,yüksek,
+KOL-013,25,2025-11-13,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,sönmüş. Güve çok fazla. Alttan hava alamamış gibi,kis,,,,,,yüksek,
+KOL-014,26,2025-04-22,12,,,,,1/1 şurup,1,,,,,0,1,0,0,0,,,,,,0,Bölündü (6-1) - petek ve şurup verildi.,uretim,,,6-1,KOL-006;KOL-005,parent_split,yüksek,
+KOL-014,26,2025-04-23,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Temel Petek verildi. Besleme yapıldı,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-014,26,2025-04-25,8,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,Çift besleme yapıldı. Petek kabartmaya devam. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-014,26,2025-04-28,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Filizkıran rüzgarı sebebi ile yalnızca hızlıca besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-014,26,2025-05-07,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda petek ilavesi yok. Besleme yapıldı. Varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-014,26,2025-05-10,9,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor. Beslendi. 1 Kabartılmış kara petek ilave yapıldı..,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-014,26,2025-05-14,9,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Biraz daha sıkışsın. 2-3 gün sonra bakalım. Kat gerekebilir. Beslendi varroa 9 çıta.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-014,26,2025-05-20,12,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Kat atıldı. Çift besleme.. Varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-014,26,2025-05-24,13,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Temel petek ilave. Beslendi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-014,26,2025-05-27,17,,,,,,0,,,,,0,0,0,0,0,,,,,,0,5. Kovandan Ballı polenli iki kabarmış petek ilave edildi.,uretim,,,,,,yüksek,
+KOL-014,26,2025-06-02,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 Temel Petek. Gerisi kabarmış. Eklendi. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-014,26,2025-06-14,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ballık ilerliyor. Katta yavru görünmüyor.,uretim,,,,,,yüksek,
+KOL-014,26,2025-06-19,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-014,26,2025-06-26,19,,,kapalı yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor. Kapalı yavrular var.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-014,26,2025-07-05,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-014,26,2025-07-10,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-014,26,2025-07-24,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ballı. Güzel.,uretim,,,,,,yüksek,
+KOL-014,26,2025-08-04,16,3,,,,,0,,,,,0,0,0,0,0,,,,,,0,3 ÇITA BAL alındı.,uretim,,,,,,yüksek,
+KOL-014,26,2025-08-19,16,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-014,26,2025-08-23,8,6,,,,,0,,,,,0,0,0,0,0,,,,,,0,"Kat alındı. 2 Boş, 6 BALLI ÇITA alındı.",uretim,,,,,,yüksek,
+KOL-014,26,2025-09-07,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Fena değil. Kötü değil. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-014,26,2025-09-10,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-014,26,2025-09-13,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-014,26,2025-10-13,8,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondan almamış iyi görünmüyor.,kis,,,,,,yüksek,
+KOL-014,26,2025-11-13,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,sönmüş,kis,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-04-22,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,19'dan bölündü - şurup verildi.,uretim,19,KOL-003,,,child_created_from_split,yüksek,
+KOL-015,39 (Eski 8),2025-04-23,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Güçlü - Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-015,39 (Eski 8),2025-04-25,4,,,,,1/1 şurup,1,vetorax,,,1,0,0,0,1,0,,,görülemedi,,,0,Ana gözü görülemedi. Şerbeti almamış. Varroa vetorax.,uretim,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-04-28,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-05-07,4,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-05-10,4,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-05-24,6,,,günlük var,,1/1 şurup,1,,,,,0,0,0,0,0,,1,,,yumurtluyor,0,"Günlükler var. Çok iyi. Kapalı yavrular. 1 Temel, 1 Kabarmış kara petek ilave. Besleme. Normal koloni düzeni.",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-015,39 (Eski 8),2025-06-02,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,"1 Kabarmış, 1 temel petek verildi. Yavrular var. Güçlü. Beslendi. Varroa.",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-015,39 (Eski 8),2025-06-08,8,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondan verildi.,uretim,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-06-14,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-06-19,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-06-26,10,,,yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,Bal var. Yavru var. Çok iyi durumda. Sıkışmış. 2 ve 9. Çıtalalara ilave yapıldı. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-07-05,14,,,,,,0,,,,,0,0,0,0,0,,,,,,0,"Kat atıldı. 1 Telem petek, 5 kabarmış ilave.",uretim,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-07-10,16,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,"1 Telem, 1 Kabarmış ilave. Varroa",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-07-24,18,,,,,,0,,,,,0,0,0,0,0,,,,,,0,2 kabarmış ilave.,uretim,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-08-04,11,7,,,,,0,,,,,0,0,0,0,0,,,,,,0,7 ÇITA BAL alındı.,uretim,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-08-19,11,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-08-23,8,2,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Boş 2 BALLI ÇITA alındı.,uretim,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-09-07,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Fena değil. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-09-10,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-09-13,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-015,39 (Eski 8),2025-10-13,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-11-13,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-11-17,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-015,39 (Eski 8),2025-11-22,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-015,39 (Eski 8),2026-01-13,8,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-015,39 (Eski 8),2026-01-20,8,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-015,39 (Eski 8),2026-02-24,6,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Gereksiz çıtalar alındı. Kovan nemli. Kovan değiştir.,kis,,,,,,yüksek,
+KOL-015,39 (Eski 8),2026-02-25,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,39 No'lu kovan ile değiştirildi. Az besleme yapıldı.,kis,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-015,39 (Eski 8),2026-03-07,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-015,39 (Eski 8),2026-03-10,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-015,39 (Eski 8),2026-03-12,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gereksiz kabarmış petek alınarak 1 temel petek verlidi. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-015,39 (Eski 8),2026-04-01,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-015,39 (Eski 8),2026-04-06,7,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 temel petek ilave Varroa ve besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-016,12,2025-04-22,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,15'den bölündü - şurup verildi.,uretim,15,KOL-002,,,child_created_from_split,yüksek,
+KOL-016,12,2025-04-23,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Güçlü - Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-016,12,2025-04-25,4,,,bal+yavru iyi,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,açık,,,0,Açık ana gözleri var. Beslendi. Bal ve yavru iyi görünüyor. Varroa Vetorax,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-016,12,2025-04-28,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-016,12,2025-05-07,5,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda 1 temel petek ilave. Besleme varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-016,12,2025-05-10,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-016,12,2025-05-24,7,,,günlük var,,1/1 şurup,1,,,,,0,0,0,0,0,,1,,,yumurtluyor,0,"Günlükler var. Çok iyi. Kapalı yavrular. 1 Temel, 1 Kabarmış kara petek ilave. Besleme. Normal koloni düzeni.",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-016,12,2025-06-02,9,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,"1 Temel, 1 kabarmış överildi. Çok kalabalık. Beslendi. Varroa.",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-016,12,2025-06-08,10,,,yavru var,,fondan,1,,,,,0,0,0,0,0,,,,,,0,1 Çıta kabarmış eklendi. Güzel yavru var. Fondan verildi. Kata takip.,uretim,,,,,,yüksek,
+KOL-016,12,2025-06-14,10,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-016,12,2025-06-19,14,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Kat atıldı. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-016,12,2025-06-26,14,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Kalabalık. Petek ilave edilebilir. Varroa. İyi durumda.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-016,12,2025-07-05,16,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Temel 1 Kara petek ilave. Vanroa,uretim,,,,,,yüksek,
+KOL-016,12,2025-07-10,18,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Temel 1 Kabarmış petek ilave. Vanroa,uretim,,,,,,yüksek,
+KOL-016,12,2025-07-24,20,,,,,,0,,,,,0,0,0,0,0,,,,,,0,"1 Kabarmış, 1 temel ilave.",uretim,,,,,,yüksek,
+KOL-016,12,2025-08-04,13,7,,,,,0,,,,,0,0,0,0,0,,,,,,0,7 ÇITA BAL alındı.,uretim,,,,,,yüksek,
+KOL-016,12,2025-08-19,13,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-016,12,2025-08-23,8,2,,,,,0,,,,,0,0,0,0,0,,,,,,0,3 Çıta boş. 2 ÇITA BALLI alındı.,uretim,,,,,,yüksek,
+KOL-016,12,2025-09-07,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Gayet iyi durumda kalabalık. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-016,12,2025-09-10,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-016,12,2025-09-13,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-016,12,2025-10-13,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,yüksek,
+KOL-016,12,2025-11-13,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-016,12,2025-11-17,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-016,12,2025-11-22,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-016,12,2026-01-13,8,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-016,12,2026-01-20,8,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-016,12,2026-02-24,8,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı.,kis,,,,,,yüksek,
+KOL-016,12,2026-02-25,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu.,kis,,,,,,yüksek,
+KOL-016,12,2026-03-07,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-016,12,2026-03-10,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-016,12,2026-03-12,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,2 Kabarmış petek güve riskine karşı alndı. Yerin 1 adet temel petek verildi. Az besleme yapldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-016,12,2026-04-01,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-016,12,2026-04-06,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 temel petek ilave Varroa ve besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-017,13,2025-04-22,14,,,,,1/1 şurup,1,,,,,0,1,0,0,0,,,,,,0,Bölündü (5-7) - 1 petek ve şurup verildi.,uretim,,,5-7,KOL-025;KOL-001,parent_split,yüksek,
+KOL-017,13,2025-04-23,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Güçlü. 2 besleme yapıldı. 1 Temel petek verildi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-017,13,2025-04-25,9,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,1 Temel petek verildi. Çift besleme yapıldı. Varroa Vetorax. Kat yakın.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-017,13,2025-04-28,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Filizkıran rüzgarı sebebi ile yalnızca hızlıca besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-017,13,2025-05-05,12,,,,agresif,,0,,,,,0,0,0,0,0,,,,,,0,Kat atıldı. Agresif.,uretim,,,,,,yüksek,
+KOL-017,13,2025-05-07,19,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,"Sıra ile bir temel bir kara petek şeklinde ballık dolduruldu. 2 Temel 4  Kabarmış, 1 kara kovan.. Çift besleme yapıldı. Varroa",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-017,13,2025-05-10,19,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Çift besleme. Varroa,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-017,13,2025-05-14,17,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Çift besleme. Varroa. Karakovan ve temel petek alındı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-017,13,2025-05-20,17,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Beslendi. Varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-017,13,2025-05-24,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,"1 Temel, 1 Kabarmış kara petek ilave.",uretim,,,,,,yüksek,
+KOL-017,13,2025-06-02,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Ful dolu. Varroa yapıldı. Düşünülüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-017,13,2025-06-14,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-017,13,2025-06-19,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-017,13,2025-06-26,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İyi durumda. Ballı. Henüz Boşluklar var. Kat için beklemek lazım.,uretim,,,,,,yüksek,
+KOL-017,13,2025-07-05,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ful. 3. Kat hazırla.,uretim,,,,,,yüksek,
+KOL-017,13,2025-07-10,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ful. 3. Kat hazırla.,uretim,,,,,,yüksek,
+KOL-017,13,2025-07-13,23,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,3. Kat. Varroa. 2 temel 2 kabarmış petek.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-017,13,2025-07-24,24,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Kabarmış ilave,uretim,,,,,,yüksek,
+KOL-017,13,2025-08-05,16,8,,,,,0,,,,,0,0,0,0,0,,,,,,0,8 ÇITA BAL,uretim,,,,,,yüksek,
+KOL-017,13,2025-08-19,16,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-017,13,2025-08-23,7,6,,,,,0,,,,,0,0,0,0,0,,,,,,0,3 Çıta boş. 6 ÇITA BALLI alındı.,uretim,,,,,,yüksek,
+KOL-017,13,2025-09-07,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Fena değil Kalabalık. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-017,13,2025-09-10,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-017,13,2025-09-13,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-017,13,2025-10-13,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,yüksek,
+KOL-017,13,2025-11-13,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-017,13,2025-11-17,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-017,13,2025-11-22,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-017,13,2026-01-13,8,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-017,13,2026-01-20,8,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-017,13,2026-02-24,7,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Gereksiz çıtalar alındı.,kis,,,,,,yüksek,
+KOL-017,13,2026-02-25,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu.,kis,,,,,,yüksek,
+KOL-017,13,2026-03-07,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi. Bölme tahtası yok. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-017,13,2026-03-10,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi. Bölme tahtası eklendi Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-017,13,2026-03-12,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek alındı. Yerine 1 temel petek verildi. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-017,13,2026-04-01,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-017,13,2026-04-06,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 kabarmış petek ilave Varroa ve besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-018,2,2025-04-22,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,19'dan bölündü - şurup verildi.,uretim,19,KOL-003,,,child_created_from_split,yüksek,
+KOL-018,2,2025-04-23,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Zayıf - Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-018,2,2025-04-25,4,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,açık,,,0,Açık ana gözleri var. Beslendi.  Varroa Vetorax,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-018,2,2025-04-28,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-018,2,2025-05-07,4,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-05-10,4,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-05-24,6,,,günlük var,,1/1 şurup,1,,,,,0,0,0,0,0,,1,,,yumurtluyor,0,"Günlükler var. Çok iyi. Kapalı yavrular. 1 Temel, 1 Kabarmış kara petek ilave. Besleme. Normal koloni düzeni.",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-018,2,2025-06-02,8,,,günlük var; kapalı yavru var,,1/1 şurup,1,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,2 Kabarmış ilave. Kapalı ve günlükler var. Beslendi. Varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-018,2,2025-06-08,10,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,2 Çıta ilave. Fondan verildi. Kata takip.,uretim,,,,,,yüksek,
+KOL-018,2,2025-06-14,10,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-06-19,10,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-06-26,10,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Henüz boşluklar var. İyi durumda. Kat için bekleyelim. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-07-05,10,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ful. Kat takibi yap.,uretim,,,,,,yüksek,
+KOL-018,2,2025-07-10,14,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Kat atıldı. 1 Temel petek. 3 Kabarmış ilave. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-07-24,16,,,,,,0,,,,,0,0,0,0,0,,,,,,0,2 Temel petek ilave.,uretim,,,,,,yüksek,
+KOL-018,2,2025-08-05,11,5,,,,,0,,,,,0,0,0,0,0,,,,,,0,5 ÇITA BAL alındı,uretim,,,,,,yüksek,
+KOL-018,2,2025-08-19,11,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-08-23,8,3,,,,,0,,,,,0,0,0,0,0,,,,,,0,3 ÇITA BALLI alındı.,uretim,,,,,,yüksek,
+KOL-018,2,2025-09-07,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Fena değil Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-09-10,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-09-13,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-018,2,2025-10-13,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,yüksek,
+KOL-018,2,2025-11-13,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-018,2,2025-11-17,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-018,2,2025-11-22,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-018,2,2026-01-13,6,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-018,2,2026-01-20,6,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-018,2,2026-02-24,4,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Gereksiz çıtalar alındı. Çıta sayıları son iki kontrol için yanlış girilmiş.,kis,,,,,,yüksek,
+KOL-018,2,2026-02-25,4,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu.,kis,,,,,,yüksek,
+KOL-018,2,2026-03-07,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi görünüyor. Az besleme yapıldı. Bölme tahtası yok.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-018,2,2026-03-10,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi görünüyor. Az besleme yapıldı. Bölme tahtası eklendi,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-018,2,2026-03-12,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 temel petek ilave yapıldı. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-018,2,2026-04-01,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-018,2,2026-04-06,7,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 temel1 kabarmış ilave  petek ilave Varroa ve besleme. Blok yavru,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-019,30,2025-04-22,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,25'den bölündü - şurup verildi.,uretim,25,KOL-013,,,child_created_from_split,yüksek,
+KOL-019,30,2025-04-23,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Zayıf. Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-019,30,2025-04-25,3,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,Ana gözleri var. Kapalı olan kırıldı. Besleme eskiden kalan bırakıldı. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-019,30,2025-04-28,3,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-019,30,2025-05-07,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-05-10,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-05-24,3,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Yavru görülemedi. Bekle. Polenli ballı petekler var.,uretim,,,,,,yüksek,
+KOL-019,30,2025-06-02,4,,,günlük var; kapalı yavru var,,,0,,,,,0,0,0,0,0,,1,,,yumurtluyor,0,1 Adet kabarmış ilave edildi. Kapalı ve günlükler var. Normal koloni düzeni.,uretim,,,,,,yüksek,
+KOL-019,30,2025-06-08,6,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,2 Çıta kabarmış eklendi.Fondan verildi.,uretim,,,,,,yüksek,
+KOL-019,30,2025-06-14,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-06-19,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Vannoa,uretim,,,,,,yüksek,
+KOL-019,30,2025-06-26,6,,,yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,Son iki çıta boş. Fakat güçlü küpülı yavru var. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-07-05,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-07-10,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-07-24,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Telem petek ilave,uretim,,,,,,yüksek,
+KOL-019,30,2025-08-05,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,işlem yok,uretim,,,,,,yüksek,
+KOL-019,30,2025-08-19,7,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-08-23,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İşlem yok,uretim,,,,,,yüksek,
+KOL-019,30,2025-09-07,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Orta şeker. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-09-10,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-09-13,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-019,30,2025-10-13,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,yüksek,
+KOL-019,30,2025-11-13,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-019,30,2025-11-17,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-019,30,2025-11-22,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-019,30,2026-01-13,,,,,,,0,,,,,0,0,0,0,0,,,,,,0,sönmüş,kis,,,,,,yüksek,
+KOL-020,31,2025-04-22,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,işlem yapılmadı,uretim,,,,,,yüksek,
+KOL-020,31,2025-04-23,5,,,,,1/1 şurup,1,,,,,0,1,0,0,0,,,,,,0,Bölündü (9) - 1 kabarmış petek ve şurup verildi.,uretim,,,9,KOL-009,parent_split,yüksek,
+KOL-020,31,2025-04-25,6,,,,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,Çift besleme yapıldı. 1 Çıta ilave yapıldı. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-020,31,2025-04-28,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Filizkıran rüzgarı sebebi ile yalnızca hızlıca besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-020,31,2025-05-05,8,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Beslendi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-020,31,2025-05-07,9,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,İyi durumda. 1 Temel petek. Varroa. Beslendi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-020,31,2025-05-10,14,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Kat atıldı. Karışık petek uygulandı. Varroa. Beslendi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-020,31,2025-05-14,12,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 Karakovan 1 temel pete alındı.  11 ve 16 ya yavrulu petekler verildi. Beslendi varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-020,31,2025-05-20,12,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Beslendi varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-020,31,2025-05-24,13,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,"İyi durumda. 1 Kabarmış, kara petek ilave. Beslendi.",uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-020,31,2025-06-02,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,6 kabarmış petek ilave edildi. Çok iyi durumda. Kalabalık. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-06-14,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ballık ilerliyor. Katta yavru görünmüyor.,uretim,,,,,,yüksek,
+KOL-020,31,2025-06-19,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-06-26,19,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,Kalabalık. Ballı. Yavrular var. Varroa. Dışarı yayılmış. Şerbet poşeti kalmış. Çıkarmaya uğraştıkları için.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-07-05,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-07-10,19,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-07-13,22,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,"1 Kabarmış, 1 Temel Petek, 1 Karakovan ilave edildi. Varroa.",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-07-24,22,,,,,,0,,,,,0,0,0,0,0,,,,,,0,3. Kat düşün?,uretim,,,,,,yüksek,
+KOL-020,31,2025-08-05,11,11,,,,,0,,,,,0,0,0,0,0,,,,,,0,11 ÇITA BAL alındı. Süper bal yapmış.,uretim,,,,,,yüksek,
+KOL-020,31,2025-08-19,11,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-08-23,7,2,,,,,0,,,,,0,0,0,0,0,,,,,,0,2 Çıta boş. 2 ÇITA BALLI alındı.,uretim,,,,,,yüksek,
+KOL-020,31,2025-09-07,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,6 idi 1 çıta 1 nolu kovandan aktarıldı. Kalabalık. İyi durumda Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-09-10,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-09-13,7,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-020,31,2025-10-13,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,yüksek,
+KOL-020,31,2025-11-13,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-020,31,2025-11-17,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-020,31,2025-11-22,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-020,31,2026-01-13,7,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-020,31,2026-01-20,7,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-020,31,2026-02-24,6,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Gereksiz çıtalar alındı.,kis,,,,,,yüksek,
+KOL-020,31,2026-02-25,6,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu. Az beslendi.,kis,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-020,31,2026-03-07,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-020,31,2026-03-10,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Gayet iyi görünüyor. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-020,31,2026-03-12,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çok az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-020,31,2026-04-01,6,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-020,31,2026-04-06,7,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 kabarmış petek ilave Varroa ve besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-021,11,2025-05-01,3,,,,,kek,1,,,,,0,0,0,0,0,,,,,,0,"Oğul yakalandı. 15. Kovandan çıkmış. 3 Petek verildi. 2 Kara petek, 1 Temel Petek. Kek verildi.",uretim,15,KOL-002,,,swarm_captured,yüksek,
+KOL-021,11,2025-05-07,4,,,,,kek,1,timol,,,,0,0,0,0,0,,,,,,0,1 Temel petek ilave. İyi durumda. Kek ile beslendi. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-05-10,4,,,,,kek,1,timol,,,,0,0,0,0,0,,,,,,0,Kek ile beslendi.  Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-05-14,6,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,31'den yavrulu petek desteği verildi. İyi durumda günlük yumutalar var. Beslendi varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-021,11,2025-05-20,6,,,günlük var,,1/1 şurup,1,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Günlükler var. Beslendi. Varroa. Normal koloni bakım düzenine geçildi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-021,11,2025-05-24,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Temel petek ilave. Güzel durumda yavrular var. Beslendi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-021,11,2025-06-02,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,1 Adet kabarmış ilave edildi. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-06-08,10,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,2 Çıta ilave. Fondan verildi.,uretim,,,,,,yüksek,
+KOL-021,11,2025-06-14,10,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-06-19,14,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Kat atıldı. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-06-26,16,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İki çıta ilave. Sıkışık. İyi. Ballı.,uretim,,,,,,yüksek,
+KOL-021,11,2025-07-05,17,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek ilave.,uretim,,,,,,yüksek,
+KOL-021,11,2025-07-10,17,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.  Kat olabilir ???,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-07-13,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,"1 Temel, 1 Kabarmış verildi.",uretim,,,,,,yüksek,
+KOL-021,11,2025-07-24,19,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Güzel. Ballı,uretim,,,,,,yüksek,
+KOL-021,11,2025-08-05,9,10,,,,,0,,,,,0,0,0,0,0,,,,,,0,10 ÇITA BAL alındı. Süper bal yapmış.,uretim,,,,,,yüksek,
+KOL-021,11,2025-08-19,9,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-08-23,8,1,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 ÇITA BALLI ALINDI,uretim,,,,,,yüksek,
+KOL-021,11,2025-09-07,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Kalabalık. Sıkışık. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-09-10,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-09-13,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-021,11,2025-10-13,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,yüksek,
+KOL-021,11,2025-11-13,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-021,11,2025-11-17,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-021,11,2025-11-22,7,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-021,11,2026-01-13,7,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-021,11,2026-01-20,7,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-021,11,2026-02-24,7,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Kalabalık,kis,,,,,,yüksek,
+KOL-021,11,2026-02-25,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu.,kis,,,,,,yüksek,
+KOL-021,11,2026-03-07,7,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İyi durumda. Az beseme yapıldı. Bölme tahtası eksik.,uretim,,,,,,yüksek,
+KOL-021,11,2026-03-10,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi durumda. Az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-021,11,2026-03-12,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Bölme tahtası ilave edildi. Çok az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-021,11,2026-04-01,7,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-021,11,2026-04-06,8,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,1 kabarmış petek ilave Varroa ve besleme,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-022,40,2025-05-03,3,,,,,kek,1,,,,,0,0,0,0,0,,,,,,0,"Oğul yakalandı. 15. Kovandan çıkmış. 3 Petek verildi. 2 Kara petek, 1 Temel Petek. Kek verildi.",uretim,15,KOL-002,,,swarm_captured,yüksek,
+KOL-022,40,2025-05-07,4,,,,,kek,1,timol,,,,0,0,0,0,0,,,,,,0,1 Kara petek ilave. Keki yememiş. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-022,40,2025-05-10,4,,,,,kek,1,timol,,,,0,0,0,0,0,,,,,,0,Kek ile beslendi.  Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-022,40,2025-05-14,5,,,,,1/1 şurup,1,timol,,,,0,0,0,0,0,,,,,,0,31'den yavrulu petek desteği verildi. İyi durumda günlük yumutalar var. Beslendi varroa.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-022,40,2025-05-20,5,,,günlük var,,1/1 şurup,1,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Günlükler var. Beslendi. Varroa. Normal koloni bakım düzenine geçildi.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Varroa yöntemi genel ifadeden sezona göre türetildi"
+KOL-022,40,2025-05-24,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,"1 Temel, 1 Kabarmış kara petek ilave. Yavrular var. Kapalılar var. Güvel görünüyor.",uretim,,,,,,yüksek,
+KOL-022,40,2025-06-02,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-022,40,2025-06-08,8,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondan verildi.,uretim,,,,,,yüksek,
+KOL-022,40,2025-06-14,10,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İki çıta ilave. Kalabalık. Kat takibi.,uretim,,,,,,yüksek,
+KOL-022,40,2025-06-19,10,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ful dolu kat takibi,uretim,,,,,,yüksek,
+KOL-022,40,2025-06-26,10,,,,,,0,,,,,0,1,0,0,0,,,,,,0,"Sıkışık gayet güzel. Kat atılırken, kat uymadığı için kovan bölündü. Kovan değişecek.",uretim,,,,,split_unspecified,yüksek,
+KOL-022,40,2025-06-28,15,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kat atıldı. Kovan değişti. 16 nolu kovan 40 ile değişti. Kovan numarası 40 oldu. Herşey yolunda görünüyor.,uretim,,,,,,yüksek,
+KOL-022,40,2025-07-05,15,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-022,40,2025-07-10,15,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-022,40,2025-07-13,15,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-022,40,2025-07-24,16,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Temel petek ilave. Güzel. Kabartıyor.,uretim,,,,,,yüksek,
+KOL-022,40,2025-08-05,9,7,,,,,0,,,,,0,0,0,0,0,,,,,,0,7  ÇITA BAL alındı.,uretim,,,,,,yüksek,
+KOL-022,40,2025-08-19,9,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-022,40,2025-08-23,10,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Çıta ilave,uretim,,,,,,yüksek,
+KOL-022,40,2025-09-07,10,,,,,2/1 şurup,1,varroset,,,,0,0,0,0,0,,,,,,0,Metal şurupluk yok. Varroset yapılacak. Fena değil. 1-2 çıta azaltılabilir belki.,kis,,,,,,yüksek,
+KOL-022,40,2025-09-10,10,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa Varroset 1. puf,kis,,,,,,yüksek,
+KOL-022,40,2025-09-13,9,,,,,2/1 şurup,1,varroset,,,,0,0,0,0,0,,,,,,0,1 Çıta alındı ve şurupluk konuldu. Varroa 2. gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-022,40,2025-10-13,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,yüksek,
+KOL-022,40,2025-11-13,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-022,40,2025-11-17,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-022,40,2025-11-22,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-022,40,2026-01-13,9,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-022,40,2026-01-20,9,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,
+KOL-022,40,2026-02-24,9,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Kalabalık,kis,,,,,,yüksek,
+KOL-022,40,2026-02-25,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu.,kis,,,,,,yüksek,
+KOL-022,40,2026-03-07,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Ful dolu besleme yapılmadı. Gayet iyi görünüyor.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-022,40,2026-03-10,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Ful dolu besleme yapılmadı. Gayet iyi görünüyor.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-022,40,2026-03-12,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,1 Kapalı yavrulu alındı. 19 a verildi. Alınan yavrulu petek yerine 1 Kabarmış boş petek verildi. Besleme yapılmadı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-022,40,2026-04-01,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,
+KOL-022,40,2026-04-06,12,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kat atıldı. 3 çıta ilave yapıldı. Şurupluk yukarı alındı.,uretim,,,,,,yüksek,
+KOL-023,26 (Eski 29),2025-05-09,4,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Oğul yakalandı. Ovadan..,uretim,,,,,swarm_captured,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-05-10,4,,,,,kek,1,timol,,,,0,0,0,0,0,,,,,,0,"3 kabartılmış, 1 temel petek verildi. Kek verildi. Varroa.",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-05-14,4,,,,,kek,1,timol,,,,0,0,0,0,0,,,,,,0,Kek verildi. Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-05-20,4,,,,,kek,1,timol,,,,0,0,0,0,0,,,,,,0,Kek Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-05-24,4,,,,,kek,1,,,,,0,0,0,0,0,,,,,,0,Yarım kek verildi. Polen var. Beklemeye devam.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-06-02,4,,,günlük var; kapalı yavru var,,,0,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Kapalı ve günlükler var. Normal koloni düzeni. Beslenndi. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-06-08,4,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondan verildi.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-06-14,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Temel. 1 Kabarmış ilave.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-06-19,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-06-28,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-07-05,8,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-07-10,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Kabarmış petek. Varro,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-07-24,10,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 kabarmış ilave. Ballı. Kat düşün.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-08-05,6,4,,,,,0,,,,,0,0,0,0,0,,,,,,0,4 ÇITA BAL alındı.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-08-19,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-08-23,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,3 çıta ilave,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-09-07,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Gayet iyi durumda. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-09-10,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-09-13,9,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-10-13,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-11-13,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-11-17,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2025-11-22,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2026-01-13,9,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2026-01-20,9,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2026-02-24,9,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Kalabalık. Kovan nemli. Kovanı değiştirelim.,kis,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2026-02-25,9,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,26 No'lu kovan ile değiştirildi. Az besleme yapıldı.,kis,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Kaynak bilinmiyor"
+KOL-023,26 (Eski 29),2026-03-07,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 kapalı yavrulu çıtası alındı ve 9 a destek olarak verimdi. 26'ya alınan petek yerine kabarmış petek verildi.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2026-03-10,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Besleme yapılmadı,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Kaynak bilinmiyor"
+KOL-023,26 (Eski 29),2026-03-12,9,,,,,,0,,,,,0,0,0,0,0,,,,,,0,müdahale yapılmadı.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2026-04-01,9,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-023,26 (Eski 29),2026-04-06,12,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kat atıldı. 3 çıta ilave yapıldı. Şurupluk yukarı alındı.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-024,23,2025-05-20,3,,,,,kek,1,timol,,,,0,0,0,0,0,,,,,,0,Ovadan. Oğul geldi. Kek. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-024,23,2025-05-24,4,,,,,kek,1,,,,,0,0,0,0,0,,,,,,0,Yarım kek. 1 Temel petek ilave. Beklemeye devam.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-024,23,2025-06-02,4,,,günlük var; kapalı yavru var,,kek,1,timol,,,,0,0,0,0,0,,1,,,yumurtluyor,0,Kapalı ve günlükler var. Normal koloni düzeni. Kek ile beslenndi. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-024,23,2025-06-08,4,,,,,fondan,1,,,,,0,0,0,0,0,,,,,,0,Fondan verildi.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-024,23,2025-06-14,3,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Çok zayıf. 1 Çıta alındı.,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-024,23,2025-06-19,3,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroaa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Kaynak bilinmiyor
+KOL-024,23,2025-06-26,,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Güve yapmış. Kovan sönmüş,uretim,,,,,,yüksek,Kaynak bilinmiyor
+KOL-025,5,2025-04-22,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,13'den bölündü - şurup verildi.,uretim,13,KOL-017,,,child_created_from_split,yüksek,
+KOL-025,5,2025-04-23,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Zayıf. Besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-025,5,2025-04-25,4,,,açık göz var,,1/1 şurup,1,vetorax,,,,0,0,0,0,0,,,,,,0,Açık gözler var. Beslendi. Varroa Vetorax.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-025,5,2025-04-28,4,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İşlem yapılmadı. Ortaya kova ile şerbet konuldu.,uretim,,,,,,yüksek,
+KOL-025,5,2025-05-07,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,15'den Ana gözlü petek aktarıldı. Beslendi. İyi durumda.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi"
+KOL-025,5,2025-05-10,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. İyi görünüyor.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-025,5,2025-05-24,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Yavru görülemedi. Bekle. Polenli ballı petekler var.,uretim,,,,,,yüksek,
+KOL-025,5,2025-05-27,,,,,,,0,,,,,0,0,1,0,0,,,,,,0,Kovan yalancıya gidiyor. Arı zayıf. Ballı polenli petekler düzenlenerek. 25 ve 26. kovanlara  aktarıldı. Kovan bozuldu. söndü.,uretim,,,,,,yüksek,
+KOL-026,5,2025-06-08,5,,,,,fondan,1,,,,,0,1,0,0,0,,,,,,0,20 den bölündü. Fondan verildi.,uretim,,,,,split_unspecified,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-06-14,5,,,,,,0,,,,,0,0,0,0,1,,,,,,0,Hatalı bölme. Ana burada. 20'den gelmiş. Yavru atıyor. 20 Anasız kaldı.,uretim,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-06-19,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-06-28,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ana kötü. Mozaik.,uretim,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-07-05,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-07-10,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-07-13,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,"Ana gen mozaik. 1 Kabarmış ilave. Varroa,",uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-07-24,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 emel ilave. Ballı. Kabartmış.,uretim,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-08-05,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İşlem yok.,uretim,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-08-19,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-08-23,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,2 Çıta ilave,uretim,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-09-07,8,,,,,2/1 şurup,1,varroset,,,,0,0,0,0,0,,,,,,0,Şurupluk yok. Taş üzerinde verdim. Fena değil. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-09-10,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-09-13,8,,,,,2/1 şurup,1,varroset,,,,0,0,0,0,0,,,,,,0,Şurupluk konuldu. Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-10-13,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,iyi görünüyor,kis,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-11-13,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-11-17,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2025-11-22,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2026-01-13,8,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2026-01-20,8,,,,,,0,oksalik asit sprey,,,,0,0,0,0,0,,,,,,0,Oksalik Asit sprey,kis,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2026-02-24,5,,,kapalı yavru var,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İyi görünüyor. Kapalı yavru var.  1/1 şerbet ile besleme yapıldı. Gereksiz çıtalar alındı.,kis,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2026-02-25,5,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kapak nemi pürmüz ile kurutuldu. Az beslendi.,kis,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi."
+KOL-026,5,2026-03-07,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,beslendi gayet iyi görünüyor.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi."
+KOL-026,5,2026-03-10,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,beslendi gayet iyi görünüyor.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi."
+KOL-026,5,2026-03-12,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Müdahale yok. Çok az besleme yapıldı.,uretim,,,,,,orta,"Besleme tipi genel ""besleme"" ifadesinden sezona göre türetildi | Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi."
+KOL-026,5,2026-04-01,5,,,,,1/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Kalabalık. Herşey yolunda. Besleme yapıldı. 1/1 şurup ile,uretim,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-026,5,2026-04-06,5,,,,,,0,,,,,0,0,0,0,1,,,,,,0,Ana öldürüldü. Anasız kalma süreci başladı. Başlatıcı ve bitirici kovan olarak kullanacağım.,uretim,,,,,,orta,Header F2024 iken ilk not kaynağı 20; kaynak nottan düzeltildi.
+KOL-027,39,2025-06-08,5,,,,,fondan,1,,,,,0,1,0,0,0,,,,,,0,3 Ten bölündü. Fondan verildi.,uretim,,,,,split_unspecified,yüksek,
+KOL-027,39,2025-06-14,5,,,,,,0,,0,,,0,0,0,0,0,,,,,,0,Ana yok gibi. Takip.,uretim,,,,,,yüksek,
+KOL-027,39,2025-06-19,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-027,39,2025-06-28,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Ana çıkarmış giib. Zayıf.,uretim,,,,,,yüksek,
+KOL-027,39,2025-07-05,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-027,39,2025-07-10,5,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-027,39,2025-07-13,5,,,kapalı yavru var,,,0,timol,,,,0,0,0,0,0,,,,,,0,Ana yaplış Kapalı yavru var. Fena değil. 1 Çıta alındı. Varroa.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-027,39,2025-07-24,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-027,39,2025-08-05,6,,,,,,0,,,,,0,0,0,0,0,,,,,,0,İşlem Yok.,uretim,,,,,,yüksek,
+KOL-027,39,2025-08-19,6,,,,,,0,timol,,,,0,0,0,0,0,,,,,,0,Varroa. Alt Kapak Takıldı.,uretim,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-027,39,2025-08-23,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,1 Cıta alındı.,uretim,,,,,,yüksek,
+KOL-027,39,2025-09-07,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Çok zayıf. Varroa 1. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-027,39,2025-09-10,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 2. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-027,39,2025-09-13,8,,,,,,0,varroset,,,,0,0,0,0,0,,,,,,0,Varroa 3. Gün,kis,,,,,,orta,Varroa yöntemi genel ifadeden sezona göre türetildi
+KOL-027,39,2025-10-13,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,Zayıf gidici,kis,,,,,,yüksek,
+KOL-027,39,2025-11-13,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,Çuval invert şurup,kis,,,,,,yüksek,
+KOL-027,39,2025-11-17,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-027,39,2025-11-22,8,,,,,2/1 şurup,1,,,,,0,0,0,0,0,,,,,,0,İnvert Şurup,kis,,,,,,yüksek,
+KOL-027,39,2026-01-13,8,,,,,,0,oksalik asit damlatma,,,,0,0,0,0,0,,,,,,0,Oksalik asit damlatma,kis,,,,,,yüksek,
+KOL-027,39,2026-01-20,8,,,,,,0,,,,,0,0,0,0,0,,,,,,0,sönmüş,kis,,,,,,yüksek,
+KOL-027,39,2026-02-24,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,,kis,,,,,,yüksek,
+KOL-027,39,2026-02-25,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,,kis,,,,,,yüksek,
+KOL-027,39,2026-03-07,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,,uretim,,,,,,yüksek,
+KOL-027,39,2026-03-10,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,,uretim,,,,,,yüksek,
+KOL-027,39,2026-03-12,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,,uretim,,,,,,yüksek,
+KOL-027,39,2026-04-01,5,,,,,,0,,,,,0,0,0,0,0,,,,,,0,,uretim,,,,,,yüksek,
