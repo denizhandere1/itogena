@@ -92,6 +92,41 @@ class KararAsistanServisi {
     return sonuc.toMap();
   }
 
+  static Future<Map<String, bool>> koloniKartAlarmDurumuGetir(
+    int koloniId,
+  ) async {
+    final surecDurumu = await SurecMotoru.durumGetir(koloniId);
+
+    bool anaMemesiKritik = false;
+    bool anaMemesiTakip = false;
+    bool ogulAtti = false;
+
+    for (final surec in surecDurumu.aktifSurecler) {
+      final kod = surec.kod.toUpperCase();
+      final grup = surec.grup.toUpperCase();
+
+      if (grup == 'OGUL_BELIRTISI' ||
+          kod.contains('OGUL_BELIRTISI') ||
+          kod.contains('ANA_MEMESI')) {
+        if (surec.tip.trim().toLowerCase() == 'kritik' || surec.oncelik >= 90) {
+          anaMemesiKritik = true;
+        } else {
+          anaMemesiTakip = true;
+        }
+      }
+
+      if (grup == 'OGUL_SONRASI' || kod.contains('OGUL_SONRASI')) {
+        ogulAtti = true;
+      }
+    }
+
+    return {
+      'anaMemesiKritik': anaMemesiKritik,
+      'anaMemesiTakip': anaMemesiTakip && !anaMemesiKritik,
+      'ogulAtti': ogulAtti,
+    };
+  }
+
   static Future<Map<String, dynamic>> biyolojiDurumuGetir(int koloniId) async {
     final sonuc = await AriBiyolojiServisi.analizYap(koloniId);
     return sonuc.toMap();

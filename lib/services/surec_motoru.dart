@@ -1,4 +1,5 @@
 import 'veritabani_servisi.dart';
+import 'ari_biyoloji_servisi.dart';
 
 class SurecUyarisi {
   final String kod;
@@ -100,11 +101,16 @@ class SurecMotoru {
     );
     if (ogulSonrasi != null) surecler.add(ogulSonrasi);
 
-    final bolmeSonrasi = _bolmeSonrasiSureci(
-      muayeneler: muayeneler,
-      bugun: bugun,
-    );
-    if (bolmeSonrasi != null) surecler.add(bolmeSonrasi);
+    // Aynı biyolojik olay iki ayrı mesaj üretmesin.
+    // Kolonide anasızlık / ana kazanma penceresi açıksa, bölme sonrası
+    // toparlanma mesajı geri planda kalır. Ana gelişimi daha kritik süreçtir.
+    if (anasizlik == null) {
+      final bolmeSonrasi = _bolmeSonrasiSureci(
+        muayeneler: muayeneler,
+        bugun: bugun,
+      );
+      if (bolmeSonrasi != null) surecler.add(bolmeSonrasi);
+    }
 
     final hasatSonrasi = _hasatSonrasiSureci(
       muayeneler: muayeneler,
@@ -175,174 +181,67 @@ class SurecMotoru {
     );
     if (baslangic == null) return null;
 
-    final int gun = bugun.difference(_gun(baslangic)).inDays;
+    final DateTime basGun = _gun(baslangic);
+    final int gun = bugun.difference(basGun).inDays;
     if (gun < 0 || gun > _anasizlikMaxGun) return null;
 
     if (_anasizlikKapandiMi(muayeneler: muayeneler, baslangic: baslangic)) {
       return null;
     }
 
-    final String anaKazanmaYontemi = _anaKazanmaYontemiBul(
-      koloni: koloni,
-      muayeneler: muayeneler,
-      baslangic: baslangic,
+    final String anaKazanmaYontemi =
+    AriBiyolojiServisi.normalizeAnaKazanmaYontemi(
+      _anaKazanmaYontemiBul(
+        koloni: koloni,
+        muayeneler: muayeneler,
+        baslangic: baslangic,
+      ),
     );
 
-    if (anaKazanmaYontemi == 'hazir_ana') {
-      if (gun <= 3) {
-        return const SurecUyarisi(
-          kod: 'ANASIZLIK_HAZIR_ANA',
-          grup: 'ANASIZLIK',
-          baslik: 'Hazır ana kabul süreci',
-          mesaj:
-          'Hazır ana verildi. Koloniyi gereksiz açma; kabul süreci bozulabilir.',
-          tip: 'takip',
-          oncelik: 99,
-        );
-      }
-      if (gun <= 10) {
-        return const SurecUyarisi(
-          kod: 'ANASIZLIK_HAZIR_ANA',
-          grup: 'ANASIZLIK',
-          baslik: 'Hazır ana kabul süreci',
-          mesaj:
-          'Ana kabul edilmiş mi ve yumurtlama başlamış mı kontrol et. Günlük görülürse süreç kapanır.',
-          tip: 'takip',
-          oncelik: 93,
-        );
-      }
-      return const SurecUyarisi(
-        kod: 'ANASIZLIK_HAZIR_ANA',
-        grup: 'ANASIZLIK',
-        baslik: 'Hazır ana kabul süreci',
-        mesaj:
-        'Yumurtlama hâlâ görülmediyse ana kabulü başarısız olabilir. Koloniyi yeniden değerlendir.',
-        tip: 'kritik',
-        oncelik: 98,
-      );
-    }
-
-    if (anaKazanmaYontemi == 'kapali_meme') {
-      if (gun <= 7) {
-        return const SurecUyarisi(
-          kod: 'ANASIZLIK_KAPALI_MEME',
-          grup: 'ANASIZLIK',
-          baslik: 'Kapalı ana memesi süreci',
-          mesaj: 'Kapalı ana memesi bırakıldı, koloniyi gereksiz açma.',
-          tip: 'takip',
-          oncelik: 99,
-        );
-      }
-      if (gun <= 18) {
-        return const SurecUyarisi(
-          kod: 'ANASIZLIK_KAPALI_MEME',
-          grup: 'ANASIZLIK',
-          baslik: 'Kapalı ana memesi süreci',
-          mesaj:
-          'Ana çıkışı ve çiftleşme süreci beklenir. Koloni sıkışık kalsın, gereksiz müdahale etme.',
-          tip: 'takip',
-          oncelik: 96,
-        );
-      }
-      if (gun <= 30) {
-        return const SurecUyarisi(
-          kod: 'ANASIZLIK_KAPALI_MEME',
-          grup: 'ANASIZLIK',
-          baslik: 'Kapalı ana memesi süreci',
-          mesaj:
-          'Yumurtlama var mı kontrol et. Günlük / kapalı yavru görülürse süreç kapanır.',
-          tip: 'takip',
-          oncelik: 92,
-        );
-      }
-      return const SurecUyarisi(
-        kod: 'ANASIZLIK_KAPALI_MEME',
-        grup: 'ANASIZLIK',
-        baslik: 'Kapalı ana memesi süreci',
-        mesaj:
-        'Yumurtlama gecikti. Ana çıkışı veya çiftleşme başarısız olabilir; koloniyi yeniden değerlendir.',
-        tip: 'kritik',
-        oncelik: 99,
-      );
-    }
-
-    final String besinciGun = _format(
-      _gun(baslangic.add(const Duration(days: 5))),
-    );
-    final String cikisBas = _format(
-      _gun(baslangic.add(const Duration(days: 11))),
-    );
-    final String cikisBit = _format(
-      _gun(baslangic.add(const Duration(days: 18))),
+    final Map<String, dynamic> sahaUyarisi = AriBiyolojiServisi.sahaUyarisiUret(
+      baslangic: basGun,
+      anaKazanmaYontemi: anaKazanmaYontemi,
+      referans: bugun,
     );
 
-    if (gun <= 5) {
-      return SurecUyarisi(
-        kod: 'ANASIZLIK',
-        grup: 'ANASIZLIK',
-        baslik: 'Anasızlık süreci',
-        mesaj:
-        '$besinciGun tarihinde kapalı ana memelerini boz. Kontrolsüz ana çıkışı koloniyi böler.',
-        tip: 'kritik',
-        oncelik: 100,
-      );
+    final String baslik =
+    (sahaUyarisi['baslik'] ?? 'Ana kazanma süreci').toString();
+    final String mesaj = (sahaUyarisi['mesaj'] ?? '').toString();
+    final String neYap = (sahaUyarisi['neYap'] ?? '').toString();
+    final String neYapma = (sahaUyarisi['neYapma'] ?? '').toString();
+    final String gerekce = (sahaUyarisi['gerekce'] ?? '').toString();
+    final String seviye = (sahaUyarisi['seviye'] ?? 'takip').toString();
+
+    final String birlesikMesaj = _mesajParcalariniDogalBirlestir(<String>[
+      mesaj,
+      neYap,
+      neYapma,
+      gerekce,
+    ]);
+
+    final String kod;
+    switch (anaKazanmaYontemi) {
+      case 'hazir_ana':
+        kod = 'ANASIZLIK_HAZIR_ANA';
+        break;
+      case 'kapali_meme':
+        kod = 'ANASIZLIK_KAPALI_MEME';
+        break;
+      case 'kendi_anasi':
+      default:
+        kod = 'ANASIZLIK';
+        break;
     }
 
-    if (gun <= 10) {
-      return const SurecUyarisi(
-        kod: 'ANASIZLIK',
-        grup: 'ANASIZLIK',
-        baslik: 'Anasızlık süreci',
-        mesaj:
-        'Koloniyi açma. Memeler kapandı, müdahale ana gelişimini bozabilir.',
-        tip: 'takip',
-        oncelik: 98,
-      );
-    }
-
-    if (gun <= 18) {
-      return SurecUyarisi(
-        kod: 'ANASIZLIK',
-        grup: 'ANASIZLIK',
-        baslik: 'Anasızlık süreci',
-        mesaj:
-        '$cikisBas – $cikisBit arasında kovana dokunma. Ana çıkış süreci hassas.',
-        tip: 'takip',
-        oncelik: 96,
-      );
-    }
-
-    if (gun <= 25) {
-      return const SurecUyarisi(
-        kod: 'ANASIZLIK',
-        grup: 'ANASIZLIK',
-        baslik: 'Anasızlık süreci',
-        mesaj:
-        'Besleme yap, koloni sıkışık kalsın. Ana çiftleşme döneminde zayıflık risklidir.',
-        tip: 'takip',
-        oncelik: 94,
-      );
-    }
-
-    if (gun <= 35) {
-      return const SurecUyarisi(
-        kod: 'ANASIZLIK',
-        grup: 'ANASIZLIK',
-        baslik: 'Anasızlık süreci',
-        mesaj: 'Yumurtlama var mı kontrol et. Ana düzen kurduysa günlük görülür.',
-        tip: 'takip',
-        oncelik: 92,
-      );
-    }
-
-    return const SurecUyarisi(
-      kod: 'ANASIZLIK',
+    return SurecUyarisi(
+      kod: kod,
       grup: 'ANASIZLIK',
-      baslik: 'Anasızlık süreci',
-      mesaj:
-      'Ana durumunu yeniden değerlendir. Yumurtlama gecikti, süreç başarısız olabilir.',
-      tip: 'kritik',
-      oncelik: 99,
+      baslik: baslik,
+      mesaj: birlesikMesaj,
+      tip: seviye == 'kritik' ? 'kritik' : (seviye == 'uyari' ? 'uyari' : 'takip'),
+      oncelik: seviye == 'kritik' ? 100 : (seviye == 'uyari' ? 96 : 92),
+      referansTarihMetni: AriBiyolojiServisi.tarihMetni(basGun),
+      bitisTarihMetni: '',
     );
   }
 
@@ -370,7 +269,7 @@ class SurecMotoru {
         grup: 'OGUL',
         baslik: 'Oğul riski',
         mesaj:
-        'Ana memelerini kontrol et. Fazla memeleri azalt veya bölme yap. Sıkışıklık oğul riskini artırır.',
+        'Ana memelerini kontrol et. Fazla memeleri azalt veya bölme yap. Bu noktada sıkışıklık oğul riskini artırır.',
         tip: 'kritik',
         oncelik: 97,
       );
@@ -393,7 +292,7 @@ class SurecMotoru {
       grup: 'OGUL',
       baslik: 'Oğul riski takibi',
       mesaj:
-      'Oğul belirtisi süreci takip döneminde. Yeni muayenede oğul belirtisi yoksa süreç kapanır; 14 gün sonunda alarm otomatik düşer.',
+      'Oğul belirtisi süreci takip döneminde. Bir sonraki muayenede oğul riski devam etmiyorsa "Oğul Belirtisi" tıkını kaldır. ',
       tip: 'takip',
       oncelik: 88,
     );
@@ -719,6 +618,14 @@ class SurecMotoru {
     return false;
   }
 
+  static bool _aralikAktif(DateTime tarih, DateTime? bas, DateTime? bit) {
+    if (bas == null || bit == null) return false;
+    final t = _gun(tarih);
+    final b = _gun(bas);
+    final e = _gun(bit);
+    return !t.isBefore(b) && !t.isAfter(e);
+  }
+
   static DateTime? _sonTetikTarihi(
       List<Map<String, dynamic>> muayeneler,
       String alan,
@@ -729,6 +636,28 @@ class SurecMotoru {
       }
     }
     return null;
+  }
+
+  static String _mesajParcalariniDogalBirlestir(List<String> parcalar) {
+    final temizParcalar = parcalar
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .map(_cumleSonuTamamla)
+        .toList(growable: false);
+
+    return temizParcalar.join(' ');
+  }
+
+  static String _cumleSonuTamamla(String metin) {
+    final temiz = metin.trim();
+    if (temiz.isEmpty) return '';
+
+    final son = temiz.substring(temiz.length - 1);
+    if (son == '.' || son == '!' || son == '?' || son == ':') {
+      return temiz;
+    }
+
+    return '$temiz.';
   }
 
   static List<SurecUyarisi> _tekillestir(List<SurecUyarisi> liste) {

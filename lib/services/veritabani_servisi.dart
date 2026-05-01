@@ -15,7 +15,7 @@ class VeritabaniServisi {
 
     return openDatabase(
       yol,
-      version: 17,
+      version: 18,
       onCreate: (db, version) async {
         await _tablolariOlustur(db);
         await _guvenliMigrasyon(db);
@@ -45,7 +45,8 @@ class VeritabaniServisi {
       CREATE TABLE IF NOT EXISTS ariliklar (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         ad TEXT NOT NULL,
-        konum TEXT
+        konum TEXT,
+        kurulusTarihi TEXT
       )
     ''');
 
@@ -145,6 +146,8 @@ class VeritabaniServisi {
   }
 
   static Future<void> _guvenliMigrasyon(Database db) async {
+    await _kolonEkleYoksa(db, 'ariliklar', 'kurulusTarihi', 'TEXT');
+
     await _kolonEkleYoksa(db, 'koloniler', 'arilikId', 'INTEGER');
     await _kolonEkleYoksa(db, 'koloniler', 'sistemKimlik', 'TEXT');
     await _kolonEkleYoksa(db, 'koloniler', 'anaYili', 'TEXT');
@@ -522,6 +525,11 @@ class VeritabaniServisi {
       'ekonomik_bos_kovan': '1500',
       'ekonomik_petek_sayi': '0',
       'ekonomik_petek_deger': '120',
+      'bal_akim1_baslangic': '05-25',
+      'bal_akim1_bitis': '06-15',
+      'bal_akim2_aktif': '0',
+      'bal_akim2_baslangic': '08-20',
+      'bal_akim2_bitis': '09-20',
     };
 
     for (final entry in varsayilanlar.entries) {
@@ -679,12 +687,19 @@ class VeritabaniServisi {
     return sonuc;
   }
 
-  static Future<int> arilikEkle(String ad, {String konum = ''}) async {
+  static Future<int> arilikEkle(
+    String ad, {
+    String konum = '',
+    String? kurulusTarihi,
+  }) async {
+    final temizTarih = (kurulusTarihi ?? '').trim();
+
     return (await db).insert(
       'ariliklar',
       {
         'ad': ad.trim(),
         'konum': konum.trim(),
+        'kurulusTarihi': temizTarih.isEmpty ? _bugun() : temizTarih,
       },
     );
   }
@@ -1792,6 +1807,88 @@ class VeritabaniServisi {
     );
   }
 
+  static Future<Map<int, Map<String, dynamic>>> sonMuayeneHaritasiGetir(
+    List<int> koloniIdleri,
+  ) async {
+    final temizIdler = koloniIdleri.where((id) => id > 0).toSet().toList();
+    if (temizIdler.isEmpty) return <int, Map<String, dynamic>>{};
+
+    final dbClient = await db;
+    final sonuc = <int, Map<String, dynamic>>{};
+
+    for (final parca in _idParcalari(temizIdler)) {
+      if (parca.isEmpty) continue;
+      final yerTutucular = List.filled(parca.length, '?').join(',');
+      final satirlar = await dbClient.query(
+        'muayeneler',
+        where: 'koloniId IN ($yerTutucular)',
+        whereArgs: parca,
+        orderBy: 'koloniId ASC, tarih DESC, id DESC',
+      );
+
+      for (final satir in satirlar) {
+        final koloniId = _toInt(satir['koloniId']);
+        if (koloniId <= 0) continue;
+        sonuc.putIfAbsent(koloniId, () => satir);
+      }
+    }
+
+    return sonuc;
+  }
+
+  static Future<Map<int, bool>> koloniAktiflikHaritasiGetir(
+    List<int> koloniIdleri,
+  ) async {
+    final temizIdler = koloniIdleri.where((id) => id > 0).toSet().toList();
+    if (temizIdler.isEmpty) return <int, bool>{};
+
+    final dbClient = await db;
+    final sonuc = <int, bool>{};
+
+    for (final parca in _idParcalari(temizIdler)) {
+      if (parca.isEmpty) continue;
+      final yerTutucular = List.filled(parca.length, '?').join(',');
+
+      final koloniler = await dbClient.query(
+        'koloniler',
+        columns: ['id', 'durum'],
+        where: 'id IN ($yerTutucular)',
+        whereArgs: parca,
+      );
+
+      for (final koloni in koloniler) {
+        final koloniId = _toInt(koloni['id']);
+        if (koloniId <= 0) continue;
+        sonuc[koloniId] = !sonmusDurumMu(koloni['durum']);
+      }
+
+      final sonMuayeneMap = await sonMuayeneHaritasiGetir(parca);
+      for (final koloniId in parca) {
+        if (sonuc[koloniId] != true) {
+          sonuc[koloniId] = false;
+          continue;
+        }
+
+        final sonMuayene = sonMuayeneMap[koloniId];
+        if (sonMuayene == null) continue;
+        if (_toInt(sonMuayene['kovanSondu']) == 1) {
+          sonuc[koloniId] = false;
+        }
+      }
+    }
+
+    return sonuc;
+  }
+
+  static List<List<int>> _idParcalari(List<int> idler, {int parcaBoyutu = 400}) {
+    final sonuc = <List<int>>[];
+    for (var i = 0; i < idler.length; i += parcaBoyutu) {
+      final bitis = i + parcaBoyutu > idler.length ? idler.length : i + parcaBoyutu;
+      sonuc.add(idler.sublist(i, bitis));
+    }
+    return sonuc;
+  }
+
   static Future<void> _ilkMuayeneKaydiniGarantiEt(
       DatabaseExecutor exec, {
         required int koloniId,
@@ -2263,6 +2360,95 @@ class VeritabaniServisi {
       {'anahtar': anahtar, 'deger': deger},
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
+    if (_balAkimAyariMi(anahtar)) {
+      balAkimCacheTemizle();
+    }
+  }
+
+
+  static const List<String> _arilikKalibrasyonAnahtarlari = [
+    'bal_akim1_baslangic',
+    'bal_akim1_bitis',
+    'bal_akim2_aktif',
+    'bal_akim2_baslangic',
+    'bal_akim2_bitis',
+    'risk_ari_kusu_baslangic',
+    'risk_ari_kusu_bitis',
+    'risk_esek_arisi_baslangic',
+    'risk_esek_arisi_bitis',
+    'risk_yagmacilik_baslangic',
+    'risk_yagmacilik_bitis',
+    'risk_mum_guvesi_baslangic',
+    'risk_mum_guvesi_bitis',
+    'risk_fare_baslangic',
+    'risk_fare_bitis',
+  ];
+
+  static String _varsayilanKalibrasyonDegeri(String anahtar) {
+    switch (anahtar) {
+      case 'bal_akim1_baslangic':
+        return '05-25';
+      case 'bal_akim1_bitis':
+        return '06-15';
+      case 'bal_akim2_aktif':
+        return '0';
+      case 'bal_akim2_baslangic':
+        return '08-20';
+      case 'bal_akim2_bitis':
+        return '09-20';
+      case 'risk_ari_kusu_baslangic':
+        return '05-01';
+      case 'risk_ari_kusu_bitis':
+        return '08-31';
+      case 'risk_esek_arisi_baslangic':
+        return '07-01';
+      case 'risk_esek_arisi_bitis':
+        return '10-31';
+      case 'risk_yagmacilik_baslangic':
+        return '07-01';
+      case 'risk_yagmacilik_bitis':
+        return '09-30';
+      case 'risk_mum_guvesi_baslangic':
+        return '06-01';
+      case 'risk_mum_guvesi_bitis':
+        return '09-30';
+      case 'risk_fare_baslangic':
+        return '11-01';
+      case 'risk_fare_bitis':
+        return '02-28';
+      default:
+        return '';
+    }
+  }
+
+  static Future<void> arilikKalibrasyonunuKopyala({
+    required int kaynakArilikId,
+    required int hedefArilikId,
+  }) async {
+    if (kaynakArilikId <= 0 || hedefArilikId <= 0) return;
+    if (kaynakArilikId == hedefArilikId) return;
+
+    for (final anahtar in _arilikKalibrasyonAnahtarlari) {
+      final kaynakOzelAnahtar = 'arilik_${kaynakArilikId}_$anahtar';
+      final hedefOzelAnahtar = 'arilik_${hedefArilikId}_$anahtar';
+
+      final kaynakOzelDeger = await ayarStringGetir(
+        kaynakOzelAnahtar,
+        varsayilan: '',
+      );
+
+      final deger = kaynakOzelDeger.trim().isNotEmpty
+          ? kaynakOzelDeger
+          : await ayarStringGetir(
+              anahtar,
+              varsayilan: _varsayilanKalibrasyonDegeri(anahtar),
+            );
+
+      await ayarKaydet(hedefOzelAnahtar, deger);
+    }
+
+    balAkimCacheTemizle(arilikId: hedefArilikId);
   }
 
 
@@ -2539,4 +2725,142 @@ class VeritabaniServisi {
     if (deger is int) return deger;
     return int.tryParse(deger.toString()) ?? 0;
   }
+
+  // ======================================================
+  // BAL AKIMI MERKEZİ + CACHE
+  // ======================================================
+
+  static final Map<String, Map<String, dynamic>?> _balAkimCache = {};
+
+  static bool _balAkimAyariMi(String anahtar) {
+    if (anahtar == 'bal_akim1_baslangic' ||
+        anahtar == 'bal_akim1_bitis' ||
+        anahtar == 'bal_akim2_aktif' ||
+        anahtar == 'bal_akim2_baslangic' ||
+        anahtar == 'bal_akim2_bitis') {
+      return true;
+    }
+
+    return anahtar.startsWith('arilik_') &&
+        (anahtar.endsWith('_bal_akim1_baslangic') ||
+            anahtar.endsWith('_bal_akim1_bitis') ||
+            anahtar.endsWith('_bal_akim2_aktif') ||
+            anahtar.endsWith('_bal_akim2_baslangic') ||
+            anahtar.endsWith('_bal_akim2_bitis'));
+  }
+
+  static void balAkimCacheTemizle({int? arilikId}) {
+    if (arilikId != null && arilikId > 0) {
+      _balAkimCache.remove('arilik_$arilikId');
+      return;
+    }
+    _balAkimCache.clear();
+  }
+
+  static Future<String> _arilikAyariGetir({
+    required int? arilikId,
+    required String anahtar,
+    required String varsayilan,
+  }) async {
+    if (arilikId != null && arilikId > 0) {
+      final ozelAnahtar = 'arilik_${arilikId}_$anahtar';
+      final ozelDeger = await ayarStringGetir(ozelAnahtar, varsayilan: '');
+      if (ozelDeger.trim().isNotEmpty) return ozelDeger;
+    }
+
+    return ayarStringGetir(anahtar, varsayilan: varsayilan);
+  }
+
+  static Future<Map<String, dynamic>?> aktifBalAkimGetir({
+    DateTime? tarih,
+    int? arilikId,
+  }) async {
+    final cacheKey = (arilikId != null && arilikId > 0) ? 'arilik_$arilikId' : 'global';
+    if (tarih == null && _balAkimCache.containsKey(cacheKey)) {
+      return _balAkimCache[cacheKey];
+    }
+
+    final referans = tarih ?? DateTime.now();
+    final yil = referans.year;
+    final bugun = DateTime(referans.year, referans.month, referans.day);
+
+    final balAkim1Bas = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim1_baslangic',
+      varsayilan: '05-25',
+    );
+    final balAkim1Bit = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim1_bitis',
+      varsayilan: '06-15',
+    );
+    final balAkim2Aktif = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim2_aktif',
+      varsayilan: '0',
+    );
+    final balAkim2Bas = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim2_baslangic',
+      varsayilan: '08-20',
+    );
+    final balAkim2Bit = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim2_bitis',
+      varsayilan: '09-20',
+    );
+
+    DateTime? toDate(String s) {
+      final temiz = s.trim();
+      if (temiz.isEmpty) return null;
+      final p = temiz.split('-');
+      if (p.length != 2) return null;
+      final ay = int.tryParse(p[0]);
+      final gun = int.tryParse(p[1]);
+      if (ay == null || gun == null) return null;
+      return DateTime(yil, ay, gun);
+    }
+
+    final List<Map<String, dynamic>> adaylar = [];
+
+    final a1b = toDate(balAkim1Bas);
+    final a1e = toDate(balAkim1Bit);
+    if (a1b != null && a1e != null && !a1e.isBefore(a1b)) {
+      adaylar.add({
+        'etiket': '1. bal akımı',
+        'bas': a1b,
+        'bit': a1e,
+        'arilikId': arilikId,
+      });
+    }
+
+    if (balAkim2Aktif == '1') {
+      final a2b = toDate(balAkim2Bas);
+      final a2e = toDate(balAkim2Bit);
+      if (a2b != null && a2e != null && !a2e.isBefore(a2b)) {
+        adaylar.add({
+          'etiket': '2. bal akımı',
+          'bas': a2b,
+          'bit': a2e,
+          'arilikId': arilikId,
+        });
+      }
+    }
+
+    adaylar.sort(
+      (a, b) => (a['bas'] as DateTime).compareTo(b['bas'] as DateTime),
+    );
+
+    for (final akim in adaylar) {
+      final bitis = akim['bit'];
+      if (bitis is DateTime && !bugun.isAfter(bitis)) {
+        if (tarih == null) _balAkimCache[cacheKey] = akim;
+        return akim;
+      }
+    }
+
+    if (tarih == null) _balAkimCache[cacheKey] = null;
+    return null;
+  }
+
 }

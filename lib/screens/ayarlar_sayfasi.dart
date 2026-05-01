@@ -4,6 +4,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
+import '../services/arilik_uyari_servisi.dart';
 import '../services/yedek_dosya_servisi.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
@@ -35,6 +36,20 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   String _balAkim2Baslangic = '08-20';
   String _balAkim2Bitis = '09-20';
 
+  String _riskAriKusuBaslangic = '05-01';
+  String _riskAriKusuBitis = '08-31';
+  String _riskEsekArisiBaslangic = '07-01';
+  String _riskEsekArisiBitis = '10-31';
+  String _riskYagmacilikBaslangic = '07-01';
+  String _riskYagmacilikBitis = '09-30';
+  String _riskMumGuvesiBaslangic = '06-01';
+  String _riskMumGuvesiBitis = '09-30';
+  String _riskFareBaslangic = '11-01';
+  String _riskFareBitis = '02-28';
+
+  List<Map<String, dynamic>> _kalibrasyonAriliklari = [];
+  int? _kalibrasyonArilikId;
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +64,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   }
 
   Future<void> _ayarlariYukle() async {
+    final seciliArilikId = _kalibrasyonArilikId;
+    final ariliklar = await VeritabaniServisi.ariliklariGetir();
+
     final kisBaslangic = await VeritabaniServisi.ayarStringGetir(
       'season_kis_baslangic',
       varsayilan: '09-01',
@@ -69,29 +87,72 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       'davranis_toleransi',
       varsayilan: 'standart',
     );
-    final balAkim1Baslangic = await VeritabaniServisi.ayarStringGetir(
+
+    final balAkim1Baslangic = await _kalibrasyonAyarGetir(
       'bal_akim1_baslangic',
       varsayilan: '05-25',
     );
-    final balAkim1Bitis = await VeritabaniServisi.ayarStringGetir(
+    final balAkim1Bitis = await _kalibrasyonAyarGetir(
       'bal_akim1_bitis',
       varsayilan: '06-15',
     );
-    final balAkim2AktifStr = await VeritabaniServisi.ayarStringGetir(
+    final balAkim2AktifStr = await _kalibrasyonAyarGetir(
       'bal_akim2_aktif',
       varsayilan: '0',
     );
-    final balAkim2Baslangic = await VeritabaniServisi.ayarStringGetir(
+    final balAkim2Baslangic = await _kalibrasyonAyarGetir(
       'bal_akim2_baslangic',
       varsayilan: '08-20',
     );
-    final balAkim2Bitis = await VeritabaniServisi.ayarStringGetir(
+    final balAkim2Bitis = await _kalibrasyonAyarGetir(
       'bal_akim2_bitis',
       varsayilan: '09-20',
+    );
+    final riskAriKusuBaslangic = await _kalibrasyonAyarGetir(
+      'risk_ari_kusu_baslangic',
+      varsayilan: '05-01',
+    );
+    final riskAriKusuBitis = await _kalibrasyonAyarGetir(
+      'risk_ari_kusu_bitis',
+      varsayilan: '08-31',
+    );
+    final riskEsekArisiBaslangic = await _kalibrasyonAyarGetir(
+      'risk_esek_arisi_baslangic',
+      varsayilan: '07-01',
+    );
+    final riskEsekArisiBitis = await _kalibrasyonAyarGetir(
+      'risk_esek_arisi_bitis',
+      varsayilan: '10-31',
+    );
+    final riskYagmacilikBaslangic = await _kalibrasyonAyarGetir(
+      'risk_yagmacilik_baslangic',
+      varsayilan: '07-01',
+    );
+    final riskYagmacilikBitis = await _kalibrasyonAyarGetir(
+      'risk_yagmacilik_bitis',
+      varsayilan: '09-30',
+    );
+    final riskMumGuvesiBaslangic = await _kalibrasyonAyarGetir(
+      'risk_mum_guvesi_baslangic',
+      varsayilan: '06-01',
+    );
+    final riskMumGuvesiBitis = await _kalibrasyonAyarGetir(
+      'risk_mum_guvesi_bitis',
+      varsayilan: '09-30',
+    );
+    final riskFareBaslangic = await _kalibrasyonAyarGetir(
+      'risk_fare_baslangic',
+      varsayilan: '11-01',
+    );
+    final riskFareBitis = await _kalibrasyonAyarGetir(
+      'risk_fare_bitis',
+      varsayilan: '02-28',
     );
 
     if (!mounted) return;
     setState(() {
+      _kalibrasyonAriliklari = ariliklar;
+      _kalibrasyonArilikId = seciliArilikId;
       _kisBaslangic = kisBaslangic;
       _kisBitis = kisBitis;
       _uretimBaslangic = uretimBaslangic;
@@ -103,8 +164,68 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       _balAkim2Aktif = balAkim2AktifStr == '1';
       _balAkim2Baslangic = balAkim2Baslangic;
       _balAkim2Bitis = balAkim2Bitis;
+      _riskAriKusuBaslangic = riskAriKusuBaslangic;
+      _riskAriKusuBitis = riskAriKusuBitis;
+      _riskEsekArisiBaslangic = riskEsekArisiBaslangic;
+      _riskEsekArisiBitis = riskEsekArisiBitis;
+      _riskYagmacilikBaslangic = riskYagmacilikBaslangic;
+      _riskYagmacilikBitis = riskYagmacilikBitis;
+      _riskMumGuvesiBaslangic = riskMumGuvesiBaslangic;
+      _riskMumGuvesiBitis = riskMumGuvesiBitis;
+      _riskFareBaslangic = riskFareBaslangic;
+      _riskFareBitis = riskFareBitis;
       _yukleniyor = false;
     });
+  }
+
+  String _kalibrasyonAnahtari(String anahtar) {
+    final arilikId = _kalibrasyonArilikId;
+    if (arilikId != null && arilikId > 0) {
+      return 'arilik_${arilikId}_$anahtar';
+    }
+    return anahtar;
+  }
+
+  Future<String> _kalibrasyonAyarGetir(
+    String anahtar, {
+    required String varsayilan,
+  }) async {
+    final arilikId = _kalibrasyonArilikId;
+    if (arilikId != null && arilikId > 0) {
+      final ozelDeger = await VeritabaniServisi.ayarStringGetir(
+        'arilik_${arilikId}_$anahtar',
+        varsayilan: '',
+      );
+      if (ozelDeger.trim().isNotEmpty) return ozelDeger;
+    }
+
+    return VeritabaniServisi.ayarStringGetir(
+      anahtar,
+      varsayilan: varsayilan,
+    );
+  }
+
+  Future<void> _kalibrasyonAyarKaydet(String anahtar, String deger) async {
+    await VeritabaniServisi.ayarKaydet(_kalibrasyonAnahtari(anahtar), deger);
+  }
+
+  String _kalibrasyonKapsamMetni() {
+    final arilikId = _kalibrasyonArilikId;
+    if (arilikId == null || arilikId <= 0) return 'Tüm arılıklar';
+
+    final arilik = _kalibrasyonAriliklari.firstWhere(
+      (e) => _toInt(e['id']) == arilikId,
+      orElse: () => const <String, dynamic>{},
+    );
+    final ad = (arilik['ad'] ?? '').toString().trim();
+    return ad.isEmpty ? 'Seçili arılık' : ad;
+  }
+
+  int _toInt(dynamic v) {
+    if (v == null) return 0;
+    if (v is int) return v;
+    if (v is double) return v.round();
+    return int.tryParse(v.toString()) ?? 0;
   }
 
   bool get _kalibrasyonTamamlandi {
@@ -119,6 +240,16 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     final ay = int.tryParse(parcalar.first) ?? 1;
     final gun = int.tryParse(parcalar.last) ?? 1;
     return ay * 100 + gun;
+  }
+
+  String _mmDdGoster(String mmDd) {
+    final temiz = mmDd.trim();
+    final parcalar = temiz.split('-');
+    if (parcalar.length != 2) return temiz;
+    final ay = int.tryParse(parcalar[0]);
+    final gun = int.tryParse(parcalar[1]);
+    if (ay == null || gun == null) return temiz;
+    return '${gun.toString().padLeft(2, '0')}.${ay.toString().padLeft(2, '0')}';
   }
 
   bool _aralikGecerli(String baslangic, String bitis) {
@@ -209,6 +340,98 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     });
   }
 
+
+  Future<void> _riskTarihSec({
+    required String kod,
+    required bool baslangic,
+  }) async {
+    final mevcut = _riskTarihiGetir(kod: kod, baslangic: baslangic);
+    final parcalar = mevcut.split('-');
+    final ay = int.tryParse(parcalar.first) ?? 1;
+    final gun = int.tryParse(parcalar.last) ?? 1;
+
+    final secilen = await showDatePicker(
+      context: context,
+      locale: const Locale('tr', 'TR'),
+      initialDate: DateTime(DateTime.now().year, ay, gun),
+      firstDate: DateTime(DateTime.now().year, 1, 1),
+      lastDate: DateTime(DateTime.now().year, 12, 31),
+    );
+
+    if (secilen == null) return;
+
+    final mmDd =
+        '${secilen.month.toString().padLeft(2, '0')}-${secilen.day.toString().padLeft(2, '0')}';
+
+    setState(() {
+      _riskTarihiAta(kod: kod, baslangic: baslangic, deger: mmDd);
+    });
+  }
+
+  String _riskTarihiGetir({
+    required String kod,
+    required bool baslangic,
+  }) {
+    switch (kod) {
+      case 'ARI_KUSU':
+        return baslangic ? _riskAriKusuBaslangic : _riskAriKusuBitis;
+      case 'ESEK_ARISI':
+        return baslangic ? _riskEsekArisiBaslangic : _riskEsekArisiBitis;
+      case 'YAGMACILIK':
+        return baslangic ? _riskYagmacilikBaslangic : _riskYagmacilikBitis;
+      case 'MUM_GUVESI':
+        return baslangic ? _riskMumGuvesiBaslangic : _riskMumGuvesiBitis;
+      case 'FARE':
+        return baslangic ? _riskFareBaslangic : _riskFareBitis;
+      default:
+        return '01-01';
+    }
+  }
+
+  void _riskTarihiAta({
+    required String kod,
+    required bool baslangic,
+    required String deger,
+  }) {
+    switch (kod) {
+      case 'ARI_KUSU':
+        if (baslangic) {
+          _riskAriKusuBaslangic = deger;
+        } else {
+          _riskAriKusuBitis = deger;
+        }
+        break;
+      case 'ESEK_ARISI':
+        if (baslangic) {
+          _riskEsekArisiBaslangic = deger;
+        } else {
+          _riskEsekArisiBitis = deger;
+        }
+        break;
+      case 'YAGMACILIK':
+        if (baslangic) {
+          _riskYagmacilikBaslangic = deger;
+        } else {
+          _riskYagmacilikBitis = deger;
+        }
+        break;
+      case 'MUM_GUVESI':
+        if (baslangic) {
+          _riskMumGuvesiBaslangic = deger;
+        } else {
+          _riskMumGuvesiBitis = deger;
+        }
+        break;
+      case 'FARE':
+        if (baslangic) {
+          _riskFareBaslangic = deger;
+        } else {
+          _riskFareBitis = deger;
+        }
+        break;
+    }
+  }
+
   Future<void> _kaydet() async {
     setState(() => _kaydediliyor = true);
 
@@ -224,6 +447,8 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         );
       }
 
+      final seciliArilikId = _kalibrasyonArilikId;
+
       await VeritabaniServisi.ayarKaydet('season_kis_baslangic', _kisBaslangic);
       await VeritabaniServisi.ayarKaydet('season_kis_bitis', _kisBitis);
       await VeritabaniServisi.ayarKaydet(
@@ -235,27 +460,65 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         'davranis_toleransi',
         _davranisToleransi,
       );
-      await VeritabaniServisi.ayarKaydet(
+
+      await _kalibrasyonAyarKaydet(
         'bal_akim1_baslangic',
         _balAkim1Baslangic,
       );
-      await VeritabaniServisi.ayarKaydet('bal_akim1_bitis', _balAkim1Bitis);
-      await VeritabaniServisi.ayarKaydet(
+      await _kalibrasyonAyarKaydet('bal_akim1_bitis', _balAkim1Bitis);
+      await _kalibrasyonAyarKaydet(
         'bal_akim2_aktif',
         _balAkim2Aktif ? '1' : '0',
       );
-      await VeritabaniServisi.ayarKaydet(
+      await _kalibrasyonAyarKaydet(
         'bal_akim2_baslangic',
         _balAkim2Baslangic,
       );
-      await VeritabaniServisi.ayarKaydet('bal_akim2_bitis', _balAkim2Bitis);
+      await _kalibrasyonAyarKaydet('bal_akim2_bitis', _balAkim2Bitis);
+      await _kalibrasyonAyarKaydet(
+        'risk_ari_kusu_baslangic',
+        _riskAriKusuBaslangic,
+      );
+      await _kalibrasyonAyarKaydet('risk_ari_kusu_bitis', _riskAriKusuBitis);
+      await _kalibrasyonAyarKaydet(
+        'risk_esek_arisi_baslangic',
+        _riskEsekArisiBaslangic,
+      );
+      await _kalibrasyonAyarKaydet(
+        'risk_esek_arisi_bitis',
+        _riskEsekArisiBitis,
+      );
+      await _kalibrasyonAyarKaydet(
+        'risk_yagmacilik_baslangic',
+        _riskYagmacilikBaslangic,
+      );
+      await _kalibrasyonAyarKaydet(
+        'risk_yagmacilik_bitis',
+        _riskYagmacilikBitis,
+      );
+      await _kalibrasyonAyarKaydet(
+        'risk_mum_guvesi_baslangic',
+        _riskMumGuvesiBaslangic,
+      );
+      await _kalibrasyonAyarKaydet(
+        'risk_mum_guvesi_bitis',
+        _riskMumGuvesiBitis,
+      );
+      await _kalibrasyonAyarKaydet('risk_fare_baslangic', _riskFareBaslangic);
+      await _kalibrasyonAyarKaydet('risk_fare_bitis', _riskFareBitis);
 
       KararAsistanServisi.tumCacheTemizle();
+      VeritabaniServisi.balAkimCacheTemizle(arilikId: seciliArilikId);
+      ArilikUyariServisi.cacheTemizle(arilikId: seciliArilikId);
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Genel ayarlar kaydedildi.'),
+        SnackBar(
+          content: Text(
+            seciliArilikId == null
+                ? 'Genel ayarlar tüm arılıklar için kaydedildi.'
+                : '${_kalibrasyonKapsamMetni()} arılığı için özel kalibrasyon kaydedildi.',
+          ),
         ),
       );
     } catch (e) {
@@ -381,7 +644,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                   padding: const EdgeInsets.all(24),
                   children: [
                     const Text(
-                      'İTOGENA AYARLAR REHBERİ',
+                      'İTOGENA TEKNİK REFERANS',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
@@ -389,48 +652,127 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                       ),
                     ),
                     const Text(
-                      'Sezon kalibrasyonu, bal akımı ve veri güvenliği',
+                      'Karar mantığı, kalibrasyon, risk takvimi ve veri güvenliği',
                       style: TextStyle(color: Colors.blueGrey, fontSize: 11),
                     ),
                     const Divider(height: 32, thickness: 1.5),
                     _referansBolum(
                       '1. SİSTEM FELSEFESİ',
                       const [
-                        'Veri → analiz → karar → aksiyon akışı korunur.',
-                        'Sistem gereksiz açıklama değil, sahada yapılacak işi öne çıkarır.',
-                        'Çekirdek eşikler ve puan omurgası artık kullanıcı ekranından değiştirilmez.',
+                        'İTOGENA basit saha verisini zaman, olay, süreç, soy ve performans bağlamıyla yorumlar.',
+                        'Amaç kullanıcıyı veriyle boğmak değil, sahada uygulanabilir kararı görünür kılmaktır.',
+                        'Sistem gereksiz teknik açıklama yerine yapılacak işi ve kısa gerekçeyi öne çıkarır.',
                       ],
                     ),
                     _referansBolum(
-                      '2. KULLANICIYA AÇIK KALAN ALANLAR',
+                      '2. KARAR AKIŞI',
                       const [
-                        'Sezon tarihleri açık kalır. Coğrafya değişir; bu yüzden saha takvimi kullanıcı tarafından kalibre edilir.',
-                        'Bal akımı pencereleri açık kalır. Biyolojik geri sayımlar ve üretim bağlamı bu tarihlere dayanır.',
-                        'Davranış tercihi açık kalır. Bu ayar yalnızca seçilim yorumunu yumuşatır veya sertleştirir.',
+                        'Temel akış: tetik → süreç → öneri → saha eylemi → yeni muayene → kapanış.',
+                        'Sistem her süreç için kullanıcıdan ayrıca onay istemez; sonucu sonraki muayene verisinden anlamaya çalışır.',
+                        'Günlük veya kapalı yavru görüldü gibi biyolojik kapanış sinyalleri ilgili süreçleri kapatabilir.',
                       ],
                     ),
                     _referansBolum(
-                      '3. SİSTEM TARAFINDAN YÖNETİLEN ALANLAR',
+                      '3. SEZON REFERANSI',
                       const [
-                        'Kış ve üretim eşikleri kullanıcı ekranından kaldırıldı.',
-                        'Çıta bantları, bölme alt sınırları, donör mantığı ve veto omurgası sistem içinde korunur.',
-                        'Bu sayede kullanıcı yanlış kalibrasyonla karar motorunu bozmaz.',
+                        'Kış / Dayanıklılık dönemi ve Aktif / Üretim dönemi global çalışır.',
+                        'Bu sezonlar performans, rapor ve seçilim katmanlarında ortak referans olarak kullanılır.',
+                        'Arılık bazlı sezon ayrımı şu aşamada açılmadı; çünkü karşılaştırma ve skor tutarlılığını bozabilir.',
                       ],
                     ),
                     _referansBolum(
-                      '4. VARSAYILAN TAKVİM',
+                      '4. BAL AKIMI REFERANSI',
                       const [
-                        'Aktif dönem varsayılanı: 15 Mart – 31 Ağustos.',
-                        'Kış dönemi varsayılanı: 1 Eylül – 15 Mart.',
-                        'Bu tarihler gerekirse kullanıcı tarafından kendi coğrafyasına göre güncellenebilir.',
+                        'Bal akımı tarihleri merkezi olarak okunur.',
+                        'Koloni detay, genel uyarılar, varroa uyarıları ve bölme geri sayımı aynı bal akımı kaynağını kullanır.',
+                        '1. bal akımı zorunlu ana penceredir. 2. bal akımı yalnızca gerçekten ikinci bir akım varsa açılır.',
+                        'Bal akımı değiştiğinde ilgili önbellek temizlenir ve sistem yeni tarihe göre yeniden karar üretir.',
                       ],
                     ),
                     _referansBolum(
-                      '5. YEDEK SİSTEMİ',
+                      '5. ARILIK BAZLI KALİBRASYON',
                       const [
-                        'Yedek alma ve yedekten yükleme aynı JSON formatı üzerinden çalışır.',
-                        'Geri yükleme sonrası sistem bakım ve onarım adımı çalıştırılır.',
-                        'Büyük değişikliklerden önce yeni bir yedek almak güvenlik standardıdır.',
+                        'Bal akımı ve genel risk takvimi tüm arılıklar için genel varsayılan olarak kaydedilebilir.',
+                        'İstenirse yalnızca seçilen arılık için özel kalibrasyon oluşturulur.',
+                        'Özel kalibrasyonu olan arılık kendi ayarını kullanır; özel ayarı olmayan arılık genel varsayılanı kullanır.',
+                        'Yeni arılık eklerken varsayılan kalibrasyon kullanılabilir veya mevcut bir arılıktan kalibrasyon kopyalanabilir.',
+                      ],
+                    ),
+                    _referansBolum(
+                      '6. GENEL RİSK TAKVİMİ',
+                      const [
+                        'Arı kuşu, eşek arısı / sarıca, yağmacılık, mum güvesi ve fare uyarıları arılık geneli dönemsel hatırlatmalardır.',
+                        'Bu uyarılar koloni detayında değil, arılık seçim ekranında gösterilir.',
+                        'Risk tarihleri tüm arılıklar için veya seçilen arılık için ayrı kalibre edilebilir.',
+                        '“Bu sezon gösterme” arılık bazlı ve yıl bazlı çalışır.',
+                      ],
+                    ),
+                    _referansBolum(
+                      '7. VARROA VE BAL AKIMI İLİŞKİSİ',
+                      const [
+                        'Varroa uyarıları bal akımı tarihine göre planlama ve son dönem uyarısı üretebilir.',
+                        'Kimyasal mücadelede kalıntı riski dikkate alınır.',
+                        'Bal akımı öncesi uyarılar merkezi bal akımı motorundan beslendiği için farklı ekranlarda farklı tarih kullanımı oluşmaz.',
+                      ],
+                    ),
+                    _referansBolum(
+                      '8. BÖLME GERİ SAYIMI',
+                      const [
+                        'Bölme uyarısı bal akımı hedefiyle ilişkilidir.',
+                        'Amaç, bal akımına güçlü işçi arı nüfusu ile girme hedefini korumaktır.',
+                        'Bal akımı değiştiğinde bölme uyarılarının tarihi de aynı merkezi referansa göre değişir.',
+                      ],
+                    ),
+                    _referansBolum(
+                      '9. ŞURUP HESAPLAMA',
+                      const [
+                        'Şurup hesabı pancar şekeri yani sakaroz esas alınarak yapılır.',
+                        'Şeker suda çözündüğünde hacim daraldığı için doğrudan su + şeker toplamı kullanılmaz.',
+                        '1:1 teşvik şurubu için katsayı 0.76, 2:1 stok / kış şurubu için katsayı 0.68 kabul edilir.',
+                        'Bu ekran besleme kararı vermez; yalnızca hedef şerbet miktarına göre doğru su ve şeker miktarını hesaplar.',
+                      ],
+                    ),
+                    _referansBolum(
+                      '10. GENETİK SEÇİLİM',
+                      const [
+                        'Performans skoru ile donör seçimi aynı şey değildir.',
+                        'Oğul izi puan cezası değil, genetik veto sebebidir.',
+                        'Donör havuzu önce veto kurallarından geçirilir, sonra uygun koloniler performansa göre değerlendirilir.',
+                        'Kovan numarası değişse bile soy takibi sabit sistem kimliği üzerinden korunur.',
+                      ],
+                    ),
+                    _referansBolum(
+                      '11. AKTİF / SÖNMÜŞ AYRIMI',
+                      const [
+                        'Sönmüş veya pasif koloniler aktif üretim kararlarına dahil edilmez.',
+                        'Soy geçmişi ve hat analizinde görülebilirler; fakat aktif arılık gücü hesabında canlı koloni gibi sayılmazlar.',
+                        'Bu ayrım raporlar, arılık özetleri ve soy devamlılığı için önemlidir.',
+                      ],
+                    ),
+                    _referansBolum(
+                      '12. ÖNBELLEK VE HIZ',
+                      const [
+                        'Sık kullanılan karar ve kalibrasyon verileri önbelleğe alınır.',
+                        'Ayar değişikliklerinden sonra ilgili önbellek temizlenir.',
+                        'Bu yapı hem hızı korur hem de eski veriye göre yanlış karar üretilmesini önler.',
+                      ],
+                    ),
+                    _referansBolum(
+                      '13. YEDEK SİSTEMİ',
+                      const [
+                        'Yedek alma tüm arılık, koloni, muayene, olay, numara geçmişi ve ayar verilerini JSON dosyasına aktarır.',
+                        'Yedekten yükleme mevcut veriyi seçilen yedekle değiştirir.',
+                        'Yedek metasında uygulama adı, backupVersion, schemaVersion, dbVersion, appVersionName, appVersionCode ve createdAt bilgileri tutulur.',
+                        'Eski yedekler mümkün olduğunca kabul edilir; uyumluluk riski varsa kullanıcı uyarılmalıdır.',
+                        'Geri yükleme sonrası sistem bakım adımı çalışır ve karar önbelleği temizlenir.',
+                      ],
+                    ),
+                    _referansBolum(
+                      '14. KULLANICIYA AÇIK / KAPALI ALANLAR',
+                      const [
+                        'Kullanıcı sezon tarihlerini, bal akımı pencerelerini, genel risk takvimini ve davranış tercihini ayarlayabilir.',
+                        'Çıta eşikleri, temel biyolojik pencereler, genetik veto mantığı ve süreç omurgası sistem tarafından korunur.',
+                        'Bu sınır, sistemin hem esnek hem güvenilir kalmasını sağlar.',
                       ],
                     ),
                   ],
@@ -554,7 +896,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                 child: OutlinedButton.icon(
                   onPressed: onBaslangicTap,
                   icon: const Icon(Icons.event),
-                  label: Text('Başlangıç: $baslangic'),
+                  label: Text('Başlangıç: ${_mmDdGoster(baslangic)}'),
                 ),
               ),
               const SizedBox(width: 10),
@@ -562,7 +904,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                 child: OutlinedButton.icon(
                   onPressed: onBitisTap,
                   icon: const Icon(Icons.event_available),
-                  label: Text('Bitiş: $bitis'),
+                  label: Text('Bitiş: ${_mmDdGoster(bitis)}'),
                 ),
               ),
             ],
@@ -629,6 +971,85 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     );
   }
 
+  Widget _kalibrasyonKapsamKarti() {
+    final seciliDeger = _kalibrasyonArilikId ?? 0;
+    final kapsamMetni = _kalibrasyonKapsamMetni();
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF6FBFF),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.lightBlue.shade200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Icon(Icons.tune_rounded, color: Colors.blueGrey),
+              SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'KALİBRASYON KAPSAMI',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: Colors.brown,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Bal akımı ve genel risk takvimi bu kapsama göre kaydedilir. Tüm arılıklar seçilirse genel varsayılanlar güncellenir. Tek arılık seçilirse yalnızca o arılık için özel kalibrasyon oluşturulur.',
+            style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+          ),
+          const SizedBox(height: 12),
+          DropdownButtonFormField<int>(
+            value: seciliDeger,
+            isExpanded: true,
+            decoration: const InputDecoration(
+              labelText: 'Bu kalibrasyonu kullan',
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            ),
+            items: [
+              const DropdownMenuItem<int>(
+                value: 0,
+                child: Text('Tüm arılıklar için kullan'),
+              ),
+              ..._kalibrasyonAriliklari.map((arilik) {
+                final id = _toInt(arilik['id']);
+                final ad = (arilik['ad'] ?? '-').toString();
+                return DropdownMenuItem<int>(
+                  value: id,
+                  child: Text('Yalnızca $ad arılığı için kullan'),
+                );
+              }),
+            ],
+            onChanged: (v) async {
+              if (v == null) return;
+              setState(() {
+                _kalibrasyonArilikId = v <= 0 ? null : v;
+                _yukleniyor = true;
+              });
+              await _ayarlariYukle();
+            },
+          ),
+          const SizedBox(height: 10),
+          Text(
+            _kalibrasyonArilikId == null
+                ? 'Şu anda genel varsayılan kalibrasyonu düzenliyorsun. Özel ayarı olmayan tüm arılıklar bunu kullanır.'
+                : '$kapsamMetni için özel kalibrasyon alanı açık. Burada yaptığın bal akımı ve risk takvimi değişiklikleri diğer arılıkları etkilemez.',
+            style: const TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _balAkimBilgiKarti() {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -673,6 +1094,81 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     );
   }
 
+
+  Widget _riskTakvimiBilgiKarti() {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF8E1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.orange.shade200),
+      ),
+      child: const Text(
+        'Genel risk takvimi koloniye özel karar üretmez. Arı kuşu, eşek arısı, yağmacılık, mum güvesi ve fare gibi dönemsel riskleri arılık ekranında hatırlatır. Tarihleri kendi bölgenin gerçek baskı dönemine göre daraltabilirsin.',
+        style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+      ),
+    );
+  }
+
+  Widget _riskTarihKarti({
+    required String kod,
+    required String baslik,
+    required String altMetin,
+    required String baslangic,
+    required String bitis,
+  }) {
+    return _sezonTarihKarti(
+      baslik: baslik,
+      altMetin: altMetin,
+      baslangic: baslangic,
+      bitis: bitis,
+      onBaslangicTap: () => _riskTarihSec(kod: kod, baslangic: true),
+      onBitisTap: () => _riskTarihSec(kod: kod, baslangic: false),
+    );
+  }
+
+  List<Widget> _riskTakvimiKartlari() {
+    return [
+      _riskTakvimiBilgiKarti(),
+      _riskTarihKarti(
+        kod: 'ARI_KUSU',
+        baslik: 'Arı Kuşu Risk Dönemi',
+        altMetin: 'Varsayılan: Mayıs – Ağustos. Kendi bölgenin göç ve baskı dönemine göre daraltabilirsin.',
+        baslangic: _riskAriKusuBaslangic,
+        bitis: _riskAriKusuBitis,
+      ),
+      _riskTarihKarti(
+        kod: 'ESEK_ARISI',
+        baslik: 'Eşek Arısı / Sarıca Risk Dönemi',
+        altMetin: 'Varsayılan: Temmuz – Ekim. Baskının yoğunlaştığı döneme göre ayarla.',
+        baslangic: _riskEsekArisiBaslangic,
+        bitis: _riskEsekArisiBitis,
+      ),
+      _riskTarihKarti(
+        kod: 'YAGMACILIK',
+        baslik: 'Yağmacılık Risk Dönemi',
+        altMetin: 'Varsayılan: Temmuz – Eylül. Hasat sonrası ve kurak dönem baskısına göre ayarla.',
+        baslangic: _riskYagmacilikBaslangic,
+        bitis: _riskYagmacilikBitis,
+      ),
+      _riskTarihKarti(
+        kod: 'MUM_GUVESI',
+        baslik: 'Mum Güvesi Risk Dönemi',
+        altMetin: 'Varsayılan: Haziran – Eylül. Sıcak dönem ve zayıf koloni riskine göre ayarla.',
+        baslangic: _riskMumGuvesiBaslangic,
+        bitis: _riskMumGuvesiBitis,
+      ),
+      _riskTarihKarti(
+        kod: 'FARE',
+        baslik: 'Fare Risk Dönemi',
+        altMetin: 'Varsayılan: Kasım – Şubat. Bu aralık yıl taşar; sistem bunu doğru yorumlar.',
+        baslangic: _riskFareBaslangic,
+        bitis: _riskFareBitis,
+      ),
+    ];
+  }
+
   Widget _tabGenel() {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
@@ -694,6 +1190,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           onBaslangicTap: () => _tarihSec(baslangicMi: 'bas', kisSezonu: false),
           onBitisTap: () => _tarihSec(baslangicMi: 'bit', kisSezonu: false),
         ),
+        _kalibrasyonKapsamKarti(),
         _balAkimBilgiKarti(),
         _sezonTarihKarti(
           baslik: 'Bal Akımı Aralığı 1',
@@ -713,6 +1210,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
             onBaslangicTap: () => _balAkimTarihSec(index: 2, baslangic: true),
             onBitisTap: () => _balAkimTarihSec(index: 2, baslangic: false),
           ),
+        ..._riskTakvimiKartlari(),
         _davranisTercihiKarti(),
         OutlinedButton.icon(
           onPressed: _teknikReferansGoster,

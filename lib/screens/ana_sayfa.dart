@@ -44,7 +44,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           ),
           const SizedBox(height: 10),
           const Text(
-            'İTOGENA, muayene kayıtlarını sadece saklamaz; olayları, süreçleri ve zamanı birlikte okuyarak koloni için ne yapılması gerektiğini söyleyen bir arılık yönetim sistemidir.',
+            'İTOGENA, basit muayene verisini zaman, süreç, soy, performans ve arılık kalibrasyonu ile birlikte okuyarak uygulanabilir koloni kararı üretir.',
             style: TextStyle(
               fontSize: 13,
               height: 1.5,
@@ -169,7 +169,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
               context: context,
               baslik: 'Ayarlar',
               altBaslik:
-              'Saha tanımları, bal akımı, sistem tercihleri ve yedekleme',
+              'Kalibrasyon, bal akımı, risk takvimi, sistem tercihleri ve yedekleme',
               ikon: Icons.settings_outlined,
               sayfa: const AyarlarSayfasi(),
             ),

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
-import '../services/ekonomik_deger_servisi.dart';
 import 'koloni_detay_sayfasi.dart';
 import 'rapor_listesi_sayfasi.dart';
 
@@ -18,6 +17,8 @@ class RaporlarSayfasi extends StatefulWidget {
 
 class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
   bool _yukleniyor = true;
+  bool _donorlerYukleniyor = false;
+  int _yuklemeToken = 0;
 
   List<Map<String, dynamic>> _tumKoloniler = [];
   List<Map<String, dynamic>> _aktifKoloniler = [];
@@ -58,15 +59,27 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
   }
 
   Future<void> _verileriYukle() async {
+    final int token = ++_yuklemeToken;
+
     if (mounted) {
-      setState(() => _yukleniyor = true);
+      setState(() {
+        _yukleniyor = true;
+        _donorlerYukleniyor = false;
+      });
     }
 
     final tumKoloniler = await VeritabaniServisi.kolonileriGetir(
       sadeceAktifler: false,
     );
-    final siraliDonorler = await KararAsistanServisi.donorAdaylariSiraliGetir();
-    final ekonomikOzet = await EkonomikDegerServisi.ozetGetir();
+
+    final koloniIdleri = tumKoloniler
+        .map((k) => _toInt(k['id']))
+        .where((id) => id > 0)
+        .toList();
+
+    final aktiflikMap =
+        await VeritabaniServisi.koloniAktiflikHaritasiGetir(koloniIdleri);
+
     final ekonomikAriliCita = await VeritabaniServisi.ayarStringGetir(
       'ekonomik_arili_cita',
       varsayilan: '900',
@@ -86,52 +99,22 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
 
     final aktifKoloniler = <Map<String, dynamic>>[];
     int toplamSkor = 0;
+    int toplamAriliCita = 0;
+
     for (final koloni in tumKoloniler) {
       final koloniId = _toInt(koloni['id']);
       if (koloniId <= 0) continue;
-      if (await VeritabaniServisi.koloniAktifMi(koloniId)) {
+      if (aktiflikMap[koloniId] == true) {
         aktifKoloniler.add(koloni);
         toplamSkor += _toInt(koloni['skor']);
+        toplamAriliCita += _toInt(koloni['sonCita']);
       }
     }
 
-    final donorIdleri = siraliDonorler
-        .where((e) => _toInt(e['sira']) >= 1 && _toInt(e['sira']) <= 3)
-        .map((e) => _toInt(e['koloniId']))
-        .toSet();
-
-    final ilkUcDonor = aktifKoloniler
-        .where((k) => donorIdleri.contains(_toInt(k['id'])))
-        .toList()
-      ..sort((a, b) {
-        final aSira = _donorSirasiBul(_toInt(a['id']), siraliDonorler);
-        final bSira = _donorSirasiBul(_toInt(b['id']), siraliDonorler);
-        return aSira.compareTo(bSira);
-      });
-
     final ilkUcGuclu = List<Map<String, dynamic>>.from(aktifKoloniler)
-      ..sort((a, b) {
-        final skorKiyas = _toInt(b['skor']).compareTo(_toInt(a['skor']));
-        if (skorKiyas != 0) return skorKiyas;
+      ..sort(_gucluKoloniSirala);
 
-        final aSon = _toInt(a['sonCita']);
-        final bSon = _toInt(b['sonCita']);
-        if (aSon != bSon) return bSon.compareTo(aSon);
-
-        final aBal = _toInt(a['bal_cita']);
-        final bBal = _toInt(b['bal_cita']);
-        if (aBal != bBal) return bBal.compareTo(aBal);
-
-        final aDonor = _donorSirasiBul(_toInt(a['id']), siraliDonorler) > 0;
-        final bDonor = _donorSirasiBul(_toInt(b['id']), siraliDonorler) > 0;
-        if (aDonor != bDonor) return aDonor ? -1 : 1;
-
-        return (a['kovanNo'] ?? '').toString().compareTo(
-              (b['kovanNo'] ?? '').toString(),
-            );
-      });
-
-    if (!mounted) return;
+    if (!mounted || token != _yuklemeToken) return;
 
     _ariliCitaDegeriController.text = ekonomikAriliCita;
     _bosKovanDegeriController.text = ekonomikBosKovan;
@@ -141,17 +124,90 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     setState(() {
       _tumKoloniler = tumKoloniler;
       _aktifKoloniler = aktifKoloniler;
-      _siraliDonorler = siraliDonorler;
-      _ilkUcDonor = ilkUcDonor.take(3).toList();
+      _siraliDonorler = const <Map<String, dynamic>>[];
+      _ilkUcDonor = const <Map<String, dynamic>>[];
       _ilkUcGuclu = ilkUcGuclu.take(3).toList();
-      _aktifKovanSayisi = ekonomikOzet.aktifKovanSayisi;
-      _toplamAriliCita = ekonomikOzet.toplamAriliCita;
+      _aktifKovanSayisi = aktifKoloniler.length;
+      _toplamAriliCita = toplamAriliCita;
       _ortalamaSkor = aktifKoloniler.isEmpty
           ? 0
           : (toplamSkor / aktifKoloniler.length).round();
       _ekonomikDeger = _hesaplananEkonomikDeger();
       _yukleniyor = false;
+      _donorlerYukleniyor = true;
     });
+
+    Future<void>.delayed(const Duration(milliseconds: 250), () async {
+      await _donorleriArkaPlandaYukle(token);
+    });
+  }
+
+  Future<void> _donorleriArkaPlandaYukle(int token) async {
+    if (_aktifKoloniler.isEmpty) {
+      if (!mounted || token != _yuklemeToken) return;
+      setState(() => _donorlerYukleniyor = false);
+      return;
+    }
+
+    final siraliDonorler = await KararAsistanServisi.donorAdaylariSiraliGetir();
+
+    if (!mounted || token != _yuklemeToken) return;
+
+    final donorIdleri = siraliDonorler
+        .where((e) => _toInt(e['sira']) >= 1 && _toInt(e['sira']) <= 3)
+        .map((e) => _toInt(e['koloniId']))
+        .toSet();
+
+    final ilkUcDonor = _aktifKoloniler
+        .where((k) => donorIdleri.contains(_toInt(k['id'])))
+        .toList()
+      ..sort((a, b) {
+        final aSira = _donorSirasiBul(_toInt(a['id']), siraliDonorler);
+        final bSira = _donorSirasiBul(_toInt(b['id']), siraliDonorler);
+        return aSira.compareTo(bSira);
+      });
+
+    final ilkUcGuclu = List<Map<String, dynamic>>.from(_aktifKoloniler)
+      ..sort((a, b) {
+        final donorKiyas = _donorOncelikKiyasla(a, b, siraliDonorler);
+        if (donorKiyas != 0) return donorKiyas;
+        return _gucluKoloniSirala(a, b);
+      });
+
+    setState(() {
+      _siraliDonorler = siraliDonorler;
+      _ilkUcDonor = ilkUcDonor.take(3).toList();
+      _ilkUcGuclu = ilkUcGuclu.take(3).toList();
+      _donorlerYukleniyor = false;
+    });
+  }
+
+  int _gucluKoloniSirala(Map<String, dynamic> a, Map<String, dynamic> b) {
+    final skorKiyas = _toInt(b['skor']).compareTo(_toInt(a['skor']));
+    if (skorKiyas != 0) return skorKiyas;
+
+    final aSon = _toInt(a['sonCita']);
+    final bSon = _toInt(b['sonCita']);
+    if (aSon != bSon) return bSon.compareTo(aSon);
+
+    final aBal = _toInt(a['bal_cita']);
+    final bBal = _toInt(b['bal_cita']);
+    if (aBal != bBal) return bBal.compareTo(aBal);
+
+    return (a['kovanNo'] ?? '').toString().compareTo(
+          (b['kovanNo'] ?? '').toString(),
+        );
+  }
+
+  int _donorOncelikKiyasla(
+    Map<String, dynamic> a,
+    Map<String, dynamic> b,
+    List<Map<String, dynamic>> donorler,
+  ) {
+    final aDonor = _donorSirasiBul(_toInt(a['id']), donorler) > 0;
+    final bDonor = _donorSirasiBul(_toInt(b['id']), donorler) > 0;
+    if (aDonor == bDonor) return 0;
+    return aDonor ? -1 : 1;
   }
 
   double _hesaplananEkonomikDeger() {
@@ -316,7 +372,8 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
                 child: _kompaktGridBolumu(
                   baslik: 'DONÖRLER',
                   koloniler: _ilkUcDonor,
-                  fallbackMetin: 'Henüz yok',
+                  fallbackMetin:
+                      _donorlerYukleniyor ? 'Hesaplanıyor' : 'Henüz yok',
                 ),
               ),
               const SizedBox(width: 10),

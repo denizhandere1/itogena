@@ -92,7 +92,7 @@ class HatAnalizServisi {
         final koloniId = _toInt(koloni['id']);
         final aktifMi = koloniId > 0
             ? await VeritabaniServisi.koloniAktifMi(koloniId)
-            : !_sonmusMu(koloni);
+            : false;
         if (aktifMi) {
           aktif++;
           aktifKoloniler.add(koloni);
@@ -329,17 +329,10 @@ class HatAnalizServisi {
   }
 
   static bool _sonmusMu(Map<String, dynamic> k) {
-    final durum = (k['durum'] ?? '').toString().trim().toLowerCase();
-    if (durum == 'sonmus' || durum == 'sönmüş' || durum == 'kapali') {
-      return true;
-    }
-
-    final aktifMi = k['aktifMi'];
-    if (aktifMi != null) {
-      return _toInt(aktifMi) == 0;
-    }
-
-    return false;
+    // Geriye dönük uyumluluk için tutulur.
+    // Aktiflik kararı normal akışta yalnızca VeritabaniServisi.koloniAktifMi
+    // üzerinden verilir; id olmayan geçici kayıtlar aktif kabul edilmez.
+    return VeritabaniServisi.sonmusDurumMu(k['durum']);
   }
 
   static Future<bool> _koloniKaydiAktifMi(Map<String, dynamic> k) async {
@@ -347,7 +340,7 @@ class HatAnalizServisi {
     if (koloniId > 0) {
       return VeritabaniServisi.koloniAktifMi(koloniId);
     }
-    return !_sonmusMu(k);
+    return false;
   }
 
   static int _maxCitaBul(Map<String, dynamic> k) {

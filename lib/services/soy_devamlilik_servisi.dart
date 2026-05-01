@@ -99,7 +99,7 @@ class SoyDevamlilikServisi {
       final cocukId = _toInt(cocuk['id']);
       final aktifMi = cocukId > 0
           ? await VeritabaniServisi.koloniAktifMi(cocukId)
-          : !_sonmusDurumMu(cocuk['durum']);
+          : false;
       if (aktifMi) {
         aktif++;
       } else {
@@ -207,8 +207,10 @@ class SoyDevamlilikServisi {
   }
 
   static bool _sonmusDurumMu(dynamic durum) {
-    final temiz = (durum ?? '').toString().trim().toLowerCase();
-    return temiz == 'sondu' || temiz == 'söndü' || temiz == 'pasif';
+    // Geriye dönük uyumluluk için tutulur.
+    // Normal akışta aktiflik/sönmüşlük yalnızca VeritabaniServisi.koloniAktifMi
+    // üzerinden okunur.
+    return VeritabaniServisi.sonmusDurumMu(durum);
   }
 
   static int _toInt(dynamic deger) {

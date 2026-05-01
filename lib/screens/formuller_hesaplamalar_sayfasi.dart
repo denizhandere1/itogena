@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ana_sayfa_kisayol.dart';
+import '../services/ari_biyoloji_servisi.dart';
 
 class FormullerHesaplamalarSayfasi extends StatefulWidget {
   const FormullerHesaplamalarSayfasi({super.key});
@@ -97,16 +98,13 @@ class _FormullerHesaplamalarSayfasiState
   }
 
   Widget _surupSekmesi() {
-    final toplamKg = _parseDouble(_toplamKgController, 10);
-    final oran = _oranParcala(_surupOrani);
+    final hedefSurup = _parseDouble(_toplamKgController, 10);
 
-    final suParca = oran.$1;
-    final sekerParca = oran.$2;
-
-    final toplamParca = suParca + sekerParca;
-    final suKg = toplamParca == 0 ? 0.0 : (toplamKg * suParca / toplamParca);
-    final sekerKg =
-    toplamParca == 0 ? 0.0 : (toplamKg * sekerParca / toplamParca);
+    final bool birBir = _surupOrani == '1:1';
+    final double katsayi = birBir ? 0.76 : 0.68;
+    final double toplamGirdi = katsayi == 0 ? 0.0 : hedefSurup / katsayi;
+    final double suMiktari = birBir ? toplamGirdi / 2 : toplamGirdi * (1 / 3);
+    final double sekerMiktari = birBir ? toplamGirdi / 2 : toplamGirdi * (2 / 3);
 
     return SafeArea(
       top: false,
@@ -117,12 +115,12 @@ class _FormullerHesaplamalarSayfasiState
             icon: Icons.water_drop_outlined,
             baslik: 'Şurup Formülü',
             aciklama:
-            'Toplam hazırlamak istediğin karışım miktarını gir. Sistem seçilen orana göre su ve şekeri hesaplar.',
+            'Hedef şerbet miktarını gir. Sistem, şeker suda çözündüğünde oluşan hacim daralmasını hesaba katar.',
           ),
           const SizedBox(height: 14),
           _bolumBaslik('Şurup Oranı'),
           const Text(
-            'Oran mantığı: Su : Şeker',
+            '1:1 teşvik şurubu, 2:1 stok / kış şurubu için kullanılır.',
             style: TextStyle(
               fontSize: 12,
               color: Colors.black54,
@@ -135,26 +133,29 @@ class _FormullerHesaplamalarSayfasiState
             runSpacing: 10,
             children: [
               _oranChip('1:1'),
-              _oranChip('1:2'),
+              _oranChip('2:1'),
             ],
           ),
           const SizedBox(height: 18),
-          _bolumBaslik('Toplam Hedef Karışım'),
+          _bolumBaslik('Hedef Şerbet'),
           _sayiAlani(
             controller: _toplamKgController,
-            etiket: 'Toplam miktar (kg)',
+            etiket: 'Hedef şerbet miktarı',
             yardim:
-            'Örnek: 10 kg 1:1 için 5 kg su + 5 kg şeker / 12 kg 1:2 için 4 kg su + 8 kg şeker',
+            'Örnek: 10 birim hedef şerbet için sistem saha katsayısına göre gerekli su ve şekeri hesaplar.',
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 18),
           _sonucKarti(
             baslik: '$_surupOrani Şurup Sonucu',
             satirlar: [
-              _SonucSatiri('Toplam Karışım', '${toplamKg.toStringAsFixed(2)} kg'),
-              _SonucSatiri('Su', '${suKg.toStringAsFixed(2)} kg'),
-              _SonucSatiri('Şeker', '${sekerKg.toStringAsFixed(2)} kg'),
+              _SonucSatiri('Hedef Şerbet', '${hedefSurup.toStringAsFixed(2)} birim'),
+              _SonucSatiri('Şeker', '${sekerMiktari.toStringAsFixed(2)} birim'),
+              _SonucSatiri('Su', '${suMiktari.toStringAsFixed(2)} birim'),
+              _SonucSatiri('Saha Katsayısı', katsayi.toStringAsFixed(2)),
             ],
+            notMetni:
+            'Hacim daralması nedeniyle saha katsayısı kullanılmıştır.',
             renk: Colors.indigo,
           ),
         ],
@@ -197,9 +198,20 @@ class _FormullerHesaplamalarSayfasiState
   }
 
   Widget _biyolojiSekmesi() {
-    final takvim = _biyolojiBaslangicTarihi == null
+    final String anaKazanmaYontemi = _formulBiyolojiYontemi();
+    final BiyolojiTakvimBilgisi? takvim = _biyolojiBaslangicTarihi == null
         ? null
-        : _anaYapmaTakvimi(_biyolojiBaslangicTarihi!);
+        : AriBiyolojiServisi.anaKazanmaTakvimi(
+            baslangic: _biyolojiBaslangicTarihi!,
+            anaKazanmaYontemi: anaKazanmaYontemi,
+          );
+
+    final Map<String, dynamic>? sahaUyarisi = _biyolojiBaslangicTarihi == null
+        ? null
+        : AriBiyolojiServisi.sahaUyarisiUret(
+            baslangic: _biyolojiBaslangicTarihi!,
+            anaKazanmaYontemi: anaKazanmaYontemi,
+          );
 
     final isciTakvim = _isciKapaliYavruTarihi == null
         ? null
@@ -218,13 +230,18 @@ class _FormullerHesaplamalarSayfasiState
             icon: Icons.timeline_outlined,
             baslik: 'Biyolojik Takvim',
             aciklama:
-            'Kullanıcıdan çok veri istemeden, tek bir başlangıç tarihinden tahmini süreci görünür hale getirir. Tarihler kesin değil; kontrol penceresi olarak okunmalıdır.',
+            'Bu ekran ana kazanma biyoloji takvimini merkezi AriBiyolojiServisi üzerinden okur. Koloni detay, süreç uyarıları ve formüller aynı tarih mantığını kullanır.',
           ),
           const SizedBox(height: 14),
-          _bolumBaslik('Ana Yapma Süreci'),
+          _bolumBaslik('Ana Kazanma Süreci'),
           _secimKarti(
             baslik: 'Başlangıç tipi',
-            secenekler: const ['Anasız Bırakıldı', 'Bölme Yapıldı'],
+            secenekler: const [
+              'Anasız Bırakıldı',
+              'Bölme Yapıldı',
+              'Hazır Kapalı Ana Memesi',
+              'Hazır Çiftleşmiş Ana',
+            ],
             seciliDeger: _biyolojiBaslangicTipi,
             onChanged: (v) => setState(() => _biyolojiBaslangicTipi = v),
           ),
@@ -246,33 +263,22 @@ class _FormullerHesaplamalarSayfasiState
           if (takvim != null) ...[
             _sonucKarti(
               baslik: '$_biyolojiBaslangicTipi Takvimi',
-              satirlar: [
-                _SonucSatiri('Başlangıç', takvim['baslangic'] as String),
-                _SonucSatiri(
-                  'Tahmini meme kapanma',
-                  takvim['memeKapanma'] as String,
-                ),
-                _SonucSatiri(
-                  'Tahmini ana çıkışı',
-                  takvim['anaCikisi'] as String,
-                ),
-                _SonucSatiri(
-                  'Çiftleşme uçuş penceresi',
-                  takvim['ciftlesmeUcus'] as String,
-                ),
-                _SonucSatiri(
-                  'Yumurtlama kontrol penceresi',
-                  takvim['yumurtlama'] as String,
-                ),
-              ],
+              satirlar: _biyolojiTakvimSatirlari(takvim),
               renk: Colors.deepOrange,
             ),
+            const SizedBox(height: 12),
+            if (sahaUyarisi != null)
+              _uyariKutusu(
+                renk: _sahaUyarisiRengi(sahaUyarisi['seviye']),
+                baslik: (sahaUyarisi['baslik'] ?? 'Saha Uyarısı').toString(),
+                metin: (sahaUyarisi['mesaj'] ?? '').toString(),
+              ),
             const SizedBox(height: 12),
             _uyariKutusu(
               renk: Colors.deepOrange,
               baslik: 'Saha Notu',
               metin:
-              'Bu takvim doğal ana yapma akışı için pratik referanstır. Hava, erkek arı varlığı ve koloni gücü tarihlerde kayma yaratabilir.',
+              'Gün sayımı başlangıç günü dahil edilerek yapılır. Günlük / kapalı yavru görülürse muayene ekranındaki ilgili kutucuk işaretlenir ve ana kazanma süreci kapanır.',
             ),
           ],
           const SizedBox(height: 18),
@@ -423,18 +429,108 @@ class _FormullerHesaplamalarSayfasiState
     };
   }
 
-  Map<String, String> _anaYapmaTakvimi(DateTime baslangic) {
-    return {
-      'baslangic': _tarihFormatla(baslangic),
-      'memeKapanma':
-      '${_tarihFormatla(baslangic.add(const Duration(days: 5)))} - ${_tarihFormatla(baslangic.add(const Duration(days: 6)))}',
-      'anaCikisi':
-      '${_tarihFormatla(baslangic.add(const Duration(days: 11)))} - ${_tarihFormatla(baslangic.add(const Duration(days: 13)))}',
-      'ciftlesmeUcus':
-      '${_tarihFormatla(baslangic.add(const Duration(days: 16)))} - ${_tarihFormatla(baslangic.add(const Duration(days: 24)))}',
-      'yumurtlama':
-      '${_tarihFormatla(baslangic.add(const Duration(days: 21)))} - ${_tarihFormatla(baslangic.add(const Duration(days: 30)))}',
-    };
+  String _formulBiyolojiYontemi() {
+    switch (_biyolojiBaslangicTipi) {
+      case 'Hazır Kapalı Ana Memesi':
+        return 'kapali_meme';
+      case 'Hazır Çiftleşmiş Ana':
+        return 'hazir_ana';
+      case 'Anasız Bırakıldı':
+      case 'Bölme Yapıldı':
+      default:
+        return 'kendi_anasi';
+    }
+  }
+
+  List<_SonucSatiri> _biyolojiTakvimSatirlari(BiyolojiTakvimBilgisi takvim) {
+    final List<_SonucSatiri> satirlar = [
+      _SonucSatiri('Başlangıç', AriBiyolojiServisi.tarihMetni(takvim.baslangic)),
+    ];
+
+    if (takvim.kabulKontrolBaslangic != null) {
+      satirlar.add(
+        _SonucSatiri(
+          'Kabul kontrol penceresi',
+          AriBiyolojiServisi.tarihAraligiMetni(
+            takvim.kabulKontrolBaslangic,
+            takvim.kabulKontrolBitis,
+          ),
+        ),
+      );
+    }
+
+    if (takvim.memeKapanmaBaslangic != null) {
+      satirlar.add(
+        _SonucSatiri(
+          'Tahmini meme kapanma',
+          AriBiyolojiServisi.tarihAraligiMetni(
+            takvim.memeKapanmaBaslangic,
+            takvim.memeKapanmaBitis,
+          ),
+        ),
+      );
+    }
+
+    if (takvim.anaCikisiBaslangic != null) {
+      satirlar.add(
+        _SonucSatiri(
+          'Tahmini ana çıkışı',
+          AriBiyolojiServisi.tarihAraligiMetni(
+            takvim.anaCikisiBaslangic,
+            takvim.anaCikisiBitis,
+          ),
+        ),
+      );
+    }
+
+    if (takvim.ciftlesmeBaslangic != null) {
+      satirlar.add(
+        _SonucSatiri(
+          'Çiftleşme uçuş penceresi',
+          AriBiyolojiServisi.tarihAraligiMetni(
+            takvim.ciftlesmeBaslangic,
+            takvim.ciftlesmeBitis,
+          ),
+        ),
+      );
+    }
+
+    if (takvim.yumurtlamaKontrolBaslangic != null) {
+      satirlar.add(
+        _SonucSatiri(
+          'Yumurtlama kontrol penceresi',
+          AriBiyolojiServisi.tarihAraligiMetni(
+            takvim.yumurtlamaKontrolBaslangic,
+            takvim.yumurtlamaKontrolBitis,
+          ),
+        ),
+      );
+    }
+
+    if (takvim.kovanaDokunmaBaslangic != null) {
+      satirlar.add(
+        _SonucSatiri(
+          'Kovana dokunma penceresi',
+          AriBiyolojiServisi.tarihAraligiMetni(
+            takvim.kovanaDokunmaBaslangic,
+            takvim.kovanaDokunmaBitis,
+          ),
+        ),
+      );
+    }
+
+    return satirlar;
+  }
+
+  Color _sahaUyarisiRengi(dynamic seviye) {
+    switch ((seviye ?? '').toString().trim().toLowerCase()) {
+      case 'kritik':
+        return Colors.red;
+      case 'uyari':
+        return Colors.deepOrange;
+      default:
+        return Colors.blueGrey;
+    }
   }
 
   Map<String, String> _isciKapaliYavruTakvimi(DateTime baslangic) {
@@ -650,6 +746,7 @@ class _FormullerHesaplamalarSayfasiState
     required String baslik,
     required List<_SonucSatiri> satirlar,
     required Color renk,
+    String? notMetni,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -708,6 +805,18 @@ class _FormullerHesaplamalarSayfasiState
               ),
             ),
           ),
+          if (notMetni != null && notMetni.trim().isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text(
+              notMetni,
+              style: const TextStyle(
+                fontSize: 12,
+                height: 1.4,
+                color: Colors.black54,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
         ],
       ),
     );

@@ -299,16 +299,16 @@ class KoloniKararMotoru {
 
       if (sonCita >= bolmeCita || maxCita >= bolmeCita) {
         kararKodu = 'BOLME_ICIN_UYGUN';
-        kararBaslik = 'Genetik veto var; operasyonel güç olarak kullan';
+        kararBaslik = 'Genetik veto var; destekleyici veya üretim kolonisi olarak kullan';
         kararMesaji =
-        'Ana üretme. Bu koloni güçlü ise bölme, kapalı yavru desteği veya kontrollü destek gücü için değerlendirilebilir.';
+        'Ana üretme. Bu koloni güçlü ise bölme, kapalı yavru desteği veya üretim için değerlendirilebilir.';
         kararNedeni = vetoNedeni;
         kararTipi = 'uyari';
 
         secilimKodu = 'OPERASYONEL_KULLAN';
         secilimBaslik = 'Genetik veto / güçlü operasyonel kullanım';
         secilimMesaji =
-        'Temiz donör havuzunda değildir. Buna rağmen güçlü koloni olarak bölme, destek ve yavru gücü açısından değerlidir.';
+        'Donör havuzunda değil. Buna rağmen güçlü koloni olarak bölme, destek ve yavru gücü açısından değerlidir.';
       } else if (skor >= uretimMinSkor || balCita > 0) {
         kararKodu = 'URETIMDE_DEGERLENDIR';
         kararBaslik = 'Genetik veto var; üretimde değerlendir';
@@ -320,19 +320,19 @@ class KoloniKararMotoru {
         secilimKodu = 'OPERASYONEL_KULLAN';
         secilimBaslik = 'Genetik veto / üretim kolonisi';
         secilimMesaji =
-        'Temiz donör havuzunda değildir. Buna rağmen üretim ve saha sürekliliği açısından kullanılabilir.';
+        'Temiz donör havuzunda değil. Buna rağmen üretim ve saha sürekliliği açısından kullanılabilir.';
       } else if (skor >= mudahaleMinSkor) {
         kararKodu = 'DESTEK_KOLONISI';
         kararBaslik = 'Genetik veto var; destekleyerek kullan';
         kararMesaji =
-        'Ana üretme. Bu koloni tamamen zayıf değil. Gelişimine göre destek kolonisi veya kontrollü üretim kolonisi olarak kullan.';
+        'Oğul izi olduğundan ana üretiminde kullanma. Gelişimine göre destek kolonisi veya üretim kolonisi olarak kullanılabilir.';
         kararNedeni = vetoNedeni;
         kararTipi = 'uyari';
 
         secilimKodu = 'OPERASYONEL_KULLAN';
         secilimBaslik = 'Genetik veto / destek kullanımı';
         secilimMesaji =
-        'Temiz donör havuzunda değildir. Güç durumuna göre destek veya kontrollü kullanım yönünde değerlendirilebilir.';
+        'Donör havuzunda değil. Güç durumuna göre destek veya üretim kolonisi olarak değerlendirilebilir.';
       } else {
         kararKodu = 'GUCLENDIR_VE_IZLE';
         kararBaslik = 'Genetik veto var; önce toparla ve izle';
@@ -344,7 +344,7 @@ class KoloniKararMotoru {
         secilimKodu = 'OPERASYONEL_KULLAN';
         secilimBaslik = 'Genetik veto / önce toparlanmalı';
         secilimMesaji =
-        'Temiz donör havuzunda değildir. Önce güç kazanmalı; sonra yalnızca operasyonel rolü yeniden okunmalıdır.';
+        'Donör havuzunda değil. Önce güç kazanmalı; sonra yalnızca operasyonel rolü yeniden okunmalıdır.';
       }
     } else if (donorSirasi == 1) {
       final String davranisNotu = _davranisNotuMetni(
@@ -355,7 +355,7 @@ class KoloniKararMotoru {
       kararKodu = 'DONOR_1';
       kararBaslik = 'Bu koloni 1. donör adayı';
       kararMesaji =
-      'Ana üretiminde önceliği buna ver. Gücünü koru. Bölme veya başka kullanım kararını donör değerini bozmayacak şekilde düşün.';
+      'Ana üretiminde öncelikli. Gücünü koru. Bölme veya başka kullanım kararını donör değerini bozmayacak şekilde düşün.';
       kararNedeni =
       'Donör havuzundaki en güçlü koloni olarak öne çıkıyor. Donör skoru: $donorSkoru / 100.$davranisNotu';
       kararTipi = 'pozitif';
@@ -600,8 +600,8 @@ class KoloniKararMotoru {
       if (koloniId <= 0) continue;
 
       final profil = await _koloniProfiliOlustur(koloniId, koloni);
+      if (profil['aktifMi'] != true) continue;
       if (profil['donorVeto'] == true) continue;
-      if (profil['kovanSondu'] == true) continue;
 
       havuz.add({
         'koloniId': koloniId,

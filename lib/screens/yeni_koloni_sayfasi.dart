@@ -25,7 +25,9 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
   late TextEditingController _notCont;
   late TextEditingController _kaynakKoloniCont;
   late TextEditingController _citaCont;
+  late TextEditingController _tarihCont;
 
+  late DateTime _olusturmaTarihi;
   int? _seciliKaynakKoloniId;
 
   String _anaYili = '2025';
@@ -62,6 +64,10 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     );
     _citaCont = TextEditingController(
       text: widget.koloni?['sonCita']?.toString() ?? '0',
+    );
+    _olusturmaTarihi = _guvenliTarihParse(widget.koloni?["olusturmaTarihi"]) ?? _bugun();
+    _tarihCont = TextEditingController(
+      text: _tarihFormatla(_olusturmaTarihi),
     );
     final mevcutKaynakKoloniId = _toInt(widget.koloni?['kaynakKoloniId']);
     final mevcutKaynakKoloniMetni =
@@ -146,6 +152,47 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     return 'Bölme';
   }
 
+  DateTime _bugun() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day);
+  }
+
+  DateTime? _guvenliTarihParse(dynamic deger) {
+    final metin = (deger ?? '').toString().trim();
+    if (metin.isEmpty) return null;
+    return DateTime.tryParse(metin);
+  }
+
+  String _isoTarih(DateTime tarih) {
+    final yil = tarih.year.toString().padLeft(4, '0');
+    final ay = tarih.month.toString().padLeft(2, '0');
+    final gun = tarih.day.toString().padLeft(2, '0');
+    return '$yil-$ay-$gun';
+  }
+
+  String _tarihFormatla(DateTime tarih) {
+    final gun = tarih.day.toString().padLeft(2, '0');
+    final ay = tarih.month.toString().padLeft(2, '0');
+    return '$gun.$ay.${tarih.year}';
+  }
+
+  Future<void> _olusturmaTarihiSec() async {
+    final secilen = await showDatePicker(
+      context: context,
+      locale: const Locale('tr', 'TR'),
+      initialDate: _olusturmaTarihi,
+      firstDate: DateTime(2000, 1, 1),
+      lastDate: _bugun(),
+    );
+
+    if (secilen == null) return;
+    setState(() {
+      _olusturmaTarihi = DateTime(secilen.year, secilen.month, secilen.day);
+      _tarihCont.text = _tarihFormatla(_olusturmaTarihi);
+    });
+  }
+
+
   @override
   void dispose() {
     _noCont.dispose();
@@ -153,6 +200,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     _notCont.dispose();
     _kaynakKoloniCont.dispose();
     _citaCont.dispose();
+    _tarihCont.dispose();
     super.dispose();
   }
 
@@ -235,6 +283,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
             : aktifKovanNo,
         'sahaSirasi': int.tryParse(_siraCont.text.trim()) ?? 0,
         'anaYili': _anaYili,
+        'olusturmaTarihi': _isoTarih(_olusturmaTarihi),
         'kaynakTipi': _kaynakTipi,
         'kaynakKoloni': _kaynakKoloniGerekli ? kaynakKoloni : '-',
         'kaynakKoloniId': (_kaynakKoloniGerekli && !disKaynakSecildi) ? _toInt(kaynakKaydi?['id']) : null,
@@ -441,6 +490,21 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
             ],
             const Divider(height: 32),
             _bolumBaslik('Temel Saha Bilgileri'),
+            TextFormField(
+              controller: _tarihCont,
+              readOnly: true,
+              decoration: InputDecoration(
+                labelText: 'Koloni başlangıç tarihi',
+                prefixIcon: const Icon(Icons.calendar_today),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+              ),
+              onTap: _olusturmaTarihiSec,
+            ),
+            const SizedBox(height: 12),
             _inputField(
               _noCont,
               'Kovan No / Saha Etiketi',

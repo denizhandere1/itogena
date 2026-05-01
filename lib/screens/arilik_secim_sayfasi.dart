@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import 'koloniler_sayfasi.dart';
+import '../services/arilik_uyari_servisi.dart';
 
 class ArilikSecimSayfasi extends StatefulWidget {
   const ArilikSecimSayfasi({super.key});
@@ -12,6 +13,8 @@ class ArilikSecimSayfasi extends StatefulWidget {
 
 class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
   List<Map<String, dynamic>> _ariliklar = [];
+  final Map<int, List<ArilikUyari>> _uyariMap = {};
+  final Map<int, bool> _uyariDetayMap = {};
   final Map<int, Map<String, dynamic>> _ozetMap = {};
   bool _yukleniyor = true;
 
@@ -31,10 +34,24 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
     final ariliklar = await VeritabaniServisi.ariliklariGetir();
     final ozetler = await VeritabaniServisi.arilikOzetleriGetir();
 
+    final Map<int, List<ArilikUyari>> uyariMap = {};
+    final bugun = DateTime.now();
+    for (final arilik in ariliklar) {
+      final arilikId = _toInt(arilik['id']);
+      if (arilikId <= 0) continue;
+      uyariMap[arilikId] = await ArilikUyariServisi.uyarilariGetir(
+        bugun,
+        arilikId: arilikId,
+      );
+    }
+
     if (!mounted) return;
 
     setState(() {
       _ariliklar = ariliklar;
+      _uyariMap
+        ..clear()
+        ..addAll(uyariMap);
       _ozetMap
         ..clear()
         ..addAll(ozetler);
@@ -56,40 +73,214 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
     return Colors.red;
   }
 
+  DateTime _bugun() {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day);
+  }
+
+  String _isoTarih(DateTime tarih) {
+    final yil = tarih.year.toString().padLeft(4, '0');
+    final ay = tarih.month.toString().padLeft(2, '0');
+    final gun = tarih.day.toString().padLeft(2, '0');
+    return '$yil-$ay-$gun';
+  }
+
+  String _tarihFormatla(DateTime tarih) {
+    final gun = tarih.day.toString().padLeft(2, '0');
+    final ay = tarih.month.toString().padLeft(2, '0');
+    return '$gun.$ay.${tarih.year}';
+  }
+
   void _arilikEkleDiyalog() {
     final controller = TextEditingController();
+    DateTime kurulusTarihi = _bugun();
+    final tarihController = TextEditingController(
+      text: _tarihFormatla(kurulusTarihi),
+    );
+    int? kopyalanacakArilikId;
+    bool kalibrasyonuKopyala = false;
+
+    final kopyalanabilirAriliklar = _ariliklar.where((a) {
+      final id = _toInt(a['id']);
+      return id > 0;
+    }).toList();
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Yeni Arılık Ekle"),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(
-            hintText: "Arılık Adı (Örn: Uluköy)",
-          ),
-        ),
-        actions: [
-          AnaSayfaKisayol.aksiyon(context),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("İptal"),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final ad = controller.text.trim();
-              if (ad.isEmpty) return;
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            title: const Text('Yeni Arılık Ekle'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      labelText: 'Arılık adı',
+                      hintText: 'Örn: Uluköy',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: tarihController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Arılık başlangıç tarihi',
+                      border: OutlineInputBorder(),
+                      suffixIcon: Icon(Icons.calendar_today),
+                    ),
+                    onTap: () async {
+                      final secilen = await showDatePicker(
+                        context: dialogContext,
+                        locale: const Locale('tr', 'TR'),
+                        initialDate: kurulusTarihi,
+                        firstDate: DateTime(2000, 1, 1),
+                        lastDate: _bugun(),
+                      );
 
-              await VeritabaniServisi.arilikEkle(ad);
+                      if (secilen == null) return;
+                      setDialogState(() {
+                        kurulusTarihi = DateTime(
+                          secilen.year,
+                          secilen.month,
+                          secilen.day,
+                        );
+                        tarihController.text = _tarihFormatla(kurulusTarihi);
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Kalibrasyon',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: Colors.brown,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  RadioListTile<bool>(
+                    value: false,
+                    groupValue: kalibrasyonuKopyala,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: Colors.amber,
+                    title: const Text(
+                      'Varsayılan kalibrasyonu kullan',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    subtitle: const Text(
+                      'Yeni arılık özel ayar oluşturmaz; genel varsayılan bal akımı ve risk takvimini kullanır.',
+                      style: TextStyle(fontSize: 12, height: 1.35),
+                    ),
+                    onChanged: (v) {
+                      setDialogState(() {
+                        kalibrasyonuKopyala = false;
+                        kopyalanacakArilikId = null;
+                      });
+                    },
+                  ),
+                  RadioListTile<bool>(
+                    value: true,
+                    groupValue: kalibrasyonuKopyala,
+                    contentPadding: EdgeInsets.zero,
+                    activeColor: Colors.amber,
+                    title: const Text(
+                      'Mevcut bir arılıktan kopyala',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    subtitle: const Text(
+                      'Seçilen arılığın bal akımı ve genel risk takvimi yeni arılığa özel kalibrasyon olarak kopyalanır.',
+                      style: TextStyle(fontSize: 12, height: 1.35),
+                    ),
+                    onChanged: kopyalanabilirAriliklar.isEmpty
+                        ? null
+                        : (v) {
+                            setDialogState(() {
+                              kalibrasyonuKopyala = true;
+                              kopyalanacakArilikId ??=
+                                  _toInt(kopyalanabilirAriliklar.first['id']);
+                            });
+                          },
+                  ),
+                  if (kalibrasyonuKopyala) ...[
+                    const SizedBox(height: 8),
+                    DropdownButtonFormField<int>(
+                      value: kopyalanacakArilikId,
+                      isExpanded: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Kopyalanacak arılık',
+                        border: OutlineInputBorder(),
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      ),
+                      items: kopyalanabilirAriliklar.map((arilik) {
+                        final id = _toInt(arilik['id']);
+                        final ad = (arilik['ad'] ?? '-').toString();
+                        return DropdownMenuItem<int>(
+                          value: id,
+                          child: Text(ad),
+                        );
+                      }).toList(),
+                      onChanged: (v) {
+                        setDialogState(() {
+                          kopyalanacakArilikId = v;
+                        });
+                      },
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            actions: [
+              AnaSayfaKisayol.aksiyon(context),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('İptal'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final ad = controller.text.trim();
+                  if (ad.isEmpty) return;
 
-              if (!mounted) return;
+                  if (kalibrasyonuKopyala &&
+                      (kopyalanacakArilikId == null ||
+                          kopyalanacakArilikId! <= 0)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Kalibrasyon kopyalanacak arılığı seçmelisin.'),
+                      ),
+                    );
+                    return;
+                  }
 
-              Navigator.pop(context);
-              _verileriYukle();
-            },
-            child: const Text("Kaydet"),
-          ),
-        ],
+                  final yeniArilikId = await VeritabaniServisi.arilikEkle(
+                    ad,
+                    kurulusTarihi: _isoTarih(kurulusTarihi),
+                  );
+
+                  if (kalibrasyonuKopyala &&
+                      kopyalanacakArilikId != null &&
+                      yeniArilikId > 0) {
+                    await VeritabaniServisi.arilikKalibrasyonunuKopyala(
+                      kaynakArilikId: kopyalanacakArilikId!,
+                      hedefArilikId: yeniArilikId,
+                    );
+                    ArilikUyariServisi.cacheTemizle(arilikId: yeniArilikId);
+                  }
+
+                  if (!mounted) return;
+
+                  Navigator.pop(context);
+                  _verileriYukle();
+                },
+                child: const Text('Kaydet'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -107,13 +298,34 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
     _verileriYukle();
   }
 
+  Future<void> _uyariyiBuSezonGizle({
+    required int arilikId,
+    required ArilikUyari uyari,
+  }) async {
+    await ArilikUyariServisi.sezonlukGizle(
+      uyari.kod,
+      DateTime.now(),
+      arilikId: arilikId,
+    );
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${uyari.baslik} bu arılıkta bu sezon gizlendi.'),
+      ),
+    );
+
+    await _verileriYukle();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
         title: const Text(
-          "ARILIK SEÇİMİ",
+          'ARILIK SEÇİMİ',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
@@ -123,149 +335,34 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
       body: _yukleniyor
           ? const Center(child: CircularProgressIndicator())
           : _ariliklar.isEmpty
-          ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.location_off,
-              size: 80,
-              color: Colors.grey,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "Henüz arılık eklenmemiş.",
-              style: TextStyle(fontSize: 18, color: Colors.grey),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: _arilikEkleDiyalog,
-              child: const Text("İlk Arılığını Ekle"),
-            ),
-          ],
-        ),
-      )
-          : ListView.builder(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 124),
-        itemCount: _ariliklar.length,
-        itemBuilder: (context, index) {
-          final arilik = _ariliklar[index];
-          final arilikId = _toInt(arilik['id']);
-          final ozet = _ozetMap[arilikId] ?? {};
-
-          final toplam = _toInt(ozet['toplam']);
-          final aktif = _toInt(ozet['aktif']);
-          final pasif = _toInt(ozet['pasif']);
-          final ortalamaSkor = _toInt(ozet['ortalamaSkor']);
-          final skorRenk = _skorRengi(ortalamaSkor);
-
-          return InkWell(
-            onTap: () => _ariligaGit(arilik),
-            borderRadius: BorderRadius.circular(16),
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.amber.shade200),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Row(
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Icon(
-                        Icons.place,
-                        color: Colors.orange,
-                        size: 28,
+                        Icons.location_off,
+                        size: 80,
+                        color: Colors.grey,
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          arilik['ad']?.toString() ?? '-',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 18,
-                            color: Colors.black87,
-                          ),
-                        ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Henüz arılık eklenmemiş.',
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: skorRenk.withOpacity(0.10),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: skorRenk.withOpacity(0.25),
-                          ),
-                        ),
-                        child: Text(
-                          "%$ortalamaSkor",
-                          style: TextStyle(
-                            color: skorRenk,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 16,
-                          ),
-                        ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: _arilikEkleDiyalog,
+                        child: const Text('İlk Arılığını Ekle'),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _ozetKutusu(
-                          "Toplam",
-                          toplam.toString(),
-                          Colors.blueGrey,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _ozetKutusu(
-                          "Aktif",
-                          aktif.toString(),
-                          Colors.green,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: _ozetKutusu(
-                          "Pasif",
-                          pasif.toString(),
-                          Colors.deepOrange,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Arılığa gir",
-                      style: TextStyle(
-                        color: Colors.blueGrey.shade700,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                )
+              : ListView(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 124),
+                  children: [
+                    ..._ariliklar.map(_arilikKarti),
+                  ],
+                ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: SafeArea(
         minimum: const EdgeInsets.only(right: 8, bottom: 8),
@@ -273,6 +370,275 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
           onPressed: _arilikEkleDiyalog,
           backgroundColor: Colors.amber,
           child: const Icon(Icons.add, color: Colors.black),
+        ),
+      ),
+    );
+  }
+
+  Widget _genelUyariAlani({
+    required int arilikId,
+    required List<ArilikUyari> uyarilar,
+  }) {
+    final detayAcik = _uyariDetayMap[arilikId] ?? false;
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF8E1),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.orange.withOpacity(0.25)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 20),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  '${uyarilar.length} aktif genel uyarı var',
+                  style: TextStyle(
+                    fontSize: 12.8,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.orange.shade900,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ...uyarilar.map(
+            (uyari) => _uyariOzetSatiri(
+              arilikId: arilikId,
+              uyari: uyari,
+              detayAcik: detayAcik,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              onPressed: () {
+                setState(() {
+                  _uyariDetayMap[arilikId] = !detayAcik;
+                });
+              },
+              icon: Icon(
+                detayAcik
+                    ? Icons.keyboard_arrow_up_rounded
+                    : Icons.keyboard_arrow_down_rounded,
+                size: 20,
+              ),
+              label: Text(
+                detayAcik ? 'Detayları kapat' : 'Detayları göster',
+                style: const TextStyle(fontWeight: FontWeight.w800),
+              ),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.blueGrey.shade700,
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _uyariOzetSatiri({
+    required int arilikId,
+    required ArilikUyari uyari,
+    required bool detayAcik,
+  }) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.orange.withOpacity(0.18)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            uyari.baslik,
+            style: const TextStyle(
+              fontSize: 12.8,
+              fontWeight: FontWeight.w900,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            detayAcik ? uyari.mesaj : _ilkCumle(uyari.mesaj),
+            maxLines: detayAcik ? null : 1,
+            overflow: detayAcik ? TextOverflow.visible : TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 12.2,
+              height: 1.4,
+              color: Colors.black87,
+            ),
+          ),
+          if (detayAcik) ...[
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                onPressed: () => _uyariyiBuSezonGizle(
+                  arilikId: arilikId,
+                  uyari: uyari,
+                ),
+                icon: const Icon(Icons.visibility_off_outlined, size: 16),
+                label: const Text(
+                  'Bu arılıkta bu sezon gösterme',
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.blueGrey.shade700,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  String _ilkCumle(String metin) {
+    final temiz = metin.trim();
+    if (temiz.isEmpty) return '';
+
+    final noktaIndex = temiz.indexOf('.');
+    if (noktaIndex <= 0) return temiz;
+
+    return temiz.substring(0, noktaIndex + 1);
+  }
+
+  Widget _arilikKarti(Map<String, dynamic> arilik) {
+    final arilikId = _toInt(arilik['id']);
+    final ozet = _ozetMap[arilikId] ?? {};
+    final uyarilar = _uyariMap[arilikId] ?? const <ArilikUyari>[];
+
+    final toplam = _toInt(ozet['toplam']);
+    final aktif = _toInt(ozet['aktif']);
+    final pasif = _toInt(ozet['pasif']);
+    final ortalamaSkor = _toInt(ozet['ortalamaSkor']);
+    final skorRenk = _skorRengi(ortalamaSkor);
+
+    return InkWell(
+      onTap: () => _ariligaGit(arilik),
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.amber.shade200),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.place,
+                  color: Colors.orange,
+                  size: 28,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    arilik['ad']?.toString() ?? '-',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 18,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: skorRenk.withOpacity(0.10),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: skorRenk.withOpacity(0.25),
+                    ),
+                  ),
+                  child: Text(
+                    '%$ortalamaSkor',
+                    style: TextStyle(
+                      color: skorRenk,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: _ozetKutusu(
+                    'Toplam',
+                    toplam.toString(),
+                    Colors.blueGrey,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _ozetKutusu(
+                    'Aktif',
+                    aktif.toString(),
+                    Colors.green,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _ozetKutusu(
+                    'Pasif',
+                    pasif.toString(),
+                    Colors.deepOrange,
+                  ),
+                ),
+              ],
+            ),
+            if (uyarilar.isNotEmpty)
+              _genelUyariAlani(
+                arilikId: arilikId,
+                uyarilar: uyarilar,
+              ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'Arılığa gir',
+                style: TextStyle(
+                  color: Colors.blueGrey.shade700,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

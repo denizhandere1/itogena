@@ -7,8 +7,12 @@ import 'veritabani_servisi.dart';
 
 class YedekServisi {
   static const String uygulamaAdi = 'itogena';
-  static const int yedekFormatVersiyonu = 2;
-  static const int veritabaniVersiyonu = 15;
+  static const int yedekFormatVersiyonu = 4;
+  static const int veritabaniVersiyonu = 18;
+  static const int schemaVersion = 2;
+
+  static const String appVersionName = '1.0.9';
+  static const int appVersionCode = 10;
 
   static const List<String> _zorunluTablolar = [
     'ariliklar',
@@ -19,45 +23,27 @@ class YedekServisi {
     'ayarlar',
   ];
 
-  /// Sistemin mevcut verisini JSON metni olarak dışarı verir.
   static Future<String> yedekAl() async {
     final db = await VeritabaniServisi.db;
 
-    final ariliklar = await db.query(
-      'ariliklar',
-      orderBy: 'id ASC',
-    );
-
-    final koloniler = await db.query(
-      'koloniler',
-      orderBy: 'id ASC',
-    );
-
-    final muayeneler = await db.query(
-      'muayeneler',
-      orderBy: 'id ASC',
-    );
-
-    final olaylar = await db.query(
-      'koloni_olaylari',
-      orderBy: 'id ASC',
-    );
-
+    final ariliklar = await db.query('ariliklar', orderBy: 'id ASC');
+    final koloniler = await db.query('koloniler', orderBy: 'id ASC');
+    final muayeneler = await db.query('muayeneler', orderBy: 'id ASC');
+    final olaylar = await db.query('koloni_olaylari', orderBy: 'id ASC');
     final numaraGecmisi = await db.query(
       'koloni_numara_gecmisi',
       orderBy: 'id ASC',
     );
-
-    final ayarlar = await db.query(
-      'ayarlar',
-      orderBy: 'anahtar ASC',
-    );
+    final ayarlar = await db.query('ayarlar', orderBy: 'anahtar ASC');
 
     final yedek = <String, dynamic>{
       'meta': <String, dynamic>{
         'app': uygulamaAdi,
         'backupVersion': yedekFormatVersiyonu,
+        'schemaVersion': schemaVersion,
         'dbVersion': veritabaniVersiyonu,
+        'appVersionName': appVersionName,
+        'appVersionCode': appVersionCode,
         'createdAt': DateTime.now().toIso8601String(),
       },
       'data': <String, dynamic>{
@@ -65,8 +51,7 @@ class YedekServisi {
         'koloniler': koloniler.map(_satiriMapeCevir).toList(),
         'muayeneler': muayeneler.map(_satiriMapeCevir).toList(),
         'koloni_olaylari': olaylar.map(_satiriMapeCevir).toList(),
-        'koloni_numara_gecmisi':
-        numaraGecmisi.map(_satiriMapeCevir).toList(),
+        'koloni_numara_gecmisi': numaraGecmisi.map(_satiriMapeCevir).toList(),
         'ayarlar': ayarlar.map(_satiriMapeCevir).toList(),
       },
     };
@@ -74,14 +59,17 @@ class YedekServisi {
     return const JsonEncoder.withIndent('  ').convert(yedek);
   }
 
-  /// JSON metninden tüm veriyi geri yükler.
-  /// Bu işlem mevcut kayıtları temizler ve yedektekilerle yeniden kurar.
   static Future<void> yedektenYukle(String jsonStr) async {
     if (jsonStr.trim().isEmpty) {
       throw Exception('Yedek verisi boş görünüyor.');
     }
 
-    final dynamic ham = jsonDecode(jsonStr);
+    final dynamic ham;
+    try {
+      ham = jsonDecode(jsonStr);
+    } catch (_) {
+      throw Exception('Yedek dosyası okunamadı. JSON formatı bozuk.');
+    }
 
     if (ham is! Map<String, dynamic>) {
       throw Exception('Yedek dosyası beklenen formatta değil.');
@@ -100,6 +88,7 @@ class YedekServisi {
     _tablolariDogrula(data);
 
     final db = await VeritabaniServisi.db;
+    await _kolonUyumlulugunuDogrula(db, data);
 
     await db.transaction((txn) async {
       await _tumVeriyiTemizle(txn);
@@ -126,6 +115,45 @@ class YedekServisi {
     if (backupVersion <= 0) {
       throw Exception('Yedek format sürümü okunamadı.');
     }
+
+    final backupSchemaVersion = _toInt(metaDynamic['schemaVersion']);
+    final backupDbVersion = _toInt(metaDynamic['dbVersion']);
+    final backupAppVersionName =
+        (metaDynamic['appVersionName'] ?? '').toString().trim();
+    final backupAppVersionCode = _toInt(metaDynamic['appVersionCode']);
+
+    if (backupVersion < yedekFormatVersiyonu ||
+        backupSchemaVersion < schemaVersion ||
+        backupDbVersion < veritabaniVersiyonu) {
+      throw Exception(
+        'Bu yedek eski bir İTOGENA sürümüne ait. '
+        'Veri kaybı veya eksik alan riski nedeniyle otomatik yükleme durduruldu. '
+        'Yedek: format $backupVersion, şema $backupSchemaVersion, DB $backupDbVersion. '
+        'Gerekli: format $yedekFormatVersiyonu, şema $schemaVersion, DB $veritabaniVersiyonu.',
+      );
+    }
+
+    if (backupVersion > yedekFormatVersiyonu ||
+        backupSchemaVersion > schemaVersion ||
+        backupDbVersion > veritabaniVersiyonu) {
+      throw Exception(
+        'Bu yedek daha yeni bir İTOGENA sürümünde oluşturulmuş. '
+        'Önce uygulamayı güncellemelisin. '
+        'Yedek: format $backupVersion, şema $backupSchemaVersion, DB $backupDbVersion. '
+        'Bu uygulama: format $yedekFormatVersiyonu, şema $schemaVersion, DB $veritabaniVersiyonu.',
+      );
+    }
+
+    if (backupAppVersionCode > appVersionCode) {
+      final yedekSurum = backupAppVersionName.isEmpty
+          ? backupAppVersionCode.toString()
+          : '$backupAppVersionName ($backupAppVersionCode)';
+      throw Exception(
+        'Bu yedek daha yeni bir uygulama sürümünde oluşturulmuş. '
+        'Yedek sürümü: $yedekSurum. '
+        'Önce uygulamayı güncellemelisin.',
+      );
+    }
   }
 
   static void _tablolariDogrula(Map<String, dynamic> data) {
@@ -141,8 +169,49 @@ class YedekServisi {
     }
   }
 
+  static Future<void> _kolonUyumlulugunuDogrula(
+    Database db,
+    Map<String, dynamic> data,
+  ) async {
+    for (final tablo in _zorunluTablolar) {
+      final tabloKolonlari = await _tabloKolonlariGetir(db, tablo);
+      if (tabloKolonlari.isEmpty) {
+        throw Exception('Veritabanında "$tablo" tablosu bulunamadı.');
+      }
+
+      final liste = data[tablo] as List;
+      for (final item in liste) {
+        if (item is! Map) {
+          throw Exception('"$tablo" içinde geçersiz kayıt bulundu.');
+        }
+
+        for (final key in item.keys) {
+          final kolon = key.toString();
+          if (!tabloKolonlari.contains(kolon)) {
+            throw Exception(
+              'Yedek dosyasında "$tablo.$kolon" alanı var; '
+              'bu uygulamadaki veritabanında bu alan yok. '
+              'Yedek daha yeni veya farklı bir şemaya ait olabilir. '
+              'Yükleme durduruldu.',
+            );
+          }
+        }
+      }
+    }
+  }
+
+  static Future<Set<String>> _tabloKolonlariGetir(
+    Database db,
+    String tablo,
+  ) async {
+    final sonuc = await db.rawQuery('PRAGMA table_info($tablo)');
+    return sonuc
+        .map((satir) => (satir['name'] ?? '').toString())
+        .where((ad) => ad.isNotEmpty)
+        .toSet();
+  }
+
   static Future<void> _tumVeriyiTemizle(DatabaseExecutor txn) async {
-    // Silme sırası önemli. Önce bağımlı kayıtlar temizlenir.
     await txn.delete('koloni_olaylari');
     await txn.delete('koloni_numara_gecmisi');
     await txn.delete('muayeneler');
@@ -152,10 +221,9 @@ class YedekServisi {
   }
 
   static Future<void> _tumVeriyiYukle(
-      DatabaseExecutor txn,
-      Map<String, dynamic> data,
-      ) async {
-    // Yükleme sırası önemli. Önce temel tablolar yüklenir.
+    DatabaseExecutor txn,
+    Map<String, dynamic> data,
+  ) async {
     await _listeyiTabloyaYukle(txn, 'ariliklar', data['ariliklar'] as List);
     await _listeyiTabloyaYukle(txn, 'koloniler', data['koloniler'] as List);
     await _listeyiTabloyaYukle(txn, 'muayeneler', data['muayeneler'] as List);
@@ -173,10 +241,10 @@ class YedekServisi {
   }
 
   static Future<void> _listeyiTabloyaYukle(
-      DatabaseExecutor txn,
-      String tablo,
-      List liste,
-      ) async {
+    DatabaseExecutor txn,
+    String tablo,
+    List liste,
+  ) async {
     for (final item in liste) {
       if (item is! Map) {
         throw Exception('"$tablo" içinde geçersiz kayıt bulundu.');
@@ -196,7 +264,7 @@ class YedekServisi {
 
   static Future<void> _sqliteSayaclariniSifirla(DatabaseExecutor txn) async {
     await txn.rawDelete(
-      "DELETE FROM sqlite_sequence WHERE name IN (?, ?, ?, ?, ?)",
+      'DELETE FROM sqlite_sequence WHERE name IN (?, ?, ?, ?, ?)',
       [
         'ariliklar',
         'koloniler',

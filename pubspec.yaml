@@ -2,7 +2,7 @@ name: itogena_v45
 description: ITOGENA Arılık Yönetim Sistemi
 publish_to: "none"
 
-version: 1.0.6+7
+version: 1.0.9+10
 
 
 environment:
@@ -30,6 +30,7 @@ dependencies:
   http: ^1.2.0
   url_launcher: ^6.3.1
   package_info_plus: ^8.3.1
+  speech_to_text: ^7.0.0
 
 dev_dependencies:
   flutter_test:

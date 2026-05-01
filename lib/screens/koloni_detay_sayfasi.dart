@@ -35,6 +35,12 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   Map<String, dynamic>? _soyDevamlilikAnalizi;
   List<Map<String, dynamic>> _aktifSurecler = [];
 
+  Future<PerformansOzeti>? _performansFuture;
+  bool _detayAnalizYukleniyor = false;
+  bool _detayAnalizYuklendi = false;
+  Object? _detayAnalizHatasi;
+  int _detayYuklemeToken = 0;
+
   DateTime? _balAkimTarihi;
   DateTime? _balAkimBitisTarihi;
   String? _balAkimEtiketi;
@@ -55,130 +61,132 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_sekmeDegisti);
     _verileriYukle();
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_sekmeDegisti);
     _tabController.dispose();
     super.dispose();
   }
 
+  void _sekmeDegisti() {
+    if (_tabController.index == 2 && !_tabController.indexIsChanging) {
+      _performansFuture ??= PerformansOzetiServisi.getir(_koloniId);
+      _detayAnalizleriYukle();
+      if (mounted) setState(() {});
+    }
+  }
+
   Future<void> _verileriYukle() async {
+    final int token = ++_detayYuklemeToken;
+
     if (mounted) {
-      setState(() => _yukleniyor = true);
+      setState(() {
+        _yukleniyor = true;
+        _performansFuture = null;
+        _detayAnalizYukleniyor = false;
+        _detayAnalizYuklendi = false;
+        _detayAnalizHatasi = null;
+        _tumKoloniler = [];
+        _secilimDurumu = null;
+        _kimlikOzeti = {};
+        _hatSonmeOzeti = {};
+        _biyolojiAnalizi = null;
+        _soyDevamlilikAnalizi = null;
+      });
     }
 
     final koloniOzet = await VeritabaniServisi.koloniOzetiGetir(_koloniId);
     final muayeneler = await VeritabaniServisi.muayeneleriGetir(_koloniId);
-    final tumKoloniler = await VeritabaniServisi.kolonileriGetir();
     final anaKarar =
     await KararAsistanServisi.anaKararUret(_koloniId, koloniOzet);
-    final secilimDurumu = await KararAsistanServisi.secilimDurumuGetir(
-      _koloniId,
-      koloniOzet,
-    );
-    final kimlikOzeti =
-    await VeritabaniServisi.koloniHikayeOzetiGetir(_koloniId);
-    final hatSonmeOzeti =
-    await VeritabaniServisi.hatSonmeAnaliziGetir(_koloniId);
-    final biyolojiAnalizi = await AriBiyolojiServisi.analizMapiGetir(_koloniId);
-    final soyDevamlilikAnalizi =
-    (await SoyDevamlilikServisi.analizYap(_koloniId)).toMap();
     final surecDurumu = await KararAsistanServisi.surecDurumuGetir(_koloniId);
+    final akim = await VeritabaniServisi.aktifBalAkimGetir();
 
-    final balAkim1BaslangicStr = await VeritabaniServisi.ayarStringGetir(
-      'bal_akim1_baslangic',
-      varsayilan: '',
-    );
-    final balAkim1BitisStr = await VeritabaniServisi.ayarStringGetir(
-      'bal_akim1_bitis',
-      varsayilan: '',
-    );
-
-    final balAkim2AktifStr = await VeritabaniServisi.ayarStringGetir(
-      'bal_akim2_aktif',
-      varsayilan: '0',
-    );
-    final balAkim2BaslangicStr = await VeritabaniServisi.ayarStringGetir(
-      'bal_akim2_baslangic',
-      varsayilan: '',
-    );
-    final balAkim2BitisStr = await VeritabaniServisi.ayarStringGetir(
-      'bal_akim2_bitis',
-      varsayilan: '',
-    );
-
-    final bugun = _sadeceGun(DateTime.now());
-    final yil = bugun.year;
-    final bool balAkim2Aktif = balAkim2AktifStr == '1';
-
-    final adaylar = <Map<String, dynamic>>[];
-
-    final akim1Bas = _mmDdToDateTime(balAkim1BaslangicStr, yil);
-    final akim1Bit = _mmDdToDateTime(balAkim1BitisStr, yil);
-    if (akim1Bas != null && akim1Bit != null && !akim1Bit.isBefore(akim1Bas)) {
-      adaylar.add({
-        'etiket': '1. bal akımı',
-        'baslangic': akim1Bas,
-        'bitis': akim1Bit,
-      });
-    }
-
-    if (balAkim2Aktif) {
-      final akim2Bas = _mmDdToDateTime(balAkim2BaslangicStr, yil);
-      final akim2Bit = _mmDdToDateTime(balAkim2BitisStr, yil);
-      if (akim2Bas != null &&
-          akim2Bit != null &&
-          !akim2Bit.isBefore(akim2Bas)) {
-        adaylar.add({
-          'etiket': '2. bal akımı',
-          'baslangic': akim2Bas,
-          'bitis': akim2Bit,
-        });
-      }
-    }
-
-    adaylar.sort(
-          (a, b) =>
-          (a['baslangic'] as DateTime).compareTo(b['baslangic'] as DateTime),
-    );
-
-    DateTime? secilenBaslangic;
-    DateTime? secilenBitis;
-    String? secilenEtiket;
-
-    for (final akim in adaylar) {
-      final bas = akim['baslangic'] as DateTime;
-      final bit = akim['bitis'] as DateTime;
-      if (!bugun.isAfter(bit)) {
-        secilenBaslangic = bas;
-        secilenBitis = bit;
-        secilenEtiket = akim['etiket'] as String;
-        break;
-      }
-    }
-
-    if (!mounted) return;
+    if (!mounted || token != _detayYuklemeToken) return;
 
     setState(() {
       _koloniOzet = koloniOzet;
       _muayeneler = muayeneler;
-      _tumKoloniler = tumKoloniler;
       _anaKarar = anaKarar;
-      _secilimDurumu = secilimDurumu;
-      _kimlikOzeti = kimlikOzeti;
-      _hatSonmeOzeti = hatSonmeOzeti;
-      _biyolojiAnalizi = biyolojiAnalizi;
-      _soyDevamlilikAnalizi = soyDevamlilikAnalizi;
       _aktifSurecler = List<Map<String, dynamic>>.from(
         surecDurumu['aktifSurecler'] ?? const <Map<String, dynamic>>[],
       );
-      _balAkimTarihi = secilenBaslangic;
-      _balAkimBitisTarihi = secilenBitis;
-      _balAkimEtiketi = secilenEtiket;
+      _balAkimTarihi = akim?['bas'] as DateTime?;
+      _balAkimBitisTarihi = akim?['bit'] as DateTime?;
+      _balAkimEtiketi = akim?['etiket']?.toString();
       _yukleniyor = false;
     });
+
+    _ilkEkranSonrasiHafifVerileriYukle(token);
+
+    if (_tabController.index == 2) {
+      _performansFuture ??= PerformansOzetiServisi.getir(_koloniId);
+      await _detayAnalizleriYukle();
+    }
+  }
+
+  Future<void> _ilkEkranSonrasiHafifVerileriYukle(int token) async {
+    await Future<void>.delayed(const Duration(milliseconds: 120));
+    if (!mounted || token != _detayYuklemeToken) return;
+
+    try {
+      final sonuclar = await Future.wait<dynamic>([
+        VeritabaniServisi.kolonileriGetir(),
+        KararAsistanServisi.secilimDurumuGetir(_koloniId, _koloniOzet),
+      ]);
+
+      if (!mounted || token != _detayYuklemeToken) return;
+
+      setState(() {
+        _tumKoloniler = List<Map<String, dynamic>>.from(sonuclar[0]);
+        _secilimDurumu = Map<String, String>.from(sonuclar[1]);
+      });
+    } catch (_) {
+      // Bu veriler ilk ekran için zorunlu değildir; hata ana ekranı bloklamaz.
+    }
+  }
+
+  Future<void> _detayAnalizleriYukle({bool forceRefresh = false}) async {
+    if (_detayAnalizYukleniyor) return;
+    if (_detayAnalizYuklendi && !forceRefresh) return;
+
+    if (mounted) {
+      setState(() {
+        _detayAnalizYukleniyor = true;
+        _detayAnalizHatasi = null;
+      });
+    }
+
+    try {
+      final sonuclar = await Future.wait<dynamic>([
+        VeritabaniServisi.koloniHikayeOzetiGetir(_koloniId),
+        VeritabaniServisi.hatSonmeAnaliziGetir(_koloniId),
+        AriBiyolojiServisi.analizMapiGetir(_koloniId),
+        SoyDevamlilikServisi.analizYap(_koloniId),
+      ]);
+
+      if (!mounted) return;
+
+      setState(() {
+        _kimlikOzeti = Map<String, dynamic>.from(sonuclar[0]);
+        _hatSonmeOzeti = Map<String, dynamic>.from(sonuclar[1]);
+        _biyolojiAnalizi = Map<String, dynamic>.from(sonuclar[2]);
+        _soyDevamlilikAnalizi =
+            (sonuclar[3] as SoyDevamlilikSonucu).toMap();
+        _detayAnalizYuklendi = true;
+        _detayAnalizYukleniyor = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _detayAnalizHatasi = e;
+        _detayAnalizYukleniyor = false;
+      });
+    }
   }
 
   int _toInt(dynamic v) {
@@ -316,186 +324,12 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     return 'Kapalı yavru desteği ve bal üretimi gibi destekleyici alanlarda değerlendirilmeli.';
   }
 
-  DateTime? _mmDdToDateTime(String mmdd, int yil) {
-    final temiz = mmdd.trim();
-    if (temiz.isEmpty) return null;
-
-    final parts = temiz.split('-');
-    if (parts.length != 2) return null;
-
-    final ay = int.tryParse(parts[0]);
-    final gun = int.tryParse(parts[1]);
-
-    if (ay == null || gun == null) return null;
-
-    return DateTime(yil, ay, gun);
-  }
-
-  DateTime _sadeceGun(DateTime dt) => DateTime(dt.year, dt.month, dt.day);
 
   String _tarihFormatla(DateTime dt) {
     final gun = dt.day.toString().padLeft(2, '0');
     final ay = dt.month.toString().padLeft(2, '0');
     final yil = dt.year.toString();
     return '$gun.$ay.$yil';
-  }
-
-  String? _balAkimiKararMetni() {
-    final balAkim = _balAkimTarihi;
-    final balAkimBitis = _balAkimBitisTarihi;
-    if (balAkim == null || balAkimBitis == null) return null;
-
-    final bugun = _sadeceGun(DateTime.now());
-    final balAkimGun = _sadeceGun(balAkim);
-    final balAkimBitisGun = _sadeceGun(balAkimBitis);
-
-    final uyariBaslangici = balAkimGun.subtract(const Duration(days: 57));
-    final sonGuvenliBolme = balAkimGun.subtract(const Duration(days: 42));
-
-    if (bugun.isBefore(uyariBaslangici)) return null;
-    if (bugun.isAfter(balAkimBitisGun)) return null;
-
-    final sonCita = _toInt(_koloniOzet['sonCita']);
-    int maxAlinabilir = sonCita - 7;
-    if (maxAlinabilir < 0) maxAlinabilir = 0;
-
-    final etiket = _balAkimEtiketi == null ? '' : '${_balAkimEtiketi!} için ';
-
-    if (bugun.isBefore(sonGuvenliBolme)) {
-      if (maxAlinabilir <= 0) {
-        return '${etiket}bölme için kritik döneme girildi. ${_tarihFormatla(sonGuvenliBolme)} tarihine kadar bu koloni 7 çıtanın altına düşmeden bölünecek güçte değildir.';
-      }
-      return '${etiket}bölme için kritik döneme girildi. ${_tarihFormatla(sonGuvenliBolme)} tarihine kadar, bu koloni 7 çıtanın altına düşürülmeden en fazla $maxAlinabilir çıta alınabilir.';
-    }
-
-    return '${etiket}üretim hedefi korunacaksa güvenli bölme penceresi kapandı.';
-  }
-
-  Color _varroaRenk(String seviye) {
-    switch (seviye) {
-      case 'kritik':
-        return const Color(0xFFC62828);
-      case 'risk':
-        return const Color(0xFFEF6C00);
-      case 'iyi':
-        return const Color(0xFF2E7D32);
-      default:
-        return const Color(0xFF1565C0);
-    }
-  }
-
-  IconData _varroaIkon(String seviye) {
-    switch (seviye) {
-      case 'kritik':
-        return Icons.emergency_outlined;
-      case 'risk':
-        return Icons.warning_amber_rounded;
-      case 'iyi':
-        return Icons.verified_outlined;
-      default:
-        return Icons.calendar_month_outlined;
-    }
-  }
-
-  Widget _varroaTakvimKarti() {
-    final veri = KararAsistanServisi.varroaTakvimHatirlatmasiGetir(
-      _muayeneler,
-      balAkimBaslangici: _balAkimTarihi,
-    );
-    final seviye = (veri['seviye'] ?? 'bilgi').toString();
-    if (seviye == 'bilgi') return const SizedBox.shrink();
-    final renk = _varroaRenk(seviye);
-    final baslik =
-    _metin(veri['baslik'], varsayilan: 'Varroa takvimi izlenmeli.');
-    final gerekce = _metin(veri['gerekce'], varsayilan: '');
-    final oneriler = (veri['oneriler'] as List?)
-        ?.map((e) => e.toString())
-        .where((e) => e.trim().isNotEmpty)
-        .toList() ??
-        <String>[];
-
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: renk.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: renk.withOpacity(0.25)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(_varroaIkon(seviye), color: renk, size: 20),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  baslik,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: renk,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          if (gerekce.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            Text(
-              gerekce,
-              style: const TextStyle(
-                fontSize: 12.5,
-                height: 1.45,
-                color: Colors.black87,
-              ),
-            ),
-          ],
-          if (oneriler.isNotEmpty) ...[
-            const SizedBox(height: 10),
-            const Text(
-              'Öneri:',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 4),
-            ...oneriler.take(3).map(
-                  (madde) => Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '• ',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w800,
-                        color: renk,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        madde,
-                        style: const TextStyle(
-                          fontSize: 12.5,
-                          height: 1.4,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
   }
 
   String _soyOzetMetni() {
@@ -970,18 +804,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                   fontSize: 13.2,
                   agirlik: FontWeight.w600,
                 ),
-                if (_balAkimiKararMetni() != null) ...[
-                  const SizedBox(height: 8),
-                  _vurguluMetin(
-                    _balAkimiKararMetni()!,
-                    renk: const Color(0xFFEF6C00),
-                    ikon: Icons.schedule_outlined,
-                    fontSize: 13.1,
-                    agirlik: FontWeight.w600,
-                  ),
-                ],
-                const SizedBox(height: 10),
-                _varroaTakvimKarti(),
                 if (tureyenler.isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Text(
@@ -1082,8 +904,14 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   Widget _performansSekmesi() {
+    final future = _performansFuture ??= PerformansOzetiServisi.getir(_koloniId);
+
+    if (!_detayAnalizYuklendi && !_detayAnalizYukleniyor) {
+      Future<void>.microtask(_detayAnalizleriYukle);
+    }
+
     return FutureBuilder<PerformansOzeti>(
-      future: PerformansOzetiServisi.getir(_koloniId),
+      future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(
@@ -1258,11 +1086,63 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             if (_soyDevamlilikAnalizi != null)
               _soyDevamlilikKarti(_soyDevamlilikAnalizi!),
             if (_hatSonmeOzeti.isNotEmpty) _hatDayaniklilikKarti(),
+            if (_detayAnalizYukleniyor) _detayAnalizYukleniyorKarti(),
+            if (_detayAnalizHatasi != null) _detayAnalizHataKarti(),
           ],
         );
       },
     );
   }
+
+  Widget _detayAnalizYukleniyorKarti() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.amber.shade200),
+      ),
+      child: const Row(
+        children: [
+          SizedBox(
+            width: 18,
+            height: 18,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Colors.amber,
+            ),
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Detay analizleri yükleniyor...',
+              style: TextStyle(fontSize: 13, color: Colors.black87),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _detayAnalizHataKarti() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.red.shade200),
+      ),
+      child: const Text(
+        'Detay analizleri yüklenemedi. Genel karar ve muayene kayıtları kullanılabilir.',
+        style: TextStyle(fontSize: 13, height: 1.4, color: Colors.black87),
+      ),
+    );
+  }
+
 
   Widget _vurguluMetin(
       String metin, {
@@ -1592,6 +1472,104 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
+  String _takvimAraligi(dynamic bas, dynamic bit) {
+    final b = _takvimTarihMetni(bas);
+    final e = _takvimTarihMetni(bit);
+    if (b.isEmpty && e.isEmpty) return '';
+    if (b.isNotEmpty && e.isEmpty) return b;
+    if (b.isEmpty && e.isNotEmpty) return e;
+    if (b == e) return b;
+    return '$b - $e';
+  }
+
+  String _takvimTarihMetni(dynamic deger) {
+    final metin = (deger ?? '').toString().trim();
+    if (metin.isEmpty || metin == 'null') return '';
+    final dt = DateTime.tryParse(metin);
+    if (dt == null) return metin;
+    final gun = dt.day.toString().padLeft(2, '0');
+    final ay = dt.month.toString().padLeft(2, '0');
+    return '$gun.$ay.${dt.year}';
+  }
+
+  String _anaKazanmaYontemiDetayMetni(dynamic deger) {
+    final temiz = (deger ?? '').toString().trim();
+    switch (temiz) {
+      case 'kapali_meme':
+        return 'Hazır kapalı ana memesi var';
+      case 'hazir_ana':
+        return 'Hazır çiftleşmiş ana verildi';
+      case 'kendi_anasi':
+      default:
+        return 'Kendi anasını yapacak';
+    }
+  }
+
+  Widget _biyolojiSahaUyarisiKutusu(Map<dynamic, dynamic> uyari) {
+    final baslik = (uyari['baslik'] ?? '').toString();
+    final mesaj = (uyari['mesaj'] ?? '').toString();
+    final neYap = (uyari['neYap'] ?? '').toString();
+    final neYapma = (uyari['neYapma'] ?? '').toString();
+    final gerekce = (uyari['gerekce'] ?? '').toString();
+    final seviye = (uyari['seviye'] ?? 'takip').toString();
+
+    final Color renk = seviye == 'kritik'
+        ? Colors.red
+        : (seviye == 'uyari' ? Colors.deepOrange : Colors.green);
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: renk.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: renk.withOpacity(0.35)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (baslik.isNotEmpty)
+            Text(
+              baslik,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: renk,
+              ),
+            ),
+          if (mesaj.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Text(
+              mesaj,
+              style: const TextStyle(fontSize: 12, height: 1.4),
+            ),
+          ],
+          if (neYap.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Text(
+              'Ne yap: $neYap',
+              style: const TextStyle(fontSize: 12, height: 1.4),
+            ),
+          ],
+          if (neYapma.isNotEmpty) ...[
+            const SizedBox(height: 5),
+            Text(
+              'Ne yapma: $neYapma',
+              style: const TextStyle(fontSize: 12, height: 1.4),
+            ),
+          ],
+          if (gerekce.isNotEmpty) ...[
+            const SizedBox(height: 5),
+            Text(
+              'Neden: $gerekce',
+              style: const TextStyle(fontSize: 12, height: 1.4),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
   Widget _biyolojiDurumKarti(Map<String, dynamic> veri) {
     final String baslik = (veri['baslik'] ?? 'Biyolojik takip').toString();
     final String mesaj = (veri['mesaj'] ?? '').toString();
@@ -1603,9 +1581,70 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       'Meme takibi: ${_metin(veri['memeTakipDurumu'], varsayilan: 'Bilinmiyor')}',
     ];
 
+    Map<dynamic, dynamic>? sahaUyarisi;
+
     final anasizlik = _toInt(veri['anasizlikGunSayisi']);
     if (anasizlik > 0) {
-      detaylar.add('Anasızlık süresi: $anasizlik gün');
+      detaylar.add('Süreç yaşı: $anasizlik gün');
+    }
+
+    final hamVeri = veri['hamVeri'];
+    if (hamVeri is Map) {
+      final hamSahaUyarisi = hamVeri['sahaUyarisi'];
+      if (hamSahaUyarisi is Map) {
+        sahaUyarisi = hamSahaUyarisi;
+        final gunNo = _toInt(hamSahaUyarisi['gunNo']);
+        final baslikUyari = (hamSahaUyarisi['baslik'] ?? '').toString();
+        if (gunNo > 0 && baslikUyari.isNotEmpty) {
+          detaylar.add('Bugün: $gunNo. gün — $baslikUyari');
+        }
+      }
+      final takvim = hamVeri['takvim'];
+      if (takvim is Map) {
+        final anaKazanmaYontemi =
+            _anaKazanmaYontemiDetayMetni(takvim['anaKazanmaYontemi']);
+        detaylar.add('Ana kazanma yöntemi: $anaKazanmaYontemi');
+
+        final memeKapanma = _takvimAraligi(
+          takvim['memeKapanmaBaslangic'],
+          takvim['memeKapanmaBitis'],
+        );
+        if (memeKapanma.isNotEmpty) {
+          detaylar.add('Tahmini meme kapanma: $memeKapanma');
+        }
+
+        final anaCikisi = _takvimAraligi(
+          takvim['anaCikisiBaslangic'],
+          takvim['anaCikisiBitis'],
+        );
+        if (anaCikisi.isNotEmpty) {
+          detaylar.add('Tahmini ana çıkışı: $anaCikisi');
+        }
+
+        final ciftlesme = _takvimAraligi(
+          takvim['ciftlesmeBaslangic'],
+          takvim['ciftlesmeBitis'],
+        );
+        if (ciftlesme.isNotEmpty) {
+          detaylar.add('Çiftleşme uçuş penceresi: $ciftlesme');
+        }
+
+        final yumurtlama = _takvimAraligi(
+          takvim['yumurtlamaKontrolBaslangic'],
+          takvim['yumurtlamaKontrolBitis'],
+        );
+        if (yumurtlama.isNotEmpty) {
+          detaylar.add('Yumurtlama kontrol penceresi: $yumurtlama');
+        }
+
+        final dokunma = _takvimAraligi(
+          takvim['kovanaDokunmaBaslangic'],
+          takvim['kovanaDokunmaBitis'],
+        );
+        if (dokunma.isNotEmpty && hamVeri['dokunmaPenceresi'] == true) {
+          detaylar.add('Kovana dokunma: $dokunma arasında gereksiz açma.');
+        }
+      }
     }
 
     return Container(
@@ -1652,6 +1691,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             ),
           ],
           const SizedBox(height: 10),
+          if (sahaUyarisi != null) ...[
+            _biyolojiSahaUyarisiKutusu(sahaUyarisi!),
+            const SizedBox(height: 10),
+          ],
           ...detaylar.map(
                 (e) => Padding(
               padding: const EdgeInsets.only(bottom: 6),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
@@ -25,6 +26,7 @@ class MuayeneEkleSayfasi extends StatefulWidget {
 
 class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _notController = TextEditingController();
 
   static const List<String> _yavruDuzeniSecenekleri = [
     'Blok',
@@ -71,6 +73,11 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   String _anaKazanmaYontemi = 'kendi_anasi';
   String _not = '';
 
+  final stt.SpeechToText _speech = stt.SpeechToText();
+  bool _sesDinleniyor = false;
+  bool _sesHazir = false;
+  String _sesBaslangicMetni = '';
+
   bool _anaGorulmedi = false;
   bool _ogulBelirtisi = false;
   bool _ogulAtti = false;
@@ -79,6 +86,8 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
 
   bool _anasizBirakildiMi = false;
   bool _anaDegisimPlanlandiMi = false;
+  bool _gunlukKapaliYavruGoruldu = false;
+  bool _anaKazanmaSureciAktifMi = false;
 
   String _memeDurumu = 'Yok';
 
@@ -105,11 +114,33 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     _ustBilgiyiYukle();
   }
 
+  @override
+  void dispose() {
+    if (_sesDinleniyor) {
+      _speech.stop();
+    }
+    _notController.dispose();
+    super.dispose();
+  }
+
   Future<void> _ustBilgiyiYukle() async {
     try {
       final koloni =
       await VeritabaniServisi.koloniOzetiGetir(widget.koloniDonemiId);
       if (!mounted) return;
+
+      final surecDurumu =
+      await KararAsistanServisi.surecDurumuGetir(widget.koloniDonemiId);
+      final aktifSurecler = List<Map<String, dynamic>>.from(
+        surecDurumu['aktifSurecler'] ?? const <Map<String, dynamic>>[],
+      );
+      final anaKazanmaAktif = aktifSurecler.any((s) {
+        final grup = (s['grup'] ?? '').toString().toUpperCase();
+        final kod = (s['kod'] ?? '').toString().toUpperCase();
+        return grup == 'ANASIZLIK' ||
+            kod.contains('ANASIZLIK') ||
+            kod.contains('ANA_KAZANMA');
+      });
 
       setState(() {
         final dbKovanNo = (koloni['kovanNo'] ?? '').toString().trim();
@@ -122,6 +153,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         if (dbArilikAdi.isNotEmpty) {
           _ustArilikAdi = dbArilikAdi;
         }
+
+        _anaKazanmaSureciAktifMi = anaKazanmaAktif ||
+            _anasizBirakildiMi ||
+            _gunlukKapaliYavruGoruldu;
       });
     } catch (_) {
       // Üst bilgi yüklenemese bile form çalışmaya devam etsin.
@@ -156,6 +191,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     _varroaMucadele = _normalizeVarroaMucadele(m['varroaMucadele']);
 
     _not = m['notlar']?.toString() ?? '';
+    _notController.text = _not;
 
     _anaGorulmedi = _intDeger(m['anaAriGoruldu']) == 0;
     _ogulBelirtisi = _intDeger(m['ogulBelirtisi']) == 1;
@@ -165,6 +201,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
 
     _anasizBirakildiMi = _intDeger(m['anasizBirakildiMi']) == 1;
     _anaDegisimPlanlandiMi = _intDeger(m['anaDegisimPlanlandiMi']) == 1;
+    _gunlukKapaliYavruGoruldu = _intDeger(m['gunlukKapaliYavruGoruldu']) == 1;
     _anaKazanmaYontemi = _normalizeAnaKazanmaYontemi(m['anaKazanmaYontemi']);
 
     final anasizTarihMetni = (m['anasizBaslangicTarihi'] ?? '').toString().trim();
@@ -211,6 +248,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     _varroaMucadele = _normalizeVarroaMucadele(m['varroaMucadele']);
 
     _not = m['notlar']?.toString() ?? '';
+    _notController.text = _not;
 
     _anaGorulmedi = false;
     _ogulBelirtisi = _intDeger(m['ogulBelirtisi']) == 1;
@@ -221,6 +259,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
 
     _anasizBirakildiMi = false;
     _anaDegisimPlanlandiMi = false;
+    _gunlukKapaliYavruGoruldu = false;
     _anaKazanmaYontemi = _normalizeAnaKazanmaYontemi(m['anaKazanmaYontemi']);
     _anasizBaslangicTarihi = null;
 
@@ -377,6 +416,84 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     }
   }
 
+  void _notMetniniGuncelle(String metin) {
+    _not = metin;
+    if (_notController.text == metin) return;
+    _notController.value = TextEditingValue(
+      text: metin,
+      selection: TextSelection.collapsed(offset: metin.length),
+    );
+  }
+
+  Future<void> _sesleNotYaz() async {
+    if (_sesDinleniyor) {
+      await _speech.stop();
+      if (!mounted) return;
+      setState(() => _sesDinleniyor = false);
+      return;
+    }
+
+    try {
+      _sesHazir = await _speech.initialize(
+        onStatus: (status) {
+          if (!mounted) return;
+          if (status == 'done' || status == 'notListening') {
+            setState(() => _sesDinleniyor = false);
+          }
+        },
+        onError: (_) {
+          if (!mounted) return;
+          setState(() => _sesDinleniyor = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Ses algılama başlatılamadı. Android mikrofon iznini kontrol et.'),
+            ),
+          );
+        },
+      );
+
+      if (!_sesHazir) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Bu cihazda sesle yazma kullanılamıyor.'),
+          ),
+        );
+        return;
+      }
+
+      _sesBaslangicMetni = _notController.text.trim();
+
+      if (!mounted) return;
+      setState(() => _sesDinleniyor = true);
+
+      await _speech.listen(
+        localeId: 'tr_TR',
+        listenMode: stt.ListenMode.dictation,
+        partialResults: true,
+        cancelOnError: true,
+        onResult: (result) {
+          final algilanan = result.recognizedWords.trim();
+          if (algilanan.isEmpty) return;
+
+          final yeniMetin = _sesBaslangicMetni.isEmpty
+              ? algilanan
+              : '$_sesBaslangicMetni\n$algilanan';
+
+          _notMetniniGuncelle(yeniMetin);
+        },
+      );
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _sesDinleniyor = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sesle not ekleme sırasında hata oluştu.'),
+        ),
+      );
+    }
+  }
+
   Future<void> _kaydet() async {
     final veri = <String, dynamic>{
       'koloniId': widget.koloniDonemiId,
@@ -394,20 +511,23 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       'ogulAtti': _ogulAtti ? 1 : 0,
       'bolmeYapildi': _bolmeYapildi ? 1 : 0,
       'kovanSondu': _kovanSondu ? 1 : 0,
-      'notlar': _not.trim(),
+      'notlar': _notController.text.trim(),
       'anaUretimGirisimVarMi': 0,
       'anasizBirakildiMi': _anasizBirakildiMi ? 1 : 0,
       'anasizBaslangicTarihi':
       _anasizBirakildiMi && _anasizBaslangicTarihi != null
           ? _tarihDbFormatla(_anasizBaslangicTarihi!)
           : null,
-      'anaKazanmaYontemi': (_bolmeYapildi || _anasizBirakildiMi)
-          ? _anaKazanmaYontemi
-          : null,
+      'anaKazanmaYontemi': _anasizBirakildiMi ? _anaKazanmaYontemi : null,
       'memeDurumu': (_anaKazanmaYontemi == 'kapali_meme'
           ? 'Kapalı'
           : (_ogulAtti ? 'Çıkmış' : (_ogulBelirtisi ? 'Kapalı' : null))),
       'anaDegisimPlanlandiMi': _anaDegisimPlanlandiMi ? 1 : 0,
+      'gunlukKapaliYavruGoruldu':
+      (_anaKazanmaSureciAktifMi || _anasizBirakildiMi) &&
+          _gunlukKapaliYavruGoruldu
+          ? 1
+          : 0,
     };
 
     try {
@@ -724,6 +844,42 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     );
   }
 
+  Widget _gunlukKapaliYavruKapanisKutusu() {
+    if (!_anaKazanmaSureciAktifMi && !_anasizBirakildiMi && !_gunlukKapaliYavruGoruldu) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 8, bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE8F5E9),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.green.shade300),
+      ),
+      child: CheckboxListTile(
+        value: _gunlukKapaliYavruGoruldu,
+        onChanged: (v) {
+          setState(() {
+            _gunlukKapaliYavruGoruldu = v ?? false;
+          });
+        },
+        activeColor: Colors.green,
+        contentPadding: EdgeInsets.zero,
+        controlAffinity: ListTileControlAffinity.leading,
+        title: const Text(
+          'Günlük / kapalı yavru görüldü',
+          style: TextStyle(fontWeight: FontWeight.w900),
+        ),
+        subtitle: const Text(
+          'Yalnızca bölme veya anasızlık kaynaklı ana kazanma sürecinde görünür. İşaretlersen bu süreç kapanır ve koloni normal yönetim sürecine geçer.',
+          style: TextStyle(fontSize: 12, height: 1.4),
+        ),
+      ),
+    );
+  }
+
   Widget _kaydetButonu() {
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -874,7 +1030,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       icon: Icons.schedule,
                       renk: Colors.blueGrey,
                       metin:
-                      'Uygulamanın biyolojik zamanlama ve operasyonel karar üretmesi için kritik başlangıç olaylarını toplar.',
+                      'Biyolojik ana kazanma takvimi yalnızca gerçekten anasız bırakılan koloni için çalışır. Anaç kolonideki bölme işlemi ayrı olarak toparlanma süreci üretir.',
                     ),
                     const SizedBox(height: 8),
                     CheckboxListTile(
@@ -889,15 +1045,19 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                           _anasizBirakildiMi = v ?? false;
                           if (!_anasizBirakildiMi) {
                             _anasizBaslangicTarihi = null;
+                            if (!_anaKazanmaSureciAktifMi) {
+                              _gunlukKapaliYavruGoruldu = false;
+                            }
                           } else {
                             _anasizBaslangicTarihi = _tarih;
+                            _anaKazanmaSureciAktifMi = true;
                           }
                         });
                       },
                       activeColor: Colors.amber,
                       contentPadding: EdgeInsets.zero,
                     ),
-                    if (_bolmeYapildi || _anasizBirakildiMi) ...[
+                    if (_anasizBirakildiMi) ...[
                       const SizedBox(height: 8),
                       DropdownButtonFormField<String>(
                         value: _anaKazanmaYontemiMetni(_anaKazanmaYontemi),
@@ -941,18 +1101,68 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                         metin: _anaKazanmaYontemi == 'kapali_meme'
                             ? 'Takvim kapalı ana memesi aşamasından başlar. 5. gün meme bozma uyarısı verilmez; ana çıkışı ve yumurtlama kontrolü beklenir.'
                             : (_anaKazanmaYontemi == 'hazir_ana'
-                                ? 'Meme takvimi çalışmaz. Sistem kabul ve yumurtlama kontrolü penceresine odaklanır.'
-                                : 'Takvim sıfırdan ana yapma süreciyle başlar. 5. gün kapalı meme kontrolü anlamlıdır.'),
+                            ? 'Meme takvimi çalışmaz. Sistem kabul ve yumurtlama kontrolü penceresine odaklanır.'
+                            : 'Takvim sıfırdan ana yapma süreciyle başlar. 5. gün kapalı meme kontrolü anlamlıdır.'),
                       ),
                     ],
+                    _gunlukKapaliYavruKapanisKutusu(),
                     const SizedBox(height: 10),
                     TextFormField(
-                      initialValue: _not,
-                      decoration: const InputDecoration(
+                      controller: _notController,
+                      decoration: InputDecoration(
                         labelText: 'Notlar',
-                        border: OutlineInputBorder(),
+                        helperText: _sesDinleniyor
+                            ? 'Dinleniyor... Konuşman not alanına yazılıyor.'
+                            : 'Mikrofona dokunarak sesle not ekleyebilirsin.',
+                        helperStyle: TextStyle(
+                          color: _sesDinleniyor
+                              ? Colors.red.shade700
+                              : Colors.black54,
+                          fontWeight: _sesDinleniyor
+                              ? FontWeight.w800
+                              : FontWeight.normal,
+                        ),
+                        border: const OutlineInputBorder(),
                         filled: true,
                         fillColor: Colors.white,
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 220),
+                            curve: Curves.easeOut,
+                            width: _sesDinleniyor ? 52 : 46,
+                            height: _sesDinleniyor ? 52 : 46,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _sesDinleniyor
+                                  ? Colors.red.withOpacity(0.16)
+                                  : Colors.amber.withOpacity(0.18),
+                              border: Border.all(
+                                color: _sesDinleniyor
+                                    ? Colors.red.shade400
+                                    : Colors.brown.withOpacity(0.35),
+                                width: _sesDinleniyor ? 2 : 1,
+                              ),
+                            ),
+                            child: IconButton(
+                              tooltip: _sesDinleniyor
+                                  ? 'Sesle yazmayı durdur'
+                                  : 'Sesle not ekle',
+                              icon: Icon(
+                                _sesDinleniyor ? Icons.mic : Icons.mic_none,
+                                color: _sesDinleniyor
+                                    ? Colors.red.shade700
+                                    : Colors.brown,
+                                size: _sesDinleniyor ? 30 : 27,
+                              ),
+                              onPressed: _sesleNotYaz,
+                            ),
+                          ),
+                        ),
+                        suffixIconConstraints: const BoxConstraints(
+                          minWidth: 62,
+                          minHeight: 62,
+                        ),
                       ),
                       maxLines: 4,
                       onChanged: (v) => _not = v,

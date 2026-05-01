@@ -28,6 +28,8 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   final Map<int, Map<String, bool>> _alarmDurumMap = {};
   final Map<int, bool> _aktiflikMap = {};
 
+  final TextEditingController _aramaController = TextEditingController();
+
   bool _karsilastirmaModu = false;
   final Set<int> _seciliKoloniIdleri = <int>{};
 
@@ -38,11 +40,14 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _aramaController.addListener(_aramaDegisti);
     _verileriYukle();
   }
 
   @override
   void dispose() {
+    _aramaController.removeListener(_aramaDegisti);
+    _aramaController.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -60,38 +65,24 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     final veri =
     await VeritabaniServisi.kovanlariAriligaGoreGetir(widget.arilikId);
 
-    final Map<int, Map<String, bool>> alarmMap = {};
-    final Map<int, bool> aktiflikMap = {};
+    final koloniIdleri = veri
+        .map((k) => _toInt(k['id']))
+        .where((id) => id > 0)
+        .toList();
 
-    await Future.wait(veri.map((k) async {
-      final koloniId = _toInt(k['id']);
-      if (koloniId <= 0) return;
+    final aktiflikMap =
+    await VeritabaniServisi.koloniAktiflikHaritasiGetir(koloniIdleri);
 
-      final muayeneler = await VeritabaniServisi.muayeneleriGetir(koloniId);
-      final son =
-      muayeneler.isNotEmpty ? muayeneler.first : const <String, dynamic>{};
+    final alarmSonuclari = await Future.wait(
+      koloniIdleri.map((koloniId) async {
+        final alarm =
+        await KararAsistanServisi.koloniKartAlarmDurumuGetir(koloniId);
+        return MapEntry<int, Map<String, bool>>(koloniId, alarm);
+      }),
+    );
 
-      final bool ogulBelirtisi = _toInt(son['ogulBelirtisi']) == 1;
-      final bool bolmeYapildi = _toInt(son['bolmeYapildi']) == 1;
-      final bool ogulAtti = _toInt(son['ogulAtti']) == 1;
+    final Map<int, Map<String, bool>> alarmMap = Map.fromEntries(alarmSonuclari);
 
-      final DateTime? sonTarih = _parseTarih(son['tarih']);
-      final int gunFarki = sonTarih == null
-          ? 0
-          : _gun(DateTime.now()).difference(_gun(sonTarih)).inDays;
-
-      final bool anaMemesiAktif =
-          ogulBelirtisi && !bolmeYapildi && !ogulAtti && gunFarki >= 0;
-
-      alarmMap[koloniId] = {
-        'anaMemesiKritik': anaMemesiAktif && gunFarki <= 7,
-        'anaMemesiTakip':
-        anaMemesiAktif && gunFarki > 7 && gunFarki <= 14,
-        'ogulAtti': ogulAtti,
-      };
-
-      aktiflikMap[koloniId] = await VeritabaniServisi.koloniAktifMi(koloniId);
-    }));
 
     if (!mounted || token != _yuklemeToken) return;
 
@@ -108,6 +99,19 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
             (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
       );
       _yukleniyor = false;
+      _donorlerYukleniyor = false;
+    });
+
+    _donorRozetleriniArkaPlandaYukle(token);
+  }
+
+  Future<void> _donorRozetleriniArkaPlandaYukle(int token) async {
+    // Liste önce ekrana gelsin. Donör hesabı, ilk çizimi bloke etmesin.
+    await Future<void>.delayed(const Duration(milliseconds: 250));
+
+    if (!mounted || token != _yuklemeToken) return;
+
+    setState(() {
       _donorlerYukleniyor = true;
     });
 
@@ -133,12 +137,16 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   }
 
   List<Map<String, dynamic>> get _aktifKoloniler {
-    return _koloniler.where((k) => _aktifMi(k)).toList();
+    return _filtreleListe(_koloniler.where((k) => _aktifMi(k)).toList());
   }
 
   List<Map<String, dynamic>> get _sonmusKoloniler {
-    return _koloniler.where((k) => !_aktifMi(k)).toList();
+    return _filtreleListe(_koloniler.where((k) => !_aktifMi(k)).toList());
   }
+
+  int get _aktifToplamSayi => _koloniler.where((k) => _aktifMi(k)).length;
+
+  int get _sonmusToplamSayi => _koloniler.where((k) => !_aktifMi(k)).length;
 
   bool _aktifMi(Map<String, dynamic> k) {
     final koloniId = _toInt(k['id']);
@@ -218,6 +226,27 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       }
     }
     return null;
+  }
+
+  void _aramaDegisti() {
+    if (!mounted) return;
+    setState(() {
+      _seciliKoloniIdleri.removeWhere(
+            (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
+      );
+    });
+  }
+
+  bool _filtreyeUyar(Map<String, dynamic> k) {
+    final arama = _aramaController.text.trim().toLowerCase();
+    if (arama.isEmpty) return true;
+
+    final kovanNo = (k['kovanNo'] ?? '').toString().toLowerCase();
+    return kovanNo.contains(arama);
+  }
+
+  List<Map<String, dynamic>> _filtreleListe(List<Map<String, dynamic>> liste) {
+    return liste.where(_filtreyeUyar).toList();
   }
 
   bool _anaMemesiKritikAlarmiVar(Map<String, dynamic> k) {
@@ -531,6 +560,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       ),
       body: Column(
         children: [
+          _aramaBandi(),
           if (_donorlerYukleniyor && !_yukleniyor)
             const LinearProgressIndicator(
               minHeight: 2,
@@ -572,6 +602,49 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
         onPressed: _yeniKovan,
         backgroundColor: Colors.amber,
         child: const Icon(Icons.add, color: Colors.black),
+      ),
+    );
+  }
+
+
+  Widget _aramaBandi() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 6),
+      color: const Color(0xFFF3F1E6),
+      child: TextField(
+        controller: _aramaController,
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          hintText: 'Kovan ara...',
+          prefixIcon: const Icon(Icons.search, size: 20),
+          suffixIcon: _aramaController.text.trim().isEmpty
+              ? null
+              : IconButton(
+            tooltip: 'Aramayı temizle',
+            icon: const Icon(Icons.close, size: 20),
+            onPressed: () => _aramaController.clear(),
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 10,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(color: Colors.amber.shade300),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(color: Colors.amber.shade200),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(color: Colors.brown.shade400, width: 1.4),
+          ),
+        ),
       ),
     );
   }
