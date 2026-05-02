@@ -6,6 +6,7 @@ import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/arilik_uyari_servisi.dart';
 import '../services/yedek_dosya_servisi.dart';
+import '../services/guncelleme_servisi.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
   const AyarlarSayfasi({super.key});
@@ -176,14 +177,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       _riskFareBitis = riskFareBitis;
       _yukleniyor = false;
     });
-  }
-
-  String _kalibrasyonAnahtari(String anahtar) {
-    final arilikId = _kalibrasyonArilikId;
-    if (arilikId != null && arilikId > 0) {
-      return 'arilik_${arilikId}_$anahtar';
-    }
-    return anahtar;
   }
 
   Future<String> _kalibrasyonAyarGetir(
@@ -606,6 +599,49 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       if (mounted) {
         setState(() => _yedekYukleniyor = false);
       }
+    }
+  }
+
+
+  Future<void> _guncellemeKontrolEt() async {
+    if (_yedekAliniyor || _yedekYukleniyor || _kaydediliyor) return;
+
+    try {
+      final bilgi = await GuncellemeServisi.kontrolEt();
+
+      if (!mounted) return;
+
+      final hata = bilgi.hata;
+      if (hata != null && hata.trim().isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(hata),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      if (!bilgi.diyalogGoster) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Uygulama güncel. Mevcut sürüm: ${bilgi.currentVersionName} (${bilgi.currentVersionCode})',
+            ),
+          ),
+        );
+        return;
+      }
+
+      await GuncellemeServisi.guncellemeDiyaloguGoster(context, bilgi);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Güncelleme kontrolü başarısız: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -1371,6 +1407,13 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           renk: Colors.indigo,
           calisiyor: _yedekYukleniyor,
           onTap: _yedektenYukle,
+        ),
+        _sistemIslemKarti(
+          baslik: 'Güncellemeyi Kontrol Et',
+          altMetin: 'Yeni sürüm varsa önce yedek aldırır, ardından güvenli APK bağlantısını açar.',
+          ikon: Icons.system_update_alt_outlined,
+          renk: Colors.orange,
+          onTap: _guncellemeKontrolEt,
         ),
         Container(
           margin: const EdgeInsets.only(top: 6),

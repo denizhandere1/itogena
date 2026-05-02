@@ -338,13 +338,6 @@ class HatAnalizServisi {
     return kaynakKoloniId;
   }
 
-  static bool _sonmusMu(Map<String, dynamic> k) {
-    // Geriye dönük uyumluluk için tutulur.
-    // Aktiflik kararı normal akışta merkezi aktiflik haritasından okunur;
-    // id olmayan geçici kayıtlar aktif kabul edilmez.
-    return VeritabaniServisi.sonmusDurumMu(k['durum']);
-  }
-
   static bool _koloniKaydiAktifMi(
     Map<String, dynamic> k,
     Map<int, bool> aktiflikHaritasi,
