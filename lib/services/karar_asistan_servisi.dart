@@ -271,7 +271,7 @@ class KararAsistanServisi {
     switch (sonuc.kararKodu) {
       case 'BOLME':
       case 'BOLME_ICIN_UYGUN':
-        ekle(oneriler, 'Bölme yapacaksan koloniyi 7 çıtanın altına düşürmeden planla.');
+        ekle(oneriler, 'Bölme yapacaksan koloniyi 6 çıtanın altına düşürmeden planla.');
         break;
       case 'DONOR_1':
       case 'DONOR_2':

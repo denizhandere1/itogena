@@ -33,48 +33,22 @@ class ArilikRiskTanim {
 }
 
 class ArilikUyariServisi {
-  static const List<ArilikRiskTanim> riskTanimlari = [
-    ArilikRiskTanim(
-      kod: 'ARI_KUSU',
-      baslik: 'Arı kuşu',
-      baslangicAnahtar: 'risk_ari_kusu_baslangic',
-      bitisAnahtar: 'risk_ari_kusu_bitis',
-      varsayilanBaslangic: '05-01',
-      varsayilanBitis: '08-31',
-    ),
-    ArilikRiskTanim(
-      kod: 'ESEK_ARISI',
-      baslik: 'Eşek arısı / sarıca',
-      baslangicAnahtar: 'risk_esek_arisi_baslangic',
-      bitisAnahtar: 'risk_esek_arisi_bitis',
-      varsayilanBaslangic: '07-01',
-      varsayilanBitis: '10-31',
-    ),
-    ArilikRiskTanim(
-      kod: 'YAGMACILIK',
-      baslik: 'Yağmacılık',
-      baslangicAnahtar: 'risk_yagmacilik_baslangic',
-      bitisAnahtar: 'risk_yagmacilik_bitis',
-      varsayilanBaslangic: '07-01',
-      varsayilanBitis: '09-30',
-    ),
-    ArilikRiskTanim(
-      kod: 'MUM_GUVESI',
-      baslik: 'Mum güvesi',
-      baslangicAnahtar: 'risk_mum_guvesi_baslangic',
-      bitisAnahtar: 'risk_mum_guvesi_bitis',
-      varsayilanBaslangic: '06-01',
-      varsayilanBitis: '09-30',
-    ),
-    ArilikRiskTanim(
-      kod: 'FARE',
-      baslik: 'Fare',
-      baslangicAnahtar: 'risk_fare_baslangic',
-      bitisAnahtar: 'risk_fare_bitis',
-      varsayilanBaslangic: '11-01',
-      varsayilanBitis: '02-28',
-    ),
-  ];
+  static List<ArilikRiskTanim> get riskTanimlari {
+    return VeritabaniServisi.riskTakvimiTanimlari.map((tanim) {
+      final baslangicAnahtar = tanim['baslangicAnahtar'] ?? '';
+      final bitisAnahtar = tanim['bitisAnahtar'] ?? '';
+      return ArilikRiskTanim(
+        kod: tanim['kod'] ?? '',
+        baslik: tanim['baslik'] ?? '',
+        baslangicAnahtar: baslangicAnahtar,
+        bitisAnahtar: bitisAnahtar,
+        varsayilanBaslangic:
+            VeritabaniServisi.varsayilanAyarDegeri(baslangicAnahtar),
+        varsayilanBitis:
+            VeritabaniServisi.varsayilanAyarDegeri(bitisAnahtar),
+      );
+    }).toList(growable: false);
+  }
 
   static final Map<String, List<ArilikUyari>> _uyariCache = {};
 
@@ -359,18 +333,17 @@ class ArilikUyariServisi {
     required String varsayilan,
     int? arilikId,
   }) async {
-    if (arilikId != null && arilikId > 0) {
-      final ozelAnahtar = 'arilik_${arilikId}_$anahtar';
-      final ozelDeger = await VeritabaniServisi.ayarStringGetir(
-        ozelAnahtar,
-        varsayilan: '',
-      );
-      if (ozelDeger.trim().isNotEmpty) return ozelDeger;
+    if (varsayilan.isEmpty && anahtar.startsWith('arilik_uyari_gizle_')) {
+      return VeritabaniServisi.ayarStringGetir(anahtar, varsayilan: '0');
     }
 
-    return VeritabaniServisi.ayarStringGetir(
+    if (anahtar.contains('_uyari_gizle_')) {
+      return VeritabaniServisi.ayarStringGetir(anahtar, varsayilan: varsayilan);
+    }
+
+    return VeritabaniServisi.kalibrasyonAyarGetir(
       anahtar,
-      varsayilan: varsayilan,
+      arilikId: arilikId,
     );
   }
 

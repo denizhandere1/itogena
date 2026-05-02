@@ -475,64 +475,111 @@ class VeritabaniServisi {
   }
 
 
-  static Future<void> _varsayilanAyarlariYukle(Database db) async {
-    final varsayilanlar = <String, String>{
-      'destek_max_maks_cita': '4',
-      'orta_koloni_max_cita': '6',
-      'guclu_koloni_min_cita': '7',
-      'bolme_adayi_min_cita': '6',
-      'ana_degisim_sezon_esigi': '2',
-      'mudahale_min_skor': '45',
-      'uretim_min_skor': '70',
-      'damizlik_min_skor': '85',
-      'season_kis_baslangic': '09-01',
-      'season_kis_bitis': '03-15',
-      'season_uretim_baslangic': '03-15',
-      'season_uretim_bitis': '08-31',
-      'kis_destek_max_maks_cita': '3',
-      'kis_orta_koloni_max_cita': '5',
-      'kis_guclu_koloni_min_cita': '6',
-      'kis_bolme_adayi_min_cita': '6',
-      'kis_ana_degisim_sezon_esigi': '2',
-      'kis_mudahale_min_skor': '50',
-      'kis_uretim_min_skor': '72',
-      'kis_damizlik_min_skor': '88',
-      'uretim_destek_max_maks_cita': '4',
-      'uretim_orta_koloni_max_cita': '6',
-      'uretim_guclu_koloni_min_cita': '7',
-      'uretim_bolme_adayi_min_cita': '6',
-      'uretim_ana_degisim_sezon_esigi': '2',
-      'uretim_mudahale_min_skor': '45',
-      'uretim_uretim_min_skor': '70',
-      'uretim_damizlik_min_skor': '85',
-      'kis_agirlik_gelisim': '25',
-      'kis_agirlik_verim': '15',
-      'kis_agirlik_saglik': '40',
-      'kis_agirlik_mizac': '10',
-      'kis_agirlik_yavru': '10',
-      'uretim_agirlik_gelisim': '35',
-      'uretim_agirlik_verim': '25',
-      'uretim_agirlik_saglik': '25',
-      'uretim_agirlik_mizac': '15',
-      'uretim_agirlik_yavru': '0',
-      'kistan_cikis_aferin_cita_min': '6',
-      'kistan_cikis_aferin_skor_bonus': '5',
-      'kistan_cikis_aferin_ana_yas_max': '2',
-      'kistan_cikis_aferin_tarih_baslangic': '03-15',
-      'kistan_cikis_aferin_tarih_bitis': '04-30',
-      'davranis_toleransi': 'standart',
-      'ekonomik_arili_cita': '900',
-      'ekonomik_bos_kovan': '1500',
-      'ekonomik_petek_sayi': '0',
-      'ekonomik_petek_deger': '120',
-      'bal_akim1_baslangic': '05-25',
-      'bal_akim1_bitis': '06-15',
-      'bal_akim2_aktif': '0',
-      'bal_akim2_baslangic': '08-20',
-      'bal_akim2_bitis': '09-20',
-    };
+  static const Map<String, String> varsayilanAyarDegerleri = {
+    'destek_max_maks_cita': '4',
+    'orta_koloni_max_cita': '6',
+    'guclu_koloni_min_cita': '7',
+    'bolme_adayi_min_cita': '6',
+    'ana_degisim_sezon_esigi': '2',
+    'mudahale_min_skor': '45',
+    'uretim_min_skor': '70',
+    'damizlik_min_skor': '85',
+    'season_kis_baslangic': '09-01',
+    'season_kis_bitis': '03-15',
+    'season_uretim_baslangic': '03-15',
+    'season_uretim_bitis': '08-31',
+    'kis_destek_max_maks_cita': '3',
+    'kis_orta_koloni_max_cita': '5',
+    'kis_guclu_koloni_min_cita': '6',
+    'kis_bolme_adayi_min_cita': '6',
+    'kis_ana_degisim_sezon_esigi': '2',
+    'kis_mudahale_min_skor': '50',
+    'kis_uretim_min_skor': '72',
+    'kis_damizlik_min_skor': '88',
+    'uretim_destek_max_maks_cita': '4',
+    'uretim_orta_koloni_max_cita': '6',
+    'uretim_guclu_koloni_min_cita': '7',
+    'uretim_bolme_adayi_min_cita': '6',
+    'uretim_ana_degisim_sezon_esigi': '2',
+    'uretim_mudahale_min_skor': '45',
+    'uretim_uretim_min_skor': '70',
+    'uretim_damizlik_min_skor': '85',
+    'kis_agirlik_gelisim': '25',
+    'kis_agirlik_verim': '15',
+    'kis_agirlik_saglik': '40',
+    'kis_agirlik_mizac': '10',
+    'kis_agirlik_yavru': '10',
+    'uretim_agirlik_gelisim': '35',
+    'uretim_agirlik_verim': '25',
+    'uretim_agirlik_saglik': '25',
+    'uretim_agirlik_mizac': '15',
+    'uretim_agirlik_yavru': '0',
+    'kistan_cikis_aferin_cita_min': '6',
+    'kistan_cikis_aferin_skor_bonus': '5',
+    'kistan_cikis_aferin_ana_yas_max': '2',
+    'kistan_cikis_aferin_tarih_baslangic': '03-15',
+    'kistan_cikis_aferin_tarih_bitis': '04-30',
+    'davranis_toleransi': 'standart',
+    'ekonomik_arili_cita': '900',
+    'ekonomik_bos_kovan': '1500',
+    'ekonomik_petek_sayi': '0',
+    'ekonomik_petek_deger': '120',
+    'bal_akim1_baslangic': '05-25',
+    'bal_akim1_bitis': '06-15',
+    'bal_akim2_aktif': '0',
+    'bal_akim2_baslangic': '08-20',
+    'bal_akim2_bitis': '09-20',
+    'risk_ari_kusu_baslangic': '05-01',
+    'risk_ari_kusu_bitis': '08-31',
+    'risk_esek_arisi_baslangic': '07-01',
+    'risk_esek_arisi_bitis': '10-31',
+    'risk_yagmacilik_baslangic': '07-01',
+    'risk_yagmacilik_bitis': '09-30',
+    'risk_mum_guvesi_baslangic': '06-01',
+    'risk_mum_guvesi_bitis': '09-30',
+    'risk_fare_baslangic': '11-01',
+    'risk_fare_bitis': '02-28',
+  };
 
-    for (final entry in varsayilanlar.entries) {
+  static String varsayilanAyarDegeri(String anahtar) {
+    return varsayilanAyarDegerleri[anahtar] ?? '';
+  }
+
+  static const List<Map<String, String>> riskTakvimiTanimlari = [
+    {
+      'kod': 'ARI_KUSU',
+      'baslik': 'Arı kuşu',
+      'baslangicAnahtar': 'risk_ari_kusu_baslangic',
+      'bitisAnahtar': 'risk_ari_kusu_bitis',
+    },
+    {
+      'kod': 'ESEK_ARISI',
+      'baslik': 'Eşek arısı / sarıca',
+      'baslangicAnahtar': 'risk_esek_arisi_baslangic',
+      'bitisAnahtar': 'risk_esek_arisi_bitis',
+    },
+    {
+      'kod': 'YAGMACILIK',
+      'baslik': 'Yağmacılık',
+      'baslangicAnahtar': 'risk_yagmacilik_baslangic',
+      'bitisAnahtar': 'risk_yagmacilik_bitis',
+    },
+    {
+      'kod': 'MUM_GUVESI',
+      'baslik': 'Mum güvesi',
+      'baslangicAnahtar': 'risk_mum_guvesi_baslangic',
+      'bitisAnahtar': 'risk_mum_guvesi_bitis',
+    },
+    {
+      'kod': 'FARE',
+      'baslik': 'Fare',
+      'baslangicAnahtar': 'risk_fare_baslangic',
+      'bitisAnahtar': 'risk_fare_bitis',
+    },
+  ];
+
+  static Future<void> _varsayilanAyarlariYukle(Database db) async {
+    for (final entry in varsayilanAyarDegerleri.entries) {
       await db.insert(
         'ayarlar',
         {'anahtar': entry.key, 'deger': entry.value},
@@ -2586,40 +2633,29 @@ class VeritabaniServisi {
   ];
 
   static String _varsayilanKalibrasyonDegeri(String anahtar) {
-    switch (anahtar) {
-      case 'bal_akim1_baslangic':
-        return '05-25';
-      case 'bal_akim1_bitis':
-        return '06-15';
-      case 'bal_akim2_aktif':
-        return '0';
-      case 'bal_akim2_baslangic':
-        return '08-20';
-      case 'bal_akim2_bitis':
-        return '09-20';
-      case 'risk_ari_kusu_baslangic':
-        return '05-01';
-      case 'risk_ari_kusu_bitis':
-        return '08-31';
-      case 'risk_esek_arisi_baslangic':
-        return '07-01';
-      case 'risk_esek_arisi_bitis':
-        return '10-31';
-      case 'risk_yagmacilik_baslangic':
-        return '07-01';
-      case 'risk_yagmacilik_bitis':
-        return '09-30';
-      case 'risk_mum_guvesi_baslangic':
-        return '06-01';
-      case 'risk_mum_guvesi_bitis':
-        return '09-30';
-      case 'risk_fare_baslangic':
-        return '11-01';
-      case 'risk_fare_bitis':
-        return '02-28';
-      default:
-        return '';
-    }
+    return varsayilanAyarDegeri(anahtar);
+  }
+
+  static Future<String> kalibrasyonAyarGetir(
+    String anahtar, {
+    int? arilikId,
+  }) async {
+    return _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: anahtar,
+      varsayilan: varsayilanAyarDegeri(anahtar),
+    );
+  }
+
+  static Future<void> kalibrasyonAyarKaydet(
+    String anahtar,
+    String deger, {
+    int? arilikId,
+  }) async {
+    final kayitAnahtari = arilikId != null && arilikId > 0
+        ? 'arilik_${arilikId}_$anahtar'
+        : anahtar;
+    await ayarKaydet(kayitAnahtari, deger);
   }
 
   static Future<void> arilikKalibrasyonunuKopyala({
@@ -3257,27 +3293,27 @@ class VeritabaniServisi {
     final balAkim1Bas = await _arilikAyariGetir(
       arilikId: arilikId,
       anahtar: 'bal_akim1_baslangic',
-      varsayilan: '05-25',
+      varsayilan: varsayilanAyarDegeri('bal_akim1_baslangic'),
     );
     final balAkim1Bit = await _arilikAyariGetir(
       arilikId: arilikId,
       anahtar: 'bal_akim1_bitis',
-      varsayilan: '06-15',
+      varsayilan: varsayilanAyarDegeri('bal_akim1_bitis'),
     );
     final balAkim2Aktif = await _arilikAyariGetir(
       arilikId: arilikId,
       anahtar: 'bal_akim2_aktif',
-      varsayilan: '0',
+      varsayilan: varsayilanAyarDegeri('bal_akim2_aktif'),
     );
     final balAkim2Bas = await _arilikAyariGetir(
       arilikId: arilikId,
       anahtar: 'bal_akim2_baslangic',
-      varsayilan: '08-20',
+      varsayilan: varsayilanAyarDegeri('bal_akim2_baslangic'),
     );
     final balAkim2Bit = await _arilikAyariGetir(
       arilikId: arilikId,
       anahtar: 'bal_akim2_bitis',
-      varsayilan: '09-20',
+      varsayilan: varsayilanAyarDegeri('bal_akim2_bitis'),
     );
 
     DateTime? toDate(String s) {

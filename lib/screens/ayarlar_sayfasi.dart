@@ -23,29 +23,29 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   bool _yedekAliniyor = false;
   bool _yedekYukleniyor = false;
 
-  String _kisBaslangic = '09-01';
-  String _kisBitis = '03-15';
-  String _uretimBaslangic = '03-15';
-  String _uretimBitis = '08-31';
-  String _davranisToleransi = 'standart';
+  String _kisBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_kis_baslangic');
+  String _kisBitis = VeritabaniServisi.varsayilanAyarDegeri('season_kis_bitis');
+  String _uretimBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_uretim_baslangic');
+  String _uretimBitis = VeritabaniServisi.varsayilanAyarDegeri('season_uretim_bitis');
+  String _davranisToleransi = VeritabaniServisi.varsayilanAyarDegeri('davranis_toleransi');
 
-  String _balAkim1Baslangic = '05-25';
-  String _balAkim1Bitis = '06-15';
+  String _balAkim1Baslangic = VeritabaniServisi.varsayilanAyarDegeri('bal_akim1_baslangic');
+  String _balAkim1Bitis = VeritabaniServisi.varsayilanAyarDegeri('bal_akim1_bitis');
 
   bool _balAkim2Aktif = false;
-  String _balAkim2Baslangic = '08-20';
-  String _balAkim2Bitis = '09-20';
+  String _balAkim2Baslangic = VeritabaniServisi.varsayilanAyarDegeri('bal_akim2_baslangic');
+  String _balAkim2Bitis = VeritabaniServisi.varsayilanAyarDegeri('bal_akim2_bitis');
 
-  String _riskAriKusuBaslangic = '05-01';
-  String _riskAriKusuBitis = '08-31';
-  String _riskEsekArisiBaslangic = '07-01';
-  String _riskEsekArisiBitis = '10-31';
-  String _riskYagmacilikBaslangic = '07-01';
-  String _riskYagmacilikBitis = '09-30';
-  String _riskMumGuvesiBaslangic = '06-01';
-  String _riskMumGuvesiBitis = '09-30';
-  String _riskFareBaslangic = '11-01';
-  String _riskFareBitis = '02-28';
+  String _riskAriKusuBaslangic = VeritabaniServisi.varsayilanAyarDegeri('risk_ari_kusu_baslangic');
+  String _riskAriKusuBitis = VeritabaniServisi.varsayilanAyarDegeri('risk_ari_kusu_bitis');
+  String _riskEsekArisiBaslangic = VeritabaniServisi.varsayilanAyarDegeri('risk_esek_arisi_baslangic');
+  String _riskEsekArisiBitis = VeritabaniServisi.varsayilanAyarDegeri('risk_esek_arisi_bitis');
+  String _riskYagmacilikBaslangic = VeritabaniServisi.varsayilanAyarDegeri('risk_yagmacilik_baslangic');
+  String _riskYagmacilikBitis = VeritabaniServisi.varsayilanAyarDegeri('risk_yagmacilik_bitis');
+  String _riskMumGuvesiBaslangic = VeritabaniServisi.varsayilanAyarDegeri('risk_mum_guvesi_baslangic');
+  String _riskMumGuvesiBitis = VeritabaniServisi.varsayilanAyarDegeri('risk_mum_guvesi_bitis');
+  String _riskFareBaslangic = VeritabaniServisi.varsayilanAyarDegeri('risk_fare_baslangic');
+  String _riskFareBitis = VeritabaniServisi.varsayilanAyarDegeri('risk_fare_bitis');
 
   List<Map<String, dynamic>> _kalibrasyonAriliklari = [];
   int? _kalibrasyonArilikId;
@@ -69,84 +69,84 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
 
     final kisBaslangic = await VeritabaniServisi.ayarStringGetir(
       'season_kis_baslangic',
-      varsayilan: '09-01',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('season_kis_baslangic'),
     );
     final kisBitis = await VeritabaniServisi.ayarStringGetir(
       'season_kis_bitis',
-      varsayilan: '03-15',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('season_kis_bitis'),
     );
     final uretimBaslangic = await VeritabaniServisi.ayarStringGetir(
       'season_uretim_baslangic',
-      varsayilan: '03-15',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('season_uretim_baslangic'),
     );
     final uretimBitis = await VeritabaniServisi.ayarStringGetir(
       'season_uretim_bitis',
-      varsayilan: '08-31',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('season_uretim_bitis'),
     );
     final davranisToleransi = await VeritabaniServisi.ayarStringGetir(
       'davranis_toleransi',
-      varsayilan: 'standart',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('davranis_toleransi'),
     );
 
     final balAkim1Baslangic = await _kalibrasyonAyarGetir(
       'bal_akim1_baslangic',
-      varsayilan: '05-25',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('bal_akim1_baslangic'),
     );
     final balAkim1Bitis = await _kalibrasyonAyarGetir(
       'bal_akim1_bitis',
-      varsayilan: '06-15',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('bal_akim1_bitis'),
     );
     final balAkim2AktifStr = await _kalibrasyonAyarGetir(
       'bal_akim2_aktif',
-      varsayilan: '0',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('bal_akim2_aktif'),
     );
     final balAkim2Baslangic = await _kalibrasyonAyarGetir(
       'bal_akim2_baslangic',
-      varsayilan: '08-20',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('bal_akim2_baslangic'),
     );
     final balAkim2Bitis = await _kalibrasyonAyarGetir(
       'bal_akim2_bitis',
-      varsayilan: '09-20',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('bal_akim2_bitis'),
     );
     final riskAriKusuBaslangic = await _kalibrasyonAyarGetir(
       'risk_ari_kusu_baslangic',
-      varsayilan: '05-01',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_ari_kusu_baslangic'),
     );
     final riskAriKusuBitis = await _kalibrasyonAyarGetir(
       'risk_ari_kusu_bitis',
-      varsayilan: '08-31',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_ari_kusu_bitis'),
     );
     final riskEsekArisiBaslangic = await _kalibrasyonAyarGetir(
       'risk_esek_arisi_baslangic',
-      varsayilan: '07-01',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_esek_arisi_baslangic'),
     );
     final riskEsekArisiBitis = await _kalibrasyonAyarGetir(
       'risk_esek_arisi_bitis',
-      varsayilan: '10-31',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_esek_arisi_bitis'),
     );
     final riskYagmacilikBaslangic = await _kalibrasyonAyarGetir(
       'risk_yagmacilik_baslangic',
-      varsayilan: '07-01',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_yagmacilik_baslangic'),
     );
     final riskYagmacilikBitis = await _kalibrasyonAyarGetir(
       'risk_yagmacilik_bitis',
-      varsayilan: '09-30',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_yagmacilik_bitis'),
     );
     final riskMumGuvesiBaslangic = await _kalibrasyonAyarGetir(
       'risk_mum_guvesi_baslangic',
-      varsayilan: '06-01',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_mum_guvesi_baslangic'),
     );
     final riskMumGuvesiBitis = await _kalibrasyonAyarGetir(
       'risk_mum_guvesi_bitis',
-      varsayilan: '09-30',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_mum_guvesi_bitis'),
     );
     final riskFareBaslangic = await _kalibrasyonAyarGetir(
       'risk_fare_baslangic',
-      varsayilan: '11-01',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_fare_baslangic'),
     );
     final riskFareBitis = await _kalibrasyonAyarGetir(
       'risk_fare_bitis',
-      varsayilan: '02-28',
+      varsayilan: VeritabaniServisi.varsayilanAyarDegeri('risk_fare_bitis'),
     );
 
     if (!mounted) return;
@@ -190,23 +190,18 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     String anahtar, {
     required String varsayilan,
   }) async {
-    final arilikId = _kalibrasyonArilikId;
-    if (arilikId != null && arilikId > 0) {
-      final ozelDeger = await VeritabaniServisi.ayarStringGetir(
-        'arilik_${arilikId}_$anahtar',
-        varsayilan: '',
-      );
-      if (ozelDeger.trim().isNotEmpty) return ozelDeger;
-    }
-
-    return VeritabaniServisi.ayarStringGetir(
+    return VeritabaniServisi.kalibrasyonAyarGetir(
       anahtar,
-      varsayilan: varsayilan,
+      arilikId: _kalibrasyonArilikId,
     );
   }
 
   Future<void> _kalibrasyonAyarKaydet(String anahtar, String deger) async {
-    await VeritabaniServisi.ayarKaydet(_kalibrasyonAnahtari(anahtar), deger);
+    await VeritabaniServisi.kalibrasyonAyarKaydet(
+      anahtar,
+      deger,
+      arilikId: _kalibrasyonArilikId,
+    );
   }
 
   String _kalibrasyonKapsamMetni() {

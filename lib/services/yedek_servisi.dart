@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:path/path.dart' as p;
+
 import 'package:sqflite/sqflite.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -99,6 +101,12 @@ class YedekServisi {
     final db = await VeritabaniServisi.db;
     await _kolonUyumlulugunuDogrula(db, data);
     _tarihButunlugunuDogrula(data);
+
+    // Atomic restore güvenlik katmanı:
+    // Ana veritabanına dokunmadan önce yedek verisi aynı şema ile
+    // geçici bir SQLite veritabanına yüklenir. Bu prova başarısız olursa
+    // mevcut kullanıcı verisi silinmez ve ana DB değişmeden kalır.
+    await _yedegiGeciciVeritabanindaDene(db, data);
 
     await db.transaction((txn) async {
       await _tumVeriyiTemizle(txn);
@@ -409,6 +417,120 @@ class YedekServisi {
         'koloni_numara_gecmisi',
       ],
     );
+  }
+
+
+  static Future<void> _yedegiGeciciVeritabanindaDene(
+    Database kaynakDb,
+    Map<String, dynamic> data,
+  ) async {
+    final dbKlasoru = await getDatabasesPath();
+    final tempPath = p.join(
+      dbKlasoru,
+      'itogena_restore_preflight_${DateTime.now().millisecondsSinceEpoch}.db',
+    );
+
+    Database? tempDb;
+    try {
+      await databaseFactory.deleteDatabase(tempPath);
+
+      tempDb = await openDatabase(
+        tempPath,
+        version: veritabaniVersiyonu,
+        onCreate: (db, version) async {
+          await _semaKopyala(kaynakDb, db);
+        },
+      );
+
+      await tempDb.transaction((txn) async {
+        await _tumVeriyiYukle(txn, data);
+        await _sqliteSayaclariniSifirla(txn);
+      });
+
+      await _geciciYuklemeSayimlariniDogrula(tempDb, data);
+    } catch (e) {
+      throw Exception(
+        'Yedek ana veritabanına uygulanmadan önce güvenlik provasından geçemedi. '
+        'Mevcut veriler korunuyor. Ayrıntı: $e',
+      );
+    } finally {
+      if (tempDb != null && tempDb.isOpen) {
+        await tempDb.close();
+      }
+      await databaseFactory.deleteDatabase(tempPath);
+    }
+  }
+
+  static Future<void> _semaKopyala(
+    Database kaynakDb,
+    Database hedefDb,
+  ) async {
+    final tablolar = await kaynakDb.rawQuery(
+      "SELECT name, sql FROM sqlite_master "
+      "WHERE type = 'table' AND name IN (${List.filled(_zorunluTablolar.length, '?').join(',')}) "
+      "ORDER BY name ASC",
+      _zorunluTablolar,
+    );
+
+    final bulunanTablolar = tablolar
+        .map((e) => (e['name'] ?? '').toString())
+        .where((e) => e.isNotEmpty)
+        .toSet();
+
+    for (final tablo in _zorunluTablolar) {
+      if (!bulunanTablolar.contains(tablo)) {
+        throw Exception('Geçici yükleme için "$tablo" tablosunun şeması bulunamadı.');
+      }
+    }
+
+    for (final satir in tablolar) {
+      final sql = (satir['sql'] ?? '').toString().trim();
+      if (sql.isEmpty) continue;
+      await hedefDb.execute(sql);
+    }
+
+    final indeksler = await kaynakDb.rawQuery(
+      "SELECT sql FROM sqlite_master "
+      "WHERE type = 'index' AND sql IS NOT NULL "
+      "AND tbl_name IN (${List.filled(_zorunluTablolar.length, '?').join(',')})",
+      _zorunluTablolar,
+    );
+
+    for (final satir in indeksler) {
+      final sql = (satir['sql'] ?? '').toString().trim();
+      if (sql.isEmpty) continue;
+      await hedefDb.execute(sql);
+    }
+  }
+
+  static Future<void> _geciciYuklemeSayimlariniDogrula(
+    Database tempDb,
+    Map<String, dynamic> data,
+  ) async {
+    for (final tablo in _zorunluTablolar) {
+      final beklenen = (data[tablo] as List).length;
+      final sayim = await tempDb.rawQuery('SELECT COUNT(*) AS adet FROM $tablo');
+      final yuklenen = _toInt(sayim.first['adet']);
+      if (beklenen != yuklenen) {
+        throw Exception(
+          'Geçici yükleme sayımı tutarsız. Tablo: $tablo, beklenen: $beklenen, yüklenen: $yuklenen.',
+        );
+      }
+    }
+
+    final koloniler = await tempDb.rawQuery(
+      'SELECT COUNT(*) AS adet FROM koloniler WHERE arilikId IS NOT NULL AND arilikId NOT IN (SELECT id FROM ariliklar)',
+    );
+    if (_toInt(koloniler.first['adet']) > 0) {
+      throw Exception('Geçici yüklemede arılığı bulunmayan koloni kaydı tespit edildi.');
+    }
+
+    final muayeneler = await tempDb.rawQuery(
+      'SELECT COUNT(*) AS adet FROM muayeneler WHERE koloniId IS NULL OR koloniId NOT IN (SELECT id FROM koloniler)',
+    );
+    if (_toInt(muayeneler.first['adet']) > 0) {
+      throw Exception('Geçici yüklemede kolonisi bulunmayan muayene kaydı tespit edildi.');
+    }
   }
 
   static Map<String, dynamic> _satiriMapeCevir(Map<String, Object?> satir) {
