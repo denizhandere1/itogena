@@ -16,13 +16,20 @@ class EkonomikDegerServisi {
       sadeceAktifler: false,
     );
 
+    final koloniIdleri = koloniler
+        .map((k) => _toInt(k['id']))
+        .where((id) => id > 0)
+        .toList(growable: false);
+    final aktiflikHaritasi =
+    await VeritabaniServisi.koloniAktiflikHaritasiGetir(koloniIdleri);
+
     int aktifKovan = 0;
     int toplamAriliCita = 0;
 
     for (final koloni in koloniler) {
       final koloniId = _toInt(koloni['id']);
       if (koloniId <= 0) continue;
-      if (!await VeritabaniServisi.koloniAktifMi(koloniId)) continue;
+      if (aktiflikHaritasi[koloniId] != true) continue;
 
       aktifKovan++;
       toplamAriliCita += _toInt(koloni['sonCita']);

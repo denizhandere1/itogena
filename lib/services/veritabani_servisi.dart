@@ -480,7 +480,7 @@ class VeritabaniServisi {
       'destek_max_maks_cita': '4',
       'orta_koloni_max_cita': '6',
       'guclu_koloni_min_cita': '7',
-      'bolme_adayi_min_cita': '12',
+      'bolme_adayi_min_cita': '6',
       'ana_degisim_sezon_esigi': '2',
       'mudahale_min_skor': '45',
       'uretim_min_skor': '70',
@@ -492,7 +492,7 @@ class VeritabaniServisi {
       'kis_destek_max_maks_cita': '3',
       'kis_orta_koloni_max_cita': '5',
       'kis_guclu_koloni_min_cita': '6',
-      'kis_bolme_adayi_min_cita': '18',
+      'kis_bolme_adayi_min_cita': '6',
       'kis_ana_degisim_sezon_esigi': '2',
       'kis_mudahale_min_skor': '50',
       'kis_uretim_min_skor': '72',
@@ -500,7 +500,7 @@ class VeritabaniServisi {
       'uretim_destek_max_maks_cita': '4',
       'uretim_orta_koloni_max_cita': '6',
       'uretim_guclu_koloni_min_cita': '7',
-      'uretim_bolme_adayi_min_cita': '12',
+      'uretim_bolme_adayi_min_cita': '6',
       'uretim_ana_degisim_sezon_esigi': '2',
       'uretim_mudahale_min_skor': '45',
       'uretim_uretim_min_skor': '70',
@@ -692,17 +692,172 @@ class VeritabaniServisi {
     String konum = '',
     String? kurulusTarihi,
   }) async {
-    final temizTarih = (kurulusTarihi ?? '').trim();
-
-    return (await db).insert(
-      'ariliklar',
-      {
-        'ad': ad.trim(),
-        'konum': konum.trim(),
-        'kurulusTarihi': temizTarih.isEmpty ? _bugun() : temizTarih,
-      },
+    final dbClient = await db;
+    final temizTarih = _tarihZorunluIso(
+      kurulusTarihi,
+      alanAdi: 'Arılık başlangıç tarihi',
+      varsayilan: _bugun(),
     );
+
+    return dbClient.transaction<int>((txn) async {
+      final id = await txn.insert(
+        'ariliklar',
+        {
+          'ad': ad.trim(),
+          'konum': konum.trim(),
+          'kurulusTarihi': temizTarih,
+        },
+      );
+
+      await _arilikKurulusTarihiDogrulaDb(
+        txn,
+        arilikId: id,
+        kurulusTarihi: temizTarih,
+      );
+
+      return id;
+    });
   }
+
+  static Future<int> arilikGuncelle(
+    int id, {
+    String? ad,
+    String? konum,
+    String? kurulusTarihi,
+  }) async {
+    if (id <= 0) return 0;
+
+    final dbClient = await db;
+
+    return dbClient.transaction<int>((txn) async {
+      final mevcut = await txn.query(
+        'ariliklar',
+        where: 'id = ?',
+        whereArgs: [id],
+        limit: 1,
+      );
+
+      if (mevcut.isEmpty) return 0;
+
+      final eski = mevcut.first;
+      final temizTarih = _tarihZorunluIso(
+        kurulusTarihi ?? eski['kurulusTarihi'],
+        alanAdi: 'Arılık başlangıç tarihi',
+        varsayilan: _bugun(),
+      );
+
+      await _arilikKurulusTarihiDogrulaDb(
+        txn,
+        arilikId: id,
+        kurulusTarihi: temizTarih,
+      );
+
+      return txn.update(
+        'ariliklar',
+        {
+          'ad': (ad ?? eski['ad'] ?? '').toString().trim(),
+          'konum': (konum ?? eski['konum'] ?? '').toString().trim(),
+          'kurulusTarihi': temizTarih,
+        },
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    });
+  }
+
+  static Future<int> arilikSil(int arilikId) async {
+    if (arilikId <= 0) {
+      throw Exception('Silinecek arılık bulunamadı.');
+    }
+
+    final dbClient = await db;
+
+    return dbClient.transaction<int>((txn) async {
+      final arilikKaydi = await txn.query(
+        'ariliklar',
+        where: 'id = ?',
+        whereArgs: [arilikId],
+        limit: 1,
+      );
+
+      if (arilikKaydi.isEmpty) {
+        throw Exception('Silinecek arılık veritabanında bulunamadı.');
+      }
+
+      final koloniler = await txn.query(
+        'koloniler',
+        columns: ['id'],
+        where: 'arilikId = ?',
+        whereArgs: [arilikId],
+      );
+
+      final koloniIdleri = koloniler
+          .map((e) => _toInt(e['id']))
+          .where((id) => id > 0)
+          .toList(growable: false);
+
+      for (final parca in _idParcalari(koloniIdleri)) {
+        if (parca.isEmpty) continue;
+        final yerTutucular = List.filled(parca.length, '?').join(',');
+
+        // Başka arılıklarda bu kolonilere yanlışlıkla bağlanmış kayıt varsa,
+        // silinen arılıktan sonra kırık ebeveyn/kaynak referansı kalmasın.
+        await txn.update(
+          'koloniler',
+          {'kaynakKoloniId': null, 'ebeveynKoloniId': null},
+          where:
+              'arilikId != ? AND (kaynakKoloniId IN ($yerTutucular) OR ebeveynKoloniId IN ($yerTutucular))',
+          whereArgs: [arilikId, ...parca, ...parca],
+        );
+
+        await txn.rawUpdate(
+          'UPDATE koloniler SET kokKoloniId = id WHERE arilikId != ? AND kokKoloniId IN ($yerTutucular)',
+          [arilikId, ...parca],
+        );
+
+        await txn.delete(
+          'muayeneler',
+          where: 'koloniId IN ($yerTutucular)',
+          whereArgs: parca,
+        );
+
+        await txn.delete(
+          'koloni_numara_gecmisi',
+          where: 'koloniId IN ($yerTutucular)',
+          whereArgs: parca,
+        );
+
+        await txn.delete(
+          'koloni_olaylari',
+          where:
+              'koloniId IN ($yerTutucular) OR ilgiliKoloniId IN ($yerTutucular)',
+          whereArgs: [...parca, ...parca],
+        );
+      }
+
+      await txn.delete(
+        'koloniler',
+        where: 'arilikId = ?',
+        whereArgs: [arilikId],
+      );
+
+      await txn.delete(
+        'ayarlar',
+        where: 'anahtar LIKE ?',
+        whereArgs: ['arilik_${arilikId}_%'],
+      );
+
+      final silinenArilik = await txn.delete(
+        'ariliklar',
+        where: 'id = ?',
+        whereArgs: [arilikId],
+      );
+
+      await _veriButunlugunuDogrulaDb(txn);
+      return silinenArilik;
+    });
+  }
+
 
   static Future<List<Map<String, dynamic>>> kolonileriGetir({
     bool sadeceAktifler = true,
@@ -1328,10 +1483,18 @@ class VeritabaniServisi {
       kayit['durum'] = ((kayit['durum'] ?? '').toString().trim().isEmpty)
           ? 'aktif'
           : kayit['durum'];
-      kayit['olusturmaTarihi'] =
-      ((kayit['olusturmaTarihi'] ?? '').toString().trim().isEmpty)
-          ? _bugun()
-          : kayit['olusturmaTarihi'];
+      kayit['olusturmaTarihi'] = _tarihZorunluIso(
+        kayit['olusturmaTarihi'],
+        alanAdi: 'Koloni oluşturma tarihi',
+        varsayilan: _bugun(),
+      );
+
+      await _koloniTarihiniDogrulaDb(
+        txn,
+        koloniId: 0,
+        arilikId: arilikId,
+        olusturmaTarihi: kayit['olusturmaTarihi'].toString(),
+      );
 
       final istenenSira = _toInt(kayit['sahaSirasi']);
       final hedefSira = await _hedefSiraBelirleTx(
@@ -1448,6 +1611,18 @@ class VeritabaniServisi {
       final yeniKaynakTipi = _kaynakTipiNormalize(
         veri['kaynakTipi'] ?? eski['kaynakTipi'],
       );
+      final yeniOlusturmaTarihi = _tarihZorunluIso(
+        veri['olusturmaTarihi'] ?? eski['olusturmaTarihi'],
+        alanAdi: 'Koloni oluşturma tarihi',
+        varsayilan: _bugun(),
+      );
+
+      await _koloniTarihiniDogrulaDb(
+        txn,
+        koloniId: id,
+        arilikId: yeniArilikId,
+        olusturmaTarihi: yeniOlusturmaTarihi,
+      );
 
       if (yeniArilikId > 0 && yeniKovanNo.isNotEmpty) {
         final cakisanAktif = await _koloniBulAriliktaKovanNoIleDb(
@@ -1544,7 +1719,7 @@ class VeritabaniServisi {
         'genetik': veri['genetik'] ?? eski['genetik'],
         'rol': veri['rol'] ?? eski['rol'],
         'durum': veri['durum'] ?? eski['durum'],
-        'olusturmaTarihi': veri['olusturmaTarihi'] ?? eski['olusturmaTarihi'],
+        'olusturmaTarihi': yeniOlusturmaTarihi,
         'sonCita': veri['sonCita'] ?? eski['sonCita'],
         'maxCitaKapasiye': veri['maxCitaKapasiye'] ?? eski['maxCitaKapasiye'],
         'bal_cita': veri['bal_cita'] ?? eski['bal_cita'],
@@ -1960,9 +2135,21 @@ class VeritabaniServisi {
     veriTam['gunlukKapaliYavruGoruldu'] = _toInt(veriTam['gunlukKapaliYavruGoruldu']);
     veriTam['varroaSecimleri'] = _varroaSecimleriNormalize(veriTam['varroaSecimleri']);
     veriTam['varroaMucadele'] = _varroaMucadeleOzetineCevir(veriTam['varroaSecimleri'], fallback: veriTam['varroaMucadele']);
-    final id = await dbClient.insert('muayeneler', veriTam);
+    veriTam['tarih'] = _tarihZorunluIso(
+      veriTam['tarih'],
+      alanAdi: 'Muayene tarihi',
+      varsayilan: _bugun(),
+    );
 
     final koloniId = _toInt(veriTam['koloniId']);
+    await _muayeneTarihiniDogrulaDb(
+      dbClient,
+      koloniId: koloniId,
+      muayeneTarihi: veriTam['tarih'].toString(),
+    );
+
+    final id = await dbClient.insert('muayeneler', veriTam);
+
     if (koloniId > 0) {
       await skorHesaplaVeGuncelle(koloniId);
     }
@@ -1973,27 +2160,40 @@ class VeritabaniServisi {
   static Future<int> muayeneGuncelle(int id, Map<String, dynamic> veri) async {
     final dbClient = await db;
 
+    final veriTam = Map<String, dynamic>.from(veri);
+    veriTam['ogulAtti'] = _toInt(veriTam['ogulAtti']);
+    veriTam['anaUretimGirisimVarMi'] = 0;
+    veriTam['anasizBirakildiMi'] = _toInt(veriTam['anasizBirakildiMi']);
+    veriTam['anaDegisimPlanlandiMi'] = _toInt(veriTam['anaDegisimPlanlandiMi']);
+    veriTam['anaKazanmaYontemi'] = _anaKazanmaYontemiNormalize(veriTam['anaKazanmaYontemi']);
+    veriTam['kapaliYavruluCitaAktarildi'] = _toInt(veriTam['kapaliYavruluCitaAktarildi']);
+    veriTam['disaridanHazirAnaVerildi'] = _toInt(veriTam['disaridanHazirAnaVerildi']);
+    veriTam['gunlukKapaliYavruGoruldu'] = _toInt(veriTam['gunlukKapaliYavruGoruldu']);
+    veriTam['varroaSecimleri'] = _varroaSecimleriNormalize(veriTam['varroaSecimleri']);
+    veriTam['varroaMucadele'] = _varroaMucadeleOzetineCevir(
+      veriTam['varroaSecimleri'],
+      fallback: veriTam['varroaMucadele'],
+    );
+    veriTam['tarih'] = _tarihZorunluIso(
+      veriTam['tarih'],
+      alanAdi: 'Muayene tarihi',
+      varsayilan: _bugun(),
+    );
+
+    final koloniId = _toInt(veriTam['koloniId']);
+    await _muayeneTarihiniDogrulaDb(
+      dbClient,
+      koloniId: koloniId,
+      muayeneTarihi: veriTam['tarih'].toString(),
+    );
+
     final sonuc = await dbClient.update(
       'muayeneler',
-          () {
-        final veriTam = Map<String, dynamic>.from(veri);
-        veriTam['ogulAtti'] = _toInt(veriTam['ogulAtti']);
-        veriTam['anaUretimGirisimVarMi'] = 0;
-        veriTam['anasizBirakildiMi'] = _toInt(veriTam['anasizBirakildiMi']);
-        veriTam['anaDegisimPlanlandiMi'] = _toInt(veriTam['anaDegisimPlanlandiMi']);
-        veriTam['anaKazanmaYontemi'] = _anaKazanmaYontemiNormalize(veriTam['anaKazanmaYontemi']);
-        veriTam['kapaliYavruluCitaAktarildi'] = _toInt(veriTam['kapaliYavruluCitaAktarildi']);
-        veriTam['disaridanHazirAnaVerildi'] = _toInt(veriTam['disaridanHazirAnaVerildi']);
-        veriTam['gunlukKapaliYavruGoruldu'] = _toInt(veriTam['gunlukKapaliYavruGoruldu']);
-        veriTam['varroaSecimleri'] = _varroaSecimleriNormalize(veriTam['varroaSecimleri']);
-        veriTam['varroaMucadele'] = _varroaMucadeleOzetineCevir(veriTam['varroaSecimleri'], fallback: veriTam['varroaMucadele']);
-        return veriTam;
-      }(),
+      veriTam,
       where: 'id = ?',
       whereArgs: [id],
     );
 
-    final koloniId = _toInt(veri['koloniId']);
     if (koloniId > 0) {
       await skorHesaplaVeGuncelle(koloniId);
     }
@@ -2452,11 +2652,68 @@ class VeritabaniServisi {
   }
 
 
+  static Future<void> veriButunlugunuDogrula() async {
+    final dbClient = await db;
+    await _veriButunlugunuDogrulaDb(dbClient);
+  }
+
+  static Future<void> _veriButunlugunuDogrulaDb(DatabaseExecutor exec) async {
+    final ariliklar = await exec.query('ariliklar', orderBy: 'id ASC');
+    for (final arilik in ariliklar) {
+      final arilikId = _toInt(arilik['id']);
+      if (arilikId <= 0) continue;
+      final kurulusTarihi = _tarihZorunluIso(
+        arilik['kurulusTarihi'],
+        alanAdi: 'Arılık başlangıç tarihi',
+        varsayilan: _bugun(),
+      );
+      await _arilikKurulusTarihiDogrulaDb(
+        exec,
+        arilikId: arilikId,
+        kurulusTarihi: kurulusTarihi,
+      );
+    }
+
+    final koloniler = await exec.query('koloniler', orderBy: 'id ASC');
+    for (final koloni in koloniler) {
+      final koloniId = _toInt(koloni['id']);
+      if (koloniId <= 0) continue;
+      final arilikId = _toInt(koloni['arilikId']);
+      final olusturmaTarihi = _tarihZorunluIso(
+        koloni['olusturmaTarihi'],
+        alanAdi: 'Koloni oluşturma tarihi',
+        varsayilan: _bugun(),
+      );
+      await _koloniTarihiniDogrulaDb(
+        exec,
+        koloniId: koloniId,
+        arilikId: arilikId,
+        olusturmaTarihi: olusturmaTarihi,
+      );
+    }
+
+    final muayeneler = await exec.query('muayeneler', orderBy: 'id ASC');
+    for (final muayene in muayeneler) {
+      final koloniId = _toInt(muayene['koloniId']);
+      final muayeneTarihi = _tarihZorunluIso(
+        muayene['tarih'],
+        alanAdi: 'Muayene tarihi',
+        varsayilan: _bugun(),
+      );
+      await _muayeneTarihiniDogrulaDb(
+        exec,
+        koloniId: koloniId,
+        muayeneTarihi: muayeneTarihi,
+      );
+    }
+  }
+
   static Future<void> sistemBakimiCalistir() async {
     final dbClient = await db;
     await _varsayilanAyarlariYukle(dbClient);
     await _soyKimlikleriniOnar(dbClient);
     await _tumArilikSiralariniNormalizeEtDb(dbClient);
+    await _veriButunlugunuDogrulaDb(dbClient);
   }
 
   static Future<List<Map<String, dynamic>>> gucluKolonileriGetir() async {
@@ -2482,7 +2739,7 @@ class VeritabaniServisi {
   }
 
   static Future<List<Map<String, dynamic>>> bolmeAdaylari() async {
-    final esik = await ayarIntGetir('bolme_adayi_min_cita', varsayilan: 12);
+    const esik = 6;
 
     return (await db).query(
       'koloniler',
@@ -2539,6 +2796,219 @@ class VeritabaniServisi {
 
   static String _bugun() {
     return DateTime.now().toIso8601String().split('T').first;
+  }
+
+  static String _tarihZorunluIso(
+    dynamic deger, {
+    required String alanAdi,
+    String? varsayilan,
+  }) {
+    final ham = (deger ?? '').toString().trim();
+    final kullanilacak = ham.isEmpty ? (varsayilan ?? '') : ham;
+    if (kullanilacak.trim().isEmpty) {
+      throw Exception('$alanAdi boş olamaz.');
+    }
+
+    final tarih = DateTime.tryParse(kullanilacak);
+    if (tarih == null) {
+      throw Exception('$alanAdi geçerli bir tarih değil: $kullanilacak');
+    }
+
+    return _isoGun(tarih);
+  }
+
+  static DateTime? _tarihParseGun(dynamic deger) {
+    final ham = (deger ?? '').toString().trim();
+    if (ham.isEmpty) return null;
+    final tarih = DateTime.tryParse(ham);
+    if (tarih == null) return null;
+    return DateTime(tarih.year, tarih.month, tarih.day);
+  }
+
+  static String _isoGun(DateTime tarih) {
+    final gun = DateTime(tarih.year, tarih.month, tarih.day);
+    return gun.toIso8601String().split('T').first;
+  }
+
+  static bool _gunSonraMi(DateTime sol, DateTime sag) {
+    final a = DateTime(sol.year, sol.month, sol.day);
+    final b = DateTime(sag.year, sag.month, sag.day);
+    return a.isAfter(b);
+  }
+
+  static Future<DateTime?> _arilikKurulusTarihiGetirDb(
+    DatabaseExecutor exec,
+    int arilikId,
+  ) async {
+    if (arilikId <= 0) return null;
+    final kayit = await exec.query(
+      'ariliklar',
+      columns: ['kurulusTarihi'],
+      where: 'id = ?',
+      whereArgs: [arilikId],
+      limit: 1,
+    );
+    if (kayit.isEmpty) return null;
+    return _tarihParseGun(kayit.first['kurulusTarihi']);
+  }
+
+  static Future<DateTime?> _arilikEnEskiKoloniTarihiGetirDb(
+    DatabaseExecutor exec,
+    int arilikId, {
+    int? haricKoloniId,
+  }) async {
+    if (arilikId <= 0) return null;
+
+    final where = StringBuffer(
+      "arilikId = ? AND COALESCE(olusturmaTarihi, '') != ''",
+    );
+    final whereArgs = <Object?>[arilikId];
+
+    if (haricKoloniId != null && haricKoloniId > 0) {
+      where.write(' AND id != ?');
+      whereArgs.add(haricKoloniId);
+    }
+
+    final kayit = await exec.query(
+      'koloniler',
+      columns: ['olusturmaTarihi'],
+      where: where.toString(),
+      whereArgs: whereArgs,
+      orderBy: 'olusturmaTarihi ASC, id ASC',
+      limit: 1,
+    );
+
+    if (kayit.isEmpty) return null;
+    return _tarihParseGun(kayit.first['olusturmaTarihi']);
+  }
+
+  static Future<DateTime?> _koloniIlkMuayeneTarihiGetirDb(
+    DatabaseExecutor exec,
+    int koloniId, {
+    int? haricMuayeneId,
+  }) async {
+    if (koloniId <= 0) return null;
+
+    final where = StringBuffer(
+      "koloniId = ? AND COALESCE(tarih, '') != ''",
+    );
+    final whereArgs = <Object?>[koloniId];
+
+    if (haricMuayeneId != null && haricMuayeneId > 0) {
+      where.write(' AND id != ?');
+      whereArgs.add(haricMuayeneId);
+    }
+
+    final kayit = await exec.query(
+      'muayeneler',
+      columns: ['tarih'],
+      where: where.toString(),
+      whereArgs: whereArgs,
+      orderBy: 'tarih ASC, id ASC',
+      limit: 1,
+    );
+
+    if (kayit.isEmpty) return null;
+    return _tarihParseGun(kayit.first['tarih']);
+  }
+
+  static Future<void> _arilikKurulusTarihiDogrulaDb(
+    DatabaseExecutor exec, {
+    required int arilikId,
+    required String kurulusTarihi,
+  }) async {
+    if (arilikId <= 0) return;
+
+    final kurulus = _tarihParseGun(kurulusTarihi);
+    if (kurulus == null) {
+      throw Exception('Arılık başlangıç tarihi geçerli değil: $kurulusTarihi');
+    }
+
+    final enEskiKoloni = await _arilikEnEskiKoloniTarihiGetirDb(
+      exec,
+      arilikId,
+    );
+
+    if (enEskiKoloni != null && _gunSonraMi(kurulus, enEskiKoloni)) {
+      throw Exception(
+        'Arılık başlangıç tarihi, arılıktaki en eski koloni tarihinden sonra olamaz. '
+        'En eski koloni tarihi: ${_isoGun(enEskiKoloni)}',
+      );
+    }
+  }
+
+  static Future<void> _koloniTarihiniDogrulaDb(
+    DatabaseExecutor exec, {
+    required int koloniId,
+    required int arilikId,
+    required String olusturmaTarihi,
+  }) async {
+    final olusturma = _tarihParseGun(olusturmaTarihi);
+    if (olusturma == null) {
+      throw Exception('Koloni oluşturma tarihi geçerli değil: $olusturmaTarihi');
+    }
+
+    final arilikKurulus = await _arilikKurulusTarihiGetirDb(exec, arilikId);
+    if (arilikKurulus != null && _gunSonraMi(arilikKurulus, olusturma)) {
+      throw Exception(
+        'Koloni oluşturma tarihi, arılık başlangıç tarihinden önce olamaz. '
+        'Arılık başlangıç tarihi: ${_isoGun(arilikKurulus)}',
+      );
+    }
+
+    if (koloniId > 0) {
+      final ilkMuayene = await _koloniIlkMuayeneTarihiGetirDb(exec, koloniId);
+      if (ilkMuayene != null && _gunSonraMi(olusturma, ilkMuayene)) {
+        throw Exception(
+          'Koloni oluşturma tarihi, o koloninin ilk muayene tarihinden sonra olamaz. '
+          'İlk muayene tarihi: ${_isoGun(ilkMuayene)}',
+        );
+      }
+    }
+  }
+
+  static Future<void> _muayeneTarihiniDogrulaDb(
+    DatabaseExecutor exec, {
+    required int koloniId,
+    required String muayeneTarihi,
+  }) async {
+    if (koloniId <= 0) {
+      throw Exception('Muayene için geçerli bir koloni kaydı bulunamadı.');
+    }
+
+    final muayene = _tarihParseGun(muayeneTarihi);
+    if (muayene == null) {
+      throw Exception('Muayene tarihi geçerli değil: $muayeneTarihi');
+    }
+
+    final koloni = await exec.query(
+      'koloniler',
+      columns: ['olusturmaTarihi', 'arilikId'],
+      where: 'id = ?',
+      whereArgs: [koloniId],
+      limit: 1,
+    );
+
+    if (koloni.isEmpty) {
+      throw Exception('Muayene eklenecek koloni bulunamadı.');
+    }
+
+    final arilikId = _toInt(koloni.first['arilikId']);
+    final arilikKurulus = await _arilikKurulusTarihiGetirDb(exec, arilikId);
+    if (arilikKurulus != null && _gunSonraMi(arilikKurulus, muayene)) {
+      throw Exception(
+        'Muayene tarihi, arılık başlangıç tarihinden önce olamaz. '
+        'Arılık başlangıç tarihi: ${_isoGun(arilikKurulus)}',
+      );
+    }
+
+    final olusturma = _tarihParseGun(koloni.first['olusturmaTarihi']);
+    if (olusturma != null && _gunSonraMi(olusturma, muayene)) {
+      throw Exception(
+        'Muayene tarihi, koloni oluşturma tarihinden önce olamaz. '
+        'Koloni oluşturma tarihi: ${_isoGun(olusturma)}',
+      );
+    }
   }
 
   static String _olayTipiUret(String kaynakTipi) {

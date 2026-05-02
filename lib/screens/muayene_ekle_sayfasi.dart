@@ -395,6 +395,47 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     return '$yil-$ay-$gun';
   }
 
+  Future<bool> _gecmisTarihOnayi({
+    required DateTime mevcutTarih,
+    required DateTime yeniTarih,
+  }) async {
+    final mevcut = DateTime(
+      mevcutTarih.year,
+      mevcutTarih.month,
+      mevcutTarih.day,
+    );
+    final yeni = DateTime(
+      yeniTarih.year,
+      yeniTarih.month,
+      yeniTarih.day,
+    );
+
+    if (!yeni.isBefore(mevcut)) return true;
+
+    final onay = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Geçmiş tarih seçildi'),
+        content: const Text(
+          'Muayene tarihini geriye çekiyorsun. '
+          'Bu doğruysa devam et. Sistem, tarih koloni başlangıcı veya arılık başlangıcı ile çelişirse kaydı engeller.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Vazgeç'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('Evet, değiştir'),
+          ),
+        ],
+      ),
+    );
+
+    return onay == true;
+  }
+
   Future<void> _tarihSec() async {
     final rootContext = Navigator.of(context, rootNavigator: true).context;
 
@@ -406,14 +447,22 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       locale: const Locale('tr', 'TR'),
     );
 
-    if (secilen != null) {
-      setState(() {
-        _tarih = DateTime(secilen.year, secilen.month, secilen.day);
-        if (_anasizBirakildiMi) {
-          _anasizBaslangicTarihi = _tarih;
-        }
-      });
-    }
+    if (secilen == null) return;
+
+    final yeniTarih = DateTime(secilen.year, secilen.month, secilen.day);
+    final onay = await _gecmisTarihOnayi(
+      mevcutTarih: _tarih,
+      yeniTarih: yeniTarih,
+    );
+
+    if (!onay) return;
+
+    setState(() {
+      _tarih = yeniTarih;
+      if (_anasizBirakildiMi) {
+        _anasizBaslangicTarihi = _tarih;
+      }
+    });
   }
 
   void _notMetniniGuncelle(String metin) {

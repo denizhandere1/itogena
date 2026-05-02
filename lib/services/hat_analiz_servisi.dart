@@ -64,6 +64,13 @@ class HatAnalizServisi {
     final ogulAtanIdler =
     await VeritabaniServisi.ogulAttanKoloniIdleriniGetir();
 
+    final koloniIdleri = koloniler
+        .map((k) => _toInt(k['id']))
+        .where((id) => id > 0)
+        .toList(growable: false);
+    final aktiflikHaritasi =
+    await VeritabaniServisi.koloniAktiflikHaritasiGetir(koloniIdleri);
+
     final Map<int, List<Map<String, dynamic>>> gruplar = {};
 
     for (final k in koloniler) {
@@ -91,7 +98,7 @@ class HatAnalizServisi {
       for (final koloni in liste) {
         final koloniId = _toInt(koloni['id']);
         final aktifMi = koloniId > 0
-            ? await VeritabaniServisi.koloniAktifMi(koloniId)
+            ? (aktiflikHaritasi[koloniId] ?? false)
             : false;
         if (aktifMi) {
           aktif++;
@@ -108,7 +115,10 @@ class HatAnalizServisi {
         return _toInt(a['id']).compareTo(_toInt(b['id']));
       });
 
-      final bool kokAktifMi = await _koloniKaydiAktifMi(kokKoloni);
+      final bool kokAktifMi = _koloniKaydiAktifMi(
+        kokKoloni,
+        aktiflikHaritasi,
+      );
       final Map<String, dynamic> temsilKoloni = kokAktifMi
           ? kokKoloni
           : (aktifKoloniler.isNotEmpty ? aktifKoloniler.first : kokKoloni);
@@ -330,17 +340,18 @@ class HatAnalizServisi {
 
   static bool _sonmusMu(Map<String, dynamic> k) {
     // Geriye dönük uyumluluk için tutulur.
-    // Aktiflik kararı normal akışta yalnızca VeritabaniServisi.koloniAktifMi
-    // üzerinden verilir; id olmayan geçici kayıtlar aktif kabul edilmez.
+    // Aktiflik kararı normal akışta merkezi aktiflik haritasından okunur;
+    // id olmayan geçici kayıtlar aktif kabul edilmez.
     return VeritabaniServisi.sonmusDurumMu(k['durum']);
   }
 
-  static Future<bool> _koloniKaydiAktifMi(Map<String, dynamic> k) async {
+  static bool _koloniKaydiAktifMi(
+    Map<String, dynamic> k,
+    Map<int, bool> aktiflikHaritasi,
+  ) {
     final koloniId = _toInt(k['id']);
-    if (koloniId > 0) {
-      return VeritabaniServisi.koloniAktifMi(koloniId);
-    }
-    return false;
+    if (koloniId <= 0) return false;
+    return aktiflikHaritasi[koloniId] ?? false;
   }
 
   static int _maxCitaBul(Map<String, dynamic> k) {

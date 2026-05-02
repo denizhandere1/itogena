@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:sqflite/sqflite.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'karar_asistan_servisi.dart';
 import 'veritabani_servisi.dart';
@@ -11,8 +12,8 @@ class YedekServisi {
   static const int veritabaniVersiyonu = 18;
   static const int schemaVersion = 2;
 
-  static const String appVersionName = '1.0.9';
-  static const int appVersionCode = 10;
+  static const String appVersionName = '1.0.10';
+  static const int appVersionCode = 11;
 
   static const List<String> _zorunluTablolar = [
     'ariliklar',
@@ -25,6 +26,14 @@ class YedekServisi {
 
   static Future<String> yedekAl() async {
     final db = await VeritabaniServisi.db;
+    final packageInfo = await PackageInfo.fromPlatform();
+    final currentVersionName = packageInfo.version.trim().isEmpty
+        ? appVersionName
+        : packageInfo.version.trim();
+    final currentVersionCode =
+        int.tryParse(packageInfo.buildNumber.trim()) ?? appVersionCode;
+
+    await VeritabaniServisi.veriButunlugunuDogrula();
 
     final ariliklar = await db.query('ariliklar', orderBy: 'id ASC');
     final koloniler = await db.query('koloniler', orderBy: 'id ASC');
@@ -42,8 +51,8 @@ class YedekServisi {
         'backupVersion': yedekFormatVersiyonu,
         'schemaVersion': schemaVersion,
         'dbVersion': veritabaniVersiyonu,
-        'appVersionName': appVersionName,
-        'appVersionCode': appVersionCode,
+        'appVersionName': currentVersionName,
+        'appVersionCode': currentVersionCode,
         'createdAt': DateTime.now().toIso8601String(),
       },
       'data': <String, dynamic>{
@@ -77,7 +86,7 @@ class YedekServisi {
 
     final Map<String, dynamic> kok = ham;
 
-    _metaDogrula(kok);
+    await _metaDogrula(kok);
 
     final dynamic dataDynamic = kok['data'];
     if (dataDynamic is! Map<String, dynamic>) {
@@ -89,6 +98,7 @@ class YedekServisi {
 
     final db = await VeritabaniServisi.db;
     await _kolonUyumlulugunuDogrula(db, data);
+    _tarihButunlugunuDogrula(data);
 
     await db.transaction((txn) async {
       await _tumVeriyiTemizle(txn);
@@ -100,7 +110,7 @@ class YedekServisi {
     KararAsistanServisi.tumCacheTemizle();
   }
 
-  static void _metaDogrula(Map<String, dynamic> kok) {
+  static Future<void> _metaDogrula(Map<String, dynamic> kok) async {
     final dynamic metaDynamic = kok['meta'];
     if (metaDynamic is! Map<String, dynamic>) {
       throw Exception('Yedek dosyasında meta bilgisi bulunamadı.');
@@ -121,6 +131,10 @@ class YedekServisi {
     final backupAppVersionName =
         (metaDynamic['appVersionName'] ?? '').toString().trim();
     final backupAppVersionCode = _toInt(metaDynamic['appVersionCode']);
+
+    final packageInfo = await PackageInfo.fromPlatform();
+    final currentAppVersionCode =
+        int.tryParse(packageInfo.buildNumber.trim()) ?? appVersionCode;
 
     if (backupVersion < yedekFormatVersiyonu ||
         backupSchemaVersion < schemaVersion ||
@@ -144,7 +158,7 @@ class YedekServisi {
       );
     }
 
-    if (backupAppVersionCode > appVersionCode) {
+    if (backupAppVersionCode > currentAppVersionCode) {
       final yedekSurum = backupAppVersionName.isEmpty
           ? backupAppVersionCode.toString()
           : '$backupAppVersionName ($backupAppVersionCode)';
@@ -209,6 +223,128 @@ class YedekServisi {
         .map((satir) => (satir['name'] ?? '').toString())
         .where((ad) => ad.isNotEmpty)
         .toSet();
+  }
+
+  static void _tarihButunlugunuDogrula(Map<String, dynamic> data) {
+    final ariliklar = _liste(data, 'ariliklar');
+    final koloniler = _liste(data, 'koloniler');
+    final muayeneler = _liste(data, 'muayeneler');
+
+    final arilikTarihleri = <int, DateTime>{};
+    for (final arilik in ariliklar) {
+      final id = _toInt(arilik['id']);
+      if (id <= 0) continue;
+      arilikTarihleri[id] = _tarihZorunlu(
+        arilik['kurulusTarihi'],
+        'Arılık başlangıç tarihi',
+      );
+    }
+
+    final koloniTarihleri = <int, DateTime>{};
+    final arilikEnEskiKoloni = <int, DateTime>{};
+    for (final koloni in koloniler) {
+      final id = _toInt(koloni['id']);
+      if (id <= 0) continue;
+
+      final arilikId = _toInt(koloni['arilikId']);
+      final olusturma = _tarihZorunlu(
+        koloni['olusturmaTarihi'],
+        'Koloni oluşturma tarihi',
+      );
+      koloniTarihleri[id] = olusturma;
+
+      final arilikTarihi = arilikTarihleri[arilikId];
+      if (arilikTarihi != null && arilikTarihi.isAfter(olusturma)) {
+        throw Exception(
+          'Yedek veri bütünlüğü hatalı: koloni oluşturma tarihi arılık başlangıç tarihinden önce. '
+          'Koloni id: $id, arılık id: $arilikId.',
+        );
+      }
+
+      final mevcutEnEski = arilikEnEskiKoloni[arilikId];
+      if (mevcutEnEski == null || olusturma.isBefore(mevcutEnEski)) {
+        arilikEnEskiKoloni[arilikId] = olusturma;
+      }
+    }
+
+    for (final entry in arilikTarihleri.entries) {
+      final enEski = arilikEnEskiKoloni[entry.key];
+      if (enEski != null && entry.value.isAfter(enEski)) {
+        throw Exception(
+          'Yedek veri bütünlüğü hatalı: arılık başlangıç tarihi, o arılıktaki en eski koloni tarihinden sonra. '
+          'Arılık id: ${entry.key}.',
+        );
+      }
+    }
+
+    final koloniIlkMuayene = <int, DateTime>{};
+    for (final muayene in muayeneler) {
+      final id = _toInt(muayene['id']);
+      final koloniId = _toInt(muayene['koloniId']);
+      if (koloniId <= 0) {
+        throw Exception(
+          'Yedek veri bütünlüğü hatalı: muayene geçerli bir koloniye bağlı değil. Muayene id: $id.',
+        );
+      }
+
+      final tarih = _tarihZorunlu(muayene['tarih'], 'Muayene tarihi');
+      final olusturma = koloniTarihleri[koloniId];
+      if (olusturma == null) {
+        throw Exception(
+          'Yedek veri bütünlüğü hatalı: muayenenin bağlı olduğu koloni bulunamadı. Muayene id: $id, koloni id: $koloniId.',
+        );
+      }
+      if (olusturma.isAfter(tarih)) {
+        throw Exception(
+          'Yedek veri bütünlüğü hatalı: muayene tarihi koloni oluşturma tarihinden önce. '
+          'Muayene id: $id, koloni id: $koloniId.',
+        );
+      }
+
+      final mevcutIlk = koloniIlkMuayene[koloniId];
+      if (mevcutIlk == null || tarih.isBefore(mevcutIlk)) {
+        koloniIlkMuayene[koloniId] = tarih;
+      }
+    }
+
+    for (final entry in koloniIlkMuayene.entries) {
+      final olusturma = koloniTarihleri[entry.key];
+      if (olusturma != null && olusturma.isAfter(entry.value)) {
+        throw Exception(
+          'Yedek veri bütünlüğü hatalı: koloni oluşturma tarihi ilk muayene tarihinden sonra. '
+          'Koloni id: ${entry.key}.',
+        );
+      }
+    }
+  }
+
+  static List<Map<String, dynamic>> _liste(
+    Map<String, dynamic> data,
+    String tablo,
+  ) {
+    final ham = data[tablo] as List;
+    return ham
+        .whereType<Map>()
+        .map((e) => Map<String, dynamic>.from(
+              e.map((key, value) => MapEntry(key.toString(), value)),
+            ))
+        .toList(growable: false);
+  }
+
+  static DateTime _tarihZorunlu(dynamic deger, String alanAdi) {
+    final ham = (deger ?? '').toString().trim();
+    if (ham.isEmpty) {
+      throw Exception('Yedek veri bütünlüğü hatalı: $alanAdi boş.');
+    }
+
+    final tarih = DateTime.tryParse(ham);
+    if (tarih == null) {
+      throw Exception(
+        'Yedek veri bütünlüğü hatalı: $alanAdi geçerli değil: $ham',
+      );
+    }
+
+    return DateTime(tarih.year, tarih.month, tarih.day);
   }
 
   static Future<void> _tumVeriyiTemizle(DatabaseExecutor txn) async {

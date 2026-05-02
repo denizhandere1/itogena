@@ -249,7 +249,7 @@ class KoloniKararMotoru {
     final int donorHavuzuBoyutu = donorListesi.length;
 
     final esikler = await EsikServisi.tumEsikleriYukle();
-    final int bolmeCita = esikler['bolme_adayi_min_cita'] ?? 12;
+    final int bolmeCita = esikler['bolme_adayi_min_cita'] ?? EsikServisi.bolmeAdayiMinCita;
     final int destekCita = esikler['destek_max_maks_cita'] ?? 4;
     final int uretimMinSkor = esikler['uretim_min_skor'] ?? 70;
     final int mudahaleMinSkor = esikler['mudahale_min_skor'] ?? 45;

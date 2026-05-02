@@ -91,6 +91,56 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
     return '$gun.$ay.${tarih.year}';
   }
 
+  DateTime? _guvenliTarihParse(dynamic deger) {
+    final metin = (deger ?? '').toString().trim();
+    if (metin.isEmpty) return null;
+
+    final tarih = DateTime.tryParse(metin);
+    if (tarih == null) return null;
+
+    return DateTime(tarih.year, tarih.month, tarih.day);
+  }
+
+  Future<bool> _gecmisTarihOnayi({
+    required DateTime mevcutTarih,
+    required DateTime yeniTarih,
+    required String baslik,
+    required String mesaj,
+  }) async {
+    final mevcut = DateTime(
+      mevcutTarih.year,
+      mevcutTarih.month,
+      mevcutTarih.day,
+    );
+    final yeni = DateTime(
+      yeniTarih.year,
+      yeniTarih.month,
+      yeniTarih.day,
+    );
+
+    if (!yeni.isBefore(mevcut)) return true;
+
+    final onay = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(baslik),
+        content: Text(mesaj),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Vazgeç'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('Evet, değiştir'),
+          ),
+        ],
+      ),
+    );
+
+    return onay == true;
+  }
+
   void _arilikEkleDiyalog() {
     final controller = TextEditingController();
     DateTime kurulusTarihi = _bugun();
@@ -143,12 +193,26 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                       );
 
                       if (secilen == null) return;
+
+                      final yeniTarih = DateTime(
+                        secilen.year,
+                        secilen.month,
+                        secilen.day,
+                      );
+
+                      final onay = await _gecmisTarihOnayi(
+                        mevcutTarih: kurulusTarihi,
+                        yeniTarih: yeniTarih,
+                        baslik: 'Geçmiş tarih seçildi',
+                        mesaj:
+                            'Arılık başlangıç tarihini geriye çekiyorsun. '
+                            'Bu doğruysa devam et. Sistem yine de koloni ve muayene tarihleriyle çakışırsa kaydı engeller.',
+                      );
+
+                      if (!onay) return;
+
                       setDialogState(() {
-                        kurulusTarihi = DateTime(
-                          secilen.year,
-                          secilen.month,
-                          secilen.day,
-                        );
+                        kurulusTarihi = yeniTarih;
                         tarihController.text = _tarihFormatla(kurulusTarihi);
                       });
                     },
@@ -256,25 +320,159 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                     return;
                   }
 
-                  final yeniArilikId = await VeritabaniServisi.arilikEkle(
-                    ad,
-                    kurulusTarihi: _isoTarih(kurulusTarihi),
-                  );
-
-                  if (kalibrasyonuKopyala &&
-                      kopyalanacakArilikId != null &&
-                      yeniArilikId > 0) {
-                    await VeritabaniServisi.arilikKalibrasyonunuKopyala(
-                      kaynakArilikId: kopyalanacakArilikId!,
-                      hedefArilikId: yeniArilikId,
+                  try {
+                    final yeniArilikId = await VeritabaniServisi.arilikEkle(
+                      ad,
+                      kurulusTarihi: _isoTarih(kurulusTarihi),
                     );
-                    ArilikUyariServisi.cacheTemizle(arilikId: yeniArilikId);
+
+                    if (kalibrasyonuKopyala &&
+                        kopyalanacakArilikId != null &&
+                        yeniArilikId > 0) {
+                      await VeritabaniServisi.arilikKalibrasyonunuKopyala(
+                        kaynakArilikId: kopyalanacakArilikId!,
+                        hedefArilikId: yeniArilikId,
+                      );
+                      ArilikUyariServisi.cacheTemizle(arilikId: yeniArilikId);
+                    }
+
+                    if (!mounted) return;
+
+                    Navigator.pop(context);
+                    _verileriYukle();
+                  } catch (e) {
+                    if (!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Arılık kaydedilemedi: $e'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
                   }
+                },
+                child: const Text('Kaydet'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
 
-                  if (!mounted) return;
+  void _arilikDuzenleDiyalog(Map<String, dynamic> arilik) {
+    final arilikId = _toInt(arilik['id']);
+    if (arilikId <= 0) return;
 
-                  Navigator.pop(context);
-                  _verileriYukle();
+    final adController = TextEditingController(
+      text: (arilik['ad'] ?? '').toString(),
+    );
+
+    DateTime kurulusTarihi =
+        _guvenliTarihParse(arilik['kurulusTarihi']) ?? _bugun();
+    final tarihController = TextEditingController(
+      text: _tarihFormatla(kurulusTarihi),
+    );
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            title: const Text('Arılık Bilgilerini Düzenle'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: adController,
+                    decoration: const InputDecoration(
+                      labelText: 'Arılık adı',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: tarihController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Arılık başlangıç tarihi',
+                      border: OutlineInputBorder(),
+                      suffixIcon: Icon(Icons.calendar_today),
+                    ),
+                    onTap: () async {
+                      final secilen = await showDatePicker(
+                        context: dialogContext,
+                        locale: const Locale('tr', 'TR'),
+                        initialDate: kurulusTarihi,
+                        firstDate: DateTime(2000, 1, 1),
+                        lastDate: _bugun(),
+                      );
+
+                      if (secilen == null) return;
+
+                      final yeniTarih = DateTime(
+                        secilen.year,
+                        secilen.month,
+                        secilen.day,
+                      );
+
+                      final onay = await _gecmisTarihOnayi(
+                        mevcutTarih: kurulusTarihi,
+                        yeniTarih: yeniTarih,
+                        baslik: 'Geçmiş tarih seçildi',
+                        mesaj:
+                            'Arılık başlangıç tarihini geriye çekiyorsun. '
+                            'Bu doğruysa devam et. Sistem, bu tarih koloni veya muayene kayıtlarıyla çelişirse kaydı engeller.',
+                      );
+
+                      if (!onay) return;
+
+                      setDialogState(() {
+                        kurulusTarihi = yeniTarih;
+                        tarihController.text = _tarihFormatla(kurulusTarihi);
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Kural: Arılık başlangıç tarihi, bu arılıktaki koloni ve muayene tarihlerinden sonra olamaz. Aynı tarih kabul edilir.',
+                    style: TextStyle(fontSize: 12, height: 1.35),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text('İptal'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final ad = adController.text.trim();
+                  if (ad.isEmpty) return;
+
+                  try {
+                    await VeritabaniServisi.arilikGuncelle(
+                      arilikId,
+                      ad: ad,
+                      kurulusTarihi: _isoTarih(kurulusTarihi),
+                    );
+
+                    ArilikUyariServisi.cacheTemizle(arilikId: arilikId);
+
+                    if (!mounted) return;
+                    Navigator.pop(dialogContext);
+                    _verileriYukle();
+                  } catch (e) {
+                    if (!mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Arılık güncellenemedi: $e'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 },
                 child: const Text('Kaydet'),
               ),
@@ -318,6 +516,168 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
 
     await _verileriYukle();
   }
+
+  Future<void> _arilikSilAkisi(Map<String, dynamic> arilik) async {
+    final arilikId = _toInt(arilik['id']);
+    final arilikAdi = (arilik['ad'] ?? '').toString().trim();
+    if (arilikId <= 0 || arilikAdi.isEmpty) return;
+
+    final ozet = _ozetMap[arilikId] ?? const <String, dynamic>{};
+    final toplam = _toInt(ozet['toplam']);
+    final aktif = _toInt(ozet['aktif']);
+    final pasif = _toInt(ozet['pasif']);
+
+    final ilkOnay = await showDialog<bool>(
+      context: context,
+      useRootNavigator: true,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('ARILIĞI SİL'),
+        content: Text(
+          'Bu işlem geri alınamaz.\n\n'
+          'Silinecek arılık: $arilikAdi\n'
+          'Toplam koloni: $toplam\n'
+          'Aktif koloni: $aktif\n'
+          'Pasif / sönmüş koloni: $pasif\n\n'
+          'Bu arılığa bağlı koloniler, muayeneler, olay kayıtları, numara geçmişi ve arılık özel kalibrasyonları silinir.\n\n'
+          'Devam etmeden önce güncel yedek aldığından emin ol.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext, rootNavigator: true).pop(false),
+            child: const Text('Vazgeç'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () => Navigator.of(dialogContext, rootNavigator: true).pop(true),
+            child: const Text('Devam Et'),
+          ),
+        ],
+      ),
+    );
+
+    if (ilkOnay != true || !mounted) return;
+
+    final ikinciOnay = await _arilikSilmeAdOnayi(arilikAdi);
+    if (ikinciOnay != true) return;
+
+    // Dialog kapanış animasyonu tamamen bitmeden listeyi rebuild etmek Flutter'da
+    // inherited widget bağımlılığı assertion'ına yol açabiliyor. Silme işlemi
+    // yalnızca açık onaydan sonra başlar; Vazgeç akışında hiçbir DB işlemi yapılmaz.
+    await Future<void>.delayed(const Duration(milliseconds: 180));
+    if (!mounted) return;
+
+    try {
+      setState(() {
+        _yukleniyor = true;
+      });
+
+      await VeritabaniServisi.arilikSil(arilikId);
+      ArilikUyariServisi.cacheTemizle(arilikId: arilikId);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$arilikAdi arılığı silindi.')),
+      );
+
+      await _verileriYukle();
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _yukleniyor = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Arılık silinemedi: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<bool?> _arilikSilmeAdOnayi(String arilikAdi) async {
+    final controller = TextEditingController();
+    bool adDogru = false;
+
+    final sonuc = await showDialog<bool>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: false,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            title: const Text('SON ONAY'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Silme işlemini kesinleştirmek için arılık adını birebir yaz.',
+                ),
+                const SizedBox(height: 10),
+                SelectableText(
+                  arilikAdi,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: Colors.brown,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: controller,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Arılık adını yaz',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (v) {
+                    setDialogState(() {
+                      adDogru = v.trim() == arilikAdi;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Bu işlem arılık verisini kalıcı olarak siler.',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 12,
+                    height: 1.35,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext, rootNavigator: true).pop(false),
+                child: const Text('Vazgeç'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: adDogru
+                    ? () => Navigator.of(dialogContext, rootNavigator: true).pop(true)
+                    : null,
+                child: const Text('Kalıcı Olarak Sil'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    // Controller'ı burada dispose etmiyoruz. Dialog kapanış animasyonu sırasında
+    // TextField hâlâ kısa süre canlı kalabildiği için erken dispose Flutter
+    // assertion'ı üretebiliyor. Bu küçük controller, ekran ömrü içinde güvenli
+    // şekilde GC'ye bırakılır.
+    return sonuc;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -561,14 +921,40 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: Text(
-                    arilik['ad']?.toString() ?? '-',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 18,
-                      color: Colors.black87,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        arilik['ad']?.toString() ?? '-',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 18,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        "Başlangıç: ${_tarihFormatla(_guvenliTarihParse(arilik['kurulusTarihi']) ?? _bugun())}",
+                        style: const TextStyle(
+                          fontSize: 11.5,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+                IconButton(
+                  tooltip: 'Arılığı düzenle',
+                  onPressed: () => _arilikDuzenleDiyalog(arilik),
+                  icon: const Icon(Icons.edit_calendar_outlined),
+                  color: Colors.brown,
+                ),
+                IconButton(
+                  tooltip: 'Arılığı sil',
+                  onPressed: () => _arilikSilAkisi(arilik),
+                  icon: const Icon(Icons.delete_outline),
+                  color: Colors.red,
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(

@@ -20,6 +20,10 @@ class EsikTanim {
 }
 
 class EsikServisi {
+  /// Bölme için biyolojik alt sınırdır.
+  /// Kullanıcı ayarı değildir; sistem sabiti olarak korunur.
+  static const int bolmeAdayiMinCita = 6;
+
   /// Genel anahtarlar korunuyor.
   /// Ayarlar ekranı ve mevcut çağrılar bozulmasın diye bunları tutuyoruz.
   static const Map<String, EsikTanim> tanimlar = {
@@ -55,13 +59,13 @@ class EsikServisi {
     ),
     'bolme_adayi_min_cita': EsikTanim(
       anahtar: 'bolme_adayi_min_cita',
-      baslik: 'Bölme Adayı Alt Sınırı (Çıta)',
+      baslik: 'Bölme Biyolojik Alt Sınırı (Çıta)',
       aciklama:
-      'Bölme kararı için gereken minimum mevcut koloni gücüdür. '
-          'Sistem ayrıca maksimum kapasite ve trendi de birlikte okur.',
-      varsayilan: 12,
-      min: 8,
-      max: 18,
+      'Bölme için sistemin kabul ettiği biyolojik alt sınırdır. '
+          'Bu değer kullanıcı tercihi değildir; saha güvenliği için sabit tutulur.',
+      varsayilan: bolmeAdayiMinCita,
+      min: bolmeAdayiMinCita,
+      max: bolmeAdayiMinCita,
     ),
     'ana_degisim_sezon_esigi': EsikTanim(
       anahtar: 'ana_degisim_sezon_esigi',
@@ -138,12 +142,12 @@ class EsikServisi {
     ),
     'kis_bolme_adayi_min_cita': EsikTanim(
       anahtar: 'kis_bolme_adayi_min_cita',
-      baslik: 'Kış: Bölme Adayı Alt Sınırı (Çıta)',
+      baslik: 'Kış: Bölme Biyolojik Alt Sınırı (Çıta)',
       aciklama:
-      'Kış döneminde pratikte bölme önerilmez. Bu değer güvenlik için yüksek tutulur.',
-      varsayilan: 18,
-      min: 12,
-      max: 30,
+      'Bölme için biyolojik alt sınırdır. Kış döneminde stratejik olarak bölme önerisi ayrıca süreç motoru tarafından sınırlandırılmalıdır.',
+      varsayilan: bolmeAdayiMinCita,
+      min: bolmeAdayiMinCita,
+      max: bolmeAdayiMinCita,
     ),
     'kis_ana_degisim_sezon_esigi': EsikTanim(
       anahtar: 'kis_ana_degisim_sezon_esigi',
@@ -212,12 +216,12 @@ class EsikServisi {
     ),
     'uretim_bolme_adayi_min_cita': EsikTanim(
       anahtar: 'uretim_bolme_adayi_min_cita',
-      baslik: 'Üretim: Bölme Adayı Alt Sınırı (Çıta)',
+      baslik: 'Üretim: Bölme Biyolojik Alt Sınırı (Çıta)',
       aciklama:
-      'Gelişim / üretim döneminde bölme için minimum mevcut güç.',
-      varsayilan: 12,
-      min: 8,
-      max: 18,
+      'Gelişim / üretim döneminde bölme için sistemin kabul ettiği biyolojik alt sınırdır. Kullanıcı ayarı değildir.',
+      varsayilan: bolmeAdayiMinCita,
+      min: bolmeAdayiMinCita,
+      max: bolmeAdayiMinCita,
     ),
     'uretim_ana_degisim_sezon_esigi': EsikTanim(
       anahtar: 'uretim_ana_degisim_sezon_esigi',
@@ -298,14 +302,9 @@ class EsikServisi {
       genelTanim: tanimlar['guclu_koloni_min_cita']!,
     );
 
-    sonuc['bolme_adayi_min_cita'] = await _sezonluAyarGetir(
-      sezonAnahtar: kis ? 'kis_bolme_adayi_min_cita' : 'uretim_bolme_adayi_min_cita',
-      genelAnahtar: 'bolme_adayi_min_cita',
-      tanim: kis
-          ? sezonTanimlar['kis_bolme_adayi_min_cita']!
-          : sezonTanimlar['uretim_bolme_adayi_min_cita']!,
-      genelTanim: tanimlar['bolme_adayi_min_cita']!,
-    );
+    // Bölme çıta alt sınırı kullanıcı ayarından okunmaz.
+    // Sistem sabiti olarak korunur.
+    sonuc['bolme_adayi_min_cita'] = bolmeAdayiMinCita;
 
     sonuc['ana_degisim_sezon_esigi'] = await _sezonluAyarGetir(
       sezonAnahtar: kis ? 'kis_ana_degisim_sezon_esigi' : 'uretim_ana_degisim_sezon_esigi',
@@ -414,7 +413,7 @@ class EsikServisi {
       kis ? 'kis_guclu_koloni_min_cita' : 'uretim_guclu_koloni_min_cita':
       esikler['guclu_koloni_min_cita'] ?? (kis ? 6 : 7),
       kis ? 'kis_bolme_adayi_min_cita' : 'uretim_bolme_adayi_min_cita':
-      esikler['bolme_adayi_min_cita'] ?? (kis ? 18 : 12),
+      bolmeAdayiMinCita,
       kis ? 'kis_ana_degisim_sezon_esigi' : 'uretim_ana_degisim_sezon_esigi':
       esikler['ana_degisim_sezon_esigi'] ?? 2,
       kis ? 'kis_mudahale_min_skor' : 'uretim_mudahale_min_skor':
@@ -506,7 +505,6 @@ class EsikServisi {
     final dusukSkor = e['mudahale_min_skor'] ?? 45;
     final uretimSkor = e['uretim_min_skor'] ?? 70;
     final damizlikSkor = e['damizlik_min_skor'] ?? 85;
-    final bolmeCita = e['bolme_adayi_min_cita'] ?? 12;
 
     if (destek >= orta) {
       return 'Destek sınırı, orta koloni sınırından küçük olmalıdır.';
@@ -524,9 +522,6 @@ class EsikServisi {
       return 'Üretim skoru, damızlık skorundan düşük olmalıdır.';
     }
 
-    if (bolmeCita <= guclu) {
-      return 'Bölme çıta eşiği, güçlü koloni çıta sınırından büyük olmalıdır.';
-    }
 
     return null;
   }
@@ -569,7 +564,7 @@ class EsikServisi {
     required String trend,
     required Map<String, int> e,
   }) {
-    final bolmeCita = e['bolme_adayi_min_cita'] ?? 12;
+    const bolmeCita = bolmeAdayiMinCita;
     final minMaksCita = bolmeCita + 2;
     return sonCita >= bolmeCita && maxCita >= minMaksCita && trend != 'Düşüş';
   }
@@ -622,9 +617,9 @@ Kullandığı yöntem:
 • Trend = son muayene serisindeki yön bilgisidir.
 • Karar = skor + çıta gücü + trend + ana yaşı birlikte okunarak üretilir.
 • Sezon = aynı veri farklı mevsimde farklı anlam üreteceği için eşikler aktif sezona göre yorumlanır.
-• Bölme kararı sadece anlık güçle değil, maksimum kapasite ile birlikte değerlendirilir.
+• Bölme kararı 6 çıtalık biyolojik alt sınır, anlık güç, maksimum kapasite ve trend birlikte okunarak değerlendirilir.
 • Damızlık kararı sadece yüksek skorla değil; yükselen trend ve uygun ana yaşı ile verilir.
-• Kullanıcı eşikleri değiştirebilir; ancak sistem omurgasını korumak için her alan kontrollü sınırlar içinde tutulur.
+• Kullanıcı bazı eşikleri değiştirebilir; ancak bölme için 6 çıtalık biyolojik alt sınır sistem sabiti olarak korunur.
 ''';
   }
 
@@ -634,9 +629,9 @@ Kullandığı yöntem:
       "Aynı veri farklı sezonda farklı anlam taşıyabileceği için aktif sezon eşikleri kullanılır.",
       "Düşük skor + düşüş trendi birleşirse müdahale önceliği oluşur.",
       "Ana yaşı eşiği aşılmış ve performans üretim düzeyine çıkamıyorsa ana değişimi değerlendirilir.",
-      "Bölme kararı için yalnızca mevcut çıta değil, geçmişte ulaşılan maksimum kapasite de dikkate alınır.",
+      "Bölme kararında 6 çıtalık biyolojik alt sınır sabittir; ayrıca mevcut çıta, geçmiş maksimum kapasite ve trend birlikte dikkate alınır.",
       "Damızlık kararı için yüksek skor tek başına yetmez; yükseliş trendi ve uygun ana yaşı da gerekir.",
-      "Kullanıcı eşikleri değiştirebilir; ancak sistemin anlamını korumak için her eşik güvenli sınırlar içinde tutulur.",
+      "Kullanıcı bazı eşikleri değiştirebilir; ancak bölme için 6 çıtalık biyolojik alt sınır kullanıcı tercihine bırakılmaz.",
     ];
   }
 }

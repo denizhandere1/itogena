@@ -176,6 +176,47 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     return '$gun.$ay.${tarih.year}';
   }
 
+  Future<bool> _gecmisTarihOnayi({
+    required DateTime mevcutTarih,
+    required DateTime yeniTarih,
+  }) async {
+    final mevcut = DateTime(
+      mevcutTarih.year,
+      mevcutTarih.month,
+      mevcutTarih.day,
+    );
+    final yeni = DateTime(
+      yeniTarih.year,
+      yeniTarih.month,
+      yeniTarih.day,
+    );
+
+    if (!yeni.isBefore(mevcut)) return true;
+
+    final onay = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Geçmiş tarih seçildi'),
+        content: const Text(
+          'Koloni başlangıç tarihini geriye çekiyorsun. '
+          'Bu doğruysa devam et. Sistem, tarih arılık başlangıcı veya ilk muayene ile çelişirse kaydı engeller.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Vazgeç'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('Evet, değiştir'),
+          ),
+        ],
+      ),
+    );
+
+    return onay == true;
+  }
+
   Future<void> _olusturmaTarihiSec() async {
     final secilen = await showDatePicker(
       context: context,
@@ -186,8 +227,17 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     );
 
     if (secilen == null) return;
+
+    final yeniTarih = DateTime(secilen.year, secilen.month, secilen.day);
+    final onay = await _gecmisTarihOnayi(
+      mevcutTarih: _olusturmaTarihi,
+      yeniTarih: yeniTarih,
+    );
+
+    if (!onay) return;
+
     setState(() {
-      _olusturmaTarihi = DateTime(secilen.year, secilen.month, secilen.day);
+      _olusturmaTarihi = yeniTarih;
       _tarihCont.text = _tarihFormatla(_olusturmaTarihi);
     });
   }
