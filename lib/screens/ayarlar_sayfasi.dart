@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'ana_sayfa_kisayol.dart';
+import 'kullanici_rehberi_sayfasi.dart' as rehber;
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/arilik_uyari_servisi.dart';
 import '../services/yedek_dosya_servisi.dart';
 import '../services/guncelleme_servisi.dart';
+import '../services/test_ariligi_servisi.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
   const AyarlarSayfasi({super.key});
@@ -23,6 +25,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   bool _kaydediliyor = false;
   bool _yedekAliniyor = false;
   bool _yedekYukleniyor = false;
+  bool _testAriligiOlusturuluyor = false;
 
   String _kisBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_kis_baslangic');
   String _kisBitis = VeritabaniServisi.varsayilanAyarDegeri('season_kis_bitis');
@@ -603,6 +606,64 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   }
 
 
+
+  Future<void> _testAriligiOlustur() async {
+    if (_testAriligiOlusturuluyor || _yedekAliniyor || _yedekYukleniyor || _kaydediliyor) return;
+
+    final onay = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Test arılığı oluşturulsun mu?'),
+        content: const Text(
+          'Bu işlem Uluköy veya başka gerçek arılık verisine dokunmaz. '
+          'Yalnızca ITOGENA_TEST_ARILIGI adlı ayrı test arılığını oluşturur. '
+          'Aynı isimde eski test arılığı varsa sadece onu silip yeniden kurar.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('Vazgeç'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('Oluştur'),
+          ),
+        ],
+      ),
+    );
+
+    if (onay != true) return;
+
+    setState(() => _testAriligiOlusturuluyor = true);
+
+    try {
+      final sonuc = await TestAriligiServisi.olusturVeyaYenile();
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${TestAriligiServisi.testAriligiAdi} hazır. '
+            '${sonuc.koloniSayisi} test kolonisi oluşturuldu. '
+            '${sonuc.oncekiTestAriligiSilindi ? 'Eski test arılığı yenilendi.' : 'Mevcut gerçek arılıklara dokunulmadı.'}',
+          ),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Test arılığı oluşturulamadı: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _testAriligiOlusturuluyor = false);
+      }
+    }
+  }
+
   Future<void> _guncellemeKontrolEt() async {
     if (_yedekAliniyor || _yedekYukleniyor || _kaydediliyor) return;
 
@@ -646,173 +707,11 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   }
 
   void _teknikReferansGoster() {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        final controller = ScrollController();
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.82,
-          decoration: const BoxDecoration(
-            color: Color(0xFFFFFDE7),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-          ),
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              Container(
-                width: 52,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              Expanded(
-                child: ListView(
-                  controller: controller,
-                  padding: const EdgeInsets.all(24),
-                  children: [
-                    const Text(
-                      'İTOGENA TEKNİK REFERANS',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                    const Text(
-                      'Karar mantığı, kalibrasyon, risk takvimi ve veri güvenliği',
-                      style: TextStyle(color: Colors.blueGrey, fontSize: 11),
-                    ),
-                    const Divider(height: 32, thickness: 1.5),
-                    _referansBolum(
-                      '1. SİSTEM FELSEFESİ',
-                      const [
-                        'İTOGENA basit saha verisini zaman, olay, süreç, soy ve performans bağlamıyla yorumlar.',
-                        'Amaç kullanıcıyı veriyle boğmak değil, sahada uygulanabilir kararı görünür kılmaktır.',
-                        'Sistem gereksiz teknik açıklama yerine yapılacak işi ve kısa gerekçeyi öne çıkarır.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '2. KARAR AKIŞI',
-                      const [
-                        'Temel akış: tetik → süreç → öneri → saha eylemi → yeni muayene → kapanış.',
-                        'Sistem her süreç için kullanıcıdan ayrıca onay istemez; sonucu sonraki muayene verisinden anlamaya çalışır.',
-                        'Günlük veya kapalı yavru görüldü gibi biyolojik kapanış sinyalleri ilgili süreçleri kapatabilir.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '3. SEZON REFERANSI',
-                      const [
-                        'Kış / Dayanıklılık dönemi ve Aktif / Üretim dönemi global çalışır.',
-                        'Bu sezonlar performans, rapor ve seçilim katmanlarında ortak referans olarak kullanılır.',
-                        'Arılık bazlı sezon ayrımı şu aşamada açılmadı; çünkü karşılaştırma ve skor tutarlılığını bozabilir.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '4. BAL AKIMI REFERANSI',
-                      const [
-                        'Bal akımı tarihleri merkezi olarak okunur.',
-                        'Koloni detay, genel uyarılar, varroa uyarıları ve bölme geri sayımı aynı bal akımı kaynağını kullanır.',
-                        '1. bal akımı zorunlu ana penceredir. 2. bal akımı yalnızca gerçekten ikinci bir akım varsa açılır.',
-                        'Bal akımı değiştiğinde ilgili önbellek temizlenir ve sistem yeni tarihe göre yeniden karar üretir.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '5. ARILIK BAZLI KALİBRASYON',
-                      const [
-                        'Bal akımı ve genel risk takvimi tüm arılıklar için genel varsayılan olarak kaydedilebilir.',
-                        'İstenirse yalnızca seçilen arılık için özel kalibrasyon oluşturulur.',
-                        'Özel kalibrasyonu olan arılık kendi ayarını kullanır; özel ayarı olmayan arılık genel varsayılanı kullanır.',
-                        'Yeni arılık eklerken varsayılan kalibrasyon kullanılabilir veya mevcut bir arılıktan kalibrasyon kopyalanabilir.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '6. GENEL RİSK TAKVİMİ',
-                      const [
-                        'Arı kuşu, eşek arısı / sarıca, yağmacılık, mum güvesi ve fare uyarıları arılık geneli dönemsel hatırlatmalardır.',
-                        'Bu uyarılar koloni detayında değil, arılık seçim ekranında gösterilir.',
-                        'Risk tarihleri tüm arılıklar için veya seçilen arılık için ayrı kalibre edilebilir.',
-                        '“Bu sezon gösterme” arılık bazlı ve yıl bazlı çalışır.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '7. VARROA VE BAL AKIMI İLİŞKİSİ',
-                      const [
-                        'Varroa uyarıları bal akımı tarihine göre planlama ve son dönem uyarısı üretebilir.',
-                        'Kimyasal mücadelede kalıntı riski dikkate alınır.',
-                        'Bal akımı öncesi uyarılar merkezi bal akımı motorundan beslendiği için farklı ekranlarda farklı tarih kullanımı oluşmaz.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '8. BÖLME GERİ SAYIMI',
-                      const [
-                        'Bölme uyarısı bal akımı hedefiyle ilişkilidir.',
-                        'Amaç, bal akımına güçlü işçi arı nüfusu ile girme hedefini korumaktır.',
-                        'Bal akımı değiştiğinde bölme uyarılarının tarihi de aynı merkezi referansa göre değişir.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '9. ŞURUP HESAPLAMA',
-                      const [
-                        'Şurup hesabı pancar şekeri yani sakaroz esas alınarak yapılır.',
-                        'Şeker suda çözündüğünde hacim daraldığı için doğrudan su + şeker toplamı kullanılmaz.',
-                        '1:1 teşvik şurubu için katsayı 0.76, 2:1 stok / kış şurubu için katsayı 0.68 kabul edilir.',
-                        'Bu ekran besleme kararı vermez; yalnızca hedef şerbet miktarına göre doğru su ve şeker miktarını hesaplar.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '10. GENETİK SEÇİLİM',
-                      const [
-                        'Performans skoru ile donör seçimi aynı şey değildir.',
-                        'Oğul izi puan cezası değil, genetik veto sebebidir.',
-                        'Donör havuzu önce veto kurallarından geçirilir, sonra uygun koloniler performansa göre değerlendirilir.',
-                        'Kovan numarası değişse bile soy takibi sabit sistem kimliği üzerinden korunur.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '11. AKTİF / SÖNMÜŞ AYRIMI',
-                      const [
-                        'Sönmüş veya pasif koloniler aktif üretim kararlarına dahil edilmez.',
-                        'Soy geçmişi ve hat analizinde görülebilirler; fakat aktif arılık gücü hesabında canlı koloni gibi sayılmazlar.',
-                        'Bu ayrım raporlar, arılık özetleri ve soy devamlılığı için önemlidir.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '12. ÖNBELLEK VE HIZ',
-                      const [
-                        'Sık kullanılan karar ve kalibrasyon verileri önbelleğe alınır.',
-                        'Ayar değişikliklerinden sonra ilgili önbellek temizlenir.',
-                        'Bu yapı hem hızı korur hem de eski veriye göre yanlış karar üretilmesini önler.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '13. YEDEK SİSTEMİ',
-                      const [
-                        'Yedek alma tüm arılık, koloni, muayene, olay, numara geçmişi ve ayar verilerini JSON dosyasına aktarır.',
-                        'Yedekten yükleme mevcut veriyi seçilen yedekle değiştirir.',
-                        'Yedek metasında uygulama adı, backupVersion, schemaVersion, dbVersion, appVersionName, appVersionCode ve createdAt bilgileri tutulur.',
-                        'Eski yedekler mümkün olduğunca kabul edilir; uyumluluk riski varsa kullanıcı uyarılmalıdır.',
-                        'Geri yükleme sonrası sistem bakım adımı çalışır ve karar önbelleği temizlenir.',
-                      ],
-                    ),
-                    _referansBolum(
-                      '14. KULLANICIYA AÇIK / KAPALI ALANLAR',
-                      const [
-                        'Kullanıcı sezon tarihlerini, bal akımı pencerelerini, genel risk takvimini ve davranış tercihini ayarlayabilir.',
-                        'Çıta eşikleri, temel biyolojik pencereler, genetik veto mantığı ve süreç omurgası sistem tarafından korunur.',
-                        'Bu sınır, sistemin hem esnek hem güvenilir kalmasını sağlar.',
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const rehber.KullaniciRehberiSayfasi(),
+      ),
     );
   }
 
@@ -920,6 +819,11 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           ),
           const SizedBox(height: 6),
           Text(altMetin, style: const TextStyle(fontSize: 12, height: 1.4)),
+          const SizedBox(height: 6),
+          const Text(
+            'Tarih gösterimi gün/ay formatındadır; kayıt formatı sistem içinde korunur.',
+            style: TextStyle(fontSize: 11, height: 1.35, color: Colors.black54),
+          ),
           const SizedBox(height: 14),
           Row(
             children: [
@@ -1246,7 +1150,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         OutlinedButton.icon(
           onPressed: _teknikReferansGoster,
           icon: const Icon(Icons.menu_book_outlined),
-          label: const Text('Teknik referans ve ayarlar rehberini aç'),
+          label: const Text('Kullanıcı rehberini aç'),
         ),
       ],
     );
@@ -1407,6 +1311,14 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           renk: Colors.indigo,
           calisiyor: _yedekYukleniyor,
           onTap: _yedektenYukle,
+        ),
+        _sistemIslemKarti(
+          baslik: 'Test Arılığı Oluştur / Yenile',
+          altMetin: 'Uluköy verisine dokunmadan ayrı ITOGENA_TEST_ARILIGI içinde 40 senaryo kurar.',
+          ikon: Icons.science_outlined,
+          renk: Colors.blueGrey,
+          calisiyor: _testAriligiOlusturuluyor,
+          onTap: _testAriligiOlustur,
         ),
         _sistemIslemKarti(
           baslik: 'Güncellemeyi Kontrol Et',

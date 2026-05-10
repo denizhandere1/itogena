@@ -268,6 +268,67 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     return _alarmDurumMap[koloniId]?['ogulAtti'] == true;
   }
 
+  bool _hasatAkintisiGoster(Map<String, dynamic> k, {required bool sonmusSekmesi}) {
+    if (sonmusSekmesi) return false;
+    if (!_aktifMi(k)) return false;
+
+    final int sonCita = _toInt(k['sonCita']);
+    if (sonCita < 8) return false;
+
+    // Grid ekranında ağır biyolojik model çalıştırmıyoruz.
+    // 8 ve üzeri aktif koloniler hasat potansiyeli için görsel olarak işaretlenir;
+    // kesin çıta önerisi koloni detayındaki biyolojik model kartında verilir.
+    return true;
+  }
+
+  Widget _hasatAkintisiOverlay() {
+    return IgnorePointer(
+      child: SizedBox(
+        width: 32,
+        height: 42,
+        child: Stack(
+          children: [
+            Container(
+              width: 28,
+              height: 12,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFB300).withOpacity(0.62),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(13),
+                  bottomRight: Radius.circular(14),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 6,
+              top: 24,
+              child: Container(
+                width: 7,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFB300).withOpacity(0.58),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 18,
+              top: 22,
+              child: Container(
+                width: 5,
+                height: 13,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFC107).withOpacity(0.50),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _karsilastirmaModunuDegistir() {
     if (_tabController.index == 1) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -575,10 +636,17 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
                 : TabBarView(
               controller: _tabController,
               children: [
-                _koloniGridi(
-                  koloniler: _aktifKoloniler,
-                  bosMesaj: 'Bu arılıkta aktif koloni kaydı yok.',
-                  sonmusSekmesi: false,
+                Column(
+                  children: [
+                    if (!_karsilastirmaModu) _donorBilgiBandi(),
+                    Expanded(
+                      child: _koloniGridi(
+                        koloniler: _aktifKoloniler,
+                        bosMesaj: 'Bu arılıkta aktif koloni kaydı yok.',
+                        sonmusSekmesi: false,
+                      ),
+                    ),
+                  ],
                 ),
                 _koloniGridi(
                   koloniler: _sonmusKoloniler,
@@ -676,6 +744,37 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     );
   }
 
+  Widget _donorBilgiBandi() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.fromLTRB(10, 8, 10, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.amber.shade200),
+      ),
+      child: const Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.workspace_premium_outlined, size: 18, color: Colors.brown),
+          SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              'Rozetler: 1/2/3 ilk donör adaylarını, D donör havuzundaki diğer adayları gösterir. Genetik veto varsa detay ekranında ayrıca açıklanır.',
+              style: TextStyle(
+                fontSize: 11.5,
+                height: 1.35,
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _karsilastirmaBilgiBandi() {
     final seciliSayi = _seciliKoloniIdleri.length;
 
@@ -747,6 +846,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
         !sonmusSekmesi && _anaMemesiTakipAlarmiVar(k);
     final bool anaMemesiAlarmi = !sonmusSekmesi && _anaMemesiAlarmiVar(k);
     final bool ogulAttiAlarmi = !sonmusSekmesi && _ogulAttiAlarmiVar(k);
+    final bool hasatAkintisiGoster = _hasatAkintisiGoster(k, sonmusSekmesi: sonmusSekmesi);
 
     final Color ustRenk = sonmusSekmesi ? Colors.grey.shade500 : skorRenk;
     final Color cerceveRenk = sonmusSekmesi
@@ -947,6 +1047,12 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
               ],
             ),
           ),
+          if (hasatAkintisiGoster)
+            Positioned(
+              top: 0,
+              left: 0,
+              child: _hasatAkintisiOverlay(),
+            ),
           if (anaMemesiAlarmi || ogulAttiAlarmi)
             Positioned(
               top: 0,

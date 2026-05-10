@@ -517,10 +517,10 @@ class AriBiyolojiServisi {
         'gunNo': gunNo,
         'baslik': '5. gün kapalı meme kontrolü',
         'mesaj':
-            '$kontrolTarihi tarihinde kapalı memeleri imha et. Açık memeleri bırak. '
-            '5. gün kısa kontrol yap; kapalı memeleri boz, açık memeleri bırak. '
-            'Tüm memeleri bozma. Kovanı uzun süre açık tutma. '
-            'Çok erken kapanmış meme çoğu zaman daha yaşlı larvadan yapılır. Bu, daha zayıf ana kalitesi riski taşır.',
+            '$kontrolTarihi tarihinde kısa kontrol yap. Kapalı/kapanmış ana memelerini boz; açık veya henüz kapanmamış memeleri bırak. '
+            'Amaç tüm memeleri yok etmek değil, çok erken kapanmış ve kalite riski taşıyan memeleri elemek. '
+            'Kovanı uzun süre açık tutma, çerçeveleri sarsma ve gereksiz arama yapma. '
+            'Çok erken kapanmış meme çoğu zaman daha yaşlı larvadan yapılır; bu da ana kalitesi riskini artırır.',
         'seviye': 'kritik',
       };
     }
@@ -553,11 +553,11 @@ class AriBiyolojiServisi {
     if (gunNo <= 21) {
       return <String, dynamic>{
         'gunNo': gunNo,
-        'baslik': 'Kovanı kesinlikle açma',
+        'baslik': 'Kovanı açma',
         'mesaj':
             'Ana çıkışı tamamlanmış ve kovan içi olgunlaşma / kabul sürecine girmiş olabilir. '
             'Kovanı açma, sarsma, çerçeve çekme. Dışarıdan uçuş ve sakinlik gözlemiyle yetin. '
-            'Yeni ana bu dönemde çok hassastır. Kovan içi nem, koku, feromon ve kabul dengesi bozulursa ana paniğe girebilir, kabul zayıflayabilir veya ana kaybı yaşanabilir.',
+            'Yeni ana bu dönemde hassastır. Kovan içi nem, koku, feromon ve kabul dengesi bozulursa ana kaybı riski artar.',
         'seviye': 'kritik',
       };
     }

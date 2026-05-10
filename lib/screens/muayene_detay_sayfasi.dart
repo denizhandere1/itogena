@@ -200,6 +200,7 @@ class MuayeneDetaySayfasi extends StatelessWidget {
     }
     ekle('Dışarıdan Hazır Ana Verildi', _boolAlan(muayene['disaridanHazirAnaVerildi']));
     ekle('Günlük / Kapalı Yavru Görüldü', _boolAlan(muayene['gunlukKapaliYavruGoruldu']));
+    ekle('Şurupluk Kaldırıldı', _boolAlan(muayene['suruplukKaldirildiMi']));
 
     return satirlar;
   }

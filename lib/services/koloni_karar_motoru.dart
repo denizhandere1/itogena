@@ -2,6 +2,7 @@ import 'trend_servisi.dart';
 import 'esik_servisi.dart';
 import 'veritabani_servisi.dart';
 import 'ari_biyoloji_servisi.dart';
+import 'koloni_biyolojik_model_servisi.dart';
 
 class KoloniKararSonucu {
   final int koloniId;
@@ -105,6 +106,13 @@ class KoloniKararMotoru {
     (profil['kisGirisReferansTarih'] ?? '').toString();
     final String kisSonuTarih =
     (profil['kisSonuReferansTarih'] ?? '').toString();
+    final String kararTarih = (profil['kararTarih'] ?? '').toString();
+    final String bolmePenceresi = (profil['bolmePenceresi'] ?? '').toString();
+    final String anaDegisimPenceresi =
+    (profil['anaDegisimPenceresi'] ?? '').toString();
+    final int momentumSkoru = _toInt(profil['momentumSkoru']);
+    final String kovanTipi = (profil['kovanTipi'] ?? '').toString();
+    final int surupluk = profil['suruplukVarMi'] == true ? 1 : 0;
 
     return [
       koloniId,
@@ -121,6 +129,12 @@ class KoloniKararMotoru {
       kisCikisPuani,
       kisGirisTarih,
       kisSonuTarih,
+      kararTarih,
+      bolmePenceresi,
+      anaDegisimPenceresi,
+      momentumSkoru,
+      kovanTipi,
+      surupluk,
     ].join('|');
   }
 
@@ -243,6 +257,9 @@ class KoloniKararMotoru {
 
     final String mizac = (profil['mizac'] ?? 'Bilinmiyor').toString();
     final String trend = (profil['trend'] ?? 'Stabil').toString();
+    final String momentumEtiketi = (profil['momentumEtiketi'] ?? '').toString();
+    final int momentumSkoru = _toInt(profil['momentumSkoru']);
+    final bool gucluMomentum = momentumSkoru >= 70;
     final String davranisToleransi =
     (profil['davranisToleransi'] ?? 'standart').toString();
 
@@ -250,12 +267,60 @@ class KoloniKararMotoru {
 
     final esikler = await EsikServisi.tumEsikleriYukle();
     final int bolmeCita = esikler['bolme_adayi_min_cita'] ?? EsikServisi.bolmeAdayiMinCita;
+    final int biyolojikBolmeAltCita = EsikServisi.bolmeBiyolojikMinCita;
     final int destekCita = esikler['destek_max_maks_cita'] ?? 4;
     final int uretimMinSkor = esikler['uretim_min_skor'] ?? 70;
     final int mudahaleMinSkor = esikler['mudahale_min_skor'] ?? 45;
-    final int anaDegisimYasi = esikler['ana_degisim_sezon_esigi'] ?? 2;
+    // Ürün standardı: ana değişim yaşı varsayılan olarak 2 yıldır.
+    // Bu değer karar dilinde sade tutulur; gereksiz ayar karmaşası oluşturulmaz.
+    const int anaDegisimYasi = 2;
 
     final biyoloji = await AriBiyolojiServisi.analizYap(koloniId);
+    final int petekOrmePuani = _toInt(profil['petekOrmePuani']);
+    final int yavruBakimPuani = _toInt(profil['yavruBakimPuani']);
+    final int nektarToplamaPuani = _toInt(profil['nektarToplamaPuani']);
+    final int balIslemePuani = _toInt(profil['balIslemePuani']);
+    final int kisDayanimPuani = _toInt(profil['kisDayanimPuani']);
+    final String temelSahaOnerisi =
+        (profil['biyolojikTemelSahaOnerisi'] ?? '').toString().trim();
+
+    final String sezonKodu = (profil['sezonKodu'] ?? 'uretim').toString();
+    final bool uretimSezonu = sezonKodu == 'uretim';
+    final String bolmePenceresi =
+    (profil['bolmePenceresi'] ?? 'kapali').toString();
+    final String bolmePencereMesaji =
+    (profil['bolmePencereMesaji'] ?? '').toString();
+    final String anaDegisimPenceresi =
+    (profil['anaDegisimPenceresi'] ?? 'planla').toString();
+    final String anaDegisimPencereMesaji =
+    (profil['anaDegisimPencereMesaji'] ?? '').toString();
+
+    final bool bolmeZamaniUygun = bolmePenceresi == 'uygun';
+    final bool bolmeZamaniGec = bolmePenceresi == 'gec';
+    final bool bolmeZamaniBalAkiminda = bolmePenceresi == 'bal_akiminda';
+    final bool bolmeZamaniKapali =
+        bolmePenceresi == 'kapali' || bolmePenceresi == 'hasat_sonrasi';
+
+    final bool bolmeIcinUygun =
+        uretimSezonu &&
+            bolmeZamaniUygun &&
+            sonCita >= bolmeCita &&
+            maxCita >= bolmeCita &&
+            trend != 'Düşüş';
+    final bool bolmeRiskliBand =
+        uretimSezonu &&
+            bolmeZamaniUygun &&
+            !bolmeIcinUygun &&
+            sonCita >= biyolojikBolmeAltCita &&
+            sonCita < bolmeCita;
+    final bool bolmeGecKaldi =
+        uretimSezonu && bolmeZamaniGec && sonCita >= biyolojikBolmeAltCita;
+    final bool bolmeOzelStratejiNotu =
+        uretimSezonu && bolmeZamaniBalAkiminda && sonCita >= bolmeCita;
+    final bool anaDegisimZamaniUygun = anaDegisimPenceresi == 'uygun';
+
+    final String veriGuveniEtiketi = _veriGuveniEtiketi(muayeneSayisi);
+    final String veriGuveniNotu = _veriGuveniNotu(muayeneSayisi);
 
     late final String kararKodu;
     late final String kararBaslik;
@@ -297,23 +362,34 @@ class KoloniKararMotoru {
         vetoNedeni = 'Temiz donör havuzuna alınmadı.';
       }
 
-      if (sonCita >= bolmeCita || maxCita >= bolmeCita) {
+      if (bolmeIcinUygun) {
         kararKodu = 'BOLME_ICIN_UYGUN';
-        kararBaslik = 'Genetik veto var; destekleyici veya üretim kolonisi olarak kullan';
+        kararBaslik = 'Genetik veto var; güvenli bölme veya üretim için kullan';
         kararMesaji =
-        'Ana üretme. Bu koloni güçlü ise bölme, kapalı yavru desteği veya üretim için değerlendirilebilir.';
+        'Ana üretme. 9 çıta ve üstü güçte olduğu için bölme, kapalı yavru desteği veya üretim için değerlendirilebilir.';
         kararNedeni = vetoNedeni;
         kararTipi = 'uyari';
 
         secilimKodu = 'OPERASYONEL_KULLAN';
         secilimBaslik = 'Genetik veto / güçlü operasyonel kullanım';
         secilimMesaji =
-        'Donör havuzunda değil. Buna rağmen güçlü koloni olarak bölme, destek ve yavru gücü açısından değerlidir.';
-      } else if (skor >= uretimMinSkor || balCita > 0) {
+        'Donör havuzunda değil. 9 çıta güvenli saha eşiğini geçtiği için yalnızca operasyonel bölme, destek ve üretim rolünde değerlendirilebilir.';
+      } else if (skor >= uretimMinSkor ||
+          balCita > 0 ||
+          bolmeRiskliBand ||
+          bolmeGecKaldi ||
+          bolmeOzelStratejiNotu) {
         kararKodu = 'URETIMDE_DEGERLENDIR';
         kararBaslik = 'Genetik veto var; üretimde değerlendir';
-        kararMesaji =
-        'Ana üretme. Bal ve genel üretim odağında kullan. Donör değil ama çalışkan üretim kolonisi olarak değerlendirilebilir.';
+        kararMesaji = bolmeRiskliBand
+            ? 'Ana üretme. 6–8 çıta arası bölme için riskli kabul edilir; sistem bölme önermiyor. Önce güçlendir, üretim ve destek rolünde değerlendir.'
+            : (bolmeGecKaldi
+            ? (gucluMomentum
+                ? 'Ana üretme. Koloni güçlü üreme gelişimi gösteriyor; ancak bal akımına yakın dönemde standart bölme üretim gücünü düşürebilir. Saha baskısı oluşursa kontrollü bölme ayrıca değerlendirilebilir. $bolmePencereMesaji'
+                : 'Ana üretme. Koloni güçlü olabilir; ancak standart bölme için zaman geç kalmış görünüyor. Üretim gücünü koru. $bolmePencereMesaji')
+            : (bolmeOzelStratejiNotu
+            ? 'Ana üretme. Bal akımı içinde standart bölme önerilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.'
+            : 'Ana üretme. Bal ve genel üretim odağında kullan. Donör değil ama çalışkan üretim kolonisi olarak değerlendirilebilir.'));
         kararNedeni = vetoNedeni;
         kararTipi = 'uyari';
 
@@ -355,7 +431,7 @@ class KoloniKararMotoru {
       kararKodu = 'DONOR_1';
       kararBaslik = 'Bu koloni 1. donör adayı';
       kararMesaji =
-      'Ana üretiminde öncelikli. Gücünü koru. Bölme veya başka kullanım kararını donör değerini bozmayacak şekilde düşün.';
+      'Ana üretiminde öncelikli. Gücünü koru. Bölme veya başka kullanım kararını donör değerini bozmayacak şekilde düşün. $veriGuveniNotu';
       kararNedeni =
       'Donör havuzundaki en güçlü koloni olarak öne çıkıyor. Donör skoru: $donorSkoru / 100.$davranisNotu';
       kararTipi = 'pozitif';
@@ -373,7 +449,7 @@ class KoloniKararMotoru {
       kararKodu = 'DONOR_2';
       kararBaslik = 'Bu koloni 2. donör adayı';
       kararMesaji =
-      'Ana üretiminde güçlü bir alternatif olarak değerlendir. İlk tercihin uygun değilse buna yönel.';
+      'Ana üretiminde güçlü bir alternatif olarak değerlendir. İlk tercihin uygun değilse buna yönel. $veriGuveniNotu';
       kararNedeni =
       'Donör havuzunda üst sırada yer alıyor. Donör skoru: $donorSkoru / 100.$davranisNotu';
       kararTipi = 'pozitif';
@@ -391,7 +467,7 @@ class KoloniKararMotoru {
       kararKodu = 'DONOR_3';
       kararBaslik = 'Bu koloni 3. donör adayı';
       kararMesaji =
-      'Ana üretiminde yedek güçlü aday olarak değerlendir. Üretimde de değerli kalabilir.';
+      'Ana üretiminde yedek güçlü aday olarak değerlendir. Üretimde de değerli kalabilir. $veriGuveniNotu';
       kararNedeni =
       'Donör havuzunda ilk üç içinde yer alıyor. Donör skoru: $donorSkoru / 100.$davranisNotu';
       kararTipi = 'pozitif';
@@ -409,7 +485,7 @@ class KoloniKararMotoru {
       kararKodu = 'SARTLI_DONOR';
       kararBaslik = 'Bu koloni donör havuzunda, ama ilk sıralarda değil';
       kararMesaji =
-      'Üretimde değerlendir. Gelişimi sürerse ileride donör alternatifi olarak yeniden bak.';
+      'Üretimde değerlendir. Gelişimi sürerse ileride donör alternatifi olarak yeniden bak. $veriGuveniNotu';
       kararNedeni =
       'Donör havuzuna girmiş olsa da şu an ilk üçte değil. Donör skoru: $donorSkoru / 100.$davranisNotu';
       kararTipi = 'notr';
@@ -418,31 +494,86 @@ class KoloniKararMotoru {
       secilimBaslik = 'Donör havuzunda';
       secilimMesaji =
       'Bu koloni donör havuzuna girmiş durumda; ancak şu an ilk sıradaki adaylardan biri değil.';
-    } else if (anaYasi >= anaDegisimYasi && skor < uretimMinSkor) {
+    } else if (anaYasi >= anaDegisimYasi &&
+        (skor < uretimMinSkor || anaDegisimZamaniUygun)) {
       kararKodu = 'ANA_DEGISIM_DUSUN';
-      kararBaslik = 'Bu koloni için ana değişimini düşün';
-      kararMesaji =
-      'Üretimde kalacaksa genç ve güvenilir bir ana ile yenilemek daha doğru olabilir.';
+      kararBaslik = anaDegisimZamaniUygun
+          ? 'Bu koloni için ana değişimi zamanı uygun'
+          : 'Ana değişimini sezon planına al';
+      kararMesaji = anaDegisimZamaniUygun
+          ? 'Hasat sonrası pencere ana değişimi için uygundur. Üretimde kalacaksa genç ve güvenilir bir ana ile yenilemek doğru olabilir.'
+          : 'Ana yaşı izlenmeli; ancak planlı ana değişimi için en güçlü pencere hasat sonrasıdır. Zorunlu sorun yoksa takvime al. $anaDegisimPencereMesaji';
       kararNedeni =
-      'Ana yaşı ilerlemiş ve mevcut performans beklenen seviyenin altında.';
+      'Ana yaşı $anaYasi yıl görünüyor. Ürün standardında 2 yaş ana değişimi için dikkat eşiğidir.';
       kararTipi = 'uyari';
 
       secilimKodu = 'ANA_DEGISIM';
-      secilimBaslik = 'Ana değişimi düşünülmeli';
-      secilimMesaji =
-      'Koloni tamamen olumsuz değildir; ancak daha iyi verim için ana yenileme düşünülebilir.';
-    } else if (sonCita >= bolmeCita && maxCita >= bolmeCita) {
+      secilimBaslik = anaDegisimZamaniUygun
+          ? 'Ana değişimi için uygun pencere'
+          : 'Ana değişimi planlanmalı';
+      secilimMesaji = anaDegisimPencereMesaji.isNotEmpty
+          ? anaDegisimPencereMesaji
+          : 'Koloni tamamen olumsuz değildir; ancak daha iyi verim için ana yenileme düşünülebilir.';
+    } else if (bolmeIcinUygun) {
       kararKodu = 'BOLME_ICIN_UYGUN';
       kararBaslik = 'Bu koloni bölme için uygun görünüyor';
       kararMesaji =
-      'Donör önceliğinde değilse bölme için değerlendirebilirsin. Yeni kolonilere güvenilir genç ana ver.';
-      kararNedeni = 'Koloni gücü yüksek ve genişleme potansiyeli taşıyor.';
+      '9 çıta ve üstü güçte. Donör önceliğinde değilse güvenli bölme için değerlendirilebilir. Ana koloni en az 5 çıta kalmalı, yeni bölme en az 4 çıta başlamalı.';
+      kararNedeni = 'Koloni 9 çıta güvenli saha eşiğini karşılıyor, üretim sezonunda ve trend düşüşte değil.';
       kararTipi = 'pozitif';
 
       secilimKodu = 'BOLME_ADAYI';
       secilimBaslik = 'Bölme için uygun';
       secilimMesaji =
-      'Donör önceliğinde değilse bölme için değerlendirilebilir.';
+      '9 çıta güvenli saha eşiği karşılandığı için donör önceliğinde değilse bölme için değerlendirilebilir.';
+    } else if (bolmeRiskliBand) {
+      kararKodu = 'BOLME_RISKLI';
+      kararBaslik = 'Bölme için güç sınırında';
+      kararMesaji =
+      '6–8 çıta arası biyolojik olarak mümkün görünse de ITOGENA bölme önermiyor. Önce güçlendir, 9 çıta ve üstünde yeniden değerlendir.';
+      kararNedeni = 'Güvenli saha bölme eşiği 9 çıtadır. Daha düşük güçte hem ana koloni hem yeni bölme kaybedilebilir.';
+      kararTipi = 'uyari';
+
+      secilimKodu = 'BOLME_ONERILMEZ';
+      secilimBaslik = 'Bölme önerilmez';
+      secilimMesaji =
+      'Koloni güçlenene kadar üretim, destek veya takip rolünde tutulmalıdır.';
+    } else if (bolmeGecKaldi && sonCita >= bolmeCita) {
+      kararKodu = 'BOLME_ZAMANI_GECTI';
+      kararBaslik = 'Güç var; standart bölme zamanı zayıf';
+      kararMesaji =
+      'Koloni 9 çıta eşiğini karşılıyor; ancak bal akımına 57 günden az kaldığı için standart bölme üretim gücünü düşürebilir. Bu dönemde koloni gücünü koru.';
+      kararNedeni = bolmePencereMesaji;
+      kararTipi = 'uyari';
+
+      secilimKodu = 'URETIMDE_TUT';
+      secilimBaslik = 'Bölme yerine üretimde tut';
+      secilimMesaji =
+      'Zaman penceresi nedeniyle bölme kararı güçlü görünmüyor; üretim gücü korunmalıdır.';
+    } else if (bolmeOzelStratejiNotu) {
+      kararKodu = 'BAL_AKIMI_OZEL_BOLME';
+      kararBaslik = 'Bal akımında standart bölme önerilmez';
+      kararMesaji =
+      'Koloni güçlü; fakat bal akımı içinde standart bölme önerisi verilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.';
+      kararNedeni = bolmePencereMesaji;
+      kararTipi = 'notr';
+
+      secilimKodu = 'URETIM_STRATEJISI';
+      secilimBaslik = 'Özel üretim stratejisi';
+      secilimMesaji =
+      'Bu karar otomatik bölme önerisi değildir; arıcının hedeflediği üretim tekniğine bağlıdır.';
+    } else if (bolmeZamaniKapali && sonCita >= bolmeCita) {
+      kararKodu = 'URETIMDE_DEGERLENDIR';
+      kararBaslik = 'Güçlü koloni; bölme zamanı değil';
+      kararMesaji =
+      'Koloni güçlü görünüyor; ancak bu tarih aralığında standart bölme kararı ciddi görünmez. Gücü üretim, bakım veya sezon planında değerlendir.';
+      kararNedeni = bolmePencereMesaji;
+      kararTipi = 'notr';
+
+      secilimKodu = 'SADIK_URETICI';
+      secilimBaslik = 'Üretimde değerlendir';
+      secilimMesaji =
+      'Koloni gücü değerli; zaman penceresi uygun olduğunda bölme yeniden okunabilir.';
     } else if (skor >= uretimMinSkor || balCita > 0) {
       kararKodu = 'URETIMDE_DEGERLENDIR';
       kararBaslik = 'Bu koloni üretimde değerlendirilebilir';
@@ -456,17 +587,17 @@ class KoloniKararMotoru {
       secilimMesaji =
       'Bu koloni üretim ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.';
     } else if (muayeneSayisi <= 1) {
-      kararKodu = 'VERI_YETERSIZ';
-      kararBaslik = 'Bu koloni için karar vermek erken';
+      kararKodu = 'VERI_GUVENI_DUSUK';
+      kararBaslik = 'Karar var; veri güveni düşük';
       kararMesaji =
-      'Biraz daha muayene verisi topla. Sonra donör veya operasyon rolünü yeniden değerlendir.';
-      kararNedeni = 'Güvenilir karar için yeterli veri oluşmamış.';
+      'Mevcut kayda göre rolü izleme ve güçlendirme tarafında. Tek muayene kesin hüküm için zayıftır; ikinci ve üçüncü kayıtla karar netleşir.';
+      kararNedeni = 'Sistem karar üretir, ancak muayene verisi etkili değerlendirme için henüz sınırlıdır.';
       kararTipi = 'notr';
 
-      secilimKodu = 'IZLE';
-      secilimBaslik = 'İzleyerek karar ver';
+      secilimKodu = 'VERI_GUVENI_DUSUK';
+      secilimBaslik = 'Veri güveni düşük';
       secilimMesaji =
-      'Bu koloni için hüküm vermeden önce biraz daha veri ve gözlem gerekir.';
+      'Donör ya da üretim rolü tamamen kapatılmaz; ancak kararın güven düzeyi düşük olduğu açıkça izlenmelidir.';
     } else if (skor < mudahaleMinSkor ||
         sonCita <= destekCita ||
         trend == 'Düşüş') {
@@ -512,6 +643,18 @@ class KoloniKararMotoru {
         'mesaj': kararNedeni,
         'tip': 'notr',
       },
+      {
+        'baslik': 'Veri Güveni',
+        'mesaj': '$veriGuveniEtiketi. $veriGuveniNotu',
+        'tip': muayeneSayisi >= 5 ? 'pozitif' : 'uyari',
+      },
+      {
+        'baslik': 'Zaman Bağlamı',
+        'mesaj': bolmePencereMesaji.isNotEmpty
+            ? bolmePencereMesaji
+            : 'Karar mevcut sezon ve bal akımı takvimine göre okunur.',
+        'tip': bolmeZamaniUygun ? 'pozitif' : 'notr',
+      },
     ];
 
     if (biyoloji.veriVarMi) {
@@ -541,6 +684,18 @@ class KoloniKararMotoru {
         });
       }
     }
+
+    aksiyonKartlari.addAll(_biyolojikKabiliyetAksiyonlari(
+      kritikBiyolojiAktif: biyoloji.zamanKritik || biyoloji.mudahaleGerekli,
+      sezonKodu: sezonKodu,
+      sonCita: sonCita,
+      petekOrmePuani: petekOrmePuani,
+      yavruBakimPuani: yavruBakimPuani,
+      nektarToplamaPuani: nektarToplamaPuani,
+      balIslemePuani: balIslemePuani,
+      kisDayanimPuani: kisDayanimPuani,
+      temelSahaOnerisi: temelSahaOnerisi,
+    ));
 
     return KoloniKararSonucu(
       koloniId: koloniId,
@@ -574,6 +729,87 @@ class KoloniKararMotoru {
         'biyolojiAnasizBirakildiMi': biyoloji.anasizBirakildiMi,
       },
     );
+  }
+
+
+  static List<Map<String, String>> _biyolojikKabiliyetAksiyonlari({
+    required bool kritikBiyolojiAktif,
+    required String sezonKodu,
+    required int sonCita,
+    required int petekOrmePuani,
+    required int yavruBakimPuani,
+    required int nektarToplamaPuani,
+    required int balIslemePuani,
+    required int kisDayanimPuani,
+    required String temelSahaOnerisi,
+  }) {
+    if (kritikBiyolojiAktif) return const <Map<String, String>>[];
+
+    final List<Map<String, String>> kartlar = <Map<String, String>>[];
+    final bool uretimSezonu = sezonKodu == 'uretim';
+
+    void ekle({
+      required String baslik,
+      required String mesaj,
+      String tip = 'notr',
+    }) {
+      if (mesaj.trim().isEmpty) return;
+      if (kartlar.any((k) => k['baslik'] == baslik && k['mesaj'] == mesaj)) return;
+      kartlar.add({
+        'baslik': baslik,
+        'mesaj': mesaj,
+        'tip': tip,
+      });
+    }
+
+    if (uretimSezonu && sonCita >= 5 && petekOrmePuani >= 75) {
+      ekle(
+        baslik: 'Biyolojik Kabiliyet',
+        mesaj: 'Petek örme kapasitesi güçlü görünüyor. Ham petek verilecekse yavru bloğu kesilmeden dıştan genişletme daha güvenlidir.',
+        tip: 'pozitif',
+      );
+    } else if (sonCita >= 6 && petekOrmePuani > 0 && petekOrmePuani < 55) {
+      ekle(
+        baslik: 'Genişletme Riski',
+        mesaj: 'Petek örme kapasitesi sınırlı görünüyor. Ham petek yerine kabarmış petek veya sıkı düzen daha güvenlidir.',
+        tip: 'uyari',
+      );
+    }
+
+    if (uretimSezonu && nektarToplamaPuani >= 75 && balIslemePuani >= 65) {
+      ekle(
+        baslik: 'Bal Akımı Kapasitesi',
+        mesaj: 'Tarlacı ve bal işleme kapasitesi güçlü görünüyor. Bal akımı döneminde alan, kat ve sırlanma takibi öne alınmalı.',
+        tip: 'pozitif',
+      );
+    }
+
+    if (yavruBakimPuani >= 70 && petekOrmePuani > 0 && petekOrmePuani < 55) {
+      ekle(
+        baslik: 'Bakıcı Dengesi',
+        mesaj: 'Yavru bakım kapasitesi iyi fakat petek örme sınırlı. Yavru alanını bozmayacak kabarmış petek, ham petekten daha güvenli olur.',
+        tip: 'uyari',
+      );
+    }
+
+    if (sezonKodu != 'uretim' && kisDayanimPuani > 0 && kisDayanimPuani < 50) {
+      ekle(
+        baslik: 'Kış Güvenliği',
+        mesaj: 'Kış dayanımı sınırlı görünüyor. Öncelik hasat veya genişletme değil stok güvenliği ve sıkı düzendir.',
+        tip: 'uyari',
+      );
+    }
+
+    if (kartlar.isEmpty && temelSahaOnerisi.isNotEmpty) {
+      ekle(
+        baslik: 'Biyolojik Saha Notu',
+        mesaj: temelSahaOnerisi,
+        tip: 'notr',
+      );
+    }
+
+    if (kartlar.length <= 2) return kartlar;
+    return kartlar.take(2).toList(growable: false);
   }
 
   static Future<List<Map<String, dynamic>>> donorAdaylariSiraliGetir({
@@ -643,6 +879,7 @@ class KoloniKararMotoru {
       ) async {
     final muayeneler = await VeritabaniServisi.muayeneleriGetir(koloniId);
     final trendData = await TrendServisi.koloniTrendiGetir(koloniId);
+    final biyolojikModel = await KoloniBiyolojikModelServisi.modelGetir(koloniId);
     final hatSonme = await VeritabaniServisi.hatSonmeAnaliziGetir(koloniId);
     final ogulRisk = await VeritabaniServisi.ogulRiskOzetiGetir(koloniId);
 
@@ -653,6 +890,12 @@ class KoloniKararMotoru {
 
     final Map<String, dynamic>? sonMuayene =
     muayeneler.isNotEmpty ? muayeneler.first : null;
+
+    final DateTime? sonMuayeneTarihi =
+        sonMuayene == null ? null : _guvenliTarihParse(sonMuayene['tarih']);
+    final String sezonKodu = await VeritabaniServisi.aktifSezonKoduGetir(
+      sonMuayeneTarihi ?? DateTime.now(),
+    );
 
     final bool aktifMi = await VeritabaniServisi.koloniAktifMi(koloniId);
 
@@ -692,6 +935,11 @@ class KoloniKararMotoru {
     final int muayeneSayisi = muayeneler.length;
     final Map<String, dynamic> kisCikisBilgisi =
     await _kisCikisBilgisiHesapla(muayeneler);
+    final Map<String, dynamic> zamanBaglami =
+    await VeritabaniServisi.kararZamanBaglamiGetir(
+      tarih: DateTime.now(),
+      arilikId: _nullableInt(koloni['arilikId']),
+    );
 
     final double uremePuani = _uremePuaniHesapla(
       maxCita: maxCita,
@@ -747,6 +995,34 @@ class KoloniKararMotoru {
       'muayeneSayisi': muayeneSayisi,
       'mizac': mizac,
       'trend': trend,
+      'gunlukMomentum': trendData['gunlukMomentum'],
+      'momentumSkoru': trendData['momentumSkoru'],
+      'momentumEtiketi': trendData['momentumEtiketi'],
+      'momentumAciklama': trendData['momentumAciklama'],
+      'momentumPencereleri': trendData['pencereler'],
+      'kovanTipi': biyolojikModel['kovanTipi'],
+      'suruplukVarMi': biyolojikModel['suruplukVarMi'],
+      'kuluclukKapasitesi': biyolojikModel['kuluclukKapasitesi'],
+      'tahminiAriMin': biyolojikModel['tahminiAriMin'],
+      'tahminiAriMax': biyolojikModel['tahminiAriMax'],
+      'hasatPotansiyeliMinKg': biyolojikModel['hasatPotansiyeliMinKg'],
+      'hasatPotansiyeliMaxKg': biyolojikModel['hasatPotansiyeliMaxKg'],
+      'birakilmasiGerekenBalMinKg': biyolojikModel['birakilmasiGerekenBalMinKg'],
+      'birakilmasiGerekenBalMaxKg': biyolojikModel['birakilmasiGerekenBalMaxKg'],
+      'biyolojikKabiliyet': biyolojikModel['kabiliyet'],
+      'petekOrmePuani': _toInt((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['petekOrmePuani']),
+      'yavruBakimPuani': _toInt((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['yavruBakimPuani']),
+      'nektarToplamaPuani': _toInt((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['nektarToplamaPuani']),
+      'balIslemePuani': _toInt((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['balIslemePuani']),
+      'kisDayanimPuani': _toInt((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['kisDayanimPuani']),
+      'ciftlesmeDestegiPuani': _toInt((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['ciftlesmeDestegiPuani']),
+      'petekOrmeDurumu': ((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['petekOrmeDurumu'] ?? '').toString(),
+      'genisletmeGuvenligi': ((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['genisletmeGuvenligi'] ?? '').toString(),
+      'balAkimiKapasitesi': ((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['balAkimiKapasitesi'] ?? '').toString(),
+      'bakiciDengesi': ((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['bakiciDengesi'] ?? '').toString(),
+      'biyolojikTemelSahaOnerisi': ((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['temelSahaOnerisi'] ?? '').toString(),
+      'biyolojikKabiliyetOzeti': ((biyolojikModel['kabiliyet'] ?? const <String, dynamic>{})['ozet'] ?? '').toString(),
+      'sezonKodu': sezonKodu,
       'davranisToleransi': davranisToleransi,
       'aktifMi': aktifMi,
       'kovanSondu': kovanSondu,
@@ -766,6 +1042,19 @@ class KoloniKararMotoru {
       'soyPuani': soyPuani.round(),
       'davranisPuani': davranisPuani.round(),
       'veriGuveniPuani': veriGuveniPuaniH.round(),
+      'veriGuveniEtiketi': _veriGuveniEtiketi(muayeneSayisi),
+      'veriGuveniNotu': _veriGuveniNotu(muayeneSayisi),
+      'kararTarih': (zamanBaglami['tarih'] ?? '').toString(),
+      'bolmePenceresi': (zamanBaglami['bolmePenceresi'] ?? '').toString(),
+      'bolmePencereMesaji':
+      (zamanBaglami['bolmePencereMesaji'] ?? '').toString(),
+      'anaDegisimPenceresi':
+      (zamanBaglami['anaDegisimPenceresi'] ?? '').toString(),
+      'anaDegisimPencereMesaji':
+      (zamanBaglami['anaDegisimPencereMesaji'] ?? '').toString(),
+      'balAkiminaKalanGun': zamanBaglami['balAkiminaKalanGun'],
+      'balAkiminda': zamanBaglami['balAkiminda'] == true,
+      'hasatSonrasi': zamanBaglami['hasatSonrasi'] == true,
       ...kisCikisBilgisi,
     };
   }
@@ -1003,8 +1292,8 @@ class KoloniKararMotoru {
       maxPuan: 15,
     );
 
-    final double ivme = _toDouble(trendData['duzeltilmisIvme']);
-    final double trendPuani = _clampDouble(((ivme + 4) / 8) * 10, 0, 10);
+    final double momentumSkoru = _toDouble(trendData['momentumSkoru']);
+    final double trendPuani = _clampDouble((momentumSkoru / 100) * 10, 0, 10);
 
     int enYuksekYavrulu = 0;
     for (final m in muayeneler) {
@@ -1115,10 +1404,30 @@ class KoloniKararMotoru {
   }
 
   static double _veriGuveniPuaniHesapla(int muayeneSayisi) {
-    if (muayeneSayisi >= 4) return 5;
+    if (muayeneSayisi >= 5) return 5;
     if (muayeneSayisi >= 2) return 3;
     if (muayeneSayisi >= 1) return 1;
     return 0;
+  }
+
+  static String _veriGuveniEtiketi(int muayeneSayisi) {
+    if (muayeneSayisi <= 0) return 'Veri yok';
+    if (muayeneSayisi == 1) return 'Veri çok sınırlı';
+    if (muayeneSayisi <= 4) return 'Veri izlenmeli';
+    return 'Veri güveni yeterli';
+  }
+
+  static String _veriGuveniNotu(int muayeneSayisi) {
+    if (muayeneSayisi <= 0) {
+      return 'Kayıt yoksa sistem yalnızca kimlik ve kaynak bilgisine göre sınırlı yorum yapabilir.';
+    }
+    if (muayeneSayisi == 1) {
+      return 'Tek muayene karar üretir ama güven zayıftır; donör ve ana değişim kararlarında temkinli okunmalıdır.';
+    }
+    if (muayeneSayisi <= 4) {
+      return '2–4 muayene izleme bandıdır; karar var ama sonraki kayıtlarla güçlenmelidir.';
+    }
+    return '5 ve üzeri muayene ile değerlendirme güvenilir banda girmiştir.';
   }
 
   static String _davranisNotuMetni({

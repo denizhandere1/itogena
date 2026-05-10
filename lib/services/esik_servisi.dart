@@ -20,9 +20,13 @@ class EsikTanim {
 }
 
 class EsikServisi {
-  /// Bölme için biyolojik alt sınırdır.
-  /// Kullanıcı ayarı değildir; sistem sabiti olarak korunur.
-  static const int bolmeAdayiMinCita = 6;
+  /// Bölmenin biyolojik olarak mümkün görülebileceği alt sınırdır.
+  /// Kullanıcıya öneri üretmek için kullanılmaz; yalnızca risk dili için korunur.
+  static const int bolmeBiyolojikMinCita = 6;
+
+  /// ITOGENA'nın kullanıcıya bölme önermesi için güvenli saha eşiğidir.
+  /// Ana koloni en az 5 çıta kalabilsin ve yeni bölme en az 4 çıta başlasın diye 9 çıta sabittir.
+  static const int bolmeAdayiMinCita = 9;
 
   /// Genel anahtarlar korunuyor.
   /// Ayarlar ekranı ve mevcut çağrılar bozulmasın diye bunları tutuyoruz.
@@ -59,10 +63,10 @@ class EsikServisi {
     ),
     'bolme_adayi_min_cita': EsikTanim(
       anahtar: 'bolme_adayi_min_cita',
-      baslik: 'Bölme Biyolojik Alt Sınırı (Çıta)',
+      baslik: 'Bölme Güvenli Öneri Eşiği (Çıta)',
       aciklama:
-      'Bölme için sistemin kabul ettiği biyolojik alt sınırdır. '
-          'Bu değer kullanıcı tercihi değildir; saha güvenliği için sabit tutulur.',
+      'ITOGENA’nın kullanıcıya bölme önermesi için kabul ettiği güvenli saha eşiğidir. '
+          '6–8 çıta biyolojik olarak mümkün görünse de sistem bunu öneri olarak vermez.',
       varsayilan: bolmeAdayiMinCita,
       min: bolmeAdayiMinCita,
       max: bolmeAdayiMinCita,
@@ -142,7 +146,7 @@ class EsikServisi {
     ),
     'kis_bolme_adayi_min_cita': EsikTanim(
       anahtar: 'kis_bolme_adayi_min_cita',
-      baslik: 'Kış: Bölme Biyolojik Alt Sınırı (Çıta)',
+      baslik: 'Kış: Bölme Güvenli Öneri Eşiği (Çıta)',
       aciklama:
       'Bölme için biyolojik alt sınırdır. Kış döneminde stratejik olarak bölme önerisi ayrıca süreç motoru tarafından sınırlandırılmalıdır.',
       varsayilan: bolmeAdayiMinCita,
@@ -216,7 +220,7 @@ class EsikServisi {
     ),
     'uretim_bolme_adayi_min_cita': EsikTanim(
       anahtar: 'uretim_bolme_adayi_min_cita',
-      baslik: 'Üretim: Bölme Biyolojik Alt Sınırı (Çıta)',
+      baslik: 'Üretim: Bölme Güvenli Öneri Eşiği (Çıta)',
       aciklama:
       'Gelişim / üretim döneminde bölme için sistemin kabul ettiği biyolojik alt sınırdır. Kullanıcı ayarı değildir.',
       varsayilan: bolmeAdayiMinCita,
@@ -565,8 +569,7 @@ class EsikServisi {
     required Map<String, int> e,
   }) {
     const bolmeCita = bolmeAdayiMinCita;
-    final minMaksCita = bolmeCita + 2;
-    return sonCita >= bolmeCita && maxCita >= minMaksCita && trend != 'Düşüş';
+    return sonCita >= bolmeCita && maxCita >= bolmeCita && trend != 'Düşüş';
   }
 
   static bool damizlikAdayi({

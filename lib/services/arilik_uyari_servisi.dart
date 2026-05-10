@@ -228,7 +228,7 @@ class ArilikUyariServisi {
       kod: 'BAL_AKIMI_BOLME_GEC_$kod',
       baslik: 'Bölme yapılacaksa dikkat',
       mesaj:
-          'Bu tarihten sonra yapılan bölmeler bal verimini düşürebilir. Üretim hedefi korunacaksa bölme kararını ertele.',
+          '${_formatTarih(kritikEsik)} sonrası 42 günlük biyolojik eşik aşılmış olur. Bu tarihten sonra yapılan bölmeler bal verimini düşürebilir. Üretim hedefi korunacaksa bölme kararını ertele.',
       oncelik: 95,
     );
   }

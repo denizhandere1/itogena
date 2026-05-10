@@ -33,6 +33,8 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
   String _anaYili = '2025';
   String _kaynakTipi = 'Bölme';
   String _anaKazanmaYontemi = 'kendi_anasi';
+  String _kovanTipi = 'Langstroth';
+  bool _suruplukVarMi = false;
 
   bool _yukleniyor = true;
   bool _kaydediliyor = false;
@@ -94,6 +96,8 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     _anaKazanmaYontemi = _normalizeAnaKazanmaYontemi(
       widget.koloni?['anaKazanmaYontemi'],
     );
+    _kovanTipi = _normalizeKovanTipi(widget.koloni?['kovanTipi']);
+    _suruplukVarMi = _toBool(widget.koloni?['suruplukVarMi']);
     if (_kaynakTipi == 'Oğul') {
       _anaKazanmaYontemi = 'hazir_ana';
     }
@@ -150,6 +154,19 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     if (temiz == 'oğul' || temiz == 'ogul') return 'Oğul';
     if (temiz == 'bölme' || temiz == 'bolme') return 'Bölme';
     return 'Bölme';
+  }
+
+  String _normalizeKovanTipi(dynamic deger) {
+    final temiz = (deger ?? '').toString().trim().toLowerCase();
+    if (temiz.contains('dadant')) return 'Dadant';
+    return 'Langstroth';
+  }
+
+  bool _toBool(dynamic deger) {
+    if (deger == true) return true;
+    if (deger is int) return deger == 1;
+    final temiz = (deger ?? '').toString().trim().toLowerCase();
+    return temiz == '1' || temiz == 'true' || temiz == 'evet' || temiz == 'var';
   }
 
   DateTime _bugun() {
@@ -343,6 +360,8 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
         'anaKazanmaYontemi': _kaynakTipi == 'Oğul'
             ? 'hazir_ana'
             : (_anaKazanmaYontemiSecimiGoster ? _anaKazanmaYontemi : null),
+        'kovanTipi': _kovanTipi,
+        'suruplukVarMi': _suruplukVarMi ? 1 : 0,
         'notMetni': _notCont.text.trim(),
         'sonCita': int.tryParse(_citaCont.text.trim()) ?? 0,
         'rol': widget.koloni?['rol']?.toString() ?? 'Üretim',
@@ -540,6 +559,41 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
             ],
             const Divider(height: 32),
             _bolumBaslik('Temel Saha Bilgileri'),
+            Row(
+              children: [
+                Expanded(
+                  child: _dropdownField(
+                    'Kovan Tipi',
+                    const ['Langstroth', 'Dadant'],
+                    _kovanTipi,
+                    (v) => setState(() => _kovanTipi = v ?? 'Langstroth'),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text(
+                      'Şurupluk',
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                    ),
+                    subtitle: Text(
+                      _suruplukVarMi ? 'Alt kat 9 çıta' : 'Alt kat 10 çıta',
+                      style: const TextStyle(fontSize: 11.5),
+                    ),
+                    value: _suruplukVarMi,
+                    activeColor: Colors.amber,
+                    onChanged: (v) => setState(() => _suruplukVarMi = v),
+                  ),
+                ),
+              ],
+            ),
+            _bilgiKutusu(
+              _suruplukVarMi
+                  ? 'Şurupluk varsa sistem alt kuluçkalığı 9 çıta kabul eder; üstündeki çıtaları kat/ballık alanı olarak yorumlar.'
+                  : 'Şurupluk yoksa sistem alt kuluçkalığı 10 çıta kabul eder; üstündeki çıtaları kat/ballık alanı olarak yorumlar.',
+            ),
+            const SizedBox(height: 12),
             TextFormField(
               controller: _tarihCont,
               readOnly: true,

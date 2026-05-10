@@ -1,6 +1,7 @@
 import 'koloni_karar_motoru.dart';
 import 'ari_biyoloji_servisi.dart';
 import 'surec_motoru.dart';
+import 'baglam_motoru.dart';
 import 'veritabani_servisi.dart';
 
 class KararAsistanServisi {
@@ -22,6 +23,11 @@ class KararAsistanServisi {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
       }) async {
+    final surec = await _dominantSurecGetir(koloniId);
+    if (_surecKarariBastirirMi(surec)) {
+      return _surecAnaKararMap(surec!);
+    }
+
     final sonuc = await KoloniKararMotoru.kararUret(
       koloniId,
       koloni,
@@ -52,6 +58,11 @@ class KararAsistanServisi {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
       }) async {
+    final surec = await _dominantSurecGetir(koloniId);
+    if (_surecKarariBastirirMi(surec)) {
+      return _surecSecilimMap(surec!);
+    }
+
     final sonuc = await KoloniKararMotoru.kararUret(
       koloniId,
       koloni,
@@ -67,6 +78,11 @@ class KararAsistanServisi {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
       }) async {
+    final surec = await _dominantSurecGetir(koloniId);
+    if (_surecKarariBastirirMi(surec)) {
+      return _surecAksiyonKartlari(surec!);
+    }
+
     final sonuc = await KoloniKararMotoru.kararUret(
       koloniId,
       koloni,
@@ -145,16 +161,28 @@ class KararAsistanServisi {
       forceRefresh: forceRefresh,
     );
     final biyoloji = await AriBiyolojiServisi.analizYap(koloniId);
+    final surec = await _dominantSurecGetir(koloniId);
+    final surecOncelikli = _surecKarariBastirirMi(surec);
 
     return {
-      'anaKarar': karar.toAnaKararMap(),
-      'secilim': karar.toSecilimMap(),
+      'anaKarar': surecOncelikli
+          ? _surecAnaKararMap(surec!)
+          : karar.toAnaKararMap(),
+      'secilim': surecOncelikli
+          ? _surecSecilimMap(surec!)
+          : karar.toSecilimMap(),
       'gercekDamizlik': karar.gercekDamizlik,
       'donorSkoru': karar.donorSkoru,
       'donorSirasi': karar.donorSirasi,
       'donorVeto': karar.donorVeto,
-      'aksiyonKartlari': karar.aksiyonKartlari,
-      'profil': karar.profil,
+      'aksiyonKartlari': surecOncelikli
+          ? _surecAksiyonKartlari(surec!)
+          : karar.aksiyonKartlari,
+      'profil': {
+        ...karar.profil,
+        'surecOncelikli': surecOncelikli,
+        'dominantSurec': surec?.toMap(),
+      },
       'biyoloji': biyoloji.toMap(),
     };
   }
@@ -165,6 +193,21 @@ class KararAsistanServisi {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
       }) async {
+    final surec = await _dominantSurecGetir(koloniId);
+    if (_surecKarariBastirirMi(surec)) {
+      return {
+        'karar': surec!.baslik,
+        'ozet': surec.mesaj,
+        'secilimBaslik': surec.baslik,
+        'secilimMesaji': surec.mesaj,
+        'gerekceler': <String>[_surecNedeni(surec)],
+        'riskler': surec.tip == 'kritik' || surec.tip == 'uyari'
+            ? <String>[surec.baslik]
+            : <String>[],
+        'oneriler': <String>[surec.mesaj],
+      };
+    }
+
     final sonuc = await KoloniKararMotoru.kararUret(
       koloniId,
       koloni,
@@ -312,6 +355,77 @@ class KararAsistanServisi {
     };
   }
 
+
+  static Future<SurecUyarisi?> _dominantSurecGetir(int koloniId) async {
+    final surecDurumu = await SurecMotoru.durumGetir(koloniId);
+    return BaglamMotoru.dominantSurecSec(surecDurumu.aktifSurecler);
+  }
+
+  static bool _surecKarariBastirirMi(SurecUyarisi? surec) {
+    return BaglamMotoru.surecAnaKarariBastirirMi(surec);
+  }
+
+  static Map<String, String> _surecAnaKararMap(SurecUyarisi surec) {
+    return {
+      'kod': 'SUREC_${surec.kod}',
+      'baslik': surec.baslik,
+      'mesaj': surec.mesaj,
+      'neden': _surecNedeni(surec),
+      'tip': _surecTipiNormalizeEt(surec.tip),
+    };
+  }
+
+  static Map<String, String> _surecSecilimMap(SurecUyarisi surec) {
+    return {
+      'kod': 'SUREC_${surec.kod}',
+      'baslik': surec.baslik,
+      'mesaj': surec.mesaj,
+    };
+  }
+
+  static List<Map<String, String>> _surecAksiyonKartlari(SurecUyarisi surec) {
+    return [
+      {
+        'baslik': surec.baslik,
+        'mesaj': surec.mesaj,
+        'tip': _surecTipiNormalizeEt(surec.tip),
+      },
+      {
+        'baslik': 'Neden',
+        'mesaj': _surecNedeni(surec),
+        'tip': 'notr',
+      },
+    ];
+  }
+
+  static String _surecNedeni(SurecUyarisi surec) {
+    final grup = surec.grup.trim().toUpperCase();
+
+    switch (grup) {
+      case 'ANASIZLIK':
+        return 'Ana kazanma / anasızlık süreci biyolojik zamanlamaya bağlıdır. Bu pencere açıkken önce süreç yönetilir.';
+      case 'OGUL':
+        return 'Ana memesi veya oğul belirtisi aktif saha riskidir. Önce oğul yönetimi yapılır.';
+      case 'OGUL_SONRASI':
+        return 'Oğul sonrası yeni ana ve artçı oğul riski önceliklidir. Süreç kapanmadan genel üretim veya donör dili öne çıkarılmaz.';
+      case 'BOLME':
+        return 'Bölme sonrası koloni düzeni ve ana süreci oturmadan genel performans dili ana karar olarak gösterilmez.';
+      case 'HASAT':
+        return 'Bal alımı koloni düzenini değiştirir. Önce sıkışık düzen, stres yönetimi, besleme ihtiyacı ve varroa penceresi birlikte değerlendirilir.';
+      case 'GELISIM':
+        return 'Gelişim yavaşlığı açıklanması gereken saha durumudur. Önce neden aranır; sonra üretim veya genetik rol yeniden değerlendirilir.';
+      default:
+        return 'Aktif süreç bulunduğu için sistem bu aşamada süreç yönetimini ana kararın önüne alır.';
+    }
+  }
+
+  static String _surecTipiNormalizeEt(String tip) {
+    final temiz = tip.trim().toLowerCase();
+    if (temiz == 'kritik') return 'negatif';
+    if (temiz == 'uyari' || temiz == 'uyarı') return 'uyari';
+    if (temiz == 'pozitif') return 'pozitif';
+    return 'notr';
+  }
 
   static Map<String, dynamic> varroaTakvimHatirlatmasiGetir(
       List<Map<String, dynamic>> muayeneler, {

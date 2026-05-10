@@ -15,7 +15,7 @@ class VeritabaniServisi {
 
     return openDatabase(
       yol,
-      version: 18,
+      version: 19,
       onCreate: (db, version) async {
         await _tablolariOlustur(db);
         await _guvenliMigrasyon(db);
@@ -75,6 +75,8 @@ class VeritabaniServisi {
         bal_cita INTEGER DEFAULT 0,
         skor INTEGER DEFAULT 0,
         sahaSirasi INTEGER,
+        kovanTipi TEXT DEFAULT 'Langstroth',
+        suruplukVarMi INTEGER DEFAULT 0,
         notMetni TEXT,
         FOREIGN KEY (arilikId) REFERENCES ariliklar (id)
       )
@@ -132,6 +134,8 @@ class VeritabaniServisi {
         erkekAriDurumu TEXT,
         ciftlesmeDurumu TEXT,
         anaDegisimPlanlandiMi INTEGER DEFAULT 0,
+        suruplukKaldirildiMi INTEGER DEFAULT 0,
+        suruplukKaldirmaManuelMi INTEGER DEFAULT 0,
         notlar TEXT,
         FOREIGN KEY (koloniId) REFERENCES koloniler (id)
       )
@@ -174,6 +178,8 @@ class VeritabaniServisi {
     await _kolonEkleYoksa(db, 'koloniler', 'bal_cita', 'INTEGER DEFAULT 0');
     await _kolonEkleYoksa(db, 'koloniler', 'skor', 'INTEGER DEFAULT 0');
     await _kolonEkleYoksa(db, 'koloniler', 'sahaSirasi', 'INTEGER');
+    await _kolonEkleYoksa(db, 'koloniler', 'kovanTipi', "TEXT DEFAULT 'Langstroth'");
+    await _kolonEkleYoksa(db, 'koloniler', 'suruplukVarMi', 'INTEGER DEFAULT 0');
     await _kolonEkleYoksa(db, 'koloniler', 'notMetni', 'TEXT');
 
     await _kolonEkleYoksa(db, 'muayeneler', 'yavruluCita', 'INTEGER');
@@ -246,6 +252,18 @@ class VeritabaniServisi {
       'INTEGER DEFAULT 0',
     );
     await _kolonEkleYoksa(db, 'muayeneler', 'varroaSecimleri', 'TEXT');
+    await _kolonEkleYoksa(
+      db,
+      'muayeneler',
+      'suruplukKaldirildiMi',
+      'INTEGER DEFAULT 0',
+    );
+    await _kolonEkleYoksa(
+      db,
+      'muayeneler',
+      'suruplukKaldirmaManuelMi',
+      'INTEGER DEFAULT 0',
+    );
     await _kolonEkleYoksa(db, 'muayeneler', 'notlar', 'TEXT');
 
     await db.execute('''
@@ -479,7 +497,7 @@ class VeritabaniServisi {
     'destek_max_maks_cita': '4',
     'orta_koloni_max_cita': '6',
     'guclu_koloni_min_cita': '7',
-    'bolme_adayi_min_cita': '6',
+    'bolme_adayi_min_cita': '9',
     'ana_degisim_sezon_esigi': '2',
     'mudahale_min_skor': '45',
     'uretim_min_skor': '70',
@@ -491,7 +509,7 @@ class VeritabaniServisi {
     'kis_destek_max_maks_cita': '3',
     'kis_orta_koloni_max_cita': '5',
     'kis_guclu_koloni_min_cita': '6',
-    'kis_bolme_adayi_min_cita': '6',
+    'kis_bolme_adayi_min_cita': '9',
     'kis_ana_degisim_sezon_esigi': '2',
     'kis_mudahale_min_skor': '50',
     'kis_uretim_min_skor': '72',
@@ -499,31 +517,32 @@ class VeritabaniServisi {
     'uretim_destek_max_maks_cita': '4',
     'uretim_orta_koloni_max_cita': '6',
     'uretim_guclu_koloni_min_cita': '7',
-    'uretim_bolme_adayi_min_cita': '6',
+    'uretim_bolme_adayi_min_cita': '9',
     'uretim_ana_degisim_sezon_esigi': '2',
     'uretim_mudahale_min_skor': '45',
     'uretim_uretim_min_skor': '70',
     'uretim_damizlik_min_skor': '85',
-    'kis_agirlik_gelisim': '25',
-    'kis_agirlik_verim': '15',
+    'kis_agirlik_gelisim': '35',
+    'kis_agirlik_verim': '0',
     'kis_agirlik_saglik': '40',
     'kis_agirlik_mizac': '10',
-    'kis_agirlik_yavru': '10',
-    'uretim_agirlik_gelisim': '35',
+    'kis_agirlik_yavru': '0',
+    'uretim_agirlik_gelisim': '30',
     'uretim_agirlik_verim': '25',
     'uretim_agirlik_saglik': '25',
-    'uretim_agirlik_mizac': '15',
-    'uretim_agirlik_yavru': '0',
+    'uretim_agirlik_mizac': '10',
+    'uretim_agirlik_yavru': '10',
     'kistan_cikis_aferin_cita_min': '6',
     'kistan_cikis_aferin_skor_bonus': '5',
     'kistan_cikis_aferin_ana_yas_max': '2',
-    'kistan_cikis_aferin_tarih_baslangic': '03-15',
-    'kistan_cikis_aferin_tarih_bitis': '04-30',
+    'kistan_cikis_aferin_tarih_baslangic': '03-01',
+    'kistan_cikis_aferin_tarih_bitis': '05-15',
     'davranis_toleransi': 'standart',
     'ekonomik_arili_cita': '900',
     'ekonomik_bos_kovan': '1500',
     'ekonomik_petek_sayi': '0',
     'ekonomik_petek_deger': '120',
+    'ekonomik_bal_kg_fiyat': '600',
     'bal_akim1_baslangic': '05-25',
     'bal_akim1_bitis': '06-15',
     'bal_akim2_aktif': '0',
@@ -1474,6 +1493,19 @@ class VeritabaniServisi {
     return durum == 'sondu' || durum == 'söndü' || durum == 'pasif';
   }
 
+  static String _kovanTipiNormalize(dynamic deger) {
+    final temiz = (deger ?? '').toString().trim().toLowerCase();
+    if (temiz.contains('dadant')) return 'Dadant';
+    return 'Langstroth';
+  }
+
+  static int _toBoolInt(dynamic deger) {
+    if (deger == true) return 1;
+    if (deger is int) return deger == 1 ? 1 : 0;
+    final temiz = (deger ?? '').toString().trim().toLowerCase();
+    return temiz == '1' || temiz == 'true' || temiz == 'evet' || temiz == 'var' ? 1 : 0;
+  }
+
   static Future<int> koloniEkle(Map<String, dynamic> veri) async {
     final dbClient = await db;
 
@@ -1530,6 +1562,9 @@ class VeritabaniServisi {
       kayit['durum'] = ((kayit['durum'] ?? '').toString().trim().isEmpty)
           ? 'aktif'
           : kayit['durum'];
+      kayit['kovanTipi'] = _kovanTipiNormalize(kayit['kovanTipi']);
+      kayit['suruplukVarMi'] = _toBoolInt(kayit['suruplukVarMi']);
+
       kayit['olusturmaTarihi'] = _tarihZorunluIso(
         kayit['olusturmaTarihi'],
         alanAdi: 'Koloni oluşturma tarihi',
@@ -1772,6 +1807,8 @@ class VeritabaniServisi {
         'bal_cita': veri['bal_cita'] ?? eski['bal_cita'],
         'skor': veri['skor'] ?? eski['skor'],
         'sahaSirasi': hedefSira,
+        'kovanTipi': _kovanTipiNormalize(veri['kovanTipi'] ?? eski['kovanTipi']),
+        'suruplukVarMi': _toBoolInt(veri['suruplukVarMi'] ?? eski['suruplukVarMi']),
         'notMetni': veri['notMetni'] ?? eski['notMetni'],
       };
 
@@ -2165,6 +2202,8 @@ class VeritabaniServisi {
       'disaridanHazirAnaVerildi': 0,
       'gunlukKapaliYavruGoruldu': 0,
       'varroaSecimleri': null,
+      'suruplukKaldirildiMi': 0,
+      'suruplukKaldirmaManuelMi': 0,
       'notlar': otomatikNot,
     });
   }
@@ -2180,6 +2219,8 @@ class VeritabaniServisi {
     veriTam['kapaliYavruluCitaAktarildi'] = _toInt(veriTam['kapaliYavruluCitaAktarildi']);
     veriTam['disaridanHazirAnaVerildi'] = _toInt(veriTam['disaridanHazirAnaVerildi']);
     veriTam['gunlukKapaliYavruGoruldu'] = _toInt(veriTam['gunlukKapaliYavruGoruldu']);
+    veriTam['suruplukKaldirildiMi'] = _toInt(veriTam['suruplukKaldirildiMi']);
+    veriTam['suruplukKaldirmaManuelMi'] = _toInt(veriTam['suruplukKaldirmaManuelMi']);
     veriTam['varroaSecimleri'] = _varroaSecimleriNormalize(veriTam['varroaSecimleri']);
     veriTam['varroaMucadele'] = _varroaMucadeleOzetineCevir(veriTam['varroaSecimleri'], fallback: veriTam['varroaMucadele']);
     veriTam['tarih'] = _tarihZorunluIso(
@@ -2216,6 +2257,8 @@ class VeritabaniServisi {
     veriTam['kapaliYavruluCitaAktarildi'] = _toInt(veriTam['kapaliYavruluCitaAktarildi']);
     veriTam['disaridanHazirAnaVerildi'] = _toInt(veriTam['disaridanHazirAnaVerildi']);
     veriTam['gunlukKapaliYavruGoruldu'] = _toInt(veriTam['gunlukKapaliYavruGoruldu']);
+    veriTam['suruplukKaldirildiMi'] = _toInt(veriTam['suruplukKaldirildiMi']);
+    veriTam['suruplukKaldirmaManuelMi'] = _toInt(veriTam['suruplukKaldirmaManuelMi']);
     veriTam['varroaSecimleri'] = _varroaSecimleriNormalize(veriTam['varroaSecimleri']);
     veriTam['varroaMucadele'] = _varroaMucadeleOzetineCevir(
       veriTam['varroaSecimleri'],
@@ -2317,14 +2360,28 @@ class VeritabaniServisi {
     // SERBEST METİN ANALİZİ YOK:
     // Notlardan varroa/oğul okumuyoruz. Yalnızca kayıtlı alanlar kullanılır.
     final varroaMucadele = (son['varroaMucadele'] ?? '').toString().trim();
-    final ogulBelirtisiVar = _toInt(son['ogulBelirtisi']) == 1;
-    final ogulAttiVar = _toInt(son['ogulAtti']) == 1;
+    final bool varroaAcikGoruldu = _toInt(son['varroaGoruldu']) == 1;
+    // Oğul verisi sağlık puanı için kullanılmaz.
+    // Oğul, donör/genetik istikrar tarafında sert veto olarak değerlendirilir.
     final bolmeVar = _toInt(son['bolmeYapildi']) == 1;
     final kovanSondu = _toInt(son['kovanSondu']) == 1;
 
     final mizacMetni = (son['mizac'] ?? '').toString();
     final yavruDuzeni = (son['yavruDuzeni'] ?? '').toString();
     final beslemeTipi = (son['beslemeTipi'] ?? '').toString();
+
+    final bool sonMuayenedeBeslemeVar =
+        _toInt(son['beslemeYapildi']) == 1 ||
+            (beslemeTipi.trim().isNotEmpty && beslemeTipi.trim().toLowerCase() != 'yok');
+
+    final int sonBeslemeSayisi = muayeneler.reversed
+        .take(3)
+        .where((m) {
+          final tip = (m['beslemeTipi'] ?? '').toString().trim().toLowerCase();
+          return _toInt(m['beslemeYapildi']) == 1 ||
+              (tip.isNotEmpty && tip != 'yok');
+        })
+        .length;
 
     final koloni = await koloniOzetiGetir(koloniId);
     final anaYiliMetni = (koloni['anaYili'] ?? '').toString().trim();
@@ -2369,21 +2426,16 @@ class VeritabaniServisi {
 
     double verimPuani;
     if (sezon == 'kis') {
-      verimPuani = (maxBal / 4.0) * 100.0;
+      // Kışta kalan bal arıcının yönetim tercihidir; performans puanı değildir.
+      verimPuani = 0;
     } else {
       verimPuani = (maxBal / 8.0) * 100.0;
+      if (maxBal > 0) {
+        verimPuani += 8;
+      }
     }
 
-    if (beslemeTipi.contains('Şurup')) {
-      verimPuani *= 0.6;
-    } else if (beslemeTipi.contains('Kek') || beslemeTipi.contains('Fondan')) {
-      verimPuani *= 0.8;
-    }
-
-    if (sezon == 'uretim' && maxBal > 0) {
-      verimPuani += 8;
-    }
-
+    // Besleme verimi cezalandırmaz. Besleme, bal performansı değil yönetim sinyalidir.
     verimPuani = verimPuani.clamp(0, 100).toDouble();
 
     // Varroa mantığı:
@@ -2432,9 +2484,28 @@ class VeritabaniServisi {
       }
     }
 
-    if (ogulBelirtisiVar && sezon == 'uretim') saglikPuani -= 10;
-    if (ogulAttiVar && sezon == 'uretim') saglikPuani -= 20;
-    if (_toInt(son['anaAriGoruldu']) == 0) saglikPuani -= 10;
+    if (varroaAcikGoruldu && !sonMuayenedeMucadeleVar) {
+      // Açık varroa görüldüyse ve aynı kayıtta mücadele yoksa sağlık riski vardır.
+      // Oğuldan farklı olarak bu gerçek bir koloni sağlığı baskısıdır.
+      saglikPuani -= 12;
+    } else if (varroaAcikGoruldu && sonMuayenedeMucadeleVar) {
+      // Sorun görülmüş ama aynı kayıtta müdahale de yapılmışsa ceza sınırlı kalır.
+      saglikPuani -= 4;
+    }
+
+    if (anaYasi >= 3) {
+      saglikPuani -= sezon == 'kis' ? 10 : 7;
+    } else if (anaYasi == 2) {
+      saglikPuani -= sezon == 'kis' ? 4 : 2;
+    }
+
+    if (yavruDuzeni == 'Kambur' && sezon != 'kis') {
+      // Kambur yavru sıradan düşük puan değil; yalancı ana / ana problemi riski olarak okunur.
+      saglikPuani -= 18;
+    }
+
+    // Ana görülmedi alanı eski kayıtlarda boş/0 gelebilir.
+    // Bu yüzden sağlık puanında otomatik ceza üretmez; ana kazanma süreçleri ayrı motorlarda okunur.
     saglikPuani = saglikPuani.clamp(0, 100).toDouble();
 
     final davranisToleransi = await ayarStringGetir(
@@ -2456,7 +2527,10 @@ class VeritabaniServisi {
     }
 
     double yavruPuani = 70;
-    if (yavruDuzeni == 'Blok') {
+    if (sezon == 'kis') {
+      // Kışta yavru düzeni beklenen performans verisi değildir.
+      yavruPuani = 0;
+    } else if (yavruDuzeni == 'Blok') {
       yavruPuani = 100;
     } else if (yavruDuzeni == 'Normal') {
       yavruPuani = 85;
@@ -2468,11 +2542,11 @@ class VeritabaniServisi {
 
     final agirlikGelisim = await ayarIntGetir(
       sezon == 'kis' ? 'kis_agirlik_gelisim' : 'uretim_agirlik_gelisim',
-      varsayilan: sezon == 'kis' ? 25 : 35,
+      varsayilan: sezon == 'kis' ? 35 : 30,
     );
-    final agirlikVerim = await ayarIntGetir(
+    final agirlikVerimHam = await ayarIntGetir(
       sezon == 'kis' ? 'kis_agirlik_verim' : 'uretim_agirlik_verim',
-      varsayilan: sezon == 'kis' ? 15 : 25,
+      varsayilan: sezon == 'kis' ? 0 : 25,
     );
     final agirlikSaglik = await ayarIntGetir(
       sezon == 'kis' ? 'kis_agirlik_saglik' : 'uretim_agirlik_saglik',
@@ -2480,24 +2554,37 @@ class VeritabaniServisi {
     );
     final agirlikMizac = await ayarIntGetir(
       sezon == 'kis' ? 'kis_agirlik_mizac' : 'uretim_agirlik_mizac',
-      varsayilan: sezon == 'kis' ? 10 : 15,
+      varsayilan: sezon == 'kis' ? 10 : 10,
     );
-    final agirlikYavru = await ayarIntGetir(
+    final agirlikYavruHam = await ayarIntGetir(
       sezon == 'kis' ? 'kis_agirlik_yavru' : 'uretim_agirlik_yavru',
-      varsayilan: sezon == 'kis' ? 10 : 0,
+      varsayilan: sezon == 'kis' ? 0 : 10,
     );
 
-    double toplam =
-        (gelisimPuani * (agirlikGelisim / 100.0)) +
-            (verimPuani * (agirlikVerim / 100.0)) +
-            (saglikPuani * (agirlikSaglik / 100.0)) +
-            (mizacPuani * (agirlikMizac / 100.0)) +
-            (yavruPuani * (agirlikYavru / 100.0));
+    final int agirlikVerim = sezon == 'kis' ? 0 : agirlikVerimHam;
+    final int agirlikYavru = sezon == 'kis' ? 0 : agirlikYavruHam;
 
-    if (ogulAttiVar && sezon == 'uretim') {
-      toplam *= 0.90;
-    } else if (ogulBelirtisiVar && sezon == 'uretim') {
-      toplam *= 0.95;
+    final int aktifAgirlikToplami =
+        agirlikGelisim + agirlikVerim + agirlikSaglik + agirlikMizac + agirlikYavru;
+
+    double toplam = aktifAgirlikToplami <= 0
+        ? 0
+        : ((gelisimPuani * agirlikGelisim) +
+        (verimPuani * agirlikVerim) +
+        (saglikPuani * agirlikSaglik) +
+        (mizacPuani * agirlikMizac) +
+        (yavruPuani * agirlikYavru)) /
+        aktifAgirlikToplami;
+
+    if (yavruDuzeni == 'Kambur' && sezon != 'kis') {
+      // Özel risk: skor tamamen sıfırlanmaz, fakat yüksek performans gibi görünmesine izin verilmez.
+      toplam = toplam.clamp(0, 58).toDouble();
+    } else if (yavruDuzeni == 'Dağınık' && sezon != 'kis') {
+      toplam = toplam.clamp(0, 78).toDouble();
+    }
+
+    if (sonBeslemeSayisi > 0 && saglikPuani >= 70 && gelisimPuani >= 45) {
+      toplam += sonMuayenedeBeslemeVar ? 3 : 2;
     }
 
     if (ilkAsama) {
@@ -3367,6 +3454,294 @@ class VeritabaniServisi {
 
     if (tarih == null) _balAkimCache[cacheKey] = null;
     return null;
+  }
+
+
+
+  static Future<Map<String, dynamic>> suruplukKaldirmaPenceresiGetir(
+    int koloniId, {
+    DateTime? tarih,
+  }) async {
+    final referansHam = tarih ?? DateTime.now();
+    final bugun = DateTime(
+      referansHam.year,
+      referansHam.month,
+      referansHam.day,
+    );
+
+    final koloni = await koloniOzetiGetir(koloniId);
+    final bool suruplukVarMi = _toInt(koloni['suruplukVarMi']) == 1;
+    final int arilikId = _toInt(koloni['arilikId']);
+    const int varsayilanGun = 20;
+
+    if (!suruplukVarMi) {
+      return {
+        'aktif': false,
+        'suruplukVarMi': false,
+        'gun': varsayilanGun,
+        'mesaj': 'Bu koloni için şurupluk aktif görünmüyor.',
+      };
+    }
+
+    final akimlar = await _balAkimAdaylariGetir(
+      tarih: bugun,
+      arilikId: arilikId > 0 ? arilikId : null,
+    );
+
+    for (final akim in akimlar) {
+      final bas = akim['bas'];
+      final bit = akim['bit'];
+      if (bas is! DateTime || bit is! DateTime) continue;
+      if (bugun.isAfter(bit)) continue;
+
+      final pencereBaslangic = bas.subtract(const Duration(days: varsayilanGun));
+      final kalanGun = bas.difference(bugun).inDays;
+      final aktif = !bugun.isBefore(pencereBaslangic) && !bugun.isAfter(bit);
+      final etiket = (akim['etiket'] ?? 'bal akımı').toString();
+
+      if (aktif) {
+        final mesaj = kalanGun >= 0
+            ? '$etiket başlangıcına $kalanGun gün kaldı. Şeker kalıntısı riskini azaltmak için beslemeyi sonlandır; şurupluğu kaldırıp yerine petek verebilirsin.'
+            : '$etiket dönemi içindesin. Şeker kalıntısı riskini azaltmak için besleme yapılmamalı; şurupluk kaldırılmış olmalı.';
+        return {
+          'aktif': true,
+          'suruplukVarMi': true,
+          'etiket': etiket,
+          'gun': varsayilanGun,
+          'kalanGun': kalanGun,
+          'bas': bas,
+          'bit': bit,
+          'basMetni': _isoTarih(bas),
+          'bitMetni': _isoTarih(bit),
+          'mesaj': mesaj,
+        };
+      }
+
+      return {
+        'aktif': false,
+        'suruplukVarMi': true,
+        'etiket': etiket,
+        'gun': varsayilanGun,
+        'kalanGun': kalanGun,
+        'bas': bas,
+        'bit': bit,
+        'basMetni': _isoTarih(bas),
+        'bitMetni': _isoTarih(bit),
+        'mesaj': '$etiket başlangıcına $kalanGun gün var. Şurupluk kaldırma uyarısı bal akımından $varsayilanGun gün önce açılır.',
+      };
+    }
+
+    return {
+      'aktif': false,
+      'suruplukVarMi': true,
+      'gun': varsayilanGun,
+      'mesaj': 'Yaklaşan aktif bal akımı penceresi bulunmadı. Hasat sonrası besleme döneminde şurupluk yeniden kullanılabilir.',
+    };
+  }
+
+  // ======================================================
+  // KARAR ZAMAN BAĞLAMI
+  // ======================================================
+
+  /// Koloni karar motorunun kullandığı hafif zaman bağlamıdır.
+  /// Yeni bir zaman motoru değildir; mevcut sezon ve bal akımı ayarlarını tek
+  /// noktadan okuyup karar motoruna sade bir bağlam verir.
+  static Future<Map<String, dynamic>> kararZamanBaglamiGetir({
+    DateTime? tarih,
+    int? arilikId,
+  }) async {
+    final referansHam = tarih ?? DateTime.now();
+    final bugun = DateTime(
+      referansHam.year,
+      referansHam.month,
+      referansHam.day,
+    );
+
+    final sezonKodu = await aktifSezonKoduGetir(bugun);
+    final akimlar = await _balAkimAdaylariGetir(
+      tarih: bugun,
+      arilikId: arilikId,
+    );
+
+    Map<String, dynamic>? siradakiAkim;
+    Map<String, dynamic>? icindeBulunulanAkim;
+    Map<String, dynamic>? sonGecmisAkim;
+
+    for (final akim in akimlar) {
+      final bas = akim['bas'];
+      final bit = akim['bit'];
+      if (bas is! DateTime || bit is! DateTime) continue;
+
+      if (!bugun.isBefore(bas) && !bugun.isAfter(bit)) {
+        icindeBulunulanAkim = akim;
+        siradakiAkim ??= akim;
+      } else if (bugun.isBefore(bas)) {
+        siradakiAkim ??= akim;
+      } else if (bugun.isAfter(bit)) {
+        sonGecmisAkim = akim;
+      }
+    }
+
+    final DateTime? balAkimBaslangic =
+        (siradakiAkim?['bas'] is DateTime) ? siradakiAkim!['bas'] as DateTime : null;
+    final DateTime? balAkimBitis =
+        (siradakiAkim?['bit'] is DateTime) ? siradakiAkim!['bit'] as DateTime : null;
+    final DateTime? sonBalAkimBitis =
+        (sonGecmisAkim?['bit'] is DateTime) ? sonGecmisAkim!['bit'] as DateTime : null;
+
+    final int? balAkiminaKalanGun = balAkimBaslangic == null
+        ? null
+        : balAkimBaslangic.difference(bugun).inDays;
+
+    final bool balAkiminda = icindeBulunulanAkim != null;
+    final bool hasatSonrasi = sonBalAkimBitis != null && bugun.isAfter(sonBalAkimBitis);
+
+    String bolmePenceresi;
+    String bolmePencereMesaji;
+
+    if (sezonKodu == 'kis') {
+      bolmePenceresi = 'kapali';
+      bolmePencereMesaji =
+          'Kış döneminde bölme önerilmez. Koloni gücü korunmalı ve sezon planına alınmalıdır.';
+    } else if (balAkiminda) {
+      bolmePenceresi = 'bal_akiminda';
+      bolmePencereMesaji =
+          'Bal akımı içinde standart bölme önerilmez. Ancak bilinçli üretim stratejisinde yavru azaltma amaçlı özel bölme ayrıca değerlendirilebilir.';
+    } else if (balAkiminaKalanGun != null && balAkiminaKalanGun >= 57) {
+      bolmePenceresi = 'uygun';
+      bolmePencereMesaji =
+          'Bal akımına 57 günden fazla var. Güçlü kolonilerde bölme kararı saha açısından anlamlıdır.';
+    } else if (balAkiminaKalanGun != null && balAkiminaKalanGun >= 0) {
+      bolmePenceresi = 'gec';
+      bolmePencereMesaji =
+          'Bal akımına 57 günden az kaldı. Standart bölme geç kalmış sayılır; güçlü koloniyi eksiltmek üretim riskini artırır.';
+    } else if (hasatSonrasi) {
+      bolmePenceresi = 'hasat_sonrasi';
+      bolmePencereMesaji =
+          'Hasat sonrası ana gündem bölme değil; varroa, besleme, sıkıştırma ve kışa hazırlıktır.';
+    } else {
+      bolmePenceresi = 'kapali';
+      bolmePencereMesaji =
+          'Bu tarih aralığında standart bölme kararı güçlü görünmez. Sezon ve bal akımı takvimine göre yeniden değerlendirilmelidir.';
+    }
+
+    String anaDegisimPenceresi;
+    String anaDegisimPencereMesaji;
+
+    if (sezonKodu == 'kis') {
+      anaDegisimPenceresi = 'kapali';
+      anaDegisimPencereMesaji =
+          'Kış döneminde ana değişimi önerilmez; gerekiyorsa sezon planına alınır.';
+    } else if (hasatSonrasi) {
+      anaDegisimPenceresi = 'uygun';
+      anaDegisimPencereMesaji =
+          'Hasat sonrası dönem ana değişimi için güçlü karar penceresidir. Yeni ana yıpranmadan yeni sezona girer.';
+    } else if (balAkiminda || (balAkiminaKalanGun != null && balAkiminaKalanGun >= 0)) {
+      anaDegisimPenceresi = 'zorunlu_degilse_ertele';
+      anaDegisimPencereMesaji =
+          'Bal akımı öncesi veya sırasında ana değişimi yalnızca zorunlu sorun varsa düşünülmelidir; planlı değişim hasat sonrasına bırakılmalıdır.';
+    } else {
+      anaDegisimPenceresi = 'planla';
+      anaDegisimPencereMesaji =
+          'Ana değişimi için karar sezon bağlamıyla birlikte izlenmeli; en güçlü pencere hasat sonrasıdır.';
+    }
+
+    return {
+      'tarih': _isoTarih(bugun),
+      'sezonKodu': sezonKodu,
+      'balAkiminda': balAkiminda,
+      'hasatSonrasi': hasatSonrasi,
+      'balAkiminaKalanGun': balAkiminaKalanGun,
+      'balAkimBaslangic': balAkimBaslangic == null ? null : _isoTarih(balAkimBaslangic),
+      'balAkimBitis': balAkimBitis == null ? null : _isoTarih(balAkimBitis),
+      'bolmePenceresi': bolmePenceresi,
+      'bolmePencereMesaji': bolmePencereMesaji,
+      'anaDegisimPenceresi': anaDegisimPenceresi,
+      'anaDegisimPencereMesaji': anaDegisimPencereMesaji,
+    };
+  }
+
+  static Future<List<Map<String, dynamic>>> _balAkimAdaylariGetir({
+    required DateTime tarih,
+    int? arilikId,
+  }) async {
+    final yil = tarih.year;
+
+    final balAkim1Bas = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim1_baslangic',
+      varsayilan: varsayilanAyarDegeri('bal_akim1_baslangic'),
+    );
+    final balAkim1Bit = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim1_bitis',
+      varsayilan: varsayilanAyarDegeri('bal_akim1_bitis'),
+    );
+    final balAkim2Aktif = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim2_aktif',
+      varsayilan: varsayilanAyarDegeri('bal_akim2_aktif'),
+    );
+    final balAkim2Bas = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim2_baslangic',
+      varsayilan: varsayilanAyarDegeri('bal_akim2_baslangic'),
+    );
+    final balAkim2Bit = await _arilikAyariGetir(
+      arilikId: arilikId,
+      anahtar: 'bal_akim2_bitis',
+      varsayilan: varsayilanAyarDegeri('bal_akim2_bitis'),
+    );
+
+    DateTime? toDate(String s) {
+      final temiz = s.trim();
+      if (temiz.isEmpty) return null;
+      final p = temiz.split('-');
+      if (p.length != 2) return null;
+      final ay = int.tryParse(p[0]);
+      final gun = int.tryParse(p[1]);
+      if (ay == null || gun == null) return null;
+      return DateTime(yil, ay, gun);
+    }
+
+    final List<Map<String, dynamic>> adaylar = [];
+
+    final a1b = toDate(balAkim1Bas);
+    final a1e = toDate(balAkim1Bit);
+    if (a1b != null && a1e != null && !a1e.isBefore(a1b)) {
+      adaylar.add({
+        'etiket': '1. bal akımı',
+        'bas': a1b,
+        'bit': a1e,
+        'arilikId': arilikId,
+      });
+    }
+
+    if (balAkim2Aktif == '1') {
+      final a2b = toDate(balAkim2Bas);
+      final a2e = toDate(balAkim2Bit);
+      if (a2b != null && a2e != null && !a2e.isBefore(a2b)) {
+        adaylar.add({
+          'etiket': '2. bal akımı',
+          'bas': a2b,
+          'bit': a2e,
+          'arilikId': arilikId,
+        });
+      }
+    }
+
+    adaylar.sort(
+      (a, b) => (a['bas'] as DateTime).compareTo(b['bas'] as DateTime),
+    );
+
+    return adaylar;
+  }
+
+  static String _isoTarih(DateTime tarih) {
+    final yil = tarih.year.toString().padLeft(4, '0');
+    final ay = tarih.month.toString().padLeft(2, '0');
+    final gun = tarih.day.toString().padLeft(2, '0');
+    return '$yil-$ay-$gun';
   }
 
 }

@@ -56,6 +56,19 @@ class YorumMotoru {
     return buffer.toString();
   }
 
+  static String veriGuveniCumlesiUret(int muayeneSayisi) {
+    if (muayeneSayisi <= 0) {
+      return 'Veri yok; karar yalnızca kimlik ve kaynak bilgisine göre sınırlıdır.';
+    }
+    if (muayeneSayisi == 1) {
+      return 'Veri çok sınırlı; sistem karar verir ama güven düzeyi düşüktür.';
+    }
+    if (muayeneSayisi <= 4) {
+      return 'Veri izlenmeli; karar var ama sonraki muayenelerle güçlenmelidir.';
+    }
+    return 'Veri güveni yeterli; değerlendirme güvenilir banda girmiştir.';
+  }
+
   static String kararCumlesiUret({
     required String secilimBaslik,
     required String kararBaslik,
@@ -70,7 +83,7 @@ class YorumMotoru {
     }
 
     if (temizVeto.isNotEmpty && temizSecilim.isNotEmpty && temizKarar.isNotEmpty) {
-      return '$temizSecilim ($temizVeto). $temizKarar.';
+      return '$temizSecilim ($temizVeto). $temizKarar. Ana üretme; üretim, destek veya saha kullanımı ayrıca değerlendirilebilir.';
     }
 
     if (temizSecilim.isNotEmpty && temizKarar.isNotEmpty) {

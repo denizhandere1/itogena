@@ -88,6 +88,9 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   bool _anaDegisimPlanlandiMi = false;
   bool _gunlukKapaliYavruGoruldu = false;
   bool _anaKazanmaSureciAktifMi = false;
+  bool _suruplukKaldirmaPenceresiAktif = false;
+  bool _suruplukKaldirildiMi = false;
+  String _suruplukKaldirmaMesaji = '';
 
   String _memeDurumu = 'Yok';
 
@@ -142,6 +145,18 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
             kod.contains('ANA_KAZANMA');
       });
 
+      final suruplukPenceresi =
+      await VeritabaniServisi.suruplukKaldirmaPenceresiGetir(
+        widget.koloniDonemiId,
+        tarih: _tarih,
+      );
+      final bool suruplukPencereAktif = suruplukPenceresi['aktif'] == true;
+      final bool hasatModuAktif = _cita >= 8 || _bal > 0;
+      final bool suruplukPencereHasatIcinAktif =
+          suruplukPencereAktif && hasatModuAktif;
+      final String suruplukMesaji =
+          (suruplukPenceresi['mesaj'] ?? '').toString();
+
       setState(() {
         final dbKovanNo = (koloni['kovanNo'] ?? '').toString().trim();
         if (dbKovanNo.isNotEmpty) {
@@ -157,6 +172,18 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         _anaKazanmaSureciAktifMi = anaKazanmaAktif ||
             _anasizBirakildiMi ||
             _gunlukKapaliYavruGoruldu;
+        _suruplukKaldirmaPenceresiAktif =
+            suruplukPencereHasatIcinAktif ||
+                (_suruplukKaldirildiMi && hasatModuAktif);
+        _suruplukKaldirmaMesaji = suruplukPencereHasatIcinAktif
+            ? (suruplukMesaji.trim().isNotEmpty
+                ? suruplukMesaji
+                : 'Bal akımı yaklaştığı için besleme kısıtı başladı. Şeker kalıntısı riskini azaltmak için şurupluğu gerçekten kaldırdıysan işaretle.')
+            : '';
+        if ((!suruplukPencereHasatIcinAktif || !hasatModuAktif) &&
+            widget.muayene == null) {
+          _suruplukKaldirildiMi = false;
+        }
       });
     } catch (_) {
       // Üst bilgi yüklenemese bile form çalışmaya devam etsin.
@@ -202,6 +229,9 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     _anasizBirakildiMi = _intDeger(m['anasizBirakildiMi']) == 1;
     _anaDegisimPlanlandiMi = _intDeger(m['anaDegisimPlanlandiMi']) == 1;
     _gunlukKapaliYavruGoruldu = _intDeger(m['gunlukKapaliYavruGoruldu']) == 1;
+    _suruplukKaldirildiMi =
+        _intDeger(m['suruplukKaldirildiMi']) == 1 &&
+            _intDeger(m['suruplukKaldirmaManuelMi']) == 1;
     _anaKazanmaYontemi = _normalizeAnaKazanmaYontemi(m['anaKazanmaYontemi']);
 
     final anasizTarihMetni = (m['anasizBaslangicTarihi'] ?? '').toString().trim();
@@ -260,6 +290,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     _anasizBirakildiMi = false;
     _anaDegisimPlanlandiMi = false;
     _gunlukKapaliYavruGoruldu = false;
+    // Yeni muayene açılırken önceki muayenedeki şurupluk kaldırıldı
+    // işareti otomatik taşınmaz. Fiziksel işlem her muayenede arıcı
+    // tarafından yeniden işaretlenmelidir.
+    _suruplukKaldirildiMi = false;
     _anaKazanmaYontemi = _normalizeAnaKazanmaYontemi(m['anaKazanmaYontemi']);
     _anasizBaslangicTarihi = null;
 
@@ -381,6 +415,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     return null;
   }
 
+  // Kullanıcı ekranında tarih standardı: gün.ay.yıl.
   String _tarihFormatla(DateTime dt) {
     final gun = dt.day.toString().padLeft(2, '0');
     final ay = dt.month.toString().padLeft(2, '0');
@@ -463,6 +498,8 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         _anasizBaslangicTarihi = _tarih;
       }
     });
+
+    await _ustBilgiyiYukle();
   }
 
   void _notMetniniGuncelle(String metin) {
@@ -577,6 +614,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           _gunlukKapaliYavruGoruldu
           ? 1
           : 0,
+      'suruplukKaldirildiMi':
+      _suruplukKaldirmaPenceresiAktif && _suruplukKaldirildiMi ? 1 : 0,
+      'suruplukKaldirmaManuelMi':
+      _suruplukKaldirmaPenceresiAktif && _suruplukKaldirildiMi ? 1 : 0,
     };
 
     try {
@@ -929,6 +970,50 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     );
   }
 
+
+  Widget _suruplukKaldirmaKutusu() {
+    if (!_suruplukKaldirmaPenceresiAktif && !_suruplukKaldirildiMi) {
+      return const SizedBox.shrink();
+    }
+
+    final mesaj = _suruplukKaldirmaMesaji.trim().isEmpty
+        ? 'Bal akımı yaklaşıyor. Şeker kalıntısı riskini azaltmak için besleme sonlandırılmalı; şurupluk kaldırılıp yerine petek verilebilir.'
+        : _suruplukKaldirmaMesaji.trim();
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 8, bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF3E0),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.orange.shade300),
+      ),
+      child: CheckboxListTile(
+        value: _suruplukKaldirildiMi,
+        onChanged: (v) {
+          setState(() {
+            _suruplukKaldirildiMi = v ?? false;
+            if (_suruplukKaldirildiMi) {
+              _besleme = 'Yok';
+            }
+          });
+        },
+        activeColor: Colors.orange,
+        contentPadding: EdgeInsets.zero,
+        controlAffinity: ListTileControlAffinity.leading,
+        title: const Text(
+          'Şurupluk kaldırıldı',
+          style: TextStyle(fontWeight: FontWeight.w900),
+        ),
+        subtitle: Text(
+          '$mesaj İşaretlersen biyolojik modelde şurupluk kalkar ve petek düzeni sola kayar.',
+          style: const TextStyle(fontSize: 12, height: 1.4),
+        ),
+      ),
+    );
+  }
+
   Widget _kaydetButonu() {
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -999,6 +1084,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       _besleme,
                           (v) => setState(() => _besleme = v!),
                     ),
+                    _suruplukKaldirmaKutusu(),
                     _hizliDropdown(
                       'Varroa Mücadelesi',
                       _varroaSecenekleri,

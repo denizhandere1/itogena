@@ -1,5 +1,6 @@
 import 'veritabani_servisi.dart';
 import 'ari_biyoloji_servisi.dart';
+import 'trend_servisi.dart';
 
 class SurecUyarisi {
   final String kod;
@@ -57,7 +58,8 @@ class SurecMotoru {
   static const int _ogulBelirtisiMaxGun = 14;
   static const int _bolmeSonrasiMaxGun = 45;
   static const int _ogulSonrasiMaxGun = 45;
-  static const int _hasatSonrasiMaxGun = 60;
+  static const int _hasatSonrasiAnaKartGun = 7;
+  static const int _hasatSonrasiMaxGun = 21;
   static const int _anasizlikMaxGun = 45;
 
   static Future<SurecDurumu> durumGetir(int koloniId) async {
@@ -130,7 +132,7 @@ class SurecMotoru {
     }
 
     final benzersiz = _tekillestir(surecler)
-      ..sort((a, b) => b.oncelik.compareTo(a.oncelik));
+      ..sort(_surecKarsilastir);
 
     return SurecDurumu(
       aktifSurecler: benzersiz,
@@ -264,37 +266,40 @@ class SurecMotoru {
     if (!ogulBelirtisi || bolmeYapildi || ogulAtti) return null;
 
     if (gun <= 3) {
-      return const SurecUyarisi(
+      return SurecUyarisi(
         kod: 'OGUL_BELIRTISI',
         grup: 'OGUL',
         baslik: 'Oğul riski',
         mesaj:
-        'Ana memelerini kontrol et. Fazla memeleri azalt veya bölme yap. Bu noktada sıkışıklık oğul riskini artırır.',
+        'Ana memesi görüldü. Bu sağlık sorunu değil, oğul davranışı ve koloni sıkışıklığı işaretidir. Koloniyi sakin biçimde kontrol et; gerekiyorsa bölme yap veya 1–2 kaliteli meme bırakıp fazlasını azalt.',
         tip: 'kritik',
         oncelik: 97,
+        referansTarihMetni: _format(tarih),
       );
     }
 
     if (gun <= 7) {
-      return const SurecUyarisi(
+      return SurecUyarisi(
         kod: 'OGUL_BELIRTISI',
         grup: 'OGUL',
         baslik: 'Oğul riski',
         mesaj:
-        'Artçı oğul riski var. Meme sayısını kontrol et; gerekiyorsa bölme yap veya fazla memeleri azalt.',
+        'İlk hafta artçı oğul riski yüksektir. Meme sayısını kontrol et; birden fazla güçlü meme bırakmak koloniyi tekrar bölebilir. Gerekiyorsa bölme veya fazla memeleri azaltma kararı ver.',
         tip: 'kritik',
         oncelik: 96,
+        referansTarihMetni: _format(tarih),
       );
     }
 
-    return const SurecUyarisi(
+    return SurecUyarisi(
       kod: 'OGUL_BELIRTISI',
       grup: 'OGUL',
       baslik: 'Oğul riski takibi',
       mesaj:
-      'Oğul belirtisi süreci takip döneminde. Bir sonraki muayenede oğul riski devam etmiyorsa "Oğul Belirtisi" tıkını kaldır. ',
+      'Oğul belirtisi takip döneminde. Yeni meme, sıkışıklık veya huzursuzluk yoksa süreç kendiliğinden sönümlenir; gereksiz tekrar uyarı üretmez.',
       tip: 'takip',
       oncelik: 88,
+      referansTarihMetni: _format(tarih),
     );
   }
 
@@ -312,58 +317,54 @@ class SurecMotoru {
       return null;
     }
 
-    if (gun <= 3) {
-      return const SurecUyarisi(
+    if (gun <= 7) {
+      return SurecUyarisi(
         kod: 'OGUL_SONRASI',
         grup: 'OGUL_SONRASI',
-        baslik: 'Oğul sonrası süreç',
-        mesaj: 'Memeleri kontrol et, 1–2 adet bırak. Birden fazla ana koloniyi böler.',
+        baslik: 'Oğul sonrası artçı oğul riski',
+        mesaj:
+        'İlk 7 gün artçı oğul riski yüksektir. Meme sayısını sadeleştir; 1–2 kaliteli meme bırak, fazlasını azalt. Birden fazla ana çıkışı koloniyi tekrar bölebilir.',
         tip: 'kritik',
         oncelik: 95,
+        referansTarihMetni: _format(tetik),
       );
     }
 
-    if (gun <= 10) {
-      return const SurecUyarisi(
+    if (gun <= 20) {
+      return SurecUyarisi(
         kod: 'OGUL_SONRASI',
         grup: 'OGUL_SONRASI',
-        baslik: 'Oğul sonrası süreç',
-        mesaj: 'Koloniyi açma. Ana çıkış süreci hassas.',
+        baslik: 'Oğul sonrası yeni ana süreci',
+        mesaj:
+        'Koloniyi gereksiz açma. Ana çıkışı, olgunlaşma ve çiftleşme süreci hassastır. Dış gözlem yap; kovanı sarsma ve anayı aramak için çerçeve karıştırma.',
         tip: 'takip',
         oncelik: 93,
-      );
-    }
-
-    if (gun <= 25) {
-      return const SurecUyarisi(
-        kod: 'OGUL_SONRASI',
-        grup: 'OGUL_SONRASI',
-        baslik: 'Oğul sonrası süreç',
-        mesaj: 'Bekle, müdahale etme. Yeni ana çiftleşme sürecinde.',
-        tip: 'takip',
-        oncelik: 91,
+        referansTarihMetni: _format(tetik),
       );
     }
 
     if (gun <= 30) {
-      return const SurecUyarisi(
+      return SurecUyarisi(
         kod: 'OGUL_SONRASI',
         grup: 'OGUL_SONRASI',
-        baslik: 'Oğul sonrası süreç',
+        baslik: 'Oğul sonrası yumurtlama kontrolü',
         mesaj:
-        'Yumurtlama var mı kontrol et. Yeni ana düzen kurduysa günlük görülür.',
+        'Yumurtlama kontrolü yapılabilir. Günlük veya kapalı yavru görülürse muayenede işaretle; süreç kapanır. Yavru yoksa hemen sert müdahale yapma, hava ve çiftleşme koşullarını değerlendir.',
         tip: 'takip',
         oncelik: 90,
+        referansTarihMetni: _format(tetik),
       );
     }
 
-    return const SurecUyarisi(
+    return SurecUyarisi(
       kod: 'OGUL_SONRASI',
       grup: 'OGUL_SONRASI',
-      baslik: 'Oğul sonrası süreç',
-      mesaj: 'Ana durumunu değerlendir. Yumurtlama yoksa süreç başarısız olabilir.',
+      baslik: 'Oğul sonrası gecikmiş süreç',
+      mesaj:
+      'Yumurtlama hâlâ yoksa ana durumu sahada doğrulanmalı. Gerekirse ana verme, birleştirme veya yeniden ana kazandırma kararı düşünülür.',
       tip: 'kritik',
       oncelik: 94,
+      referansTarihMetni: _format(tetik),
     );
   }
 
@@ -382,7 +383,7 @@ class SurecMotoru {
     }
 
     if (gun <= 30) {
-      return const SurecUyarisi(
+      return SurecUyarisi(
         kod: 'BOLME_SONRASI',
         grup: 'BOLME',
         baslik: 'Bölme sonrası toparlanma',
@@ -390,16 +391,18 @@ class SurecMotoru {
         'Koloniyi sıkışık tut ve besleme yap. Yeni düzen kurulana kadar destek gerekir.',
         tip: 'takip',
         oncelik: 89,
+        referansTarihMetni: _format(tetik),
       );
     }
 
-    return const SurecUyarisi(
+    return SurecUyarisi(
       kod: 'BOLME_SONRASI',
       grup: 'BOLME',
       baslik: 'Bölme sonrası toparlanma',
       mesaj: 'Ana durumunu kontrol et. Toparlanma gecikmiş olabilir.',
       tip: 'uyari',
       oncelik: 90,
+      referansTarihMetni: _format(tetik),
     );
   }
 
@@ -424,17 +427,22 @@ class SurecMotoru {
     if (gun < 0 || gun > _hasatSonrasiMaxGun) return null;
     if (tetik.year != bugun.year && gun > 31) return null;
 
-    if (_surecKapandiMi(muayeneler: muayeneler, baslangic: tetik)) {
+    if (_hasatSonrasiBakimYapildiMi(muayeneler: muayeneler, baslangic: tetik)) {
       return null;
     }
 
-    return const SurecUyarisi(
-      kod: 'HASAT_SONRASI',
+    final bool anaKartDonemi = gun <= _hasatSonrasiAnaKartGun;
+
+    return SurecUyarisi(
+      kod: anaKartDonemi ? 'HASAT_SONRASI' : 'HASAT_SONRASI_ARKA_PLAN',
       grup: 'HASAT',
-      baslik: 'Hasat sonrası toparlanma',
-      mesaj: 'Besleme yap ve koloni düzenini kur. Kışa girecek arılar bu dönemde oluşur.',
+      baslik: 'Hasat sonrası bakım gerekli',
+      mesaj:
+      'Bal alındıysa koloni strese girebilir. Arı basmayan petek veya kat varsa kaldır, koloniyi sıkışık düzene al. Stok zayıfsa kısa süreli 1:1 şurup destek olabilir; kış stoğu eksikse 2:1 şurup veya uygun hazır yem düşün. Varroa sayımı ya da mücadele penceresini geciktirme.',
       tip: 'takip',
-      oncelik: 87,
+      oncelik: anaKartDonemi ? 70 : 24,
+      referansTarihMetni: _format(tetik),
+      bitisTarihMetni: _format(_gun(tetik).add(const Duration(days: _hasatSonrasiMaxGun))),
     );
   }
 
@@ -481,8 +489,15 @@ class SurecMotoru {
 
     if (sonUc.length < 3) return null;
 
-    // Açıklayıcı olay veya ciddi müdahale varsa bu uyarı anlamsızdır.
+    // Açıklayıcı olay, ciddi müdahale veya pozitif momentum varsa bu uyarı anlamsızdır.
     if (sonUc.any(_gelisimYavasUyarisiniEngelleyenKayitMi)) return null;
+
+    final koloniId = _toInt(sonUc.first['koloniId']);
+    if (koloniId > 0) {
+      final trend = await TrendServisi.koloniTrendiGetir(koloniId);
+      final momentum = _toDouble(trend['gunlukMomentum']);
+      if (momentum >= 0.03) return null;
+    }
 
     final List<Map<String, dynamic>> eskiYeni = sonUc.reversed.toList();
 
@@ -618,6 +633,27 @@ class SurecMotoru {
     return false;
   }
 
+  static bool _hasatSonrasiBakimYapildiMi({
+    required List<Map<String, dynamic>> muayeneler,
+    required DateTime baslangic,
+  }) {
+    // Hasat sonrası süreç biyolojik ana kazanma süreci değildir.
+    // Günlük/kapalı yavru bu pencereyi kapatmaz; varroa veya besleme gibi
+    // bakım eylemleri pencereyi kapatır/hafifletir.
+    for (final m in muayeneler) {
+      final DateTime? tarih = _parseTarih(m['tarih']);
+      if (tarih == null || !tarih.isAfter(_gun(baslangic))) continue;
+
+      final varroa = (m['varroaMucadele'] ?? '').toString().trim().toLowerCase();
+      final beslemeTipi = (m['beslemeTipi'] ?? '').toString().trim().toLowerCase();
+
+      if (varroa.isNotEmpty && varroa != 'yok') return true;
+      if (_toInt(m['beslemeYapildi']) == 1) return true;
+      if (beslemeTipi.isNotEmpty && beslemeTipi != 'yok') return true;
+    }
+    return false;
+  }
+
   static bool _aralikAktif(DateTime tarih, DateTime? bas, DateTime? bit) {
     if (bas == null || bit == null) return false;
     final t = _gun(tarih);
@@ -658,6 +694,38 @@ class SurecMotoru {
     }
 
     return '$temiz.';
+  }
+
+  static int _surecKarsilastir(SurecUyarisi a, SurecUyarisi b) {
+    final aKat = _surecKategoriSirasi(a);
+    final bKat = _surecKategoriSirasi(b);
+    if (aKat != bKat) return aKat.compareTo(bKat);
+
+    final aTarih = _parseTarih(a.referansTarihMetni);
+    final bTarih = _parseTarih(b.referansTarihMetni);
+    if (aTarih != null && bTarih != null) {
+      final tarihKarsilastir = bTarih.compareTo(aTarih);
+      if (tarihKarsilastir != 0) return tarihKarsilastir;
+    } else if (aTarih != null) {
+      return -1;
+    } else if (bTarih != null) {
+      return 1;
+    }
+
+    return b.oncelik.compareTo(a.oncelik);
+  }
+
+  static int _surecKategoriSirasi(SurecUyarisi surec) {
+    final grup = surec.grup.toUpperCase();
+    final kod = surec.kod.toUpperCase();
+
+    if (grup == 'ANASIZLIK' || kod.contains('ANASIZLIK')) return 1;
+    if (grup == 'OGUL' || kod.contains('OGUL_BELIRTISI')) return 2;
+    if (grup == 'OGUL_SONRASI' || kod.contains('OGUL_SONRASI')) return 3;
+    if (grup == 'BOLME' || kod.contains('BOLME')) return 4;
+    if (grup == 'GELISIM' || kod.contains('GELISIM')) return 5;
+    if (grup == 'HASAT' || kod.contains('HASAT')) return 8;
+    return 20;
   }
 
   static List<SurecUyarisi> _tekillestir(List<SurecUyarisi> liste) {
@@ -703,5 +771,11 @@ class SurecMotoru {
     if (v is int) return v;
     if (v is double) return v.round();
     return int.tryParse(v.toString()) ?? 0;
+  }
+
+  static double _toDouble(dynamic v) {
+    if (v == null) return 0.0;
+    if (v is num) return v.toDouble();
+    return double.tryParse(v.toString()) ?? 0.0;
   }
 }

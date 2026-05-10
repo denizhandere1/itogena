@@ -44,7 +44,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           ),
           const SizedBox(height: 10),
           const Text(
-            'İTOGENA, basit muayene verisini zaman, süreç, soy, performans ve arılık kalibrasyonu ile birlikte okuyarak uygulanabilir koloni kararı üretir.',
+            'İTOGENA, basit muayene verisini zaman, süreç, soy, performans ve arılık kalibrasyonu ile birlikte okuyarak sahada uygulanabilir koloni kararı üretir.',
             style: TextStyle(
               fontSize: 13,
               height: 1.5,
@@ -64,7 +64,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
                 );
               },
               icon: const Icon(Icons.menu_book_outlined),
-              label: const Text('Detaylı Bilgi'),
+              label: const Text('Kullanıcı Rehberi'),
             ),
           ),
         ],

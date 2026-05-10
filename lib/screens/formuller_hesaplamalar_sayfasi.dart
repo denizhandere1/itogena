@@ -115,12 +115,12 @@ class _FormullerHesaplamalarSayfasiState
             icon: Icons.water_drop_outlined,
             baslik: 'Şurup Formülü',
             aciklama:
-            'Hedef şerbet miktarını gir. Sistem, şeker suda çözündüğünde oluşan hacim daralmasını hesaba katar.',
+            'Hedef şerbet miktarını kg olarak girersen sistem kg su ve kg şeker verir. Sahada aynı ölçü kabını kullanıyorsan 1:1 veya 2:1 oranı aynı mantıkla korunur.',
           ),
           const SizedBox(height: 14),
           _bolumBaslik('Şurup Oranı'),
           const Text(
-            '1:1 teşvik şurubu, 2:1 stok / kış şurubu için kullanılır.',
+            '1:1 genelde teşvik şurubu, 2:1 genelde stok / kış hazırlığı için kullanılır. Bu ekran zorunlu uygulama emri değil, oran hesabı yardımcısıdır.',
             style: TextStyle(
               fontSize: 12,
               color: Colors.black54,
@@ -142,20 +142,20 @@ class _FormullerHesaplamalarSayfasiState
             controller: _toplamKgController,
             etiket: 'Hedef şerbet miktarı',
             yardim:
-            'Örnek: 10 birim hedef şerbet için sistem saha katsayısına göre gerekli su ve şekeri hesaplar.',
+            'Örnek: 10 kg hedef şerbet için gerekli kg su ve kg şeker hesaplanır.',
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 18),
           _sonucKarti(
             baslik: '$_surupOrani Şurup Sonucu',
             satirlar: [
-              _SonucSatiri('Hedef Şerbet', '${hedefSurup.toStringAsFixed(2)} birim'),
-              _SonucSatiri('Şeker', '${sekerMiktari.toStringAsFixed(2)} birim'),
-              _SonucSatiri('Su', '${suMiktari.toStringAsFixed(2)} birim'),
+              _SonucSatiri('Hedef Şerbet', '${hedefSurup.toStringAsFixed(2)} kg'),
+              _SonucSatiri('Şeker', '${sekerMiktari.toStringAsFixed(2)} kg'),
+              _SonucSatiri('Su', '${suMiktari.toStringAsFixed(2)} kg'),
               _SonucSatiri('Saha Katsayısı', katsayi.toStringAsFixed(2)),
             ],
             notMetni:
-            'Hacim daralması nedeniyle saha katsayısı kullanılmıştır.',
+            'Kg hesabı hedef şerbet ağırlığı içindir. Hacimsel kapla çalışıyorsan aynı kapla oran kur; 1:1 için eşit kap, 2:1 için iki kap şeker bir kap su mantığı korunur.',
             renk: Colors.indigo,
           ),
         ],
@@ -171,9 +171,9 @@ class _FormullerHesaplamalarSayfasiState
         children: [
           _ustBilgiKarti(
             icon: Icons.science_outlined,
-            baslik: 'Standart Oksalik Asit Formülü',
+            baslik: 'Oksalik Asit Yardımcı Hesabı',
             aciklama:
-            'Pratik saha kullanımı için standart referans formül aşağıda verilmiştir.',
+            'Bu ekran yalnızca hesaplama yardımcısıdır. Uygulama kararı için ruhsatlı ürün etiketi, yerel mevzuat ve veteriner/teknik danışman talimatı esas alınır.',
           ),
           const SizedBox(height: 18),
           _standartFormulKarti(
@@ -190,7 +190,14 @@ class _FormullerHesaplamalarSayfasiState
             renk: Colors.brown,
             baslik: 'Uygulama Notu',
             metin:
-            '11°C ile 4°C arasında damlatma yöntemiyle uygulanması tavsiye edilir.',
+            'Oksalik uygulaması genelde yavrusuz / yavru çok az dönemde daha anlamlıdır. Sıcaklık, doz, uygulama yöntemi ve tekrar sayısı için ürün etiketi esas alınmalıdır.',
+          ),
+          const SizedBox(height: 12),
+          _uyariKutusu(
+            renk: Colors.red,
+            baslik: 'Güvenlik Uyarısı',
+            metin:
+            'Koruyucu gözlük, eldiven ve maske kullan. Asit buharını soluma, cilt ve göz temasından kaçın. Ruhsatsız ürün, belirsiz doz veya etiketsiz karışım kullanma. Bu ekran tedavi talimatı değil, yardımcı hesaplama ekranıdır.',
           ),
         ],
       ),
@@ -351,7 +358,7 @@ class _FormullerHesaplamalarSayfasiState
             icon: Icons.hive_outlined,
             baslik: 'Bal Akımı Kararı',
             aciklama:
-            'Sistem, bal akımına zayıf girmemek için son güvenli bölme tarihini ve en fazla alınabilir çıta sayısını hesaplar.',
+            'Sistem, bal akımına zayıf girmemek için 57 günlük saha planlama eşiğini kullanır. 42 gün ise yumurtadan tarlacıya biyolojik süredir; bu ikisi aynı şey değildir.',
           ),
           const SizedBox(height: 14),
           _tarihSecimKarti(
@@ -406,6 +413,8 @@ class _FormullerHesaplamalarSayfasiState
 
     return [
       _SonucSatiri('Son güvenli bölme tarihi', _tarihFormatla(sonTarih)),
+      _SonucSatiri('Planlama eşiği', '57 gün'),
+      _SonucSatiri('Biyolojik süre', '42 gün: yumurtadan tarlacıya'),
       _SonucSatiri('Mevcut güç', '$cita çıta'),
       _SonucSatiri('Hedef alt sınır', '$hedefMin çıta'),
       _SonucSatiri('En fazla alınabilir', '$maxCita çıta'),
@@ -415,7 +424,7 @@ class _FormullerHesaplamalarSayfasiState
 
   Map<String, dynamic> _hesaplaBalAkimi(int cita) {
     final DateTime sonTarih =
-    _balAkimTarihi!.subtract(const Duration(days: 42));
+    _balAkimTarihi!.subtract(const Duration(days: 57));
 
     const int hedefMinCita = 7;
 
@@ -562,6 +571,8 @@ class _FormullerHesaplamalarSayfasiState
     return DateTime(secilen.year, secilen.month, secilen.day);
   }
 
+  // Kullanıcı ekranında tarih standardı: gün.ay.yıl.
+  // DB / JSON / import-export formatı bu yardımcıdan etkilenmez.
   String _tarihFormatla(DateTime dt) {
     final gun = dt.day.toString().padLeft(2, '0');
     final ay = dt.month.toString().padLeft(2, '0');

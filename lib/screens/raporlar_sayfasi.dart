@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
+import '../services/koloni_biyolojik_model_servisi.dart';
 import 'koloni_detay_sayfasi.dart';
 import 'rapor_listesi_sayfasi.dart';
 
@@ -30,6 +31,11 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
   int _aktifKovanSayisi = 0;
   int _toplamAriliCita = 0;
   double _ekonomikDeger = 0;
+  double _tahminiBalPotansiyeliMinKg = 0;
+  double _tahminiBalPotansiyeliMaxKg = 0;
+  double _tahminiBalDegeriMin = 0;
+  double _tahminiBalDegeriMax = 0;
+  final List<String> _ilgincBilgiler = [];
 
   Timer? _ekonomikKaydetDebounce;
 
@@ -40,6 +46,8 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
   final TextEditingController _bosKabarmisPetekSayisiController =
       TextEditingController();
   final TextEditingController _bosKabarmisPetekDegeriController =
+      TextEditingController();
+  final TextEditingController _balKgFiyatiController =
       TextEditingController();
 
   @override
@@ -55,6 +63,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     _bosKovanDegeriController.dispose();
     _bosKabarmisPetekSayisiController.dispose();
     _bosKabarmisPetekDegeriController.dispose();
+    _balKgFiyatiController.dispose();
     super.dispose();
   }
 
@@ -96,10 +105,17 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
       'ekonomik_petek_deger',
       varsayilan: '120',
     );
+    final ekonomikBalKgFiyat = await VeritabaniServisi.ayarStringGetir(
+      'ekonomik_bal_kg_fiyat',
+      varsayilan: '600',
+    );
 
     final aktifKoloniler = <Map<String, dynamic>>[];
     int toplamSkor = 0;
     int toplamAriliCita = 0;
+    double balPotansiyeliMin = 0;
+    double balPotansiyeliMax = 0;
+    final ilgincBilgiler = <String>[];
 
     for (final koloni in tumKoloniler) {
       final koloniId = _toInt(koloni['id']);
@@ -108,6 +124,16 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
         aktifKoloniler.add(koloni);
         toplamSkor += _toInt(koloni['skor']);
         toplamAriliCita += _toInt(koloni['sonCita']);
+
+        final model = KoloniBiyolojikModelServisi.modelOlustur(koloni: koloni);
+        balPotansiyeliMin += _toDouble(model['hasatPotansiyeliMinKg']);
+        balPotansiyeliMax += _toDouble(model['hasatPotansiyeliMaxKg']);
+
+        final kovanNo = (koloni['kovanNo'] ?? '-').toString();
+        final hasatMetni = (model['hasatAdayMetni'] ?? '').toString();
+        if (hasatMetni.isNotEmpty && !hasatMetni.contains('önerilmez') && ilgincBilgiler.length < 5) {
+          ilgincBilgiler.add('Kovan $kovanNo: $hasatMetni');
+        }
       }
     }
 
@@ -120,6 +146,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     _bosKovanDegeriController.text = ekonomikBosKovan;
     _bosKabarmisPetekSayisiController.text = ekonomikPetekSayi;
     _bosKabarmisPetekDegeriController.text = ekonomikPetekDeger;
+    _balKgFiyatiController.text = ekonomikBalKgFiyat;
 
     setState(() {
       _tumKoloniler = tumKoloniler;
@@ -132,6 +159,13 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
       _ortalamaSkor = aktifKoloniler.isEmpty
           ? 0
           : (toplamSkor / aktifKoloniler.length).round();
+      _tahminiBalPotansiyeliMinKg = balPotansiyeliMin;
+      _tahminiBalPotansiyeliMaxKg = balPotansiyeliMax;
+      _tahminiBalDegeriMin = balPotansiyeliMin * _toDouble(_balKgFiyatiController.text);
+      _tahminiBalDegeriMax = balPotansiyeliMax * _toDouble(_balKgFiyatiController.text);
+      _ilgincBilgiler
+        ..clear()
+        ..addAll(ilgincBilgiler);
       _ekonomikDeger = _hesaplananEkonomikDeger();
       _yukleniyor = false;
       _donorlerYukleniyor = true;
@@ -218,13 +252,20 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     final bosKabarmisPetekDegeri =
         _toDouble(_bosKabarmisPetekDegeriController.text);
 
+    final balKgFiyati = _toDouble(_balKgFiyatiController.text);
+    final tahminiBalDegeriOrta = ((_tahminiBalPotansiyeliMinKg + _tahminiBalPotansiyeliMaxKg) / 2) * balKgFiyati;
+
     return (_toplamAriliCita * ariliCitaDegeri) +
         (_aktifKovanSayisi * bosKovanDegeri) +
-        (bosKabarmisPetekSayisi * bosKabarmisPetekDegeri);
+        (bosKabarmisPetekSayisi * bosKabarmisPetekDegeri) +
+        tahminiBalDegeriOrta;
   }
 
   void _ekonomikAlanDegisti() {
     setState(() {
+      final balKgFiyati = _toDouble(_balKgFiyatiController.text);
+      _tahminiBalDegeriMin = _tahminiBalPotansiyeliMinKg * balKgFiyati;
+      _tahminiBalDegeriMax = _tahminiBalPotansiyeliMaxKg * balKgFiyati;
       _ekonomikDeger = _hesaplananEkonomikDeger();
     });
 
@@ -245,6 +286,10 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
       await VeritabaniServisi.ayarKaydet(
         'ekonomik_petek_deger',
         _bosKabarmisPetekDegeriController.text.trim(),
+      );
+      await VeritabaniServisi.ayarKaydet(
+        'ekonomik_bal_kg_fiyat',
+        _balKgFiyatiController.text.trim(),
       );
     });
   }
@@ -274,6 +319,8 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
                 _raporSecimKutusu(),
                 const SizedBox(height: 16),
                 _ekonomikDegerKarti(),
+                const SizedBox(height: 16),
+                _ilgincBilgilerKarti(),
               ],
             ),
     );
@@ -598,7 +645,21 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
               fontWeight: FontWeight.w900,
             ),
           ),
+          if (_tahminiBalPotansiyeliMaxKg > 0) ...[
+            const SizedBox(height: 6),
+            Text(
+              'Tahmini bal potansiyeli: ${_kg(_tahminiBalPotansiyeliMinKg)}–${_kg(_tahminiBalPotansiyeliMaxKg)} kg / ${_paraFormatla(_tahminiBalDegeriMin)}–${_paraFormatla(_tahminiBalDegeriMax)} TL',
+              style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.brown.shade700),
+            ),
+            const SizedBox(height: 6),
+            const Text(
+              'Bu değer kesin gelir değil; hasat edilebilir çıta, sezon ve saha koşullarına göre tahmini potansiyeldir.',
+              style: TextStyle(fontSize: 12, height: 1.35, color: Colors.black54),
+            ),
+          ],
           const SizedBox(height: 12),
+          _alan('Bal satış fiyatı (kg/TL)', _balKgFiyatiController),
+          const SizedBox(height: 10),
           _alan('Arılı çıta değeri', _ariliCitaDegeriController),
           const SizedBox(height: 10),
           _alan('Boş kovan değeri', _bosKovanDegeriController),
@@ -608,6 +669,56 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
           _alan(
             'Boş kabarmış petek birim değeri',
             _bosKabarmisPetekDegeriController,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _ilgincBilgilerKarti() {
+    final bilgiler = _ilgincBilgiler.isEmpty
+        ? <String>[
+            'Hasat adayı çıta verisi oluştuğunda burada koloni bazlı kısa biyolojik notlar gösterilir.',
+            'Biyolojik model akademik genel kabuller ve saha verisiyle tahmini projeksiyon üretir; kesin ölçüm değildir.',
+          ]
+        : _ilgincBilgiler;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.green.shade200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'KOLONİLER HAKKINDA İLGİNÇ BİLGİLER',
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: 15,
+              color: Colors.brown,
+            ),
+          ),
+          const SizedBox(height: 8),
+          ...bilgiler.map(
+            (b) => Padding(
+              padding: const EdgeInsets.only(bottom: 7),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.auto_awesome_outlined, size: 17, color: Colors.green),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      b,
+                      style: const TextStyle(fontSize: 12.5, height: 1.4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -689,6 +800,8 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     return Colors.red;
   }
 
+  String _kg(double v) => v.toStringAsFixed(v.truncateToDouble() == v ? 0 : 1);
+
   String _paraFormatla(double deger) {
     return deger.toStringAsFixed(0).replaceAllMapped(
       RegExp(r'\B(?=(\d{3})+(?!\d))'),
@@ -707,7 +820,9 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     return int.tryParse(metin.trim()) ?? 0;
   }
 
-  double _toDouble(String metin) {
-    return double.tryParse(metin.trim().replaceAll(',', '.')) ?? 0;
+  double _toDouble(dynamic deger) {
+    if (deger == null) return 0;
+    if (deger is num) return deger.toDouble();
+    return double.tryParse(deger.toString().trim().replaceAll(',', '.')) ?? 0;
   }
 }
