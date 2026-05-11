@@ -29,6 +29,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   final Map<int, bool> _aktiflikMap = {};
 
   final TextEditingController _aramaController = TextEditingController();
+  String _hizliFiltre = 'tum';
 
   bool _karsilastirmaModu = false;
   final Set<int> _seciliKoloniIdleri = <int>{};
@@ -208,6 +209,32 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     return null;
   }
 
+  String _kaynakTipi(Map<String, dynamic> k) {
+    return (k['kaynakTipi'] ?? '').toString().trim().toLowerCase();
+  }
+
+  bool _sonGunIcindeMi(Map<String, dynamic> k, int gun) {
+    final tarih = _parseTarih(
+      k['olusturmaTarihi'] ??
+          k['olusturmaTarihiIso'] ??
+          k['createdAt'] ??
+          k['tarih'],
+    );
+    if (tarih == null) return false;
+
+    final bugun = _gun(DateTime.now());
+    final fark = bugun.difference(_gun(tarih)).inDays;
+    return fark >= 0 && fark <= gun;
+  }
+
+  bool _yeniBolmeMi(Map<String, dynamic> k) {
+    return _kaynakTipi(k) == 'bölme' && _sonGunIcindeMi(k, 45);
+  }
+
+  bool _yeniOgulMu(Map<String, dynamic> k) {
+    return _kaynakTipi(k) == 'oğul' && _sonGunIcindeMi(k, 45);
+  }
+
   Color _skorRengi(int skor) {
     if (skor >= 85) return const Color(0xFF7B6D8D);
     if (skor >= 70) return const Color(0xFF6F8A63);
@@ -239,10 +266,24 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
   bool _filtreyeUyar(Map<String, dynamic> k) {
     final arama = _aramaController.text.trim().toLowerCase();
-    if (arama.isEmpty) return true;
+    if (arama.isNotEmpty) {
+      final kovanNo = (k['kovanNo'] ?? '').toString().toLowerCase();
+      if (!kovanNo.contains(arama)) return false;
+    }
 
-    final kovanNo = (k['kovanNo'] ?? '').toString().toLowerCase();
-    return kovanNo.contains(arama);
+    switch (_hizliFiltre) {
+      case 'bolme':
+        return _yeniBolmeMi(k);
+      case 'ogul':
+        return _yeniOgulMu(k);
+      case 'alarm':
+        return _anaMemesiAlarmiVar(k) || _ogulAttiAlarmiVar(k);
+      case 'hasat':
+        return _hasatAkintisiGoster(k, sonmusSekmesi: false);
+      case 'tum':
+      default:
+        return true;
+    }
   }
 
   List<Map<String, dynamic>> _filtreleListe(List<Map<String, dynamic>> liste) {
@@ -622,6 +663,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       body: Column(
         children: [
           _aramaBandi(),
+          _hizliFiltreBandi(),
           if (_donorlerYukleniyor && !_yukleniyor)
             const LinearProgressIndicator(
               minHeight: 2,
@@ -713,6 +755,59 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
             borderSide: BorderSide(color: Colors.brown.shade400, width: 1.4),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _hizliFiltreBandi() {
+    return Container(
+      width: double.infinity,
+      color: const Color(0xFFF3F1E6),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 6),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _filtreChip('tum', 'Tümü'),
+            _filtreChip('bolme', 'Yeni bölmeler'),
+            _filtreChip('ogul', 'Yeni oğullar'),
+            _filtreChip('alarm', 'Alarm'),
+            _filtreChip('hasat', 'Hasat adayı'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _filtreChip(String deger, String etiket) {
+    final secili = _hizliFiltre == deger;
+    return Padding(
+      padding: const EdgeInsets.only(right: 6),
+      child: ChoiceChip(
+        label: Text(
+          etiket,
+          style: TextStyle(
+            fontSize: 11.5,
+            fontWeight: FontWeight.w800,
+            color: secili ? Colors.black : Colors.brown.shade700,
+          ),
+        ),
+        selected: secili,
+        selectedColor: Colors.amber.shade300,
+        backgroundColor: Colors.white,
+        side: BorderSide(
+          color: secili ? Colors.brown.shade300 : Colors.amber.shade100,
+        ),
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        visualDensity: VisualDensity.compact,
+        onSelected: (_) {
+          setState(() {
+            _hizliFiltre = deger;
+            _seciliKoloniIdleri.removeWhere(
+                  (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
+            );
+          });
+        },
       ),
     );
   }

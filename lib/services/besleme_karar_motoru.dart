@@ -1,4 +1,3 @@
-import 'koloni_biyolojik_model_servisi.dart';
 import 'surec_motoru.dart';
 import 'veritabani_servisi.dart';
 
@@ -46,13 +45,64 @@ class BeslemeKararSonucu {
 class BeslemeKararMotoru {
   static const int balAkimiOncesiBeslemeKesmeGun = 20;
 
-  static Future<BeslemeKararSonucu> kararGetir(int koloniId) async {
-    final model = await KoloniBiyolojikModelServisi.modelGetir(koloniId);
-    final surec = await SurecMotoru.durumGetir(koloniId);
+  static final Map<int, Future<BeslemeKararSonucu>> _kararFutureCache = {};
 
-    final int toplamCita = _toInt(model['toplamCita']);
-    final int yavruluCita = _toInt(model['tahminiYavruCita']);
-    final int stokCita = _toInt(model['tahminiStokCita']);
+  /// Besleme kartı aynı koloni açılışında tekrar tekrar hesaplanmasın.
+  /// Muayene/koloni değişikliklerinde KararAsistanServisi üzerinden temizlenir.
+  static Future<BeslemeKararSonucu> kararGetir(
+    int koloniId, {
+    bool forceRefresh = false,
+  }) async {
+    if (forceRefresh) {
+      _kararFutureCache.remove(koloniId);
+    }
+
+    final future = _kararFutureCache[koloniId] ??= _kararHesapla(koloniId);
+
+    try {
+      return await future;
+    } catch (_) {
+      if (identical(_kararFutureCache[koloniId], future)) {
+        _kararFutureCache.remove(koloniId);
+      }
+      rethrow;
+    }
+  }
+
+  static void cacheTemizle([int? koloniId]) {
+    if (koloniId == null || koloniId <= 0) {
+      _kararFutureCache.clear();
+      return;
+    }
+    _kararFutureCache.remove(koloniId);
+  }
+
+  static void tumCacheTemizle() => cacheTemizle();
+
+  static Future<BeslemeKararSonucu> _kararHesapla(int koloniId) async {
+    final sonuclar = await Future.wait<dynamic>([
+      VeritabaniServisi.koloniOzetiGetir(koloniId),
+      VeritabaniServisi.muayeneleriGetir(koloniId),
+      SurecMotoru.durumGetir(koloniId),
+    ]);
+
+    final koloni = Map<String, dynamic>.from(sonuclar[0]);
+    final muayeneler = List<Map<String, dynamic>>.from(sonuclar[1]);
+    final surec = sonuclar[2];
+    final sonMuayene = muayeneler.isNotEmpty ? muayeneler.first : null;
+
+    final int toplamCita = _toInt(
+      sonMuayene?['citaSayisi'] ?? koloni['sonCita'],
+    );
+    final int yavruluCita = _tahminiYavruCita(
+      toplamCita,
+      _toInt(sonMuayene?['yavruluCita']),
+    );
+    final int stokCita = _tahminiStokCita(
+      toplamCita,
+      yavruluCita,
+      _toInt(sonMuayene?['bal_cita'] ?? koloni['bal_cita']),
+    );
 
     final bool hasatKolonisi = toplamCita >= 8;
 
@@ -113,7 +163,7 @@ class BeslemeKararMotoru {
           risk:
               'Şurup veya şekerli yem, nektar akımıyla birlikte bala taşınabilir. Bu durum balın doğallığını, lezzetini ve güvenilirliğini zedeler; hasat kalitesi açısından risk oluşturur.',
           gerekceler: const [
-            'Koloni 8 çıta ve üzeri üretim/hasat gücüne girmiş görünüyor',
+            'Koloni işlevsel olarak 8 çıta ve üzeri üretim/hasat gücüne girmiş görünüyor',
             'Bal akımı öncesi/akım içi besleme kısıtı aktif',
             'Bu aşamada amaç besleme değil; alan, kat, şurupluk ve hasat hazırlığı yönetimidir',
           ],
@@ -342,6 +392,34 @@ class BeslemeKararMotoru {
     }
 
     return '${fmt(minMl)}–${fmt(maxMl)}';
+  }
+
+
+  static int _tahminiYavruCita(int toplamCita, int kayitliYavruCita) {
+    if (kayitliYavruCita > 0) {
+      return kayitliYavruCita.clamp(0, toplamCita).toInt();
+    }
+    if (toplamCita <= 0) return 0;
+    if (toplamCita <= 3) return 1;
+    if (toplamCita <= 5) return 2;
+    if (toplamCita <= 7) return 3;
+    if (toplamCita <= 8) return 4;
+    return 5;
+  }
+
+  static int _tahminiStokCita(
+    int toplamCita,
+    int yavruluCita,
+    int kayitliBalliCita,
+  ) {
+    if (kayitliBalliCita > 0) {
+      return kayitliBalliCita.clamp(0, toplamCita).toInt();
+    }
+    if (toplamCita <= 0) return 0;
+    final int tahminiPolenTamponu = toplamCita >= 6 ? 2 : 1;
+    return (toplamCita - yavruluCita - tahminiPolenTamponu)
+        .clamp(0, toplamCita)
+        .toInt();
   }
 
   static DateTime _gun(DateTime t) => DateTime(t.year, t.month, t.day);

@@ -15,7 +15,7 @@ class VeritabaniServisi {
 
     return openDatabase(
       yol,
-      version: 19,
+      version: 23,
       onCreate: (db, version) async {
         await _tablolariOlustur(db);
         await _guvenliMigrasyon(db);
@@ -76,7 +76,7 @@ class VeritabaniServisi {
         skor INTEGER DEFAULT 0,
         sahaSirasi INTEGER,
         kovanTipi TEXT DEFAULT 'Langstroth',
-        suruplukVarMi INTEGER DEFAULT 0,
+        suruplukVarMi INTEGER DEFAULT 1,
         notMetni TEXT,
         FOREIGN KEY (arilikId) REFERENCES ariliklar (id)
       )
@@ -136,6 +136,9 @@ class VeritabaniServisi {
         anaDegisimPlanlandiMi INTEGER DEFAULT 0,
         suruplukKaldirildiMi INTEGER DEFAULT 0,
         suruplukKaldirmaManuelMi INTEGER DEFAULT 0,
+        eklenenPetekTipi TEXT,
+        eklenenTemelPetek INTEGER DEFAULT 0,
+        eklenenKabarmisPetek INTEGER DEFAULT 0,
         notlar TEXT,
         FOREIGN KEY (koloniId) REFERENCES koloniler (id)
       )
@@ -179,7 +182,7 @@ class VeritabaniServisi {
     await _kolonEkleYoksa(db, 'koloniler', 'skor', 'INTEGER DEFAULT 0');
     await _kolonEkleYoksa(db, 'koloniler', 'sahaSirasi', 'INTEGER');
     await _kolonEkleYoksa(db, 'koloniler', 'kovanTipi', "TEXT DEFAULT 'Langstroth'");
-    await _kolonEkleYoksa(db, 'koloniler', 'suruplukVarMi', 'INTEGER DEFAULT 0');
+    await _kolonEkleYoksa(db, 'koloniler', 'suruplukVarMi', 'INTEGER DEFAULT 1');
     await _kolonEkleYoksa(db, 'koloniler', 'notMetni', 'TEXT');
 
     await _kolonEkleYoksa(db, 'muayeneler', 'yavruluCita', 'INTEGER');
@@ -264,6 +267,9 @@ class VeritabaniServisi {
       'suruplukKaldirmaManuelMi',
       'INTEGER DEFAULT 0',
     );
+    await _kolonEkleYoksa(db, 'muayeneler', 'eklenenPetekTipi', 'TEXT');
+    await _kolonEkleYoksa(db, 'muayeneler', 'eklenenTemelPetek', 'INTEGER DEFAULT 0');
+    await _kolonEkleYoksa(db, 'muayeneler', 'eklenenKabarmisPetek', 'INTEGER DEFAULT 0');
     await _kolonEkleYoksa(db, 'muayeneler', 'notlar', 'TEXT');
 
     await db.execute('''
@@ -289,6 +295,18 @@ class VeritabaniServisi {
         metaJson TEXT,
         FOREIGN KEY (koloniId) REFERENCES koloniler (id)
       )
+    ''');
+
+    // Eski sürümlerde migration nedeniyle aktif kolonilerde suruplukVarMi = 0 kalmış olabilir.
+    // Bu değer her zaman fiziksel olarak şurupluk yok anlamına gelmez.
+    // Aktif kolonilerde şurupluk varsayılan ekipman kabul edilir; sönmüş/pasif kolonilere dokunulmaz.
+    await db.rawUpdate('''
+      UPDATE koloniler
+      SET suruplukVarMi = 1
+      WHERE
+        (suruplukVarMi IS NULL OR suruplukVarMi = 0)
+        AND LOWER(COALESCE(durum, 'aktif'))
+            NOT IN ('sondu','söndü','pasif')
     ''');
   }
 
@@ -2204,6 +2222,9 @@ class VeritabaniServisi {
       'varroaSecimleri': null,
       'suruplukKaldirildiMi': 0,
       'suruplukKaldirmaManuelMi': 0,
+      'eklenenPetekTipi': null,
+      'eklenenTemelPetek': 0,
+      'eklenenKabarmisPetek': 0,
       'notlar': otomatikNot,
     });
   }
@@ -2221,6 +2242,9 @@ class VeritabaniServisi {
     veriTam['gunlukKapaliYavruGoruldu'] = _toInt(veriTam['gunlukKapaliYavruGoruldu']);
     veriTam['suruplukKaldirildiMi'] = _toInt(veriTam['suruplukKaldirildiMi']);
     veriTam['suruplukKaldirmaManuelMi'] = _toInt(veriTam['suruplukKaldirmaManuelMi']);
+    veriTam['eklenenPetekTipi'] = _eklenenPetekTipiNormalize(veriTam['eklenenPetekTipi']);
+    veriTam['eklenenTemelPetek'] = _toInt(veriTam['eklenenTemelPetek']);
+    veriTam['eklenenKabarmisPetek'] = _toInt(veriTam['eklenenKabarmisPetek']);
     veriTam['varroaSecimleri'] = _varroaSecimleriNormalize(veriTam['varroaSecimleri']);
     veriTam['varroaMucadele'] = _varroaMucadeleOzetineCevir(veriTam['varroaSecimleri'], fallback: veriTam['varroaMucadele']);
     veriTam['tarih'] = _tarihZorunluIso(
@@ -2259,6 +2283,9 @@ class VeritabaniServisi {
     veriTam['gunlukKapaliYavruGoruldu'] = _toInt(veriTam['gunlukKapaliYavruGoruldu']);
     veriTam['suruplukKaldirildiMi'] = _toInt(veriTam['suruplukKaldirildiMi']);
     veriTam['suruplukKaldirmaManuelMi'] = _toInt(veriTam['suruplukKaldirmaManuelMi']);
+    veriTam['eklenenPetekTipi'] = _eklenenPetekTipiNormalize(veriTam['eklenenPetekTipi']);
+    veriTam['eklenenTemelPetek'] = _toInt(veriTam['eklenenTemelPetek']);
+    veriTam['eklenenKabarmisPetek'] = _toInt(veriTam['eklenenKabarmisPetek']);
     veriTam['varroaSecimleri'] = _varroaSecimleriNormalize(veriTam['varroaSecimleri']);
     veriTam['varroaMucadele'] = _varroaMucadeleOzetineCevir(
       veriTam['varroaSecimleri'],
@@ -3307,6 +3334,16 @@ class VeritabaniServisi {
         .toList();
   }
 
+  static String? _eklenenPetekTipiNormalize(dynamic deger) {
+    final temiz = (deger ?? '').toString().trim().toLowerCase();
+    if (temiz.isEmpty || temiz == '-' || temiz == 'yok') return null;
+    if (temiz.contains('kabar')) return 'Kabarmış petek';
+    if (temiz.contains('temel')) return 'Temel petek';
+    if (temiz.contains('ball') || temiz.contains('stok')) return 'Ballı/stoklu petek';
+    if (temiz.contains('yavru')) return 'Yavrulu destek çıtası';
+    return 'Temel petek';
+}
+
   static String? _varroaMucadeleOzetineCevir(dynamic ham, {dynamic fallback}) {
     final secimler = _varroaSecimListesi(ham);
     if (secimler.isNotEmpty) return secimler.first;
@@ -3473,15 +3510,6 @@ class VeritabaniServisi {
     final bool suruplukVarMi = _toInt(koloni['suruplukVarMi']) == 1;
     final int arilikId = _toInt(koloni['arilikId']);
     const int varsayilanGun = 20;
-
-    if (!suruplukVarMi) {
-      return {
-        'aktif': false,
-        'suruplukVarMi': false,
-        'gun': varsayilanGun,
-        'mesaj': 'Bu koloni için şurupluk aktif görünmüyor.',
-      };
-    }
 
     final akimlar = await _balAkimAdaylariGetir(
       tarih: bugun,

@@ -53,7 +53,41 @@ class KriterOzeti {
 }
 
 class PerformansOzetiServisi {
-  static Future<PerformansOzeti> getir(int koloniId) async {
+  static final Map<int, Future<PerformansOzeti>> _ozetFutureCache = {};
+
+  /// Performans sekmesi tekrar açıldığında aynı ağır analizler yeniden başlamasın.
+  /// Muayene/koloni değişikliklerinde KararAsistanServisi üzerinden temizlenir.
+  static Future<PerformansOzeti> getir(
+    int koloniId, {
+    bool forceRefresh = false,
+  }) async {
+    if (forceRefresh) {
+      _ozetFutureCache.remove(koloniId);
+    }
+
+    final future = _ozetFutureCache[koloniId] ??= _ozetHesapla(koloniId);
+
+    try {
+      return await future;
+    } catch (_) {
+      if (identical(_ozetFutureCache[koloniId], future)) {
+        _ozetFutureCache.remove(koloniId);
+      }
+      rethrow;
+    }
+  }
+
+  static void cacheTemizle([int? koloniId]) {
+    if (koloniId == null || koloniId <= 0) {
+      _ozetFutureCache.clear();
+      return;
+    }
+    _ozetFutureCache.remove(koloniId);
+  }
+
+  static void tumCacheTemizle() => cacheTemizle();
+
+  static Future<PerformansOzeti> _ozetHesapla(int koloniId) async {
     final koloni = await VeritabaniServisi.koloniOzetiGetir(koloniId);
     final sonuc = await KoloniKararMotoru.kararUret(koloniId, koloni);
     final biyoloji = await AriBiyolojiServisi.analizYap(koloniId);

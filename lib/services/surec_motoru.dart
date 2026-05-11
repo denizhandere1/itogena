@@ -55,6 +55,8 @@ class SurecDurumu {
 }
 
 class SurecMotoru {
+  static final Map<int, Future<SurecDurumu>> _durumFutureCache = {};
+
   static const int _ogulBelirtisiMaxGun = 14;
   static const int _bolmeSonrasiMaxGun = 45;
   static const int _ogulSonrasiMaxGun = 45;
@@ -62,9 +64,68 @@ class SurecMotoru {
   static const int _hasatSonrasiMaxGun = 21;
   static const int _anasizlikMaxGun = 45;
 
-  static Future<SurecDurumu> durumGetir(int koloniId) async {
-    final koloni = await VeritabaniServisi.koloniOzetiGetir(koloniId);
-    final muayeneler = await VeritabaniServisi.muayeneleriGetir(koloniId);
+  static Future<SurecDurumu> durumGetir(
+    int koloniId, {
+    Map<String, dynamic>? hazirKoloni,
+    List<Map<String, dynamic>>? hazirMuayeneler,
+    bool forceRefresh = false,
+  }) async {
+    if (forceRefresh || hazirKoloni != null || hazirMuayeneler != null) {
+      final future = _durumHesapla(
+        koloniId,
+        hazirKoloni: hazirKoloni,
+        hazirMuayeneler: hazirMuayeneler,
+      );
+      _durumFutureCache[koloniId] = future;
+      return _guvenliFutureDon(koloniId, future);
+    }
+
+    final future = _durumFutureCache[koloniId] ??= _durumHesapla(koloniId);
+    return _guvenliFutureDon(koloniId, future);
+  }
+
+  static void cacheTemizle([int? koloniId]) {
+    if (koloniId == null) {
+      _durumFutureCache.clear();
+      return;
+    }
+    _durumFutureCache.remove(koloniId);
+  }
+
+  static void tumCacheTemizle() => cacheTemizle();
+
+  static Future<SurecDurumu> _guvenliFutureDon(
+    int koloniId,
+    Future<SurecDurumu> future,
+  ) async {
+    try {
+      return await future;
+    } catch (_) {
+      if (identical(_durumFutureCache[koloniId], future)) {
+        _durumFutureCache.remove(koloniId);
+      }
+      rethrow;
+    }
+  }
+
+
+  static bool _hazirKoloniAktifMi(
+    Map<String, dynamic> koloni,
+    List<Map<String, dynamic>> muayeneler,
+  ) {
+    if (VeritabaniServisi.sonmusDurumMu(koloni['durum'])) return false;
+    if (muayeneler.isEmpty) return true;
+    return _toInt(muayeneler.first['kovanSondu']) != 1;
+  }
+
+  static Future<SurecDurumu> _durumHesapla(
+    int koloniId, {
+    Map<String, dynamic>? hazirKoloni,
+    List<Map<String, dynamic>>? hazirMuayeneler,
+  }) async {
+    final koloni = hazirKoloni ?? await VeritabaniServisi.koloniOzetiGetir(koloniId);
+    final muayeneler =
+        hazirMuayeneler ?? await VeritabaniServisi.muayeneleriGetir(koloniId);
 
     if (koloni.isEmpty) {
       return const SurecDurumu(
@@ -73,7 +134,9 @@ class SurecMotoru {
       );
     }
 
-    final bool aktifMi = await VeritabaniServisi.koloniAktifMi(koloniId);
+    final bool aktifMi = hazirKoloni != null && hazirMuayeneler != null
+        ? _hazirKoloniAktifMi(koloni, muayeneler)
+        : await VeritabaniServisi.koloniAktifMi(koloniId);
     if (!aktifMi) {
       return const SurecDurumu(
         aktifSurecler: <SurecUyarisi>[],

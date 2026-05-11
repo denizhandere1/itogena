@@ -106,6 +106,9 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Koloni detay ekranı hızlı açılır; ağır analizler arka planda yüklenir.',
           ),
           _madde(
+            'Aynı koloni için süreç ve biyolojik model hesapları tek oturum içinde önbelleğe alınır; besleme, performans ve biyolojik model sekmeleri aynı hesabı tekrar tekrar üretmez.',
+          ),
+          _madde(
             'Koloni detayında bağlam önceliği kullanılır. Canlı biyolojik süreç varsa ana karar alanında o konuşur; hasat sonrası gibi bakım süreçleri yaşamaya devam eder ama gerekiyorsa alt sıraya düşer.',
           ),
           _madde(
@@ -135,6 +138,9 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Sistem çıta sayısını yalnızca sayı olarak değil, tahmini biyolojik kapasite olarak okur: arı nüfusu, göz kapasitesi, yavru/stok alanı, ana bölgesi ve hasat potansiyeli bu veriden türetilir.',
           ),
           _madde(
+            'Bu değerler kesin ölçüm değildir. Uluslararası akademik kabuller, saha uygulamaları ve ortalama biyolojik projeksiyonlar üzerinden hesaplanan yardımcı kararlardır; iklim, flora, arı ırkı, sezon ve yönetim farkları sonucu değiştirebilir.',
+          ),
+          _madde(
             'Langstroth varsayılan referanstır. Dadant seçilirse aynı biyolojik düzen korunur ancak çıta kapasitesi daha yüksek katsayıyla hesaplanır.',
           ),
           _madde(
@@ -142,6 +148,26 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
           ),
           _madde(
             'Büyüme momentumu çıta farkını gün sayısına bölerek hesaplanır. Böylece +3 çıtanın 7 günde mi, 40 günde mi gerçekleştiği ayrı yorumlanır.',
+          ),
+
+          _baslik('2B. İŞLEVSEL ÇITA VE HACİM AKTİVASYONU'),
+          _madde(
+            'İTOGENA fiziksel çıta ile işlevsel çıtayı ayrı okur. Kovandaki çıta sayısı fiziksel hacmi, koloninin gerçekten kullanabildiği alan ise işlevsel biyolojik kapasiteyi anlatır.',
+          ),
+          _madde(
+            'Yeni verilen çıta hemen tam kapasite sayılmaz. Sistem temel petek veya kabarmış petek ayrımına, geçen gün sayısına, yavru düzenine, koloni gücüne ve bal akımı penceresine göre aktivasyon süresi hesaplar.',
+          ),
+          _madde(
+            'Sistem sıkışık düzen varsayımıyla çalışır. Bir muayenede +1 çıta normal, +2 çıta kontrollü genişleme, +3 ve üzeri ise kat geçişi dışında uyarı sebebidir.',
+          ),
+          _madde(
+            'Kat/ballık kullanıcı işaretiyle girilmez. Langstroth kovan 10 çıtalık kapasite kabulüyle okunur; toplam çıta 11 ve üzerine çıktığında sistem üst kat/ballık oluştuğunu kabul eder.',
+          ),
+          _madde(
+            '6 çıtadan 12 çıtaya çıkış kat atma olarak normalleştirilmez. Sistem bunu aşırı genişletme veya veri kontrolü gerektiren durum olarak uyarır.',
+          ),
+          _madde(
+            'Besleme, hasat ve bölme kararlarında yalnızca kovana konan hacim değil, koloninin o hacmi biyolojik olarak taşıyabilme kapasitesi dikkate alınır.',
           ),
 
           _baslik('3. BÖLME NEDEN 9 ÇITA ALTINDA ÖNERİLMEZ?'),

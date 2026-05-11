@@ -900,7 +900,8 @@ class KoloniKararMotoru {
     final bool aktifMi = await VeritabaniServisi.koloniAktifMi(koloniId);
 
     final int skor = _toInt(koloni['skor']);
-    final int sonCita = _toInt(koloni['sonCita']);
+    final int fizikselSonCita = _toInt(koloni['sonCita']);
+    final int sonCita = _toInt(biyolojikModel['islevselToplamCita'] ?? koloni['sonCita']);
     final int maxCita = _toInt(koloni['maxCitaKapasiye']);
     final int balCita = _toInt(koloni['bal_cita']);
 
@@ -989,6 +990,8 @@ class KoloniKararMotoru {
       'arilikId': _nullableInt(koloni['arilikId']),
       'skor': skor,
       'sonCita': sonCita,
+      'fizikselSonCita': fizikselSonCita,
+      'islevselSonCita': sonCita,
       'maxCita': maxCita,
       'balCita': balCita,
       'anaYasi': anaYasi,
@@ -1003,6 +1006,9 @@ class KoloniKararMotoru {
       'kovanTipi': biyolojikModel['kovanTipi'],
       'suruplukVarMi': biyolojikModel['suruplukVarMi'],
       'kuluclukKapasitesi': biyolojikModel['kuluclukKapasitesi'],
+      'citaAktivasyon': biyolojikModel['citaAktivasyon'],
+      'islevselToplamCita': biyolojikModel['islevselToplamCita'],
+      'fizikselToplamCita': biyolojikModel['fizikselToplamCita'],
       'tahminiAriMin': biyolojikModel['tahminiAriMin'],
       'tahminiAriMax': biyolojikModel['tahminiAriMax'],
       'hasatPotansiyeliMinKg': biyolojikModel['hasatPotansiyeliMinKg'],

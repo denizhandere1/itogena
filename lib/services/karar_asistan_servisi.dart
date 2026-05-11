@@ -3,14 +3,35 @@ import 'ari_biyoloji_servisi.dart';
 import 'surec_motoru.dart';
 import 'baglam_motoru.dart';
 import 'veritabani_servisi.dart';
+import 'koloni_biyolojik_model_servisi.dart';
+import 'besleme_karar_motoru.dart';
+import 'performans_ozeti_servisi.dart';
 
 class KararAsistanServisi {
   static void tumCacheTemizle() {
     KoloniKararMotoru.tumCacheTemizle();
+    KoloniBiyolojikModelServisi.tumCacheTemizle();
+    SurecMotoru.tumCacheTemizle();
+    BeslemeKararMotoru.tumCacheTemizle();
+    PerformansOzetiServisi.tumCacheTemizle();
   }
 
   static void arilikCacheTemizle(int? arilikId) {
     KoloniKararMotoru.arilikCacheTemizle(arilikId);
+    // Arılık düzeyindeki değişikliklerde hangi kolonilerin etkilendiği
+    // her zaman bilinmediği için koloni bazlı cache'ler güvenli tarafta
+    // kalacak şekilde tamamen temizlenir.
+    KoloniBiyolojikModelServisi.tumCacheTemizle();
+    SurecMotoru.tumCacheTemizle();
+    BeslemeKararMotoru.tumCacheTemizle();
+    PerformansOzetiServisi.tumCacheTemizle();
+  }
+
+  static void koloniCacheTemizle(int koloniId) {
+    KoloniBiyolojikModelServisi.cacheTemizle(koloniId);
+    SurecMotoru.cacheTemizle(koloniId);
+    BeslemeKararMotoru.cacheTemizle(koloniId);
+    PerformansOzetiServisi.cacheTemizle(koloniId);
   }
 
   static Future<Map<String, dynamic>> arilikOzetGetir(int arilikId) {
@@ -103,8 +124,18 @@ class KararAsistanServisi {
   }
 
 
-  static Future<Map<String, dynamic>> surecDurumuGetir(int koloniId) async {
-    final sonuc = await SurecMotoru.durumGetir(koloniId);
+  static Future<Map<String, dynamic>> surecDurumuGetir(
+    int koloniId, {
+    Map<String, dynamic>? hazirKoloni,
+    List<Map<String, dynamic>>? hazirMuayeneler,
+    bool forceRefresh = false,
+  }) async {
+    final sonuc = await SurecMotoru.durumGetir(
+      koloniId,
+      hazirKoloni: hazirKoloni,
+      hazirMuayeneler: hazirMuayeneler,
+      forceRefresh: forceRefresh,
+    );
     return sonuc.toMap();
   }
 

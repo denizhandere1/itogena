@@ -8,10 +8,10 @@ import '../services/soy_devamlilik_servisi.dart';
 import '../services/yorum_motoru.dart';
 import '../services/baglam_motoru.dart';
 import '../services/koloni_biyolojik_model_servisi.dart';
+import '../services/cita_aktivasyon_servisi.dart';
 import '../services/besleme_karar_motoru.dart';
 import 'muayene_ekle_sayfasi.dart';
 import 'muayene_detay_sayfasi.dart';
-
 
 class _LejantHap extends StatelessWidget {
   final Color renk;
@@ -87,6 +87,8 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   List<Map<String, dynamic>> _aktifSurecler = [];
   Map<String, dynamic>? _beslemeKarari;
   Object? _beslemeKarariHatasi;
+  Map<String, dynamic>? _hacimAktivasyon;
+  Object? _hacimAktivasyonHatasi;
 
   Future<PerformansOzeti>? _performansFuture;
   bool _detayAnalizYukleniyor = false;
@@ -143,6 +145,9 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   Future<void> _verileriYukle() async {
     final int token = ++_detayYuklemeToken;
 
+    // Faz 10.1: Ekran açılışında ağır servis cache'leri temizlenmez.
+    // Cache temizliği yalnızca muayene ekleme/düzenleme/silme gibi veri değişikliklerinde yapılır.
+
     if (mounted) {
       setState(() {
         _yukleniyor = true;
@@ -162,24 +167,33 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         _soyDevamlilikAnalizi = null;
         _beslemeKarari = null;
         _beslemeKarariHatasi = null;
+        _hacimAktivasyon = null;
+        _hacimAktivasyonHatasi = null;
       });
     }
 
-    final koloniOzet = await VeritabaniServisi.koloniOzetiGetir(_koloniId);
-    final muayeneler = await VeritabaniServisi.muayeneleriGetir(_koloniId);
-    final anaKarar =
-    await KararAsistanServisi.anaKararUret(_koloniId, koloniOzet);
-    final surecDurumu = await KararAsistanServisi.surecDurumuGetir(_koloniId);
-    final akim = await VeritabaniServisi.aktifBalAkimGetir();
+    final temelSonuclar = await Future.wait<dynamic>([
+      VeritabaniServisi.koloniOzetiGetir(_koloniId),
+      VeritabaniServisi.muayeneleriGetir(_koloniId),
+    ]);
 
-    Map<String, dynamic>? beslemeKarari;
-    Object? beslemeKarariHatasi;
-    try {
-      final sonuc = await BeslemeKararMotoru.kararGetir(_koloniId);
-      beslemeKarari = sonuc.toMap();
-    } catch (e) {
-      beslemeKarariHatasi = e;
-    }
+    final koloniOzet = Map<String, dynamic>.from(temelSonuclar[0]);
+    final muayeneler = List<Map<String, dynamic>>.from(temelSonuclar[1]);
+
+    final surecDurumu = await KararAsistanServisi.surecDurumuGetir(
+      _koloniId,
+      hazirKoloni: koloniOzet,
+      hazirMuayeneler: muayeneler,
+      forceRefresh: true,
+    );
+
+    final ikincilSonuclar = await Future.wait<dynamic>([
+      KararAsistanServisi.anaKararUret(_koloniId, koloniOzet),
+      VeritabaniServisi.aktifBalAkimGetir(),
+    ]);
+
+    final anaKarar = Map<String, String>.from(ikincilSonuclar[0]);
+    final akim = ikincilSonuclar[1] as Map<String, dynamic>?;
 
     if (!mounted || token != _detayYuklemeToken) return;
 
@@ -193,12 +207,20 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       _balAkimTarihi = akim?['bas'] as DateTime?;
       _balAkimBitisTarihi = akim?['bit'] as DateTime?;
       _balAkimEtiketi = akim?['etiket']?.toString();
-      _beslemeKarari = beslemeKarari;
-      _beslemeKarariHatasi = beslemeKarariHatasi;
+      _beslemeKarari = null;
+      _beslemeKarariHatasi = null;
       _yukleniyor = false;
     });
 
     _ilkEkranSonrasiHafifVerileriYukle(token);
+    Future<void>.delayed(
+      const Duration(milliseconds: 180),
+      () => _beslemeKarariniYukle(token),
+    );
+    Future<void>.delayed(
+      const Duration(milliseconds: 240),
+      () => _hacimAktivasyonunuYukle(token),
+    );
 
     if (_tabController.index == 2) {
       await _biyolojikModeliYukle();
@@ -229,6 +251,60 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     }
   }
 
+  Future<void> _beslemeKarariniYukle(int token) async {
+    try {
+      final sonuc = await BeslemeKararMotoru.kararGetir(_koloniId);
+      if (!mounted || token != _detayYuklemeToken) return;
+
+      setState(() {
+        _beslemeKarari = sonuc.toMap();
+        _beslemeKarariHatasi = null;
+      });
+    } catch (e) {
+      if (!mounted || token != _detayYuklemeToken) return;
+
+      setState(() {
+        _beslemeKarari = null;
+        _beslemeKarariHatasi = e;
+      });
+    }
+  }
+
+  Future<void> _hacimAktivasyonunuYukle(int token) async {
+    try {
+      final sonMuayene = _muayeneler.isNotEmpty ? _muayeneler.first : null;
+      final oncekiMuayene = _muayeneler.length >= 2 ? _muayeneler[1] : null;
+      Map<String, dynamic> suruplukPenceresi = const <String, dynamic>{};
+
+      try {
+        suruplukPenceresi =
+            await VeritabaniServisi.suruplukKaldirmaPenceresiGetir(_koloniId);
+      } catch (_) {
+        suruplukPenceresi = const <String, dynamic>{};
+      }
+
+      final aktivasyon = CitaAktivasyonServisi.hesapla(
+        sonMuayene: sonMuayene,
+        oncekiMuayene: oncekiMuayene,
+        trend: const <String, dynamic>{},
+        suruplukPenceresi: suruplukPenceresi,
+      );
+
+      if (!mounted || token != _detayYuklemeToken) return;
+
+      setState(() {
+        _hacimAktivasyon = Map<String, dynamic>.from(aktivasyon);
+        _hacimAktivasyonHatasi = null;
+      });
+    } catch (e) {
+      if (!mounted || token != _detayYuklemeToken) return;
+      setState(() {
+        _hacimAktivasyon = null;
+        _hacimAktivasyonHatasi = e;
+      });
+    }
+  }
+
   Future<void> _biyolojikModeliYukle({bool forceRefresh = false}) async {
     if (_biyolojikModelYukleniyor) return;
     if (_biyolojikModelYuklendi && !forceRefresh) return;
@@ -243,7 +319,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     }
 
     try {
-      final model = await KoloniBiyolojikModelServisi.modelGetir(_koloniId);
+      final model = await KoloniBiyolojikModelServisi.modelGetir(
+        _koloniId,
+        forceRefresh: forceRefresh,
+      );
       if (!mounted || token != _detayYuklemeToken) return;
 
       setState(() {
@@ -286,8 +365,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         _kimlikOzeti = Map<String, dynamic>.from(sonuclar[0]);
         _hatSonmeOzeti = Map<String, dynamic>.from(sonuclar[1]);
         _biyolojiAnalizi = Map<String, dynamic>.from(sonuclar[2]);
-        _soyDevamlilikAnalizi =
-            (sonuclar[3] as SoyDevamlilikSonucu).toMap();
+        _soyDevamlilikAnalizi = (sonuclar[3] as SoyDevamlilikSonucu).toMap();
         _detayAnalizYuklendi = true;
         _detayAnalizYukleniyor = false;
       });
@@ -381,7 +459,8 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     }).toList();
   }
 
-  List<Map<String, dynamic>> _aktifTureyenler(List<Map<String, dynamic>> liste) {
+  List<Map<String, dynamic>> _aktifTureyenler(
+      List<Map<String, dynamic>> liste) {
     return liste.where((k) {
       final durum = _metin(k['durum'], varsayilan: 'aktif').toLowerCase();
       return durum != 'sondu' && durum != 'söndü' && durum != 'pasif';
@@ -470,7 +549,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     return 'Kapalı yavru desteği ve bal üretimi gibi destekleyici alanlarda değerlendirilmeli.';
   }
 
-
   // Kullanıcı ekranında tarih standardı: gün.ay.yıl.
   String _tarihFormatla(DateTime dt) {
     final gun = dt.day.toString().padLeft(2, '0');
@@ -521,6 +599,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
 
     if (sonuc == true) {
+      KararAsistanServisi.koloniCacheTemizle(_koloniId);
       await _verileriYukle();
     }
   }
@@ -549,6 +628,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
 
     if (sonuc == true) {
+      KararAsistanServisi.koloniCacheTemizle(_koloniId);
       await _verileriYukle();
     }
   }
@@ -583,6 +663,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
     await VeritabaniServisi.muayeneSil(muayene['id']);
     KararAsistanServisi.arilikCacheTemizle(_toInt(_koloniOzet['arilikId']));
+    KararAsistanServisi.koloniCacheTemizle(_koloniId);
 
     if (!mounted) return;
 
@@ -689,17 +770,17 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         bottom: false,
         child: _yukleniyor
             ? const Center(
-          child: CircularProgressIndicator(color: Colors.amber),
-        )
+                child: CircularProgressIndicator(color: Colors.amber),
+              )
             : TabBarView(
-          controller: _tabController,
-          children: [
-            _genelDurumSekmesi(),
-            _muayenelerSekmesi(),
-            _biyolojikModelSekmesi(),
-            _performansSekmesi(),
-          ],
-        ),
+                controller: _tabController,
+                children: [
+                  _genelDurumSekmesi(),
+                  _muayenelerSekmesi(),
+                  _biyolojikModelSekmesi(),
+                  _performansSekmesi(),
+                ],
+              ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _muayeneEkle,
@@ -724,13 +805,136 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       children: [
         _ustOzetBandi(),
         _genelDurumAnaKarti(),
+        _hacimAktivasyonKarti(),
         _beslemeDurumuKarti(),
         if (_surecModuAktif) _surecKarti(),
       ],
     );
   }
 
+  Widget _hacimAktivasyonKarti() {
+    final aktivasyon = _hacimAktivasyon;
+    if (aktivasyon == null || aktivasyon.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
+    final int eklenenCita = _toInt(aktivasyon['eklenenCita']);
+    final int aktivasyonSuresi = _toInt(aktivasyon['aktivasyonSuresiGun']);
+    final int gecenGun = _toInt(aktivasyon['gecenGun']);
+    final String seviye =
+        _metin(aktivasyon['uyariSeviyesi'], varsayilan: 'yok').toLowerCase();
+    final bool tamamlandi =
+        aktivasyonSuresi > 0 && gecenGun >= aktivasyonSuresi;
+    if (eklenenCita <= 0 || seviye == 'yok' || tamamlandi) {
+      return const SizedBox.shrink();
+    }
+
+    final bool kritik = seviye == 'kritik';
+    final Color renk = kritik ? Colors.deepOrange : Colors.amber.shade800;
+    final String mesaj = _metin(aktivasyon['mesaj'],
+        varsayilan: 'Yeni verilen peteklerin biyolojik aktivasyonu sürüyor.');
+    final String ozet = _metin(aktivasyon['ozet'], varsayilan: '');
+    final int temel = _toInt(aktivasyon['temelPetekAdedi']);
+    final int kabarmis = _toInt(aktivasyon['kabarmisPetekAdedi']);
+    final double islevselMin = _toDouble(aktivasyon['islevselCitaMin']);
+    final double islevselMax = _toDouble(aktivasyon['islevselCitaMax']);
+    final double oran =
+        _toDouble(aktivasyon['aktivasyonOrani']).clamp(0.0, 1.0).toDouble();
+    final int kalanGun = aktivasyonSuresi > 0
+        ? (aktivasyonSuresi - gecenGun).clamp(0, 999).toInt()
+        : 0;
+    final bool bilgiModu = gecenGun >= 3 && !kritik;
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+            color: renk.withOpacity(bilgiModu ? 0.26 : 0.44), width: 1.2),
+        boxShadow: [
+          BoxShadow(
+            color: renk.withOpacity(0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                bilgiModu ? Icons.info_outline : Icons.warning_amber_rounded,
+                color: renk,
+                size: 21,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  bilgiModu
+                      ? 'HACİM AKTİVASYONU SÜRÜYOR'
+                      : 'HIZLI HACİM ARTIŞI',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                    color: renk,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            mesaj,
+            style: const TextStyle(
+                fontSize: 12.7, height: 1.42, fontWeight: FontWeight.w700),
+          ),
+          if (ozet.isNotEmpty && ozet != mesaj) ...[
+            const SizedBox(height: 7),
+            Text(
+              ozet,
+              style: const TextStyle(
+                  fontSize: 12.2, height: 1.38, color: Colors.black87),
+            ),
+          ],
+          const SizedBox(height: 9),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              _miniBilgiHap('Eklenen', '$eklenenCita çıta'),
+              if (temel > 0) _miniBilgiHap('Temel', temel.toString()),
+              if (kabarmis > 0) _miniBilgiHap('Kabarmış', kabarmis.toString()),
+              if (islevselMax > 0)
+                _miniBilgiHap(
+                    'İşlevsel', '${_kg(islevselMin)}–${_kg(islevselMax)}'),
+              if (kalanGun > 0) _miniBilgiHap('Kalan', '$kalanGun gün'),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: LinearProgressIndicator(
+              value: oran,
+              minHeight: 8,
+              backgroundColor: Colors.orange.shade50,
+              color: renk,
+            ),
+          ),
+          const SizedBox(height: 9),
+          const Text(
+            'Sıkışık düzen bozulursa kovan sıcaklığı korunmakta zorlanabilir, yavru alanı dağılabilir, savunma yükü artabilir ve petek güvesi riski yükselebilir. Görselde aktivasyon süresi gün birimlerine bölünür; her geçen gün ilgili çıtanın hedef biyolojik rengi alttan yukarı doğru bir kademe dolar.',
+            style:
+                TextStyle(fontSize: 12.1, height: 1.38, color: Colors.black87),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _beslemeDurumuKarti() {
     final karar = _beslemeKarari;
@@ -856,26 +1060,26 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             const SizedBox(height: 8),
             ...gerekceler.take(3).map(
                   (g) => Padding(
-                padding: const EdgeInsets.only(top: 3),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.check_circle_outline, size: 15, color: renk),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        g,
-                        style: const TextStyle(
-                          fontSize: 12.2,
-                          height: 1.35,
-                          color: Colors.black87,
+                    padding: const EdgeInsets.only(top: 3),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.check_circle_outline, size: 15, color: renk),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            g,
+                            style: const TextStyle(
+                              fontSize: 12.2,
+                              height: 1.35,
+                              color: Colors.black87,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
           ],
           if (dozBandi.isNotEmpty && dozBandi != '-') ...[
             const SizedBox(height: 9),
@@ -974,7 +1178,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     return Colors.blueGrey;
   }
 
-
   Widget _biyolojikModelSekmesi() {
     if (!_biyolojikModelYuklendi && !_biyolojikModelYukleniyor) {
       Future<void>.microtask(_biyolojikModeliYukle);
@@ -1061,14 +1264,19 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             .whereType<Map>()
             .map((e) => Map<String, dynamic>.from(e))
             .toList(growable: false);
-    final String kovanGorselNotu = _metin(model['kovanGorselNotu'], varsayilan: '');
-    final String suruplukKonumMetni = _metin(model['suruplukKonumMetni'], varsayilan: '');
-    final bool suruplukPenceresiAktif = model['suruplukKaldirmaPenceresiAktif'] == true;
+    final String kovanGorselNotu =
+        _metin(model['kovanGorselNotu'], varsayilan: '');
+    final String suruplukKonumMetni =
+        _metin(model['suruplukKonumMetni'], varsayilan: '');
+    final bool suruplukPenceresiAktif =
+        model['suruplukKaldirmaPenceresiAktif'] == true;
     final bool suruplukKaldirildiMi = model['suruplukKaldirildiMi'] == true;
-    final String suruplukKaldirmaMesaji = _metin(model['suruplukKaldirmaMesaji'], varsayilan: '');
+    final String suruplukKaldirmaMesaji =
+        _metin(model['suruplukKaldirmaMesaji'], varsayilan: '');
     final String yavruBlok = _metin(model['yavruBlok'], varsayilan: 'Belirsiz');
     final String gelisimAlani = _metin(model['gelisimAlani'], varsayilan: '');
-    final String hasatAdayMetni = _metin(model['hasatAdayMetni'], varsayilan: '');
+    final String hasatAdayMetni =
+        _metin(model['hasatAdayMetni'], varsayilan: '');
     final int toplamCita = _toInt(model['toplamCita']);
     final String yorum = _metin(model['yorum'], varsayilan: '');
     final int ariMin = _toInt(model['tahminiAriMin']);
@@ -1080,8 +1288,13 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     final Map<String, dynamic> kabiliyet = Map<String, dynamic>.from(
       model['kabiliyet'] ?? const <String, dynamic>{},
     );
-    final String hamPetekOnerisi = _metin(kabiliyet['hamPetekOnerisi'], varsayilan: '');
-    final String beslemeOnerisi = _metin(kabiliyet['beslemeOnerisi'], varsayilan: '');
+    final Map<String, dynamic> citaAktivasyon = Map<String, dynamic>.from(
+      model['citaAktivasyon'] ?? const <String, dynamic>{},
+    );
+    final String hamPetekOnerisi =
+        _metin(kabiliyet['hamPetekOnerisi'], varsayilan: '');
+    final String beslemeOnerisi =
+        _metin(kabiliyet['beslemeOnerisi'], varsayilan: '');
 
     return Container(
       width: double.infinity,
@@ -1101,7 +1314,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
               SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'TAHMİNİ BİYOLOJİK DİZİLİM',
+                  'BİYOLOJİK DİZİLİM PROJEKSİYONU',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w900,
@@ -1118,6 +1331,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
               ustKat: ustKatYerlesim,
               notMetni: kovanGorselNotu,
               suruplukMetni: suruplukKonumMetni,
+              aktivasyon: citaAktivasyon,
             ),
             const SizedBox(height: 12),
           ],
@@ -1145,7 +1359,8 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             const SizedBox(height: 6),
             Text(
               gelisimAlani,
-              style: const TextStyle(fontSize: 12.5, height: 1.4, color: Colors.black87),
+              style: const TextStyle(
+                  fontSize: 12.5, height: 1.4, color: Colors.black87),
             ),
           ],
           const SizedBox(height: 10),
@@ -1154,41 +1369,48 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             runSpacing: 6,
             children: [
               _miniBilgiHap('Tahmini arı', '$ariMin–$ariMax'),
-              if (hasatMax > 0) _miniBilgiHap('Bal potansiyeli', '${_kg(hasatMin)}–${_kg(hasatMax)} kg'),
-              _miniBilgiHap('Bırakılacak stok', '${_kg(birakMin)}–${_kg(birakMax)} kg'),
+              if (hasatMax > 0)
+                _miniBilgiHap(
+                    'Bal potansiyeli', '${_kg(hasatMin)}–${_kg(hasatMax)} kg'),
+              _miniBilgiHap(
+                  'Bırakılacak stok', '${_kg(birakMin)}–${_kg(birakMax)} kg'),
             ],
           ),
           const SizedBox(height: 10),
           _kabiliyetSatiri('Petek örme', _toInt(kabiliyet['petekOrmePuani'])),
-          _kabiliyetSatiri('Yavru bakımı', _toInt(kabiliyet['yavruBakimPuani'])),
-          _kabiliyetSatiri('Nektar toplama', _toInt(kabiliyet['nektarToplamaPuani'])),
+          _kabiliyetSatiri(
+              'Yavru bakımı', _toInt(kabiliyet['yavruBakimPuani'])),
+          _kabiliyetSatiri(
+              'Nektar toplama', _toInt(kabiliyet['nektarToplamaPuani'])),
           _kabiliyetSatiri('Bal işleme', _toInt(kabiliyet['balIslemePuani'])),
           if (hamPetekOnerisi.isNotEmpty) ...[
             const SizedBox(height: 8),
             Text(
               hamPetekOnerisi,
-              style: const TextStyle(fontSize: 12.5, height: 1.4, color: Colors.black87),
+              style: const TextStyle(
+                  fontSize: 12.5, height: 1.4, color: Colors.black87),
             ),
           ],
           if (beslemeOnerisi.isNotEmpty) ...[
             const SizedBox(height: 6),
             Text(
               beslemeOnerisi,
-              style: const TextStyle(fontSize: 12.5, height: 1.4, color: Colors.black87),
+              style: const TextStyle(
+                  fontSize: 12.5, height: 1.4, color: Colors.black87),
             ),
           ],
           if (yorum.isNotEmpty) ...[
             const SizedBox(height: 8),
             Text(
               yorum,
-              style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.brown.shade700),
+              style: TextStyle(
+                  fontSize: 12.5, height: 1.4, color: Colors.brown.shade700),
             ),
           ],
         ],
       ),
     );
   }
-
 
   Widget _hasatOnerisiKarti({
     required String hasatAdayMetni,
@@ -1251,7 +1473,8 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                     ),
                     if (hasatMax > 0)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(999),
@@ -1306,12 +1529,12 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
-
   Widget _kovanYerlesimGorseli({
     required List<Map<String, dynamic>> altKat,
     required List<Map<String, dynamic>> ustKat,
     required String notMetni,
     required String suruplukMetni,
+    required Map<String, dynamic> aktivasyon,
   }) {
     return Container(
       width: double.infinity,
@@ -1327,21 +1550,22 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
           if (ustKat.isNotEmpty) ...[
             _katBasligi('ÜST KAT / BALLIK', Icons.view_week_outlined),
             const SizedBox(height: 4),
-            _citaSirasi(ustKat),
+            _citaSirasi(ustKat, aktivasyon: aktivasyon),
             const SizedBox(height: 9),
           ],
           _katBasligi('ALT KAT / KULUÇKALIK', Icons.inventory_2_outlined),
           const SizedBox(height: 4),
-          _citaSirasi(altKat),
+          _citaSirasi(altKat, aktivasyon: aktivasyon),
           const SizedBox(height: 7),
           Wrap(
             spacing: 6,
             runSpacing: 6,
             children: const [
-              _LejantHap(renk: Color(0xFFFFD54F), metin: 'Bal'),
-              _LejantHap(renk: Color(0xFFFFA726), metin: 'Polen'),
+              _LejantHap(renk: Color(0xFFFFD54F), metin: 'Bal/stok'),
+              _LejantHap(renk: Color(0xFFFFA726), metin: 'Ballı-polenli'),
               _LejantHap(renk: Color(0xFF8D6E63), metin: 'Yavru'),
-              _LejantHap(renk: Color(0xFFBDBDBD), metin: 'Boş/alan'),
+              _LejantHap(renk: Color(0xFFFFFFFF), metin: 'Boş çerçeve'),
+              _LejantHap(renk: Color(0xFF2E7D32), metin: 'Günlük dolum'),
               _LejantHap(renk: Color(0xFF64B5F6), metin: 'Şurupluk'),
             ],
           ),
@@ -1391,7 +1615,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
-  Widget _citaSirasi(List<Map<String, dynamic>> citalar) {
+  Widget _citaSirasi(
+    List<Map<String, dynamic>> citalar, {
+    required Map<String, dynamic> aktivasyon,
+  }) {
     if (citalar.isEmpty) return const SizedBox.shrink();
 
     return LayoutBuilder(
@@ -1407,7 +1634,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             for (int i = 0; i < citalar.length; i++) ...[
-              SizedBox(width: genislik, child: _citaBlogu(citalar[i])),
+              SizedBox(
+                width: genislik,
+                child: _citaBlogu(citalar[i], aktivasyon: aktivasyon),
+              ),
               if (i != citalar.length - 1) SizedBox(width: bosluk),
             ],
           ],
@@ -1416,13 +1646,24 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
-  Widget _citaBlogu(Map<String, dynamic> item) {
+  Widget _citaBlogu(
+    Map<String, dynamic> item, {
+    required Map<String, dynamic> aktivasyon,
+  }) {
     final String tur = _metin(item['tur'], varsayilan: 'cita');
     final int no = _toInt(item['no']);
+    final String kat = _metin(item['kat'], varsayilan: 'alt');
     final String tip = _metin(item['tip'], varsayilan: '');
     final bool anaBolgesi = item['anaBolgesi'] == true;
     final bool surupluk = tur == 'surupluk';
-    final Color renk = surupluk ? const Color(0xFF64B5F6) : _citaRengi(tip);
+    final bool aktivasyonSurecinde = item['aktivasyonSurecinde'] == true;
+    final double aktiflik = surupluk
+        ? 1.0
+        : (item.containsKey('aktiflik')
+            ? _toDouble(item['aktiflik']).clamp(0.0, 1.0).toDouble()
+            : 1.0);
+    final Color hedefRenk =
+        surupluk ? const Color(0xFF64B5F6) : _citaHedefRengi(tip, no, kat);
     final String etiket = surupluk ? 'Ş' : no.toString();
 
     return Column(
@@ -1434,33 +1675,170 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
               ? const Text('👑', style: TextStyle(fontSize: 13))
               : const SizedBox.shrink(),
         ),
-        Container(
-          height: 68,
-          decoration: BoxDecoration(
-            color: renk,
-            borderRadius: BorderRadius.circular(7),
-            border: Border.all(color: Colors.brown.shade200, width: .8),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.045),
-                blurRadius: 2,
-                offset: const Offset(0, 1),
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              etiket,
-              style: TextStyle(
-                color: surupluk ? Colors.white : Colors.black87,
-                fontSize: surupluk ? 13 : 11.5,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ),
+        _citaGorselGovdesi(
+          etiket: etiket,
+          hedefRenk: hedefRenk,
+          surupluk: surupluk,
+          aktivasyonSurecinde: aktivasyonSurecinde,
+          aktiflik: aktiflik,
+          aktivasyon: aktivasyon,
         ),
       ],
     );
+  }
+
+  Widget _citaGorselGovdesi({
+    required String etiket,
+    required Color hedefRenk,
+    required bool surupluk,
+    required bool aktivasyonSurecinde,
+    required double aktiflik,
+    required Map<String, dynamic> aktivasyon,
+  }) {
+    if (surupluk) {
+      return Container(
+        height: 68,
+        decoration: BoxDecoration(
+          color: hedefRenk,
+          borderRadius: BorderRadius.circular(7),
+          border: Border.all(color: Colors.blue.shade100, width: .9),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.045),
+              blurRadius: 2,
+              offset: const Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            etiket,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (!aktivasyonSurecinde || aktiflik >= 0.98) {
+      return Container(
+        height: 68,
+        decoration: BoxDecoration(
+          color: hedefRenk,
+          borderRadius: BorderRadius.circular(7),
+          border: Border.all(color: Colors.brown.shade200, width: .8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.045),
+              blurRadius: 2,
+              offset: const Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            etiket,
+            style: const TextStyle(
+              color: Colors.black87,
+              fontSize: 11.5,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+      );
+    }
+
+    final int toplamGun = _toInt(aktivasyon['aktivasyonSuresiGun'])
+        .clamp(1, 36)
+        .toInt();
+    final int gecenGun = _toInt(aktivasyon['gecenGun']).clamp(0, toplamGun).toInt();
+    final int doluGun = gecenGun > 0
+        ? gecenGun
+        : (aktiflik * toplamGun).round().clamp(0, toplamGun).toInt();
+
+    return Container(
+      height: 68,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(color: Colors.blueGrey.shade300, width: 1.15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.045),
+            blurRadius: 2,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(6),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: _gunlukAktivasyonDolumu(
+                toplamGun: toplamGun,
+                doluGun: doluGun,
+                renk: hedefRenk,
+              ),
+            ),
+            Center(
+              child: Text(
+                etiket,
+                style: TextStyle(
+                  color: doluGun / toplamGun >= 0.45
+                      ? Colors.black87
+                      : Colors.blueGrey.shade600,
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _gunlukAktivasyonDolumu({
+    required int toplamGun,
+    required int doluGun,
+    required Color renk,
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: List<Widget>.generate(toplamGun, (i) {
+        final int yukaridanIndex = i;
+        final int alttanIndex = toplamGun - yukaridanIndex;
+        final bool dolu = alttanIndex <= doluGun;
+        return Expanded(
+          child: Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: i == 0 ? 0 : 0.35),
+            color: dolu ? renk : Colors.transparent,
+          ),
+        );
+      }),
+    );
+  }
+
+  Color _citaHedefRengi(String tip, int no, String kat) {
+    final t = tip.toLowerCase();
+    final bool aktivasyon = t.contains('aktivasyon');
+    final bool biyolojikRolVar = t.contains('yavru') ||
+        t.contains('polen') ||
+        t.contains('bal') ||
+        t.contains('stok');
+
+    if (!aktivasyon || biyolojikRolVar) return _citaRengi(tip);
+
+    if (kat == 'ust' || t.contains('ballık')) return const Color(0xFFFFD54F);
+    if (no == 1 || no == 10) return const Color(0xFFFFD54F);
+    if (no == 2 || no == 9) return const Color(0xFFFFA726);
+    if (no >= 3 && no <= 8) return const Color(0xFF8D6E63);
+    return const Color(0xFFFFD54F);
   }
 
   Color _citaRengi(String tip) {
@@ -1468,7 +1846,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     if (t.contains('yavru')) return const Color(0xFF8D6E63);
     if (t.contains('polen')) return const Color(0xFFFFA726);
     if (t.contains('bal') || t.contains('stok')) return const Color(0xFFFFD54F);
-    return const Color(0xFFBDBDBD);
+    return const Color(0xFFFFFFFF);
   }
 
   String _citaKisaTip(String tip) {
@@ -1490,7 +1868,8 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             width: 110,
             child: Text(
               baslik,
-              style: const TextStyle(fontSize: 11.8, fontWeight: FontWeight.w800),
+              style:
+                  const TextStyle(fontSize: 11.8, fontWeight: FontWeight.w800),
             ),
           ),
           Expanded(
@@ -1500,7 +1879,9 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 value: (puan.clamp(0, 100)) / 100,
                 minHeight: 8,
                 backgroundColor: Colors.green.shade50,
-                color: puan >= 70 ? Colors.green : (puan >= 45 ? Colors.orange : Colors.red),
+                color: puan >= 70
+                    ? Colors.green
+                    : (puan >= 45 ? Colors.orange : Colors.red),
               ),
             ),
           ),
@@ -1621,9 +2002,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                   style: TextStyle(
                     fontSize: arkaPlan ? 12.8 : 13.4,
                     fontWeight: FontWeight.w900,
-                    color: arkaPlan
-                        ? const Color(0xFF6D4C41)
-                        : Colors.black87,
+                    color: arkaPlan ? const Color(0xFF6D4C41) : Colors.black87,
                   ),
                 ),
               ),
@@ -1744,7 +2123,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             decoration: BoxDecoration(
               color: vurgu,
               borderRadius:
-              const BorderRadius.vertical(top: Radius.circular(18)),
+                  const BorderRadius.vertical(top: Radius.circular(18)),
             ),
           ),
           Padding(
@@ -1867,7 +2246,8 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   Widget _performansSekmesi() {
-    final future = _performansFuture ??= PerformansOzetiServisi.getir(_koloniId);
+    final future =
+        _performansFuture ??= PerformansOzetiServisi.getir(_koloniId);
 
     if (!_detayAnalizYuklendi && !_detayAnalizYukleniyor) {
       Future<void>.microtask(_detayAnalizleriYukle);
@@ -1999,56 +2379,8 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: Colors.amber.shade200),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Row(
-                    children: [
-                      Icon(Icons.table_chart_outlined, color: Colors.brown),
-                      SizedBox(width: 8),
-                      Text(
-                        'KRİTER BAZLI PERFORMANS',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.brown,
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  ...veri.kriterler.map(_performansKriterSatiri),
-                ],
-              ),
-            ),
-            if (veri.gucluYonler.isNotEmpty)
-              _maddeKutusu(
-                baslik: 'GÜÇLÜ YÖNLER',
-                ikon: Icons.trending_up,
-                renk: Colors.green,
-                maddeler: veri.gucluYonler,
-              ),
-            if (veri.zayifYonler.isNotEmpty)
-              _maddeKutusu(
-                baslik: 'GERİDE KALAN ALANLAR',
-                ikon: Icons.low_priority_outlined,
-                renk: Colors.deepOrange,
-                maddeler: veri.zayifYonler,
-              ),
-            if (_biyolojiAnalizi != null) _biyolojiDurumKarti(_biyolojiAnalizi!),
-            if (_kimlikOzeti.isNotEmpty) _soyVeKimlikOzetiKarti(),
-            if (_soyDevamlilikAnalizi != null)
-              _soyDevamlilikKarti(_soyDevamlilikAnalizi!),
-            if (_hatSonmeOzeti.isNotEmpty) _hatDayaniklilikKarti(),
+            _kriterGrafikKarti(veri.kriterler),
+            if (_hatSonmeOzeti.isNotEmpty) _hatDayaniklilikAcilirKarti(),
             if (_detayAnalizYukleniyor) _detayAnalizYukleniyorKarti(),
             if (_detayAnalizHatasi != null) _detayAnalizHataKarti(),
           ],
@@ -2106,14 +2438,13 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
-
   Widget _vurguluMetin(
-      String metin, {
-        required Color renk,
-        required IconData ikon,
-        double fontSize = 14,
-        FontWeight agirlik = FontWeight.w700,
-      }) {
+    String metin, {
+    required Color renk,
+    required IconData ikon,
+    double fontSize = 14,
+    FontWeight agirlik = FontWeight.w700,
+  }) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
@@ -2236,7 +2567,8 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 IconButton(
                   tooltip: 'Muayene detayı',
                   onPressed: () => _muayeneDetayAc(m),
-                  icon: const Icon(Icons.visibility_outlined, color: Colors.brown),
+                  icon: const Icon(Icons.visibility_outlined,
+                      color: Colors.brown),
                 ),
                 IconButton(
                   tooltip: 'Muayeneyi düzenle',
@@ -2314,60 +2646,86 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
-  Widget _performansKriterSatiri(KriterOzeti kriter) {
-    final renk = _skorRengi(kriter.skor);
+  Widget _kriterGrafikKarti(List<KriterOzeti> kriterler) {
+    if (kriterler.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: renk.withOpacity(0.07),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: renk.withOpacity(0.18)),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.amber.shade200),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: renk,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Center(
-              child: Text(
-                kriter.skor.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
+          const Row(
+            children: [
+              Icon(Icons.bar_chart_rounded, color: Colors.brown),
+              SizedBox(width: 8),
+              Text(
+                'KRİTER BAZLI PERFORMANS',
+                style: TextStyle(
+                  fontSize: 13,
                   fontWeight: FontWeight.w900,
-                  fontSize: 18,
+                  color: Colors.brown,
+                  letterSpacing: 0.3,
                 ),
               ),
-            ),
+            ],
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+          const SizedBox(height: 10),
+          ...kriterler.map(_performansKriterGrafikSatiri),
+        ],
+      ),
+    );
+  }
+
+  Widget _performansKriterGrafikSatiri(KriterOzeti kriter) {
+    final renk = _skorRengi(kriter.skor);
+    final oran = (kriter.skor.clamp(0, 100)) / 100.0;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 9),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
                   kriter.ad,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 12.5,
                     fontWeight: FontWeight.w900,
                     color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  kriter.yorum,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    height: 1.4,
-                    color: Colors.black87,
-                  ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '%${kriter.skor}',
+                style: TextStyle(
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w900,
+                  color: renk,
                 ),
-              ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 5),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: LinearProgressIndicator(
+              value: oran,
+              minHeight: 8,
+              color: renk,
+              backgroundColor: renk.withOpacity(0.12),
             ),
           ),
         ],
@@ -2409,7 +2767,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
           ),
           const SizedBox(height: 12),
           ...maddeler.map(
-                (m) => Padding(
+            (m) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -2659,7 +3017,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             const SizedBox(height: 10),
           ],
           ...detaylar.map(
-                (e) => Padding(
+            (e) => Padding(
               padding: const EdgeInsets.only(bottom: 6),
               child: Text(
                 '• $e',
@@ -2674,7 +3032,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   Widget _soyVeKimlikOzetiKarti() {
     final kaynakTipi =
-    _metin(_kimlikOzeti['kaynakTipi'], varsayilan: _kaynakMetni());
+        _metin(_kimlikOzeti['kaynakTipi'], varsayilan: _kaynakMetni());
     final kaynakKoloni = _metin(_kimlikOzeti['kaynakKoloni'], varsayilan: '-');
     final kokKoloni = _metin(_kimlikOzeti['kokKoloni'], varsayilan: '-');
     final ebeveyn = _metin(_kimlikOzeti['ebeveynKoloni'], varsayilan: '-');
@@ -2800,9 +3158,57 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
+  Widget _hatDayaniklilikAcilirKarti() {
+    final hatSonmeOrani =
+        _metin(_hatSonmeOzeti['hatSonmeOrani'], varsayilan: '-');
+    final hatDurum = _metin(_hatSonmeOzeti['hatDurum'], varsayilan: '-');
+    final yorum = _metin(_hatSonmeOzeti['yorum'], varsayilan: '-');
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.deepOrange.withOpacity(0.22)),
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          tilePadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+          childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+          leading: const Icon(Icons.shield_outlined, color: Colors.deepOrange),
+          title: const Text(
+            'HAT DAYANIKLILIK DETAYI',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w900,
+              color: Colors.deepOrange,
+            ),
+          ),
+          subtitle: Text(
+            'Durum: $hatDurum • Sönme oranı: $hatSonmeOrani',
+            style: const TextStyle(fontSize: 11.5, color: Colors.black54),
+          ),
+          children: [
+            _bilgiSatiri('Hat sönme oranı', hatSonmeOrani),
+            _bilgiSatiri('Hat durumu', hatDurum),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                yorum,
+                style: const TextStyle(fontSize: 12, height: 1.45),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _hatDayaniklilikKarti() {
     final hatSonmeOrani =
-    _metin(_hatSonmeOzeti['hatSonmeOrani'], varsayilan: '-');
+        _metin(_hatSonmeOzeti['hatSonmeOrani'], varsayilan: '-');
     final hatDurum = _metin(_hatSonmeOzeti['hatDurum'], varsayilan: '-');
     final yorum = _metin(_hatSonmeOzeti['yorum'], varsayilan: '-');
 
