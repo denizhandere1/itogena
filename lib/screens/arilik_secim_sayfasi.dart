@@ -42,13 +42,26 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
 
     final Map<int, List<ArilikUyari>> uyariMap = {};
     final bugun = DateTime.now();
-    for (final arilik in ariliklar) {
-      final arilikId = _toInt(arilik['id']);
-      if (arilikId <= 0) continue;
-      uyariMap[arilikId] = await ArilikUyariServisi.uyarilariGetir(
-        bugun,
-        arilikId: arilikId,
-      );
+    final uyariSonuclari = await Future.wait<MapEntry<int, List<ArilikUyari>>>(
+      ariliklar.map((arilik) async {
+        final arilikId = _toInt(arilik['id']);
+        if (arilikId <= 0) {
+          return MapEntry<int, List<ArilikUyari>>(
+            arilikId,
+            const <ArilikUyari>[],
+          );
+        }
+
+        final uyarilar = await ArilikUyariServisi.uyarilariGetir(
+          bugun,
+          arilikId: arilikId,
+        );
+        return MapEntry<int, List<ArilikUyari>>(arilikId, uyarilar);
+      }),
+    );
+
+    for (final sonuc in uyariSonuclari) {
+      if (sonuc.key > 0) uyariMap[sonuc.key] = sonuc.value;
     }
 
     if (!mounted) return;
@@ -211,7 +224,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                         yeniTarih: yeniTarih,
                         baslik: 'Geçmiş tarih seçildi',
                         mesaj:
-                            'Arılık başlangıç tarihini geriye çekiyorsun. '
+                        'Arılık başlangıç tarihini geriye çekiyorsun. '
                             'Bu doğruysa devam et. Sistem yine de koloni ve muayene tarihleriyle çakışırsa kaydı engeller.',
                       );
 
@@ -268,12 +281,12 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                     onChanged: kopyalanabilirAriliklar.isEmpty
                         ? null
                         : (v) {
-                            setDialogState(() {
-                              kalibrasyonuKopyala = true;
-                              kopyalanacakArilikId ??=
-                                  _toInt(kopyalanabilirAriliklar.first['id']);
-                            });
-                          },
+                      setDialogState(() {
+                        kalibrasyonuKopyala = true;
+                        kopyalanacakArilikId ??=
+                            _toInt(kopyalanabilirAriliklar.first['id']);
+                      });
+                    },
                   ),
                   if (kalibrasyonuKopyala) ...[
                     const SizedBox(height: 8),
@@ -284,7 +297,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                         labelText: 'Kopyalanacak arılık',
                         border: OutlineInputBorder(),
                         contentPadding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                       ),
                       items: kopyalanabilirAriliklar.map((arilik) {
                         final id = _toInt(arilik['id']);
@@ -428,7 +441,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                         yeniTarih: yeniTarih,
                         baslik: 'Geçmiş tarih seçildi',
                         mesaj:
-                            'Arılık başlangıç tarihini geriye çekiyorsun. '
+                        'Arılık başlangıç tarihini geriye çekiyorsun. '
                             'Bu doğruysa devam et. Sistem, bu tarih koloni veya muayene kayıtlarıyla çelişirse kaydı engeller.',
                       );
 
@@ -499,13 +512,13 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
       MaterialPageRoute(
         builder: (c) => widget.raporModu
             ? RaporlarSayfasi(
-                arilikAd: arilikAd,
-                arilikId: arilikId,
-              )
+          arilikAd: arilikAd,
+          arilikId: arilikId,
+        )
             : KolonilerSayfasi(
-                arilikAd: arilikAd,
-                arilikId: arilikId,
-              ),
+          arilikAd: arilikAd,
+          arilikId: arilikId,
+        ),
       ),
     );
     _verileriYukle();
@@ -549,12 +562,12 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
         title: const Text('ARILIĞI SİL'),
         content: Text(
           'Bu işlem geri alınamaz.\n\n'
-          'Silinecek arılık: $arilikAdi\n'
-          'Toplam koloni: $toplam\n'
-          'Aktif koloni: $aktif\n'
-          'Pasif / sönmüş koloni: $pasif\n\n'
-          'Bu arılığa bağlı koloniler, muayeneler, olay kayıtları, numara geçmişi ve arılık özel kalibrasyonları silinir.\n\n'
-          'Devam etmeden önce güncel yedek aldığından emin ol.',
+              'Silinecek arılık: $arilikAdi\n'
+              'Toplam koloni: $toplam\n'
+              'Aktif koloni: $aktif\n'
+              'Pasif / sönmüş koloni: $pasif\n\n'
+              'Bu arılığa bağlı koloniler, muayeneler, olay kayıtları, numara geçmişi ve arılık özel kalibrasyonları silinir.\n\n'
+              'Devam etmeden önce güncel yedek aldığından emin ol.',
         ),
         actions: [
           TextButton(
@@ -710,39 +723,39 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
       body: _yukleniyor
           ? const Center(child: CircularProgressIndicator())
           : _ariliklar.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.location_off,
-                        size: 80,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        'Henüz arılık eklenmemiş.',
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
-                      ),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: _arilikEkleDiyalog,
-                        child: const Text('İlk Arılığını Ekle'),
-                      ),
-                    ],
-                  ),
-                )
-              : ListView(
-                  padding: EdgeInsets.fromLTRB(
-                    widget.raporModu ? 12 : 16,
-                    widget.raporModu ? 12 : 16,
-                    widget.raporModu ? 12 : 16,
-                    124,
-                  ),
-                  children: widget.raporModu
-                      ? _ariliklar.map(_raporArilikSatiri).toList()
-                      : _ariliklar.map(_arilikKarti).toList(),
-                ),
+          ? Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.location_off,
+              size: 80,
+              color: Colors.grey,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Henüz arılık eklenmemiş.',
+              style: TextStyle(fontSize: 18, color: Colors.grey),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _arilikEkleDiyalog,
+              child: const Text('İlk Arılığını Ekle'),
+            ),
+          ],
+        ),
+      )
+          : ListView(
+        padding: EdgeInsets.fromLTRB(
+          widget.raporModu ? 12 : 16,
+          widget.raporModu ? 12 : 16,
+          widget.raporModu ? 12 : 16,
+          124,
+        ),
+        children: widget.raporModu
+            ? _ariliklar.map(_raporArilikSatiri).toList()
+            : _ariliklar.map(_arilikKarti).toList(),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: SafeArea(
         minimum: const EdgeInsets.only(right: 8, bottom: 8),
@@ -884,7 +897,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
           ),
           const SizedBox(height: 8),
           ...uyarilar.map(
-            (uyari) => _uyariOzetSatiri(
+                (uyari) => _uyariOzetSatiri(
               arilikId: arilikId,
               uyari: uyari,
               detayAcik: detayAcik,

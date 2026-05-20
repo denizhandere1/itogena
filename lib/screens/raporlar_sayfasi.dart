@@ -53,9 +53,9 @@ class _ArilikIstatistikHesabi {
 }
 
 double _modelBalliCitaSayisi(
-  Map<String, dynamic> model, {
-  required bool aktivasyonlaAgirliklandir,
-}) {
+    Map<String, dynamic> model, {
+      required bool aktivasyonlaAgirliklandir,
+    }) {
   double toplam = 0;
 
   void tara(dynamic liste) {
@@ -136,23 +136,10 @@ Future<_ArilikIstatistikHesabi> _arilikIstatistikHesapla(
       zayif++;
     }
 
-    try {
-      final model = await KoloniBiyolojikModelServisi.modelGetir(koloniId);
-      toplamCita += _ekInt(
-        model['fizikselToplamCita'] ?? model['toplamCita'] ?? koloni['sonCita'],
-      );
-      balliCita += _modelBalliCitaSayisi(
-        model,
-        aktivasyonlaAgirliklandir: false,
-      );
-      ariliCita += _modelTamAktifAriliCitaSayisi(model);
-    } catch (_) {
-      final fizikselCita = _ekInt(koloni['sonCita'] ?? koloni['citaSayisi']);
-      toplamCita += fizikselCita;
-      balliCita += _ekDouble(koloni['bal_cita'] ?? koloni['balCita']);
-      ariliCita += _ekDouble(koloni['islevselToplamCita'] ?? fizikselCita)
-          .floorToDouble();
-    }
+    final fizikselCita = _ekInt(koloni['sonCita'] ?? koloni['citaSayisi']);
+    toplamCita += fizikselCita;
+    balliCita += _ekDouble(koloni['bal_cita'] ?? koloni['balCita']);
+    ariliCita += _kayitliIslevselCita(koloni);
   }
 
   return _ArilikIstatistikHesabi(
@@ -231,6 +218,16 @@ double _ekDouble(dynamic deger) {
   if (deger == null) return 0;
   if (deger is num) return deger.toDouble();
   return double.tryParse(deger.toString().trim().replaceAll(',', '.')) ?? 0;
+}
+
+double _kayitliIslevselCita(Map<String, dynamic> koloni) {
+  final islevsel = _ekDouble(koloni['islevselToplamCita']);
+  if (islevsel > 0) return islevsel.floorToDouble();
+
+  final sonCita = _ekDouble(koloni['sonCita']);
+  if (sonCita > 0) return sonCita.floorToDouble();
+
+  return _ekDouble(koloni['citaSayisi']).floorToDouble();
 }
 
 String _ekFmt(double deger) {
@@ -348,19 +345,15 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
       if (aktiflikMap[koloniId] == true) {
         aktifKoloniler.add(koloni);
         toplamSkor += _toInt(koloni['skor']);
-        try {
-          final model = await KoloniBiyolojikModelServisi.modelGetir(koloniId);
-          final aktifCita = _modelTamAktifAriliCitaSayisi(model);
-          toplamAriliCita += aktifCita;
-          toplamIslevselCita += aktifCita.round();
-        } catch (_) {
-          final aktifCita = _toDouble(
-            koloni['islevselToplamCita'] ?? koloni['sonCita'],
-          ).floorToDouble();
-          toplamAriliCita += aktifCita;
-          toplamIslevselCita += aktifCita.round();
-        }
 
+        // Performans temizliği:
+        // Raporlar ana ekranı açılırken her koloni için biyolojik model
+        // hesaplatmak ekran açılışını gereksiz ağırlaştırıyordu. Bu alanda
+        // yaklaşık toplam yeterlidir; detaylı biyolojik/ekonomik hesaplar
+        // kullanıcı ilgili alanı açtığında lazy-load çalışır.
+        final aktifCita = _kayitliIslevselCita(koloni);
+        toplamAriliCita += aktifCita;
+        toplamIslevselCita += aktifCita.round();
       }
     }
 
@@ -1130,9 +1123,9 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     if (istatistik == null) return const SizedBox.shrink();
 
     final double aktivasyonFarki =
-        (istatistik.toplamCita - istatistik.ariliCita)
-            .clamp(0, istatistik.toplamCita)
-            .toDouble();
+    (istatistik.toplamCita - istatistik.ariliCita)
+        .clamp(0, istatistik.toplamCita)
+        .toDouble();
 
     return Container(
       margin: EdgeInsets.zero,
