@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itogena_v45/screens/arilik_secim_sayfasi.dart';
 import 'package:itogena_v45/screens/ayarlar_sayfasi.dart';
-import 'package:itogena_v45/screens/raporlar_sayfasi.dart';
 import 'package:itogena_v45/screens/soy_agaci_sayfasi.dart';
 import 'package:itogena_v45/screens/formuller_hesaplamalar_sayfasi.dart';
 import 'package:itogena_v45/screens/kullanici_rehberi_sayfasi.dart' as rehber;
@@ -147,9 +146,9 @@ class _AnaSayfaState extends State<AnaSayfa> {
             _menuKarti(
               context: context,
               baslik: 'Raporlar',
-              altBaslik: 'Karar, risk ve genel arılık görünümü',
+              altBaslik: 'Önce arılık seç, raporları o arılığa göre görüntüle',
               ikon: Icons.analytics_outlined,
-              sayfa: const RaporlarSayfasi(),
+              sayfa: const ArilikSecimSayfasi(raporModu: true),
             ),
             _menuKarti(
               context: context,

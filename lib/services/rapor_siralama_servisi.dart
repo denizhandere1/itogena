@@ -62,16 +62,38 @@ class RaporSiralamaServisi {
   static const String tipDonorAdaylari = 'donor_adaylari';
   static const String tipGenetikVeto = 'genetik_veto';
 
-  static Future<List<RaporListeKaydi>> listeGetir(String raporTipi) async {
-    final aktifKoloniler = await VeritabaniServisi.kolonileriGetir(
-      sadeceAktifler: true,
+  static Future<List<RaporListeKaydi>> listeGetir(
+      String raporTipi, {
+        required int arilikId,
+      }) async {
+    final tumKoloniler = await VeritabaniServisi.kovanlariAriligaGoreGetir(
+      arilikId,
     );
+
+    if (tumKoloniler.isEmpty) {
+      return const <RaporListeKaydi>[];
+    }
+
+    final koloniIdleri = tumKoloniler
+        .map((k) => _toInt(k['id']))
+        .where((id) => id > 0)
+        .toList(growable: false);
+
+    final aktiflikHaritasi =
+    await VeritabaniServisi.koloniAktiflikHaritasiGetir(koloniIdleri);
+
+    final aktifKoloniler = tumKoloniler.where((koloni) {
+      final koloniId = _toInt(koloni['id']);
+      return koloniId > 0 && aktiflikHaritasi[koloniId] == true;
+    }).toList(growable: false);
 
     if (aktifKoloniler.isEmpty) {
       return const <RaporListeKaydi>[];
     }
 
-    final donorler = await KararAsistanServisi.donorAdaylariSiraliGetir();
+    final donorler = await KararAsistanServisi.donorAdaylariSiraliGetir(
+      arilikId: arilikId,
+    );
     final donorMap = <int, int>{
       for (final d in donorler)
         _toInt(d['koloniId']): _toInt(d['sira']),
@@ -91,7 +113,9 @@ class RaporSiralamaServisi {
 
         final profil = karar.profil;
         final int genelSkor = _toInt(profil['skor']);
-        final int sonCita = _toInt(profil['sonCita']);
+        final int sonCita = _toInt(
+          profil['islevselToplamCita'] ?? profil['sonCita'],
+        );
         final int uremeHam = _toInt(profil['uremePuani']);
         final int uretimHam = _toInt(profil['uretimPuani']);
         final bool vetoVarMi = karar.donorVeto;

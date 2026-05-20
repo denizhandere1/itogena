@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'veritabani_servisi.dart';
+import 'cita_aktivasyon_servisi.dart';
 
 class TrendServisi {
   static Future<Map<String, dynamic>> koloniTrendiGetir(int koloniId) async {
@@ -31,6 +32,7 @@ class TrendServisi {
     final bool bolmeYapildi = _toInt(son['bolmeYapildi']) == 1;
     final bool kovanSondu = _toInt(son['kovanSondu']) == 1;
     final int balCita = _toInt(son['bal_cita']);
+    final bool balAkimiAktif = await _balAkimiAktifMi(koloniId);
 
     double hamIvme = 0.0;
     double duzeltilmisIvme = 0.0;
@@ -40,20 +42,19 @@ class TrendServisi {
           : eskiYeniSirali.length - 2;
       final referans = eskiYeniSirali[referansIndex];
       hamIvme = (sonCita - _toInt(referans['citaSayisi'])).toDouble();
-      duzeltilmisIvme = _duzeltilmisCitaFarki(
-        oncekiCita: _toInt(referans['citaSayisi']),
-        sonCita: sonCita,
-        bolmeYapildi: bolmeYapildi,
-        balCita: balCita,
-        kovanSondu: kovanSondu,
-      ).toDouble();
+      final normalize = _normalizeEdilmisCitaFarki(
+        oncekiMuayene: referans,
+        sonMuayene: son,
+        balAkimiAktif: balAkimiAktif,
+      );
+      duzeltilmisIvme = _toDouble(normalize['duzeltilmisFark']);
     }
 
     final pencereler = <Map<String, dynamic>>[
-      _pencereHesapla(eskiYeniSirali, sonTarih, 7),
-      _pencereHesapla(eskiYeniSirali, sonTarih, 14),
-      _pencereHesapla(eskiYeniSirali, sonTarih, 21),
-      _pencereHesapla(eskiYeniSirali, sonTarih, 42),
+      _pencereHesapla(eskiYeniSirali, sonTarih, 7, balAkimiAktif: balAkimiAktif),
+      _pencereHesapla(eskiYeniSirali, sonTarih, 14, balAkimiAktif: balAkimiAktif),
+      _pencereHesapla(eskiYeniSirali, sonTarih, 21, balAkimiAktif: balAkimiAktif),
+      _pencereHesapla(eskiYeniSirali, sonTarih, 42, balAkimiAktif: balAkimiAktif),
     ];
 
     final p7 = _oran(pencereler, 7);
@@ -75,11 +76,11 @@ class TrendServisi {
       trend = duzeltilmisIvme >= 0 ? 'Kontrollü Bölme' : 'Bölme Sonrası İzleme';
       aciklama = 'Bölme işaretli olduğu için çıta değişimi doğrudan zayıflama olarak okunmadı.';
     } else if (agirlikliMomentum >= 0.20) {
-      trend = 'Güçlü Momentum';
-      aciklama = 'Koloni zamana göre güçlü büyüme momentumu gösteriyor.';
+      trend = 'Güçlü Biyolojik Yön';
+      aciklama = 'Koloni zamana göre güçlü biyolojik gelişim yönü gösteriyor.';
     } else if (agirlikliMomentum >= 0.07) {
       trend = 'Yükseliş';
-      aciklama = 'Koloni zamana göre sağlıklı gelişim yönünde.';
+      aciklama = 'Koloni zamana göre sağlıklı biyolojik gelişim yönünde.';
     } else if (balCita > 0 && duzeltilmisIvme < 0) {
       trend = 'Hasat Sonrası Stabil';
       aciklama = 'Bal sinyali mevcut; küçük düşüşler üretim / hasat bağlamında okunuyor.';
@@ -138,8 +139,9 @@ class TrendServisi {
   static Map<String, dynamic> _pencereHesapla(
     List<Map<String, dynamic>> sirali,
     DateTime sonTarih,
-    int pencereGun,
-  ) {
+    int pencereGun, {
+    required bool balAkimiAktif,
+  }) {
     if (sirali.length < 2) {
       return {
         'gun': pencereGun,
@@ -163,21 +165,26 @@ class TrendServisi {
     referans ??= sirali.first;
     final son = sirali.last;
     final gercekGun = math.max(1, sonTarih.difference(_tarih(referans['tarih'])).inDays.abs());
-    final citaFarki = _duzeltilmisCitaFarki(
-      oncekiCita: _toInt(referans['citaSayisi']),
-      sonCita: _toInt(son['citaSayisi']),
-      bolmeYapildi: _toInt(son['bolmeYapildi']) == 1,
-      balCita: _toInt(son['bal_cita']),
-      kovanSondu: _toInt(son['kovanSondu']) == 1,
+    final normalize = _normalizeEdilmisCitaFarki(
+      oncekiMuayene: referans,
+      sonMuayene: son,
+      balAkimiAktif: balAkimiAktif,
     );
-    final gunlukArtis = citaFarki / gercekGun;
+    final double citaFarki = _toDouble(normalize['duzeltilmisFark']);
+    final double hamFark = _toDouble(normalize['hamFark']);
+    final double gunlukArtis = citaFarki / gercekGun;
 
     return {
       'gun': pencereGun,
-      'citaFarki': citaFarki,
+      'citaFarki': _yuvarla(citaFarki),
+      'hamCitaFarki': _yuvarla(hamFark),
       'gercekGun': gercekGun,
       'gunlukArtis': _yuvarla(gunlukArtis),
       'etiket': _momentumEtiketi(gunlukArtis),
+      'normalizeKodu': normalize['kod'],
+      'normalizeAciklama': normalize['aciklama'],
+      'aktivasyonOrani': normalize['aktivasyonOrani'],
+      'hacimDegisimTipi': normalize['hacimDegisimTipi'],
     };
   }
 
@@ -225,21 +232,186 @@ class TrendServisi {
 
   static String _momentumAciklama(String etiket, double gunlukArtis) {
     final oran = _yuvarla(gunlukArtis);
-    return '$etiket: ortalama günlük çıta artışı $oran olarak hesaplandı. Bu değer kesin ölçüm değil, muayene aralıklarına göre normalize edilmiş saha tahminidir.';
+    return '$etiket: ortalama günlük biyolojik yön $oran olarak hesaplandı. Bu değer fiziksel çıta farkı değil; hasat, bölme, kat geçişi, işlevsel aktivasyon ve muayene aralığına göre normalize edilmiş saha tahminidir.';
   }
 
-  static int _duzeltilmisCitaFarki({
-    required int oncekiCita,
-    required int sonCita,
-    required bool bolmeYapildi,
-    required int balCita,
-    required bool kovanSondu,
+  static Map<String, dynamic> _normalizeEdilmisCitaFarki({
+    required Map<String, dynamic> oncekiMuayene,
+    required Map<String, dynamic> sonMuayene,
+    required bool balAkimiAktif,
   }) {
-    if (kovanSondu) return -999;
-    final fark = sonCita - oncekiCita;
-    if (bolmeYapildi && fark < 0) return 0;
-    if (balCita > 0 && fark < 0) return 0;
-    return fark;
+    final int oncekiCita = _toInt(oncekiMuayene['citaSayisi']);
+    final int sonCita = _toInt(sonMuayene['citaSayisi']);
+    final double hamFark = (sonCita - oncekiCita).toDouble();
+
+    final bool bolmeYapildi = _toInt(sonMuayene['bolmeYapildi']) == 1;
+    final bool kovanSondu = _toInt(sonMuayene['kovanSondu']) == 1;
+
+    if (kovanSondu) {
+      return _normalizeSonuc(
+        hamFark: hamFark,
+        duzeltilmisFark: -999.0,
+        kod: 'KOVAN_SONDU',
+        aciklama: 'Kovan sönmüş işaretlendi; momentum gerçek biyolojik kayıp olarak okunur.',
+      );
+    }
+
+    final aktivasyon = CitaAktivasyonServisi.hesapla(
+      sonMuayene: sonMuayene,
+      oncekiMuayene: oncekiMuayene,
+      balAkimiAktif: balAkimiAktif,
+    );
+
+    final String hacimTipi = (aktivasyon['hacimDegisimTipi'] ?? '').toString();
+    final double aktivasyonOrani = _toDouble(aktivasyon['aktivasyonOrani'] ?? 1.0)
+        .clamp(0.0, 1.0)
+        .toDouble();
+    final double islevselCita = _toDouble(aktivasyon['islevselCitaOrta'] ?? sonCita);
+    final bool hasatKaynakliDusus = aktivasyon['hasatKaynakliDusus'] == true ||
+        hacimTipi == CitaAktivasyonServisi.hacimTipiHasatKaynakliDusus;
+    final bool biyolojikZayiflamaSuphesi =
+        hacimTipi == CitaAktivasyonServisi.hacimTipiBiyolojikZayiflamaSuphesi;
+    final bool katGecisiVar = aktivasyon['katGecisiVar'] == true ||
+        hacimTipi == CitaAktivasyonServisi.hacimTipiKatGecisi;
+    final bool riskliSisirme = aktivasyon['riskliSisirme'] == true ||
+        hacimTipi == CitaAktivasyonServisi.hacimTipiRiskliHizliGenisleme;
+    final bool balAkimiGenislemesi = aktivasyon['balAkimiGenislemesi'] == true ||
+        hacimTipi == CitaAktivasyonServisi.hacimTipiBallikUretimGenislemesi;
+    final bool uretimGuvenli = aktivasyon['uretimGuvenliMi'] != false;
+
+    if (bolmeYapildi && hamFark < 0) {
+      return _normalizeSonuc(
+        hamFark: hamFark,
+        duzeltilmisFark: 0.0,
+        kod: 'BOLME_NORMALIZE',
+        aciklama: 'Bölme kaydı nedeniyle çıta düşüşü biyolojik zayıflama sayılmadı.',
+        aktivasyon: aktivasyon,
+      );
+    }
+
+    if (hasatKaynakliDusus && hamFark < 0) {
+      return _normalizeSonuc(
+        hamFark: hamFark,
+        duzeltilmisFark: 0.0,
+        kod: 'HASAT_NORMALIZE',
+        aciklama: 'Bal/hasat kaydı nedeniyle çıta düşüşü biyolojik momentum cezası sayılmadı.',
+        aktivasyon: aktivasyon,
+      );
+    }
+
+    if (hamFark < 0) {
+      final double duzeltilmis = biyolojikZayiflamaSuphesi
+          ? hamFark
+          : math.max(hamFark, -0.5).toDouble();
+      return _normalizeSonuc(
+        hamFark: hamFark,
+        duzeltilmisFark: duzeltilmis,
+        kod: biyolojikZayiflamaSuphesi
+            ? 'BIYOLOJIK_DUSUS'
+            : 'KUCUK_DUSUS_TEMKINLI',
+        aciklama: biyolojikZayiflamaSuphesi
+            ? 'Hasat/bölme kaydı olmadan belirgin çıta düşüşü biyolojik zayıflama şüphesiyle okundu.'
+            : 'Küçük çıta düşüşü tam çöküş sayılmadan temkinli okundu.',
+        aktivasyon: aktivasyon,
+      );
+    }
+
+    if (hamFark <= 0) {
+      return _normalizeSonuc(
+        hamFark: hamFark,
+        duzeltilmisFark: 0.0,
+        kod: 'STABIL',
+        aciklama: 'Fiziksel hacim değişmedi; momentum nötr okundu.',
+        aktivasyon: aktivasyon,
+      );
+    }
+
+    final double islevselFark = math.max(0.0, islevselCita - oncekiCita);
+
+    if (riskliSisirme) {
+      return _normalizeSonuc(
+        hamFark: hamFark,
+        duzeltilmisFark: math.min(islevselFark, hamFark * 0.35),
+        kod: 'RISKI_SISIRME_FRENI',
+        aciklama: 'Hızlı hacim artışı aktivasyon tamamlanmadan gerçek büyüme sayılmadı.',
+        aktivasyon: aktivasyon,
+      );
+    }
+
+    if (katGecisiVar && !balAkimiGenislemesi) {
+      return _normalizeSonuc(
+        hamFark: hamFark,
+        duzeltilmisFark: math.min(islevselFark, hamFark * 0.55),
+        kod: 'KAT_GECISI_TEMKINLI',
+        aciklama: 'Kat/ballık geçişi fiziksel hacim artışı olarak görüldü; biyolojik momentum temkinli normalleştirildi.',
+        aktivasyon: aktivasyon,
+      );
+    }
+
+    if (!uretimGuvenli || aktivasyonOrani < 0.65) {
+      return _normalizeSonuc(
+        hamFark: hamFark,
+        duzeltilmisFark: math.min(islevselFark, hamFark * 0.60),
+        kod: 'AKTIVASYON_FRENI',
+        aciklama: 'Yeni hacmin aktivasyonu düşük olduğu için büyüme sinyali frenlendi.',
+        aktivasyon: aktivasyon,
+      );
+    }
+
+    if (balAkimiGenislemesi) {
+      return _normalizeSonuc(
+        hamFark: hamFark,
+        duzeltilmisFark: math.min(hamFark, math.max(islevselFark, hamFark * 0.75)),
+        kod: 'BAL_AKIMI_GENISLEMESI',
+        aciklama: 'Bal akımı içinde sağlıklı üst hacim genişlemesi biyolojik üretim yönü olarak okundu.',
+        aktivasyon: aktivasyon,
+      );
+    }
+
+    return _normalizeSonuc(
+      hamFark: hamFark,
+      duzeltilmisFark: math.min(hamFark, islevselFark),
+      kod: 'ISLEVSEL_ARTIS',
+      aciklama: 'Fiziksel artış işlevsel kapasiteye göre normalize edildi.',
+      aktivasyon: aktivasyon,
+    );
+  }
+
+  static Map<String, dynamic> _normalizeSonuc({
+    required double hamFark,
+    required double duzeltilmisFark,
+    required String kod,
+    required String aciklama,
+    Map<String, dynamic>? aktivasyon,
+  }) {
+    return {
+      'hamFark': _yuvarla(hamFark),
+      'duzeltilmisFark': _yuvarla(duzeltilmisFark),
+      'kod': kod,
+      'aciklama': aciklama,
+      'aktivasyonOrani': _yuvarla(_toDouble(aktivasyon?['aktivasyonOrani'] ?? 1.0)),
+      'hacimDegisimTipi': (aktivasyon?['hacimDegisimTipi'] ?? '').toString(),
+      'islevselCitaOrta': _yuvarla(_toDouble(aktivasyon?['islevselCitaOrta'] ?? 0.0)),
+    };
+  }
+
+  static Future<bool> _balAkimiAktifMi(int koloniId) async {
+    try {
+      final koloni = await VeritabaniServisi.koloniOzetiGetir(koloniId);
+      final int arilikId = _toInt(koloni['arilikId']);
+      final balAkimi = await VeritabaniServisi.aktifBalAkimGetir(
+        arilikId: arilikId > 0 ? arilikId : null,
+      );
+      final DateTime bugun = _tarih(DateTime.now().toIso8601String());
+      final DateTime? bas = balAkimi?['bas'] as DateTime?;
+      final DateTime? bit = balAkimi?['bit'] as DateTime?;
+      if (bas == null || bit == null) return false;
+      final basGun = DateTime(bas.year, bas.month, bas.day);
+      final bitGun = DateTime(bit.year, bit.month, bit.day);
+      return !bugun.isBefore(basGun) && !bugun.isAfter(bitGun);
+    } catch (_) {
+      return false;
+    }
   }
 
   static DateTime _tarih(dynamic deger) {
@@ -263,6 +435,14 @@ class TrendServisi {
     if (deger is int) return deger;
     if (deger is double) return deger.round();
     return int.tryParse(deger.toString()) ?? 0;
+  }
+
+  static double _toDouble(dynamic deger) {
+    if (deger == null) return 0.0;
+    if (deger is double) return deger;
+    if (deger is int) return deger.toDouble();
+    if (deger is num) return deger.toDouble();
+    return double.tryParse(deger.toString()) ?? 0.0;
   }
 
   static double _yuvarla(double v) => double.parse(v.toStringAsFixed(3));

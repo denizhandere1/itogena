@@ -3,6 +3,10 @@ import 'dart:math' as math;
 import 'trend_servisi.dart';
 import 'veritabani_servisi.dart';
 import 'cita_aktivasyon_servisi.dart';
+import 'sezon_biyoloji_matrisi.dart';
+import 'demografi_motoru.dart';
+import 'risk_motoru.dart';
+import 'projeksiyon_motoru.dart';
 
 class KoloniBiyolojikModelServisi {
   static const String kovanTipiLangstroth = 'Langstroth';
@@ -63,12 +67,46 @@ class KoloniBiyolojikModelServisi {
       suruplukPenceresi = const <String, dynamic>{};
     }
 
+    final int? arilikId = _nullableInt(koloni['arilikId']);
+    final DateTime modelTarihi = _tarih(sonMuayene?['tarih']) ?? _gun(DateTime.now());
+
+    bool balAkimiAktif = false;
+    try {
+      final balAkimi = await VeritabaniServisi.aktifBalAkimGetir(
+        arilikId: arilikId != null && arilikId > 0 ? arilikId : null,
+      );
+      final DateTime bugun = _gun(DateTime.now());
+      final DateTime? bas = balAkimi?['bas'] as DateTime?;
+      final DateTime? bit = balAkimi?['bit'] as DateTime?;
+      if (bas != null && bit != null) {
+        final DateTime basGun = _gun(bas);
+        final DateTime bitGun = _gun(bit);
+        balAkimiAktif = !bugun.isBefore(basGun) && !bugun.isAfter(bitGun);
+      }
+    } catch (_) {
+      balAkimiAktif = false;
+    }
+
+    Map<String, dynamic> sezonBiyoloji = SezonBiyolojiMatrisi.varsayilanMap(modelTarihi);
+    try {
+      sezonBiyoloji = (await SezonBiyolojiMatrisi.bilgiGetir(
+        tarih: modelTarihi,
+        arilikId: arilikId != null && arilikId > 0 ? arilikId : null,
+      )).toMap();
+      balAkimiAktif = sezonBiyoloji['balAkimiAktif'] == true || balAkimiAktif;
+    } catch (_) {
+      sezonBiyoloji = SezonBiyolojiMatrisi.varsayilanMap(modelTarihi);
+    }
+
     return modelOlustur(
       koloni: koloni,
       sonMuayene: sonMuayene,
       oncekiMuayene: oncekiMuayene,
+      muayeneler: muayeneler,
       trend: trend,
       suruplukPenceresi: suruplukPenceresi,
+      balAkimiAktif: balAkimiAktif,
+      sezonBiyoloji: sezonBiyoloji,
     );
   }
 
@@ -76,8 +114,11 @@ class KoloniBiyolojikModelServisi {
     required Map<String, dynamic> koloni,
     Map<String, dynamic>? sonMuayene,
     Map<String, dynamic>? oncekiMuayene,
+    List<Map<String, dynamic>>? muayeneler,
     Map<String, dynamic>? trend,
     Map<String, dynamic>? suruplukPenceresi,
+    bool balAkimiAktif = false,
+    Map<String, dynamic>? sezonBiyoloji,
   }) {
     final String kovanTipi = normalizeKovanTipi(koloni['kovanTipi']);
     final bool suruplukKayittaVarMi = _toBool(koloni['suruplukVarMi']);
@@ -106,14 +147,25 @@ class KoloniBiyolojikModelServisi {
     final int yavruluCita = _pozitifInt(sonMuayene?['yavruluCita']);
     final String yavruDuzeni =
         (sonMuayene?['yavruDuzeni'] ?? '').toString().trim();
+    final bool yavruYokMu = _yavruYokMu(
+      yavruDuzeni: yavruDuzeni,
+      yavruluCita: yavruluCita,
+    );
     final String kaynakTipi =
         (koloni['kaynakTipi'] ?? '').toString().trim().toLowerCase();
+    final Map<String, dynamic> sezonBiyolojiMap = sezonBiyoloji == null
+        ? SezonBiyolojiMatrisi.varsayilanMap(_tarih(sonMuayene?['tarih']))
+        : Map<String, dynamic>.from(sezonBiyoloji);
+    final double sezonAktivasyonKatsayisi =
+        _toDouble(sezonBiyolojiMap['aktivasyonKatsayisi']);
 
     final Map<String, dynamic> citaAktivasyon = CitaAktivasyonServisi.hesapla(
       sonMuayene: sonMuayene,
       oncekiMuayene: oncekiMuayene,
       trend: trend,
       suruplukPenceresi: suruplukPenceresi,
+      balAkimiAktif: balAkimiAktif,
+      sezonKatsayisi: sezonAktivasyonKatsayisi > 0 ? sezonAktivasyonKatsayisi : null,
     );
     final double islevselToplamCitaDouble =
         _toDouble(citaAktivasyon['islevselCitaOrta']);
@@ -137,9 +189,11 @@ class KoloniBiyolojikModelServisi {
     final int tahminiGozMin = (kuluclukCita * katsayi['gozMin']!).round();
     final int tahminiGozMax = (kuluclukCita * katsayi['gozMax']!).round();
 
-    final int tahminiYavruCita = yavruluCita > 0
-        ? yavruluCita.clamp(0, kuluclukCita).toInt()
-        : _tahminiYavruCita(kuluclukCita, yavruDuzeni: yavruDuzeni);
+    final int tahminiYavruCita = yavruYokMu
+        ? 0
+        : yavruluCita > 0
+            ? yavruluCita.clamp(0, kuluclukCita).toInt()
+            : _tahminiYavruCita(kuluclukCita, yavruDuzeni: yavruDuzeni);
     final int tahminiPolenCita =
         _tahminiPolenCita(kuluclukCita, tahminiYavruCita);
     final int tahminiStokCita = math.max(
@@ -201,7 +255,7 @@ class KoloniBiyolojikModelServisi {
     final double gunlukMomentum = _toDouble(trend?['gunlukMomentum']);
     final String momentumEtiketi =
         (trend?['momentumEtiketi'] ?? '').toString().trim();
-    final Map<String, dynamic> demografi = _demografiOlustur(
+    final Map<String, dynamic> demografi = DemografiMotoru.hesapla(
       tahminiAri: tahminiAriOrta,
       tahminiYavru: tahminiYavruGozOrta,
       kuluclukCita: kuluclukCita,
@@ -209,15 +263,110 @@ class KoloniBiyolojikModelServisi {
       gunlukMomentum: gunlukMomentum,
       momentumEtiketi: momentumEtiketi,
       kaynakTipi: kaynakTipi,
+      yavruDuzeni: yavruDuzeni,
+      sezonBiyoloji: sezonBiyolojiMap,
     );
     final Map<String, dynamic> kabiliyet = _kabiliyetOlustur(
       demografi: demografi,
       kuluclukCita: kuluclukCita,
       ballikCita: ballikCita,
       balliCita: balliCita,
+      islevselToplamCita: islevselToplamCitaDouble,
+      islevselUretimCita: _toInt(citaAktivasyon['islevselUretimCita']),
+      aktivasyonOrani: _toDouble(citaAktivasyon['aktivasyonOrani']),
+      riskliSisirme: _toBool(citaAktivasyon['riskliSisirme']),
+      uretimGuvenliMi: _toBool(citaAktivasyon['uretimGuvenliMi']),
+      balAkimiAktif: balAkimiAktif,
+      sezonBiyoloji: sezonBiyolojiMap,
       gunlukMomentum: gunlukMomentum,
       momentumEtiketi: momentumEtiketi,
       yavruDuzeni: yavruDuzeni,
+    );
+    final Map<String, dynamic> yavrusuzlukAnalizi = _yavrusuzlukAnaliziOlustur(
+      koloni: koloni,
+      sonMuayene: sonMuayene,
+      muayeneler: muayeneler ?? const <Map<String, dynamic>>[],
+      toplamCita: toplamCita,
+      kuluclukCita: kuluclukCita,
+      yavruYokMu: yavruYokMu,
+      balAkimiAktif: balAkimiAktif,
+      balliCita: balliCita,
+      gunlukMomentum: gunlukMomentum,
+      momentumEtiketi: momentumEtiketi,
+      kaynakTipi: kaynakTipi,
+    );
+
+    final Map<String, dynamic> koloniSinifi = _koloniSinifiBelirle(
+      fizikselCita: toplamCita,
+      islevselCita: islevselToplamCita,
+      islevselUretimCita: _toInt(citaAktivasyon['islevselUretimCita']),
+      aktivasyonOrani: _toDouble(citaAktivasyon['aktivasyonOrani']),
+      balAkimiAktif: balAkimiAktif,
+      hasatEdilebilirCita: hasatEdilebilirCita,
+    );
+
+    final Map<String, dynamic> riskAnalizi = RiskMotoru.hesapla(
+      demografi: demografi,
+      kabiliyet: kabiliyet,
+      citaAktivasyon: citaAktivasyon,
+      sezonBiyoloji: sezonBiyolojiMap,
+      yavrusuzlukAnalizi: yavrusuzlukAnalizi,
+      toplamCita: toplamCita,
+      kuluclukCita: kuluclukCita,
+      ballikCita: ballikCita,
+      balliCita: balliCita,
+      islevselToplamCita: islevselToplamCitaDouble,
+      islevselUretimCita: _toInt(citaAktivasyon['islevselUretimCita']),
+      aktivasyonOrani: _toDouble(citaAktivasyon['aktivasyonOrani']),
+      balAkimiAktif: balAkimiAktif,
+      yavruYokMu: yavruYokMu,
+      riskliSisirme: _toBool(citaAktivasyon['riskliSisirme']),
+      uretimGuvenliMi: _toBool(citaAktivasyon['uretimGuvenliMi']),
+      hasatEdilebilirCita: hasatEdilebilirCita,
+      tahminiStokCita: tahminiStokCita,
+      koloniSinifi: (koloniSinifi['kod'] ?? '').toString(),
+      gunlukMomentum: gunlukMomentum,
+      momentumEtiketi: momentumEtiketi,
+    );
+
+    final Map<String, dynamic> projeksiyon = ProjeksiyonMotoru.hesapla(
+      demografi: demografi,
+      kabiliyet: kabiliyet,
+      riskAnalizi: riskAnalizi,
+      sezonBiyoloji: sezonBiyolojiMap,
+      citaAktivasyon: citaAktivasyon,
+      balAkimiAktif: balAkimiAktif,
+      yavruYokMu: yavruYokMu,
+      toplamCita: toplamCita,
+      balliCita: balliCita,
+      tahminiYavruCita: tahminiYavruCita,
+      tahminiStokCita: tahminiStokCita,
+      aktivasyonOrani: _toDouble(citaAktivasyon['aktivasyonOrani']),
+      gunlukMomentum: gunlukMomentum,
+      momentumEtiketi: momentumEtiketi,
+    );
+
+    final Map<String, dynamic> biyolojikProjeksiyon = _biyolojikProjeksiyonOlustur(
+      demografi: demografi,
+      kabiliyet: kabiliyet,
+      kuluclukCita: kuluclukCita,
+      ballikCita: ballikCita,
+      balliCita: balliCita,
+      islevselToplamCita: islevselToplamCitaDouble,
+      islevselUretimCita: _toInt(citaAktivasyon['islevselUretimCita']),
+      aktivasyonOrani: _toDouble(citaAktivasyon['aktivasyonOrani']),
+      riskliSisirme: _toBool(citaAktivasyon['riskliSisirme']),
+      uretimGuvenliMi: _toBool(citaAktivasyon['uretimGuvenliMi']),
+      balAkimiAktif: balAkimiAktif,
+      sezonBiyoloji: sezonBiyolojiMap,
+      gunlukMomentum: gunlukMomentum,
+      momentumEtiketi: momentumEtiketi,
+      yavruYokMu: yavruYokMu,
+      yavrusuzlukAnalizi: yavrusuzlukAnalizi,
+      tahminiYavruCita: tahminiYavruCita,
+      tahminiStokCita: tahminiStokCita,
+      hasatEdilebilirCita: hasatEdilebilirCita,
+      koloniSinifi: (koloniSinifi['kod'] ?? '').toString(),
     );
 
     final yorum = _yorumUret(
@@ -229,6 +378,7 @@ class KoloniBiyolojikModelServisi {
       hasatPotansiyeliMaxKg: hasatPotansiyeliMaxKg,
       kabiliyet: kabiliyet,
       yavruBlok: yavruBlok,
+      yavrusuzlukAnalizi: yavrusuzlukAnalizi,
     );
 
     return {
@@ -243,9 +393,35 @@ class KoloniBiyolojikModelServisi {
       'toplamCita': toplamCita,
       'fizikselToplamCita': toplamCita,
       'islevselToplamCita': islevselToplamCita,
+      'islevselToplamCitaOrta': citaAktivasyon['islevselCitaOrta'],
       'islevselCitaMin': citaAktivasyon['islevselCitaMin'],
       'islevselCitaMax': citaAktivasyon['islevselCitaMax'],
+      'toplamHacimAktivasyonOrani': citaAktivasyon['toplamHacimAktivasyonOrani'],
+      'toplamHacimAktivasyonYuzde': citaAktivasyon['toplamHacimAktivasyonYuzde'],
+      'yeniHacimAktivasyonOrani': citaAktivasyon['yeniHacimAktivasyonOrani'],
+      'yeniHacimAktivasyonYuzde': citaAktivasyon['yeniHacimAktivasyonYuzde'],
       'citaAktivasyon': citaAktivasyon,
+      'hacimDegisimTipi': citaAktivasyon['hacimDegisimTipi'],
+      'uretimGuvenliMi': citaAktivasyon['uretimGuvenliMi'],
+      'balAkimiGenislemesi': citaAktivasyon['balAkimiGenislemesi'],
+      'hasatKaynakliDusus': citaAktivasyon['hasatKaynakliDusus'],
+      'riskliSisirme': citaAktivasyon['riskliSisirme'],
+      'islevselUretimCita': citaAktivasyon['islevselUretimCita'],
+      'balAkimiAktif': balAkimiAktif,
+      'sezonBiyoloji': sezonBiyolojiMap,
+      'sezonBiyolojiKodu': sezonBiyolojiMap['kod'],
+      'sezonBiyolojiAdi': sezonBiyolojiMap['ad'],
+      'sezonAktivasyonKatsayisi': sezonBiyolojiMap['aktivasyonKatsayisi'],
+      'koloniSinifi': koloniSinifi['kod'],
+      'koloniSinifEtiketi': koloniSinifi['etiket'],
+      'koloniSinifAciklama': koloniSinifi['aciklama'],
+      'koloniSinifReferansCita': koloniSinifi['referansCita'],
+      'koloniSinifKaynak': koloniSinifi['kaynak'],
+      'zayifKoloniMi': koloniSinifi['zayifKoloniMi'],
+      'gelisimKolonisiMi': koloniSinifi['gelisimKolonisiMi'],
+      'uretimKolonisiMi': koloniSinifi['uretimKolonisiMi'],
+      'hasatKolonisiMi': koloniSinifi['hasatKolonisiMi'],
+      'hasatBeklentisiVarMi': koloniSinifi['hasatBeklentisiVarMi'],
       'kuluclukCita': kuluclukCita,
       'fizikselKuluclukCita': fizikselKuluclukCita,
       'ballikCita': ballikCita,
@@ -260,6 +436,12 @@ class KoloniBiyolojikModelServisi {
       'tahminiYavruGozMin': tahminiYavruGozMin,
       'tahminiYavruGozMax': tahminiYavruGozMax,
       'tahminiYavruGozOrta': tahminiYavruGozOrta,
+      'yavruYokMu': yavruYokMu,
+      'yavrusuzlukAnalizi': yavrusuzlukAnalizi,
+      'biyolojikCokusRiski': yavrusuzlukAnalizi['biyolojikCokusRiski'],
+      'geriDonusKapasitesi': yavrusuzlukAnalizi['geriDonusKapasitesi'],
+      'kaynakHarcamayaDegerMi': yavrusuzlukAnalizi['kaynakHarcamayaDegerMi'],
+      'yavrusuzlukSahaMesaji': yavrusuzlukAnalizi['sahaMesaji'],
       'tahminiPolenCita': tahminiPolenCita,
       'tahminiStokCita': tahminiStokCita,
       'hasatEdilebilirCita': hasatEdilebilirCita,
@@ -284,6 +466,29 @@ class KoloniBiyolojikModelServisi {
       'kovanGorselNotu': kovanYerlesimi['not'],
       'demografi': demografi,
       'kabiliyet': kabiliyet,
+      'riskAnalizi': riskAnalizi,
+      'genelRisk': riskAnalizi['genelRisk'],
+      'riskFreni': riskAnalizi['riskFreni'],
+      'anaRisk': riskAnalizi['anaRisk'],
+      'anaRiskBaslik': riskAnalizi['anaRiskBaslik'],
+      'riskKisaMesaj': riskAnalizi['kisaMesaj'],
+      'projeksiyon': projeksiyon,
+      'projeksiyonOzeti': projeksiyon['projeksiyonOzeti'],
+      'gelisimProjeksiyonu': projeksiyon['gelisimYonu'],
+      'toparlanmaProjeksiyonu': projeksiyon['toparlanmaYonu'],
+      'uretimProjeksiyonu': projeksiyon['uretimYonu'],
+      'yaslanmaProjeksiyonu': projeksiyon['yaslanmaYonu'],
+      'kisProjeksiyonu': projeksiyon['kisYonu'],
+      'alanProjeksiyonu': projeksiyon['alanYonu'],
+      'biyolojikProjeksiyon': biyolojikProjeksiyon,
+      'gelisimYonu': biyolojikProjeksiyon['gelisimYonu'],
+      'uretimYonu': biyolojikProjeksiyon['uretimYonu'],
+      'biyolojikMomentum': biyolojikProjeksiyon['biyolojikMomentum'],
+      'alanBaskisi': biyolojikProjeksiyon['alanBaskisi'],
+      'toparlanmaPotansiyeli': biyolojikProjeksiyon['toparlanmaPotansiyeli'],
+      'cokusRiski': biyolojikProjeksiyon['cokusRiski'],
+      'savunmaKirganligi': biyolojikProjeksiyon['savunmaKirganligi'],
+      'hasatEgilimi': biyolojikProjeksiyon['hasatEgilimi'],
       'ilgincBilgiler': _ilgincBilgiler(
         tahminiGozMin: tahminiGozMin,
         tahminiGozMax: tahminiGozMax,
@@ -296,6 +501,241 @@ class KoloniBiyolojikModelServisi {
       ),
       'yorum': yorum,
     };
+  }
+
+
+
+  static Map<String, dynamic> _koloniSinifiBelirle({
+    required int fizikselCita,
+    required int islevselCita,
+    required int islevselUretimCita,
+    required double aktivasyonOrani,
+    required bool balAkimiAktif,
+    required int hasatEdilebilirCita,
+  }) {
+    final int referansCita = islevselUretimCita > 0
+        ? islevselUretimCita
+        : (islevselCita > 0 ? islevselCita : fizikselCita);
+    final String kaynak = islevselUretimCita > 0
+        ? 'islevsel_uretim_cita'
+        : (islevselCita > 0 ? 'islevsel_toplam_cita' : 'fiziksel_cita');
+
+    String kod;
+    String etiket;
+    String aciklama;
+
+    if (referansCita <= 3) {
+      kod = 'ZAYIF';
+      etiket = 'Zayıf';
+      aciklama = 'Öncelik yaşatma, sıkıştırma ve ölçülü destek.';
+    } else if (referansCita <= 7) {
+      kod = 'GELISIM';
+      etiket = 'Gelişim';
+      aciklama = 'Öncelik düzenli gelişim ve ana/yavru dengesinin korunması.';
+    } else if (referansCita <= 9) {
+      kod = 'URETIM';
+      etiket = 'Üretim';
+      aciklama = 'Koloni üretim gücüne girmiştir; alan, oğul riski ve bal akımı birlikte izlenir.';
+    } else {
+      kod = 'HASAT';
+      etiket = 'Hasat';
+      aciklama = 'Koloni bal akımı ve hasat/alan yönetimi açısından güçlü banttadır.';
+    }
+
+    final bool hasatBeklentisiVarMi = referansCita >= 8 &&
+        (balAkimiAktif || hasatEdilebilirCita > 0 || fizikselCita >= 8) &&
+        aktivasyonOrani >= 0.70;
+
+    return {
+      'kod': kod,
+      'etiket': etiket,
+      'aciklama': aciklama,
+      'referansCita': referansCita,
+      'kaynak': kaynak,
+      'zayifKoloniMi': kod == 'ZAYIF',
+      'gelisimKolonisiMi': kod == 'GELISIM',
+      'uretimKolonisiMi': kod == 'URETIM',
+      'hasatKolonisiMi': kod == 'HASAT',
+      'hasatBeklentisiVarMi': hasatBeklentisiVarMi,
+    };
+  }
+
+  static bool _yavruYokMu({
+    required String yavruDuzeni,
+    required int yavruluCita,
+  }) {
+    final d = yavruDuzeni.trim().toLowerCase();
+    if (d == 'yok' || d.contains('yok')) return true;
+    return yavruluCita <= 0 && d.isEmpty;
+  }
+
+  static Map<String, dynamic> _yavrusuzlukAnaliziOlustur({
+    required Map<String, dynamic> koloni,
+    required Map<String, dynamic>? sonMuayene,
+    required List<Map<String, dynamic>> muayeneler,
+    required int toplamCita,
+    required int kuluclukCita,
+    required bool yavruYokMu,
+    required bool balAkimiAktif,
+    required int balliCita,
+    required double gunlukMomentum,
+    required String momentumEtiketi,
+    required String kaynakTipi,
+  }) {
+    final DateTime bugun = _gun(DateTime.now());
+    final DateTime sonMuayeneTarihi =
+        _tarih(sonMuayene?['tarih']) ?? bugun;
+    final DateTime? koloniBaslangic = _tarih(koloni['olusturmaTarihi']);
+
+    final List<Map<String, dynamic>> sirali = List<Map<String, dynamic>>.from(
+      muayeneler,
+    )..sort((a, b) {
+        final at = _tarih(a['tarih']) ?? DateTime(1900);
+        final bt = _tarih(b['tarih']) ?? DateTime(1900);
+        return bt.compareTo(at);
+      });
+
+    int ardisikYavrusuzMuayene = 0;
+    DateTime? sonYavruGorulenTarih;
+    bool yeniYavruDestegiVarMi = false;
+
+    for (final m in sirali) {
+      final String duzen = (m['yavruDuzeni'] ?? '').toString().trim();
+      final int yavrulu = _pozitifInt(m['yavruluCita']);
+      final bool kayittaYavruYok = _yavruYokMu(
+        yavruDuzeni: duzen,
+        yavruluCita: yavrulu,
+      );
+      final bool kapaliYavruDestegi =
+          _toBool(m['kapaliYavruluCitaAktarildi']) ||
+              _toBool(m['gunlukKapaliYavruGoruldu']);
+      if (kapaliYavruDestegi) yeniYavruDestegiVarMi = true;
+      if (kayittaYavruYok) {
+        ardisikYavrusuzMuayene++;
+        continue;
+      }
+      sonYavruGorulenTarih = _tarih(m['tarih']);
+      break;
+    }
+
+    final DateTime yavrusuzlukReferansi =
+        sonYavruGorulenTarih ?? koloniBaslangic ?? sonMuayeneTarihi;
+    final int yavrusuzGun =
+        math.max(0, sonMuayeneTarihi.difference(_gun(yavrusuzlukReferansi)).inDays);
+
+    final bool bolmeOgulKokenli = kaynakTipi.contains('bölme') ||
+        kaynakTipi.contains('bolme') ||
+        kaynakTipi.contains('oğul') ||
+        kaynakTipi.contains('ogul');
+    final bool kucukKoloni = toplamCita <= 4 || kuluclukCita <= 4;
+    final bool cokKucukKoloni = toplamCita <= 3 || kuluclukCita <= 3;
+    final bool trendZayif = gunlukMomentum < -0.02 ||
+        momentumEtiketi.toLowerCase().contains('zayıf') ||
+        momentumEtiketi.toLowerCase().contains('zayif') ||
+        momentumEtiketi.toLowerCase().contains('düş') ||
+        momentumEtiketi.toLowerCase().contains('dus');
+    final bool balBaskisiOlabilir = balAkimiAktif &&
+        toplamCita >= 6 &&
+        balliCita >= math.max(2, (toplamCita * 0.35).round());
+
+    int yasamGucu = 100;
+    if (!yavruYokMu) yasamGucu += 5;
+    if (yavruYokMu) yasamGucu -= 20;
+    if (cokKucukKoloni) {
+      yasamGucu -= 30;
+    } else if (kucukKoloni) {
+      yasamGucu -= 20;
+    }
+    if (yavrusuzGun >= 45) {
+      yasamGucu -= 40;
+    } else if (yavrusuzGun >= 35) {
+      yasamGucu -= 25;
+    } else if (yavrusuzGun >= 21) {
+      yasamGucu -= 12;
+    }
+    if (ardisikYavrusuzMuayene >= 3) {
+      yasamGucu -= 18;
+    } else if (ardisikYavrusuzMuayene >= 2) {
+      yasamGucu -= 10;
+    }
+    if (trendZayif) yasamGucu -= 15;
+    if (!yeniYavruDestegiVarMi && yavrusuzGun >= 30) yasamGucu -= 10;
+    if (balBaskisiOlabilir) yasamGucu += 10;
+    if (bolmeOgulKokenli && yavrusuzGun <= 30) yasamGucu += 8;
+    yasamGucu = yasamGucu.clamp(0, 100).toInt();
+
+    final String geriDonusKapasitesi;
+    final String biyolojikCokusRiski;
+    final bool kaynakHarcamayaDegerMi;
+    if (yasamGucu >= 70) {
+      geriDonusKapasitesi = 'iyi';
+      biyolojikCokusRiski = 'dusuk';
+      kaynakHarcamayaDegerMi = true;
+    } else if (yasamGucu >= 50) {
+      geriDonusKapasitesi = 'sinirli';
+      biyolojikCokusRiski = 'orta';
+      kaynakHarcamayaDegerMi = true;
+    } else if (yasamGucu >= 30) {
+      geriDonusKapasitesi = 'dusuk';
+      biyolojikCokusRiski = 'yuksek';
+      kaynakHarcamayaDegerMi = false;
+    } else {
+      geriDonusKapasitesi = 'kritik';
+      biyolojikCokusRiski = 'kritik';
+      kaynakHarcamayaDegerMi = false;
+    }
+
+    String sahaMesaji = '';
+    String oncelikliOneri = '';
+    if (!yavruYokMu) {
+      sahaMesaji = 'Yavru verisi mevcut; biyolojik geri dönüş kapasitesi yavru üretimiyle destekleniyor.';
+      oncelikliOneri = 'Normal biyolojik model akışıyla izle.';
+    } else if (bolmeOgulKokenli && yavrusuzGun <= 20) {
+      sahaMesaji = 'Bu aşamada yavru görülmemesi normal olabilir. Koloni ana kazanma veya çiftleşme döneminde olabilir; gereksiz açma riski artırır.';
+      oncelikliOneri = 'Kovanı gereksiz açma; yumurtlama kontrol penceresini bekle.';
+    } else if (balBaskisiOlabilir) {
+      sahaMesaji = 'Yavru yokluğu tek başına anasızlık anlamına gelmez. Bal akımı ve ballı çıta baskısı yumurtlama alanını daraltmış olabilir.';
+      oncelikliOneri = 'Önce alan ve bal baskısını değerlendir; erken ana müdahalesi yapma.';
+    } else if (geriDonusKapasitesi == 'dusuk' || geriDonusKapasitesi == 'kritik') {
+      sahaMesaji = 'Koloni uzun süredir yeni işçi üretmiyor. Bu güç seviyesinde mevcut nüfus yaşlanıyor olabilir; yoğun emek ve kaynak harcamak verimli olmayabilir.';
+      oncelikliOneri = 'Güçlü koloniyle birleştirme veya sınırlı müdahale öncelikli değerlendirilmelidir.';
+    } else if (yavrusuzGun >= 31) {
+      sahaMesaji = 'Yumurtlama beklenen döneme girilmiş. Yavru hâlâ yoksa geç çiftleşme, ana kaybı, bal baskısı veya zayıf koloni olasılıkları birlikte okunmalı.';
+      oncelikliOneri = '5–7 gün içinde tekrar kontrol et; koloni zayıflıyorsa beklemeyi uzatma.';
+    } else {
+      sahaMesaji = 'Yavru yokluğu izlenmeli; mevcut gün aralığında tek başına kesin anasızlık kararı verilmemelidir.';
+      oncelikliOneri = 'Koloni davranışı, polen gelişi ve bir sonraki muayene ile birlikte değerlendir.';
+    }
+
+    return {
+      'yavruYokMu': yavruYokMu,
+      'yavrusuzGun': yavrusuzGun,
+      'ardisikYavrusuzMuayeneSayisi': ardisikYavrusuzMuayene,
+      'sonYavruGorulenTarih': sonYavruGorulenTarih == null
+          ? ''
+          : '${sonYavruGorulenTarih.year.toString().padLeft(4, '0')}-${sonYavruGorulenTarih.month.toString().padLeft(2, '0')}-${sonYavruGorulenTarih.day.toString().padLeft(2, '0')}',
+      'yeniYavruDestegiVarMi': yeniYavruDestegiVarMi,
+      'bolmeOgulKokenli': bolmeOgulKokenli,
+      'kucukKoloni': kucukKoloni,
+      'trendZayif': trendZayif,
+      'balBaskisiOlabilir': balBaskisiOlabilir,
+      'yasamGucuSkoru': yasamGucu,
+      'geriDonusKapasitesi': geriDonusKapasitesi,
+      'biyolojikCokusRiski': biyolojikCokusRiski,
+      'kaynakHarcamayaDegerMi': kaynakHarcamayaDegerMi,
+      'sahaMesaji': sahaMesaji,
+      'oncelikliOneri': oncelikliOneri,
+    };
+  }
+
+  static DateTime? _tarih(dynamic deger) {
+    if (deger == null) return null;
+    if (deger is DateTime) return _gun(deger);
+    final s = deger.toString().trim();
+    if (s.isEmpty) return null;
+    final dt = DateTime.tryParse(s);
+    if (dt == null) return null;
+    return _gun(dt);
   }
 
   static String normalizeKovanTipi(dynamic deger) {
@@ -332,6 +772,7 @@ class KoloniBiyolojikModelServisi {
   static int _tahminiYavruCita(int kuluclukCita,
       {required String yavruDuzeni}) {
     final d = yavruDuzeni.toLowerCase();
+    if (d == 'yok' || d.contains('yok')) return 0;
     int temel;
     if (kuluclukCita <= 0) {
       temel = 0;
@@ -669,18 +1110,18 @@ class KoloniBiyolojikModelServisi {
 
     final String suruplukKonumMetni;
     if (!suruplukVarMi) {
-      suruplukKonumMetni = 'Koloni kaydında şurupluk işaretli değil.';
+      suruplukKonumMetni = '';
     } else if (suruplukKaldirildiMi) {
       suruplukKonumMetni =
-          'Şurupluk kaldırılmış; yerine petek düzeni devam ediyor.';
+          '';
     } else if (katAtildi && katReorganizasyonModu) {
       suruplukKonumMetni =
-          'Kat geçişinde şurupluk üst kattaki çekim grubuyla birlikte modellenir; yeni verilen petekler kuluçkalık içinde aktivasyon halinde gösterilir.';
+          '';
     } else if (katAtildi) {
       suruplukKonumMetni =
-          'Kat atıldığı için şurupluk üst katta modellenir; petek aktivasyonu ayrıca izlenir.';
+          '';
     } else {
-      suruplukKonumMetni = 'Kat öncesi şurupluk alt katta en solda modellenir.';
+      suruplukKonumMetni = '';
     }
 
     return {
@@ -737,7 +1178,7 @@ class KoloniBiyolojikModelServisi {
   static String _gelisimAlaniMetni(List<String> yerlesim, int kapasite) {
     if (yerlesim.isEmpty) return 'Belirsiz';
     if (yerlesim.length >= kapasite)
-      return 'Kuluçkalık dolu; yeni gelişim alanı kat/ballık yönetimiyle açılmalı.';
+      return '';
     final adaylar = <int>[];
     for (int i = 0; i < yerlesim.length; i++) {
       final s = yerlesim[i].toLowerCase();
@@ -941,45 +1382,139 @@ class KoloniBiyolojikModelServisi {
     required int kuluclukCita,
     required int ballikCita,
     required int balliCita,
+    required double islevselToplamCita,
+    required int islevselUretimCita,
+    required double aktivasyonOrani,
+    required bool riskliSisirme,
+    required bool uretimGuvenliMi,
+    required bool balAkimiAktif,
+    Map<String, dynamic>? sezonBiyoloji,
     required double gunlukMomentum,
     required String momentumEtiketi,
     required String yavruDuzeni,
   }) {
     final int toplam = _toInt(demografi['toplamAri']);
+    final double biyolojikGucCita = islevselToplamCita > 0
+        ? islevselToplamCita
+        : (islevselUretimCita > 0
+            ? islevselUretimCita.toDouble()
+            : (kuluclukCita + ballikCita).toDouble());
+    final double koloniGucuKatsayisi =
+        _dokumanKoloniGucuKatsayisi(biyolojikGucCita);
+    final double gencIsciKatsayisi = _dokumanGencIsciKatsayisi(
+      demografi['gencIsciOran'],
+    );
+    final Map<String, dynamic> sezonBiyolojiMap = sezonBiyoloji == null
+        ? const <String, dynamic>{}
+        : Map<String, dynamic>.from(sezonBiyoloji);
+    final double sezonKatsayisiHam = _toDouble(sezonBiyolojiMap['aktivasyonKatsayisi']);
+    final double sezonKatsayisi = sezonKatsayisiHam > 0
+        ? sezonKatsayisiHam.clamp(0.20, 1.50).toDouble()
+        : (balAkimiAktif ? 1.50 : 1.00);
+    final double riskFreni = _dokumanRiskFreni(
+      aktivasyonOrani: aktivasyonOrani,
+      riskliSisirme: riskliSisirme,
+      uretimGuvenliMi: uretimGuvenliMi,
+      yavruDuzeni: yavruDuzeni,
+      kuluclukCita: kuluclukCita,
+    );
+
     int scoreFrom(dynamic oran, double hedef) {
       final o = _toDouble(oran);
       return ((o / hedef) * 100).round().clamp(0, 100).toInt();
     }
 
-    final petek = (scoreFrom(demografi['petekOrucuOran'], 18) +
+    int sahaPuaniUygula(
+      int bazPuan, {
+      required double gucEtkisi,
+      double gencIsciEtkisi = 0.0,
+      double sezonEtkisi = 0.0,
+      double riskEtkisi = 0.0,
+    }) {
+      final double guc = 1 + ((koloniGucuKatsayisi - 1) * gucEtkisi);
+      final double genc = 1 + ((gencIsciKatsayisi - 1) * gencIsciEtkisi);
+      final double sezon = 1 + ((sezonKatsayisi - 1) * sezonEtkisi);
+      final double risk = 1 - ((1 - riskFreni) * riskEtkisi);
+      return (bazPuan * guc * genc * sezon * risk)
+          .round()
+          .clamp(0, 100)
+          .toInt();
+    }
+
+    final String duzen = yavruDuzeni.toLowerCase();
+    final int petekBaz = (scoreFrom(demografi['petekOrucuOran'], 18) +
             (scoreFrom(demografi['gencIsciOran'], 48) * 0.15).round() +
             (gunlukMomentum >= 0.12 ? 12 : 0) +
-            (kuluclukCita >= 6 ? 6 : 0))
+            (duzen.contains('blok') ? 4 : 0))
         .clamp(0, 100)
         .toInt();
-    final yavruBakim = (scoreFrom(demografi['bakiciOran'], 30) +
+    final int yavruBakimBaz = (scoreFrom(demografi['bakiciOran'], 30) +
             (scoreFrom(demografi['gencIsciOran'], 48) * 0.10).round() +
-            (yavruDuzeni.toLowerCase().contains('blok') ? 10 : 0))
+            (duzen.contains('blok') ? 10 : 0))
         .clamp(0, 100)
         .toInt();
-    final nektar = (scoreFrom(demografi['tarlaciOran'], 40) +
+    final int nektarBaz = (scoreFrom(demografi['tarlaciOran'], 40) +
             (ballikCita > 0 ? 10 : 0) +
             (toplam >= 16000 ? 8 : 0))
         .clamp(0, 100)
         .toInt();
-    final balIsleme = ((scoreFrom(demografi['icIsciOran'], 20) + nektar) / 2)
+
+    final petek = sahaPuaniUygula(
+      petekBaz,
+      gucEtkisi: 0.55,
+      gencIsciEtkisi: 0.35,
+      sezonEtkisi: 0.35,
+      riskEtkisi: 0.65,
+    );
+    final yavruBakim = sahaPuaniUygula(
+      yavruBakimBaz,
+      gucEtkisi: 0.35,
+      gencIsciEtkisi: 0.45,
+      sezonEtkisi: 0.15,
+      riskEtkisi: 0.50,
+    );
+    final nektar = sahaPuaniUygula(
+      nektarBaz,
+      gucEtkisi: 0.60,
+      gencIsciEtkisi: 0.10,
+      sezonEtkisi: 0.55,
+      riskEtkisi: 0.35,
+    );
+    final balIslemeBaz = ((scoreFrom(demografi['icIsciOran'], 20) + nektar) / 2)
         .round()
         .clamp(0, 100)
         .toInt();
-    final kis =
-        ((toplam / 18000) * 55 + (balliCita * 8) + (kuluclukCita >= 6 ? 15 : 0))
-            .round()
-            .clamp(0, 100)
-            .toInt();
-    final ciftlesme =
+    final balIsleme = sahaPuaniUygula(
+      balIslemeBaz,
+      gucEtkisi: 0.50,
+      gencIsciEtkisi: 0.25,
+      sezonEtkisi: 0.45,
+      riskEtkisi: 0.45,
+    );
+    final kisBaz = ((toplam / 18000) * 55 +
+            (balliCita * 8) +
+            (kuluclukCita >= 6 ? 15 : 0))
+        .round()
+        .clamp(0, 100)
+        .toInt();
+    final kis = sahaPuaniUygula(
+      kisBaz,
+      gucEtkisi: 0.40,
+      gencIsciEtkisi: 0.10,
+      sezonEtkisi: 0.0,
+      riskEtkisi: 0.30,
+    );
+    final ciftlesmeBaz =
         (scoreFrom(demografi['erkekOran'], 5) + (kuluclukCita >= 7 ? 10 : 0))
             .clamp(0, 100)
             .toInt();
+    final ciftlesme = sahaPuaniUygula(
+      ciftlesmeBaz,
+      gucEtkisi: 0.25,
+      gencIsciEtkisi: 0.0,
+      sezonEtkisi: 0.0,
+      riskEtkisi: 0.15,
+    );
 
     return {
       'petekOrmePuani': petek,
@@ -993,6 +1528,11 @@ class KoloniBiyolojikModelServisi {
       'nektarToplamaDurumu': _kapasiteDurumu(nektar),
       'balIslemeDurumu': _kapasiteDurumu(balIsleme),
       'kisDayanimDurumu': _kapasiteDurumu(kis),
+      'biyolojikGucCita': _yuvarla(biyolojikGucCita),
+      'koloniGucuKatsayisi': _yuvarla(koloniGucuKatsayisi),
+      'gencIsciKatsayisi': _yuvarla(gencIsciKatsayisi),
+      'sezonKatsayisi': _yuvarla(sezonKatsayisi),
+      'riskFreni': _yuvarla(riskFreni),
       'genisletmeGuvenligi': _genisletmeGuvenligi(
         petek: petek,
         yavru: yavruBakim,
@@ -1022,6 +1562,295 @@ class KoloniBiyolojikModelServisi {
       ),
       'ozet': _kabiliyetOzeti(petek, yavruBakim, nektar, balIsleme, kis),
     };
+  }
+
+
+  static Map<String, dynamic> _biyolojikProjeksiyonOlustur({
+    required Map<String, dynamic> demografi,
+    required Map<String, dynamic> kabiliyet,
+    required int kuluclukCita,
+    required int ballikCita,
+    required int balliCita,
+    required double islevselToplamCita,
+    required int islevselUretimCita,
+    required double aktivasyonOrani,
+    required bool riskliSisirme,
+    required bool uretimGuvenliMi,
+    required bool balAkimiAktif,
+    Map<String, dynamic>? sezonBiyoloji,
+    required double gunlukMomentum,
+    required String momentumEtiketi,
+    required bool yavruYokMu,
+    required Map<String, dynamic> yavrusuzlukAnalizi,
+    required int tahminiYavruCita,
+    required int tahminiStokCita,
+    required int hasatEdilebilirCita,
+    required String koloniSinifi,
+  }) {
+    final double biyolojikGucCita = islevselToplamCita > 0
+        ? islevselToplamCita
+        : (islevselUretimCita > 0
+            ? islevselUretimCita.toDouble()
+            : (kuluclukCita + ballikCita).toDouble());
+    final double koloniGucuKatsayisi =
+        _dokumanKoloniGucuKatsayisi(biyolojikGucCita);
+    final double gencIsciKatsayisi = _dokumanGencIsciKatsayisi(
+      demografi['gencIsciOran'],
+    );
+    final double riskFreni = _toDouble(kabiliyet['riskFreni']) > 0
+        ? _toDouble(kabiliyet['riskFreni'])
+        : _dokumanRiskFreni(
+            aktivasyonOrani: aktivasyonOrani,
+            riskliSisirme: riskliSisirme,
+            uretimGuvenliMi: uretimGuvenliMi,
+            yavruDuzeni: '',
+            kuluclukCita: kuluclukCita,
+          );
+
+    final int petek = _toInt(kabiliyet['petekOrmePuani']);
+    final int yavruBakim = _toInt(kabiliyet['yavruBakimPuani']);
+    final int nektar = _toInt(kabiliyet['nektarToplamaPuani']);
+    final int balIsleme = _toInt(kabiliyet['balIslemePuani']);
+    final int kisDayanim = _toInt(kabiliyet['kisDayanimPuani']);
+    final int gencIsciAri = _toInt(demografi['gencIsciAri']);
+    final int tarlaciAri = _toInt(demografi['tarlaciAri']);
+    final int toplamAri = _toInt(demografi['toplamAri']);
+    final String geriDonus =
+        (yavrusuzlukAnalizi['geriDonusKapasitesi'] ?? '').toString();
+    final String cokusRiskiMevcut =
+        (yavrusuzlukAnalizi['biyolojikCokusRiski'] ?? '').toString();
+    final bool kaynakDegerli = yavrusuzlukAnalizi['kaynakHarcamayaDegerMi'] != false;
+
+    int sinirla(num deger) => deger.round().clamp(0, 100).toInt();
+
+    final int isGucuSkoru = sinirla(
+      (petek * 0.22) +
+          (yavruBakim * 0.26) +
+          (nektar * 0.18) +
+          (balIsleme * 0.18) +
+          (kisDayanim * 0.16),
+    );
+    final int gencIsciSkoru = sinirla(
+      50 + ((gencIsciKatsayisi - 1.0) * 85) + (gencIsciAri / 500),
+    );
+    final int biyolojikGucSkoru = sinirla(
+      (biyolojikGucCita / 10.0) * 75 + ((koloniGucuKatsayisi - 1.0) * 35),
+    );
+    final int momentumSkoru = sinirla(
+      50 + (gunlukMomentum * 210),
+    );
+    final int aktivasyonSkoru = sinirla(aktivasyonOrani * 100);
+    final int riskSkoru = sinirla(riskFreni * 100);
+    final int yavruDestekSkoru = yavruYokMu
+        ? 18
+        : sinirla(35 + (tahminiYavruCita * 9) + (yavruBakim * 0.25));
+
+    int gelisimSkoru = sinirla(
+      (isGucuSkoru * 0.24) +
+          (biyolojikGucSkoru * 0.22) +
+          (gencIsciSkoru * 0.18) +
+          (momentumSkoru * 0.18) +
+          (yavruDestekSkoru * 0.18),
+    );
+    int alanDoldurmaSkoru = sinirla(
+      (aktivasyonSkoru * 0.45) +
+          (petek * 0.20) +
+          (biyolojikGucSkoru * 0.25) +
+          (balAkimiAktif ? 10 : 0),
+    );
+    int toparlanmaSkoru = sinirla(
+      (yavruBakim * 0.25) +
+          (gencIsciSkoru * 0.20) +
+          (momentumSkoru * 0.20) +
+          (riskSkoru * 0.20) +
+          (kaynakDegerli ? 15 : 0),
+    );
+    int cokusSkoru = sinirla(
+      (100 - riskSkoru) * 0.32 +
+          (yavruYokMu ? 28 : 0) +
+          (gunlukMomentum < -0.02 ? 18 : 0) +
+          (biyolojikGucCita <= 4 ? 14 : 0) +
+          (aktivasyonOrani < 0.45 ? 10 : 0),
+    );
+    int savunmaSkoru = sinirla(
+      100 -
+          ((biyolojikGucCita <= 4 ? 28 : 0) +
+              (riskliSisirme ? 18 : 0) +
+              (aktivasyonOrani < 0.65 ? 12 : 0) +
+              (tahminiStokCita <= 1 ? 10 : 0)),
+    );
+    int hasatSkoru = sinirla(
+      (nektar * 0.28) +
+          (balIsleme * 0.30) +
+          (biyolojikGucSkoru * 0.18) +
+          (balliCita * 6) +
+          (hasatEdilebilirCita * 10) +
+          (balAkimiAktif ? 12 : 0),
+    );
+
+    if (!uretimGuvenliMi) {
+      gelisimSkoru = sinirla(gelisimSkoru - 8);
+      alanDoldurmaSkoru = sinirla(alanDoldurmaSkoru - 10);
+      hasatSkoru = sinirla(hasatSkoru - 8);
+    }
+    if (cokusRiskiMevcut == 'yuksek') cokusSkoru = math.max(cokusSkoru, 70);
+    if (cokusRiskiMevcut == 'kritik') cokusSkoru = math.max(cokusSkoru, 86);
+    if (geriDonus == 'iyi') toparlanmaSkoru = math.max(toparlanmaSkoru, 70);
+    if (geriDonus == 'sinirli') toparlanmaSkoru = math.max(toparlanmaSkoru, 52);
+    if (geriDonus == 'dusuk' || geriDonus == 'kritik') {
+      toparlanmaSkoru = math.min(toparlanmaSkoru, 45);
+    }
+
+    String seviye(int skor) {
+      if (skor >= 75) return 'yüksek';
+      if (skor >= 55) return 'orta';
+      if (skor >= 40) return 'sınırlı';
+      return 'düşük';
+    }
+
+    String riskSeviyesi(int skor) {
+      if (skor >= 80) return 'kritik';
+      if (skor >= 60) return 'yüksek';
+      if (skor >= 35) return 'orta';
+      return 'düşük';
+    }
+
+    final String gelisimYonu = gelisimSkoru >= 72 && gunlukMomentum >= 0.02
+        ? 'gelişim yönü güçlü'
+        : (gelisimSkoru >= 55
+            ? 'gelişim yönü dengeli'
+            : (cokusSkoru >= 60
+                ? 'gelişim baskılanıyor'
+                : 'gelişim sınırlı'));
+    final String uretimYonu = balAkimiAktif && hasatSkoru >= 65
+        ? 'bala yöneliyor'
+        : (yavruBakim >= nektar && tahminiYavruCita > 0
+            ? 'yavru düzenini güçlendiriyor'
+            : (tahminiStokCita <= 1
+                ? 'stok desteğine ihtiyaç duyabilir'
+                : 'dengeli saha düzeninde'));
+    final String biyolojikMomentum = momentumSkoru >= 72
+        ? 'ivmeleniyor'
+        : (momentumSkoru >= 52
+            ? 'dengede'
+            : (momentumSkoru >= 38 ? 'yavaşlıyor' : 'kırılıyor'));
+    final String alanBaskisi = alanDoldurmaSkoru >= 78
+        ? 'alan baskısı yüksek'
+        : (alanDoldurmaSkoru >= 58
+            ? 'alan kullanımı dengeli'
+            : 'boş hacim taşıyor');
+    final String toparlanmaPotansiyeli = seviye(toparlanmaSkoru);
+    final String cokusRiski = riskSeviyesi(cokusSkoru);
+    final String savunmaKirganligi = savunmaSkoru >= 70
+        ? 'düşük'
+        : (savunmaSkoru >= 50 ? 'orta' : 'yüksek');
+    final String hasatEgilimi = hasatSkoru >= 75 && biyolojikGucCita >= 8
+        ? 'yüksek'
+        : (hasatSkoru >= 55 && biyolojikGucCita >= 7 ? 'orta' : 'düşük');
+
+    final int yediGunSkoru = sinirla(
+      (isGucuSkoru * 0.28) +
+          (yavruDestekSkoru * 0.22) +
+          (momentumSkoru * 0.25) +
+          (riskSkoru * 0.25),
+    );
+    final int ondortGunSkoru = sinirla(
+      (yediGunSkoru * 0.55) +
+          (toparlanmaSkoru * 0.20) +
+          (aktivasyonSkoru * 0.15) +
+          (biyolojikGucSkoru * 0.10),
+    );
+
+    String yonEtiketi(int skor) {
+      if (skor >= 75) return 'olumlu güçlenme beklenir';
+      if (skor >= 55) return 'kontrollü gelişim beklenir';
+      if (skor >= 40) return 'temkinli izleme gerekir';
+      return 'zayıflama riski izlenmeli';
+    }
+
+    String oncelikliRisk = '';
+    if (cokusSkoru >= 70) {
+      oncelikliRisk = 'biyolojik çöküş riski';
+    } else if (riskliSisirme || aktivasyonOrani < 0.65) {
+      oncelikliRisk = 'hacim aktivasyonu tamamlanmamış';
+    } else if (yavruYokMu) {
+      oncelikliRisk = 'yavru düzeni belirsiz';
+    } else if (balAkimiAktif && hasatSkoru < 55) {
+      oncelikliRisk = 'bal akımına üretim kapasitesi sınırlı';
+    } else if (tahminiStokCita <= 1 && !balAkimiAktif) {
+      oncelikliRisk = 'stok güvenliği sınırlı';
+    }
+
+    final String sahaOzeti = oncelikliRisk.isNotEmpty
+        ? '$gelisimYonu; öncelikli risk: $oncelikliRisk.'
+        : '$gelisimYonu; $uretimYonu.';
+
+    return {
+      'gelisimYonu': gelisimYonu,
+      'uretimYonu': uretimYonu,
+      'biyolojikMomentum': biyolojikMomentum,
+      'alanBaskisi': alanBaskisi,
+      'toparlanmaPotansiyeli': toparlanmaPotansiyeli,
+      'cokusRiski': cokusRiski,
+      'savunmaKirganligi': savunmaKirganligi,
+      'hasatEgilimi': hasatEgilimi,
+      'yediGunlukYon': yonEtiketi(yediGunSkoru),
+      'ondortGunlukYon': yonEtiketi(ondortGunSkoru),
+      'oncelikliRisk': oncelikliRisk,
+      'sahaOzeti': sahaOzeti,
+      'koloniSinifi': koloniSinifi,
+      'isGucuSkoru': isGucuSkoru,
+      'gencIsciSkoru': gencIsciSkoru,
+      'biyolojikGucSkoru': biyolojikGucSkoru,
+      'momentumSkoru': momentumSkoru,
+      'aktivasyonSkoru': aktivasyonSkoru,
+      'riskSkoru': riskSkoru,
+      'yavruDestekSkoru': yavruDestekSkoru,
+      'gelisimSkoru': gelisimSkoru,
+      'alanDoldurmaSkoru': alanDoldurmaSkoru,
+      'toparlanmaSkoru': toparlanmaSkoru,
+      'cokusSkoru': cokusSkoru,
+      'savunmaSkoru': savunmaSkoru,
+      'hasatSkoru': hasatSkoru,
+      'yediGunSkoru': yediGunSkoru,
+      'ondortGunSkoru': ondortGunSkoru,
+      'toplamAri': toplamAri,
+      'gencIsciAri': gencIsciAri,
+      'tarlaciAri': tarlaciAri,
+      'dokumanReferansi': 'Projeksiyon = iş gücü + yavru desteği + pozitif trend - risk.',
+    };
+  }
+
+  static double _dokumanKoloniGucuKatsayisi(double islevselCita) {
+    if (islevselCita <= 2) return 0.45;
+    if (islevselCita <= 4) return 0.70;
+    if (islevselCita <= 6) return 1.00;
+    if (islevselCita <= 8) return 1.20;
+    if (islevselCita <= 10) return 1.35;
+    return 1.45;
+  }
+
+  static double _dokumanGencIsciKatsayisi(dynamic gencIsciOran) {
+    final double oran = _toDouble(gencIsciOran);
+    if (oran < 35) return 0.70;
+    if (oran >= 48) return 1.20;
+    return 1.00;
+  }
+
+  static double _dokumanRiskFreni({
+    required double aktivasyonOrani,
+    required bool riskliSisirme,
+    required bool uretimGuvenliMi,
+    required String yavruDuzeni,
+    required int kuluclukCita,
+  }) {
+    final String duzen = yavruDuzeni.toLowerCase();
+    if (riskliSisirme || aktivasyonOrani < 0.35) return 0.55;
+    if (!uretimGuvenliMi || duzen.contains('dağınık') || duzen.contains('daginik') || duzen.contains('kambur')) {
+      return 0.75;
+    }
+    if (kuluclukCita <= 4 || aktivasyonOrani < 0.70) return 0.90;
+    return 1.00;
   }
 
   static String _kapasiteDurumu(int puan) {
@@ -1173,9 +2002,18 @@ class KoloniBiyolojikModelServisi {
     required double hasatPotansiyeliMaxKg,
     required Map<String, dynamic> kabiliyet,
     required String yavruBlok,
+    Map<String, dynamic>? yavrusuzlukAnalizi,
   }) {
     if (toplamCita <= 0) {
       return 'Model için çıta verisi yok. İlk muayene sonrası tahmini biyolojik düzen okunabilir.';
+    }
+    final String yavrusuzlukMesaji =
+        (yavrusuzlukAnalizi?['sahaMesaji'] ?? '').toString().trim();
+    final String geriDonusKapasitesi =
+        (yavrusuzlukAnalizi?['geriDonusKapasitesi'] ?? '').toString().trim();
+    if (yavrusuzlukMesaji.isNotEmpty &&
+        (geriDonusKapasitesi == 'dusuk' || geriDonusKapasitesi == 'kritik')) {
+      return yavrusuzlukMesaji;
     }
     if (ballikCita > 0) {
       return 'Alt kuluçkalık $kuluclukKapasitesi çıta kabul edildi. Üstteki $ballikCita çıta ballık/kat alanı olarak yorumlandı. Merkez yavru bloğu ($yavruBlok) korunmalı.';
@@ -1188,6 +2026,15 @@ class KoloniBiyolojikModelServisi {
     }
     return 'Kuluçkalık dolu kabul edilir. Kat, sıkışıklık ve oğul baskısı birlikte izlenmeli. ${kabiliyet['ozet']}';
   }
+
+  static int? _nullableInt(dynamic deger) {
+    if (deger == null) return null;
+    if (deger is int) return deger;
+    if (deger is double) return deger.round();
+    return int.tryParse(deger.toString());
+  }
+
+  static DateTime _gun(DateTime t) => DateTime(t.year, t.month, t.day);
 
   static bool _toBool(dynamic deger) {
     if (deger == true) return true;

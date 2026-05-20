@@ -163,6 +163,54 @@ class MuayeneDetaySayfasi extends StatelessWidget {
     return secimler;
   }
 
+  bool _yavruDuzeniYokMu() {
+    final yavruDuzeni = _metin(muayene['yavruDuzeni'], varsayilan: '');
+    return yavruDuzeni.trim().toLowerCase() == 'yok';
+  }
+
+  Widget _yavruYokKayitKutusu() {
+    if (!_yavruDuzeniYokMu()) return const SizedBox.shrink();
+
+    final bool anaSureciKaydi =
+        _boolAlan(muayene['anasizBirakildiMi']) ||
+        _boolAlan(muayene['bolmeYapildi']) ||
+        _boolAlan(muayene['ogulAtti']) ||
+        _boolAlan(muayene['gunlukKapaliYavruGoruldu']) ||
+        _anaKazanmaYontemiMetni(muayene['anaKazanmaYontemi']) != '-';
+
+    final String mesaj = anaSureciKaydi
+        ? 'Bu muayenede yavru düzeni “Yok” kaydedilmiş. Aktif ana kazanma/bölme/oğul bağlamında sistem bunu önce biyolojik gün penceresine göre yorumlar; erken dönemde normal bekleme, gecikmiş dönemde yavrusuzluk tanısı olarak değerlendirir.'
+        : 'Bu muayenede yavru düzeni “Yok” kaydedilmiş. Sistem biyolojik modelde yavrulu çıtayı 0 kabul eder ve koloni geri dönüş kapasitesini bu bilgiyle okur.';
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE3F2FD),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.blueGrey.withOpacity(0.35)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.info_outline, color: Colors.blueGrey, size: 20),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              mesaj,
+              style: const TextStyle(
+                fontSize: 12.5,
+                height: 1.45,
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   List<Widget> _tetikSatirlari() {
     final satirlar = <Widget>[];
 
@@ -254,6 +302,7 @@ class MuayeneDetaySayfasi extends StatelessWidget {
                 ),
               ],
             ),
+            _yavruYokKayitKutusu(),
             if (tetikSatirlari.isNotEmpty)
               _bolumKart(
                 baslik: 'TETİKLER',

@@ -1,6 +1,8 @@
 import 'veritabani_servisi.dart';
 import 'ari_biyoloji_servisi.dart';
 import 'trend_servisi.dart';
+import 'arilik_uyari_servisi.dart';
+import 'cita_aktivasyon_servisi.dart';
 
 class SurecUyarisi {
   final String kod;
@@ -176,6 +178,13 @@ class SurecMotoru {
       );
       if (bolmeSonrasi != null) surecler.add(bolmeSonrasi);
     }
+
+    final yavruYokTani = await _yavruYokTaniSureci(
+      koloni: koloni,
+      muayeneler: muayeneler,
+      bugun: bugun,
+    );
+    if (yavruYokTani != null) surecler.add(yavruYokTani);
 
     final hasatSonrasi = _hasatSonrasiSureci(
       muayeneler: muayeneler,
@@ -445,6 +454,16 @@ class SurecMotoru {
       return null;
     }
 
+    // Bölme sonrası toparlanma yalnızca takvimle açık kalmaz.
+    // Bölünen ana koloni 7 aktif/işlevsel çıtaya ulaştıysa bölme travması atlatılmış kabul edilir.
+    // Bu durumda süreç kartı geri çekilir; kat, besleme ve hacim yönetimi gibi yönetim kararları devralır.
+    if (_bolmeToparlanmasiBiyolojikOlarakKapandiMi(
+      muayeneler: muayeneler,
+      baslangic: tetik,
+    )) {
+      return null;
+    }
+
     if (gun <= 30) {
       return SurecUyarisi(
         kod: 'BOLME_SONRASI',
@@ -468,6 +487,373 @@ class SurecMotoru {
       referansTarihMetni: _format(tetik),
     );
   }
+
+
+  static bool _bolmeToparlanmasiBiyolojikOlarakKapandiMi({
+    required List<Map<String, dynamic>> muayeneler,
+    required DateTime baslangic,
+  }) {
+    for (final m in muayeneler) {
+      final DateTime? tarih = _parseTarih(m['tarih']);
+      if (tarih == null || !tarih.isAfter(_gun(baslangic))) continue;
+      if (_toInt(m['kovanSondu']) == 1) continue;
+
+      final int cita = _toInt(m['citaSayisi']);
+      final bool yavruGeriDondu = _muayenedeYavruGorulduMu(m);
+      final bool duzenliYavruVar = yavruGeriDondu && !_muayenedeYavruYokMu(m);
+
+      // Bölme toparlanması yalnızca takvimle kapanmaz.
+      // Asıl kapanış sinyali: yavrunun geri dönmesi + koloninin yeniden üretim hacmine yaklaşmasıdır.
+      // 7 çıta altındaki kolonilerde yavru dönse bile süreç, destek yönetimiyle izlenmeye devam eder.
+      if (cita >= 7 && duzenliYavruVar) return true;
+
+      // Kullanıcı özellikle günlük/kapalı yavru gördüğünü işaretlediyse ve koloni 6 çıtanın altına düşmemişse,
+      // bölme travması kapanmış kabul edilir. Sonraki kararları besleme/alan/yönetim katmanı devralır.
+      if (cita >= 6 && _toInt(m['gunlukKapaliYavruGoruldu']) == 1) return true;
+    }
+
+    return false;
+  }
+
+
+  static Future<SurecUyarisi?> _yavruYokTaniSureci({
+    required Map<String, dynamic> koloni,
+    required List<Map<String, dynamic>> muayeneler,
+    required DateTime bugun,
+  }) async {
+    if (muayeneler.isEmpty) return null;
+
+    final son = muayeneler.first;
+    final DateTime? sonTarih = _parseTarih(son['tarih']);
+    if (sonTarih == null) return null;
+
+    final bool yavruYok = _muayenedeYavruYokMu(son);
+    if (!yavruYok) return null;
+
+    final DateTime? anasizlikBaslangic = _anasizlikBaslangiciBul(
+      koloni: koloni,
+      muayeneler: muayeneler,
+    );
+    final DateTime? ogulTetik = _sonTetikTarihi(muayeneler, 'ogulAtti');
+    final DateTime? bolmeTetik = _sonTetikTarihi(muayeneler, 'bolmeYapildi');
+
+    DateTime? referans = anasizlikBaslangic ?? ogulTetik ?? bolmeTetik;
+    String aktifBaglam = '';
+    String grup = 'YAVRU_YOK';
+
+    if (anasizlikBaslangic != null) {
+      aktifBaglam = 'ana kazanma';
+      grup = 'ANASIZLIK';
+    } else if (ogulTetik != null) {
+      aktifBaglam = 'oğul sonrası';
+      grup = 'OGUL_SONRASI';
+    } else if (bolmeTetik != null) {
+      aktifBaglam = 'bölme sonrası';
+      grup = 'BOLME';
+    }
+
+    final bool aktifAnaBaglamiVar = referans != null;
+    referans ??= sonTarih;
+
+    final int gun = bugun.difference(_gun(referans)).inDays;
+    if (gun < 0) return null;
+
+    if (aktifAnaBaglamiVar) {
+      if (_surecKapandiMi(muayeneler: muayeneler, baslangic: referans)) {
+        return null;
+      }
+      if (gun > _anasizlikMaxGun) {
+        return null;
+      }
+    }
+
+    final int toplamCita = _toInt(son['citaSayisi']);
+    final int balliCita = _toInt(son['bal_cita']);
+    final bool kucukKoloni = toplamCita > 0 && toplamCita <= 4;
+    final bool cokKucukKoloni = toplamCita > 0 && toplamCita <= 3;
+    final int ardisikYavrusuz = _ardisikYavrusuzMuayeneSayisi(muayeneler);
+    final DateTime? sonYavruTarihi = _sonYavruGorulenTarih(muayeneler);
+    final int yavrusuzGun = sonYavruTarihi == null
+        ? gun
+        : bugun.difference(_gun(sonYavruTarihi)).inDays.clamp(0, 9999).toInt();
+
+    Map<String, dynamic> trend = const <String, dynamic>{};
+    try {
+      final int koloniId = _toInt(koloni['id'] ?? son['koloniId']);
+      if (koloniId > 0) {
+        trend = await TrendServisi.koloniTrendiGetir(koloniId);
+      }
+    } catch (_) {
+      trend = const <String, dynamic>{};
+    }
+
+    final double gunlukMomentum = _toDouble(trend['gunlukMomentum']);
+    final String trendMetni =
+        '${trend['trend'] ?? ''} ${trend['momentumEtiketi'] ?? ''}'.toLowerCase();
+    final bool trendZayif = gunlukMomentum < -0.02 ||
+        trendMetni.contains('düş') ||
+        trendMetni.contains('dus') ||
+        trendMetni.contains('zayıf') ||
+        trendMetni.contains('zayif');
+
+    final bool balAkimiAktif = await _balAkimiAktifMi(
+      bugun: bugun,
+      arilikId: _toInt(koloni['arilikId']),
+    );
+
+    final String mizac = (son['mizac'] ?? '').toString().trim().toLowerCase();
+    final bool koloniSakin = mizac.contains('sakin');
+    final bool koloniHuzursuz = mizac.contains('sinirli') ||
+        mizac.contains('saldırgan') ||
+        mizac.contains('saldirgan');
+    final bool? polenGelisiVar =
+        _notEtiketiBoolOku(son['notlar'], 'TANI_POLEN');
+    final bool? balGelisiGuclu =
+        _notEtiketiBoolOku(son['notlar'], 'TANI_BAL_GELISI');
+
+    final bool balBaskisiOlabilir = balAkimiAktif &&
+        toplamCita >= 6 &&
+        (balGelisiGuclu == true ||
+            balliCita >= mathMaxInt(2, (toplamCita * 0.35).round()));
+
+    final bool ariKusuRiski = await _arilikRiskiAktifMi(
+      bugun,
+      'ari_kusu',
+      arilikId: _toInt(koloni['arilikId']),
+    );
+
+    final bool erkekYavruBaskin = _erkekYavruBaskinMi(son);
+    final bool yalanciAnaSuphesi = _yalanciAnaSuphesiVarMi(son);
+
+    int yasamGucu = 100;
+    yasamGucu -= 20;
+    if (cokKucukKoloni) {
+      yasamGucu -= 30;
+    } else if (kucukKoloni) {
+      yasamGucu -= 20;
+    }
+    if (gun >= 43 || yavrusuzGun >= 45) {
+      yasamGucu -= 40;
+    } else if (gun >= 36 || yavrusuzGun >= 35) {
+      yasamGucu -= 25;
+    } else if (gun >= 21 || yavrusuzGun >= 21) {
+      yasamGucu -= 10;
+    }
+    if (ardisikYavrusuz >= 3) {
+      yasamGucu -= 18;
+    } else if (ardisikYavrusuz >= 2) {
+      yasamGucu -= 10;
+    }
+    if (trendZayif) yasamGucu -= 15;
+    if (koloniHuzursuz) yasamGucu -= 6;
+    if (polenGelisiVar == false) yasamGucu -= 6;
+    if (erkekYavruBaskin || yalanciAnaSuphesi) yasamGucu -= 25;
+    if (balBaskisiOlabilir) yasamGucu += 10;
+    if (koloniSakin) yasamGucu += 4;
+    if (polenGelisiVar == true) yasamGucu += 6;
+    if (aktifAnaBaglamiVar && gun <= 30) yasamGucu += 8;
+    yasamGucu = yasamGucu.clamp(0, 100).toInt();
+
+    final List<String> gerekceler = <String>[
+      if (aktifAnaBaglamiVar) '$aktifBaglam sürecinden $gun gün geçmiş',
+      if (!aktifAnaBaglamiVar) 'aktif ana kazanma süreci görünmüyor',
+      if (toplamCita > 0) '$toplamCita çıta güç seviyesi',
+      if (ardisikYavrusuz >= 2) '$ardisikYavrusuz ardışık yavrusuz kayıt',
+      if (trendZayif) 'gelişim yönü zayıflıyor',
+      if (koloniSakin) 'koloni sakin işaretlenmiş',
+      if (koloniHuzursuz) 'koloni huzursuz işaretlenmiş',
+      if (polenGelisiVar == true) 'polen gelişi var',
+      if (polenGelisiVar == false) 'polen gelişi yok',
+      if (balGelisiGuclu == true) 'bal/nektar gelişi güçlü',
+      if (balGelisiGuclu == false) 'bal/nektar gelişi güçlü değil',
+      if (balBaskisiOlabilir) 'bal akımı ve ballı çıta baskısı var',
+      if (ariKusuRiski) 'arı kuşu riski aktif',
+      if (erkekYavruBaskin) 'erkek yavru baskısı işaretlenmiş',
+      if (yalanciAnaSuphesi) 'yalancı ana / düzensiz yumurta şüphesi var',
+    ];
+
+    String baslik;
+    String mesaj;
+    String tip;
+    int oncelik;
+    String kod;
+
+    if (aktifAnaBaglamiVar && gun <= 20) {
+      kod = 'YAVRU_YOK_NORMAL_BEKLEME';
+      baslik = 'Yavru yokluğu bu aşamada normal olabilir';
+      mesaj =
+          'Yavru düzeni “Yok” kaydedildi; ancak $aktifBaglam sürecinde $gun. gündesin. Bu dönemde yavru görülmemesi tek başına sorun değildir. Kovanı bu tarihte açmak gerekli olmayabilir; gereksiz açma bakire ana ve kabul sürecini bozabilir.';
+      tip = 'takip';
+      oncelik = 94;
+    } else if (aktifAnaBaglamiVar && gun <= 30) {
+      kod = 'YAVRU_YOK_ERKEN_TAKIP';
+      baslik = 'Yumurtlama için hâlâ erken olabilir';
+      mesaj =
+          'Yavru düzeni “Yok” kaydedildi. $aktifBaglam sürecinden $gun gün geçmiş. Koloni sakin ve çalışıyorsa hemen sert müdahale önerilmez; 5–7 gün sonra günlük yumurta / genç larva kontrolü daha doğru olur.';
+      tip = 'takip';
+      oncelik = 95;
+    } else if (balBaskisiOlabilir) {
+      kod = 'YAVRU_YOK_BAL_BASKISI';
+      baslik = 'Yavru yokluğu bal baskısıyla ilişkili olabilir';
+      mesaj =
+          'Yavru görünmemesi doğrudan anasızlık anlamına gelmeyebilir. Bal akımı aktif ve ballı çıta oranı yüksek görünüyor; ana yumurtlayacak boş alan bulamıyor olabilir. Önce alan ve bal baskısını değerlendir, erken ana müdahalesi yapma.';
+      tip = 'uyari';
+      oncelik = 96;
+    } else if (erkekYavruBaskin || yalanciAnaSuphesi) {
+      kod = 'YAVRU_YOK_ANA_PROBLEMI';
+      baslik = 'Ana kalitesi / yalancı ana riski';
+      mesaj =
+          'Yavru yokluğu erkek yavru baskısı veya düzensiz yumurta belirtisiyle birlikte okunuyor. Bu durum çiftleşememiş ana, sperm problemi veya yalancı ana başlangıcı anlamına gelebilir. Beklemeyi uzatma; koloni gücüne göre ana değiştirme veya birleştirme değerlendir.';
+      tip = 'kritik';
+      oncelik = 99;
+    } else if (yasamGucu < 50 || (kucukKoloni && (gun >= 35 || yavrusuzGun >= 35))) {
+      kod = 'YAVRU_YOK_BIYOLOJIK_COKUS';
+      baslik = 'Biyolojik geri dönüş kapasitesi düşük';
+      mesaj =
+          'Koloni uzun süredir yeni işçi üretmiyor olabilir. $toplamCita çıta seviyesinde yavrusuzluk uzarsa mevcut nüfus yaşlanır ve koloni doğal küçülmeye gidebilir. Yoğun emek harcamadan önce güçlü koloniyle birleştirme veya sınırlı destek seçeneğini değerlendir.';
+      tip = 'kritik';
+      oncelik = 98;
+    } else if (aktifAnaBaglamiVar && gun >= 36) {
+      kod = 'YAVRU_YOK_GECIKMIS_TANI';
+      baslik = 'Yavru yokluğu riskli gecikmeye girdi';
+      mesaj =
+          'Beklenen yumurtlama penceresi aşılmaya başladı. Geç çiftleşme, arı kuşu kaynaklı ana kaybı, ana başarısızlığı veya zayıf koloni olasılıkları birlikte değerlendirilmeli. ${ariKusuRiski ? 'Arı kuşu riski aktif olduğu için çiftleşme kaybı ihtimali yükselir. ' : ''}${koloniSakin && polenGelisiVar == true ? 'Koloni sakinliği ve polen gelişi içeride ana olma ihtimalini tamamen dışlamaz. ' : ''}${koloniHuzursuz || polenGelisiVar == false ? 'Huzursuzluk veya polen yokluğu anasızlık/zayıflama şüphesini artırır. ' : ''}5–7 gün içinde net kontrol yap; hâlâ yavru yoksa beklemeyi uzatma.';
+      tip = 'kritik';
+      oncelik = 97;
+    } else if (aktifAnaBaglamiVar && gun >= 31) {
+      kod = 'YAVRU_YOK_TANI_ADAYI';
+      baslik = 'Yumurtlama gecikiyor olabilir';
+      mesaj =
+          'Yavru düzeni “Yok” kaydedildi ve $aktifBaglam sürecinden $gun gün geçmiş. Bu artık yalnızca normal bekleme olarak bırakılmamalı; koloni davranışı, polen gelişi, ana memesi kalıntısı, bal baskısı ve erkek yavru baskısı birlikte okunmalı.';
+      tip = 'uyari';
+      oncelik = 95;
+    } else {
+      kod = 'YAVRU_YOK_NORMAL_KOLONI_TANI';
+      baslik = 'Normal kolonide yavru yokluğu';
+      mesaj =
+          'Aktif bölme/oğul/ana kazanma süreci görünmeden yavru düzeni “Yok” kaydedildi. Bu durum ana durumu, bal baskısı, koloni zayıflaması veya yalancı ana riski açısından kontrol edilmelidir.';
+      tip = 'uyari';
+      oncelik = 92;
+    }
+
+    final String gerekceMetni = gerekceler.isEmpty
+        ? ''
+        : ' Sistem gerekçesi: ${gerekceler.join(', ')}. Yaşam gücü okuması: $yasamGucu/100.';
+
+    return SurecUyarisi(
+      kod: kod,
+      grup: grup,
+      baslik: baslik,
+      mesaj: '$mesaj$gerekceMetni',
+      tip: tip,
+      oncelik: oncelik,
+      referansTarihMetni: _format(referans),
+    );
+  }
+
+  static bool _muayenedeYavruYokMu(Map<String, dynamic> m) {
+    final String yavruDuzeni =
+        (m['yavruDuzeni'] ?? '').toString().trim().toLowerCase();
+    final int yavruluCita = _toInt(m['yavruluCita']);
+    if (yavruDuzeni == 'yok' || yavruDuzeni.contains('yok')) return true;
+    return yavruluCita <= 0 && yavruDuzeni.isEmpty;
+  }
+
+  static int _ardisikYavrusuzMuayeneSayisi(
+    List<Map<String, dynamic>> muayeneler,
+  ) {
+    int sayi = 0;
+    for (final m in muayeneler) {
+      if (_muayenedeYavruYokMu(m)) {
+        sayi++;
+      } else {
+        break;
+      }
+    }
+    return sayi;
+  }
+
+  static DateTime? _sonYavruGorulenTarih(List<Map<String, dynamic>> muayeneler) {
+    for (final m in muayeneler) {
+      if (!_muayenedeYavruYokMu(m)) {
+        return _parseTarih(m['tarih']);
+      }
+    }
+    return null;
+  }
+
+  static bool? _notEtiketiBoolOku(dynamic notlar, String anahtar) {
+    final metin = (notlar ?? '').toString();
+    final desen = RegExp('\\[$anahtar=([01])\\]');
+    final eslesme = desen.firstMatch(metin);
+    if (eslesme == null) return null;
+    return eslesme.group(1) == '1';
+  }
+
+  static bool _erkekYavruBaskinMi(Map<String, dynamic> m) {
+    final bool? etiket = _notEtiketiBoolOku(m['notlar'], 'TANI_ERKEK_YAVRU');
+    if (etiket != null) return etiket;
+
+    final metin =
+        '${m['erkekAriDurumu'] ?? ''} ${m['memeDurumu'] ?? ''} ${m['notlar'] ?? ''}'
+            .toLowerCase();
+    return metin.contains('erkek yavru') ||
+        metin.contains('erkek göz') ||
+        metin.contains('erkek goz') ||
+        metin.contains('baskın') ||
+        metin.contains('baskin') ||
+        metin.contains('kambur');
+  }
+
+  static bool _yalanciAnaSuphesiVarMi(Map<String, dynamic> m) {
+    final metin =
+        '${m['ciftlesmeDurumu'] ?? ''} ${m['notlar'] ?? ''}'.toLowerCase();
+    return metin.contains('yalancı') ||
+        metin.contains('yalanci') ||
+        metin.contains('çoklu yumurta') ||
+        metin.contains('coklu yumurta') ||
+        metin.contains('düzensiz yumurta') ||
+        metin.contains('duzensiz yumurta');
+  }
+
+  static Future<bool> _balAkimiAktifMi({
+    required DateTime bugun,
+    int? arilikId,
+  }) async {
+    try {
+      final balAkimi = await VeritabaniServisi.aktifBalAkimGetir(
+        arilikId: arilikId != null && arilikId > 0 ? arilikId : null,
+      );
+      final DateTime? bas = balAkimi?['bas'] as DateTime?;
+      final DateTime? bit = balAkimi?['bit'] as DateTime?;
+      if (bas == null || bit == null) return false;
+      return _aralikAktif(bugun, bas, bit);
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static Future<bool> _arilikRiskiAktifMi(
+    DateTime bugun,
+    String kodParcasi, {
+    int? arilikId,
+  }) async {
+    try {
+      final uyarilar = await ArilikUyariServisi.uyarilariGetir(
+        bugun,
+        arilikId: arilikId != null && arilikId > 0 ? arilikId : null,
+      );
+      return uyarilar.any((u) {
+        final kod = u.kod.toLowerCase();
+        return kod.contains(kodParcasi.toLowerCase());
+      });
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static int mathMaxInt(int a, int b) => a > b ? a : b;
+
 
   static SurecUyarisi? _hasatSonrasiSureci({
     required List<Map<String, dynamic>> muayeneler,
@@ -677,9 +1063,9 @@ class SurecMotoru {
     for (final m in muayeneler) {
       final DateTime? tarih = _parseTarih(m['tarih']);
       if (tarih == null || !tarih.isAfter(_gun(baslangic))) continue;
-
-      if (_toInt(m['gunlukKapaliYavruGoruldu']) == 1) return true;
-      if (_toInt(m['disaridanHazirAnaVerildi']) == 1) return true;
+      if (_anaSureciKapatanMuayeneMi(m, disaridanHazirAnaKapatir: true)) {
+        return true;
+      }
     }
     return false;
   }
@@ -691,9 +1077,40 @@ class SurecMotoru {
     for (final m in muayeneler) {
       final DateTime? tarih = _parseTarih(m['tarih']);
       if (tarih == null || !tarih.isAfter(_gun(baslangic))) continue;
-      if (_toInt(m['gunlukKapaliYavruGoruldu']) == 1) return true;
+      if (_anaSureciKapatanMuayeneMi(m)) return true;
     }
     return false;
+  }
+
+  static bool _anaSureciKapatanMuayeneMi(
+    Map<String, dynamic> m, {
+    bool disaridanHazirAnaKapatir = false,
+  }) {
+    if (_toInt(m['kovanSondu']) == 1) return true;
+    if (_toInt(m['gunlukKapaliYavruGoruldu']) == 1) return true;
+    if (disaridanHazirAnaKapatir && _toInt(m['disaridanHazirAnaVerildi']) == 1) {
+      return true;
+    }
+
+    // Eski veya eksik kayıtlarda kullanıcı kapanış kutusunu işaretlememiş olabilir.
+    // Açıkça yavrulu çıta ya da yok dışında yavru düzeni görülüyorsa süreç biyolojik olarak kapanmış sayılır.
+    return _muayenedeYavruGorulduMu(m);
+  }
+
+  static bool _muayenedeYavruGorulduMu(Map<String, dynamic> m) {
+    if (_toInt(m['gunlukKapaliYavruGoruldu']) == 1) return true;
+    if (_toInt(m['yavruluCita']) > 0) return true;
+
+    final String yavruDuzeni =
+        (m['yavruDuzeni'] ?? '').toString().trim().toLowerCase();
+    if (yavruDuzeni.isEmpty) return false;
+    if (yavruDuzeni == 'yok' || yavruDuzeni.contains('yok')) return false;
+
+    return yavruDuzeni.contains('blok') ||
+        yavruDuzeni.contains('normal') ||
+        yavruDuzeni.contains('dağınık') ||
+        yavruDuzeni.contains('daginik') ||
+        yavruDuzeni.contains('kambur');
   }
 
   static bool _hasatSonrasiBakimYapildiMi({
@@ -783,10 +1200,11 @@ class SurecMotoru {
     final kod = surec.kod.toUpperCase();
 
     if (grup == 'ANASIZLIK' || kod.contains('ANASIZLIK')) return 1;
-    if (grup == 'OGUL' || kod.contains('OGUL_BELIRTISI')) return 2;
-    if (grup == 'OGUL_SONRASI' || kod.contains('OGUL_SONRASI')) return 3;
-    if (grup == 'BOLME' || kod.contains('BOLME')) return 4;
-    if (grup == 'GELISIM' || kod.contains('GELISIM')) return 5;
+    if (kod.contains('YAVRU_YOK')) return 2;
+    if (grup == 'OGUL' || kod.contains('OGUL_BELIRTISI')) return 3;
+    if (grup == 'OGUL_SONRASI' || kod.contains('OGUL_SONRASI')) return 4;
+    if (grup == 'BOLME' || kod.contains('BOLME')) return 5;
+    if (grup == 'GELISIM' || kod.contains('GELISIM')) return 6;
     if (grup == 'HASAT' || kod.contains('HASAT')) return 8;
     return 20;
   }

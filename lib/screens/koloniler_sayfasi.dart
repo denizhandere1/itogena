@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
+import '../services/koloni_grid_context.dart';
+import '../services/koloni_grid_context_servisi.dart';
 import 'koloni_detay_sayfasi.dart';
 import 'yeni_koloni_sayfasi.dart';
 import 'karsilastirma_sayfasi.dart';
@@ -25,8 +27,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   bool _yukleniyor = true;
   bool _donorlerYukleniyor = false;
   List<Map<String, dynamic>> _siraliDonorler = [];
-  final Map<int, Map<String, bool>> _alarmDurumMap = {};
-  final Map<int, bool> _aktiflikMap = {};
+  final Map<int, KoloniGridContext> _gridContextMap = {};
 
   final TextEditingController _aramaController = TextEditingController();
   String _hizliFiltre = 'tum';
@@ -74,27 +75,18 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     final aktiflikMap =
     await VeritabaniServisi.koloniAktiflikHaritasiGetir(koloniIdleri);
 
-    final alarmSonuclari = await Future.wait(
-      koloniIdleri.map((koloniId) async {
-        final alarm =
-        await KararAsistanServisi.koloniKartAlarmDurumuGetir(koloniId);
-        return MapEntry<int, Map<String, bool>>(koloniId, alarm);
-      }),
+    final gridContextMap = await KoloniGridContextServisi.topluGetir(
+      koloniler: veri,
+      aktiflikMap: aktiflikMap,
     );
-
-    final Map<int, Map<String, bool>> alarmMap = Map.fromEntries(alarmSonuclari);
-
 
     if (!mounted || token != _yuklemeToken) return;
 
     setState(() {
       _koloniler = veri;
-      _alarmDurumMap
+      _gridContextMap
         ..clear()
-        ..addAll(alarmMap);
-      _aktiflikMap
-        ..clear()
-        ..addAll(aktiflikMap);
+        ..addAll(gridContextMap);
       _siraliDonorler = [];
       _seciliKoloniIdleri.removeWhere(
             (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
@@ -151,7 +143,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
   bool _aktifMi(Map<String, dynamic> k) {
     final koloniId = _toInt(k['id']);
-    return _aktiflikMap[koloniId] ?? true;
+    return _gridContextMap[koloniId]?.aktifMi ?? true;
   }
 
   bool _sonmusMu(Map<String, dynamic> k) => !_aktifMi(k);
@@ -235,6 +227,22 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     return _kaynakTipi(k) == 'oğul' && _sonGunIcindeMi(k, 45);
   }
 
+
+  bool _yavruGorulmeyenMi(Map<String, dynamic> k) {
+    final koloniId = _toInt(k['id']);
+    return _gridContextMap[koloniId]?.yavruYok == true;
+  }
+
+  String _yonetimGridEtiketi(Map<String, dynamic> k) {
+    final koloniId = _toInt(k['id']);
+    return _gridContextMap[koloniId]?.yonetimEtiketi ?? '';
+  }
+
+  String _citaAktivasyonGridMetni(Map<String, dynamic> k) {
+    final koloniId = _toInt(k['id']);
+    return _gridContextMap[koloniId]?.citaGridMetni ?? '${_toInt(k['sonCita'])} çıta';
+  }
+
   Color _skorRengi(int skor) {
     if (skor >= 85) return const Color(0xFF7B6D8D);
     if (skor >= 70) return const Color(0xFF6F8A63);
@@ -278,6 +286,8 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
         return _yeniOgulMu(k);
       case 'alarm':
         return _anaMemesiAlarmiVar(k) || _ogulAttiAlarmiVar(k);
+      case 'yavru_yok':
+        return _yavruGorulmeyenMi(k);
       case 'hasat':
         return _hasatAkintisiGoster(k, sonmusSekmesi: false);
       case 'tum':
@@ -292,12 +302,12 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
   bool _anaMemesiKritikAlarmiVar(Map<String, dynamic> k) {
     final koloniId = _toInt(k['id']);
-    return _alarmDurumMap[koloniId]?['anaMemesiKritik'] == true;
+    return _gridContextMap[koloniId]?.anaMemesiKritik == true;
   }
 
   bool _anaMemesiTakipAlarmiVar(Map<String, dynamic> k) {
     final koloniId = _toInt(k['id']);
-    return _alarmDurumMap[koloniId]?['anaMemesiTakip'] == true;
+    return _gridContextMap[koloniId]?.anaMemesiTakip == true;
   }
 
   bool _anaMemesiAlarmiVar(Map<String, dynamic> k) {
@@ -306,7 +316,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
   bool _ogulAttiAlarmiVar(Map<String, dynamic> k) {
     final koloniId = _toInt(k['id']);
-    return _alarmDurumMap[koloniId]?['ogulAtti'] == true;
+    return _gridContextMap[koloniId]?.ogulAtti == true;
   }
 
   bool _hasatAkintisiGoster(Map<String, dynamic> k, {required bool sonmusSekmesi}) {
@@ -437,14 +447,20 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   }
 
   Future<void> _detayaGit(Map<String, dynamic> k) async {
-    await Navigator.push(
+    final sonuc = await Navigator.push<bool>(
       context,
       MaterialPageRoute(
         builder: (_) => KoloniDetaySayfasi(koloni: k),
       ),
     );
-    KararAsistanServisi.arilikCacheTemizle(widget.arilikId);
-    await _verileriYukle();
+
+    // Detaya sadece bakılıp geri dönüldüyse donör/profil cache'i korunur.
+    // Muayene, numara veya koloni verisi değiştiğinde detay ekranı true döndürür.
+    if (sonuc == true) {
+      KararAsistanServisi.arilikCacheTemizle(widget.arilikId);
+      KoloniGridContextServisi.cacheTemizle();
+      await _verileriYukle();
+    }
   }
 
   Future<void> _yeniKovan() async {
@@ -455,6 +471,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       ),
     );
     KararAsistanServisi.arilikCacheTemizle(widget.arilikId);
+    KoloniGridContextServisi.cacheTemizle();
     await _verileriYukle();
   }
 
@@ -497,6 +514,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     );
 
     KararAsistanServisi.arilikCacheTemizle(widget.arilikId);
+    KoloniGridContextServisi.cacheTemizle();
     await _verileriYukle();
   }
 
@@ -534,6 +552,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     try {
       await VeritabaniServisi.koloniSil(koloniId);
       KararAsistanServisi.arilikCacheTemizle(widget.arilikId);
+      KoloniGridContextServisi.cacheTemizle(koloniId);
 
       if (!mounted) return;
 
@@ -772,6 +791,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
             _filtreChip('bolme', 'Yeni bölmeler'),
             _filtreChip('ogul', 'Yeni oğullar'),
             _filtreChip('alarm', 'Alarm'),
+            _filtreChip('yavru_yok', 'Yavru yok'),
             _filtreChip('hasat', 'Hasat adayı'),
           ],
         ),
@@ -830,7 +850,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
         crossAxisCount: 3,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
-        mainAxisExtent: 128,
+        mainAxisExtent: 136,
       ),
       itemBuilder: (_, i) => _koloniKutusu(
         koloniler[i],
@@ -942,6 +962,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     final bool anaMemesiAlarmi = !sonmusSekmesi && _anaMemesiAlarmiVar(k);
     final bool ogulAttiAlarmi = !sonmusSekmesi && _ogulAttiAlarmiVar(k);
     final bool hasatAkintisiGoster = _hasatAkintisiGoster(k, sonmusSekmesi: sonmusSekmesi);
+    final String yonetimEtiketi = sonmusSekmesi ? '' : _yonetimGridEtiketi(k);
 
     final Color ustRenk = sonmusSekmesi ? Colors.grey.shade500 : skorRenk;
     final Color cerceveRenk = sonmusSekmesi
@@ -1122,17 +1143,34 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
                               height: 1,
                             ),
                           ),
-                          Text(
-                            '$sonCita çıta',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: sonmusSekmesi
-                                  ? Colors.grey.shade700
-                                  : Colors.black87,
-                            ),
+                          Column(
+                            children: [
+                              Text(
+                                sonmusSekmesi ? '$sonCita çıta' : _citaAktivasyonGridMetni(k),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 11.5,
+                                  fontWeight: FontWeight.w900,
+                                  color: sonmusSekmesi
+                                      ? Colors.grey.shade700
+                                      : Colors.black87,
+                                ),
+                              ),
+                              if (!sonmusSekmesi && yonetimEtiketi.isNotEmpty)
+                                Text(
+                                  yonetimEtiketi,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 10.5,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.brown.shade700,
+                                  ),
+                                ),
+                            ],
                           ),
                         ],
                       ),

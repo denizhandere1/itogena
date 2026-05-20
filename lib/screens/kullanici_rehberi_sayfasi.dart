@@ -100,16 +100,52 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Sistem tetik → süreç → öneri → saha eylemi → yeni muayene → kapanış mantığıyla çalışır.',
           ),
           _madde(
+            'Koloni sınıfı tek biyolojik kaynaktan üretilir: işlevsel üretim çıtası 0–3 ise zayıf, 4–7 ise gelişim, 8–9 ise üretim, 10 ve üzeri ise hasat sınıfıdır. Yönetim, besleme, kat ve hasat yorumları bu ortak sınıfa göre filtrelenir.',
+          ),
+          _madde(
             'Her süreç için ayrıca onay istemez; sonucu sonraki muayene verisinden anlamaya çalışır.',
           ),
           _madde(
             'Koloni detay ekranı hızlı açılır; ağır analizler arka planda yüklenir.',
           ),
           _madde(
+            'Sistem fiziksel çıta ile işlevsel üretim kapasitesini ayrı okumaya çalışır. Hızlı genişleme, temel petek yüklenmesi veya hasat sonrası hacim değişimleri doğrudan güçlü koloni kabul edilmez.',
+          ),
+          _madde(
+            'Hacim aktivasyonu kullanıcıya toplam fiziksel hacim üzerinden gösterilir. Örneğin 16 fiziksel çıtanın 15.6 çıtası işlevsel okunuyorsa sistem bunu yaklaşık %98 toplam hacim aktivasyonu olarak yansıtır.',
+          ),
+          _madde(
             'Aynı koloni için süreç ve biyolojik model hesapları tek oturum içinde önbelleğe alınır; besleme, performans ve biyolojik model sekmeleri aynı hesabı tekrar tekrar üretmez.',
           ),
           _madde(
             'Koloni detayında bağlam önceliği kullanılır. Canlı biyolojik süreç varsa ana karar alanında o konuşur; hasat sonrası gibi bakım süreçleri yaşamaya devam eder ama gerekiyorsa alt sıraya düşer.',
+          ),
+          _madde(
+            'Koloni detay genel durum ekranında dört ana başlık birlikte gösterilir: Süreç, Biyoloji, Yönetim ve Genetik. Kartlar kompakt özet verir; kullanıcı karta dokunduğunda alttaki detay paneli doğrudan o başlığın açıklamasını gösterir.',
+          ),
+          _madde(
+            'Yönetim kartı artık beslemeyi ayrı bir ikinci karar motoru gibi okumaz. Besleme, kat, alan, varroa, şurupluk, kış ve hasat sonrası bakım kararları aynı yönetim listesinde standartlaştırılır; çelişen kararlar bağlam uzlaştırıcı tarafından bastırılır.',
+          ),
+          _madde(
+            'Koloni grid kartı artık kendi içinde yavru yok, alarm veya yönetim kararı hesaplamaz. Grid hafif context üzerinden yalnızca özet sinyali gösterir; ağır biyolojik model ve detaylı karar hesapları koloni detay ekranında kalır.',
+          ),
+          _madde(
+            'Faz 1 sadeleşmesinde detay context, grid context, karar orkestratörü ve bağlam kilidi ayrıştırıldı. Bağlam Motoru yalnızca veto/kilit/engel mantığını taşır; hangi kararın görünür olacağı Karar Orkestratörü tarafından belirlenir.',
+          ),
+          _madde(
+            'Muayene, koloni veya arılık verisi değiştiğinde karar, biyoloji, performans, detay context ve grid context önbellekleri birlikte temizlenir. Böylece eski kararın ekranda kalma riski azaltılır.',
+          ),
+          _madde(
+            'Süreç kartı zaman hassasiyeti olan uyarıları öne çıkarır. Koloniyi açma, ana kazanma, oğul sonrası hassas dönem gibi bilgiler genetik değerlendirme içinde kaybolmaz; ayrı süreç alanında görünür.',
+          ),
+          _madde(
+            'Yavru düzeni “Yok” seçilirse sistem bunu doğrudan anasızlık alarmı saymaz. Önce aktif bölme, oğul sonrası veya ana kazanma penceresini ve geçen günü okur; erken dönemde normal biyolojik bekleme, gecikmiş dönemde ise yavrusuzluk tanısı üretir.',
+          ),
+          _madde(
+            'Yavrusuzluk tanısı yeni servis açmadan Süreç Motoru içinde çalışır. Sistem çıta gücü, ardışık yavrusuz kayıt, gelişim yönü, bal akımı, arı kuşu riski, erkek yavru/kambur yavru ve yalancı ana şüphesini birlikte değerlendirir.',
+          ),
+          _madde(
+            'Küçük ve uzun süredir yavrusuz kolonilerde sistem yoğun emek harcatmak yerine geri dönüş kapasitesini sorgular; gerekirse birleştirme veya sınırlı müdahale yönünde saha diliyle uyarı üretir.',
           ),
           _madde(
             'Sistem aynı anda oluşan süreçleri tarih, biyolojik önem ve aktiflik durumuna göre sıralar. En yeni ve en kritik olay ana karar alanında görünür; eski ama devam eden süreçler daha alt sıraya düşebilir.',
@@ -122,6 +158,39 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
           ),
           _madde(
             'Hasat sonrası bakım kartı bal çıtası kaydıyla başlar. İlk günlerde sıkışık düzen, stres azaltma, besleme ihtiyacı ve varroa penceresi öne çıkar; bakım veya süre tamamlandıkça geri plana düşer.',
+          ),
+
+          _madde(
+            'Level 2 karar mimarisinde sistem her koloni için hedef sınıfını içeriden hesaplar: bal ana kolonisi, genetik çoğaltma adayı, bölme sonrası toparlanma, riskli ana süreci, zayıf destek, hasat kolonisi, kısa hazırlık veya kış hedefi. Kullanıcıdan yeni veri girişi istenmez.',
+          ),
+          _madde(
+            'Beklenmeyen durumlar ayrı ve dağınık uyarılar olarak değil, ana sezon senaryosunun olasılık dalları olarak okunur. Örneğin bölme sonrası yavru görülmez ve güç düşerse sistem bunu “bölme toparlanmıyor” sapması olarak yorumlar.',
+          ),
+          _madde(
+            'Karar uzlaştırıcı; hedef, süreç, biyoloji, yönetim ve genetik sinyalleri ekrana çıkmadan önce çelişki açısından süzer. Müdahale edilmemesi gereken pencere açıksa kat, bölme veya yoğun besleme gibi eylemler bastırılır.',
+          ),
+
+          _madde(
+            'Level 3 karar sözlüğü ile hedef, süreç, yönetim, biyoloji, genetik, sapma ve kilit sinyalleri aynı ortak anahtarlarla standartlaştırılır. Bu yeni ekran veya yeni veri girişi değildir; mevcut kararların ekrana çıkmadan önce aynı disipline girmesidir.',
+          ),
+          _madde(
+            'Karar sinyalleri artık yalnızca metin olarak değil; katman, karar tipi, öncelik, bastırılabilirlik ve grid/detay görünürlüğüyle birlikte değerlendirilir. Böylece “bekle” penceresi açıkken kat, bölme, yoğun besleme veya kalıntı riski taşıyan işlemler sahaya çelişkili öneri olarak çıkmaz.',
+          ),
+
+          _madde(
+            'Level 5 skor mimarisinde genetik çoğaltma değeri basit performans puanı olmaktan çıkarıldı. Sistem biyolojik kapasite, yavru istikrarı, gelişim yönü, aktivasyon kalitesi, süreç güvenliği ve kış/stok güvenliğini birlikte okuyarak çoğaltma değerini hesaplar.',
+          ),
+          _madde(
+            'Bu skor operasyon kararı değildir. Koloni genetik olarak değerli görünse bile bölme, kat, besleme veya bekleme kararı sezon penceresi ve karar uzlaştırıcı tarafından ayrıca süzülür.',
+          ),
+          _madde(
+            'Level 6 saha sadeleştirmesinde koloni grid kartlarında fiziksel çıta ve işlevsel/aktivasyon bilgisi tekrar görünür hale getirildi. Kısa karar etiketi bu bilginin yerine geçmez; yalnızca ikinci satırda destek sinyali olarak görünür.',
+          ),
+          _madde(
+            'Bal akımı döneminde zayıf koloniler hasat kolonisi gibi okunmaz. Bu koloniler için bakım, stok ve gelişim takibi öne çıkar; kış vurgusu yalnızca sonbahar/kış hazırlık döneminde kullanılır.',
+          ),
+          _madde(
+            'Karar metinleri uygulamanın kendi işleyişini anlatmak yerine doğrudan saha sonucunu ve kısa gerekçesini verir. Tekrarlayan besleme/varroa uyarıları uzlaştırıcı tarafından tekilleştirilir.',
           ),
 
           _baslik('2. SİSTEM ÇITADAN NE ANLAR?'),
@@ -147,7 +216,7 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Şurupluk varsa alt kuluçkalık 9 çıta, yoksa 10 çıta kabul edilir. Bu sınırın üstündeki çıtalar sistem tarafından kat/ballık alanı olarak yorumlanır.',
           ),
           _madde(
-            'Büyüme momentumu çıta farkını gün sayısına bölerek hesaplanır. Böylece +3 çıtanın 7 günde mi, 40 günde mi gerçekleştiği ayrı yorumlanır.',
+            'Biyolojik momentum artık yalnızca fiziksel çıta farkını gün sayısına bölmez. Hasat, bölme, kat geçişi, hızlı hacim açma ve aktivasyon oranı birlikte okunur; ani sıçramalar gerçek büyüme sayılmadan önce normalleştirilir.',
           ),
 
           _baslik('2B. İŞLEVSEL ÇITA VE HACİM AKTİVASYONU'),
@@ -164,10 +233,116 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Kat/ballık kullanıcı işaretiyle girilmez. Langstroth kovan 10 çıtalık kapasite kabulüyle okunur; toplam çıta 11 ve üzerine çıktığında sistem üst kat/ballık oluştuğunu kabul eder.',
           ),
           _madde(
+            'Kata geçiş tek başına hızlı artış riski sayılmaz. Ancak kata çıkıldıktan sonra bal akımı tarih aralığı içinde değilse hızlı üst hacim artışı otomatik normalleştirilmez; sistem temkinli yaklaşır.',
+          ),
+          _madde(
+            'Kata çıkılmış, aktivasyon sağlıklı ve bal akımı aktifse hızlı üst hacim artışı üretim genişlemesi olarak okunur. Bu durumda artış koloninin bal işleme/depolama davranışının parçası kabul edilir.',
+          ),
+          _madde(
+            'Hasat kaydıyla birlikte oluşan hızlı çıta düşüşü biyolojik çöküş sayılmaz; sistem bunu hasat kaynaklı hacim daralması olarak normalleştirir.',
+          ),
+          _madde(
             '6 çıtadan 12 çıtaya çıkış kat atma olarak normalleştirilmez. Sistem bunu aşırı genişletme veya veri kontrolü gerektiren durum olarak uyarır.',
           ),
           _madde(
             'Besleme, hasat ve bölme kararlarında yalnızca kovana konan hacim değil, koloninin o hacmi biyolojik olarak taşıyabilme kapasitesi dikkate alınır.',
+          ),
+
+          _baslik('2C. SEZON BİYOLOJİ MATRİSİ'),
+          _madde(
+            'İTOGENA sezonu yalnızca takvim adı olarak okumaz. Her sezon için yavru beklentisi, stok baskısı, polen/arı ekmeği beklentisi, ana amaç ve aktivasyon katsayısı birlikte değerlendirilir.',
+          ),
+          _madde(
+            'Sistem kış, kış çıkışı, ilkbahar gelişimi, bal akımı öncesi, bal akımı, hasat sonrası, sonbahar hazırlık ve geç sonbahar evrelerini ayrı biyolojik davranışlar olarak ele alır.',
+          ),
+          _madde(
+            'Bu matris koloniye doğrudan emir vermez; aktivasyon, kabiliyet, besleme, hasat ve bölme kararlarına biyolojik bağlam sağlar. Örneğin bal akımı döneminde üretim ve bal kalitesi öne çıkar; geç sonbaharda genişletme değil hacim ve stok güvenliği öne çıkar.',
+          ),
+          _madde(
+            'Sezon bilgisi yerel bal akımı kalibrasyonu ile birlikte okunur. Bu nedenle aynı tarih her arılıkta aynı karar anlamına gelmeyebilir.',
+          ),
+
+          _baslik('2D. KOLONİ GİDİŞATI VE NORMALİZE MOMENTUM'),
+          _madde(
+            'Koloni Gidişatı, koloninin yalnız bugünkü gücünü değil hangi yöne gittiğini anlatır. Teknik karşılığı biyolojik yöndür. Momentum bu hesabın içinde yaşar; kullanıcıya ayrı bir ana performans metriği gibi gösterilmez.',
+          ),
+          _madde(
+            'Momentum artık ham çıta artışı değildir. Hasat sonrası hızlı düşüş biyolojik çöküş sayılmaz; bölme sonrası düşüş işlem kaynaklı okunur; kat atılması ise fiziksel hacim artışı olduğu için aktivasyon tamamlanmadan tam büyüme kabul edilmez.',
+          ),
+          _madde(
+            'Kat geçişi, riskli hızlı genişleme, düşük aktivasyon ve bal akımı içindeki sağlıklı üst hacim genişlemesi ayrı ayrı normalize edilir. Böylece kısa dönem sıçrama uyarı sinyali olarak kalır ama sistemi yanlış yöne sürüklemez.',
+          ),
+          _madde(
+            'Performans sekmesindeki Koloni Gidişatı; gelişim yönü, üretim yönü, alan baskısı, toparlanma potansiyeli, çöküş riski ve normalize momentumu birlikte okur. Amaç “koloni nereye gidiyor?” sorusunu kısa saha diliyle cevaplamaktır.',
+          ),
+
+
+          _baslik('2D. DEMOGRAFİ MOTORU'),
+          _madde(
+            'Demografi motoru kesin arı sayımı yapmaz; çıta gücü, yavru yükü, sezon ve gelişim yönünden koloni içindeki iş gücü dağılımını tahmin eder.',
+          ),
+          _madde(
+            'Sistem genç işçi, bakıcı arı, petek işleyici, iç işçi, bekçi, tarlacı ve erkek arı dağılımını saha kararı için ayrı ayrı okur.',
+          ),
+          _madde(
+            'Genç işçi kapasitesi ham petek ve yavru bakım kararlarında; tarlacı kapasitesi bal akımı ve üretim kararlarında; bakıcı dengesi ise aşırı genişletme riskinde kullanılır.',
+          ),
+          _madde(
+            'Demografi çıktısı “kesin nüfus” değildir. İklim, flora, ırk ve yönetim farklılıkları sonucu değiştirebilir; bu nedenle sistem bunu biyolojik olasılık ve saha projeksiyonu olarak gösterir.',
+          ),
+
+
+
+          _baslik('2E. İŞ GÜCÜ VE KABİLİYET MOTORU'),
+          _madde(
+            'İTOGENA yalnızca kaç arı olduğunu değil, bu arıların hangi işi yapabilecek biyolojik kapasitede olduğunu yorumlamaya çalışır.',
+          ),
+          _madde(
+            'Petek örme, yavru bakım, nektar toplama, bal işleme, savunma, toparlanma, kış dayanımı ve çiftleşme desteği ayrı iş gücü alanları olarak değerlendirilir.',
+          ),
+          _madde(
+            'Aynı çıta sayısına sahip iki koloni farklı iş gücü kapasitesine sahip olabilir. Genç işçi oranı düşük koloniler geniş görünse bile hızlı petek işleme veya yavru büyütmede zorlanabilir.',
+          ),
+          _madde(
+            'İş gücü motoru demografi, sezon, aktivasyon ve yavru durumunu birlikte okur. Böylece ham petek verme, kat açma, hasat, toparlanma ve kış hazırlığı kararları yalnız fiziksel çıta sayısına bağlanmaz.',
+          ),
+          _madde(
+            'Bu motor kesin biyolojik ölçüm yapmaz; saha kararını destekleyen açıklanabilir biyolojik eğilim modeli üretir.',
+          ),
+
+
+
+          _baslik('2F. RİSK MOTORU VE DOĞAL RİSK FRENLERİ'),
+          _madde(
+            'Risk motoru koloniyi korkutucu uyarılarla yönetmez; sezonun doğal risk primini ve koloninin biyolojik kırılganlığını birlikte okuyarak dengeli karar freni üretir.',
+          ),
+          _madde(
+            'Varroa, arı kuşu, eşek arısı, yağmacılık, nem/kış, aşırı genişleme, yavrusuzluk/yaşlanma ve bal kalitesi riski aynı merkezde değerlendirilir.',
+          ),
+          _madde(
+            'Doğal riskler koloni hatası değildir. Örneğin hasat sonrası varroa ve yağmacılık riski doğal olarak yükselir; güçlü kolonide fren düşük, zayıf kolonide fren daha yüksek olur.',
+          ),
+          _madde(
+            'Risk freni kararları doğrudan yasaklamaz. Genişletme, bölme, besleme, hasat ve müdahale önerilerini küçük ve dengeli katsayılarla temkinli hale getirir.',
+          ),
+          _madde(
+            'Bu sistem kesin hastalık veya zararlı teşhisi koymaz. Saha gözlemi, sezon bilgisi, koloni gücü, demografi, aktivasyon ve süreç verilerinden açıklanabilir risk eğilimi üretir.',
+          ),
+
+
+
+          _baslik('2H. KARAR ORKESTRATÖRÜ'),
+          _madde(
+            'Karar orkestratörü yeni karar üretmez; süreç, yönetim, risk, projeksiyon ve genetik sinyallerini tek öncelik düzeninde sıralar.',
+          ),
+          _madde(
+            'Amaç aynı anda çok sayıda doğru bilginin kullanıcıyı yormasını engellemektir. Sistem o anda sahada en önemli olan tek ana sesi öne çıkarır.',
+          ),
+          _madde(
+            'Kritik ana kazanma, yavrusuzluk veya oğul baskısı gibi süreçler açıkken genetik övgü, arka plan bilgi veya düşük öncelikli projeksiyonlar geri plana alınabilir.',
+          ),
+          _madde(
+            'Orkestrasyon bastırma değil, bağlam yönetimidir. Bilgi tamamen kaybolmaz; yalnızca daha kritik karar varken ana kartta konuşmaz.',
           ),
 
           _baslik('3. BÖLME NEDEN 9 ÇITA ALTINDA ÖNERİLMEZ?'),
@@ -186,6 +361,15 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
           _madde('Kış döneminde bölme önerisi üretilmez.'),
           _madde(
             'Bölme kararı zaman bağlamıyla okunur. Bal akımına 57 günden fazla varsa güçlü kolonide bölme anlamlıdır; 57 günden az kaldıysa standart bölme üretim gücünü düşürebilir.',
+          ),
+          _madde(
+            'Bölme sonrası toparlanma süreci yalnızca gün sayısıyla açık kalmaz. Yavrunun geri dönmesi ve koloninin yeniden üretim hacmine yaklaşması gerekir.',
+          ),
+          _madde(
+            'Bölme toparlanması için ana kapanış sinyali 7 çıta ve gerçek yavru dönüşüdür. Kullanıcı günlük/kapalı yavru gördüğünü işaretlediyse 6 çıta ve üzerindeki kolonilerde süreç yönetim katmanına devredilebilir.',
+          ),
+          _madde(
+            'Ayrılan yeni bölmede yavru görülmesi ana başarısını gösterdiği için hâlâ en güçlü kapanış kriteridir. Bölünen ana kolonide ise yalnızca tarih değil; yavru dönüşü, çıta gücü ve toparlanma birlikte okunur.',
           ),
           _madde(
             'Bal akımı içinde standart bölme önerisi verilmez. Yalnızca bilinçli üretim stratejisinde yavru azaltma amaçlı özel bölme ayrıca değerlendirilebilir.',
@@ -216,13 +400,13 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
           _madde('Genel skor koloninin saha performansıdır.'),
           _madde('Donör skoru ana üretimi ve genetik seçilim değeridir.'),
           _madde(
-            '85 genel skor tek başına donörlük anlamına gelmez. Oğul veto, soy devamlılığı, üreme gücü, dayanıklılık ve veri güveni ayrıca okunur.',
+            '85 genel skor tek başına donörlük anlamına gelmez. Oğul izi/genetik filtre, soy devamlılığı, üreme gücü, dayanıklılık ve veri güveni ayrıca okunur.',
           ),
           _madde(
-            'Güçlü ama genetik veto alan koloni üretimde veya kapalı yavru desteğinde değerlendirilebilir; ana üretim havuzuna alınmaz.',
+            'Güçlü ama genetik filtreye takılan koloni üretimde veya kapalı yavru desteğinde değerlendirilebilir; ana üretim havuzuna alınmaz.',
           ),
 
-          _baslik('7. OĞUL İZİ NEDEN VETO SEBEBİDİR?'),
+          _baslik('7. OĞUL İZİ NEDEN GENETİK FİLTREDİR?'),
           _madde(
             'Oğul sağlık problemi değildir; bu nedenle sağlık skorunu düşürmez.',
           ),
@@ -284,6 +468,13 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
           _madde(
             'Karar motoru bölme önerisini bu 57 günlük saha penceresine göre ciddiye alır. Zaman uygun değilse güçlü koloni bile otomatik bölme adayı yapılmaz.',
           ),
+
+          _madde(
+            'Bal akımına 35–45 gün kala güçlü, istikrarlı ve genetik olarak değerli koloni kontrollü bölme adayı olabilir. Bu karar çıta sayısı kadar bal akımına kalan süre, büyüme yönü, yavru düzeni, aktivasyon ve oğul riskiyle birlikte verilir.',
+          ),
+          _madde(
+            'Bal akımına 24 gün veya daha az kaldığında bölme hedefi geri çekilir. Bu dönemde alan, kat, şurupluk kaldırma, kalıntı güvenliği ve oğul kontrolü öne çıkar.',
+          ),
           _madde(
             'Ana değişimi için en güçlü karar penceresi hasat sonrası / sonbahara giriş dönemidir. Bal akımı öncesi veya sırasında planlı ana değişimi zorunlu değilse ertelenir.',
           ),
@@ -325,13 +516,35 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Temporal polyethism mantığıyla işçi arıların yaşa bağlı görev dağılımı tahmin edilir: bakıcı arı, petek örücü, iç işçi, tarlacı ve erkek arı yoğunluğu kesin sayı değil kabiliyet puanı olarak kullanılır.',
           ),
           _madde(
-            'Petek örme, yavru bakımı, nektar toplama, bal işleme, kış dayanımı ve çiftleşme desteği gibi kabiliyetler sezon, süreç, büyüme momentumu, yavru düzeni ve çıta yoğunluğu birlikte okunarak hesaplanır.',
+            'Petek örme, yavru bakımı, nektar toplama, bal işleme, kış dayanımı ve çiftleşme desteği gibi kabiliyetler sezon, süreç, normalize biyolojik momentum, yavru düzeni ve çıta yoğunluğu birlikte okunarak hesaplanır.',
           ),
           _madde(
             'Sistem “şu çıtaları hasat et” derken kesin hüküm vermez; yalnızca tahmini yerleşime göre yavrusuz ve sırlı olması halinde hasat için değerlendirilebilecek dış/ballık çıtaları işaret eder.',
           ),
 
-          _baslik('14. EKONOMİK DEĞER NEYİ İFADE EDER?'),
+          _baslik('14. KIŞ YÖNETİMİ NASIL ÇALIŞIR?'),
+          _madde(
+            'Kış döneminde ana hedef üretim değil yaşatmadır. Sistem gereksiz kovan açmayı önleyecek şekilde dış gözlem, ağırlık hissi, uçuş deliği, nem ve su girişi kontrolünü öne alır.',
+          ),
+          _madde(
+            'Stok çok düşük görünüyorsa açlık riski minimum müdahale kuralından daha yüksek öncelik alır. Bu durumda hava ve saha koşulu uygunsa hızlı ve sınırlı stok desteği/kek değerlendirilebilir.',
+          ),
+          _madde(
+            'Fiziksel hacim yüksek ama işlevsel arı gücü düşükse sistem boş hacim ve ısı kaybı riskini belirtir. Kış başarısı, sonraki sezon genetik istikrar ve sürdürülebilirlik yorumuna veri sağlar.',
+          ),
+
+          _baslik('15. GENETİK ÇOĞALTMA DEĞERİ NASIL OKUNUR?'),
+          _madde(
+            'Genetik çoğaltma değeri yalnızca bal veya çıta sayısı değildir. İşlevsel kapasite, yavru düzeni, gelişim yönü, aktivasyon, risk, stok/kış güvenliği ve oğul izi birlikte okunur.',
+          ),
+          _madde(
+            'Oğul kökeni veya oğul izi görülen koloniler üretimde değerli olabilir; ancak temiz genetik yayılım adayı olarak otomatik öne çıkarılmaz. Üretim değeri ile çoğaltma değeri ayrı tutulur.',
+          ),
+          _madde(
+            'Bu skor kesin damızlık hükmü değildir; çoğaltmaya değer kolonileri izleme ve doğru zamanda kontrollü bölme kararını destekleyen stratejik sinyaldir.',
+          ),
+
+          _baslik('16. EKONOMİK DEĞER NEYİ İFADE EDER?'),
           _madde(
             'Ekonomik değer ekranı kesin gelir hesabı değil, yaklaşık arılık varlığı ve tahmini bal potansiyeli projeksiyonudur.',
           ),
@@ -345,9 +558,9 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Bal verimi flora, hava, hasat zamanı, bırakılacak stok ve arıcının yönetimine bağlı olarak değişir. Bu nedenle sonuç yön gösteren tahmindir.',
           ),
 
-          _baslik('15. BESLEME KARAR MOTORU NASIL ÇALIŞIR?'),
+          _baslik('17. BESLEME KARAR MOTORU NASIL ÇALIŞIR?'),
           _madde(
-            'Besleme önerileri çıta sayısı, tahmini arı nüfusu, yavru alanı, stok baskısı, sezon, aktif süreç ve bal akımı penceresi birlikte okunarak üretilir.',
+            'Besleme önerileri kesin stok ölçümü değildir; çıta gücü, yavru alanı, sezon, aktif süreç, bal akımı penceresi ve kullanıcının muayene gözlemi birlikte değerlendirilir.',
           ),
           _madde(
             'Sistem kesin reçete vermez; tahmini ml/L veya gram bandı üretir. Bu bant saha gözlemi, hava, flora ve yağmacılık riskiyle birlikte değerlendirilmelidir.',
@@ -359,13 +572,86 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Bal akımına 20 gün veya daha az kalmışsa ve koloni hasat hedefindeyse şeker bazlı besleme önerilmez. Çünkü şurup veya şekerli yem nektar akımıyla birlikte bala taşınabilir; bu da balın doğallığı, lezzeti ve güvenilirliği açısından risk oluşturur.',
           ),
           _madde(
-            'Bu dönemde sistem “besleme baskısı yok” demek yerine açıkça “besleme önerilmez” der. Üretim kolonilerinde öncelik alan, kat, şurupluk kaldırma ve hasat hazırlığıdır.',
+            'Bu dönemde sistem hasat hedefli kolonilerde açıkça “besleme önerilmez” der. Üretim kolonilerinde öncelik alan, kat, şurupluk kaldırma ve hasat hazırlığıdır.',
           ),
           _madde(
-            'Düşük çıtalı gelişim kolonilerinde hasat baskısı uygulanmaz; destek beslemesi arıcının hedefi ve saha koşullarına göre sürdürülebilir.',
+            'Düşük çıtalı gelişim kolonilerinde hasat baskısı uygulanmaz. Sistem “stok yeterli” gibi kesin hüküm vermez; stok zayıf görülürse ölçülü destek, güçlü nektar/polen gelişi varsa takip arıcı tarafından değerlendirilir.',
           ),
 
-          _baslik('16. UYGULAMA HANGİ KONULARDA KESİN HÜKÜM VERMEZ?'),
+          _baslik('18. KARAR UZLAŞTIRICI NEYİ ÖNCELİKLENDİRİR?'),
+          _madde(
+            'Karar uzlaştırıcı aynı anda üretilen süreç, yönetim, biyoloji ve genetik sinyallerini sahaya çıkmadan önce çelişki açısından süzer.',
+          ),
+          _madde(
+            'Müdahale edilmemesi gereken ana kazanma, bölme sonrası hassas dönem, oğul sonrası, yavru yok tanı süreci ve kış dönemi gibi pencerelerde kat, bölme, yoğun besleme ve gereksiz muayene önerileri bastırılır.',
+          ),
+          _madde(
+            'Veto veya bekleme kararları eylem sayılmaz. Bu nedenle “besleme önerilmez”, “bal akımı içinde kimyasal mücadele planlama” veya “gereksiz açma yok” gibi koruyucu kararlar ekranda kalabilir.',
+          ),
+          _madde(
+            'Kışta genel kural gereksiz müdahaleyi kesmektir; ancak açlık riski yaşatma önceliği olduğu için kış kilidi altında bile görünür kalır.',
+          ),
+
+
+          _baslik('19. SÜREÇ VE GENETİK KATMANI NASIL AYRILIR?'),
+          _madde(
+            'Aktif ana kazanma, oğul sonrası, bölme sonrası veya yavru yok süreci varsa süreç bilgisi Süreç kartında gösterilir. Bu bilgi genetik/seçilim kartının yerine geçmez.',
+          ),
+          _madde(
+            'Genetik kartı yalnızca donör uygunluğu, oğul izi/genetik filtre, soy devamlılığı, üretim değeri ve seçilim sonucunu gösterir. “Kovanı açma”, “müdahale etme” gibi süreç dili genetik kartına taşınmaz.',
+          ),
+          _madde(
+            'Bu ayrım sayesinde kullanıcı aynı anda hem sahadaki acil biyolojik süreci hem de koloninin uzun vadeli genetik değerini ayrı okuyabilir.',
+          ),
+          _madde(
+            'Süreç kapanışı artık tek standartla okunur: günlük/kapalı yavru işareti, açık yavrulu çıta kaydı veya “Yok” dışında anlamlı yavru düzeni görülürse ana/oğul/bölme kaynaklı biyolojik süreç kapanabilir.',
+          ),
+          _madde(
+            'Bu kural eski kayıtlarda kapanış kutusu işaretlenmemiş olsa bile sistemin açık yavru verisini biyolojik sonuç olarak okumasını sağlar. Ama yavru düzeni “Yok” ise süreç kapatılmaz; yavru yok tanısı devreye girer.',
+          ),
+
+          _baslik('20. İTOGENA KARAR SÖZLÜĞÜ'),
+          _kutu(
+            'Bu bölüm, ekranda görülen kavramların ne anlama geldiğini açıklar. Amaç teknik terimleri ezberletmek değil; arıcının ekrandaki kararı sahada doğru yorumlamasını sağlamaktır.',
+          ),
+          _madde(
+            'Koloni Gidişatı: Koloninin yalnız bugünkü gücünü değil, hangi yöne ilerlediğini anlatır. Gelişim, üretim, toparlanma, risk, alan baskısı, aktivasyon ve normalize momentum birlikte okunur. Teknik karşılığı biyolojik yöndür.',
+          ),
+          _madde(
+            'Koloni Gücü: Son muayenedeki canlı arı ve çıta gücünü anlatır. Bu değer mevcut durumu gösterir; tek başına gelecek yönünü garanti etmez.',
+          ),
+          _madde(
+            'Koloni Sağlığı: Yavru düzeni, ana süreci, yavrusuzluk, zaman kritikliği, varroa dönemi, davranış ve risk sinyallerinin birlikte okunmasıdır. Uygulama veteriner teşhisi koymaz; saha riskini yorumlar.',
+          ),
+          _madde(
+            'Gelişim Yönü: Koloninin büyüme, duraklama, toparlanma veya zayıflama tarafına gidip gitmediğini gösterir. Ani sıçramalar kat, hasat, bölme ve aktivasyonla normalleştirilir.',
+          ),
+          _madde(
+            'İşlevsel Çıta: Kovandaki fiziksel çıta sayısı değil, arının gerçekten kullandığı biyolojik kapasitedir. Yeni verilen çıta hemen tam güç sayılmaz.',
+          ),
+          _madde(
+            'Hacim Aktivasyonu: Verilen çıta veya katın koloni tarafından ne kadar kullanılır hale geldiğini anlatır. Koloni gücü, genç işçi kapasitesi, yavru düzeni, sezon ve bal akımı bu hesabı etkiler.',
+          ),
+          _madde(
+            'Normalize Momentum: Kısa dönem çıta artışı veya düşüşünü ham şekilde okumaz. Hasat sonrası düşüş, bölme, kat geçişi ve riskli hızlı genişleme ayrılır; gerçek gelişim ile yönetim kaynaklı hacim değişimi karıştırılmaz.',
+          ),
+          _madde(
+            'Genetik Filtre: Koloninin üretimde değerli olabileceği halde ana üretme havuzuna alınmamasıdır. Oğul kökeni, oğul izi veya atasal oğul davranışı buna sebep olabilir. Bu filtre genel performans cezası değildir.',
+          ),
+          _madde(
+            'Yönetim Kararı: Besleme, kat, alan, şurupluk, hasat sonrası bakım, varroa ve kış hazırlığı gibi arıcının sahada yapacağı işleri anlatır. Bu kararlar süreç ve genetik katmanından ayrı değerlendirilir.',
+          ),
+          _madde(
+            'Süreç: Ana kazanma, bölme sonrası toparlanma, oğul sonrası, yavru yok tanısı veya hasat sonrası bakım gibi zamana bağlı biyolojik/yönetim penceresidir. Süreç açıkken bazı eylemler bastırılabilir.',
+          ),
+          _madde(
+            'Kilit / Bekle: Müdahale edilmemesi gereken hassas pencereyi anlatır. Örneğin ana kazanma döneminde kovanı gereksiz açmamak, bazen yapılacak en doğru iştir.',
+          ),
+          _madde(
+            'Veri Güveni: Kararın kaç muayeneye dayandığını anlatır. Tek muayene karar üretir ama güveni sınırlıdır; 5 ve üzeri muayene daha sağlam değerlendirme sağlar.',
+          ),
+
+          _baslik('21. UYGULAMA HANGİ KONULARDA KESİN HÜKÜM VERMEZ?'),
           _uyari(
             'İTOGENA veterinerlik, ruhsatlı ilaç kullanımı veya resmi mevzuat yerine geçmez.',
           ),

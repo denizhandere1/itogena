@@ -93,14 +93,19 @@ class PerformansOzetiServisi {
     final biyoloji = await AriBiyolojiServisi.analizYap(koloniId);
 
     Map<String, dynamic> kabiliyet = const <String, dynamic>{};
+    Map<String, dynamic> biyolojikProjeksiyon = const <String, dynamic>{};
     try {
       final biyolojikModel = await KoloniBiyolojikModelServisi.modelGetir(koloniId);
       kabiliyet = Map<String, dynamic>.from(
         biyolojikModel['kabiliyet'] ?? const <String, dynamic>{},
       );
+      biyolojikProjeksiyon = Map<String, dynamic>.from(
+        biyolojikModel['biyolojikProjeksiyon'] ?? const <String, dynamic>{},
+      );
     } catch (_) {
-      // Performans özeti biyolojik kabiliyet hesabı başarısız olsa bile açılmalıdır.
+      // Performans özeti biyolojik kabiliyet/projeksiyon hesabı başarısız olsa bile açılmalıdır.
       kabiliyet = const <String, dynamic>{};
+      biyolojikProjeksiyon = const <String, dynamic>{};
     }
 
     final profil = Map<String, dynamic>.from(sonuc.profil)
@@ -135,13 +140,34 @@ class PerformansOzetiServisi {
     final int davranisHam = _toInt(profil['davranisPuani']);
     final int soyHam = _toInt(profil['soyPuani']);
     final int veriGuveniHam = _toInt(profil['veriGuveniPuani']);
-    final int momentum = _toInt(profil['momentumSkoru']);
-    final String momentumEtiketi = _gelisimEtiketi((profil['momentumEtiketi'] ?? 'Veri Yok').toString());
     final int petekOrme = _toInt(kabiliyet['petekOrmePuani'] ?? profil['petekOrmePuani']);
     final int yavruBakim = _toInt(kabiliyet['yavruBakimPuani'] ?? profil['yavruBakimPuani']);
     final int nektarToplama = _toInt(kabiliyet['nektarToplamaPuani'] ?? profil['nektarToplamaPuani']);
     final int balIsleme = _toInt(kabiliyet['balIslemePuani'] ?? profil['balIslemePuani']);
     final int kisDayanim = _toInt(kabiliyet['kisDayanimPuani'] ?? profil['kisDayanimPuani']);
+    final Map<String, dynamic> citaAktivasyon = Map<String, dynamic>.from(
+      profil['citaAktivasyon'] ?? const <String, dynamic>{},
+    );
+    final double aktivasyonOrani = _toDouble(citaAktivasyon['aktivasyonOrani'] ?? 1.0);
+    final String hacimDegisimTipi =
+        (profil['hacimDegisimTipi'] ?? citaAktivasyon['hacimDegisimTipi'] ?? '').toString();
+    final bool riskliSisirme =
+        profil['riskliSisirme'] == true || citaAktivasyon['riskliSisirme'] == true;
+    final bool hasatKaynakliDusus =
+        profil['hasatKaynakliDusus'] == true || citaAktivasyon['hasatKaynakliDusus'] == true;
+    final bool balAkimiGenislemesi =
+        profil['balAkimiGenislemesi'] == true || citaAktivasyon['balAkimiGenislemesi'] == true;
+    final int hacimAktivasyonSkoru = _hacimAktivasyonSkoru(
+      aktivasyonOrani: aktivasyonOrani,
+      riskliSisirme: riskliSisirme,
+      hasatKaynakliDusus: hasatKaynakliDusus,
+      balAkimiGenislemesi: balAkimiGenislemesi,
+    );
+    final int biyolojikYonSkoru = _biyolojikYonSkoru(biyolojikProjeksiyon);
+    final String biyolojikYonYorumu =
+        _biyolojikYonYorumu(biyolojikProjeksiyon, biyolojikYonSkoru);
+    final String biyolojikYonRisk =
+        (biyolojikProjeksiyon['oncelikliRisk'] ?? '').toString().trim();
 
     final int ureme = _normalizeTo100(uremeHam, 30);
     final int uretim = _normalizeTo100(uretimHam, 20);
@@ -171,9 +197,20 @@ class PerformansOzetiServisi {
         yorum: _biyolojiYorumu(biyoloji),
       ),
       KriterOzeti(
-        ad: 'Üreme Gelişimi',
-        skor: momentum,
-        yorum: momentumEtiketi,
+        ad: 'Koloni Gidişatı',
+        skor: biyolojikYonSkoru,
+        yorum: biyolojikYonYorumu,
+      ),
+      KriterOzeti(
+        ad: 'Hacim Aktivasyonu',
+        skor: hacimAktivasyonSkoru,
+        yorum: _hacimAktivasyonYorumu(
+          hacimDegisimTipi: hacimDegisimTipi,
+          aktivasyonOrani: aktivasyonOrani,
+          riskliSisirme: riskliSisirme,
+          hasatKaynakliDusus: hasatKaynakliDusus,
+          balAkimiGenislemesi: balAkimiGenislemesi,
+        ),
       ),
       KriterOzeti(
         ad: 'Petek Örme Kapasitesi',
@@ -211,11 +248,30 @@ class PerformansOzetiServisi {
     kontrol('Davranış', davranis);
     kontrol('Hat Gücü', soy);
     kontrol('Veri Güveni', veriGuveni);
-    kontrol('Üreme Gelişimi', momentum);
+    kontrol('Koloni Gidişatı', biyolojikYonSkoru);
+    kontrol('Hacim Aktivasyonu', hacimAktivasyonSkoru);
     kontrol('Petek Örme Kapasitesi', petekOrme);
     kontrol('Yavru Bakım Kapasitesi', yavruBakim);
     kontrol('Bal Akımı Kapasitesi', ((nektarToplama + balIsleme) / 2).round());
     kontrol('Kış Güvenliği', kisDayanim);
+    if (riskliSisirme) {
+      zayif.add('Fiziksel hacim hızlı büyümüş ancak aktivasyon tamamlanmamış; bu performans geçici okunmalı.');
+    }
+    if (balAkimiGenislemesi) {
+      guclu.add('Bal akımı içinde sağlıklı üretim genişlemesi görünüyor.');
+    }
+    if (hasatKaynakliDusus) {
+      guclu.add('Çıta düşüşü hasat kaynaklı okunuyor; biyolojik zayıflama olarak cezalandırılmaz.');
+    }
+    if (biyolojikYonSkoru >= 80) {
+      guclu.add('Koloni gidişatı güçlü: koloni mevcut veriye göre olumlu gelişim hattında.');
+    } else if (biyolojikYonSkoru > 0 && biyolojikYonSkoru < 50) {
+      zayif.add('Koloni gidişatı zayıf: koloni mevcut veriye göre temkinli izlenmeli.');
+    }
+    if (biyolojikYonRisk.isNotEmpty) {
+      zayif.add('Koloni gidişatı riski: $biyolojikYonRisk.');
+    }
+
     if (muayeneSayisi == 1) {
       zayif.add('Veri çok sınırlı: tek muayene karar üretir ama donör ve ana değişim kararları temkinli okunur.');
     } else if (muayeneSayisi >= 2 && muayeneSayisi <= 4) {
@@ -257,6 +313,9 @@ class PerformansOzetiServisi {
         'nektarToplamaPuani': nektarToplama,
         'balIslemePuani': balIsleme,
         'kisDayanimPuani': kisDayanim,
+        'biyolojikYonSkoru': biyolojikYonSkoru,
+        'biyolojikYonYorumu': biyolojikYonYorumu,
+        'biyolojikProjeksiyon': biyolojikProjeksiyon,
       },
       biyoloji: biyoloji,
     );
@@ -288,8 +347,94 @@ class PerformansOzetiServisi {
         'nektarToplamaPuani': nektarToplama,
         'balIslemePuani': balIsleme,
         'kisDayanimPuani': kisDayanim,
+        'biyolojikYonSkoru': biyolojikYonSkoru,
+        'biyolojikYonYorumu': biyolojikYonYorumu,
+        'biyolojikProjeksiyon': biyolojikProjeksiyon,
       },
     );
+  }
+
+  static int _biyolojikYonSkoru(Map<String, dynamic> projeksiyon) {
+    if (projeksiyon.isEmpty) return 0;
+    final int yediGun = _toInt(projeksiyon['yediGunSkoru']);
+    final int ondortGun = _toInt(projeksiyon['ondortGunSkoru']);
+    final int gelisim = _toInt(projeksiyon['gelisimSkoru']);
+    final int risk = _toInt(projeksiyon['riskSkoru']);
+    final int cokus = _toInt(projeksiyon['cokusSkoru']);
+    final int toparlanma = _toInt(projeksiyon['toparlanmaSkoru']);
+    final int hasat = _toInt(projeksiyon['hasatSkoru']);
+
+    final int anaSkor = ((yediGun * 0.26) +
+            (ondortGun * 0.26) +
+            (gelisim * 0.20) +
+            (risk * 0.14) +
+            ((100 - cokus).clamp(0, 100) * 0.10) +
+            (toparlanma * 0.04))
+        .round()
+        .clamp(0, 100)
+        .toInt();
+
+    // Hasat skoru tek başına genel biyolojik yönü belirlemez; yalnızca güçlü
+    // üretim kolonilerinde küçük bir yukarı düzeltme sağlar.
+    if (hasat >= 75 && anaSkor >= 60) {
+      return (anaSkor + 4).clamp(0, 100).toInt();
+    }
+    return anaSkor;
+  }
+
+  static String _biyolojikYonYorumu(
+    Map<String, dynamic> projeksiyon,
+    int skor,
+  ) {
+    if (projeksiyon.isEmpty || skor <= 0) return 'Veri yok';
+
+    final String gelisimYonu =
+        (projeksiyon['gelisimYonu'] ?? '').toString().trim();
+    final String uretimYonu =
+        (projeksiyon['uretimYonu'] ?? '').toString().trim();
+    final String alanBaskisi =
+        (projeksiyon['alanBaskisi'] ?? '').toString().trim();
+    final String oncelikliRisk =
+        (projeksiyon['oncelikliRisk'] ?? '').toString().trim();
+    final String sahaOzeti =
+        (projeksiyon['sahaOzeti'] ?? '').toString().trim();
+
+    final List<String> parcalar = <String>[];
+
+    if (gelisimYonu.isNotEmpty) {
+      parcalar.add('Gelişim yönü: ${_cumleBaslat(gelisimYonu)}.');
+    } else if (skor >= 80) {
+      parcalar.add('Gelişim yönü güçlü.');
+    } else if (skor >= 60) {
+      parcalar.add('Gelişim yönü dengeli.');
+    } else if (skor >= 40) {
+      parcalar.add('Gelişim yönü temkinli.');
+    } else {
+      parcalar.add('Gelişim yönü zayıf.');
+    }
+
+    if (uretimYonu.isNotEmpty) {
+      parcalar.add('Üretim yönü: ${_cumleBaslat(uretimYonu)}.');
+    }
+    if (alanBaskisi.isNotEmpty &&
+        !alanBaskisi.toLowerCase().contains('normal')) {
+      parcalar.add('Alan: ${_cumleBaslat(alanBaskisi)}.');
+    }
+    if (oncelikliRisk.isNotEmpty) {
+      parcalar.add('Risk: ${_cumleBaslat(oncelikliRisk)}.');
+    }
+
+    if (parcalar.length == 1 && sahaOzeti.isNotEmpty) {
+      parcalar.add(sahaOzeti.endsWith('.') ? sahaOzeti : '$sahaOzeti.');
+    }
+
+    return parcalar.take(3).join(' ');
+  }
+
+  static String _cumleBaslat(String metin) {
+    final temiz = metin.trim();
+    if (temiz.isEmpty) return temiz;
+    return temiz[0].toUpperCase() + temiz.substring(1);
   }
 
   static int _biyolojiSkoru(BiyolojiAnalizSonucu biyoloji) {
@@ -345,7 +490,7 @@ class PerformansOzetiServisi {
       return 'Bu koloni atasal hatta oğul izi taşıdığı için temiz donör havuzunda değerlendirilmedi. Ana üretme; üretim ve saha desteği için ayrı değerlendir.';
     }
 
-    return 'Donör veto kriteri nedeniyle ana üretme havuzu dışında tutuldu. Bu durum genel performansı düşürmez; yalnızca genetik seçilim sonucunu etkiler.';
+    return 'Genetik filtre nedeniyle ana üretme havuzu dışında tutuldu. Bu durum genel performansı düşürmez; yalnızca genetik seçilim sonucunu etkiler.';
   }
 
   static String _kisCikisOzetMetni(Map<String, dynamic> profil) {
@@ -427,41 +572,48 @@ class PerformansOzetiServisi {
       biyolojiCumlesi = ' Biyolojik süreç izlenmeli.';
     }
 
+    final String biyolojikYonYorumu =
+        (profil['biyolojikYonYorumu'] ?? '').toString().trim();
+    final String biyolojikYonCumlesi = biyolojikYonYorumu.isEmpty ||
+            biyolojikYonYorumu == 'Veri yok'
+        ? ''
+        : ' Koloni gidişatı: $biyolojikYonYorumu';
+
     if (veto) {
-      return 'Genetik seçilimde veto alıyor.$kisCumlesi $performansCumlesi Donörlükten çıkma nedeni performans değil, seçilim filtresidir.$veriGuveniCumlesi$biyolojiCumlesi';
+      return 'Genetik filtreye takılıyor.$kisCumlesi $performansCumlesi Donörlükten çıkma nedeni performans değil, seçilim filtresidir.$veriGuveniCumlesi$biyolojiCumlesi$biyolojikYonCumlesi';
     }
 
     if (donorSirasi == 1) {
-      return '$performansCumlesi$kisCumlesi Bu koloni temiz donör havuzunda 1. sıradadır.$veriGuveniCumlesi$biyolojiCumlesi';
+      return '$performansCumlesi$kisCumlesi Bu koloni temiz donör havuzunda 1. sıradadır.$veriGuveniCumlesi$biyolojiCumlesi$biyolojikYonCumlesi';
     }
 
     if (donorSirasi == 2) {
-      return '$performansCumlesi$kisCumlesi Bu koloni temiz donör havuzunda güçlü bir alternatiftir.$veriGuveniCumlesi$biyolojiCumlesi';
+      return '$performansCumlesi$kisCumlesi Bu koloni temiz donör havuzunda güçlü bir alternatiftir.$veriGuveniCumlesi$biyolojiCumlesi$biyolojikYonCumlesi';
     }
 
     if (donorSirasi == 3) {
-      return '$performansCumlesi$kisCumlesi Bu koloni temiz donör havuzunda yedek güçlü adaydır.$veriGuveniCumlesi$biyolojiCumlesi';
+      return '$performansCumlesi$kisCumlesi Bu koloni temiz donör havuzunda yedek güçlü adaydır.$veriGuveniCumlesi$biyolojiCumlesi$biyolojikYonCumlesi';
     }
 
     if (donorSkoru >= 60 && skor >= 70) {
-      return '$performansCumlesi$kisCumlesi Temiz donör havuzunda yer alsa da ilk sırada görünmüyor.$veriGuveniCumlesi$biyolojiCumlesi';
+      return '$performansCumlesi$kisCumlesi Temiz donör havuzunda yer alsa da ilk sırada görünmüyor.$veriGuveniCumlesi$biyolojiCumlesi$biyolojikYonCumlesi';
     }
 
     if (kararKodu == 'ANA_DEGISIM' || kararKodu == 'ANA_DEGISIM_DUSUN') {
-      return '$performansCumlesi Ana değişimi için standart yaş eşiği 2 yıldır; performans düşüyorsa yenileme düşünülmelidir.$veriGuveniCumlesi$biyolojiCumlesi';
+      return '$performansCumlesi Ana değişimi için standart yaş eşiği 2 yıldır; performans düşüyorsa yenileme düşünülmelidir.$veriGuveniCumlesi$biyolojiCumlesi$biyolojikYonCumlesi';
     }
 
     if (kararKodu == 'BOLME' || kararKodu == 'BOLME_ICIN_UYGUN') {
-      return '$performansCumlesi Bu koloni donör önceliğinde değilse bölme gücü açısından değerlendirilebilir.$veriGuveniCumlesi$biyolojiCumlesi';
+      return '$performansCumlesi Bu koloni donör önceliğinde değilse bölme gücü açısından değerlendirilebilir.$veriGuveniCumlesi$biyolojiCumlesi$biyolojikYonCumlesi';
     }
 
     if (kararKodu == 'URETIM' ||
         kararKodu == 'URETIM_IZLE' ||
         kararKodu == 'URETIMDE_DEGERLENDIR') {
-      return '$performansCumlesi Üretim ve saha sürekliliği açısından değerlidir.$veriGuveniCumlesi$biyolojiCumlesi';
+      return '$performansCumlesi Üretim ve saha sürekliliği açısından değerlidir.$veriGuveniCumlesi$biyolojiCumlesi$biyolojikYonCumlesi';
     }
 
-    return '$performansCumlesi Seçilim yeri ile saha kullanımı birlikte izlenmelidir.$veriGuveniCumlesi$biyolojiCumlesi';
+    return '$performansCumlesi Seçilim yeri ile saha kullanımı birlikte izlenmelidir.$veriGuveniCumlesi$biyolojiCumlesi$biyolojikYonCumlesi';
   }
 
   static String _durumMetni(
@@ -470,7 +622,7 @@ class PerformansOzetiServisi {
       bool donorMu,
       int donorSirasi,
       ) {
-    if (veto) return 'Genetik Veto';
+    if (veto) return 'Genetik Filtre';
     if (donorMu && donorSirasi == 1) return '1. Donör Adayı';
     if (donorMu && donorSirasi == 2) return '2. Donör Adayı';
     if (donorMu && donorSirasi == 3) return '3. Donör Adayı';
@@ -536,6 +688,40 @@ class PerformansOzetiServisi {
     if (deger < 0) return 0;
     if (deger > 100) return 100;
     return deger;
+  }
+
+  static int _hacimAktivasyonSkoru({
+    required double aktivasyonOrani,
+    required bool riskliSisirme,
+    required bool hasatKaynakliDusus,
+    required bool balAkimiGenislemesi,
+  }) {
+    if (hasatKaynakliDusus) return 80;
+    if (balAkimiGenislemesi) return 90;
+    if (riskliSisirme) return 40;
+    return (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
+  }
+
+  static String _hacimAktivasyonYorumu({
+    required String hacimDegisimTipi,
+    required double aktivasyonOrani,
+    required bool riskliSisirme,
+    required bool hasatKaynakliDusus,
+    required bool balAkimiGenislemesi,
+  }) {
+    if (hasatKaynakliDusus) {
+      return 'Hasat kaynaklı düşüş; negatif performans sayılmaz.';
+    }
+    if (balAkimiGenislemesi) {
+      return 'Bal akımı içinde sağlıklı üretim genişlemesi.';
+    }
+    if (riskliSisirme) {
+      return 'Hızlı hacim artışı temkinli okunmalı.';
+    }
+    if (aktivasyonOrani >= 0.85) return 'Aktivasyon güçlü.';
+    if (aktivasyonOrani >= 0.70) return 'Aktivasyon yeterli.';
+    if (aktivasyonOrani >= 0.45) return 'Geçiş aktivasyonu sürüyor.';
+    return 'Yeni hacim henüz oturmamış.';
   }
 
   static int _toInt(dynamic v) {

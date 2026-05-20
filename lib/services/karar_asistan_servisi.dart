@@ -6,6 +6,9 @@ import 'veritabani_servisi.dart';
 import 'koloni_biyolojik_model_servisi.dart';
 import 'besleme_karar_motoru.dart';
 import 'performans_ozeti_servisi.dart';
+import 'karar_orkestratoru.dart';
+import 'koloni_context_servisi.dart';
+import 'koloni_grid_context_servisi.dart';
 
 class KararAsistanServisi {
   static void tumCacheTemizle() {
@@ -14,6 +17,8 @@ class KararAsistanServisi {
     SurecMotoru.tumCacheTemizle();
     BeslemeKararMotoru.tumCacheTemizle();
     PerformansOzetiServisi.tumCacheTemizle();
+    KoloniContextServisi.cacheTemizle();
+    KoloniGridContextServisi.cacheTemizle();
   }
 
   static void arilikCacheTemizle(int? arilikId) {
@@ -25,13 +30,18 @@ class KararAsistanServisi {
     SurecMotoru.tumCacheTemizle();
     BeslemeKararMotoru.tumCacheTemizle();
     PerformansOzetiServisi.tumCacheTemizle();
+    KoloniContextServisi.cacheTemizle();
+    KoloniGridContextServisi.cacheTemizle();
   }
 
   static void koloniCacheTemizle(int koloniId) {
+    KoloniKararMotoru.koloniCacheTemizle(koloniId);
     KoloniBiyolojikModelServisi.cacheTemizle(koloniId);
     SurecMotoru.cacheTemizle(koloniId);
     BeslemeKararMotoru.cacheTemizle(koloniId);
     PerformansOzetiServisi.cacheTemizle(koloniId);
+    KoloniContextServisi.cacheTemizle(koloniId);
+    KoloniGridContextServisi.cacheTemizle(koloniId);
   }
 
   static Future<Map<String, dynamic>> arilikOzetGetir(int arilikId) {
@@ -43,10 +53,30 @@ class KararAsistanServisi {
       Map<String, dynamic> koloni, {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
+        bool donorAnaliziBekle = true,
       }) async {
     final surec = await _dominantSurecGetir(koloniId);
     if (_surecKarariBastirirMi(surec)) {
       return _surecAnaKararMap(surec!);
+    }
+
+    final orkestrasyon = await orkestrasyonOzetiGetir(
+      koloniId,
+      koloni,
+      hazirKoloni: koloni,
+      siraliDonorler: siraliDonorler,
+      forceRefresh: forceRefresh,
+    );
+    final ana = Map<String, dynamic>.from(
+      orkestrasyon['anaKarar'] ?? const <String, dynamic>{},
+    );
+    if (ana.isNotEmpty) {
+      return {
+        'baslik': (ana['baslik'] ?? '').toString(),
+        'mesaj': (ana['mesaj'] ?? '').toString(),
+        'renk': _orkestrasyonRenk(ana),
+        'ikon': _orkestrasyonIkon(ana),
+      };
     }
 
     final sonuc = await KoloniKararMotoru.kararUret(
@@ -54,6 +84,7 @@ class KararAsistanServisi {
       koloni,
       siraliDonorler: siraliDonorler,
       forceRefresh: forceRefresh,
+      donorAnaliziBekle: donorAnaliziBekle,
     );
     return sonuc.toAnaKararMap();
   }
@@ -79,11 +110,9 @@ class KararAsistanServisi {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
       }) async {
-    final surec = await _dominantSurecGetir(koloniId);
-    if (_surecKarariBastirirMi(surec)) {
-      return _surecSecilimMap(surec!);
-    }
-
+    // Seçilim/genetik katmanı süreç uyarısı ile bastırılmaz.
+    // Oğul sonrası, anasızlık, bölme gibi zaman kritik bilgiler süreç kartında görünür;
+    // bu metinler genetik kartına taşınırsa kullanıcı yanlış katmanı okur.
     final sonuc = await KoloniKararMotoru.kararUret(
       koloniId,
       koloni,
@@ -174,6 +203,29 @@ class KararAsistanServisi {
     };
   }
 
+  static Future<Map<String, dynamic>> koloniKartDurumuGetir(
+    int koloniId, {
+    Map<String, dynamic>? hazirKoloni,
+  }) async {
+    final sonuclar = await Future.wait<dynamic>([
+      koloniKartAlarmDurumuGetir(koloniId),
+      yonetimDurumOzetiGetir(koloniId, hazirKoloni: hazirKoloni),
+      VeritabaniServisi.muayeneleriGetir(koloniId),
+    ]);
+
+    final alarm = Map<String, bool>.from(sonuclar[0] as Map);
+    final yonetim = Map<String, dynamic>.from(sonuclar[1] as Map);
+    final muayeneler = List<Map<String, dynamic>>.from(sonuclar[2] as List);
+    final bool yavruYok = muayeneler.isNotEmpty &&
+        _sonMuayenedeYavruGorulmediMi(muayeneler.first);
+
+    return <String, dynamic>{
+      'alarm': alarm,
+      'yonetim': yonetim,
+      'yavruYok': yavruYok,
+    };
+  }
+
   static Future<Map<String, dynamic>> biyolojiDurumuGetir(int koloniId) async {
     final sonuc = await AriBiyolojiServisi.analizYap(koloniId);
     return sonuc.toMap();
@@ -199,16 +251,18 @@ class KararAsistanServisi {
       'anaKarar': surecOncelikli
           ? _surecAnaKararMap(surec!)
           : karar.toAnaKararMap(),
-      'secilim': surecOncelikli
-          ? _surecSecilimMap(surec!)
-          : karar.toSecilimMap(),
+      // Genetik/seçilim çıktısı süreç kartı tarafından bastırılmaz.
+      // Ana, oğul, bölme veya yavru-yok süreci aktif olsa bile donör/veto
+      // değerlendirmesi kendi katmanında kalır. Aksi halde genetik kartına
+      // “kovanı açma / müdahale etme” gibi süreç dili sızar.
+      'secilim': karar.toSecilimMap(),
       'gercekDamizlik': karar.gercekDamizlik,
       'donorSkoru': karar.donorSkoru,
       'donorSirasi': karar.donorSirasi,
       'donorVeto': karar.donorVeto,
-      'aksiyonKartlari': surecOncelikli
-          ? _surecAksiyonKartlari(surec!)
-          : karar.aksiyonKartlari,
+      // Aksiyon kartları genetik/performans kararının parçasıdır. Aktif süreç
+      // bilgisi ayrı süreç kartında gösterilir; burada tekrar üretilmez.
+      'aksiyonKartlari': karar.aksiyonKartlari,
       'profil': {
         ...karar.profil,
         'surecOncelikli': surecOncelikli,
@@ -225,19 +279,7 @@ class KararAsistanServisi {
         bool forceRefresh = false,
       }) async {
     final surec = await _dominantSurecGetir(koloniId);
-    if (_surecKarariBastirirMi(surec)) {
-      return {
-        'karar': surec!.baslik,
-        'ozet': surec.mesaj,
-        'secilimBaslik': surec.baslik,
-        'secilimMesaji': surec.mesaj,
-        'gerekceler': <String>[_surecNedeni(surec)],
-        'riskler': surec.tip == 'kritik' || surec.tip == 'uyari'
-            ? <String>[surec.baslik]
-            : <String>[],
-        'oneriler': <String>[surec.mesaj],
-      };
-    }
+    final bool surecOncelikli = _surecKarariBastirirMi(surec);
 
     final sonuc = await KoloniKararMotoru.kararUret(
       koloniId,
@@ -371,13 +413,25 @@ class KararAsistanServisi {
         break;
     }
 
-    final String ozet = sonuc.kararMesaji.trim().isNotEmpty
-        ? sonuc.kararMesaji.trim()
-        : sonuc.secilimMesaji.trim();
+    if (surecOncelikli && surec != null) {
+      ekle(gerekceler, _surecNedeni(surec));
+      if (surec.tip == 'kritik' || surec.tip == 'uyari') {
+        ekle(riskler, surec.baslik);
+      }
+      ekle(oneriler, surec.mesaj);
+    }
+
+    final String ozet = surecOncelikli && surec != null
+        ? surec.mesaj.trim()
+        : (sonuc.kararMesaji.trim().isNotEmpty
+            ? sonuc.kararMesaji.trim()
+            : sonuc.secilimMesaji.trim());
 
     return {
-      'karar': sonuc.kararBaslik,
+      'karar': surecOncelikli && surec != null ? surec.baslik : sonuc.kararBaslik,
       'ozet': ozet,
+      // Seçilim alanı süreç tarafından değiştirilmez; genetik kartı daima
+      // genetik/seçilim sonucunu okur.
       'secilimBaslik': sonuc.secilimBaslik,
       'secilimMesaji': sonuc.secilimMesaji,
       'gerekceler': gerekceler,
@@ -386,6 +440,1118 @@ class KararAsistanServisi {
     };
   }
 
+
+
+  static Future<Map<String, dynamic>> orkestrasyonOzetiGetir(
+    int koloniId,
+    Map<String, dynamic> koloni, {
+    Map<String, dynamic>? hazirKoloni,
+    List<Map<String, dynamic>>? siraliDonorler,
+    bool forceRefresh = false,
+  }) async {
+    final List<Map<String, dynamic>> sinyaller = <Map<String, dynamic>>[];
+
+    final surec = await _dominantSurecGetir(koloniId);
+    if (surec != null) {
+      sinyaller.add(KararOrkestratoru.sinyal(
+        kaynak: 'surec',
+        kod: surec.kod,
+        grup: surec.grup,
+        baslik: surec.baslik,
+        mesaj: surec.mesaj,
+        oncelik: surec.oncelik,
+        risk: surec.tip,
+        kritikMi: surec.tip == 'kritik' || surec.oncelik >= 90,
+        gridGoster: true,
+        detayGoster: true,
+        sessizlestirilebilir: false,
+      ));
+    }
+
+    try {
+      final yonetim = await yonetimDurumOzetiGetir(
+        koloniId,
+        hazirKoloni: hazirKoloni ?? koloni,
+      );
+      if (yonetim.isNotEmpty) {
+        sinyaller.add(KararOrkestratoru.sinyal(
+          kaynak: 'yonetim',
+          kod: (yonetim['kod'] ?? '').toString(),
+          grup: (yonetim['grup'] ?? '').toString(),
+          baslik: (yonetim['baslik'] ?? '').toString(),
+          mesaj: (yonetim['mesaj'] ?? yonetim['aciklama'] ?? '').toString(),
+          oncelik: _toInt(yonetim['oncelik']),
+          risk: (yonetim['risk'] ?? 'dusuk').toString(),
+          gridGoster: yonetim['gridGosterilebilir'] != false,
+          detayGoster: true,
+        ));
+      }
+    } catch (_) {}
+
+    try {
+      final model = await KoloniBiyolojikModelServisi.modelGetir(
+        koloniId,
+        forceRefresh: forceRefresh,
+      );
+
+      final Map<String, dynamic> riskAnalizi =
+          Map<String, dynamic>.from(model['riskAnalizi'] ?? const <String, dynamic>{});
+      if (riskAnalizi.isNotEmpty) {
+        sinyaller.add(KararOrkestratoru.sinyal(
+          kaynak: 'risk',
+          kod: (riskAnalizi['anaRisk'] ?? '').toString(),
+          baslik: (riskAnalizi['anaRiskBaslik'] ?? 'Risk').toString(),
+          mesaj: (riskAnalizi['kisaMesaj'] ?? '').toString(),
+          oncelik: _riskOnceligi(riskAnalizi),
+          risk: (riskAnalizi['genelRisk'] ?? 'dusuk').toString(),
+          gridGoster: _toInt(riskAnalizi['genelRiskPuani']) >= 45,
+          detayGoster: true,
+        ));
+      }
+
+      final Map<String, dynamic> projeksiyon =
+          Map<String, dynamic>.from(model['projeksiyon'] ?? const <String, dynamic>{});
+      if (projeksiyon.isNotEmpty) {
+        sinyaller.add(KararOrkestratoru.sinyal(
+          kaynak: 'projeksiyon',
+          kod: 'PROJEKSIYON',
+          baslik: 'Biyolojik yön',
+          mesaj: (projeksiyon['projeksiyonOzeti'] ?? '').toString(),
+          oncelik: 55,
+          risk: 'dusuk',
+          gridGoster: false,
+          detayGoster: true,
+        ));
+      }
+    } catch (_) {}
+
+    try {
+      final karar = await KoloniKararMotoru.kararUret(
+        koloniId,
+        koloni,
+        siraliDonorler: siraliDonorler,
+        forceRefresh: forceRefresh,
+      );
+
+      sinyaller.add(KararOrkestratoru.sinyal(
+        kaynak: 'genetik',
+        kod: karar.kararKodu,
+        baslik: karar.kararBaslik,
+        mesaj: karar.kararMesaji,
+        oncelik: karar.gercekDamizlik ? 68 : 60,
+        risk: karar.donorVeto ? 'orta' : 'dusuk',
+        gridGoster: true,
+        detayGoster: true,
+      ));
+    } catch (_) {}
+
+    return KararOrkestratoru.orkestreEt(sinyaller: sinyaller);
+  }
+
+  static int _riskOnceligi(Map<String, dynamic> riskAnalizi) {
+    final int puan = _toInt(riskAnalizi['genelRiskPuani']);
+    if (puan >= 70) return 88;
+    if (puan >= 45) return 78;
+    if (puan >= 20) return 58;
+    return 40;
+  }
+
+
+  static String _orkestrasyonRenk(Map<String, dynamic> sinyal) {
+    final risk = (sinyal['risk'] ?? '').toString().toLowerCase();
+    final oncelik = _toInt(sinyal['oncelik']);
+    if (risk.contains('kritik') || oncelik >= 90) return 'red';
+    if (risk.contains('yüksek') || risk.contains('yuksek') || oncelik >= 80) {
+      return 'orange';
+    }
+    if (risk.contains('orta') || oncelik >= 65) return 'amber';
+    return 'green';
+  }
+
+  static String _orkestrasyonIkon(Map<String, dynamic> sinyal) {
+    final kaynak = (sinyal['kaynak'] ?? '').toString().toLowerCase();
+    final kod = (sinyal['kod'] ?? '').toString().toLowerCase();
+    if (kaynak.contains('surec')) return 'timeline';
+    if (kaynak.contains('risk')) return 'warning';
+    if (kaynak.contains('projeksiyon')) return 'trending_up';
+    if (kaynak.contains('genetik') || kod.contains('donor')) return 'emoji_events';
+    return 'info';
+  }
+
+  static Future<Map<String, dynamic>> yonetimDurumOzetiGetir(
+    int koloniId, {
+    Map<String, dynamic>? hazirKoloni,
+  }) async {
+    final kararlar = await yonetimKararlariGetir(
+      koloniId,
+      hazirKoloni: hazirKoloni,
+    );
+    if (kararlar.isEmpty) {
+      return const <String, dynamic>{};
+    }
+    final gridKararlari = kararlar
+        .where((k) => k['gridGosterilebilir'] != false)
+        .toList(growable: false);
+    if (gridKararlari.isEmpty) {
+      return const <String, dynamic>{};
+    }
+    final sirali = List<Map<String, dynamic>>.from(gridKararlari)
+      ..sort((a, b) => _toInt(b['oncelik']).compareTo(_toInt(a['oncelik'])));
+    return sirali.first;
+  }
+
+  static Future<List<Map<String, dynamic>>> yonetimKararlariGetir(
+    int koloniId, {
+    Map<String, dynamic>? hazirKoloni,
+  }) async {
+    final koloni = hazirKoloni ?? await VeritabaniServisi.koloniOzetiGetir(koloniId);
+    if (koloni.isEmpty) return const <Map<String, dynamic>>[];
+
+    final muayeneler = await VeritabaniServisi.muayeneleriGetir(koloniId);
+    if (muayeneler.isEmpty) return const <Map<String, dynamic>>[];
+
+    final sonMuayene = muayeneler.first;
+    final oncekiMuayene = muayeneler.length >= 2 ? muayeneler[1] : null;
+    final List<Map<String, dynamic>> kararlar = <Map<String, dynamic>>[];
+
+    Map<String, dynamic>? aktifBalAkimi;
+    try {
+      final int arilikId = _toInt(koloni['arilikId']);
+      aktifBalAkimi = await VeritabaniServisi.aktifBalAkimGetir(
+        arilikId: arilikId > 0 ? arilikId : null,
+      );
+    } catch (_) {
+      aktifBalAkimi = null;
+    }
+
+    final DateTime bugunHam = DateTime.now();
+    final DateTime bugun = DateTime(bugunHam.year, bugunHam.month, bugunHam.day);
+    final DateTime? balBas = aktifBalAkimi?['bas'] is DateTime
+        ? _sadeceGun(aktifBalAkimi!['bas'] as DateTime)
+        : null;
+    final DateTime? balBit = aktifBalAkimi?['bit'] is DateTime
+        ? _sadeceGun(aktifBalAkimi!['bit'] as DateTime)
+        : null;
+    final bool balAkimiAktif = balBas != null &&
+        balBit != null &&
+        !bugun.isBefore(balBas) &&
+        !bugun.isAfter(balBit);
+    final int? balAkiminaKalanGun = balBas == null ? null : balBas.difference(bugun).inDays;
+    final bool balAkimiKesmePenceresi =
+        balAkiminaKalanGun != null && balAkiminaKalanGun >= 0 && balAkiminaKalanGun <= 20;
+    final bool balAkimiYakinKatPenceresi =
+        balAkiminaKalanGun != null && balAkiminaKalanGun >= 0 && balAkiminaKalanGun <= 24;
+    final bool bolmeAnaPenceresi =
+        balAkiminaKalanGun != null && balAkiminaKalanGun >= 35 && balAkiminaKalanGun <= 45;
+    final bool bolmeDikkatPenceresi =
+        balAkiminaKalanGun != null && balAkiminaKalanGun >= 25 && balAkiminaKalanGun <= 34;
+    final bool kisDonemi = bugun.month == 12 || bugun.month <= 2;
+    final bool sonbaharKisHazirlik = bugun.month == 11 && bugun.day >= 15;
+
+    final surecDurumu = await SurecMotoru.durumGetir(
+      koloniId,
+      hazirKoloni: koloni,
+      hazirMuayeneler: muayeneler,
+    );
+
+    final kilit = BaglamMotoru.kararKilitDurumuGetir(
+      surecDurumu.aktifSurecler,
+      balAkimiAktif: balAkimiAktif,
+      balAkiminaKalanGun: balAkiminaKalanGun,
+      kisDonemi: kisDonemi,
+    );
+
+    if (kilit.aktif && kilit.eylemEngeli) {
+      kararlar.add({
+        'kod': kilit.kod,
+        'kategori': 'kilit',
+        'kisa': 'Bekle',
+        'baslik': kilit.baslik,
+        'mesaj': kilit.mesaj,
+        'gerekce': 'Bu pencere kapanmadan çelişen eylem önerilmez.',
+        'oncelik': kilit.oncelik,
+        'tip': 'uyari',
+        'kararTipi': 'BEKLE',
+        'bastirilabilir': false,
+      });
+    }
+
+    final bool hasatSonrasiSurec = surecDurumu.aktifSurecler.any((s) {
+      final grup = s.grup.toUpperCase();
+      final kod = s.kod.toUpperCase();
+      return grup.contains('HASAT') || kod.contains('HASAT');
+    });
+
+    final biyolojikModel = await KoloniBiyolojikModelServisi.modelGetir(koloniId);
+    final aktivasyon = Map<String, dynamic>.from(
+      biyolojikModel['citaAktivasyon'] ?? const <String, dynamic>{},
+    );
+
+    final bool suruplukKolonideVar = _boolDeger(koloni['suruplukVarMi'], varsayilan: true) &&
+        !_boolDeger(sonMuayene['suruplukKaldirildiMi']);
+    final int katEsigi = suruplukKolonideVar ? 9 : 10;
+    final int fizikselCita = _toInt(
+      biyolojikModel['fizikselToplamCita'] ?? aktivasyon['fizikselCita'],
+    );
+    final double aktivasyonOrani = _toDouble(
+      aktivasyon['aktivasyonOrani'] ?? 1.0,
+    ).clamp(0.0, 1.0).toDouble();
+    final int islevselUretimCita = _toInt(
+      biyolojikModel['islevselUretimCita'] ?? aktivasyon['islevselUretimCita'],
+    );
+    final bool riskliSisirme = biyolojikModel['riskliSisirme'] == true ||
+        aktivasyon['riskliSisirme'] == true;
+    final String modelSinifi = _metin(biyolojikModel['koloniSinifi'], '');
+    final String koloniSinifi = modelSinifi.isNotEmpty
+        ? modelSinifi
+        : _koloniSinifiBelirle(
+            fizikselCita: fizikselCita,
+            islevselUretimCita: islevselUretimCita,
+            aktivasyonOrani: aktivasyonOrani,
+          );
+    final bool zayifKoloni = koloniSinifi == 'ZAYIF';
+    final bool gelisimKolonisi = koloniSinifi == 'GELISIM';
+    final bool uretimKolonisi = koloniSinifi == 'URETIM';
+    final bool hasatKolonisi = koloniSinifi == 'HASAT';
+    final bool hasatBeklentisiVar = uretimKolonisi || hasatKolonisi;
+    final String yavruDuzeni = _metin(sonMuayene['yavruDuzeni'], '').toLowerCase();
+    final int yavruluCita = _toInt(sonMuayene['yavruluCita']);
+    final int stokCita = _toInt(sonMuayene['bal_cita']) + _toInt(sonMuayene['balliCita']) + _toInt(sonMuayene['balliCerceve']);
+    final bool yavruDuzeniStabil = yavruluCita > 0 &&
+        !yavruDuzeni.contains('yok') &&
+        !yavruDuzeni.contains('kambur') &&
+        !yavruDuzeni.contains('dağınık') &&
+        !yavruDuzeni.contains('daginik');
+
+    final String kaynakTipi = _metin(koloni['kaynakTipi'], '').toLowerCase();
+    final bool ogulKokenli = kaynakTipi.contains('oğul') || kaynakTipi.contains('ogul');
+    final bool genetikVetoGorunuyor = ogulKokenli;
+    final bool genetikDegerVarsayimi = !genetikVetoGorunuyor &&
+        yavruDuzeniStabil &&
+        islevselUretimCita >= 8 &&
+        aktivasyonOrani >= 0.80;
+
+    bool gucluTrend = false;
+    if (oncekiMuayene != null) {
+      final int oncekiCita = _toInt(oncekiMuayene['citaSayisi']);
+      final int sonCita = _toInt(sonMuayene['citaSayisi']);
+      gucluTrend = sonCita - oncekiCita >= 1;
+    }
+    if (islevselUretimCita >= 9 && aktivasyonOrani >= 0.85) {
+      gucluTrend = true;
+    }
+
+    final bool gucDususu = oncekiMuayene != null &&
+        _toInt(sonMuayene['citaSayisi']) < _toInt(oncekiMuayene['citaSayisi']);
+    final bool genetikCogaltmaHedefi = genetikDegerVarsayimi &&
+        gucluTrend &&
+        !ogulKokenli &&
+        !riskliSisirme;
+    final bool bolmeToparlanmaHedefi = surecDurumu.aktifSurecler.any((s) {
+      final kod = s.kod.toUpperCase();
+      final grup = s.grup.toUpperCase();
+      return kod.contains('BOLME') || grup.contains('BOLME');
+    });
+    final bool riskliAnaSureciHedefi = surecDurumu.aktifSurecler.any((s) {
+      final kod = s.kod.toUpperCase();
+      final grup = s.grup.toUpperCase();
+      return kod.contains('ANASIZ') ||
+          kod.contains('YAVRU_YOK') ||
+          kod.contains('ANA_KAZANMA') ||
+          grup.contains('ANASIZ') ||
+          grup.contains('YAVRU_YOK');
+    });
+
+    final Map<String, dynamic> hedef = _sezonHedefiBelirle(
+      genetikCogaltmaHedefi: genetikCogaltmaHedefi,
+      bolmeToparlanmaHedefi: bolmeToparlanmaHedefi,
+      riskliAnaSureciHedefi: riskliAnaSureciHedefi,
+      balAkimiAktif: balAkimiAktif,
+      balAkiminaKalanGun: balAkiminaKalanGun,
+      kisDonemi: kisDonemi,
+      sonbaharKisHazirlik: sonbaharKisHazirlik,
+      hasatSonrasi: hasatSonrasiSurec,
+      koloniSinifi: koloniSinifi,
+      islevselUretimCita: islevselUretimCita,
+      stokCita: stokCita,
+      gucluTrend: gucluTrend,
+      gucDususu: gucDususu,
+    );
+
+    if (hedef.isNotEmpty) {
+      kararlar.add(hedef);
+    }
+
+    final List<Map<String, dynamic>> sapmaKararlari = _sapmaSenaryolariUret(
+      surecler: surecDurumu.aktifSurecler,
+      balAkiminaKalanGun: balAkiminaKalanGun,
+      balAkimiAktif: balAkimiAktif,
+      fizikselCita: fizikselCita,
+      islevselUretimCita: islevselUretimCita,
+      aktivasyonOrani: aktivasyonOrani,
+      stokCita: stokCita,
+      yavruDuzeniStabil: yavruDuzeniStabil,
+      gucDususu: gucDususu,
+      gucluTrend: gucluTrend,
+      bolmeToparlanmaHedefi: bolmeToparlanmaHedefi,
+      riskliAnaSureciHedefi: riskliAnaSureciHedefi,
+      hasatSonrasi: hasatSonrasiSurec,
+    );
+    kararlar.addAll(sapmaKararlari);
+
+    final Map<String, dynamic> genetikSkorSinyali = _genetikCogaltmaSkoruSinyali(
+      genetikDegerVarsayimi: genetikDegerVarsayimi,
+      genetikVetoGorunuyor: genetikVetoGorunuyor,
+      gucluTrend: gucluTrend,
+      yavruDuzeniStabil: yavruDuzeniStabil,
+      islevselUretimCita: islevselUretimCita,
+      aktivasyonOrani: aktivasyonOrani,
+      kisDonemi: kisDonemi,
+      stokCita: stokCita,
+      riskliSisirme: riskliSisirme,
+      gucDususu: gucDususu,
+      bolmeToparlanmaHedefi: bolmeToparlanmaHedefi,
+      riskliAnaSureciHedefi: riskliAnaSureciHedefi,
+      hasatSonrasi: hasatSonrasiSurec,
+    );
+    if (genetikSkorSinyali.isNotEmpty && (hasatBeklentisiVar || genetikDegerVarsayimi)) {
+      kararlar.add(genetikSkorSinyali);
+    }
+
+    // Besleme artık ayrı bir UI kararı gibi değil, yönetim karar listesinin
+    // standart sinyali olarak üretilir. Böylece grid, özet kartı ve detay aynı
+    // karar hattını okur; besleme ayrı bir ikinci gerçeklik oluşturmaz.
+    try {
+      final besleme = await BeslemeKararMotoru.kararGetir(koloniId);
+      final beslemeKarari = _beslemeYonetimKarariUret(
+        besleme,
+        hasatBeklentisiVar: hasatBeklentisiVar,
+        balAkimiAktif: balAkimiAktif,
+        balAkimiKesmePenceresi: balAkimiKesmePenceresi,
+      );
+      if (beslemeKarari.isNotEmpty) {
+        kararlar.add(beslemeKarari);
+      }
+    } catch (_) {
+      // Besleme motoru hata verirse diğer yönetim kararları düşürülmez.
+    }
+
+    try {
+      final varroa = varroaTakvimHatirlatmasiGetir(
+        muayeneler,
+        bugun: bugun,
+        balAkimBaslangici: balBas,
+      );
+      final seviye = _metin(varroa['seviye'], 'bilgi').toLowerCase();
+      final baslik = _metin(varroa['baslik'], 'Varroa takibi');
+      final gerekce = _metin(varroa['gerekce'], '');
+      final oneriler = (varroa['oneriler'] is List)
+          ? (varroa['oneriler'] as List).map((e) => e.toString()).where((e) => e.trim().isNotEmpty).join(' ')
+          : '';
+      if (seviye == 'kritik' || seviye == 'risk') {
+        final bool kalintiVeto = balAkimiAktif || balAkimiKesmePenceresi;
+        kararlar.add({
+          'kod': kalintiVeto ? 'VARROA_AKIM_DONEMI_VETO' : 'VARROA_RISK',
+          'kategori': kalintiVeto ? 'veto' : 'yonetim',
+          'kisa': kalintiVeto ? 'Varroa dikkat' : 'Varroa',
+          'baslik': kalintiVeto ? 'Bal döneminde varroa mücadelesinde kalıntı riskine dikkat' : baslik,
+          'mesaj': kalintiVeto ? 'Bal akımı/hasat döneminde kalıntı riski olan kimyasal mücadele önerilmez. Gerekiyorsa organik yöntemler değerlendirilir.' : (oneriler.isEmpty ? gerekce : '$gerekce $oneriler'),
+          'gerekce': kalintiVeto ? '' : '',
+          'oncelik': seviye == 'kritik' ? 87 : 73,
+          'tip': seviye == 'kritik' ? 'uyari' : 'bilgi',
+          'kararTipi': kalintiVeto ? 'VETO' : 'EYLEM',
+          'bastirilabilir': !kalintiVeto,
+        });
+      }
+    } catch (_) {
+      // Varroa takvim hatırlatması hata verirse yönetim kararlarını düşürme.
+    }
+
+    if (hasatBeklentisiVar && (balAkimiKesmePenceresi || balAkimiAktif) && suruplukKolonideVar) {
+      kararlar.add({
+        'kod': 'SURUPLUK_KALDIR',
+        'kategori': 'eylem',
+        'kisa': 'Şurupluk',
+        'baslik': 'Şurupluk kaldırma penceresi',
+        'mesaj': balAkimiAktif
+            ? 'Bal akımı aktif görünüyor. Şurupluk kovanda görünüyorsa kaldırma kaydı kontrol edilmeli.'
+            : 'Bal akımına $balAkiminaKalanGun gün kaldı. Kalıntı riskini azaltmak için şurupluk kaldırma ve beslemeyi kesme penceresi aktif.',
+        'gerekce': 'Bal hedefli kolonide şekerli besleme/şurupluk bal akımı öncesi kapatılmalı. Bu karar besleme önerisi değil, kalıntı güvenliği ve kayıt temizliği kararıdır.',
+        'oncelik': 92,
+        'tip': 'uyari',
+      });
+    }
+
+    final bool kuluclukKatEsiginde = fizikselCita == katEsigi;
+    final bool katZatenVerilmis = fizikselCita > katEsigi;
+
+    final bool kontrolluBolmeDegerlendir =
+        hasatBeklentisiVar &&
+        !genetikVetoGorunuyor &&
+        genetikDegerVarsayimi &&
+        gucluTrend &&
+        yavruDuzeniStabil &&
+        fizikselCita >= 8 &&
+        islevselUretimCita >= 8 &&
+        aktivasyonOrani >= 0.80 &&
+        !riskliSisirme &&
+        (bolmeAnaPenceresi || bolmeDikkatPenceresi);
+
+    if (kontrolluBolmeDegerlendir) {
+      kararlar.add({
+        'kod': bolmeAnaPenceresi ? 'KONTROLLU_BOLME_ADAYI' : 'SINIRLI_BOLME_DEGERLENDIR',
+        'kategori': 'eylem',
+        'kisa': bolmeAnaPenceresi ? 'Bölme adayı' : 'Bölme dikkat',
+        'baslik': bolmeAnaPenceresi
+            ? 'Genetik çoğaltma / kontrollü bölme penceresi'
+            : 'Sınırlı bölme değerlendirmesi',
+        'mesaj': bolmeAnaPenceresi
+            ? 'Koloni güçlü gelişim gösteriyor ve bal akımına yaklaşık $balAkiminaKalanGun gün var. Kat seviyesine yaklaşmış olsa da bu süre içinde oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme değerlendirilebilir.'
+            : 'Koloni güçlü; ancak bal akımına yaklaşık $balAkiminaKalanGun gün kaldığı için bölme kararı sınırlı ve dikkatli düşünülmeli. Ana koloni bala yetişemeyecekse bölme yerine alan/oğul yönetimi öne alınır.',
+        'gerekce': 'Bölme kararı sadece çıta sayısı değildir: bal akımına kalan süre, gelişim yönü, yavru düzeni, işlevsel çıta ve genetik veto birlikte okundu.',
+        'oncelik': bolmeAnaPenceresi ? 93 : 82,
+        'tip': 'uyari',
+      });
+    }
+
+    final bool katDegerlendir = hasatBeklentisiVar && kuluclukKatEsiginde &&
+        !katZatenVerilmis &&
+        aktivasyonOrani >= 0.85 &&
+        islevselUretimCita >= 8 &&
+        yavruDuzeniStabil &&
+        !riskliSisirme &&
+        (balAkimiAktif || balAkimiYakinKatPenceresi);
+
+    if (katDegerlendir) {
+      final String esikMetni = suruplukKolonideVar
+          ? 'Şurupluk + 9 çıta kapasitesi'
+          : 'Şurupluksuz 10 çıta kapasitesi';
+      final int yuzde = (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
+      final String akimMetni = balAkimiAktif
+          ? 'Bal akımı aktif görünüyor.'
+          : (balAkiminaKalanGun == null
+              ? 'Bal akımı penceresi yaklaşıyor olabilir.'
+              : 'Bal akımına yaklaşık $balAkiminaKalanGun gün var.');
+
+      kararlar.add({
+        'kod': 'KAT_ADAYI',
+        'kategori': 'eylem',
+        'kisa': 'Kat adayı',
+        'baslik': 'Kat / ballık değerlendirme',
+        'mesaj': '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. $akimMetni Bu eşik kat/ballık verme kararının değerlendirileceği son kuluçkalık eşiğidir; bir sonraki çıta artışı kat verilmiş hacim olarak okunur.',
+        'gerekce': '',
+        'oncelik': 90,
+        'tip': 'uyari',
+      });
+    }
+
+    final bool sonMuayenedeCitaArtisiVar = oncekiMuayene != null &&
+        _toInt(sonMuayene['citaSayisi']) > _toInt(oncekiMuayene['citaSayisi']);
+    final bool alanAcmaUyarisiUygun =
+        !kisDonemi &&
+        !sonbaharKisHazirlik &&
+        !hasatSonrasiSurec &&
+        !sonMuayenedeCitaArtisiVar &&
+        !kilit.eylemEngeli &&
+        !kilit.katEngeli &&
+        aktivasyonOrani >= 0.95 &&
+        fizikselCita > 0;
+
+    if (alanAcmaUyarisiUygun && !katDegerlendir) {
+      final int yuzde = (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
+      final bool kuluclukKatBandinda = hasatBeklentisiVar && fizikselCita >= katEsigi;
+      final String baslik = kuluclukKatBandinda
+          ? 'Alan ihtiyacı / ballık değerlendirme'
+          : 'Alan ihtiyacı / çıta ekleme';
+      final String mesaj = kuluclukKatBandinda
+          ? 'Mevcut hacim yaklaşık %$yuzde aktive olmuş. Koloni sıkışmadan ballık/alan yönetimi değerlendirilebilir.'
+          : 'Mevcut $fizikselCita çıtanın tamamına yakını işlevsel kullanılıyor. Koloni sıkışmadan 1 çıta eklenmasi değerlendirilebilir.';
+      final String gerekce = sonMuayenedeCitaArtisiVar
+          ? ''
+          : 'Aktivasyon oranı koloni gücü etiketi değildir; mevcut hacmin dolduğunu ve alan ihtiyacını gösterir.';
+
+      kararlar.add({
+        'kod': 'ALAN_CITA_EKLE',
+        'kategori': 'eylem',
+        'kisa': 'Alan aç',
+        'baslik': baslik,
+        'mesaj': mesaj,
+        'gerekce': gerekce,
+        'oncelik': gelisimKolonisi || zayifKoloni ? 68 : 74,
+        'tip': 'bilgi',
+      });
+    }
+
+    if (hasatSonrasiSurec && hasatBeklentisiVar) {
+      kararlar.add({
+        'kod': 'HASAT_SONRASI_BAKIM',
+        'kategori': 'yonetim',
+        'kisa': 'Bakım',
+        'baslik': 'Hasat sonrası bakım yönü',
+        'mesaj': 'Hasat sonrası koloni sıkışabilir; stok, alan ve varroa kontrolü yapılmalıdır.',
+        'gerekce': 'Bal alımı sonrası aynı çıta düzeni artık üretim değil bakım kararıdır.',
+        'oncelik': 58,
+        'tip': 'bilgi',
+      });
+    }
+
+    if (sonbaharKisHazirlik) {
+      kararlar.add({
+        'kod': 'KIS_HAZIRLIK',
+        'kategori': 'yonetim',
+        'kisa': 'Kış hazırlık',
+        'baslik': 'Kışa hazırlık kontrolü',
+        'mesaj': 'Koloni kışa doğru yeterli stok, doğru hacim, düşük varroa baskısı ve uygun nüfusla hazırlanmalı.',
+        'gerekce': 'Kış başarısı genetik seçilim ve sürdürülebilir arılık yönetiminin temel ölçütlerinden biridir.',
+        'oncelik': stokCita <= 1 ? 76 : 54,
+        'tip': stokCita <= 1 ? 'uyari' : 'bilgi',
+      });
+    }
+
+    if (kisDonemi) {
+      kararlar.add(_kisDonemiKarari(
+        stokCita: stokCita,
+        fizikselCita: fizikselCita,
+        islevselUretimCita: islevselUretimCita,
+        gucDususu: gucDususu,
+        yavruDuzeniStabil: yavruDuzeniStabil,
+      ));
+    }
+
+    final uzlasmis = BaglamMotoru.kararCakismalariniUzlastir(kararlar, kilit);
+    final double toplamHacimAktivasyonOrani = _toDouble(
+      aktivasyon['toplamHacimAktivasyonOrani'] ??
+          aktivasyon['toplamAktivasyonOrani'] ??
+          aktivasyon['gosterimAktivasyonOrani'],
+    ) > 0
+        ? _toDouble(
+            aktivasyon['toplamHacimAktivasyonOrani'] ??
+                aktivasyon['toplamAktivasyonOrani'] ??
+                aktivasyon['gosterimAktivasyonOrani'],
+          ).clamp(0.0, 1.0).toDouble()
+        : (fizikselCita > 0
+            ? (_toDouble(aktivasyon['islevselCitaOrta'] ?? islevselUretimCita) / fizikselCita)
+                .clamp(0.0, 1.0)
+                .toDouble()
+            : 1.0);
+    final int toplamHacimAktivasyonYuzde =
+        (toplamHacimAktivasyonOrani * 100).round().clamp(0, 100).toInt();
+    final int yeniHacimAktivasyonYuzde =
+        (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
+    return uzlasmis.map((karar) {
+      return <String, dynamic>{
+        ...karar,
+        'fizikselCita': fizikselCita,
+        'islevselUretimCita': islevselUretimCita,
+        'koloniSinifi': koloniSinifi,
+        'koloniSinifEtiketi': _koloniSinifEtiketi(koloniSinifi),
+        // Grid ve kullanıcı arayüzü toplam hacim aktivasyonunu gösterir.
+        'aktivasyonYuzde': toplamHacimAktivasyonYuzde,
+        'toplamHacimAktivasyonOrani': toplamHacimAktivasyonOrani,
+        'toplamHacimAktivasyonYuzde': toplamHacimAktivasyonYuzde,
+        // İç motor anlamını korumak için yeni hacim oranı ayrıca taşınır.
+        'yeniHacimAktivasyonYuzde': yeniHacimAktivasyonYuzde,
+      };
+    }).toList(growable: false);
+  }
+
+
+
+
+  static Map<String, dynamic> _beslemeYonetimKarariUret(
+    BeslemeKararSonucu besleme, {
+    required bool hasatBeklentisiVar,
+    required bool balAkimiAktif,
+    required bool balAkimiKesmePenceresi,
+  }) {
+    final String tip = besleme.tip.trim().isEmpty
+        ? 'Besleme Yönetimi'
+        : besleme.tip.trim();
+    final String tipNorm = tip.toLowerCase();
+    final bool beslemeOnerilmez = tipNorm.contains('önerilmez') ||
+        tipNorm.contains('onerilmez');
+    final bool hasatVeto = beslemeOnerilmez ||
+        (hasatBeklentisiVar && (balAkimiAktif || balAkimiKesmePenceresi));
+
+    final String oncelik = besleme.oncelik.trim().toLowerCase();
+    int oncelikPuani;
+    if (hasatVeto) {
+      oncelikPuani = 95;
+    } else if (oncelik == 'kritik') {
+      oncelikPuani = 88;
+    } else if (oncelik == 'orta') {
+      oncelikPuani = 61;
+    } else {
+      oncelikPuani = 36;
+    }
+
+    final bool dozVar = besleme.dozBandi.trim().isNotEmpty &&
+        besleme.dozBandi.trim() != '-' &&
+        besleme.dozBandi.trim() != '0 ml';
+    final bool gerekceVar = besleme.gerekceler.any((g) => g.trim().isNotEmpty);
+    final bool mesajVar = besleme.mesaj.trim().isNotEmpty;
+
+    // Düşük öncelikli genel hatırlatma da bilinçli olarak korunur: sistem stok
+    // ölçmediği için "besleme şart değil" demez; saha gözlemine bağlayan
+    // düşük gürültülü yönetim notu üretir.
+    if (!hasatVeto && !mesajVar && !gerekceVar && !dozVar) {
+      return const <String, dynamic>{};
+    }
+
+    final List<String> detaylar = <String>[];
+    if (mesajVar) detaylar.add(besleme.mesaj.trim());
+    if (besleme.risk.trim().isNotEmpty) detaylar.add('Risk: ${besleme.risk.trim()}');
+    if (dozVar) {
+      detaylar.add('Tahmini destek bandı: ${besleme.dozBandi.trim()}');
+      if (besleme.tekrarAraligi.trim().isNotEmpty &&
+          besleme.tekrarAraligi.trim() != '-') {
+        detaylar.add(besleme.tekrarAraligi.trim());
+      }
+      if (besleme.dozNotu.trim().isNotEmpty && besleme.dozNotu.trim() != '-') {
+        detaylar.add(besleme.dozNotu.trim());
+      }
+    }
+
+    return <String, dynamic>{
+      'kod': hasatVeto
+          ? 'BESLEME_ONERILMEZ'
+          : (dozVar ? 'BESLEME_YONETIM_DESTEGI' : 'BESLEME_YONETIM_TAKIP'),
+      'kategori': hasatVeto ? 'veto' : 'yonetim',
+      'katman': 'yonetim',
+      'kisa': hasatVeto ? 'Besleme yok' : (dozVar ? 'Besleme' : 'Besleme izle'),
+      'baslik': hasatVeto ? 'Besleme önerilmez' : tip,
+      'mesaj': detaylar.isEmpty ? besleme.mesaj : detaylar.join(' '),
+      'gerekce': besleme.gerekceler.join(' '),
+      'risk': besleme.risk,
+      'oncelik': oncelikPuani,
+      'tip': hasatVeto ? 'uyari' : (oncelikPuani >= 60 ? 'bilgi' : 'not'),
+      'kararTipi': hasatVeto ? 'VETO' : 'BILGI',
+      'gridGosterilebilir': hasatVeto || oncelikPuani >= 60,
+      'bastirilabilir': !hasatVeto,
+      'dozBandi': besleme.dozBandi,
+      'tekrarAraligi': besleme.tekrarAraligi,
+      'dozNotu': besleme.dozNotu,
+    };
+  }
+
+
+
+
+  static String _koloniSinifiBelirle({
+    required int fizikselCita,
+    required int islevselUretimCita,
+    required double aktivasyonOrani,
+  }) {
+    final int referansCita = islevselUretimCita > 0 ? islevselUretimCita : fizikselCita;
+    if (referansCita <= 3) return 'ZAYIF';
+    if (referansCita <= 7) return 'GELISIM';
+    if (referansCita <= 9) return 'URETIM';
+    return 'HASAT';
+  }
+
+  static String _koloniSinifEtiketi(String sinif) {
+    switch (sinif) {
+      case 'ZAYIF':
+        return 'Zayıf';
+      case 'GELISIM':
+        return 'Gelişim';
+      case 'URETIM':
+        return 'Üretim';
+      case 'HASAT':
+        return 'Hasat';
+      default:
+        return 'İzleme';
+    }
+  }
+
+  static Map<String, dynamic> _sezonHedefiBelirle({
+    required bool genetikCogaltmaHedefi,
+    required bool bolmeToparlanmaHedefi,
+    required bool riskliAnaSureciHedefi,
+    required bool balAkimiAktif,
+    required int? balAkiminaKalanGun,
+    required bool kisDonemi,
+    required bool sonbaharKisHazirlik,
+    required bool hasatSonrasi,
+    required String koloniSinifi,
+    required int islevselUretimCita,
+    required int stokCita,
+    required bool gucluTrend,
+    required bool gucDususu,
+  }) {
+    String kod = '';
+    String kisa = '';
+    String baslik = '';
+    String mesaj = '';
+    int oncelik = 0;
+    String tip = 'bilgi';
+    String gerekce = '';
+
+    final bool zayifKoloni = koloniSinifi == 'ZAYIF';
+    final bool gelisimKolonisi = koloniSinifi == 'GELISIM';
+    final bool hasatGucuVar = islevselUretimCita >= 8 &&
+        (koloniSinifi == 'URETIM' || koloniSinifi == 'HASAT');
+
+    if (riskliAnaSureciHedefi) {
+      kod = 'RISKLI_ANA_SURECI';
+      kisa = 'Ana süreci';
+      baslik = 'Ana/yavru netleşmeli';
+      mesaj = 'Ana ve yavru düzeni netleşmeden üretim, kat veya çoğaltma kararı öne alınmaz.';
+      gerekce = 'Yavru düzeni netleşmeden yapılan işlem koloni kaybı riskini artırır.';
+      oncelik = 83;
+      tip = 'uyari';
+    } else if (bolmeToparlanmaHedefi) {
+      kod = 'BOLME_SONRASI_TOPARLANMA';
+      kisa = 'Toparlanma';
+      baslik = 'Bölme toparlanıyor';
+      mesaj = 'Bu koloni için öncelik ana düzeninin oturması ve nüfusun korunmasıdır.';
+      gerekce = 'Yeni bölmelerin bu sezon ana hedefi bal değil, sağlıklı koloni düzenine geçmektir.';
+      oncelik = 79;
+      tip = 'uyari';
+    } else if (kisDonemi) {
+      kod = 'KIS_DONEMI';
+      kisa = 'Kış';
+      baslik = 'Kış kontrolü';
+      mesaj = 'Kovan gereksiz açılmadan stok, nem ve dış uçuş durumu izlenmelidir.';
+      gerekce = 'Kışta gereksiz müdahale salkımı ve ısı düzenini bozar.';
+      oncelik = 78;
+      tip = 'uyari';
+    } else if (sonbaharKisHazirlik) {
+      kod = 'KIS_HAZIRLIK';
+      kisa = 'Kış hazırlık';
+      baslik = 'Kışa hazırlık';
+      mesaj = 'Stok, hacim ve varroa durumu kışa giriş için kontrol edilmelidir.';
+      gerekce = 'Kışa hazırlık vurgusu sonbahar döneminde anlamlıdır.';
+      oncelik = 63;
+    } else if (hasatSonrasi) {
+      kod = 'HASAT_SONRASI_BAKIM';
+      kisa = 'Bakım';
+      baslik = 'Hasat sonrası bakım';
+      mesaj = 'Hasat sonrası stok, alan ve varroa durumu kontrol edilmelidir.';
+      gerekce = 'Bal alımı sonrası koloni düzeni değişir; bakım kararı üretim kararının önüne geçer.';
+      oncelik = 62;
+    } else if (balAkimiAktif) {
+      if (hasatGucuVar) {
+        kod = 'HASAT_KOLONISI';
+        kisa = 'Hasat';
+        baslik = 'Hasat kolonisi';
+        mesaj = 'Koloni bal akımı içinde alan ve hasat yönünden izlenebilir.';
+        gerekce = 'İşlevsel güç hasat değerlendirmesi için yeterli görünüyor.';
+        oncelik = 70;
+      } else if (zayifKoloni || gelisimKolonisi) {
+        kod = 'AKIMDA_GELISTIRME';
+        kisa = 'Gelişim';
+        baslik = 'Gelişim kolonisi';
+        mesaj = 'Hasat hedefi yok. Öncelik güçlenme, stok ve ana düzenidir.';
+        gerekce = 'İşlevsel çıta gücü hasat eşiğinin altında.';
+        oncelik = 60;
+      }
+    } else if (genetikCogaltmaHedefi &&
+        balAkiminaKalanGun != null &&
+        balAkiminaKalanGun >= 35 &&
+        balAkiminaKalanGun <= 45) {
+      kod = 'GENETIK_COGALTMA_ADAYI';
+      kisa = 'Çoğaltma';
+      baslik = 'Kontrollü çoğaltma adayı';
+      mesaj = 'Koloni güçlü ve düzenli ilerliyor; süre uygunsa kontrollü bölme değerlendirilebilir.';
+      gerekce = 'Bal akımına kalan süre ana koloninin tekrar toparlanmasına izin verebilir.';
+      oncelik = 87;
+      tip = 'uyari';
+    } else if (hasatGucuVar && balAkiminaKalanGun != null && balAkiminaKalanGun >= 0 && balAkiminaKalanGun <= 24) {
+      kod = 'KISA_HAZIRLIK';
+      kisa = 'Hazırlık';
+      baslik = 'Bal akımı hazırlık';
+      mesaj = 'Bal akımına kısa süre kaldığından koloninin gücünü korumak önemlidir. Hasat kalıntı güvenliği önemsenmelidir. Zaman zaman bal akım döneminde, bal tüketen nüfusu koloniden uzaklaştırmak için teknik bir koloni bölme işlemi yapılabilir. Bu uygulama bilgi olarak verilmiştir. Gerçekleştirebilmek bilgi ve tecrübe gerektirir.';
+      gerekce = '';
+      oncelik = 80;
+      tip = 'uyari';
+    } else if (zayifKoloni || gelisimKolonisi || stokCita <= 1 || gucDususu) {
+      kod = zayifKoloni ? 'ZAYIF_DESTEK' : 'GELISIM_KOLONISI';
+      kisa = zayifKoloni ? 'Destek' : 'Gelişim';
+      baslik = zayifKoloni ? 'Güçlendirme' : 'Gelişim kolonisi';
+      mesaj = zayifKoloni
+          ? 'Öncelik stok, nüfus ve ana düzenini güvenli seviyeye çıkarmaktır.'
+          : 'Gelişim aşamasındaki koloni. Hasat süreci dışında kabul edilmelidir.';
+      gerekce = '';
+      oncelik = zayifKoloni ? 72 : 52;
+      tip = zayifKoloni ? 'uyari' : 'bilgi';
+    } else if (gucluTrend && islevselUretimCita >= 8) {
+      kod = 'BAL_ANA_KOLONI';
+      kisa = 'Bala hazırla';
+      baslik = 'Bala hazırlanıyor';
+      mesaj = 'Koloni üretim gücüne yaklaşıyor; hedef oğul baskısı oluşturmadan bal akımına güçlü girmektir.';
+      gerekce = 'Gelişim yönü ve işlevsel çıta gücü üretim hedefini destekliyor.';
+      oncelik = 58;
+    }
+
+    if (kod.isEmpty) {
+      return const <String, dynamic>{};
+    }
+
+    return {
+      'kod': kod,
+      'kategori': 'hedef',
+      'kisa': kisa,
+      'baslik': baslik,
+      'mesaj': mesaj,
+      'gerekce': gerekce,
+      'oncelik': oncelik,
+      'tip': tip,
+    };
+  }
+
+  static List<Map<String, dynamic>> _sapmaSenaryolariUret({
+    required List<SurecUyarisi> surecler,
+    required int? balAkiminaKalanGun,
+    required bool balAkimiAktif,
+    required int fizikselCita,
+    required int islevselUretimCita,
+    required double aktivasyonOrani,
+    required int stokCita,
+    required bool yavruDuzeniStabil,
+    required bool gucDususu,
+    required bool gucluTrend,
+    required bool bolmeToparlanmaHedefi,
+    required bool riskliAnaSureciHedefi,
+    required bool hasatSonrasi,
+  }) {
+    final kararlar = <Map<String, dynamic>>[];
+    final bool aktifOgulRiski = surecler.any((s) {
+      final kod = s.kod.toUpperCase();
+      final grup = s.grup.toUpperCase();
+      return kod.contains('OGUL') || grup.contains('OGUL');
+    });
+
+    if (riskliAnaSureciHedefi && gucDususu) {
+      kararlar.add({
+        'kod': 'SAPMA_ANA_SURECI_ZAYIFLAMA',
+        'kategori': 'sapma',
+        'kisa': 'Sapma',
+        'baslik': 'Ana sürecinde zayıflama riski',
+        'mesaj': 'Ana/yavru süreci devam ederken koloni gücü düşüyorsa normal bekleme senaryosu zayıflama riskine döner. Bu aşamada üretim değil, ana durumunu netleştirme ve yaşatma hedefi öne çıkar.',
+        'gerekce': 'Beklenen akış: ana kazanma → yavru görülmesi → toparlanma. Sapma: süreç uzar ve nüfus düşerse ana kaybı, çiftleşme başarısızlığı veya dış tehdit olasılığı artar.',
+        'oncelik': 89,
+        'tip': 'uyari',
+      });
+    }
+
+    if (bolmeToparlanmaHedefi && !yavruDuzeniStabil && gucDususu) {
+      kararlar.add({
+        'kod': 'SAPMA_BOLME_TUTMADI',
+        'kategori': 'sapma',
+        'kisa': 'Bölme riski',
+        'baslik': 'Bölme toparlanmıyor',
+        'mesaj': 'Bölme sonrası beklenen akış ana düzeninin oturması ve nüfusun korunmasıdır. Yavru düzeni yoksa ve güç düşüyorsa bu koloni için bal hedefi değil, ana tutma/yaşatma süreci öne çıkar.',
+        'gerekce': 'Bölme süreci sadece gün sayısıyla kapanmaz; yavru düzeni, işlevsel çıta ve yeniden büyüme görülmeden süreç tamamlanmış kabul edilmez.',
+        'oncelik': 88,
+        'tip': 'uyari',
+      });
+    }
+
+    if (!balAkimiAktif &&
+        balAkiminaKalanGun != null &&
+        balAkiminaKalanGun >= 25 &&
+        balAkiminaKalanGun <= 45 &&
+        gucluTrend &&
+        fizikselCita >= 8 &&
+        aktivasyonOrani >= 0.80 &&
+        !aktifOgulRiski) {
+      kararlar.add({
+        'kod': 'SAPMA_OGUL_RISKI_YUKSELIR',
+        'kategori': 'uyari',
+        'kisa': 'Oğul riski',
+        'baslik': 'Erken sıkışma oğul riski',
+        'mesaj': 'Koloni bal akımı başlamadan güçlü büyümeye devam ediyor. Bu güç yalnızca kat ile yönetilirse bal akımına kadar oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme, değilse alan/oğul yönetimi düşünülmelidir.',
+        'gerekce': 'Beklenen hedef 11–12 çıtalık güçlü ama yönetilebilir koloniyle bal akımına girmektir. Bu eşiğin erken aşılması üretim değil oğul riski üretebilir.',
+        'oncelik': 84,
+        'tip': 'uyari',
+      });
+    }
+
+    if (balAkimiAktif && islevselUretimCita >= 8 && stokCita <= 1) {
+      kararlar.add({
+        'kod': 'SAPMA_AKIMDA_ALAN_TAKIBI',
+        'kategori': 'yonetim',
+        'kisa': 'Alan izle',
+        'baslik': 'Bal akımında alan izle',
+        'mesaj': 'Bal akımı içinde davranış değişir; koloni yavru büyütmeden çok nektar depolamaya yönelebilir. Düşük görünen stok tek başına zayıflık sayılmaz, alan ve sırlanma birlikte izlenir.',
+        'gerekce': 'Bal akımı döneminde yavru ve stok verileri normal dönem gibi okunmaz; nektar girişi, ballık alanı ve hasat zamanı birlikte değerlendirilir.',
+        'oncelik': 60,
+        'tip': 'bilgi',
+        'kararTipi': 'BILGI',
+      });
+    }
+
+    if (hasatSonrasi && stokCita <= 1) {
+      kararlar.add({
+        'kod': 'SAPMA_HASAT_SONRASI_STOK_RISKI',
+        'kategori': 'sapma',
+        'kisa': 'Stok riski',
+        'baslik': 'Hasat sonrası stok düşük',
+        'mesaj': 'Hasat sonrası beklenen akış stok, varroa ve hacim düzeninin toparlanmasıdır. Stok düşük görünüyorsa üretim dili kapanır; kışa güvenli giriş için stok ve sıkıştırma birlikte değerlendirilir.',
+        'gerekce': 'Hasat balı alındıktan sonra aynı çıta gücü üretim başarısı değil, kışa hazırlık riski olarak okunabilir.',
+        'oncelik': 86,
+        'tip': 'uyari',
+        'kararTipi': 'UYARI',
+      });
+    }
+
+    if (hasatSonrasi && fizikselCita >= 8 && islevselUretimCita <= 5) {
+      kararlar.add({
+        'kod': 'SAPMA_HASAT_SONRASI_HACIM_RISKI',
+        'kategori': 'sapma',
+        'kisa': 'Hacim riski',
+        'baslik': 'Hasat sonrası hacim fazla olabilir',
+        'mesaj': 'Fiziksel çıta alanı yüksek ama işlevsel güç düşükse koloni gereksiz hacimde kalabilir. Bu durumda alan daraltma, stok ve kış düzeni üretim kararlarının önüne geçer.',
+        'gerekce': 'Hasat sonrası dönemde fazla boş hacim yağmacılık, nem ve ısı yönetimi riskini artırabilir.',
+        'oncelik': 78,
+        'tip': 'uyari',
+        'kararTipi': 'UYARI',
+      });
+    }
+
+    return kararlar;
+  }
+
+  static Map<String, dynamic> _genetikCogaltmaSkoruSinyali({
+    required bool genetikDegerVarsayimi,
+    required bool genetikVetoGorunuyor,
+    required bool gucluTrend,
+    required bool yavruDuzeniStabil,
+    required int islevselUretimCita,
+    required double aktivasyonOrani,
+    required bool kisDonemi,
+    required int stokCita,
+    required bool riskliSisirme,
+    required bool gucDususu,
+    required bool bolmeToparlanmaHedefi,
+    required bool riskliAnaSureciHedefi,
+    required bool hasatSonrasi,
+  }) {
+    final skor = KoloniKararMotoru.genetikCogaltmaSkoruHesapla(
+      yavruDuzeniStabil: yavruDuzeniStabil,
+      gucluTrend: gucluTrend,
+      genetikVeto: genetikVetoGorunuyor,
+      riskliSisirme: riskliSisirme,
+      gucDususu: gucDususu,
+      bolmeToparlanmaHedefi: bolmeToparlanmaHedefi,
+      riskliAnaSureciHedefi: riskliAnaSureciHedefi,
+      hasatSonrasi: hasatSonrasi,
+      kisDonemi: kisDonemi,
+      islevselUretimCita: islevselUretimCita,
+      aktivasyonOrani: aktivasyonOrani,
+      stokCita: stokCita,
+    );
+
+    final int puan = _toInt(skor['puan']);
+    final String bant = _metin(skor['bant'], 'dusuk');
+    final bool veto = skor['veto'] == true;
+    final List<String> riskler = (skor['riskler'] is List)
+        ? (skor['riskler'] as List)
+            .map((e) => e.toString())
+            .where((e) => e.trim().isNotEmpty)
+            .toList()
+        : const <String>[];
+    final String ozet = _metin(skor['ozet'], 'Genetik çoğaltma değeri izleniyor.');
+
+    if (veto) {
+      return {
+        'kod': 'GENETIK_COGALTMA_VETO',
+        'kategori': 'genetik',
+        'kisa': 'Veto',
+        'baslik': 'Genetik çoğaltma değeri: veto',
+        'mesaj': 'Koloni çoğaltma havuzunda öne çıkarılmaz. Üretim değeri ayrı, genetik yayılım değeri ayrıdır.',
+        'gerekce': ozet,
+        'risk': riskler.join(' '),
+        'oncelik': 66,
+        'tip': 'uyari',
+        'kararTipi': 'VETO',
+        'puan': puan,
+        'skorKalemleri': skor['kalemler'],
+      };
+    }
+
+    if (!genetikDegerVarsayimi && puan < 68) {
+      return const <String, dynamic>{};
+    }
+
+    final bool yuksek = bant == 'yüksek' || bant == 'yuksek' || puan >= 82;
+    return {
+      'kod': yuksek ? 'GENETIK_COGALTMA_DEGERI_YUKSEK' : 'GENETIK_COGALTMA_DEGERI_IZLE',
+      'kategori': 'genetik',
+      'kisa': yuksek ? 'Genetik iyi' : 'Genetik izle',
+      'baslik': yuksek
+          ? 'Genetik çoğaltma değeri yüksek'
+          : 'Genetik çoğaltma değeri izleme bandında',
+      'mesaj': ozet,
+      'gerekce': 'Biyolojik güç, yavru düzeni, gelişim istikrarı ve riskler birlikte değerlendirilir.',
+      'risk': riskler.join(' '),
+      'oncelik': yuksek ? 70 : 50,
+      'tip': yuksek ? 'bilgi' : 'notr',
+      'kararTipi': 'GENETIK',
+      'puan': puan,
+      'skorKalemleri': skor['kalemler'],
+    };
+  }
+
+
+  static Map<String, dynamic> _kisDonemiKarari({
+    required int stokCita,
+    required int fizikselCita,
+    required int islevselUretimCita,
+    required bool gucDususu,
+    required bool yavruDuzeniStabil,
+  }) {
+    if (stokCita <= 1) {
+      return {
+        'kod': 'KIS_ACLIK_RISKI',
+        'kategori': 'yonetim',
+        'kisa': 'Açlık riski',
+        'baslik': 'Kış riski: stok yetersiz görünüyor',
+        'mesaj': 'Kış döneminde kovanı gereksiz açma önerilmez; ancak stok çok düşükse açlık riski önceliklidir. Hava ve saha koşulu uygunsa hızlı, sınırlı stok desteği/kek değerlendirilir.',
+        'gerekce': 'Kış yönetiminde temel kural minimum müdahaledir; fakat açlık riski minimum müdahale kuralından daha yüksek önceliklidir.',
+        'oncelik': 91,
+        'tip': 'uyari',
+      };
+    }
+
+    if (fizikselCita >= 7 && islevselUretimCita <= 4) {
+      return {
+        'kod': 'KIS_HACIM_RISKI',
+        'kategori': 'yonetim',
+        'kisa': 'Hacim',
+        'baslik': 'Kış riski: boş hacim yüksek olabilir',
+        'mesaj': 'Fiziksel hacim yüksek ama işlevsel güç düşük görünüyorsa kış salkımı ısıyı korumakta zorlanabilir. Uygun zamanda hacim daraltma ve nem kontrolü değerlendirilir.',
+        'gerekce': 'Kış başarısı yalnızca stokla değil, koloni hacmi ile arı nüfusunun uyumuyla belirlenir.',
+        'oncelik': 82,
+        'tip': 'uyari',
+      };
+    }
+
+    if (gucDususu) {
+      return {
+        'kod': 'KIS_ZAYIFLAMA_TAKIBI',
+        'kategori': 'yonetim',
+        'kisa': 'Zayıflama',
+        'baslik': 'Kış riski: güç kaybı izlenmeli',
+        'mesaj': 'Kış döneminde güç kaybı görülüyorsa kovanı açmadan dış gözlem, ağırlık, uçuş deliği ve nem kontrolü öne alınır. Uygun havada sınırlı kontrol yapılabilir.',
+        'gerekce': 'Kışta gereksiz muayene salkımı ve ısı düzenini bozabilir.',
+        'oncelik': 80,
+        'tip': 'uyari',
+      };
+    }
+
+    return {
+      'kod': 'KIS_DIS_GOZLEM',
+      'kategori': 'yonetim',
+      'kisa': 'Dış gözlem',
+      'baslik': 'Kış yönetimi: gereksiz açma yok',
+      'mesaj': 'Koloni için ana yaklaşım kovanı gereksiz açmadan dış gözlem, ağırlık hissi, uçuş deliği, nem ve su girişi kontrolüdür.',
+      'gerekce': 'Kış dönemi algoritması üretim değil yaşatma odaklıdır. İlkbahar çıkışı genetik istikrar skoruna veri sağlar.',
+      'oncelik': 66,
+      'tip': 'bilgi',
+    };
+  }
 
   static Future<SurecUyarisi?> _dominantSurecGetir(int koloniId) async {
     final surecDurumu = await SurecMotoru.durumGetir(koloniId);
@@ -446,7 +1612,7 @@ class KararAsistanServisi {
       case 'GELISIM':
         return 'Gelişim yavaşlığı açıklanması gereken saha durumudur. Önce neden aranır; sonra üretim veya genetik rol yeniden değerlendirilir.';
       default:
-        return 'Aktif süreç bulunduğu için sistem bu aşamada süreç yönetimini ana kararın önüne alır.';
+        return 'Aktif süreç varsa önce süreç yönetimi öne alınır.';
     }
   }
 
@@ -606,7 +1772,19 @@ class KararAsistanServisi {
       }
     }
 
-    if (temizBalAkimBaslangici != null && balAkiminaKalanGun != null && balAkiminaKalanGun >= 0) {
+    if (temizBalAkimBaslangici != null &&
+        balAkiminaKalanGun != null &&
+        balAkiminaKalanGun < 0) {
+      if (seviye != 'kritik') {
+        seviye = 'risk';
+      }
+      baslik = 'Bal döneminde varroa kararı dikkat ister.';
+      gerekce = 'Bal akımı başladıktan sonra kalıntı riski olan kimyasal mücadele önerilmez.';
+      oneriler
+        ..clear()
+        ..add('Gerekirse yalnızca bala kalıntı riski taşımayan, etikete ve mevzuata uygun yöntemleri değerlendir.')
+        ..add('Kimyasal mücadeleyi hasat sonrasına planla.');
+    } else if (temizBalAkimBaslangici != null && balAkiminaKalanGun != null && balAkiminaKalanGun >= 0) {
       final sonGunMetni = tarihMetni(sonGuvenliMudahaleTarihi);
       final balAkimMetni = tarihMetni(temizBalAkimBaslangici);
 
@@ -689,11 +1867,43 @@ class KararAsistanServisi {
     return DateTime(dt.year, dt.month, dt.day);
   }
 
+  static bool _sonMuayenedeYavruGorulmediMi(Map<String, dynamic> muayene) {
+    final String yavruDuzeni =
+        _metin(muayene['yavruDuzeni'], '').trim().toLowerCase();
+    final int yavruluCita = _toInt(muayene['yavruluCita']);
+    final int gunlukKapaliYavruGoruldu =
+        _toInt(muayene['gunlukKapaliYavruGoruldu']);
+
+    if (gunlukKapaliYavruGoruldu == 1) return false;
+    if (yavruDuzeni == 'yok' || yavruDuzeni.contains('yok')) return true;
+    return yavruluCita <= 0 && yavruDuzeni.isEmpty;
+  }
+
   static int _toInt(dynamic deger) {
     if (deger == null) return 0;
     if (deger is int) return deger;
     if (deger is double) return deger.round();
     return int.tryParse(deger.toString()) ?? 0;
+  }
+
+
+  static double _toDouble(dynamic deger) {
+    if (deger == null) return 0.0;
+    if (deger is double) return deger;
+    if (deger is int) return deger.toDouble();
+    if (deger is num) return deger.toDouble();
+    return double.tryParse(deger.toString()) ?? 0.0;
+  }
+
+  static bool _boolDeger(dynamic deger, {bool varsayilan = false}) {
+    if (deger == null) return varsayilan;
+    if (deger is bool) return deger;
+    if (deger is int) return deger == 1;
+    if (deger is double) return deger.round() == 1;
+    final temiz = deger.toString().trim().toLowerCase();
+    if (temiz == '1' || temiz == 'true' || temiz == 'evet' || temiz == 'var') return true;
+    if (temiz == '0' || temiz == 'false' || temiz == 'hayır' || temiz == 'hayir' || temiz == 'yok') return false;
+    return varsayilan;
   }
 
   static String _metin(dynamic deger, String varsayilan) {

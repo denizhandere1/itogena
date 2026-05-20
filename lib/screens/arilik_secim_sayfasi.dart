@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import 'koloniler_sayfasi.dart';
+import 'raporlar_sayfasi.dart';
 import '../services/arilik_uyari_servisi.dart';
 
 class ArilikSecimSayfasi extends StatefulWidget {
-  const ArilikSecimSayfasi({super.key});
+  final bool raporModu;
+
+  const ArilikSecimSayfasi({
+    super.key,
+    this.raporModu = false,
+  });
 
   @override
   State<ArilikSecimSayfasi> createState() => _ArilikSecimSayfasiState();
@@ -484,13 +490,22 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
   }
 
   void _ariligaGit(Map<String, dynamic> arilik) async {
+    final arilikId = _toInt(arilik['id']);
+    final arilikAd = arilik['ad']?.toString() ?? '-';
+    if (arilikId <= 0) return;
+
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (c) => KolonilerSayfasi(
-          arilikAd: arilik['ad']?.toString() ?? '-',
-          arilikId: _toInt(arilik['id']),
-        ),
+        builder: (c) => widget.raporModu
+            ? RaporlarSayfasi(
+                arilikAd: arilikAd,
+                arilikId: arilikId,
+              )
+            : KolonilerSayfasi(
+                arilikAd: arilikAd,
+                arilikId: arilikId,
+              ),
       ),
     );
     _verileriYukle();
@@ -684,9 +699,9 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
-        title: const Text(
-          'ARILIK SEÇİMİ',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          widget.raporModu ? 'RAPOR İÇİN ARILIK SEÇ' : 'ARILIK SEÇİMİ',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
@@ -718,10 +733,15 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                   ),
                 )
               : ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 124),
-                  children: [
-                    ..._ariliklar.map(_arilikKarti),
-                  ],
+                  padding: EdgeInsets.fromLTRB(
+                    widget.raporModu ? 12 : 16,
+                    widget.raporModu ? 12 : 16,
+                    widget.raporModu ? 12 : 16,
+                    124,
+                  ),
+                  children: widget.raporModu
+                      ? _ariliklar.map(_raporArilikSatiri).toList()
+                      : _ariliklar.map(_arilikKarti).toList(),
                 ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: SafeArea(
@@ -731,6 +751,99 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
           backgroundColor: Colors.amber,
           child: const Icon(Icons.add, color: Colors.black),
         ),
+      ),
+    );
+  }
+
+
+
+  Widget _raporArilikSatiri(Map<String, dynamic> arilik) {
+    final arilikId = _toInt(arilik['id']);
+    final ozet = _ozetMap[arilikId] ?? const <String, dynamic>{};
+    final ad = arilik['ad']?.toString() ?? '-';
+    final toplam = _toInt(ozet['toplam']);
+    final aktif = _toInt(ozet['aktif']);
+    final ortalamaSkor = _toInt(ozet['ortalamaSkor']);
+    final skorRenk = _skorRengi(ortalamaSkor);
+
+    return InkWell(
+      onTap: () => _ariligaGit(arilik),
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Colors.amber.shade200),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.hive_outlined, size: 22, color: Colors.brown),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ad,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 14.5,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Aktif $aktif / Toplam $toplam',
+                    style: const TextStyle(
+                      fontSize: 11.5,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              decoration: BoxDecoration(
+                color: skorRenk.withOpacity(0.10),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: skorRenk.withOpacity(0.22)),
+              ),
+              child: Text(
+                '%$ortalamaSkor',
+                style: TextStyle(
+                  color: skorRenk,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 12.5,
+                ),
+              ),
+            ),
+            const SizedBox(width: 4),
+            const Icon(Icons.chevron_right, color: Colors.brown),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _raporModuBilgiKarti() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.amber.shade300),
+      ),
+      child: const Text(
+        'Raporlar seçtiğin arılığa göre hazırlanır. Ekonomik değer, arılık istatistikleri, donör listeleri ve güçlü/zayıf sıralamaları yalnızca bu arılıktaki aktif kolonileri dikkate alır.',
+        style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.black87),
       ),
     );
   }

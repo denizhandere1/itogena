@@ -3,6 +3,7 @@ import 'esik_servisi.dart';
 import 'veritabani_servisi.dart';
 import 'ari_biyoloji_servisi.dart';
 import 'koloni_biyolojik_model_servisi.dart';
+import 'performans_izleme_servisi.dart';
 
 class KoloniKararSonucu {
   final int koloniId;
@@ -67,23 +68,47 @@ class KoloniKararSonucu {
 
 class KoloniKararMotoru {
   static final Map<int, List<Map<String, dynamic>>> _donorListeCache = {};
+  static final Map<int, Future<List<Map<String, dynamic>>>>
+      _donorListeFutureCache = {};
   static final Map<int, Map<String, dynamic>> _arilikOzetCache = {};
+  static final Map<int, Map<String, dynamic>> _koloniProfilCache = {};
+  static final Map<int, Future<Map<String, dynamic>>> _koloniProfilFutureCache = {};
   static final Map<String, KoloniKararSonucu> _koloniKararCache = {};
 
   static void tumCacheTemizle() {
     _donorListeCache.clear();
+    _donorListeFutureCache.clear();
     _arilikOzetCache.clear();
+    _koloniProfilCache.clear();
+    _koloniProfilFutureCache.clear();
     _koloniKararCache.clear();
   }
 
   static void arilikCacheTemizle(int? arilikId) {
     if (arilikId == null || arilikId <= 0) return;
     _donorListeCache.remove(arilikId);
+    _donorListeFutureCache.remove(arilikId);
     _arilikOzetCache.remove(arilikId);
+    _koloniProfilCache.clear();
+    _koloniProfilFutureCache.clear();
     _koloniKararCache.removeWhere((key, value) {
       final profilArilikId = _nullableInt(value.profil['arilikId']);
       return profilArilikId == arilikId;
     });
+  }
+
+
+  static void koloniCacheTemizle(int koloniId) {
+    if (koloniId <= 0) return;
+    _koloniProfilCache.remove(koloniId);
+    _koloniProfilFutureCache.remove(koloniId);
+    _koloniKararCache.removeWhere((key, value) => value.koloniId == koloniId);
+    // Tek bir koloninin muayenesi veya bilgisi değiştiğinde donör sırası ve
+    // arılık özeti de etkilenebilir. Güvenli tarafta kalmak için arılık
+    // düzeyindeki hesapları tamamen temizliyoruz.
+    _donorListeCache.clear();
+    _donorListeFutureCache.clear();
+    _arilikOzetCache.clear();
   }
 
   static String _kararCacheKey(
@@ -189,10 +214,12 @@ class KoloniKararMotoru {
       Map<String, dynamic> koloni, {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
+        bool donorAnaliziBekle = true,
       }) async {
     final int? arilikId = _nullableInt(koloni['arilikId']);
-    final List<Map<String, dynamic>> donorListesi =
-        siraliDonorler ?? await donorAdaylariSiraliGetir(arilikId: arilikId);
+    final List<Map<String, dynamic>> donorListesi = donorAnaliziBekle
+        ? (siraliDonorler ?? await donorAdaylariSiraliGetir(arilikId: arilikId))
+        : (siraliDonorler ?? const <Map<String, dynamic>>[]);
 
     Map<String, dynamic>? kendiSirasi;
     for (final item in donorListesi) {
@@ -205,7 +232,11 @@ class KoloniKararMotoru {
     final int donorSirasi =
     kendiSirasi == null ? 0 : _toInt(kendiSirasi['sira']);
 
-    final profil = await _koloniProfiliOlustur(koloniId, koloni);
+    final profil = await _koloniProfiliGetir(
+      koloniId,
+      koloni,
+      forceRefresh: forceRefresh,
+    );
     final cacheKey = _kararCacheKey(
       koloniId,
       arilikId,
@@ -816,13 +847,39 @@ class KoloniKararMotoru {
     int? arilikId,
     bool forceRefresh = false,
   }) async {
-    if (arilikId != null &&
-        arilikId > 0 &&
-        !forceRefresh &&
-        _donorListeCache.containsKey(arilikId)) {
-      return _donorListeCache[arilikId]!;
+    final int cacheKey = arilikId != null && arilikId > 0 ? arilikId : 0;
+
+    if (!forceRefresh) {
+      final cached = _donorListeCache[cacheKey];
+      if (cached != null) return cached;
+
+      final devamEden = _donorListeFutureCache[cacheKey];
+      if (devamEden != null) return devamEden;
+    } else {
+      _donorListeCache.remove(cacheKey);
+      _donorListeFutureCache.remove(cacheKey);
     }
 
+    final future = PerformansIzlemeServisi.olc<List<Map<String, dynamic>>>(
+      'donorAdaylariSiraliGetir(arilikId: ${arilikId ?? 0})',
+      () => _donorAdaylariSiraliHesapla(arilikId: arilikId),
+      yavasEsikMs: 500,
+    );
+
+    _donorListeFutureCache[cacheKey] = future;
+
+    try {
+      final sonuc = await future;
+      _donorListeCache[cacheKey] = sonuc;
+      return sonuc;
+    } finally {
+      _donorListeFutureCache.remove(cacheKey);
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> _donorAdaylariSiraliHesapla({
+    int? arilikId,
+  }) async {
     final List<Map<String, dynamic>> koloniler = arilikId != null
         ? await VeritabaniServisi.kovanlariAriligaGoreGetir(arilikId)
         : await VeritabaniServisi.kolonileriGetir();
@@ -831,11 +888,14 @@ class KoloniKararMotoru {
 
     final List<Map<String, dynamic>> havuz = [];
 
+    // Profil üretimi pahalıdır. Her koloni için await döngüsü devam eder;
+    // ancak profil/future cache sayesinde aynı hesap aynı turda veya ekranlar
+    // arasında ikinci kez çalıştırılmaz.
     for (final koloni in koloniler) {
       final int koloniId = _toInt(koloni['id']);
       if (koloniId <= 0) continue;
 
-      final profil = await _koloniProfiliOlustur(koloniId, koloni);
+      final profil = await _koloniProfiliGetir(koloniId, koloni);
       if (profil['aktifMi'] != true) continue;
       if (profil['donorVeto'] == true) continue;
 
@@ -866,11 +926,40 @@ class KoloniKararMotoru {
       havuz[i]['sira'] = i + 1;
     }
 
-    if (arilikId != null && arilikId > 0) {
-      _donorListeCache[arilikId] = havuz;
+    return havuz;
+  }
+
+  static Future<Map<String, dynamic>> _koloniProfiliGetir(
+    int koloniId,
+    Map<String, dynamic> koloni, {
+    bool forceRefresh = false,
+  }) async {
+    if (forceRefresh) {
+      _koloniProfilCache.remove(koloniId);
+      _koloniProfilFutureCache.remove(koloniId);
     }
 
-    return havuz;
+    final cached = _koloniProfilCache[koloniId];
+    if (!forceRefresh && cached != null) return cached;
+
+    final devamEden = _koloniProfilFutureCache[koloniId];
+    if (!forceRefresh && devamEden != null) return devamEden;
+
+    final future = PerformansIzlemeServisi.olc<Map<String, dynamic>>(
+      'koloniProfiliOlustur(koloniId: $koloniId)',
+      () => _koloniProfiliOlustur(koloniId, koloni),
+      yavasEsikMs: 300,
+    );
+
+    _koloniProfilFutureCache[koloniId] = future;
+
+    try {
+      final sonuc = await future;
+      _koloniProfilCache[koloniId] = sonuc;
+      return sonuc;
+    } finally {
+      _koloniProfilFutureCache.remove(koloniId);
+    }
   }
 
   static Future<Map<String, dynamic>> _koloniProfiliOlustur(
@@ -1007,6 +1096,12 @@ class KoloniKararMotoru {
       'suruplukVarMi': biyolojikModel['suruplukVarMi'],
       'kuluclukKapasitesi': biyolojikModel['kuluclukKapasitesi'],
       'citaAktivasyon': biyolojikModel['citaAktivasyon'],
+      'hacimDegisimTipi': biyolojikModel['hacimDegisimTipi'],
+      'uretimGuvenliMi': biyolojikModel['uretimGuvenliMi'],
+      'balAkimiGenislemesi': biyolojikModel['balAkimiGenislemesi'],
+      'hasatKaynakliDusus': biyolojikModel['hasatKaynakliDusus'],
+      'riskliSisirme': biyolojikModel['riskliSisirme'],
+      'islevselUretimCita': biyolojikModel['islevselUretimCita'],
       'islevselToplamCita': biyolojikModel['islevselToplamCita'],
       'fizikselToplamCita': biyolojikModel['fizikselToplamCita'],
       'tahminiAriMin': biyolojikModel['tahminiAriMin'],
@@ -1468,6 +1563,141 @@ class KoloniKararMotoru {
     if (value < min) return min;
     if (value > max) return max;
     return value;
+  }
+
+
+  /// Hafif genetik çoğaltma skoru.
+  /// Ayrı bir servis değildir; KoloniKararMotoru içinde genetik/seçilim
+  /// değerlendirmesinin yardımcı hesabı olarak çalışır. Operasyon kararı vermez.
+  static Map<String, dynamic> genetikCogaltmaSkoruHesapla({
+    required bool yavruDuzeniStabil,
+    required bool gucluTrend,
+    required bool genetikVeto,
+    required bool riskliSisirme,
+    required bool gucDususu,
+    required bool bolmeToparlanmaHedefi,
+    required bool riskliAnaSureciHedefi,
+    required bool hasatSonrasi,
+    required bool kisDonemi,
+    required int islevselUretimCita,
+    required double aktivasyonOrani,
+    required int stokCita,
+  }) {
+    final kalemler = <String, int>{};
+    final riskler = <String>[];
+
+    if (genetikVeto) {
+      return {
+        'puan': 0,
+        'bant': 'veto',
+        'veto': true,
+        'kalemler': kalemler,
+        'riskler': ['Oğul kökeni/izi genetik yayılım için veto kabul edildi.'],
+        'ozet': 'Üretim değeri ayrı tutulur; genetik çoğaltma kararı veto edilir.',
+      };
+    }
+
+    if (islevselUretimCita >= 10) {
+      kalemler['biyolojikKapasite'] = 22;
+    } else if (islevselUretimCita >= 8) {
+      kalemler['biyolojikKapasite'] = 18;
+    } else if (islevselUretimCita >= 6) {
+      kalemler['biyolojikKapasite'] = 10;
+    } else {
+      kalemler['biyolojikKapasite'] = 0;
+      riskler.add('İşlevsel çıta kapasitesi çoğaltma için düşük.');
+    }
+
+    if (yavruDuzeniStabil) {
+      kalemler['yavruIstikrari'] = 22;
+    } else {
+      kalemler['yavruIstikrari'] = 0;
+      riskler.add('Yavru düzeni netleşmeden genetik yayılım öne çıkarılmaz.');
+    }
+
+    if (gucluTrend && !gucDususu) {
+      kalemler['gelisimIstikrari'] = 20;
+    } else if (!gucDususu) {
+      kalemler['gelisimIstikrari'] = 10;
+    } else {
+      kalemler['gelisimIstikrari'] = 0;
+      riskler.add('Son kayıtta güç düşüşü var; çoğaltma yerine neden analizi gerekir.');
+    }
+
+    if (aktivasyonOrani >= 0.90) {
+      kalemler['aktivasyonKalitesi'] = 14;
+    } else if (aktivasyonOrani >= 0.80) {
+      kalemler['aktivasyonKalitesi'] = 10;
+    } else if (aktivasyonOrani >= 0.65) {
+      kalemler['aktivasyonKalitesi'] = 5;
+    } else {
+      kalemler['aktivasyonKalitesi'] = 0;
+      riskler.add('Aktivasyon düşük; fiziksel çıta genetik kapasite gibi okunmamalı.');
+    }
+
+    if (kisDonemi || hasatSonrasi) {
+      if (stokCita >= 3) {
+        kalemler['kisStokGuvenligi'] = 12;
+      } else if (stokCita >= 2) {
+        kalemler['kisStokGuvenligi'] = 7;
+      } else {
+        kalemler['kisStokGuvenligi'] = 0;
+        riskler.add('Kış/hasat sonrası stok güvenliği zayıf.');
+      }
+    } else {
+      kalemler['kisStokGuvenligi'] = stokCita >= 2 ? 8 : 4;
+    }
+
+    int surecGuvenligi = 10;
+    if (riskliAnaSureciHedefi) {
+      surecGuvenligi -= 8;
+      riskler.add('Ana/yavru süreci açık; genetik karar izleme bandına çekilir.');
+    }
+    if (bolmeToparlanmaHedefi && !yavruDuzeniStabil) {
+      surecGuvenligi -= 5;
+      riskler.add('Bölme toparlanması tamamlanmadan yeni çoğaltma hedefi açılmaz.');
+    }
+    if (riskliSisirme) {
+      surecGuvenligi -= 6;
+      riskler.add('Riskli şişirme var; fiziksel genişleme genetik başarı sayılmaz.');
+    }
+    kalemler['surecGuvenligi'] = surecGuvenligi.clamp(0, 10).toInt();
+
+    final puan = kalemler.values.fold<int>(0, (a, b) => a + b).clamp(0, 100).toInt();
+    final String bant;
+    if (puan >= 82 && riskler.length <= 1) {
+      bant = 'yüksek';
+    } else if (puan >= 68) {
+      bant = 'izle';
+    } else {
+      bant = 'dusuk';
+    }
+
+    return {
+      'puan': puan,
+      'bant': bant,
+      'veto': false,
+      'kalemler': kalemler,
+      'riskler': riskler,
+      'ozet': _genetikCogaltmaSkoruOzetUret(bant, puan, riskler),
+    };
+  }
+
+  static String _genetikCogaltmaSkoruOzetUret(
+    String bant,
+    int puan,
+    List<String> riskler,
+  ) {
+    if (bant == 'yüksek') {
+      return 'Biyolojik kapasite, yavru düzeni, istikrar ve süreç güvenliği çoğaltma için güçlü sinyal veriyor.';
+    }
+    if (bant == 'izle') {
+      return 'Olumlu genetik sinyaller var; karar için istikrar, süreç kapanışı ve sezon penceresi birlikte izlenmeli.';
+    }
+    if (riskler.isNotEmpty) {
+      return 'Çoğaltma değeri düşük/temkinli: ${riskler.first}';
+    }
+    return 'Çoğaltma değeri şu aşamada öncelikli değil.';
   }
 
   static int _toInt(dynamic deger) {

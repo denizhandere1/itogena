@@ -29,6 +29,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   final TextEditingController _notController = TextEditingController();
 
   static const List<String> _yavruDuzeniSecenekleri = [
+    'Yok',
     'Blok',
     'Normal',
     'Dağınık',
@@ -95,6 +96,14 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   String _suruplukKaldirmaMesaji = '';
 
   String _memeDurumu = 'Yok';
+
+  bool? _taniKoloniSakinMi;
+  bool? _taniPolenGelisiVar;
+  bool? _taniBalNektarGelisiGuclu;
+  bool? _taniErkekYavruBaskin;
+  bool _yavruYokTaniSorulariGoster = false;
+  bool _yavruYokErkenPencereMi = false;
+  String _yavruYokTaniPencereMesaji = '';
 
   bool _onYuklemeYapildi = false;
   int _referansCita = 0;
@@ -170,6 +179,99 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
 
   bool get _hasatBakimModuAktif => _bal > 0;
 
+  bool get _yavruDuzeniYokMu => _yavruDuzeni.trim().toLowerCase() == 'yok';
+
+  bool get _yavruYokTaniSorulariAcilmali {
+    if (!_yavruDuzeniYokMu) return false;
+    if (_yavruYokTaniSorulariGoster) return true;
+    if (_yavruYokErkenPencereMi) return false;
+    return !_anaKazanmaSureciAktifMi && !_anasizBirakildiMi;
+  }
+
+  void _yavruDuzeniDegistir(String yeniDeger) {
+    final bool yokSecildi = yeniDeger.trim().toLowerCase() == 'yok';
+    setState(() {
+      _yavruDuzeni = yeniDeger;
+      if (yokSecildi) {
+        _yavru = 0;
+      } else {
+        _taniKoloniSakinMi = null;
+        _taniPolenGelisiVar = null;
+        _taniBalNektarGelisiGuclu = null;
+        _taniErkekYavruBaskin = null;
+        _gunlukKapaliYavruGoruldu = false;
+      }
+    });
+    _ustBilgiyiYukle();
+  }
+
+  Map<String, dynamic> _yavruYokPencereDurumunuHesapla(
+    List<Map<String, dynamic>> aktifSurecler,
+  ) {
+    bool soruGoster = false;
+    bool erkenPencere = false;
+    String mesaj = '';
+
+    for (final surec in aktifSurecler) {
+      final kod = (surec['kod'] ?? '').toString().toUpperCase();
+      final grup = (surec['grup'] ?? '').toString().toUpperCase();
+      final baslik = (surec['baslik'] ?? '').toString();
+      final surecMesaji = (surec['mesaj'] ?? '').toString();
+      final birlesik = '$kod $grup $baslik $surecMesaji'.toLowerCase();
+
+      if (kod.startsWith('YAVRU_YOK_')) {
+        if (kod == 'YAVRU_YOK_NORMAL_BEKLEME' ||
+            kod == 'YAVRU_YOK_ERKEN_TAKIP') {
+          erkenPencere = true;
+          mesaj = baslik.isNotEmpty
+              ? baslik
+              : 'Bu aşamada yavru görülmemesi normal olabilir.';
+        } else {
+          soruGoster = true;
+          mesaj = baslik.isNotEmpty
+              ? baslik
+              : 'Yavru yokluğu için kısa tanı gözlemleri gerekli.';
+        }
+        continue;
+      }
+
+      if (grup == 'ANASIZLIK' ||
+          grup == 'BOLME' ||
+          grup == 'OGUL_SONRASI' ||
+          kod.contains('ANASIZLIK') ||
+          kod.contains('BOLME') ||
+          kod.contains('OGUL_SONRASI')) {
+        if (birlesik.contains('gereksiz açma') ||
+            birlesik.contains('gereksiz acma') ||
+            birlesik.contains('hassastır') ||
+            birlesik.contains('hassastir') ||
+            birlesik.contains('erken olabilir')) {
+          erkenPencere = true;
+          if (mesaj.isEmpty) {
+            mesaj = 'Aktif biyolojik süreçte erken pencere olabilir.';
+          }
+        }
+
+        if (birlesik.contains('gecikmiş') ||
+            birlesik.contains('gecikmis') ||
+            birlesik.contains('ana durumunu kontrol') ||
+            birlesik.contains('toparlanma gecik')) {
+          soruGoster = true;
+          erkenPencere = false;
+          if (mesaj.isEmpty) {
+            mesaj = 'Yavru yokluğu için kısa tanı gözlemleri gerekli.';
+          }
+        }
+      }
+    }
+
+    return {
+      'soruGoster': soruGoster,
+      'erkenPencere': erkenPencere && !soruGoster,
+      'mesaj': mesaj,
+    };
+  }
+
   Future<void> _ustBilgiyiYukle() async {
     try {
       final koloni =
@@ -202,6 +304,8 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       final String suruplukMesaji =
           (suruplukPenceresi['mesaj'] ?? '').toString();
 
+      final yavruYokPencere = _yavruYokPencereDurumunuHesapla(aktifSurecler);
+
       setState(() {
         final dbKovanNo = (koloni['kovanNo'] ?? '').toString().trim();
         if (dbKovanNo.isNotEmpty) {
@@ -216,6 +320,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
 
         _anaKazanmaSureciAktifMi =
             anaKazanmaAktif || _anasizBirakildiMi || _gunlukKapaliYavruGoruldu;
+        _yavruYokTaniSorulariGoster = yavruYokPencere['soruGoster'] == true;
+        _yavruYokErkenPencereMi = yavruYokPencere['erkenPencere'] == true;
+        _yavruYokTaniPencereMesaji =
+            (yavruYokPencere['mesaj'] ?? '').toString();
         _suruplukKaldirmaPenceresiAktif = suruplukPencereHasatIcinAktif ||
             hasatBakimModuAktif ||
             (_suruplukKaldirildiMi && hasatModuAktif);
@@ -267,8 +375,13 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     _eklenenTemelPetek = _intDeger(m['eklenenTemelPetek']);
     _eklenenKabarmisPetek = _intDeger(m['eklenenKabarmisPetek']);
 
-    _not = m['notlar']?.toString() ?? '';
+    _not = _taniEtiketleriniTemizle(m['notlar']?.toString() ?? '');
     _notController.text = _not;
+    _taniKoloniSakinMi = null;
+    _taniPolenGelisiVar = null;
+    _taniBalNektarGelisiGuclu = null;
+    _taniErkekYavruBaskin = null;
+    _taniEtiketleriniYukle(m);
 
     _anaGorulmedi = _intDeger(m['anaAriGoruldu']) == 0;
     _ogulBelirtisi = _intDeger(m['ogulBelirtisi']) == 1;
@@ -298,6 +411,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       varsayilan: 'Yok',
       izinliDegerler: const ['Yok', 'Açık', 'Kapalı', 'Çıkmış', 'Bozulmuş'],
     );
+
+    if (_yavruDuzeniYokMu) {
+      _yavru = 0;
+    }
   }
 
   void _sonMuayenedenOnYukle(Map<String, dynamic> m) {
@@ -353,6 +470,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       varsayilan: 'Yok',
       izinliDegerler: const ['Yok', 'Açık', 'Kapalı', 'Çıkmış', 'Bozulmuş'],
     );
+
+    if (_yavruDuzeniYokMu) {
+      _yavru = 0;
+    }
 
     _onYuklemeYapildi = true;
   }
@@ -554,6 +675,78 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     await _ustBilgiyiYukle();
   }
 
+  bool? _notEtiketiBoolOku(String metin, String anahtar) {
+    final desen = RegExp('\\[$anahtar=([01])\\]');
+    final eslesme = desen.firstMatch(metin);
+    if (eslesme == null) return null;
+    return eslesme.group(1) == '1';
+  }
+
+  String _taniEtiketleriniTemizle(String metin) {
+    return metin
+        .replaceAll(RegExp(r'\[TANI_POLEN=[01]\]\s*'), '')
+        .replaceAll(RegExp(r'\[TANI_BAL_GELISI=[01]\]\s*'), '')
+        .replaceAll(RegExp(r'\[TANI_ERKEK_YAVRU=[01]\]\s*'), '')
+        .replaceAll(RegExp(r'\n{3,}'), '\n\n')
+        .trim();
+  }
+
+  String _taniEtiketleriniUygula(String metin) {
+    var temiz = _taniEtiketleriniTemizle(metin);
+    final etiketler = <String>[];
+    if (_taniPolenGelisiVar != null) {
+      etiketler.add('[TANI_POLEN=${_taniPolenGelisiVar! ? 1 : 0}]');
+    }
+    if (_taniBalNektarGelisiGuclu != null) {
+      etiketler.add('[TANI_BAL_GELISI=${_taniBalNektarGelisiGuclu! ? 1 : 0}]');
+    }
+    if (_taniErkekYavruBaskin != null) {
+      etiketler.add('[TANI_ERKEK_YAVRU=${_taniErkekYavruBaskin! ? 1 : 0}]');
+    }
+
+    if (etiketler.isEmpty) return temiz;
+    final etiketMetni = etiketler.join(' ');
+    if (temiz.isEmpty) return etiketMetni;
+    return '$temiz\n$etiketMetni';
+  }
+
+  void _taniEtiketleriniYukle(Map<String, dynamic> m) {
+    final notlar = (m['notlar'] ?? '').toString();
+    final mizacMetni = (m['mizac'] ?? '').toString().toLowerCase();
+    if (mizacMetni.contains('sakin')) {
+      _taniKoloniSakinMi = true;
+    } else if (mizacMetni.contains('sinirli') ||
+        mizacMetni.contains('saldırgan') ||
+        mizacMetni.contains('saldirgan')) {
+      _taniKoloniSakinMi = false;
+    } else {
+      _taniKoloniSakinMi = null;
+    }
+
+    _taniPolenGelisiVar = _notEtiketiBoolOku(notlar, 'TANI_POLEN');
+    _taniBalNektarGelisiGuclu =
+        _notEtiketiBoolOku(notlar, 'TANI_BAL_GELISI');
+
+    final erkekEtiketi = _notEtiketiBoolOku(notlar, 'TANI_ERKEK_YAVRU');
+    final erkekMetni = (m['erkekAriDurumu'] ?? '').toString().toLowerCase();
+    if (erkekEtiketi != null) {
+      _taniErkekYavruBaskin = erkekEtiketi;
+    } else if (erkekMetni.contains('bask')) {
+      _taniErkekYavruBaskin = true;
+    } else if (erkekMetni.contains('normal') || erkekMetni.contains('yok')) {
+      _taniErkekYavruBaskin = false;
+    } else {
+      _taniErkekYavruBaskin = null;
+    }
+  }
+
+  String? _erkekAriDurumuKayitDegeri() {
+    if (!_yavruDuzeniYokMu || _taniErkekYavruBaskin == null) return null;
+    return _taniErkekYavruBaskin!
+        ? 'Erkek yavru gözleri baskın'
+        : 'Erkek yavru baskısı yok';
+  }
+
   void _notMetniniGuncelle(String metin) {
     _not = metin;
     if (_notController.text == metin) return;
@@ -634,14 +827,20 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   }
 
   Future<void> _kaydet() async {
+    final String kayitNotu = _yavruDuzeniYokMu
+        ? _taniEtiketleriniUygula(_notController.text.trim())
+        : _taniEtiketleriniTemizle(_notController.text.trim());
+
     final veri = <String, dynamic>{
       'koloniId': widget.koloniDonemiId,
       'tarih': _tarihDbFormatla(_tarih),
       'citaSayisi': _cita,
       'bal_cita': _bal,
-      'yavruluCita': _yavru,
+      'yavruluCita': _yavruDuzeniYokMu ? 0 : _yavru,
       'yavruDuzeni': _yavruDuzeni,
-      'mizac': _mizac,
+      'mizac': _yavruDuzeniYokMu && _taniKoloniSakinMi != null
+          ? (_taniKoloniSakinMi! ? 'Sakin' : 'Sinirli')
+          : _mizac,
       'beslemeTipi': _besleme,
       'beslemeYapildi': _besleme == 'Yok' ? 0 : 1,
       'varroaMucadele': _varroaMucadele == 'Yok' ? null : _varroaMucadele,
@@ -650,7 +849,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       'ogulAtti': _ogulAtti ? 1 : 0,
       'bolmeYapildi': _bolmeYapildi ? 1 : 0,
       'kovanSondu': _kovanSondu ? 1 : 0,
-      'notlar': _notController.text.trim(),
+      'notlar': kayitNotu,
       'anaUretimGirisimVarMi': 0,
       'anasizBirakildiMi': _anasizBirakildiMi ? 1 : 0,
       'anasizBaslangicTarihi':
@@ -661,9 +860,13 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       'memeDurumu': (_anaKazanmaYontemi == 'kapali_meme'
           ? 'Kapalı'
           : (_ogulAtti ? 'Çıkmış' : (_ogulBelirtisi ? 'Kapalı' : null))),
+      'erkekAriDurumu': _erkekAriDurumuKayitDegeri(),
       'anaDegisimPlanlandiMi': _anaDegisimPlanlandiMi ? 1 : 0,
       'gunlukKapaliYavruGoruldu':
-          (_anaKazanmaSureciAktifMi || _anasizBirakildiMi) &&
+          (_anaKazanmaSureciAktifMi ||
+                      _anasizBirakildiMi ||
+                      _yavruDuzeniYokMu ||
+                      _yavruYokTaniSorulariGoster) &&
                   _gunlukKapaliYavruGoruldu
               ? 1
               : 0,
@@ -783,6 +986,9 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     if (!mounted) return;
     setState(() {
       _yavru = v.clamp(0, _cita).toInt();
+      if (_yavru > 0 && _yavruDuzeniYokMu) {
+        _yavruDuzeni = 'Normal';
+      }
     });
   }
 
@@ -1156,6 +1362,8 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   Widget _gunlukKapaliYavruKapanisKutusu() {
     if (!_anaKazanmaSureciAktifMi &&
         !_anasizBirakildiMi &&
+        !_yavruDuzeniYokMu &&
+        !_yavruYokTaniSorulariGoster &&
         !_gunlukKapaliYavruGoruldu) {
       return const SizedBox.shrink();
     }
@@ -1184,9 +1392,151 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           style: TextStyle(fontWeight: FontWeight.w900),
         ),
         subtitle: const Text(
-          'Yalnızca bölme veya anasızlık kaynaklı ana kazanma sürecinde görünür. İşaretlersen bu süreç kapanır ve koloni normal yönetim sürecine geçer.',
+          'Bölme, oğul, ana kazanma veya yavru yok takibinde kapanış işaretidir. İşaretlersen sistem yavru görülmeme penceresini kapatır ve koloniyi normal düzene alır.',
           style: TextStyle(fontSize: 12, height: 1.4),
         ),
+      ),
+    );
+  }
+
+
+  Widget _yavruYokBilgiKutusu() {
+    if (!_yavruDuzeniYokMu) return const SizedBox.shrink();
+
+    final String metin = _yavruYokErkenPencereMi
+        ? 'Yavru düzeni “Yok” olarak kaydedilecek. Aktif biyolojik süreçte erken pencere olabilir; bu aşamada yavru görülmemesi tek başına alarm değildir. ${_yavruYokTaniPencereMesaji.isNotEmpty ? _yavruYokTaniPencereMesaji : 'Gereksiz açma ve sert müdahale önerilmez.'}'
+        : (_yavruYokTaniSorulariAcilmali
+            ? 'Yavru düzeni “Yok” olarak kaydedilecek. Sistem artık kısa tanı gözlemleriyle bal baskısı, geç çiftleşme, ana sorunu veya biyolojik zayıflama olasılıklarını ayıracak.'
+            : 'Yavru düzeni “Yok” olarak kaydedilecek. Sistem bunu normal koloni bağlamında ayrı okuyacak; yavrulu çıta sayısı 0 kabul edilir ve biyolojik model geri dönüş kapasitesini buna göre hesaplar.');
+
+    return _bilgiKutusu(
+      icon: Icons.info_outline,
+      renk: Colors.blueGrey,
+      metin: metin,
+    );
+  }
+
+  Widget _taniSecenekSatiri({
+    required String baslik,
+    required String aciklama,
+    required bool? deger,
+    required ValueChanged<bool?> onChanged,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.amber.shade200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            baslik,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w900,
+              color: Colors.brown,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            aciklama,
+            style: const TextStyle(fontSize: 11.8, height: 1.35),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ChoiceChip(
+                label: const Text('Evet'),
+                selected: deger == true,
+                selectedColor: Colors.amber,
+                onSelected: (_) => setState(() => onChanged(true)),
+              ),
+              ChoiceChip(
+                label: const Text('Hayır'),
+                selected: deger == false,
+                selectedColor: Colors.amber.shade100,
+                onSelected: (_) => setState(() => onChanged(false)),
+              ),
+              ChoiceChip(
+                label: const Text('Emin değilim'),
+                selected: deger == null,
+                selectedColor: Colors.grey.shade200,
+                onSelected: (_) => setState(() => onChanged(null)),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _yavruYokTaniSorulariKutusu() {
+    if (!_yavruYokTaniSorulariAcilmali) return const SizedBox.shrink();
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 8, bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF8E1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.amber.shade300),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Yavru Yok Kısa Tanı Gözlemleri',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w900,
+              color: Colors.brown,
+            ),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Bu alan teşhis seçtirmez. Sistem bu 4 basit gözlemi mevcut sezon, süreç penceresi ve koloni gücüyle birlikte okuyarak öneri üretir.',
+            style: TextStyle(fontSize: 12, height: 1.4),
+          ),
+          const SizedBox(height: 10),
+          _taniSecenekSatiri(
+            baslik: 'Koloni sakin mi?',
+            aciklama: 'Sakin koloni içeride yeni ana olma ihtimalini artırır. Huzursuz koloni anasızlık/stres şüphesini yükseltir.',
+            deger: _taniKoloniSakinMi,
+            onChanged: (v) {
+              _taniKoloniSakinMi = v;
+              if (v == true) {
+                _mizac = 'Sakin';
+              } else if (v == false) {
+                _mizac = 'Sinirli';
+              }
+            },
+          ),
+          _taniSecenekSatiri(
+            baslik: 'Polen gelişi var mı?',
+            aciklama: 'Polen gelişi, yavru hazırlığı veya içeride ana varlığı ihtimalini destekler. Polen yokluğu biyolojik durgunluk riskini artırır.',
+            deger: _taniPolenGelisiVar,
+            onChanged: (v) => _taniPolenGelisiVar = v,
+          ),
+          _taniSecenekSatiri(
+            baslik: 'Bal / nektar gelişi güçlü mü?',
+            aciklama: 'Güçlü akım yumurtlama alanını daraltabilir. Bu durumda yavru yokluğu doğrudan anasızlık anlamına gelmeyebilir.',
+            deger: _taniBalNektarGelisiGuclu,
+            onChanged: (v) => _taniBalNektarGelisiGuclu = v,
+          ),
+          _taniSecenekSatiri(
+            baslik: 'Erkek yavru gözleri baskın mı?',
+            aciklama: 'Evet ise çiftleşememiş ana, başarısız ana veya yalancı ana riski artar. Bu cevap bekleme kararını sertleştirir.',
+            deger: _taniErkekYavruBaskin,
+            onChanged: (v) => _taniErkekYavruBaskin = v,
+          ),
+        ],
       ),
     );
   }
@@ -1292,8 +1642,13 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       'Yavru Düzeni',
                       _yavruDuzeniSecenekleri,
                       _yavruDuzeni,
-                      (v) => setState(() => _yavruDuzeni = v!),
+                      (v) {
+                        if (v == null) return;
+                        _yavruDuzeniDegistir(v);
+                      },
                     ),
+                    _yavruYokBilgiKutusu(),
+                    _yavruYokTaniSorulariKutusu(),
                     const SizedBox(height: 4),
                     _baslik('Koloni Mizacı'),
                     _ikonluSecim(

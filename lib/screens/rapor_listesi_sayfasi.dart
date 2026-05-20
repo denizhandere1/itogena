@@ -7,11 +7,15 @@ import 'koloni_detay_sayfasi.dart';
 class RaporListesiSayfasi extends StatefulWidget {
   final String raporTipi;
   final String baslik;
+  final int arilikId;
+  final String arilikAd;
 
   const RaporListesiSayfasi({
     super.key,
     required this.raporTipi,
     required this.baslik,
+    required this.arilikId,
+    required this.arilikAd,
   });
 
   @override
@@ -24,7 +28,10 @@ class _RaporListesiSayfasiState extends State<RaporListesiSayfasi> {
   @override
   void initState() {
     super.initState();
-    _future = RaporSiralamaServisi.listeGetir(widget.raporTipi);
+    _future = RaporSiralamaServisi.listeGetir(
+      widget.raporTipi,
+      arilikId: widget.arilikId,
+    );
   }
 
   @override
@@ -33,7 +40,7 @@ class _RaporListesiSayfasiState extends State<RaporListesiSayfasi> {
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
         title: Text(
-          widget.baslik,
+          '${widget.baslik} - ${widget.arilikAd}',
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
@@ -101,7 +108,7 @@ class _RaporListesiSayfasiState extends State<RaporListesiSayfasi> {
         border: Border.all(color: Colors.amber.shade300),
       ),
       child: Text(
-        'Bu liste yalnızca seçtiğin rapor için yüklenir. Sıralama ana eksende skora göre yapılır. Eşitlikte önce üreme, sonra üretim, sonra donörlük öne çıkar. Toplam $adet kayıt var.',
+        'Bu liste ${widget.arilikAd} arılığındaki aktif kolonilerden üretilir. Sıralama ana eksende skora göre yapılır. Eşitlikte önce üreme, sonra üretim, sonra donörlük öne çıkar. Toplam $adet kayıt var.',
         style: const TextStyle(
           fontSize: 12,
           height: 1.45,
