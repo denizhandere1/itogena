@@ -325,17 +325,23 @@ class KararOrkestratoru {
   ) {
     final k = '$kaynak $kod $grup $baslik'.toLowerCase();
 
+    // Canlı süreçler rutin yönetim uyarılarının üstündedir.
+    // Grid ve ana karar alanında önce koloni devamlılığı konuşur; varroa,
+    // besleme, alan ve şurupluk gibi yönetim işleri bunun arkasına düşer.
+    if (k.contains('yalancı ana') || k.contains('yalanci ana')) return 100;
     if (k.contains('anasız') || k.contains('anasiz')) return 100;
-    if (k.contains('yavru yok') || k.contains('yavrusuz')) return 96;
+    if (k.contains('yavru yok') || k.contains('yavrusuz')) return 100;
+    if (k.contains('oğul attı') || k.contains('ogul atti')) return 98;
+    if (k.contains('artçı') || k.contains('artci')) return 96;
     if (k.contains('oğul') || k.contains('ogul') || k.contains('ana memesi')) {
-      return 94;
+      return 95;
     }
+    if (k.contains('bölme') || k.contains('bolme')) return 90;
     if (k.contains('bal kalitesi') || k.contains('kalıntı') || k.contains('kalinti')) {
-      return 90;
+      return 72;
     }
-    if (k.contains('kat') || k.contains('alan')) return 88;
-    if (k.contains('varroa')) return 85;
-    if (k.contains('bölme') || k.contains('bolme')) return 80;
+    if (k.contains('kat') || k.contains('alan')) return 68;
+    if (k.contains('varroa')) return 60;
     if (k.contains('eşek') || k.contains('esek') || k.contains('yağma') || k.contains('yagma')) {
       return 75;
     }

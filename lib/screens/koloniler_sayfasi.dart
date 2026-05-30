@@ -75,18 +75,29 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     final aktiflikMap =
     await VeritabaniServisi.koloniAktiflikHaritasiGetir(koloniIdleri);
 
-    final gridContextMap = await KoloniGridContextServisi.topluGetir(
-      koloniler: veri,
-      aktiflikMap: aktiflikMap,
-    );
-
     if (!mounted || token != _yuklemeToken) return;
+
+    // Performans: Koloniler ekranı tüm karar/grid context hesaplarını beklemesin.
+    // Önce ham koloni listesi açılır; her kart geçici temel context ile görünür.
+    // Yönetim etiketi, yavru-yok, oğul/ana memesi alarmı ve aktivasyon bilgisi
+    // küçük gruplar halinde arka planda doldurulur.
+    final Map<int, KoloniGridContext> baslangicContext = {};
+    for (final koloni in veri) {
+      final id = _toInt(koloni['id']);
+      if (id <= 0) continue;
+      baslangicContext[id] = KoloniGridContext.bos(
+        koloniId: id,
+        aktifMi: aktiflikMap[id] ?? true,
+        skor: _toInt(koloni['skor']),
+        sonCita: _toInt(koloni['sonCita']),
+      );
+    }
 
     setState(() {
       _koloniler = veri;
       _gridContextMap
         ..clear()
-        ..addAll(gridContextMap);
+        ..addAll(baslangicContext);
       _siraliDonorler = [];
       _seciliKoloniIdleri.removeWhere(
             (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
@@ -95,7 +106,64 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       _donorlerYukleniyor = false;
     });
 
+    _gridContextleriniArkaPlandaYukle(
+      token,
+      koloniler: veri,
+      aktiflikMap: aktiflikMap,
+    );
     _donorRozetleriniArkaPlandaYukle(token);
+  }
+
+  Future<void> _gridContextleriniArkaPlandaYukle(
+    int token, {
+    required List<Map<String, dynamic>> koloniler,
+    required Map<int, bool> aktiflikMap,
+  }) async {
+    const int grupBoyutu = 6;
+
+    for (var i = 0; i < koloniler.length; i += grupBoyutu) {
+      if (!mounted || token != _yuklemeToken) return;
+
+      final bitis = (i + grupBoyutu) > koloniler.length
+          ? koloniler.length
+          : i + grupBoyutu;
+      final grup = koloniler.sublist(i, bitis);
+
+      final entries = await Future.wait(
+        grup.map((koloni) async {
+          final id = _toInt(koloni['id']);
+          if (id <= 0) {
+            return MapEntry<int, KoloniGridContext>(
+              id,
+              KoloniGridContext.bos(koloniId: id, aktifMi: false),
+            );
+          }
+
+          final context = await KoloniGridContextServisi.getir(
+            koloni,
+            aktifMi: aktiflikMap[id] ?? true,
+          );
+          return MapEntry<int, KoloniGridContext>(id, context);
+        }),
+      );
+
+      if (!mounted || token != _yuklemeToken) return;
+
+      setState(() {
+        for (final entry in entries) {
+          if (entry.key > 0) {
+            _gridContextMap[entry.key] = entry.value;
+          }
+        }
+        _seciliKoloniIdleri.removeWhere(
+              (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
+        );
+      });
+
+      // UI thread'e nefes ver. Çok sayıda kolonide kartlar tek büyük blok yerine
+      // hissedilir şekilde parça parça güncellenir.
+      await Future<void>.delayed(const Duration(milliseconds: 12));
+    }
   }
 
   Future<void> _donorRozetleriniArkaPlandaYukle(int token) async {

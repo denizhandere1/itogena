@@ -117,6 +117,11 @@ class KoloniContextServisi {
 
     final int? arilikId = _nullableInt(koloni['arilikId']);
 
+    // Performans: Koloni detay açılışında ana karar ve seçilim için
+    // KoloniKararMotoru iki ayrı kez çalıştırılmamalı. Bu iki çıktı artık
+    // KararAsistanServisi.kararVeBiyolojiBirlesikGetir üzerinden tek karar
+    // zincirinden alınır. Böylece detay ekranı açılırken aynı koloni profili,
+    // donör/seçilim ve biyoloji hesapları tekrar edilmez.
     final yanSonuclar = await Future.wait<dynamic>([
       KararAsistanServisi.surecDurumuGetir(
         koloniId,
@@ -124,14 +129,11 @@ class KoloniContextServisi {
         hazirMuayeneler: muayeneler,
         forceRefresh: false,
       ),
-      KararAsistanServisi.anaKararUret(
+      KararAsistanServisi.kararVeBiyolojiBirlesikGetir(
         koloniId,
         koloni,
-        donorAnaliziBekle: false,
-      ),
-      KararAsistanServisi.secilimDurumuGetir(
-        koloniId,
-        koloni,
+        siraliDonorler: const <Map<String, dynamic>>[],
+        forceRefresh: false,
       ),
       YonetimDurumServisi.kararlarGetir(
         koloniId,
@@ -146,24 +148,27 @@ class KoloniContextServisi {
     final surecDurumu = Map<String, dynamic>.from(
       yanSonuclar[0] as Map? ?? const <String, dynamic>{},
     );
-    final anaKarar = Map<String, String>.from(
-      yanSonuclar[1] as Map? ?? const <String, String>{},
+    final kararBirlesik = Map<String, dynamic>.from(
+      yanSonuclar[1] as Map? ?? const <String, dynamic>{},
     );
-    final secilim = Map<String, String>.from(
-      yanSonuclar[2] as Map? ?? const <String, String>{},
+    final anaKarar = _stringMap(
+      kararBirlesik['anaKarar'] as Map? ?? const <String, dynamic>{},
+    );
+    final secilim = _stringMap(
+      kararBirlesik['secilim'] as Map? ?? const <String, dynamic>{},
     );
     final yonetimKararlari = List<Map<String, dynamic>>.from(
-      yanSonuclar[3] as List? ?? const <Map<String, dynamic>>[],
+      yanSonuclar[2] as List? ?? const <Map<String, dynamic>>[],
     );
     final yonetimOzeti = YonetimDurumServisi.ozetSec(yonetimKararlari);
-    final balAkimiHam = yanSonuclar[4];
+    final balAkimiHam = yanSonuclar[3];
     final balAkimi = balAkimiHam is Map
         ? Map<String, dynamic>.from(balAkimiHam)
         : const <String, dynamic>{};
 
     Map<String, dynamic>? biyolojikModel;
-    if (biyolojikModelYukle && yanSonuclar.length >= 6) {
-      final ham = yanSonuclar[5];
+    if (biyolojikModelYukle && yanSonuclar.length >= 5) {
+      final ham = yanSonuclar[4];
       if (ham is Map) {
         biyolojikModel = Map<String, dynamic>.from(ham);
       }
@@ -184,6 +189,15 @@ class KoloniContextServisi {
       balAkimi: balAkimi,
       biyolojikModel: biyolojikModel,
     );
+  }
+
+
+  static Map<String, String> _stringMap(Map<dynamic, dynamic> kaynak) {
+    final sonuc = <String, String>{};
+    for (final entry in kaynak.entries) {
+      sonuc[entry.key.toString()] = (entry.value ?? '').toString();
+    }
+    return sonuc;
   }
 
   static int _toInt(dynamic deger) {

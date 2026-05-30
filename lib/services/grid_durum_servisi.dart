@@ -87,9 +87,18 @@ class GridDurumServisi {
     final bool yavruYok = muayeneler.isNotEmpty &&
         _sonMuayenedeYavruGorulmediMi(muayeneler.first);
 
+    final bool kritikBiyolojikSurec = yavruYok ||
+        alarm['anaMemesiKritik'] == true ||
+        alarm['ogulAtti'] == true ||
+        alarm['yalanciAnaRiski'] == true;
+
+    final Map<String, dynamic> gridYonetim = kritikBiyolojikSurec
+        ? const <String, dynamic>{}
+        : _gridYonetimKarariniSadelestir(yonetim);
+
     return <String, dynamic>{
       'alarm': alarm,
-      'yonetim': yonetim,
+      'yonetim': gridYonetim,
       'yavruYok': yavruYok,
     };
   }
@@ -100,6 +109,7 @@ class GridDurumServisi {
     bool anaMemesiKritik = false;
     bool anaMemesiTakip = false;
     bool ogulAtti = false;
+    bool yalanciAnaRiski = false;
 
     for (final surec in surecDurumu.aktifSurecler) {
       final kod = surec.kod.toUpperCase();
@@ -118,13 +128,46 @@ class GridDurumServisi {
       if (grup == 'OGUL_SONRASI' || kod.contains('OGUL_SONRASI')) {
         ogulAtti = true;
       }
+
+      if (kod.contains('YAVRU_YOK_ANA_PROBLEMI') ||
+          kod.contains('YALANCI') ||
+          (surec.baslik.toLowerCase().contains('yalancı') ||
+              surec.baslik.toLowerCase().contains('yalanci'))) {
+        yalanciAnaRiski = true;
+      }
     }
 
     return <String, bool>{
       'anaMemesiKritik': anaMemesiKritik,
       'anaMemesiTakip': anaMemesiTakip && !anaMemesiKritik,
       'ogulAtti': ogulAtti,
+      'yalanciAnaRiski': yalanciAnaRiski,
     };
+  }
+
+  static Map<String, dynamic> _gridYonetimKarariniSadelestir(
+    Map<String, dynamic> yonetim,
+  ) {
+    if (yonetim.isEmpty) return const <String, dynamic>{};
+
+    final String birlesik = [
+      yonetim['kod'],
+      yonetim['baslik'],
+      yonetim['kisa'],
+      yonetim['mesaj'],
+      yonetim['tip'],
+    ].where((e) => e != null).join(' ').toLowerCase();
+
+    // Şurupluk kaldırma saha kayıt bilgisidir; gridde karar/uyarı gibi
+    // konuşmaz. Muayenede işaretlenirse biyolojik model zaten uyumlanır.
+    if (birlesik.contains('surupluk') ||
+        birlesik.contains('şurupluk') ||
+        birlesik.contains('şurupluğu') ||
+        birlesik.contains('suruplugu')) {
+      return const <String, dynamic>{};
+    }
+
+    return Map<String, dynamic>.from(yonetim);
   }
 
   static bool _sonMuayenedeYavruGorulmediMi(Map<String, dynamic> muayene) {

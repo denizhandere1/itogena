@@ -106,6 +106,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   String _yavruYokTaniPencereMesaji = '';
 
   bool _onYuklemeYapildi = false;
+  bool _kaydediliyor = false;
   int _referansCita = 0;
 
   String _ustKovanNo = '-';
@@ -183,9 +184,14 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
 
   bool get _yavruYokTaniSorulariAcilmali {
     if (!_yavruDuzeniYokMu) return false;
-    if (_yavruYokTaniSorulariGoster) return true;
     if (_yavruYokErkenPencereMi) return false;
-    return !_anaKazanmaSureciAktifMi && !_anasizBirakildiMi;
+    if (_yavruYokTaniSorulariGoster) return true;
+
+    // Yavru yok işaretlenmişse kısa tanı soruları varsayılan olarak açılır.
+    // Aktif ana kazanma/oğul/bölme süreci erken pencere değilse bu gözlem artık
+    // saha alarmıdır; soruların bazı kolonilerde hiç çıkmaması hatalı karar
+    // üretimine yol açıyordu.
+    return true;
   }
 
   void _yavruDuzeniDegistir(String yeniDeger) {
@@ -827,6 +833,14 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   }
 
   Future<void> _kaydet() async {
+    if (_kaydediliyor) return;
+
+    if (mounted) {
+      setState(() {
+        _kaydediliyor = true;
+      });
+    }
+
     final String kayitNotu = _yavruDuzeniYokMu
         ? _taniEtiketleriniUygula(_notController.text.trim())
         : _taniEtiketleriniTemizle(_notController.text.trim());
@@ -890,16 +904,19 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         await VeritabaniServisi.muayeneEkle(veri);
       }
 
-      final koloniOzet =
-          await VeritabaniServisi.koloniOzetiGetir(widget.koloniDonemiId);
-      final arilikId = _intDeger(koloniOzet['arilikId']);
-      KararAsistanServisi.arilikCacheTemizle(arilikId);
+      // Kayıt sonrası gereksiz arılık/donör cache temizliği ve ek koloni sorgusu
+      // form kapanışını yavaşlatıyordu. Muayene değişikliği doğrudan bu koloniyi
+      // etkiler; arılık düzeyi ağır analiz, listeye dönüldüğünde zaten yenilenir.
+      KararAsistanServisi.koloniCacheTemizle(widget.koloniDonemiId);
 
       if (mounted) {
         Navigator.pop(context, true);
       }
     } catch (e) {
       if (mounted) {
+        setState(() {
+          _kaydediliyor = false;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Teknik sorun oluştu: $e'),
@@ -1597,11 +1614,20 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
-        onPressed: _kaydet,
-        child: Text(
-          widget.muayene == null ? 'KAYDET' : 'GÜNCELLE',
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        ),
+        onPressed: _kaydediliyor ? null : _kaydet,
+        child: _kaydediliyor
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: Colors.black,
+                ),
+              )
+            : Text(
+                widget.muayene == null ? 'KAYDET' : 'GÜNCELLE',
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
       ),
     );
   }

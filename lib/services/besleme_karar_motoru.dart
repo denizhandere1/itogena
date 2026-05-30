@@ -138,8 +138,12 @@ class BeslemeKararMotoru {
 
     final String koloniSinifi =
         (biyolojikModel['koloniSinifi'] ?? '').toString().trim().toUpperCase();
+    // Bal kalıntısı uyarısı yalnızca gerçek hasat/üretim eşiğine gelmiş
+    // kolonide anlamlıdır. 8 çıta altı gelişim kolonisine hasat kolonisi gibi
+    // davranmak sahada yanlış alarm üretir.
     final bool hasatKolonisi =
-        ((biyolojikModel['hasatBeklentisiVarMi'] == true) ||
+        toplamCita >= 8 &&
+            ((biyolojikModel['hasatBeklentisiVarMi'] == true) ||
                 koloniSinifi == 'URETIM' ||
                 koloniSinifi == 'HASAT') &&
             uretimGuvenliMi &&
@@ -211,7 +215,7 @@ class BeslemeKararMotoru {
           dozBandi: '0 ml',
           tekrarAraligi: 'Bal akımı ve hasat penceresinde uygulanmaz',
           dozNotu:
-              'Şurupluk kovandaysa muayenede gerçekten kaldırıldı olarak işaretle.',
+              'Bu karar yalnızca hasat hedefli kolonide bal kalitesi güvenliği içindir.',
         );
       }
     }

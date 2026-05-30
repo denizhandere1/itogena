@@ -14,21 +14,29 @@ class YonetimDurumServisi {
   static Future<Map<String, dynamic>> ozetGetir(
     int koloniId, {
     Map<String, dynamic>? hazirKoloni,
-  }) {
-    return KararAsistanServisi.yonetimDurumOzetiGetir(
+  }) async {
+    final ozet = await KararAsistanServisi.yonetimDurumOzetiGetir(
       koloniId,
       hazirKoloni: hazirKoloni,
     );
+    if (_suruplukYonetimKarariMi(ozet)) {
+      return const <String, dynamic>{};
+    }
+    return Map<String, dynamic>.from(ozet);
   }
 
   static Future<List<Map<String, dynamic>>> kararlarGetir(
     int koloniId, {
     Map<String, dynamic>? hazirKoloni,
-  }) {
-    return KararAsistanServisi.yonetimKararlariGetir(
+  }) async {
+    final kararlar = await KararAsistanServisi.yonetimKararlariGetir(
       koloniId,
       hazirKoloni: hazirKoloni,
     );
+    return kararlar
+        .where((k) => !_suruplukYonetimKarariMi(k))
+        .map((k) => Map<String, dynamic>.from(k))
+        .toList(growable: false);
   }
 
   static Map<String, dynamic> ozetSec(
@@ -36,6 +44,7 @@ class YonetimDurumServisi {
   ) {
     final gridKararlari = kararlar
         .where((k) => k['gridGosterilebilir'] != false)
+        .where((k) => !_suruplukYonetimKarariMi(k))
         .toList(growable: false);
     if (gridKararlari.isEmpty) {
       return const <String, dynamic>{};
@@ -44,6 +53,21 @@ class YonetimDurumServisi {
     final sirali = List<Map<String, dynamic>>.from(gridKararlari)
       ..sort((a, b) => _toInt(b['oncelik']).compareTo(_toInt(a['oncelik'])));
     return Map<String, dynamic>.from(sirali.first);
+  }
+
+  static bool _suruplukYonetimKarariMi(Map<String, dynamic> karar) {
+    final birlesik = [
+      karar['kod'],
+      karar['baslik'],
+      karar['kisa'],
+      karar['mesaj'],
+      karar['tip'],
+    ].where((e) => e != null).join(' ').toLowerCase();
+
+    return birlesik.contains('surupluk') ||
+        birlesik.contains('şurupluk') ||
+        birlesik.contains('şurupluğu') ||
+        birlesik.contains('suruplugu');
   }
 
   static int _toInt(dynamic deger) {

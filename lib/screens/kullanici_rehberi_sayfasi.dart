@@ -124,7 +124,7 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Koloni detay genel durum ekranında dört ana başlık birlikte gösterilir: Süreç, Biyoloji, Yönetim ve Genetik. Kartlar kompakt özet verir; kullanıcı karta dokunduğunda alttaki detay paneli doğrudan o başlığın açıklamasını gösterir.',
           ),
           _madde(
-            'Yönetim kartı artık beslemeyi ayrı bir ikinci karar motoru gibi okumaz. Besleme, kat, alan, varroa, şurupluk, kış ve hasat sonrası bakım kararları aynı yönetim listesinde standartlaştırılır; çelişen kararlar bağlam uzlaştırıcı tarafından bastırılır.',
+            'Yönetim kartı artık beslemeyi ayrı bir ikinci karar motoru gibi okumaz. Besleme, kat, alan, varroa, kış ve hasat sonrası bakım kararları aynı yönetim listesinde standartlaştırılır; çelişen kararlar bağlam uzlaştırıcı tarafından bastırılır. Şurupluk kaldırma kullanıcıya karar olarak gösterilmez; biyolojik model içinde kapasite verisi olarak kullanılır.',
           ),
           _madde(
             'Koloni grid kartı artık kendi içinde yavru yok, alarm veya yönetim kararı hesaplamaz. Grid hafif context üzerinden yalnızca özet sinyali gösterir; ağır biyolojik model ve detaylı karar hesapları koloni detay ekranında kalır.',
@@ -230,7 +230,16 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Sistem sıkışık düzen varsayımıyla çalışır. Bir muayenede +1 çıta normal, +2 çıta kontrollü genişleme, +3 ve üzeri ise kat geçişi dışında uyarı sebebidir.',
           ),
           _madde(
-            'Kat/ballık kullanıcı işaretiyle girilmez. Langstroth kovan 10 çıtalık kapasite kabulüyle okunur; toplam çıta 11 ve üzerine çıktığında sistem üst kat/ballık oluştuğunu kabul eder.',
+            'Kat/ballık kullanıcı işaretiyle girilmez. Sistem şurupluk durumunu iç veri olarak kullanır: şurupluk varsa alt kuluçkalık 9 çıta, şurupluk kaldırıldıysa 10 çıta kabul edilir.',
+          ),
+          _madde(
+            'Şurupluk + 9 çıta veya şurupluksuz 10 çıta %95 ve üzeri aktivasyona ulaşırsa sistem bunu normal alan açma değil “Kat ver” eşiği olarak okur.',
+          ),
+          _madde(
+            'Şurupluk + 10 çıta veya şurupluksuz 11 çıta görüldüğünde sistem koloniyi katlı koloni kabul eder. Bu aşamadan sonra ballık hacmi içinde normal alan açma uyarıları devam eder.',
+          ),
+          _madde(
+            'Şurupluk + 19 çıta veya şurupluksuz 20 çıta %95 ve üzeri aktivasyona ulaşırsa sistem “3. kat ver” uyarısı üretir. Şurupluk + 20 veya şurupluksuz 21 çıta artık 3 katlı koloni olarak okunur.',
           ),
           _madde(
             'Kata geçiş tek başına hızlı artış riski sayılmaz. Ancak kata çıkıldıktan sonra bal akımı tarih aralığı içinde değilse hızlı üst hacim artışı otomatik normalleştirilmez; sistem temkinli yaklaşır.',
@@ -418,6 +427,48 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Sistem bu koloniler için açık dil kullanır: ana üretme, üretimde değerlendirilebilir, genetik seçim havuzunda değil.',
           ),
 
+          _baslik('7B. OĞUL SONRASI SÜREÇ NASIL OKUNUR?'),
+          _madde(
+            'Oğul attı işaretlenirse koloni geçici olarak üretim/hasat kolonisi gibi okunmaz. Sistem bu dönemi ana ve nüfus kurtarma süreci olarak ele alır.',
+          ),
+          _madde(
+            '0–7. gün arası artçı oğul riski en yüksektir. Sistem üretim, kat ve hasat dilini geri plana alır; amaç koloniyi tekrar böldürmemektir.',
+          ),
+          _madde(
+            '8–16. gün arası artçı oğul riski azalır ama bitmiş kabul edilmez. Yeni meme, huzursuzluk veya tekrar çıkış belirtisi yoksa ana sürecini bozmadan bekleme mantığı çalışır.',
+          ),
+          _madde(
+            '17–30. gün arası yeni ana çıkışı, olgunlaşma ve çiftleşme penceresidir. Bu dönemde yavru görülmemesi tek başına çöküş sayılmaz; dış uçuş, polen gelişi ve koloni sakinliği destek sinyali olarak okunur.',
+          ),
+          _madde(
+            '31–45. gün arası yumurtlama artık netleşmelidir. Günlük veya kapalı yavru görülürse süreç kapanır. Hâlâ yavru yoksa sistem bunu normal bekleme olarak değil; ana başarısızlığı, çiftleşme kaybı veya yalancı ana riski olarak değerlendirir.',
+          ),
+          _madde(
+            'Oğul sonrası süreç yalnızca gün sayısıyla kapanmaz. Kapanış için günlük yavru, kapalı yavru veya anlamlı yavru düzeni gerekir. Süre doldu ama yavru yoksa süreç kapanmaz; yavru-yok tanısına devredilir.',
+          ),
+
+          _baslik('7C. YAVRU YOK ALARMI VE KARAR ÖNCELİĞİ'),
+          _madde(
+            'Yavru yok en kritik biyolojik alarmlardan biridir. Sistem önce bunun aktif bölme, oğul sonrası veya ana kazanma penceresinde normal bekleme olup olmadığını kontrol eder.',
+          ),
+          _madde(
+            'Bekleme penceresi aşılmışsa yavru yok; varroa, besleme, alan veya hasat gibi rutin yönetim kararlarının önüne geçer. Grid kartta önce koloni devamlılığı konuşur.',
+          ),
+          _madde(
+            'Yalancı ana şüphesi, erkek yavru baskısı, ardışık yavrusuz kayıt ve güç düşüşü birlikte görülürse sistem bunu yüksek öncelikli ana problemi olarak ele alır.',
+          ),
+          _madde(
+            'Bal akımı içinde güçlü bal baskısı varsa yavru yokluğu hemen anasızlık sayılmaz; önce alan ve bal baskısı değerlendirilir. Ancak bu durum yine de takip dışına bırakılmaz.',
+          ),
+
+          _baslik('7D. GELİŞİM KOLONİSİNDE KALINTI UYARISI'),
+          _madde(
+            '8 çıta altındaki gelişim kolonileri hasat kolonisi gibi okunmaz. Bu nedenle bal dönemi kalıntı uyarısı kullanıcıya gereksiz karar olarak gösterilmez.',
+          ),
+          _madde(
+            'Varroa ve sezon riski sistem içinde biyolojik model ve risk hesabı için yaşamaya devam eder. Ancak kullanıcıya kalıntı dili yalnızca hasat/üretim eşiğine yaklaşan kolonilerde anlamlı olduğunda gösterilir.',
+          ),
+
           _baslik('8. ANA KAZANMA SÜRECİ NASIL OKUNUR?'),
           _madde(
             'Ana kazanma süreci anasız bırakıldı, bölme, kapalı ana memesi veya hazır ana gibi tetiklerle başlar.',
@@ -473,7 +524,7 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Bal akımına 35–45 gün kala güçlü, istikrarlı ve genetik olarak değerli koloni kontrollü bölme adayı olabilir. Bu karar çıta sayısı kadar bal akımına kalan süre, büyüme yönü, yavru düzeni, aktivasyon ve oğul riskiyle birlikte verilir.',
           ),
           _madde(
-            'Bal akımına 24 gün veya daha az kaldığında bölme hedefi geri çekilir. Bu dönemde alan, kat, şurupluk kaldırma, kalıntı güvenliği ve oğul kontrolü öne çıkar.',
+            'Bal akımına 24 gün veya daha az kaldığında bölme hedefi geri çekilir. Bu dönemde alan, kat, kalıntı güvenliği ve oğul kontrolü öne çıkar. Şurupluk bilgisi kullanıcıya ayrı karar olarak gösterilmez; muayene verisi biyolojik modele yansır.',
           ),
           _madde(
             'Ana değişimi için en güçlü karar penceresi hasat sonrası / sonbahara giriş dönemidir. Bal akımı öncesi veya sırasında planlı ana değişimi zorunlu değilse ertelenir.',
@@ -572,7 +623,7 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Bal akımına 20 gün veya daha az kalmışsa ve koloni hasat hedefindeyse şeker bazlı besleme önerilmez. Çünkü şurup veya şekerli yem nektar akımıyla birlikte bala taşınabilir; bu da balın doğallığı, lezzeti ve güvenilirliği açısından risk oluşturur.',
           ),
           _madde(
-            'Bu dönemde sistem hasat hedefli kolonilerde açıkça “besleme önerilmez” der. Üretim kolonilerinde öncelik alan, kat, şurupluk kaldırma ve hasat hazırlığıdır.',
+            'Bu dönemde sistem hasat hedefli kolonilerde açıkça “besleme önerilmez” der. Üretim kolonilerinde öncelik alan, kat ve hasat hazırlığıdır. Şurupluk kaldırma kararı ekranda konuşmaz; yalnızca kapasite/hacim hesabını etkiler.',
           ),
           _madde(
             'Düşük çıtalı gelişim kolonilerinde hasat baskısı uygulanmaz. Sistem “stok yeterli” gibi kesin hüküm vermez; stok zayıf görülürse ölçülü destek, güçlü nektar/polen gelişi varsa takip arıcı tarafından değerlendirilir.',
@@ -639,7 +690,7 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Genetik Filtre: Koloninin üretimde değerli olabileceği halde ana üretme havuzuna alınmamasıdır. Oğul kökeni, oğul izi veya atasal oğul davranışı buna sebep olabilir. Bu filtre genel performans cezası değildir.',
           ),
           _madde(
-            'Yönetim Kararı: Besleme, kat, alan, şurupluk, hasat sonrası bakım, varroa ve kış hazırlığı gibi arıcının sahada yapacağı işleri anlatır. Bu kararlar süreç ve genetik katmanından ayrı değerlendirilir.',
+            'Yönetim Kararı: Besleme, kat, alan, hasat sonrası bakım, varroa ve kış hazırlığı gibi arıcının sahada yapacağı işleri anlatır. Şurupluk kaldırma bu listede kullanıcı kararı olarak konuşmaz; biyolojik modelin kapasite bilgisidir.',
           ),
           _madde(
             'Süreç: Ana kazanma, bölme sonrası toparlanma, oğul sonrası, yavru yok tanısı veya hasat sonrası bakım gibi zamana bağlı biyolojik/yönetim penceresidir. Süreç açıkken bazı eylemler bastırılabilir.',

@@ -62,6 +62,8 @@ class SurecMotoru {
   static const int _ogulBelirtisiMaxGun = 14;
   static const int _bolmeSonrasiMaxGun = 45;
   static const int _ogulSonrasiMaxGun = 45;
+  static const int _artciOgulAnaRiskGun = 7;
+  static const int _artciOgulTakipGun = 16;
   static const int _hasatSonrasiAnaKartGun = 7;
   static const int _hasatSonrasiMaxGun = 21;
   static const int _anasizlikMaxGun = 45;
@@ -385,31 +387,50 @@ class SurecMotoru {
     final int gun = bugun.difference(_gun(tetik)).inDays;
     if (gun < 0 || gun > _ogulSonrasiMaxGun) return null;
 
+    // Oğul sonrası süreç takvimle değil, biyolojik sonuçla kapanır.
+    // Günlük/kapalı yavru veya anlamlı yavru düzeni görülürse süreç kapanır.
+    // Yavru görülmezse 45. güne kadar süreç izlenir; sonrasında yavru-yok/yalancı ana
+    // değerlendirmesine devredilir.
     if (_surecKapandiMi(muayeneler: muayeneler, baslangic: tetik)) {
       return null;
     }
 
-    if (gun <= 7) {
+    final int ogulAttiKayitSayisi = _tetikSayisi(muayeneler, 'ogulAtti');
+
+    if (ogulAttiKayitSayisi >= 2 && gun <= _artciOgulTakipGun) {
       return SurecUyarisi(
-        kod: 'OGUL_SONRASI',
+        kod: 'OGUL_SONRASI_TEKRAR',
         grup: 'OGUL_SONRASI',
-        baslik: 'Oğul sonrası artçı oğul riski',
+        baslik: 'Tekrarlayan oğul / nüfus kaybı riski',
         mesaj:
-        'İlk 7 gün artçı oğul riski yüksektir. Meme sayısını sadeleştir; 1–2 kaliteli meme bırak, fazlasını azalt. Birden fazla ana çıkışı koloniyi tekrar bölebilir.',
+            'Oğul kaydı tekrar ediyor. Bu artık normal artçı takibi değil; koloni hızla nüfus kaybedebilir. Meme sayısı, kalan arı gücü, stok ve ana belirtisi birlikte okunmalı. Çok zayıfladıysa yoğun emek yerine birleştirme veya sınırlı destek daha doğru olabilir.',
         tip: 'kritik',
-        oncelik: 95,
+        oncelik: 99,
         referansTarihMetni: _format(tetik),
       );
     }
 
-    if (gun <= 20) {
+    if (gun <= _artciOgulAnaRiskGun) {
       return SurecUyarisi(
-        kod: 'OGUL_SONRASI',
+        kod: 'OGUL_SONRASI_ARTCI_RISK',
         grup: 'OGUL_SONRASI',
-        baslik: 'Oğul sonrası yeni ana süreci',
+        baslik: 'Oğul sonrası artçı riski yüksek',
         mesaj:
-        'Koloniyi gereksiz açma. Ana çıkışı, olgunlaşma ve çiftleşme süreci hassastır. Dış gözlem yap; kovanı sarsma ve anayı aramak için çerçeve karıştırma.',
-        tip: 'takip',
+            'Oğul sonrası ilk hafta artçı oğul riski yüksektir. Amaç koloniyi tekrar böldürmemektir. Kontrol gerekiyorsa kısa ve sakin yapılmalı; fazla meme bırakmak tekrar nüfus kaybı doğurabilir. Üretim/kat/hasat kararı geri plandadır.',
+        tip: 'kritik',
+        oncelik: 97,
+        referansTarihMetni: _format(tetik),
+      );
+    }
+
+    if (gun <= _artciOgulTakipGun) {
+      return SurecUyarisi(
+        kod: 'OGUL_SONRASI_ARTCI_TAKIP',
+        grup: 'OGUL_SONRASI',
+        baslik: 'Artçı oğul riski izleniyor',
+        mesaj:
+            'Artçı oğul riski devam eder ama ilk haftaya göre azalır. Yeni meme, huzursuzluk veya tekrar çıkış belirtisi yoksa ana sürecini bozmadan beklemek daha doğrudur. Günlük veya kapalı yavru görülürse süreç kapanır.',
+        tip: 'uyari',
         oncelik: 93,
         referansTarihMetni: _format(tetik),
       );
@@ -417,25 +438,25 @@ class SurecMotoru {
 
     if (gun <= 30) {
       return SurecUyarisi(
-        kod: 'OGUL_SONRASI',
+        kod: 'OGUL_SONRASI_ANA_CIFTLESME',
         grup: 'OGUL_SONRASI',
-        baslik: 'Oğul sonrası yumurtlama kontrolü',
+        baslik: 'Oğul sonrası ana / çiftleşme süreci',
         mesaj:
-        'Yumurtlama kontrolü yapılabilir. Günlük veya kapalı yavru görülürse muayenede işaretle; süreç kapanır. Yavru yoksa hemen sert müdahale yapma, hava ve çiftleşme koşullarını değerlendir.',
+            'Artçı riski büyük ölçüde kapanır. Bu dönem yeni ana çıkışı, olgunlaşma ve çiftleşme penceresidir. Yavru hâlâ görülmeyebilir; bu tek başına çöküş sayılmaz. Dış uçuş, polen gelişi ve sakinlik izlenir. Günlük veya kapalı yavru görülürse muayenede işaretle, süreç kapanır.',
         tip: 'takip',
-        oncelik: 90,
+        oncelik: 91,
         referansTarihMetni: _format(tetik),
       );
     }
 
     return SurecUyarisi(
-      kod: 'OGUL_SONRASI',
+      kod: 'OGUL_SONRASI_YUMURTLAMA_KONTROL',
       grup: 'OGUL_SONRASI',
-      baslik: 'Oğul sonrası gecikmiş süreç',
+      baslik: 'Oğul sonrası yumurtlama kontrolü',
       mesaj:
-      'Yumurtlama hâlâ yoksa ana durumu sahada doğrulanmalı. Gerekirse ana verme, birleştirme veya yeniden ana kazandırma kararı düşünülür.',
+          'Oğul sonrası 31–45. gün arası artık yumurtlama netleşmelidir. Günlük veya kapalı yavru görülürse süreç kapanır. Hâlâ yavru yoksa bu süreç normal bekleme olmaktan çıkar; ana başarısızlığı, çiftleşme kaybı veya yalancı ana riski yavru-yok tanısı ile öne alınır.',
       tip: 'kritik',
-      oncelik: 94,
+      oncelik: 98,
       referansTarihMetni: _format(tetik),
     );
   }
@@ -684,56 +705,56 @@ class SurecMotoru {
       mesaj =
           'Yavru düzeni “Yok” kaydedildi; ancak $aktifBaglam sürecinde $gun. gündesin. Bu dönemde yavru görülmemesi tek başına sorun değildir. Kovanı bu tarihte açmak gerekli olmayabilir; gereksiz açma bakire ana ve kabul sürecini bozabilir.';
       tip = 'takip';
-      oncelik = 94;
+      oncelik = 93;
     } else if (aktifAnaBaglamiVar && gun <= 30) {
       kod = 'YAVRU_YOK_ERKEN_TAKIP';
       baslik = 'Yumurtlama için hâlâ erken olabilir';
       mesaj =
           'Yavru düzeni “Yok” kaydedildi. $aktifBaglam sürecinden $gun gün geçmiş. Koloni sakin ve çalışıyorsa hemen sert müdahale önerilmez; 5–7 gün sonra günlük yumurta / genç larva kontrolü daha doğru olur.';
       tip = 'takip';
-      oncelik = 95;
+      oncelik = 94;
     } else if (balBaskisiOlabilir) {
       kod = 'YAVRU_YOK_BAL_BASKISI';
       baslik = 'Yavru yokluğu bal baskısıyla ilişkili olabilir';
       mesaj =
           'Yavru görünmemesi doğrudan anasızlık anlamına gelmeyebilir. Bal akımı aktif ve ballı çıta oranı yüksek görünüyor; ana yumurtlayacak boş alan bulamıyor olabilir. Önce alan ve bal baskısını değerlendir, erken ana müdahalesi yapma.';
       tip = 'uyari';
-      oncelik = 96;
+      oncelik = 97;
     } else if (erkekYavruBaskin || yalanciAnaSuphesi) {
       kod = 'YAVRU_YOK_ANA_PROBLEMI';
       baslik = 'Ana kalitesi / yalancı ana riski';
       mesaj =
           'Yavru yokluğu erkek yavru baskısı veya düzensiz yumurta belirtisiyle birlikte okunuyor. Bu durum çiftleşememiş ana, sperm problemi veya yalancı ana başlangıcı anlamına gelebilir. Beklemeyi uzatma; koloni gücüne göre ana değiştirme veya birleştirme değerlendir.';
       tip = 'kritik';
-      oncelik = 99;
+      oncelik = 100;
     } else if (yasamGucu < 50 || (kucukKoloni && (gun >= 35 || yavrusuzGun >= 35))) {
       kod = 'YAVRU_YOK_BIYOLOJIK_COKUS';
       baslik = 'Biyolojik geri dönüş kapasitesi düşük';
       mesaj =
           'Koloni uzun süredir yeni işçi üretmiyor olabilir. $toplamCita çıta seviyesinde yavrusuzluk uzarsa mevcut nüfus yaşlanır ve koloni doğal küçülmeye gidebilir. Yoğun emek harcamadan önce güçlü koloniyle birleştirme veya sınırlı destek seçeneğini değerlendir.';
       tip = 'kritik';
-      oncelik = 98;
+      oncelik = 99;
     } else if (aktifAnaBaglamiVar && gun >= 36) {
       kod = 'YAVRU_YOK_GECIKMIS_TANI';
       baslik = 'Yavru yokluğu riskli gecikmeye girdi';
       mesaj =
           'Beklenen yumurtlama penceresi aşılmaya başladı. Geç çiftleşme, arı kuşu kaynaklı ana kaybı, ana başarısızlığı veya zayıf koloni olasılıkları birlikte değerlendirilmeli. ${ariKusuRiski ? 'Arı kuşu riski aktif olduğu için çiftleşme kaybı ihtimali yükselir. ' : ''}${koloniSakin && polenGelisiVar == true ? 'Koloni sakinliği ve polen gelişi içeride ana olma ihtimalini tamamen dışlamaz. ' : ''}${koloniHuzursuz || polenGelisiVar == false ? 'Huzursuzluk veya polen yokluğu anasızlık/zayıflama şüphesini artırır. ' : ''}5–7 gün içinde net kontrol yap; hâlâ yavru yoksa beklemeyi uzatma.';
       tip = 'kritik';
-      oncelik = 97;
+      oncelik = 100;
     } else if (aktifAnaBaglamiVar && gun >= 31) {
       kod = 'YAVRU_YOK_TANI_ADAYI';
       baslik = 'Yumurtlama gecikiyor olabilir';
       mesaj =
           'Yavru düzeni “Yok” kaydedildi ve $aktifBaglam sürecinden $gun gün geçmiş. Bu artık yalnızca normal bekleme olarak bırakılmamalı; koloni davranışı, polen gelişi, ana memesi kalıntısı, bal baskısı ve erkek yavru baskısı birlikte okunmalı.';
       tip = 'uyari';
-      oncelik = 95;
+      oncelik = 99;
     } else {
       kod = 'YAVRU_YOK_NORMAL_KOLONI_TANI';
       baslik = 'Normal kolonide yavru yokluğu';
       mesaj =
           'Aktif bölme/oğul/ana kazanma süreci görünmeden yavru düzeni “Yok” kaydedildi. Bu durum ana durumu, bal baskısı, koloni zayıflaması veya yalancı ana riski açısından kontrol edilmelidir.';
       tip = 'uyari';
-      oncelik = 92;
+      oncelik = 100;
     }
 
     final String gerekceMetni = gerekceler.isEmpty
@@ -1154,6 +1175,18 @@ class SurecMotoru {
     return null;
   }
 
+
+  static int _tetikSayisi(
+    List<Map<String, dynamic>> muayeneler,
+    String alan,
+  ) {
+    int sayi = 0;
+    for (final m in muayeneler) {
+      if (_toInt(m[alan]) == 1) sayi++;
+    }
+    return sayi;
+  }
+
   static String _mesajParcalariniDogalBirlestir(List<String> parcalar) {
     final temizParcalar = parcalar
         .map((e) => e.trim())
@@ -1199,10 +1232,10 @@ class SurecMotoru {
     final grup = surec.grup.toUpperCase();
     final kod = surec.kod.toUpperCase();
 
+    if (kod.contains('YAVRU_YOK') || kod.contains('YALANCI')) return 0;
     if (grup == 'ANASIZLIK' || kod.contains('ANASIZLIK')) return 1;
-    if (kod.contains('YAVRU_YOK')) return 2;
-    if (grup == 'OGUL' || kod.contains('OGUL_BELIRTISI')) return 3;
-    if (grup == 'OGUL_SONRASI' || kod.contains('OGUL_SONRASI')) return 4;
+    if (grup == 'OGUL' || kod.contains('OGUL_BELIRTISI')) return 2;
+    if (grup == 'OGUL_SONRASI' || kod.contains('OGUL_SONRASI')) return 3;
     if (grup == 'BOLME' || kod.contains('BOLME')) return 5;
     if (grup == 'GELISIM' || kod.contains('GELISIM')) return 6;
     if (grup == 'HASAT' || kod.contains('HASAT')) return 8;

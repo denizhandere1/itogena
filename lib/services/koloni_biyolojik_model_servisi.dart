@@ -173,15 +173,28 @@ class KoloniBiyolojikModelServisi {
         math.max(0, islevselToplamCitaDouble.round());
 
     final Map<String, num> katsayi = _katsayilar(kovanTipi);
-    // Kat/ballık tespiti şurupluk durumundan bağımsızdır: 10 çıta kuluçkalık, 11+ üst kat/ballık kabul edilir.
-    final bool katAtildi = toplamCita >= 11;
-    const int kuluclukKapasitesi = 10;
+    // Kat/ballık hacim modeli şurupluk durumuna göre okunur.
+    // Şurupluk mevcutsa alt kuluçkalık 9 çıta kabul edilir; şurupluk
+    // kaldırıldıysa 10 çıtalık tam kuluçkalık kapasitesi kullanılır.
+    // Bu bilgi kullanıcıya ayrıca karar olarak gösterilmez; biyolojik modelin
+    // fiziksel kapasite ve kat eşiği hesabında iç veri olarak kullanılır.
+    final bool suruplukHacimKaplarMi = suruplukVarMi && !suruplukKaldirildiMi;
+    final int kuluclukKapasitesi = suruplukHacimKaplarMi ? 9 : 10;
+    final int birinciKatVermeEsigi = kuluclukKapasitesi;
+    final int katliKabulEsigi = kuluclukKapasitesi + 1;
+    final int ucuncuKatVermeEsigi = kuluclukKapasitesi + 10;
+    final int ucKatliKabulEsigi = kuluclukKapasitesi + 11;
+    final bool katAtildi = toplamCita >= katliKabulEsigi;
+    final bool ucKatliKoloni = toplamCita >= ucKatliKabulEsigi;
+    final int tahminiKatSayisi = ucKatliKoloni ? 3 : (katAtildi ? 2 : 1);
     final int kuluclukCita =
         islevselToplamCita.clamp(0, kuluclukKapasitesi).toInt();
     final int fizikselKuluclukCita =
         toplamCita.clamp(0, kuluclukKapasitesi).toInt();
-    final int ballikCita = katAtildi ? math.max(0, islevselToplamCita - 10) : 0;
-    final int fizikselBallikCita = katAtildi ? math.max(0, toplamCita - 10) : 0;
+    final int ballikCita =
+        katAtildi ? math.max(0, islevselToplamCita - kuluclukKapasitesi) : 0;
+    final int fizikselBallikCita =
+        katAtildi ? math.max(0, toplamCita - kuluclukKapasitesi) : 0;
 
     final int tahminiAriMin = (islevselToplamCita * katsayi['ariMin']!).round();
     final int tahminiAriMax = (islevselToplamCita * katsayi['ariMax']!).round();
@@ -389,7 +402,14 @@ class KoloniBiyolojikModelServisi {
       'suruplukKaldirmaPenceresiAktif': suruplukKaldirmaPenceresiAktif,
       'suruplukKaldirmaMesaji': (suruplukPenceresi?['mesaj'] ?? '').toString(),
       'suruplukKonumMetni': kovanYerlesimi['suruplukKonumMetni'],
+      'suruplukHacimKaplarMi': suruplukHacimKaplarMi,
       'kuluclukKapasitesi': kuluclukKapasitesi,
+      'birinciKatVermeEsigi': birinciKatVermeEsigi,
+      'katliKabulEsigi': katliKabulEsigi,
+      'ucuncuKatVermeEsigi': ucuncuKatVermeEsigi,
+      'ucKatliKabulEsigi': ucKatliKabulEsigi,
+      'tahminiKatSayisi': tahminiKatSayisi,
+      'ucKatliKoloni': ucKatliKoloni,
       'toplamCita': toplamCita,
       'fizikselToplamCita': toplamCita,
       'islevselToplamCita': islevselToplamCita,
@@ -1079,7 +1099,7 @@ class KoloniBiyolojikModelServisi {
         ));
       }
     } else {
-      for (int no = 1; no <= 10; no++) {
+      for (int no = 1; no <= kuluclukKapasitesi; no++) {
         final aktiflik = aktiflikHesapla(no);
         altKat.add(citaMap(
           kat: 'alt',
@@ -1095,7 +1115,7 @@ class KoloniBiyolojikModelServisi {
       }
 
       for (int i = 0; i < ballikCita; i++) {
-        final int globalNo = 11 + i;
+        final int globalNo = kuluclukKapasitesi + 1 + i;
         final aktiflik = aktiflikHesapla(globalNo);
         ustKat.add(citaMap(
           kat: 'ust',

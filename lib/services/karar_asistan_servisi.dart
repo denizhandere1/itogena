@@ -687,9 +687,25 @@ class KararAsistanServisi {
       biyolojikModel['citaAktivasyon'] ?? const <String, dynamic>{},
     );
 
-    final bool suruplukKolonideVar = _boolDeger(koloni['suruplukVarMi'], varsayilan: true) &&
-        !_boolDeger(sonMuayene['suruplukKaldirildiMi']);
-    final int katEsigi = suruplukKolonideVar ? 9 : 10;
+    final bool suruplukKolonideVar =
+        biyolojikModel['suruplukHacimKaplarMi'] == true ||
+            ((biyolojikModel['suruplukHacimKaplarMi'] == null) &&
+                _boolDeger(koloni['suruplukVarMi'], varsayilan: true) &&
+                !_boolDeger(sonMuayene['suruplukKaldirildiMi']));
+    final int katEsigiModel = _toInt(biyolojikModel['birinciKatVermeEsigi']);
+    final int katliKabulEsigi = _toInt(biyolojikModel['katliKabulEsigi']);
+    final int ucuncuKatVermeEsigi = _toInt(biyolojikModel['ucuncuKatVermeEsigi']);
+    final int ucKatliKabulEsigi = _toInt(biyolojikModel['ucKatliKabulEsigi']);
+    final int katEsigi = katEsigiModel > 0 ? katEsigiModel : (suruplukKolonideVar ? 9 : 10);
+    final int ucuncuKatEsigi = ucuncuKatVermeEsigi > 0
+        ? ucuncuKatVermeEsigi
+        : (suruplukKolonideVar ? 19 : 20);
+    final int ucKatliEsik = ucKatliKabulEsigi > 0
+        ? ucKatliKabulEsigi
+        : (suruplukKolonideVar ? 20 : 21);
+    final int katliEsik = katliKabulEsigi > 0
+        ? katliKabulEsigi
+        : katEsigi + 1;
     final int fizikselCita = _toInt(
       biyolojikModel['fizikselToplamCita'] ?? aktivasyon['fizikselCita'],
     );
@@ -850,7 +866,18 @@ class KararAsistanServisi {
           : '';
       if (seviye == 'kritik' || seviye == 'risk') {
         final bool kalintiVeto = balAkimiAktif || balAkimiKesmePenceresi;
-        kararlar.add({
+        // Gelişim kolonisi bal/hasat kolonisi gibi okunmaz.
+        // 8 işlevsel çıta altındaki kolonide kalıntı dili kullanıcıya gösterilmez;
+        // varroa bilgisi biyolojik model ve sezon risk hesabında iç veri olarak kalır.
+        final bool gelisimKolonisindeKalintiDiliBastir =
+            kalintiVeto &&
+            !hasatBeklentisiVar &&
+            islevselUretimCita < 8 &&
+            fizikselCita < 8;
+        if (gelisimKolonisindeKalintiDiliBastir) {
+          // Kullanıcıya karar/uyarı üretme; sistem iç risk hesabı çalışmaya devam eder.
+        } else {
+          kararlar.add({
           'kod': kalintiVeto ? 'VARROA_AKIM_DONEMI_VETO' : 'VARROA_RISK',
           'kategori': kalintiVeto ? 'veto' : 'yonetim',
           'kisa': kalintiVeto ? 'Varroa dikkat' : 'Varroa',
@@ -862,28 +889,20 @@ class KararAsistanServisi {
           'kararTipi': kalintiVeto ? 'VETO' : 'EYLEM',
           'bastirilabilir': !kalintiVeto,
         });
+        }
       }
     } catch (_) {
       // Varroa takvim hatırlatması hata verirse yönetim kararlarını düşürme.
     }
 
-    if (hasatBeklentisiVar && (balAkimiKesmePenceresi || balAkimiAktif) && suruplukKolonideVar) {
-      kararlar.add({
-        'kod': 'SURUPLUK_KALDIR',
-        'kategori': 'eylem',
-        'kisa': 'Şurupluk',
-        'baslik': 'Şurupluk kaldırma penceresi',
-        'mesaj': balAkimiAktif
-            ? 'Bal akımı aktif görünüyor. Şurupluk kovanda görünüyorsa kaldırma kaydı kontrol edilmeli.'
-            : 'Bal akımına $balAkiminaKalanGun gün kaldı. Kalıntı riskini azaltmak için şurupluk kaldırma ve beslemeyi kesme penceresi aktif.',
-        'gerekce': 'Bal hedefli kolonide şekerli besleme/şurupluk bal akımı öncesi kapatılmalı. Bu karar besleme önerisi değil, kalıntı güvenliği ve kayıt temizliği kararıdır.',
-        'oncelik': 92,
-        'tip': 'uyari',
-      });
-    }
+    // Şurupluk kaldırma kullanıcıya yönetim kararı olarak gösterilmez.
+    // Muayenede işaretlenen suruplukKaldirildiMi verisi biyolojik model,
+    // hacim kapasitesi ve kat eşiği hesabında iç veri olarak kullanılmaya devam eder.
 
     final bool kuluclukKatEsiginde = fizikselCita == katEsigi;
-    final bool katZatenVerilmis = fizikselCita > katEsigi;
+    final bool katZatenVerilmis = fizikselCita >= katliEsik;
+    final bool ucuncuKatEsiginde = fizikselCita == ucuncuKatEsigi;
+    final bool ucuncuKatZatenVerilmis = fizikselCita >= ucKatliEsik;
 
     final bool kontrolluBolmeDegerlendir =
         hasatBeklentisiVar &&
@@ -916,11 +935,12 @@ class KararAsistanServisi {
 
     final bool katDegerlendir = hasatBeklentisiVar && kuluclukKatEsiginde &&
         !katZatenVerilmis &&
-        aktivasyonOrani >= 0.85 &&
-        islevselUretimCita >= 8 &&
+        aktivasyonOrani >= 0.95 &&
+        islevselUretimCita >= katEsigi &&
         yavruDuzeniStabil &&
         !riskliSisirme &&
-        (balAkimiAktif || balAkimiYakinKatPenceresi);
+        !kilit.eylemEngeli &&
+        !kilit.katEngeli;
 
     if (katDegerlendir) {
       final String esikMetni = suruplukKolonideVar
@@ -930,17 +950,43 @@ class KararAsistanServisi {
       final String akimMetni = balAkimiAktif
           ? 'Bal akımı aktif görünüyor.'
           : (balAkiminaKalanGun == null
-              ? 'Bal akımı penceresi yaklaşıyor olabilir.'
+              ? 'Bal akımı penceresi ayrıca kontrol edilmeli.'
               : 'Bal akımına yaklaşık $balAkiminaKalanGun gün var.');
 
       kararlar.add({
-        'kod': 'KAT_ADAYI',
+        'kod': 'KAT_VER',
         'kategori': 'eylem',
-        'kisa': 'Kat adayı',
-        'baslik': 'Kat / ballık değerlendirme',
-        'mesaj': '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. $akimMetni Bu eşik kat/ballık verme kararının değerlendirileceği son kuluçkalık eşiğidir; bir sonraki çıta artışı kat verilmiş hacim olarak okunur.',
-        'gerekce': '',
-        'oncelik': 90,
+        'kisa': 'Kat ver',
+        'baslik': 'Kat / ballık ver',
+        'mesaj': '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. $akimMetni Bu eşik artık normal çıta ekleme değil, kat/ballık verme eşiğidir.',
+        'gerekce': 'Şurupluk varsa kuluçkalık 9 çıta, şurupluk kaldırıldıysa 10 çıta kapasite kabul edilir.',
+        'oncelik': 91,
+        'tip': 'uyari',
+      });
+    }
+
+    final bool ucuncuKatDegerlendir = hasatBeklentisiVar && ucuncuKatEsiginde &&
+        !ucuncuKatZatenVerilmis &&
+        aktivasyonOrani >= 0.95 &&
+        islevselUretimCita >= ucuncuKatEsigi &&
+        yavruDuzeniStabil &&
+        !riskliSisirme &&
+        !kilit.eylemEngeli &&
+        !kilit.katEngeli;
+
+    if (ucuncuKatDegerlendir) {
+      final String esikMetni = suruplukKolonideVar
+          ? 'Şurupluk + 19 çıta kapasitesi'
+          : 'Şurupluksuz 20 çıta kapasitesi';
+      final int yuzde = (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
+      kararlar.add({
+        'kod': 'UCUNCU_KAT_VER',
+        'kategori': 'eylem',
+        'kisa': '3. kat ver',
+        'baslik': '3. kat / ikinci ballık ver',
+        'mesaj': '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. Koloni ikinci üst hacmi doldurma eşiğine gelmiş; 3. kat/ikinci ballık değerlendirilmeli.',
+        'gerekce': 'Şurupluk varsa 19 çıta, şurupluk kaldırıldıysa 20 çıta 3. kat verme eşiğidir. Bir sonraki çıta artışı 3 katlı koloni olarak okunur.',
+        'oncelik': 92,
         'tip': 'uyari',
       });
     }
@@ -957,9 +1003,9 @@ class KararAsistanServisi {
         aktivasyonOrani >= 0.95 &&
         fizikselCita > 0;
 
-    if (alanAcmaUyarisiUygun && !katDegerlendir) {
+    if (alanAcmaUyarisiUygun && !katDegerlendir && !ucuncuKatDegerlendir) {
       final int yuzde = (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
-      final bool kuluclukKatBandinda = hasatBeklentisiVar && fizikselCita >= katEsigi;
+      final bool kuluclukKatBandinda = hasatBeklentisiVar && fizikselCita >= katliEsik;
       final String baslik = kuluclukKatBandinda
           ? 'Alan ihtiyacı / ballık değerlendirme'
           : 'Alan ihtiyacı / çıta ekleme';
