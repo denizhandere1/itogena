@@ -1,5 +1,6 @@
 import 'koloni_grid_context.dart';
 import 'veritabani_servisi.dart';
+import 'cita_aktivasyon_servisi.dart';
 
 class KoloniGridContextServisi {
   static final Map<int, Future<KoloniGridContext>> _futureCache = {};
@@ -39,7 +40,7 @@ class KoloniGridContextServisi {
         .where((id) => id > 0)
         .toList(growable: false);
 
-    final sonMuayeneMap = await _sonMuayeneMapGetir(ids);
+    final muayeneMap = await _sonMuayenelerMapGetir(ids);
     final sonuc = <int, KoloniGridContext>{};
 
     for (final koloni in koloniler) {
@@ -55,7 +56,9 @@ class KoloniGridContextServisi {
       final context = _hafifContextOlustur(
         koloni,
         aktifMi: aktiflikMap[id] ?? true,
-        sonMuayene: sonMuayeneMap[id],
+        muayeneler: muayeneMap[id] ?? const <Map<String, dynamic>>[],
+        sonMuayene: muayeneMap[id]?.isNotEmpty == true ? muayeneMap[id]![0] : null,
+        oncekiMuayene: muayeneMap[id]?.length == 2 ? muayeneMap[id]![1] : null,
       );
 
       sonuc[id] = context;
@@ -109,18 +112,22 @@ class KoloniGridContextServisi {
     required bool aktifMi,
   }) async {
     final id = _toInt(koloni['id']);
-    final sonMuayeneMap = await _sonMuayeneMapGetir(<int>[id]);
+    final muayeneMap = await _sonMuayenelerMapGetir(<int>[id]);
     return _hafifContextOlustur(
       koloni,
       aktifMi: aktifMi,
-      sonMuayene: sonMuayeneMap[id],
+      muayeneler: muayeneMap[id] ?? const <Map<String, dynamic>>[],
+      sonMuayene: muayeneMap[id]?.isNotEmpty == true ? muayeneMap[id]![0] : null,
+      oncekiMuayene: muayeneMap[id]?.length == 2 ? muayeneMap[id]![1] : null,
     );
   }
 
   static KoloniGridContext _hafifContextOlustur(
     Map<String, dynamic> koloni, {
     required bool aktifMi,
+    List<Map<String, dynamic>> muayeneler = const <Map<String, dynamic>>[],
     Map<String, dynamic>? sonMuayene,
+    Map<String, dynamic>? oncekiMuayene,
   }) {
     final id = _toInt(koloni['id']);
     final skor = _toInt(koloni['skor']);
@@ -132,30 +139,63 @@ class KoloniGridContextServisi {
         _sonMuayenedeYavruGorulmediMi(sonMuayene);
     final bool ogulAtti = _toInt(sonMuayene?['ogulAtti']) == 1;
     final bool anaMemesi = _anaMemesiAlarmiVarMi(sonMuayene);
+    final bool yalanciAnaRiski = _yalanciAnaRiskiVarMi(
+      muayeneler: muayeneler,
+      sonMuayene: sonMuayene,
+      yavruYok: yavruYok,
+    );
+    final bool yavruIziVar = _yavruIziVarMi(sonMuayene);
+
+    // Kırmızı ünlem: yavru yok, oğul riski / ana memesi,
+    // oğul attı veya yalancı ana riski.
+    final bool kritikUnlem = yavruYok || anaMemesi || ogulAtti || yalanciAnaRiski;
+
+    final Map<String, dynamic> aktivasyon = CitaAktivasyonServisi.hesapla(
+      sonMuayene: sonMuayene,
+      oncekiMuayene: oncekiMuayene,
+    );
+    final int islevselUretimCita = _toInt(aktivasyon['islevselUretimCita']);
+    final int aktivasyonYuzde = _toInt(
+      aktivasyon['toplamHacimAktivasyonYuzde'] ??
+          aktivasyon['gosterimAktivasyonYuzde'] ??
+          aktivasyon['toplamAktivasyonYuzde'],
+    );
+    final String yonetimEtiketi = _hafifYonetimEtiketi(
+      koloni: koloni,
+      sonMuayene: sonMuayene,
+      fizikselCita: sonCita,
+      islevselUretimCita: islevselUretimCita,
+      aktivasyonYuzde: aktivasyonYuzde,
+      yavruYok: yavruYok,
+      ogulAtti: ogulAtti,
+      anaMemesi: anaMemesi,
+      yalanciAnaRiski: yalanciAnaRiski,
+      yavruIziVar: yavruIziVar,
+    );
 
     return KoloniGridContext(
       koloniId: id,
       aktifMi: aktifMi,
       skor: skor,
       sonCita: sonCita,
-      anaMemesiKritik: anaMemesi,
+      // Kırmızı ünlem: yavru yok, oğul riski / ana memesi,
+      // oğul attı veya yalancı ana riski.
+      // Turuncu takip noktası yalnızca kritik olmayan takip sinyalleri için kalır.
+      anaMemesiKritik: kritikUnlem,
       anaMemesiTakip: false,
       ogulAtti: ogulAtti,
       yavruYok: yavruYok,
-      // Ağır yönetim etiketi burada bilinçli olarak boş bırakılır.
-      // Alan aç / kat ver gibi kararlar işlevsel aktivasyon gerektirir ve
-      // detay ekranındaki biyolojik modelde hesaplanır.
-      yonetimEtiketi: '',
+      yonetimEtiketi: yonetimEtiketi,
       fizikselCita: sonCita,
-      islevselUretimCita: 0,
-      aktivasyonYuzde: 0,
+      islevselUretimCita: islevselUretimCita,
+      aktivasyonYuzde: aktivasyonYuzde,
     );
   }
 
-  static Future<Map<int, Map<String, dynamic>>> _sonMuayeneMapGetir(
+  static Future<Map<int, List<Map<String, dynamic>>>> _sonMuayenelerMapGetir(
     List<int> koloniIdleri,
   ) async {
-    if (koloniIdleri.isEmpty) return const <int, Map<String, dynamic>>{};
+    if (koloniIdleri.isEmpty) return const <int, List<Map<String, dynamic>>>{};
 
     final dbClient = await VeritabaniServisi.db;
     final placeholders = List.filled(koloniIdleri.length, '?').join(',');
@@ -167,13 +207,77 @@ class KoloniGridContextServisi {
       orderBy: 'koloniId ASC, tarih DESC, id DESC',
     );
 
-    final sonuc = <int, Map<String, dynamic>>{};
+    final sonuc = <int, List<Map<String, dynamic>>>{};
     for (final row in rows) {
       final id = _toInt(row['koloniId']);
       if (id <= 0) continue;
-      sonuc.putIfAbsent(id, () => Map<String, dynamic>.from(row));
+      final liste = sonuc.putIfAbsent(id, () => <Map<String, dynamic>>[]);
+      if (liste.length >= 8) continue;
+      liste.add(Map<String, dynamic>.from(row));
     }
     return sonuc;
+  }
+
+
+  static String _hafifYonetimEtiketi({
+    required Map<String, dynamic> koloni,
+    required Map<String, dynamic>? sonMuayene,
+    required int fizikselCita,
+    required int islevselUretimCita,
+    required int aktivasyonYuzde,
+    required bool yavruYok,
+    required bool ogulAtti,
+    required bool anaMemesi,
+    required bool yalanciAnaRiski,
+    required bool yavruIziVar,
+  }) {
+    if (sonMuayene == null || fizikselCita <= 0) return '';
+
+    // Grid etiketi arıcının ilk bakışta neye odaklanacağını söyler.
+    // Olağanüstü biyolojik süreçler, rutin alan/kat kararlarından önce gelir.
+    // Rutin işler detayda devam eder; gridde yalnızca en kritik başlık öne çıkar.
+    if (yavruYok) return 'Yavru yok';
+    if (anaMemesi) return 'Meme kontrolü';
+    if (yalanciAnaRiski) return 'Yalancı ana riski';
+    if (ogulAtti && !yavruIziVar) return 'Bekleme süreci';
+    if (ogulAtti && yavruIziVar) return 'Süreç izleniyor';
+
+    final bool suruplukVarMi = _toBool(koloni['suruplukVarMi'], varsayilan: true);
+    final bool suruplukKaldirildiMi = _toBool(sonMuayene['suruplukKaldirildiMi']);
+    final bool suruplukHacimKaplarMi = suruplukVarMi && !suruplukKaldirildiMi;
+
+    final int kuluclukKapasitesi = suruplukHacimKaplarMi ? 9 : 10;
+    final int birinciKatVermeEsigi = kuluclukKapasitesi;
+    final int katliKabulEsigi = kuluclukKapasitesi + 1;
+    final int ucuncuKatVermeEsigi = kuluclukKapasitesi + 10;
+    final int ucKatliKabulEsigi = kuluclukKapasitesi + 11;
+
+    final bool aktivasyonTam = aktivasyonYuzde >= 95 &&
+        islevselUretimCita >= fizikselCita;
+    if (!aktivasyonTam) return '';
+
+    if (fizikselCita == ucuncuKatVermeEsigi) return '3. kat ver';
+    if (fizikselCita >= ucKatliKabulEsigi) return 'Alan aç';
+    if (fizikselCita == birinciKatVermeEsigi) return 'Kat ver';
+    if (fizikselCita >= katliKabulEsigi) return 'Alan aç';
+    if (fizikselCita >= 4 && fizikselCita < birinciKatVermeEsigi) {
+      return 'Alan aç';
+    }
+
+    return '';
+  }
+
+  static bool _toBool(dynamic v, {bool varsayilan = false}) {
+    if (v == null) return varsayilan;
+    if (v is bool) return v;
+    if (v is int) return v == 1;
+    if (v is double) return v.round() == 1;
+    final temiz = v.toString().trim().toLowerCase();
+    if (temiz.isEmpty) return varsayilan;
+    return temiz == '1' ||
+        temiz == 'true' ||
+        temiz == 'evet' ||
+        temiz == 'var';
   }
 
   static bool _sonMuayenedeYavruGorulmediMi(Map<String, dynamic> muayene) {
@@ -202,6 +306,136 @@ class KoloniGridContextServisi {
         meme.contains('cikmis') ||
         meme.contains('meme');
   }
+
+
+  static bool _yavruIziVarMi(Map<String, dynamic>? muayene) {
+    if (muayene == null) return false;
+
+    if (_toInt(muayene['gunlukKapaliYavruGoruldu']) == 1) return true;
+    if (_toInt(muayene['yavruluCita']) > 0) return true;
+
+    final yavruDuzeni = (muayene['yavruDuzeni'] ?? '')
+        .toString()
+        .trim()
+        .toLowerCase();
+
+    if (yavruDuzeni.isEmpty) return false;
+    if (yavruDuzeni == 'yok' || yavruDuzeni.contains('yok')) return false;
+
+    return yavruDuzeni == 'blok' ||
+        yavruDuzeni == 'normal' ||
+        yavruDuzeni == 'dağınık' ||
+        yavruDuzeni == 'daginik' ||
+        yavruDuzeni == 'kambur';
+  }
+
+
+
+  static bool _yalanciAnaRiskiVarMi({
+    required List<Map<String, dynamic>> muayeneler,
+    required Map<String, dynamic>? sonMuayene,
+    required bool yavruYok,
+  }) {
+    if (sonMuayene == null || !yavruYok) return false;
+
+    // Günlük/kapalı yavru veya yavrulu çıta varsa yalancı ana alarmı üretilmez.
+    // Grid hızlı katmandır; kesin tanı değil, kırmızı dikkat işareti üretir.
+    if (_toInt(sonMuayene['gunlukKapaliYavruGoruldu']) == 1) return false;
+    if (_toInt(sonMuayene['yavruluCita']) > 0) return false;
+
+    DateTime? sonTetikTarihi;
+    int ogulTetikSayisi = 0;
+
+    for (final m in muayeneler) {
+      final bool ogulTetik = _toInt(m['ogulAtti']) == 1;
+      final bool bolmeTetik = _toInt(m['bolmeYapildi']) == 1;
+      final bool anasizTetik = _toInt(m['anasizBirakildiMi']) == 1;
+      final bool anaGirisimTetik = _toInt(m['anaUretimGirisimVarMi']) == 1;
+
+      if (ogulTetik) ogulTetikSayisi++;
+
+      if (!(ogulTetik || bolmeTetik || anasizTetik || anaGirisimTetik)) {
+        continue;
+      }
+
+      final tarih = _parseTarih(m['tarih']);
+      if (tarih == null) continue;
+      if (sonTetikTarihi == null || tarih.isAfter(sonTetikTarihi)) {
+        sonTetikTarihi = tarih;
+      }
+    }
+
+    if (sonTetikTarihi == null) return false;
+
+    final bugun = _gun(DateTime.now());
+    final gecenGun = bugun.difference(_gun(sonTetikTarihi)).inDays;
+    if (gecenGun < 0) return false;
+
+    final int ardArdaYavruYok = _ardArdaYavruYokSayisi(muayeneler);
+
+    // Oğul/bölme/anasızlık sonrası 45 gün geçtiyse ve yavru hâlâ yoksa
+    // gridde kırmızı ünlem yakılır.
+    if (gecenGun >= 45) return true;
+
+    // 32. günden sonra iki ardışık yavrusuz kayıt varsa risk yükselir.
+    if (gecenGun >= 32 && ardArdaYavruYok >= 2) return true;
+
+    // Tekrarlayan oğul kaydı koloni gücünü hızla düşürür; erken uyarı eşiği
+    // daha aşağı alınır.
+    if (ogulTetikSayisi >= 2 && gecenGun >= 24 && ardArdaYavruYok >= 1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  static int _ardArdaYavruYokSayisi(List<Map<String, dynamic>> muayeneler) {
+    int sayi = 0;
+    for (final m in muayeneler) {
+      if (_sonMuayenedeYavruGorulmediMi(m)) {
+        sayi++;
+      } else {
+        break;
+      }
+    }
+    return sayi;
+  }
+
+  static DateTime? _parseTarih(dynamic v) {
+    final s = (v ?? '').toString().trim();
+    if (s.isEmpty) return null;
+
+    final iso = DateTime.tryParse(s);
+    if (iso != null) return _gun(iso);
+
+    if (s.contains('.')) {
+      final p = s.split('.');
+      if (p.length == 3) {
+        final gun = int.tryParse(p[0]);
+        final ay = int.tryParse(p[1]);
+        final yil = int.tryParse(p[2]);
+        if (gun != null && ay != null && yil != null) {
+          return DateTime(yil, ay, gun);
+        }
+      }
+    }
+
+    if (s.contains('/')) {
+      final p = s.split('/');
+      if (p.length == 3) {
+        final gun = int.tryParse(p[0]);
+        final ay = int.tryParse(p[1]);
+        final yil = int.tryParse(p[2]);
+        if (gun != null && ay != null && yil != null) {
+          return DateTime(yil, ay, gun);
+        }
+      }
+    }
+
+    return null;
+  }
+
+  static DateTime _gun(DateTime t) => DateTime(t.year, t.month, t.day);
 
   static int _toInt(dynamic v) {
     if (v == null) return 0;
