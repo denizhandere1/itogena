@@ -154,11 +154,11 @@ class KararAsistanServisi {
 
 
   static Future<Map<String, dynamic>> surecDurumuGetir(
-    int koloniId, {
-    Map<String, dynamic>? hazirKoloni,
-    List<Map<String, dynamic>>? hazirMuayeneler,
-    bool forceRefresh = false,
-  }) async {
+      int koloniId, {
+        Map<String, dynamic>? hazirKoloni,
+        List<Map<String, dynamic>>? hazirMuayeneler,
+        bool forceRefresh = false,
+      }) async {
     final sonuc = await SurecMotoru.durumGetir(
       koloniId,
       hazirKoloni: hazirKoloni,
@@ -169,8 +169,8 @@ class KararAsistanServisi {
   }
 
   static Future<Map<String, bool>> koloniKartAlarmDurumuGetir(
-    int koloniId,
-  ) async {
+      int koloniId,
+      ) async {
     final surecDurumu = await SurecMotoru.durumGetir(koloniId);
 
     bool anaMemesiKritik = false;
@@ -204,9 +204,9 @@ class KararAsistanServisi {
   }
 
   static Future<Map<String, dynamic>> koloniKartDurumuGetir(
-    int koloniId, {
-    Map<String, dynamic>? hazirKoloni,
-  }) async {
+      int koloniId, {
+        Map<String, dynamic>? hazirKoloni,
+      }) async {
     final sonuclar = await Future.wait<dynamic>([
       koloniKartAlarmDurumuGetir(koloniId),
       yonetimDurumOzetiGetir(koloniId, hazirKoloni: hazirKoloni),
@@ -424,8 +424,8 @@ class KararAsistanServisi {
     final String ozet = surecOncelikli && surec != null
         ? surec.mesaj.trim()
         : (sonuc.kararMesaji.trim().isNotEmpty
-            ? sonuc.kararMesaji.trim()
-            : sonuc.secilimMesaji.trim());
+        ? sonuc.kararMesaji.trim()
+        : sonuc.secilimMesaji.trim());
 
     return {
       'karar': surecOncelikli && surec != null ? surec.baslik : sonuc.kararBaslik,
@@ -443,12 +443,12 @@ class KararAsistanServisi {
 
 
   static Future<Map<String, dynamic>> orkestrasyonOzetiGetir(
-    int koloniId,
-    Map<String, dynamic> koloni, {
-    Map<String, dynamic>? hazirKoloni,
-    List<Map<String, dynamic>>? siraliDonorler,
-    bool forceRefresh = false,
-  }) async {
+      int koloniId,
+      Map<String, dynamic> koloni, {
+        Map<String, dynamic>? hazirKoloni,
+        List<Map<String, dynamic>>? siraliDonorler,
+        bool forceRefresh = false,
+      }) async {
     final List<Map<String, dynamic>> sinyaller = <Map<String, dynamic>>[];
 
     final surec = await _dominantSurecGetir(koloniId);
@@ -495,7 +495,7 @@ class KararAsistanServisi {
       );
 
       final Map<String, dynamic> riskAnalizi =
-          Map<String, dynamic>.from(model['riskAnalizi'] ?? const <String, dynamic>{});
+      Map<String, dynamic>.from(model['riskAnalizi'] ?? const <String, dynamic>{});
       if (riskAnalizi.isNotEmpty) {
         sinyaller.add(KararOrkestratoru.sinyal(
           kaynak: 'risk',
@@ -510,7 +510,7 @@ class KararAsistanServisi {
       }
 
       final Map<String, dynamic> projeksiyon =
-          Map<String, dynamic>.from(model['projeksiyon'] ?? const <String, dynamic>{});
+      Map<String, dynamic>.from(model['projeksiyon'] ?? const <String, dynamic>{});
       if (projeksiyon.isNotEmpty) {
         sinyaller.add(KararOrkestratoru.sinyal(
           kaynak: 'projeksiyon',
@@ -579,9 +579,9 @@ class KararAsistanServisi {
   }
 
   static Future<Map<String, dynamic>> yonetimDurumOzetiGetir(
-    int koloniId, {
-    Map<String, dynamic>? hazirKoloni,
-  }) async {
+      int koloniId, {
+        Map<String, dynamic>? hazirKoloni,
+      }) async {
     final kararlar = await yonetimKararlariGetir(
       koloniId,
       hazirKoloni: hazirKoloni,
@@ -601,9 +601,9 @@ class KararAsistanServisi {
   }
 
   static Future<List<Map<String, dynamic>>> yonetimKararlariGetir(
-    int koloniId, {
-    Map<String, dynamic>? hazirKoloni,
-  }) async {
+      int koloniId, {
+        Map<String, dynamic>? hazirKoloni,
+      }) async {
     final koloni = hazirKoloni ?? await VeritabaniServisi.koloniOzetiGetir(koloniId);
     if (koloni.isEmpty) return const <Map<String, dynamic>>[];
 
@@ -721,10 +721,10 @@ class KararAsistanServisi {
     final String koloniSinifi = modelSinifi.isNotEmpty
         ? modelSinifi
         : _koloniSinifiBelirle(
-            fizikselCita: fizikselCita,
-            islevselUretimCita: islevselUretimCita,
-            aktivasyonOrani: aktivasyonOrani,
-          );
+      fizikselCita: fizikselCita,
+      islevselUretimCita: islevselUretimCita,
+      aktivasyonOrani: aktivasyonOrani,
+    );
     final bool zayifKoloni = koloniSinifi == 'ZAYIF';
     final bool gelisimKolonisi = koloniSinifi == 'GELISIM';
     final bool uretimKolonisi = koloniSinifi == 'URETIM';
@@ -866,29 +866,27 @@ class KararAsistanServisi {
           : '';
       if (seviye == 'kritik' || seviye == 'risk') {
         final bool kalintiVeto = balAkimiAktif || balAkimiKesmePenceresi;
-        // Gelişim kolonisi bal/hasat kolonisi gibi okunmaz.
-        // 8 işlevsel çıta altındaki kolonide kalıntı dili kullanıcıya gösterilmez;
-        // varroa bilgisi biyolojik model ve sezon risk hesabında iç veri olarak kalır.
+        // Gelişim/zayıf kolonide kalıntı riski uyarısı gösterilmez.
+        // 8 çıta altındaki kolonide hasat beklentisi olmadığından
+        // varroa mücadelesi gerekirse yapılabilir; kalıntı dili baskılanır.
         final bool gelisimKolonisindeKalintiDiliBastir =
-            kalintiVeto &&
             !hasatBeklentisiVar &&
-            islevselUretimCita < 8 &&
-            fizikselCita < 8;
+                islevselUretimCita < 8;
         if (gelisimKolonisindeKalintiDiliBastir) {
           // Kullanıcıya karar/uyarı üretme; sistem iç risk hesabı çalışmaya devam eder.
         } else {
           kararlar.add({
-          'kod': kalintiVeto ? 'VARROA_AKIM_DONEMI_VETO' : 'VARROA_RISK',
-          'kategori': kalintiVeto ? 'veto' : 'yonetim',
-          'kisa': kalintiVeto ? 'Varroa dikkat' : 'Varroa',
-          'baslik': kalintiVeto ? 'Bal döneminde varroa mücadelesinde kalıntı riskine dikkat' : baslik,
-          'mesaj': kalintiVeto ? 'Bal akımı/hasat döneminde kalıntı riski olan kimyasal mücadele önerilmez. Gerekiyorsa organik yöntemler değerlendirilir.' : (oneriler.isEmpty ? gerekce : '$gerekce $oneriler'),
-          'gerekce': kalintiVeto ? '' : '',
-          'oncelik': seviye == 'kritik' ? 87 : 73,
-          'tip': seviye == 'kritik' ? 'uyari' : 'bilgi',
-          'kararTipi': kalintiVeto ? 'VETO' : 'EYLEM',
-          'bastirilabilir': !kalintiVeto,
-        });
+            'kod': kalintiVeto ? 'VARROA_AKIM_DONEMI_VETO' : 'VARROA_RISK',
+            'kategori': kalintiVeto ? 'veto' : 'yonetim',
+            'kisa': kalintiVeto ? 'Varroa dikkat' : 'Varroa',
+            'baslik': kalintiVeto ? 'Bal döneminde varroa mücadelesinde kalıntı riskine dikkat' : baslik,
+            'mesaj': kalintiVeto ? 'Bal akımı/hasat döneminde kalıntı riski olan kimyasal mücadele önerilmez. Gerekiyorsa organik yöntemler değerlendirilir.' : (oneriler.isEmpty ? gerekce : '$gerekce $oneriler'),
+            'gerekce': kalintiVeto ? '' : '',
+            'oncelik': seviye == 'kritik' ? 87 : 73,
+            'tip': seviye == 'kritik' ? 'uyari' : 'bilgi',
+            'kararTipi': kalintiVeto ? 'VETO' : 'EYLEM',
+            'bastirilabilir': !kalintiVeto,
+          });
         }
       }
     } catch (_) {
@@ -906,15 +904,15 @@ class KararAsistanServisi {
 
     final bool kontrolluBolmeDegerlendir =
         hasatBeklentisiVar &&
-        !genetikVetoGorunuyor &&
-        genetikDegerVarsayimi &&
-        gucluTrend &&
-        yavruDuzeniStabil &&
-        fizikselCita >= 8 &&
-        islevselUretimCita >= 8 &&
-        aktivasyonOrani >= 0.80 &&
-        !riskliSisirme &&
-        (bolmeAnaPenceresi || bolmeDikkatPenceresi);
+            !genetikVetoGorunuyor &&
+            genetikDegerVarsayimi &&
+            gucluTrend &&
+            yavruDuzeniStabil &&
+            fizikselCita >= 8 &&
+            islevselUretimCita >= 8 &&
+            aktivasyonOrani >= 0.80 &&
+            !riskliSisirme &&
+            (bolmeAnaPenceresi || bolmeDikkatPenceresi);
 
     if (kontrolluBolmeDegerlendir) {
       kararlar.add({
@@ -950,8 +948,8 @@ class KararAsistanServisi {
       final String akimMetni = balAkimiAktif
           ? 'Bal akımı aktif görünüyor.'
           : (balAkiminaKalanGun == null
-              ? 'Bal akımı penceresi ayrıca kontrol edilmeli.'
-              : 'Bal akımına yaklaşık $balAkiminaKalanGun gün var.');
+          ? 'Bal akımı penceresi ayrıca kontrol edilmeli.'
+          : 'Bal akımına yaklaşık $balAkiminaKalanGun gün var.');
 
       kararlar.add({
         'kod': 'KAT_VER',
@@ -995,13 +993,13 @@ class KararAsistanServisi {
         _toInt(sonMuayene['citaSayisi']) > _toInt(oncekiMuayene['citaSayisi']);
     final bool alanAcmaUyarisiUygun =
         !kisDonemi &&
-        !sonbaharKisHazirlik &&
-        !hasatSonrasiSurec &&
-        !sonMuayenedeCitaArtisiVar &&
-        !kilit.eylemEngeli &&
-        !kilit.katEngeli &&
-        aktivasyonOrani >= 0.95 &&
-        fizikselCita > 0;
+            !sonbaharKisHazirlik &&
+            !hasatSonrasiSurec &&
+            !sonMuayenedeCitaArtisiVar &&
+            !kilit.eylemEngeli &&
+            !kilit.katEngeli &&
+            aktivasyonOrani >= 0.95 &&
+            fizikselCita > 0;
 
     if (alanAcmaUyarisiUygun && !katDegerlendir && !ucuncuKatDegerlendir) {
       final int yuzde = (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
@@ -1071,19 +1069,19 @@ class KararAsistanServisi {
           aktivasyon['gosterimAktivasyonOrani'],
     ) > 0
         ? _toDouble(
-            aktivasyon['toplamHacimAktivasyonOrani'] ??
-                aktivasyon['toplamAktivasyonOrani'] ??
-                aktivasyon['gosterimAktivasyonOrani'],
-          ).clamp(0.0, 1.0).toDouble()
+      aktivasyon['toplamHacimAktivasyonOrani'] ??
+          aktivasyon['toplamAktivasyonOrani'] ??
+          aktivasyon['gosterimAktivasyonOrani'],
+    ).clamp(0.0, 1.0).toDouble()
         : (fizikselCita > 0
-            ? (_toDouble(aktivasyon['islevselCitaOrta'] ?? islevselUretimCita) / fizikselCita)
-                .clamp(0.0, 1.0)
-                .toDouble()
-            : 1.0);
+        ? (_toDouble(aktivasyon['islevselCitaOrta'] ?? islevselUretimCita) / fizikselCita)
+        .clamp(0.0, 1.0)
+        .toDouble()
+        : 1.0);
     final int toplamHacimAktivasyonYuzde =
-        (toplamHacimAktivasyonOrani * 100).round().clamp(0, 100).toInt();
+    (toplamHacimAktivasyonOrani * 100).round().clamp(0, 100).toInt();
     final int yeniHacimAktivasyonYuzde =
-        (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
+    (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
     return uzlasmis.map((karar) {
       return <String, dynamic>{
         ...karar,
@@ -1105,11 +1103,11 @@ class KararAsistanServisi {
 
 
   static Map<String, dynamic> _beslemeYonetimKarariUret(
-    BeslemeKararSonucu besleme, {
-    required bool hasatBeklentisiVar,
-    required bool balAkimiAktif,
-    required bool balAkimiKesmePenceresi,
-  }) {
+      BeslemeKararSonucu besleme, {
+        required bool hasatBeklentisiVar,
+        required bool balAkimiAktif,
+        required bool balAkimiKesmePenceresi,
+      }) {
     final String tip = besleme.tip.trim().isEmpty
         ? 'Besleme Yönetimi'
         : besleme.tip.trim();
@@ -1494,9 +1492,9 @@ class KararAsistanServisi {
     final bool veto = skor['veto'] == true;
     final List<String> riskler = (skor['riskler'] is List)
         ? (skor['riskler'] as List)
-            .map((e) => e.toString())
-            .where((e) => e.trim().isNotEmpty)
-            .toList()
+        .map((e) => e.toString())
+        .where((e) => e.trim().isNotEmpty)
+        .toList()
         : const <String>[];
     final String ozet = _metin(skor['ozet'], 'Genetik çoğaltma değeri izleniyor.');
 
@@ -1708,9 +1706,9 @@ class KararAsistanServisi {
     final sonYontem = sonMucadele == null
         ? ''
         : (() {
-            final secimler = VeritabaniServisi.varroaSecimleriniGetir(sonMucadele!);
-            return secimler.isEmpty ? _metin(sonMucadele['varroaMucadele'], '') : secimler.join(', ');
-          })();
+      final secimler = VeritabaniServisi.varroaSecimleriniGetir(sonMucadele!);
+      return secimler.isEmpty ? _metin(sonMucadele['varroaMucadele'], '') : secimler.join(', ');
+    })();
 
     bool sonKayitVarMi(int gun) {
       if (sonTarih == null) return false;
@@ -1915,10 +1913,10 @@ class KararAsistanServisi {
 
   static bool _sonMuayenedeYavruGorulmediMi(Map<String, dynamic> muayene) {
     final String yavruDuzeni =
-        _metin(muayene['yavruDuzeni'], '').trim().toLowerCase();
+    _metin(muayene['yavruDuzeni'], '').trim().toLowerCase();
     final int yavruluCita = _toInt(muayene['yavruluCita']);
     final int gunlukKapaliYavruGoruldu =
-        _toInt(muayene['gunlukKapaliYavruGoruldu']);
+    _toInt(muayene['gunlukKapaliYavruGoruldu']);
 
     if (gunlukKapaliYavruGoruldu == 1) return false;
     if (yavruDuzeni == 'yok' || yavruDuzeni.contains('yok')) return true;

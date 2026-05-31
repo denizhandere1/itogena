@@ -7,7 +7,6 @@ import '../services/ari_biyoloji_servisi.dart';
 import '../services/soy_devamlilik_servisi.dart';
 import '../services/yorum_motoru.dart';
 import '../services/baglam_motoru.dart';
-import '../services/koloni_biyolojik_model_servisi.dart';
 import '../services/koloni_context_servisi.dart';
 import '../services/cita_aktivasyon_servisi.dart';
 import '../services/performans_izleme_servisi.dart';
@@ -179,13 +178,11 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
     final contextVerisi = await PerformansIzlemeServisi.olc(
       'KoloniDetay.context(koloniId: $_koloniId)',
-      () => KoloniContextServisi.getir(_koloniId),
+          () => KoloniContextServisi.getir(_koloniId),
       yavasEsikMs: 300,
     );
 
     if (!mounted || token != _detayYuklemeToken) return;
-
-    final balAkimi = contextVerisi.balAkimi;
 
     setState(() {
       _koloniOzet = contextVerisi.koloni;
@@ -193,9 +190,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       _anaKarar = contextVerisi.anaKarar;
       _secilimDurumu = contextVerisi.secilim;
       _aktifSurecler = contextVerisi.aktifSurecler;
-      _balAkimTarihi = balAkimi['bas'] as DateTime?;
-      _balAkimBitisTarihi = balAkimi['bit'] as DateTime?;
-      _balAkimEtiketi = balAkimi['etiket']?.toString();
       _yonetimKararlari = List<Map<String, dynamic>>.from(
         contextVerisi.yonetimKararlari,
       );
@@ -206,7 +200,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     _ilkEkranSonrasiHafifVerileriYukle(token);
     Future<void>.delayed(
       const Duration(milliseconds: 240),
-      () => _hacimAktivasyonunuYukle(token),
+          () => _hacimAktivasyonunuYukle(token),
     );
 
     if (_tabController.index == 2) {
@@ -740,61 +734,61 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         return false;
       },
       child: Scaffold(
-      backgroundColor: const Color(0xFFFFFDE7),
-      appBar: AppBar(
-        title: Text('KOVAN $_kovanNo'),
-        backgroundColor: Colors.amber,
-        foregroundColor: Colors.black,
-        actions: [
-          AnaSayfaKisayol.aksiyon(context),
-          IconButton(
-            tooltip: 'Koloni numarasını değiştir',
-            onPressed: _koloniNumarasiDegistir,
-            icon: const Icon(Icons.edit_note_rounded, color: Colors.black),
-          ),
-        ],
-        bottom: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          labelColor: Colors.black,
-          indicatorColor: Colors.brown,
-          tabs: const [
-            Tab(text: 'GENEL DURUM'),
-            Tab(text: 'MUAYENELER'),
-            Tab(text: 'BİYOLOJİK MODEL'),
-            Tab(text: 'PERFORMANS'),
+        backgroundColor: const Color(0xFFFFFDE7),
+        appBar: AppBar(
+          title: Text('KOVAN $_kovanNo'),
+          backgroundColor: Colors.amber,
+          foregroundColor: Colors.black,
+          actions: [
+            AnaSayfaKisayol.aksiyon(context),
+            IconButton(
+              tooltip: 'Koloni numarasını değiştir',
+              onPressed: _koloniNumarasiDegistir,
+              icon: const Icon(Icons.edit_note_rounded, color: Colors.black),
+            ),
           ],
+          bottom: TabBar(
+            controller: _tabController,
+            isScrollable: true,
+            labelColor: Colors.black,
+            indicatorColor: Colors.brown,
+            tabs: const [
+              Tab(text: 'GENEL DURUM'),
+              Tab(text: 'MUAYENELER'),
+              Tab(text: 'BİYOLOJİK MODEL'),
+              Tab(text: 'PERFORMANS'),
+            ],
+          ),
         ),
-      ),
-      body: SafeArea(
-        bottom: false,
-        child: _yukleniyor
-            ? const Center(
-                child: CircularProgressIndicator(color: Colors.amber),
-              )
-            : TabBarView(
-                controller: _tabController,
-                children: [
-                  _genelDurumSekmesi(),
-                  _muayenelerSekmesi(),
-                  _biyolojikModelSekmesi(),
-                  _performansSekmesi(),
-                ],
-              ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _muayeneEkle,
-        backgroundColor: Colors.amber,
-        icon: const Icon(Icons.add_chart, color: Colors.black),
-        label: const Text(
-          'Muayene Ekle',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+        body: SafeArea(
+          bottom: false,
+          child: _yukleniyor
+              ? const Center(
+            child: CircularProgressIndicator(color: Colors.amber),
+          )
+              : TabBarView(
+            controller: _tabController,
+            children: [
+              _genelDurumSekmesi(),
+              _muayenelerSekmesi(),
+              _biyolojikModelSekmesi(),
+              _performansSekmesi(),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: _muayeneEkle,
+          backgroundColor: Colors.amber,
+          icon: const Icon(Icons.add_chart, color: Colors.black),
+          label: const Text(
+            'Muayene Ekle',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 
@@ -1359,23 +1353,23 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
           trailing: rozet == null || rozet.trim().isEmpty
               ? null
               : Container(
-                  constraints: const BoxConstraints(maxWidth: 108),
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: renk.withOpacity(0.10),
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: renk.withOpacity(0.18)),
-                  ),
-                  child: Text(
-                    rozet,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 10.4,
-                      fontWeight: FontWeight.w900,
-                      color: renk,
-                    ),
-                  ),
-                ),
+            constraints: const BoxConstraints(maxWidth: 108),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            decoration: BoxDecoration(
+              color: renk.withOpacity(0.10),
+              borderRadius: BorderRadius.circular(999),
+              border: Border.all(color: renk.withOpacity(0.18)),
+            ),
+            child: Text(
+              rozet,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 10.4,
+                fontWeight: FontWeight.w900,
+                color: renk,
+              ),
+            ),
+          ),
           children: detaylar,
         ),
       ),
@@ -1383,10 +1377,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   double _toplamHacimAktivasyonOrani(
-    Map<String, dynamic> aktivasyon, {
-    required int fizikselCita,
-    required double islevselCita,
-  }) {
+      Map<String, dynamic> aktivasyon, {
+        required int fizikselCita,
+        required double islevselCita,
+      }) {
     final double kayitli = _toDouble(
       aktivasyon['toplamHacimAktivasyonOrani'] ??
           aktivasyon['toplamAktivasyonOrani'] ??
@@ -1437,10 +1431,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   String _beslemeKisaOzet(
-    String mesaj,
-    List<String> gerekceler,
-    String dozBandi,
-  ) {
+      String mesaj,
+      List<String> gerekceler,
+      String dozBandi,
+      ) {
     if (gerekceler.isNotEmpty) return gerekceler.first;
     if (mesaj.trim().isNotEmpty) {
       final parcalar = mesaj.split('.').map((e) => e.trim()).where((e) => e.isNotEmpty);
@@ -1757,28 +1751,28 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   Widget _biyolojikModelKarti(Map<String, dynamic> model) {
     final List<Map<String, dynamic>> altKatYerlesim =
-        (model['altKatYerlesim'] as List? ?? const <dynamic>[])
-            .whereType<Map>()
-            .map((e) => Map<String, dynamic>.from(e))
-            .toList(growable: false);
+    (model['altKatYerlesim'] as List? ?? const <dynamic>[])
+        .whereType<Map>()
+        .map((e) => Map<String, dynamic>.from(e))
+        .toList(growable: false);
     final List<Map<String, dynamic>> ustKatYerlesim =
-        (model['ustKatYerlesim'] as List? ?? const <dynamic>[])
-            .whereType<Map>()
-            .map((e) => Map<String, dynamic>.from(e))
-            .toList(growable: false);
+    (model['ustKatYerlesim'] as List? ?? const <dynamic>[])
+        .whereType<Map>()
+        .map((e) => Map<String, dynamic>.from(e))
+        .toList(growable: false);
     final String kovanGorselNotu =
-        _metin(model['kovanGorselNotu'], varsayilan: '');
+    _metin(model['kovanGorselNotu'], varsayilan: '');
     final String suruplukKonumMetni =
-        _metin(model['suruplukKonumMetni'], varsayilan: '');
+    _metin(model['suruplukKonumMetni'], varsayilan: '');
     final bool suruplukPenceresiAktif =
         model['suruplukKaldirmaPenceresiAktif'] == true;
     final bool suruplukKaldirildiMi = model['suruplukKaldirildiMi'] == true;
     final String suruplukKaldirmaMesaji =
-        _metin(model['suruplukKaldirmaMesaji'], varsayilan: '');
+    _metin(model['suruplukKaldirmaMesaji'], varsayilan: '');
     final String yavruBlok = _metin(model['yavruBlok'], varsayilan: 'Belirsiz');
     final String gelisimAlani = _metin(model['gelisimAlani'], varsayilan: '');
     final String hasatAdayMetni =
-        _metin(model['hasatAdayMetni'], varsayilan: '');
+    _metin(model['hasatAdayMetni'], varsayilan: '');
     final int toplamCita = _toInt(model['toplamCita']);
     final String yorum = _metin(model['yorum'], varsayilan: '');
     final int ariMin = _toInt(model['tahminiAriMin']);
@@ -1794,9 +1788,9 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       model['citaAktivasyon'] ?? const <String, dynamic>{},
     );
     final String hamPetekOnerisi =
-        _metin(kabiliyet['hamPetekOnerisi'], varsayilan: '');
+    _metin(kabiliyet['hamPetekOnerisi'], varsayilan: '');
     final String beslemeOnerisi =
-        _metin(kabiliyet['beslemeOnerisi'], varsayilan: '');
+    _metin(kabiliyet['beslemeOnerisi'], varsayilan: '');
 
     return Container(
       width: double.infinity,
@@ -1935,7 +1929,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     final String suruplukMesaji;
     if (suruplukKaldirildiMi) {
       suruplukMesaji =
-          '';
+      '';
     } else if (suruplukPenceresiAktif) {
       suruplukMesaji = suruplukKaldirmaMesaji.trim().isNotEmpty
           ? suruplukKaldirmaMesaji
@@ -2123,9 +2117,9 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   Widget _citaSirasi(
-    List<Map<String, dynamic>> citalar, {
-    required Map<String, dynamic> aktivasyon,
-  }) {
+      List<Map<String, dynamic>> citalar, {
+        required Map<String, dynamic> aktivasyon,
+      }) {
     if (citalar.isEmpty) return const SizedBox.shrink();
 
     return LayoutBuilder(
@@ -2154,9 +2148,9 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   Widget _citaBlogu(
-    Map<String, dynamic> item, {
-    required Map<String, dynamic> aktivasyon,
-  }) {
+      Map<String, dynamic> item, {
+        required Map<String, dynamic> aktivasyon,
+      }) {
     final String tur = _metin(item['tur'], varsayilan: 'cita');
     final int no = _toInt(item['no']);
     final String kat = _metin(item['kat'], varsayilan: 'alt');
@@ -2167,10 +2161,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     final double aktiflik = surupluk
         ? 1.0
         : (item.containsKey('aktiflik')
-            ? _toDouble(item['aktiflik']).clamp(0.0, 1.0).toDouble()
-            : 1.0);
+        ? _toDouble(item['aktiflik']).clamp(0.0, 1.0).toDouble()
+        : 1.0);
     final Color hedefRenk =
-        surupluk ? const Color(0xFF64B5F6) : _citaHedefRengi(tip, no, kat);
+    surupluk ? const Color(0xFF64B5F6) : _citaHedefRengi(tip, no, kat);
     final String etiket = surupluk ? 'Ş' : no.toString();
 
     return Column(
@@ -2376,7 +2370,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             child: Text(
               baslik,
               style:
-                  const TextStyle(fontSize: 11.8, fontWeight: FontWeight.w800),
+              const TextStyle(fontSize: 11.8, fontWeight: FontWeight.w800),
             ),
           ),
           Expanded(
@@ -2472,9 +2466,9 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   Widget _tekSurecKutusu(
-    Map<String, dynamic> surec, {
-    bool arkaPlan = false,
-  }) {
+      Map<String, dynamic> surec, {
+        bool arkaPlan = false,
+      }) {
     final baslik = _metin(surec['baslik'], varsayilan: 'Aktif süreç');
     final mesaj = _metin(surec['mesaj'], varsayilan: '');
 
@@ -2800,7 +2794,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   Widget _performansSekmesi() {
     final future =
-        _performansFuture ??= PerformansOzetiServisi.getir(_koloniId);
+    _performansFuture ??= PerformansOzetiServisi.getir(_koloniId);
 
     if (!_detayAnalizYuklendi && !_detayAnalizYukleniyor) {
       Future<void>.microtask(_detayAnalizleriYukle);
@@ -2992,12 +2986,12 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   Widget _vurguluMetin(
-    String metin, {
-    required Color renk,
-    required IconData ikon,
-    double fontSize = 14,
-    FontWeight agirlik = FontWeight.w700,
-  }) {
+      String metin, {
+        required Color renk,
+        required IconData ikon,
+        double fontSize = 14,
+        FontWeight agirlik = FontWeight.w700,
+      }) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
@@ -3320,7 +3314,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
           ),
           const SizedBox(height: 12),
           ...maddeler.map(
-            (m) => Padding(
+                (m) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -3476,7 +3470,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       final takvim = hamVeri['takvim'];
       if (takvim is Map) {
         final anaKazanmaYontemi =
-            _anaKazanmaYontemiDetayMetni(takvim['anaKazanmaYontemi']);
+        _anaKazanmaYontemiDetayMetni(takvim['anaKazanmaYontemi']);
         detaylar.add('Ana kazanma yöntemi: $anaKazanmaYontemi');
 
         final memeKapanma = _takvimAraligi(
@@ -3570,7 +3564,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             const SizedBox(height: 10),
           ],
           ...detaylar.map(
-            (e) => Padding(
+                (e) => Padding(
               padding: const EdgeInsets.only(bottom: 6),
               child: Text(
                 '• $e',
@@ -3585,7 +3579,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   Widget _soyVeKimlikOzetiKarti() {
     final kaynakTipi =
-        _metin(_kimlikOzeti['kaynakTipi'], varsayilan: _kaynakMetni());
+    _metin(_kimlikOzeti['kaynakTipi'], varsayilan: _kaynakMetni());
     final kaynakKoloni = _metin(_kimlikOzeti['kaynakKoloni'], varsayilan: '-');
     final kokKoloni = _metin(_kimlikOzeti['kokKoloni'], varsayilan: '-');
     final ebeveyn = _metin(_kimlikOzeti['ebeveynKoloni'], varsayilan: '-');
@@ -3713,7 +3707,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   Widget _hatDayaniklilikAcilirKarti() {
     final hatSonmeOrani =
-        _metin(_hatSonmeOzeti['hatSonmeOrani'], varsayilan: '-');
+    _metin(_hatSonmeOzeti['hatSonmeOrani'], varsayilan: '-');
     final hatDurum = _metin(_hatSonmeOzeti['hatDurum'], varsayilan: '-');
     final yorum = _metin(_hatSonmeOzeti['yorum'], varsayilan: '-');
 
@@ -3761,7 +3755,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   Widget _hatDayaniklilikKarti() {
     final hatSonmeOrani =
-        _metin(_hatSonmeOzeti['hatSonmeOrani'], varsayilan: '-');
+    _metin(_hatSonmeOzeti['hatSonmeOrani'], varsayilan: '-');
     final hatDurum = _metin(_hatSonmeOzeti['hatDurum'], varsayilan: '-');
     final yorum = _metin(_hatSonmeOzeti['yorum'], varsayilan: '-');
 

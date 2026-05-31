@@ -6,7 +6,6 @@ import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/koloni_biyolojik_model_servisi.dart';
-import '../services/cita_aktivasyon_servisi.dart';
 import 'koloni_detay_sayfasi.dart';
 import 'rapor_listesi_sayfasi.dart';
 
@@ -81,33 +80,6 @@ double _modelBalliCitaSayisi(
   if (hasatEdilebilir > 0) return hasatEdilebilir;
 
   return 0;
-}
-
-double _modelTamAktifAriliCitaSayisi(Map<String, dynamic> model) {
-  double toplam = 0;
-
-  void tara(dynamic liste) {
-    if (liste is! Iterable) return;
-    for (final item in liste) {
-      if (item is! Map) continue;
-      if ((item['tur'] ?? '').toString() != 'cita') continue;
-      final aktiflik = _ekDouble(item['aktiflik']);
-      if (aktiflik >= 0.98) toplam += 1.0;
-    }
-  }
-
-  tara(model['altKatYerlesim']);
-  tara(model['ustKatYerlesim']);
-
-  if (toplam > 0) return toplam;
-
-  final islevselMin = _ekDouble(model['islevselCitaMin']);
-  if (islevselMin > 0) return islevselMin.floorToDouble();
-
-  final islevselToplam = _ekDouble(model['islevselToplamCita']);
-  if (islevselToplam > 0) return islevselToplam.floorToDouble();
-
-  return _ekDouble(model['fizikselToplamCita']).floorToDouble();
 }
 
 Future<_ArilikIstatistikHesabi> _arilikIstatistikHesapla(
@@ -265,16 +237,13 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
   _ArilikIstatistikHesabi? _arilikIstatistik;
   int _yuklemeToken = 0;
 
-  List<Map<String, dynamic>> _tumKoloniler = [];
   List<Map<String, dynamic>> _aktifKoloniler = [];
-  List<Map<String, dynamic>> _siraliDonorler = [];
   List<Map<String, dynamic>> _ilkUcDonor = [];
   List<Map<String, dynamic>> _ilkUcGuclu = [];
 
   int _ortalamaSkor = 0;
   int _aktifKovanSayisi = 0;
   double _toplamAriliCita = 0;
-  int _toplamIslevselCita = 0;
   double _ekonomikDeger = 0;
   double _tahminiBalPotansiyeliMinKg = 0;
   double _tahminiBalPotansiyeliMaxKg = 0;
@@ -338,7 +307,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     final aktifKoloniler = <Map<String, dynamic>>[];
     int toplamSkor = 0;
     double toplamAriliCita = 0;
-    int toplamIslevselCita = 0;
     for (final koloni in tumKoloniler) {
       final koloniId = _toInt(koloni['id']);
       if (koloniId <= 0) continue;
@@ -353,7 +321,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
         // kullanıcı ilgili alanı açtığında lazy-load çalışır.
         final aktifCita = _kayitliIslevselCita(koloni);
         toplamAriliCita += aktifCita;
-        toplamIslevselCita += aktifCita.round();
       }
     }
 
@@ -363,14 +330,11 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     if (!mounted || token != _yuklemeToken) return;
 
     setState(() {
-      _tumKoloniler = tumKoloniler;
       _aktifKoloniler = aktifKoloniler;
-      _siraliDonorler = const <Map<String, dynamic>>[];
       _ilkUcDonor = const <Map<String, dynamic>>[];
       _ilkUcGuclu = ilkUcGuclu.take(3).toList();
       _aktifKovanSayisi = aktifKoloniler.length;
       _toplamAriliCita = toplamAriliCita;
-      _toplamIslevselCita = toplamIslevselCita;
       _ortalamaSkor = aktifKoloniler.isEmpty
           ? 0
           : (toplamSkor / aktifKoloniler.length).round();
@@ -436,7 +400,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
       });
 
     setState(() {
-      _siraliDonorler = siraliDonorler;
       _ilkUcDonor = ilkUcDonor.take(3).toList();
       _ilkUcGuclu = ilkUcGuclu.take(3).toList();
       _donorlerYukleniyor = false;

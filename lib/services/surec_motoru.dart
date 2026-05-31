@@ -2,7 +2,6 @@ import 'veritabani_servisi.dart';
 import 'ari_biyoloji_servisi.dart';
 import 'trend_servisi.dart';
 import 'arilik_uyari_servisi.dart';
-import 'cita_aktivasyon_servisi.dart';
 
 class SurecUyarisi {
   final String kod;
