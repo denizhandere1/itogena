@@ -18,9 +18,9 @@ class KoloniBiyolojikModelServisi {
   /// tekrar tekrar çalıştırmasın diye servis seviyesinde tek hesap/çok tüketim
   /// cache'i kullanılır. Veri değiştiğinde ilgili koloni cache'i temizlenmelidir.
   static Future<Map<String, dynamic>> modelGetir(
-    int koloniId, {
-    bool forceRefresh = false,
-  }) async {
+      int koloniId, {
+        bool forceRefresh = false,
+      }) async {
     if (forceRefresh) {
       _modelFutureCache.remove(koloniId);
     }
@@ -62,7 +62,7 @@ class KoloniBiyolojikModelServisi {
     Map<String, dynamic> suruplukPenceresi = const <String, dynamic>{};
     try {
       suruplukPenceresi =
-          await VeritabaniServisi.suruplukKaldirmaPenceresiGetir(koloniId);
+      await VeritabaniServisi.suruplukKaldirmaPenceresiGetir(koloniId);
     } catch (_) {
       suruplukPenceresi = const <String, dynamic>{};
     }
@@ -146,18 +146,18 @@ class KoloniBiyolojikModelServisi {
     );
     final int yavruluCita = _pozitifInt(sonMuayene?['yavruluCita']);
     final String yavruDuzeni =
-        (sonMuayene?['yavruDuzeni'] ?? '').toString().trim();
+    (sonMuayene?['yavruDuzeni'] ?? '').toString().trim();
     final bool yavruYokMu = _yavruYokMu(
       yavruDuzeni: yavruDuzeni,
       yavruluCita: yavruluCita,
     );
     final String kaynakTipi =
-        (koloni['kaynakTipi'] ?? '').toString().trim().toLowerCase();
+    (koloni['kaynakTipi'] ?? '').toString().trim().toLowerCase();
     final Map<String, dynamic> sezonBiyolojiMap = sezonBiyoloji == null
         ? SezonBiyolojiMatrisi.varsayilanMap(_tarih(sonMuayene?['tarih']))
         : Map<String, dynamic>.from(sezonBiyoloji);
     final double sezonAktivasyonKatsayisi =
-        _toDouble(sezonBiyolojiMap['aktivasyonKatsayisi']);
+    _toDouble(sezonBiyolojiMap['aktivasyonKatsayisi']);
 
     final Map<String, dynamic> citaAktivasyon = CitaAktivasyonServisi.hesapla(
       sonMuayene: sonMuayene,
@@ -168,9 +168,9 @@ class KoloniBiyolojikModelServisi {
       sezonKatsayisi: sezonAktivasyonKatsayisi > 0 ? sezonAktivasyonKatsayisi : null,
     );
     final double islevselToplamCitaDouble =
-        _toDouble(citaAktivasyon['islevselCitaOrta']);
+    _toDouble(citaAktivasyon['islevselCitaOrta']);
     final int islevselToplamCita =
-        math.max(0, islevselToplamCitaDouble.round());
+    math.max(0, islevselToplamCitaDouble.round());
 
     final Map<String, num> katsayi = _katsayilar(kovanTipi);
     // Kat/ballık hacim modeli şurupluk durumuna göre okunur.
@@ -188,13 +188,13 @@ class KoloniBiyolojikModelServisi {
     final bool ucKatliKoloni = toplamCita >= ucKatliKabulEsigi;
     final int tahminiKatSayisi = ucKatliKoloni ? 3 : (katAtildi ? 2 : 1);
     final int kuluclukCita =
-        islevselToplamCita.clamp(0, kuluclukKapasitesi).toInt();
+    islevselToplamCita.clamp(0, kuluclukKapasitesi).toInt();
     final int fizikselKuluclukCita =
-        toplamCita.clamp(0, kuluclukKapasitesi).toInt();
+    toplamCita.clamp(0, kuluclukKapasitesi).toInt();
     final int ballikCita =
-        katAtildi ? math.max(0, islevselToplamCita - kuluclukKapasitesi) : 0;
+    katAtildi ? math.max(0, islevselToplamCita - kuluclukKapasitesi) : 0;
     final int fizikselBallikCita =
-        katAtildi ? math.max(0, toplamCita - kuluclukKapasitesi) : 0;
+    katAtildi ? math.max(0, toplamCita - kuluclukKapasitesi) : 0;
 
     final int tahminiAriMin = (islevselToplamCita * katsayi['ariMin']!).round();
     final int tahminiAriMax = (islevselToplamCita * katsayi['ariMax']!).round();
@@ -205,21 +205,21 @@ class KoloniBiyolojikModelServisi {
     final int tahminiYavruCita = yavruYokMu
         ? 0
         : yavruluCita > 0
-            ? yavruluCita.clamp(0, kuluclukCita).toInt()
-            : _tahminiYavruCita(kuluclukCita, yavruDuzeni: yavruDuzeni);
+        ? yavruluCita.clamp(0, kuluclukCita).toInt()
+        : _tahminiYavruCita(kuluclukCita, yavruDuzeni: yavruDuzeni);
     final int tahminiPolenCita =
-        _tahminiPolenCita(kuluclukCita, tahminiYavruCita);
+    _tahminiPolenCita(kuluclukCita, tahminiYavruCita);
     final int tahminiStokCita = math.max(
       0,
       kuluclukCita - tahminiYavruCita - tahminiPolenCita,
     );
 
     final int tahminiYavruGozMin =
-        (tahminiYavruCita * katsayi['yavruGozMin']!).round();
+    (tahminiYavruCita * katsayi['yavruGozMin']!).round();
     final int tahminiYavruGozMax =
-        (tahminiYavruCita * katsayi['yavruGozMax']!).round();
+    (tahminiYavruCita * katsayi['yavruGozMax']!).round();
     final int tahminiYavruGozOrta =
-        ((tahminiYavruGozMin + tahminiYavruGozMax) / 2).round();
+    ((tahminiYavruGozMin + tahminiYavruGozMax) / 2).round();
 
     final double balKatsayiMin = katsayi['balKgMin']!.toDouble();
     final double balKatsayiMax = katsayi['balKgMax']!.toDouble();
@@ -241,9 +241,9 @@ class KoloniBiyolojikModelServisi {
     final double hasatPotansiyeliMaxKg = hasatEdilebilirCita * balKatsayiMax;
 
     final double birakilmasiGerekenBalMinKg =
-        _birakilacakBalMinKg(kuluclukCita, kovanTipi);
+    _birakilacakBalMinKg(kuluclukCita, kovanTipi);
     final double birakilmasiGerekenBalMaxKg =
-        _birakilacakBalMaxKg(kuluclukCita, kovanTipi);
+    _birakilacakBalMaxKg(kuluclukCita, kovanTipi);
 
     final yerlesim = _yerlesimDizilimi(kuluclukCita);
     final yerlesimSatirlari = _yerlesimSatirlari(yerlesim);
@@ -256,6 +256,7 @@ class KoloniBiyolojikModelServisi {
       suruplukKaldirildiMi: suruplukKaldirildiMi,
       kuluclukKapasitesi: kuluclukKapasitesi,
       katAtildi: katAtildi,
+      ucKatliKoloni: ucKatliKoloni,
       kuluclukCita: fizikselKuluclukCita,
       ballikCita: fizikselBallikCita,
       yavruBlok: yavruBlok,
@@ -267,7 +268,7 @@ class KoloniBiyolojikModelServisi {
 
     final double gunlukMomentum = _toDouble(trend?['gunlukMomentum']);
     final String momentumEtiketi =
-        (trend?['momentumEtiketi'] ?? '').toString().trim();
+    (trend?['momentumEtiketi'] ?? '').toString().trim();
     final Map<String, dynamic> demografi = DemografiMotoru.hesapla(
       tahminiAri: tahminiAriOrta,
       tahminiYavru: tahminiYavruGozOrta,
@@ -482,6 +483,7 @@ class KoloniBiyolojikModelServisi {
       'yerlesimMetni': yerlesim.join(' / '),
       'altKatYerlesim': kovanYerlesimi['altKatYerlesim'],
       'ustKatYerlesim': kovanYerlesimi['ustKatYerlesim'],
+      'ucuncuKatYerlesim': kovanYerlesimi['ucuncuKatYerlesim'],
       'tacPozisyonlari': kovanYerlesimi['tacPozisyonlari'],
       'kovanGorselNotu': kovanYerlesimi['not'],
       'demografi': demografi,
@@ -610,10 +612,10 @@ class KoloniBiyolojikModelServisi {
     final List<Map<String, dynamic>> sirali = List<Map<String, dynamic>>.from(
       muayeneler,
     )..sort((a, b) {
-        final at = _tarih(a['tarih']) ?? DateTime(1900);
-        final bt = _tarih(b['tarih']) ?? DateTime(1900);
-        return bt.compareTo(at);
-      });
+      final at = _tarih(a['tarih']) ?? DateTime(1900);
+      final bt = _tarih(b['tarih']) ?? DateTime(1900);
+      return bt.compareTo(at);
+    });
 
     int ardisikYavrusuzMuayene = 0;
     DateTime? sonYavruGorulenTarih;
@@ -641,7 +643,7 @@ class KoloniBiyolojikModelServisi {
     final DateTime yavrusuzlukReferansi =
         sonYavruGorulenTarih ?? koloniBaslangic ?? sonMuayeneTarihi;
     final int yavrusuzGun =
-        math.max(0, sonMuayeneTarihi.difference(_gun(yavrusuzlukReferansi)).inDays);
+    math.max(0, sonMuayeneTarihi.difference(_gun(yavrusuzlukReferansi)).inDays);
 
     final bool bolmeOgulKokenli = kaynakTipi.contains('bölme') ||
         kaynakTipi.contains('bolme') ||
@@ -911,7 +913,7 @@ class KoloniBiyolojikModelServisi {
   static List<String> _yerlesimSatirlari(List<String> yerlesim) {
     return List<String>.generate(
       yerlesim.length,
-      (i) => '${i + 1}. çıta: ${yerlesim[i]}',
+          (i) => '${i + 1}. çıta: ${yerlesim[i]}',
     );
   }
 
@@ -921,6 +923,7 @@ class KoloniBiyolojikModelServisi {
     required bool suruplukKaldirildiMi,
     required int kuluclukKapasitesi,
     required bool katAtildi,
+    required bool ucKatliKoloni,
     required int kuluclukCita,
     required int ballikCita,
     required String yavruBlok,
@@ -1009,6 +1012,17 @@ class KoloniBiyolojikModelServisi {
 
     final altKat = <Map<String, dynamic>>[];
     final ustKat = <Map<String, dynamic>>[];
+    final ucuncuKat = <Map<String, dynamic>>[];
+
+    // 3 katlı kolonide ballık çıtalar iki kata bölünür:
+    // 2. kat (ustKat): ilk 10 çıta, 3. kat (ucuncuKat): geri kalanlar
+    const int ikincKatKapasitesi = 10;
+    final int ustKatCita = ucKatliKoloni
+        ? math.min(ballikCita, ikincKatKapasitesi)
+        : ballikCita;
+    final int ucuncuKatCita = ucKatliKoloni
+        ? math.max(0, ballikCita - ikincKatKapasitesi)
+        : 0;
 
     if (!katAtildi) {
       if (suruplukVarMi && !suruplukKaldirildiMi) {
@@ -1026,13 +1040,20 @@ class KoloniBiyolojikModelServisi {
       }
     } else if (katReorganizasyonModu) {
       final int toplamFizikselCita = kuluclukCita + ballikCita;
-      final int ustCitaSayisi = math.min(
+      final int tamUstCitaSayisi = math.min(
         toplamFizikselCita,
         math.max(2, ballikCita),
       );
+      // 3 katlı kolonide üst kat ikincKatKapasitesi ile sınırlanır; fazlası 3. kata alınır.
+      final int ustCitaSayisi = ucKatliKoloni
+          ? math.min(tamUstCitaSayisi, ikincKatKapasitesi)
+          : tamUstCitaSayisi;
+      final int ucuncuKatCitaReorg = ucKatliKoloni
+          ? math.max(0, tamUstCitaSayisi - ikincKatKapasitesi)
+          : 0;
       final int altCitaSayisi = math.min(
         kuluclukKapasitesi,
-        math.max(0, toplamFizikselCita - ustCitaSayisi),
+        math.max(0, toplamFizikselCita - tamUstCitaSayisi),
       );
       final int yeniAltPetekSayisi = math.min(
         eklenenCita > 0 ? eklenenCita : 3,
@@ -1098,6 +1119,19 @@ class KoloniBiyolojikModelServisi {
           aktiflik: aktiflik,
         ));
       }
+
+      for (int i = 0; i < ucuncuKatCitaReorg; i++) {
+        final int globalNo = kuluclukKapasitesi + ikincKatKapasitesi + 1 + i;
+        final aktiflik = aktiflikHesapla(globalNo);
+        ucuncuKat.add(citaMap(
+          kat: 'ucuncu',
+          no: globalNo,
+          tip: aktiflik >= 0.98
+              ? 'Ballık / bal alanı'
+              : 'Ballık / aktivasyon sürecinde',
+          aktiflik: aktiflik,
+        ));
+      }
     } else {
       for (int no = 1; no <= kuluclukKapasitesi; no++) {
         final aktiflik = aktiflikHesapla(no);
@@ -1114,11 +1148,25 @@ class KoloniBiyolojikModelServisi {
         ustKat.add(suruplukMap('ust', 0));
       }
 
-      for (int i = 0; i < ballikCita; i++) {
+      for (int i = 0; i < ustKatCita; i++) {
         final int globalNo = kuluclukKapasitesi + 1 + i;
         final aktiflik = aktiflikHesapla(globalNo);
         ustKat.add(citaMap(
           kat: 'ust',
+          no: globalNo,
+          tip: aktiflik >= 0.98
+              ? 'Ballık / bal alanı'
+              : 'Ballık / aktivasyon sürecinde',
+          aktiflik: aktiflik,
+        ));
+      }
+
+      // 3. kat çıtaları
+      for (int i = 0; i < ucuncuKatCita; i++) {
+        final int globalNo = kuluclukKapasitesi + ikincKatKapasitesi + 1 + i;
+        final aktiflik = aktiflikHesapla(globalNo);
+        ucuncuKat.add(citaMap(
+          kat: 'ucuncu',
           no: globalNo,
           tip: aktiflik >= 0.98
               ? 'Ballık / bal alanı'
@@ -1133,13 +1181,13 @@ class KoloniBiyolojikModelServisi {
       suruplukKonumMetni = '';
     } else if (suruplukKaldirildiMi) {
       suruplukKonumMetni =
-          '';
+      '';
     } else if (katAtildi && katReorganizasyonModu) {
       suruplukKonumMetni =
-          '';
+      '';
     } else if (katAtildi) {
       suruplukKonumMetni =
-          '';
+      '';
     } else {
       suruplukKonumMetni = '';
     }
@@ -1147,6 +1195,7 @@ class KoloniBiyolojikModelServisi {
     return {
       'altKatYerlesim': altKat,
       'ustKatYerlesim': ustKat,
+      'ucuncuKatYerlesim': ucuncuKat,
       'tacPozisyonlari': tacPozisyonlari,
       'suruplukKonumMetni': suruplukKonumMetni,
       'not': katAtildi && katReorganizasyonModu
@@ -1159,8 +1208,8 @@ class KoloniBiyolojikModelServisi {
     final sayilar = RegExp(r'\d+')
         .allMatches(yavruBlok)
         .map((e) {
-          return int.tryParse(e.group(0) ?? '') ?? 0;
-        })
+      return int.tryParse(e.group(0) ?? '') ?? 0;
+    })
         .where((e) => e > 0)
         .toList(growable: false);
 
@@ -1249,9 +1298,9 @@ class KoloniBiyolojikModelServisi {
       return {
         'seviye': hasatAdaySayisi > 0 ? 'ballik_oncelikli' : 'izle',
         'mesaj':
-            'Katlı sistemde hasat önceliği ballıktadır; kuluçkalık koruma alanı kabul edilir.',
+        'Katlı sistemde hasat önceliği ballıktadır; kuluçkalık koruma alanı kabul edilir.',
         'kural':
-            'Ballık hasadı yalnızca sırlı, yavrusuz ve olgun çıtalarda düşünülür.',
+        'Ballık hasadı yalnızca sırlı, yavrusuz ve olgun çıtalarda düşünülür.',
       };
     }
 
@@ -1259,7 +1308,7 @@ class KoloniBiyolojikModelServisi {
       return const {
         'seviye': 'onerilmez',
         'mesaj':
-            '7 çıta ve altındaki kolonide hasat önerilmez; kuluçkalık güvenliği korunmalıdır.',
+        '7 çıta ve altındaki kolonide hasat önerilmez; kuluçkalık güvenliği korunmalıdır.',
         'kural': 'Koloni hasatla 7 çıta altına düşürülmez.',
       };
     }
@@ -1268,7 +1317,7 @@ class KoloniBiyolojikModelServisi {
       return const {
         'seviye': 'sinirli',
         'mesaj':
-            '8 çıtalı kolonide yalnızca dış stok çıtası sırlı ve yavrusuzsa sınırlı hasat düşünülebilir.',
+        '8 çıtalı kolonide yalnızca dış stok çıtası sırlı ve yavrusuzsa sınırlı hasat düşünülebilir.',
         'kural': '8. çıta dış stok bölgesi değilse alınmaz.',
       };
     }
@@ -1277,7 +1326,7 @@ class KoloniBiyolojikModelServisi {
       return const {
         'seviye': 'kontrollu',
         'mesaj':
-            '9 çıtalı kolonide 8–9. çıtalar dış stok bölgesi olarak kontrol edilebilir.',
+        '9 çıtalı kolonide 8–9. çıtalar dış stok bölgesi olarak kontrol edilebilir.',
         'kural': 'Yavru/polen alanı bozulmaz; yalnızca sırlı dış bal alınır.',
       };
     }
@@ -1285,9 +1334,9 @@ class KoloniBiyolojikModelServisi {
     return const {
       'seviye': 'uygun_kontrol',
       'mesaj':
-          '10 çıtalı kuluçkalıkta 9–10. çıtalar dış stok bölgesi olarak kontrol edilebilir.',
+      '10 çıtalı kuluçkalıkta 9–10. çıtalar dış stok bölgesi olarak kontrol edilebilir.',
       'kural':
-          'Kuluçkalık stok güvenliği ve yavru bloğu korunmadan hasat yapılmaz.',
+      'Kuluçkalık stok güvenliği ve yavru bloğu korunmadan hasat yapılmaz.',
     };
   }
 
@@ -1380,7 +1429,7 @@ class KoloniBiyolojikModelServisi {
       'bakiciOran': _yuvarla(bakiciOran * 100),
       'petekOrucuOran': _yuvarla(petekOrucuOran * 100),
       'gencIsciOran':
-          _yuvarla((temizlikOran + bakiciOran + petekOrucuOran) * 100),
+      _yuvarla((temizlikOran + bakiciOran + petekOrucuOran) * 100),
       'icIsciOran': _yuvarla(icIsciOran * 100),
       'bekciOran': _yuvarla(bekciOran * 100),
       'tarlaciOran': _yuvarla(tarlaciOran * 100),
@@ -1393,7 +1442,7 @@ class KoloniBiyolojikModelServisi {
         '21_gun_ustu_tarlaci': tarlaciAri,
       },
       'demografiNotu':
-          'Bu dağılım kesin sayım değil; çıta, yavru, sezon ve momentumdan üretilen saha projeksiyonudur.',
+      'Bu dağılım kesin sayım değil; çıta, yavru, sezon ve momentumdan üretilen saha projeksiyonudur.',
     };
   }
 
@@ -1417,10 +1466,10 @@ class KoloniBiyolojikModelServisi {
     final double biyolojikGucCita = islevselToplamCita > 0
         ? islevselToplamCita
         : (islevselUretimCita > 0
-            ? islevselUretimCita.toDouble()
-            : (kuluclukCita + ballikCita).toDouble());
+        ? islevselUretimCita.toDouble()
+        : (kuluclukCita + ballikCita).toDouble());
     final double koloniGucuKatsayisi =
-        _dokumanKoloniGucuKatsayisi(biyolojikGucCita);
+    _dokumanKoloniGucuKatsayisi(biyolojikGucCita);
     final double gencIsciKatsayisi = _dokumanGencIsciKatsayisi(
       demografi['gencIsciOran'],
     );
@@ -1445,12 +1494,12 @@ class KoloniBiyolojikModelServisi {
     }
 
     int sahaPuaniUygula(
-      int bazPuan, {
-      required double gucEtkisi,
-      double gencIsciEtkisi = 0.0,
-      double sezonEtkisi = 0.0,
-      double riskEtkisi = 0.0,
-    }) {
+        int bazPuan, {
+          required double gucEtkisi,
+          double gencIsciEtkisi = 0.0,
+          double sezonEtkisi = 0.0,
+          double riskEtkisi = 0.0,
+        }) {
       final double guc = 1 + ((koloniGucuKatsayisi - 1) * gucEtkisi);
       final double genc = 1 + ((gencIsciKatsayisi - 1) * gencIsciEtkisi);
       final double sezon = 1 + ((sezonKatsayisi - 1) * sezonEtkisi);
@@ -1463,19 +1512,19 @@ class KoloniBiyolojikModelServisi {
 
     final String duzen = yavruDuzeni.toLowerCase();
     final int petekBaz = (scoreFrom(demografi['petekOrucuOran'], 18) +
-            (scoreFrom(demografi['gencIsciOran'], 48) * 0.15).round() +
-            (gunlukMomentum >= 0.12 ? 12 : 0) +
-            (duzen.contains('blok') ? 4 : 0))
+        (scoreFrom(demografi['gencIsciOran'], 48) * 0.15).round() +
+        (gunlukMomentum >= 0.12 ? 12 : 0) +
+        (duzen.contains('blok') ? 4 : 0))
         .clamp(0, 100)
         .toInt();
     final int yavruBakimBaz = (scoreFrom(demografi['bakiciOran'], 30) +
-            (scoreFrom(demografi['gencIsciOran'], 48) * 0.10).round() +
-            (duzen.contains('blok') ? 10 : 0))
+        (scoreFrom(demografi['gencIsciOran'], 48) * 0.10).round() +
+        (duzen.contains('blok') ? 10 : 0))
         .clamp(0, 100)
         .toInt();
     final int nektarBaz = (scoreFrom(demografi['tarlaciOran'], 40) +
-            (ballikCita > 0 ? 10 : 0) +
-            (toplam >= 16000 ? 8 : 0))
+        (ballikCita > 0 ? 10 : 0) +
+        (toplam >= 16000 ? 8 : 0))
         .clamp(0, 100)
         .toInt();
 
@@ -1512,8 +1561,8 @@ class KoloniBiyolojikModelServisi {
       riskEtkisi: 0.45,
     );
     final kisBaz = ((toplam / 18000) * 55 +
-            (balliCita * 8) +
-            (kuluclukCita >= 6 ? 15 : 0))
+        (balliCita * 8) +
+        (kuluclukCita >= 6 ? 15 : 0))
         .round()
         .clamp(0, 100)
         .toInt();
@@ -1525,9 +1574,9 @@ class KoloniBiyolojikModelServisi {
       riskEtkisi: 0.30,
     );
     final ciftlesmeBaz =
-        (scoreFrom(demografi['erkekOran'], 5) + (kuluclukCita >= 7 ? 10 : 0))
-            .clamp(0, 100)
-            .toInt();
+    (scoreFrom(demografi['erkekOran'], 5) + (kuluclukCita >= 7 ? 10 : 0))
+        .clamp(0, 100)
+        .toInt();
     final ciftlesme = sahaPuaniUygula(
       ciftlesmeBaz,
       gucEtkisi: 0.25,
@@ -1570,7 +1619,7 @@ class KoloniBiyolojikModelServisi {
       ),
       'hamPetekOnerisi': _hamPetekOnerisi(petek, kuluclukCita),
       'beslemeOnerisi':
-          _beslemeOnerisi(petek, yavruBakim, nektar, gunlukMomentum),
+      _beslemeOnerisi(petek, yavruBakim, nektar, gunlukMomentum),
       'temelSahaOnerisi': _temelSahaOnerisi(
         petek: petek,
         yavru: yavruBakim,
@@ -1610,22 +1659,22 @@ class KoloniBiyolojikModelServisi {
     final double biyolojikGucCita = islevselToplamCita > 0
         ? islevselToplamCita
         : (islevselUretimCita > 0
-            ? islevselUretimCita.toDouble()
-            : (kuluclukCita + ballikCita).toDouble());
+        ? islevselUretimCita.toDouble()
+        : (kuluclukCita + ballikCita).toDouble());
     final double koloniGucuKatsayisi =
-        _dokumanKoloniGucuKatsayisi(biyolojikGucCita);
+    _dokumanKoloniGucuKatsayisi(biyolojikGucCita);
     final double gencIsciKatsayisi = _dokumanGencIsciKatsayisi(
       demografi['gencIsciOran'],
     );
     final double riskFreni = _toDouble(kabiliyet['riskFreni']) > 0
         ? _toDouble(kabiliyet['riskFreni'])
         : _dokumanRiskFreni(
-            aktivasyonOrani: aktivasyonOrani,
-            riskliSisirme: riskliSisirme,
-            uretimGuvenliMi: uretimGuvenliMi,
-            yavruDuzeni: '',
-            kuluclukCita: kuluclukCita,
-          );
+      aktivasyonOrani: aktivasyonOrani,
+      riskliSisirme: riskliSisirme,
+      uretimGuvenliMi: uretimGuvenliMi,
+      yavruDuzeni: '',
+      kuluclukCita: kuluclukCita,
+    );
 
     final int petek = _toInt(kabiliyet['petekOrmePuani']);
     final int yavruBakim = _toInt(kabiliyet['yavruBakimPuani']);
@@ -1636,9 +1685,9 @@ class KoloniBiyolojikModelServisi {
     final int tarlaciAri = _toInt(demografi['tarlaciAri']);
     final int toplamAri = _toInt(demografi['toplamAri']);
     final String geriDonus =
-        (yavrusuzlukAnalizi['geriDonusKapasitesi'] ?? '').toString();
+    (yavrusuzlukAnalizi['geriDonusKapasitesi'] ?? '').toString();
     final String cokusRiskiMevcut =
-        (yavrusuzlukAnalizi['biyolojikCokusRiski'] ?? '').toString();
+    (yavrusuzlukAnalizi['biyolojikCokusRiski'] ?? '').toString();
     final bool kaynakDegerli = yavrusuzlukAnalizi['kaynakHarcamayaDegerMi'] != false;
 
     int sinirla(num deger) => deger.round().clamp(0, 100).toInt();
@@ -1738,27 +1787,27 @@ class KoloniBiyolojikModelServisi {
     final String gelisimYonu = gelisimSkoru >= 72 && gunlukMomentum >= 0.02
         ? 'gelişim yönü güçlü'
         : (gelisimSkoru >= 55
-            ? 'gelişim yönü dengeli'
-            : (cokusSkoru >= 60
-                ? 'gelişim baskılanıyor'
-                : 'gelişim sınırlı'));
+        ? 'gelişim yönü dengeli'
+        : (cokusSkoru >= 60
+        ? 'gelişim baskılanıyor'
+        : 'gelişim sınırlı'));
     final String uretimYonu = balAkimiAktif && hasatSkoru >= 65
         ? 'bala yöneliyor'
         : (yavruBakim >= nektar && tahminiYavruCita > 0
-            ? 'yavru düzenini güçlendiriyor'
-            : (tahminiStokCita <= 1
-                ? 'stok desteğine ihtiyaç duyabilir'
-                : 'dengeli saha düzeninde'));
+        ? 'yavru düzenini güçlendiriyor'
+        : (tahminiStokCita <= 1
+        ? 'stok desteğine ihtiyaç duyabilir'
+        : 'dengeli saha düzeninde'));
     final String biyolojikMomentum = momentumSkoru >= 72
         ? 'ivmeleniyor'
         : (momentumSkoru >= 52
-            ? 'dengede'
-            : (momentumSkoru >= 38 ? 'yavaşlıyor' : 'kırılıyor'));
+        ? 'dengede'
+        : (momentumSkoru >= 38 ? 'yavaşlıyor' : 'kırılıyor'));
     final String alanBaskisi = alanDoldurmaSkoru >= 78
         ? 'alan baskısı yüksek'
         : (alanDoldurmaSkoru >= 58
-            ? 'alan kullanımı dengeli'
-            : 'boş hacim taşıyor');
+        ? 'alan kullanımı dengeli'
+        : 'boş hacim taşıyor');
     final String toparlanmaPotansiyeli = seviye(toparlanmaSkoru);
     final String cokusRiski = riskSeviyesi(cokusSkoru);
     final String savunmaKirganligi = savunmaSkoru >= 70
@@ -2028,9 +2077,9 @@ class KoloniBiyolojikModelServisi {
       return 'Model için çıta verisi yok. İlk muayene sonrası tahmini biyolojik düzen okunabilir.';
     }
     final String yavrusuzlukMesaji =
-        (yavrusuzlukAnalizi?['sahaMesaji'] ?? '').toString().trim();
+    (yavrusuzlukAnalizi?['sahaMesaji'] ?? '').toString().trim();
     final String geriDonusKapasitesi =
-        (yavrusuzlukAnalizi?['geriDonusKapasitesi'] ?? '').toString().trim();
+    (yavrusuzlukAnalizi?['geriDonusKapasitesi'] ?? '').toString().trim();
     if (yavrusuzlukMesaji.isNotEmpty &&
         (geriDonusKapasitesi == 'dusuk' || geriDonusKapasitesi == 'kritik')) {
       return yavrusuzlukMesaji;

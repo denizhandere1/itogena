@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'ana_sayfa_kisayol.dart';
@@ -1338,6 +1339,16 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           child: const Text(
             'Yedekten yükleme mevcut veriyi tamamen değiştirir. Yüklemeden hemen önce yeni bir yedek almak en güvenli yaklaşımdır.',
             style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+          ),
+        ),
+        _sistemIslemKarti(
+          baslik: 'Gizlilik Politikası',
+          altMetin: 'Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.',
+          ikon: Icons.privacy_tip_outlined,
+          renk: Colors.teal,
+          onTap: () => launchUrl(
+            Uri.parse('https://itogaciftligi.com/itogena-gizlilik-politikasi/'),
+            mode: LaunchMode.externalApplication,
           ),
         ),
       ],

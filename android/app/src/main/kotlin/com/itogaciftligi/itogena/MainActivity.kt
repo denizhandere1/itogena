@@ -1,4 +1,4 @@
-package com.example.itogena
+package com.itogaciftligi.itogena
 
 import io.flutter.embedding.android.FlutterActivity
 

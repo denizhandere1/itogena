@@ -1760,6 +1760,11 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         .whereType<Map>()
         .map((e) => Map<String, dynamic>.from(e))
         .toList(growable: false);
+    final List<Map<String, dynamic>> ucuncuKatYerlesim =
+    (model['ucuncuKatYerlesim'] as List? ?? const <dynamic>[])
+        .whereType<Map>()
+        .map((e) => Map<String, dynamic>.from(e))
+        .toList(growable: false);
     final String kovanGorselNotu =
     _metin(model['kovanGorselNotu'], varsayilan: '');
     final String suruplukKonumMetni =
@@ -1787,6 +1792,12 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     final Map<String, dynamic> citaAktivasyon = Map<String, dynamic>.from(
       model['citaAktivasyon'] ?? const <String, dynamic>{},
     );
+    final Map<String, dynamic> demografi = Map<String, dynamic>.from(
+      model['demografi'] ?? const <String, dynamic>{},
+    );
+    final int tarlaciYuzde = _toInt(demografi['tarlaciOran']);
+    final int bakiciYuzde = _toInt(demografi['bakiciOran']);
+    final int gencIsciYuzde = _toInt(demografi['gencIsciOran']);
     final String hamPetekOnerisi =
     _metin(kabiliyet['hamPetekOnerisi'], varsayilan: '');
     final String beslemeOnerisi =
@@ -1825,6 +1836,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             _kovanYerlesimGorseli(
               altKat: altKatYerlesim,
               ustKat: ustKatYerlesim,
+              ucuncuKat: ucuncuKatYerlesim,
               notMetni: kovanGorselNotu,
               suruplukMetni: suruplukKonumMetni,
               aktivasyon: citaAktivasyon,
@@ -1875,6 +1887,12 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                   'Hacim aktivasyonu',
                   '%${_toInt(citaAktivasyon['toplamHacimAktivasyonYuzde'])}',
                 ),
+              if (tarlaciYuzde > 0)
+                _miniBilgiHap('Tarlacı', '%$tarlaciYuzde'),
+              if (bakiciYuzde > 0)
+                _miniBilgiHap('Bakıcı', '%$bakiciYuzde'),
+              if (gencIsciYuzde > 0)
+                _miniBilgiHap('Genç işçi', '%$gencIsciYuzde'),
             ],
           ),
           const SizedBox(height: 10),
@@ -2033,6 +2051,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   Widget _kovanYerlesimGorseli({
     required List<Map<String, dynamic>> altKat,
     required List<Map<String, dynamic>> ustKat,
+    required List<Map<String, dynamic>> ucuncuKat,
     required String notMetni,
     required String suruplukMetni,
     required Map<String, dynamic> aktivasyon,
@@ -2048,6 +2067,12 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (ucuncuKat.isNotEmpty) ...[
+            _katBasligi('3. KAT / BALLIK', Icons.view_week_outlined),
+            const SizedBox(height: 4),
+            _citaSirasi(ucuncuKat, aktivasyon: aktivasyon),
+            const SizedBox(height: 9),
+          ],
           if (ustKat.isNotEmpty) ...[
             _katBasligi('ÜST KAT / BALLIK', Icons.view_week_outlined),
             const SizedBox(height: 4),
@@ -2127,21 +2152,46 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         final int adet = citalar.length;
         final double bosluk = adet > 1 ? 3.0 : 0.0;
         final double toplamBosluk = bosluk * (adet - 1);
-        final double genislik = ((constraints.maxWidth - toplamBosluk) / adet)
+
+        // Mevcut genişlikle sığan ideal çıta boyutu
+        final double idealGenislik =
+        ((constraints.maxWidth - toplamBosluk) / adet)
             .clamp(24.0, 34.0)
             .toDouble();
 
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            for (int i = 0; i < citalar.length; i++) ...[
-              SizedBox(
-                width: genislik,
-                child: _citaBlogu(citalar[i], aktivasyon: aktivasyon),
-              ),
-              if (i != citalar.length - 1) SizedBox(width: bosluk),
-            ],
+        // Minimum 24.0 genişlikte toplam gereken alan
+        const double minCitaGenislik = 24.0;
+        final double toplamGerekenAlan =
+            minCitaGenislik * adet + toplamBosluk;
+
+        // Eğer tüm çıtalar sığıyorsa normal Row; sığmıyorsa yatay kaydırılabilir
+        final bool sigiyor = toplamGerekenAlan <= constraints.maxWidth;
+
+        final rowChildren = <Widget>[
+          for (int i = 0; i < citalar.length; i++) ...[
+            SizedBox(
+              width: sigiyor ? idealGenislik : minCitaGenislik,
+              child: _citaBlogu(citalar[i], aktivasyon: aktivasyon),
+            ),
+            if (i != citalar.length - 1) SizedBox(width: bosluk),
           ],
+        ];
+
+        if (sigiyor) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: rowChildren,
+          );
+        }
+
+        // Çıtalar sığmıyor → yatay kaydırma
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: rowChildren,
+          ),
         );
       },
     );
@@ -2335,7 +2385,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
     if (!aktivasyon || biyolojikRolVar) return _citaRengi(tip);
 
-    if (kat == 'ust' || t.contains('ballık')) return const Color(0xFFFFD54F);
+    if (kat == 'ust' || kat == 'ucuncu' || t.contains('ballık')) return const Color(0xFFFFD54F);
     if (no == 1 || no == 10) return const Color(0xFFFFD54F);
     if (no == 2 || no == 9) return const Color(0xFFFFA726);
     if (no >= 3 && no <= 8) return const Color(0xFF8D6E63);

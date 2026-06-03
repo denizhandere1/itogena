@@ -15,7 +15,6 @@ class GuncellemeBilgisi {
   final int latestVersionCode;
   final int currentVersionCode;
   final String currentVersionName;
-  final String apkUrl;
   final String mesaj;
   final String? hata;
 
@@ -27,7 +26,6 @@ class GuncellemeBilgisi {
     required this.latestVersionCode,
     required this.currentVersionCode,
     required this.currentVersionName,
-    required this.apkUrl,
     required this.mesaj,
     this.hata,
   });
@@ -46,7 +44,6 @@ class GuncellemeBilgisi {
       latestVersionCode: currentVersionCode,
       currentVersionCode: currentVersionCode,
       currentVersionName: currentVersionName,
-      apkUrl: '',
       mesaj: '',
     );
   }
@@ -64,7 +61,6 @@ class GuncellemeBilgisi {
       latestVersionCode: currentVersionCode,
       currentVersionCode: currentVersionCode,
       currentVersionName: currentVersionName,
-      apkUrl: '',
       mesaj: '',
       hata: hata,
     );
@@ -74,6 +70,9 @@ class GuncellemeBilgisi {
 class GuncellemeServisi {
   static const String versionJsonUrl =
       'https://itogaciftligi.com/itogena/version.json';
+
+  static const String playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.itogaciftligi.itogena';
 
   static Future<GuncellemeBilgisi> kontrolEt({
     String url = versionJsonUrl,
@@ -117,7 +116,6 @@ class GuncellemeServisi {
           (decoded['latestVersionName'] ?? '').toString().trim();
       final int latestVersionCode =
           int.tryParse((decoded['latestVersionCode'] ?? '').toString()) ?? 0;
-      final String apkUrl = (decoded['apkUrl'] ?? '').toString().trim();
       final bool forceUpdate = decoded['forceUpdate'] == true;
       final int minSupportedVersionCode =
           int.tryParse((decoded['minSupportedVersionCode'] ?? '').toString()) ??
@@ -144,7 +142,6 @@ class GuncellemeServisi {
             latestVersionCode > 0 ? latestVersionCode : currentVersionCode,
         currentVersionCode: currentVersionCode,
         currentVersionName: currentVersionName,
-        apkUrl: apkUrl,
         mesaj: mesaj,
       );
     } catch (e) {
@@ -156,17 +153,9 @@ class GuncellemeServisi {
     }
   }
 
-  static Future<bool> indirSayfasiniAc(String apkUrl) async {
-    final temiz = apkUrl.trim();
-    if (temiz.isEmpty) return false;
-
-    final uri = Uri.tryParse(temiz);
-    if (uri == null) return false;
-
-    return launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication,
-    );
+  static Future<bool> playStoreSayfasiniAc() async {
+    final uri = Uri.parse(playStoreUrl);
+    return launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
   static Future<void> guncellemeDiyaloguGoster(
@@ -184,7 +173,7 @@ class GuncellemeServisi {
       builder: (dialogContext) {
         return StatefulBuilder(
           builder: (context, setState) {
-            Future<void> indirAkisi() async {
+            Future<void> guncellemeAkisi() async {
               if (islemde) return;
               setState(() => islemde = true);
 
@@ -201,14 +190,14 @@ class GuncellemeServisi {
                   ),
                 );
 
-                final bool acildi = await indirSayfasiniAc(bilgi.apkUrl);
+                final bool acildi = await playStoreSayfasiniAc();
 
                 if (!dialogContext.mounted) return;
 
                 if (!acildi) {
                   ScaffoldMessenger.of(dialogContext).showSnackBar(
                     const SnackBar(
-                      content: Text('APK bağlantısı açılamadı.'),
+                      content: Text('Play Store açılamadı.'),
                       backgroundColor: Colors.red,
                     ),
                   );
@@ -222,7 +211,7 @@ class GuncellemeServisi {
                 if (!dialogContext.mounted) return;
                 ScaffoldMessenger.of(dialogContext).showSnackBar(
                   SnackBar(
-                    content: Text('Yedek alma / indirme akışı başarısız: $e'),
+                    content: Text('Yedek alma / güncelleme akışı başarısız: $e'),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -262,7 +251,7 @@ class GuncellemeServisi {
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'İndir dediğinde önce otomatik JSON yedeği hazırlanır, ardından APK bağlantısı açılır.',
+                      'Güncellemeden önce otomatik JSON yedeği hazırlanır, ardından Play Store açılır.',
                       style: TextStyle(
                         fontSize: 12,
                         height: 1.4,
@@ -296,7 +285,7 @@ class GuncellemeServisi {
                       backgroundColor: Colors.amber,
                       foregroundColor: Colors.black,
                     ),
-                    onPressed: islemde ? null : indirAkisi,
+                    onPressed: islemde ? null : guncellemeAkisi,
                     child: islemde
                         ? const SizedBox(
                             width: 18,
@@ -304,7 +293,7 @@ class GuncellemeServisi {
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Text(
-                            'YEDEK AL VE İNDİR',
+                            'YEDEK AL VE GÜNCELLE',
                             style: TextStyle(fontWeight: FontWeight.w800),
                           ),
                   ),

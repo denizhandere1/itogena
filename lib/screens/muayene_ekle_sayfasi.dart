@@ -93,6 +93,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   bool _anaKazanmaSureciAktifMi = false;
   bool _suruplukKaldirmaPenceresiAktif = false;
   bool _suruplukKaldirildiMi = false;
+  bool _suruplukKarryForward = false;
   String _suruplukKaldirmaMesaji = '';
 
   String _memeDurumu = 'Yok';
@@ -398,8 +399,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     _anasizBirakildiMi = _intDeger(m['anasizBirakildiMi']) == 1;
     _anaDegisimPlanlandiMi = _intDeger(m['anaDegisimPlanlandiMi']) == 1;
     _gunlukKapaliYavruGoruldu = _intDeger(m['gunlukKapaliYavruGoruldu']) == 1;
-    _suruplukKaldirildiMi = _intDeger(m['suruplukKaldirildiMi']) == 1 &&
-        _intDeger(m['suruplukKaldirmaManuelMi']) == 1;
+    _suruplukKaldirildiMi = _intDeger(m['suruplukKaldirildiMi']) == 1;
     _anaKazanmaYontemi = _normalizeAnaKazanmaYontemi(m['anaKazanmaYontemi']);
 
     final anasizTarihMetni =
@@ -464,10 +464,11 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     _anasizBirakildiMi = false;
     _anaDegisimPlanlandiMi = false;
     _gunlukKapaliYavruGoruldu = false;
-    // Yeni muayene açılırken önceki muayenedeki şurupluk kaldırıldı
-    // işareti otomatik taşınmaz. Fiziksel işlem her muayenede arıcı
-    // tarafından yeniden işaretlenmelidir.
-    _suruplukKaldirildiMi = false;
+    // Önceki muayenede şurupluk kaldırıldıysa durum bu muayeneye taşınır.
+    // Arıcı muayene ekranında "Şurupluk eklendi" işaretleyene kadar
+    // kaldırılmış sayılmaya devam eder.
+    _suruplukKarryForward = _intDeger(m['suruplukKaldirildiMi']) == 1;
+    _suruplukKaldirildiMi = _suruplukKarryForward;
     _anaKazanmaYontemi = _normalizeAnaKazanmaYontemi(m['anaKazanmaYontemi']);
     _anasizBaslangicTarihi = null;
 
@@ -884,10 +885,8 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                   _gunlukKapaliYavruGoruldu
               ? 1
               : 0,
-      'suruplukKaldirildiMi':
-          _suruplukKaldirmaPenceresiAktif && _suruplukKaldirildiMi ? 1 : 0,
-      'suruplukKaldirmaManuelMi':
-          _suruplukKaldirmaPenceresiAktif && _suruplukKaldirildiMi ? 1 : 0,
+      'suruplukKaldirildiMi': _suruplukKaldirildiMi ? 1 : 0,
+      'suruplukKaldirmaManuelMi': _suruplukKaldirildiMi ? 1 : 0,
       'eklenenPetekTipi': _eklenenCitaAdedi > 0
           ? (_eklenenKabarmisPetek > 0 && _eklenenTemelPetek > 0
               ? 'Karışık petek'
@@ -1559,6 +1558,42 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   }
 
   Widget _suruplukKaldirmaKutusu() {
+    // Önceki muayeneden taşınan "kaldırıldı" durumu → "eklendi mi?" seçeneği göster
+    if (_suruplukKarryForward && _suruplukKaldirildiMi) {
+      return Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(top: 8, bottom: 12),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF3F0FF),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.deepPurple.shade200),
+        ),
+        child: CheckboxListTile(
+          value: false,
+          onChanged: (v) {
+            if (v == true) {
+              setState(() {
+                _suruplukKaldirildiMi = false;
+                _suruplukKarryForward = false;
+              });
+            }
+          },
+          activeColor: Colors.deepPurple,
+          contentPadding: EdgeInsets.zero,
+          controlAffinity: ListTileControlAffinity.leading,
+          title: const Text(
+            'Şurupluk eklendi',
+            style: TextStyle(fontWeight: FontWeight.w900),
+          ),
+          subtitle: const Text(
+            'Bu koloni şurupluksuz. Muayenede şurupluk eklendiyse işaretle; aksi hâlde kaldırılmış sayılmaya devam eder.',
+            style: TextStyle(fontSize: 12, height: 1.4),
+          ),
+        ),
+      );
+    }
+
     if (!_suruplukKaldirmaPenceresiAktif && !_suruplukKaldirildiMi) {
       return const SizedBox.shrink();
     }
