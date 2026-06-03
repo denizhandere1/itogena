@@ -102,6 +102,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   String? _balAkimEtiketi;
 
   bool _yukleniyor = true;
+  double _balKgFiyati = 600.0;
 
   String _seciliOzetKarti = 'surec';
 
@@ -297,8 +298,15 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       final model = contextVerisi.biyolojikModel ?? const <String, dynamic>{};
       if (!mounted || token != _detayYuklemeToken) return;
 
+      final balFiyatStr = await VeritabaniServisi.ayarStringGetir(
+        'ekonomik_bal_kg_fiyat',
+        varsayilan: '600',
+      );
+      if (!mounted || token != _detayYuklemeToken) return;
+
       setState(() {
         _biyolojikModel = Map<String, dynamic>.from(model);
+        _balKgFiyati = double.tryParse(balFiyatStr) ?? 600.0;
         _biyolojikModelYuklendi = true;
         _biyolojikModelYukleniyor = false;
       });
@@ -1844,10 +1852,11 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             const SizedBox(height: 12),
           ],
           if (toplamCita >= 8 && hasatAdayMetni.trim().isNotEmpty) ...[
-            _hasatOnerisiKarti(
+            _hasatProjeksiyonuKarti(
               hasatAdayMetni: hasatAdayMetni,
               hasatMin: hasatMin,
               hasatMax: hasatMax,
+              balKgFiyati: _balKgFiyati,
               suruplukPenceresiAktif: suruplukPenceresiAktif,
               suruplukKaldirildiMi: suruplukKaldirildiMi,
               suruplukKaldirmaMesaji: suruplukKaldirmaMesaji,
@@ -1931,10 +1940,11 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
-  Widget _hasatOnerisiKarti({
+  Widget _hasatProjeksiyonuKarti({
     required String hasatAdayMetni,
     required double hasatMin,
     required double hasatMax,
+    required double balKgFiyati,
     required bool suruplukPenceresiAktif,
     required bool suruplukKaldirildiMi,
     required String suruplukKaldirmaMesaji,
@@ -1946,8 +1956,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
     final String suruplukMesaji;
     if (suruplukKaldirildiMi) {
-      suruplukMesaji =
-      '';
+      suruplukMesaji = '';
     } else if (suruplukPenceresiAktif) {
       suruplukMesaji = suruplukKaldirmaMesaji.trim().isNotEmpty
           ? suruplukKaldirmaMesaji
@@ -1956,93 +1965,157 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       suruplukMesaji = '';
     }
 
+    final double ekonomikMin = hasatMin * balKgFiyati;
+    final double ekonomikMax = hasatMax * balKgFiyati;
+    final bool ekonomikGoster = balKgFiyati > 0 && hasatMax > 0;
+
+    String _para(double tutar) {
+      if (tutar >= 1000) {
+        return '${(tutar / 1000).toStringAsFixed(1).replaceAll('.', ',')} bin ₺';
+      }
+      return '${tutar.round()} ₺';
+    }
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF8E1),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: const Color(0xFFFFB300), width: 1.1),
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.hive_outlined,
-            color: Color(0xFFFFA000),
-            size: 24,
+          Row(
+            children: [
+              const Icon(Icons.savings_outlined, color: Color(0xFFFFA000), size: 20),
+              const SizedBox(width: 8),
+              const Expanded(
+                child: Text(
+                  'HASAT PROJEKSİYONU',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF5D4037),
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: 10),
+          Text(
+            anaMesaj,
+            style: const TextStyle(
+              fontSize: 12.5,
+              height: 1.4,
+              fontWeight: FontWeight.w800,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 10),
+          if (hasatMax > 0) ...[
+            Row(
               children: [
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 6,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    const Text(
-                      'HASAT ÖNERİSİ',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w900,
-                        color: Color(0xFF5D4037),
-                      ),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFFFFCC80)),
                     ),
-                    if (hasatMax > 0)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: const Color(0xFFFFCC80)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Tahmini miktar',
+                          style: TextStyle(fontSize: 10.5, color: Colors.black54),
                         ),
-                        child: Text(
-                          '${_kg(hasatMin)}–${_kg(hasatMax)} kg potansiyel',
+                        const SizedBox(height: 2),
+                        Text(
+                          '${_kg(hasatMin)} – ${_kg(hasatMax)} kg',
                           style: const TextStyle(
-                            fontSize: 10.5,
-                            fontWeight: FontWeight.w800,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w900,
                             color: Color(0xFF5D4037),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (ekonomikGoster) ...[
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF9FBE7),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: const Color(0xFFDCE775)),
                       ),
-                  ],
-                ),
-                const SizedBox(height: 7),
-                Text(
-                  'Hasat adayı çıtalar: $anaMesaj',
-                  style: const TextStyle(
-                    fontSize: 12.5,
-                    height: 1.35,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  'Yalnızca yavrusuz ve sırlıysa değerlendir. Kuluçkalık güvenliği bozulmamalı.',
-                  style: TextStyle(
-                    fontSize: 12.2,
-                    height: 1.35,
-                    color: Colors.black87,
-                  ),
-                ),
-                if (suruplukMesaji.isNotEmpty) ...[
-                  const SizedBox(height: 7),
-                  Text(
-                    suruplukMesaji,
-                    style: TextStyle(
-                      fontSize: 11.8,
-                      height: 1.35,
-                      color: Colors.brown.shade700,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Text(
+                                'Tahmini değer',
+                                style: TextStyle(fontSize: 10.5, color: Colors.black54),
+                              ),
+                              const SizedBox(width: 4),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF7B1FA2),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: const Text(
+                                  'PRO',
+                                  style: TextStyle(
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.white,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            '${_para(ekonomikMin)} – ${_para(ekonomikMax)}',
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF33691E),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ],
             ),
+            const SizedBox(height: 10),
+          ],
+          const Text(
+            'Yalnızca yavrusuz ve sırlıysa değerlendir. Kuluçkalık güvenliği bozulmamalı.',
+            style: TextStyle(fontSize: 12.2, height: 1.4, color: Colors.black54),
           ),
+          if (suruplukMesaji.isNotEmpty) ...[
+            const SizedBox(height: 7),
+            Text(
+              suruplukMesaji,
+              style: TextStyle(
+                fontSize: 11.8,
+                height: 1.35,
+                color: Colors.brown.shade700,
+              ),
+            ),
+          ],
         ],
       ),
     );
