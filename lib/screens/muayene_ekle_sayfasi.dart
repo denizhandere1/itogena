@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
@@ -95,8 +96,6 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   bool _suruplukKaldirildiMi = false;
   bool _suruplukKarryForward = false;
   String _suruplukKaldirmaMesaji = '';
-
-  String _memeDurumu = 'Yok';
 
   bool? _taniKoloniSakinMi;
   bool? _taniPolenGelisiVar;
@@ -334,13 +333,11 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         _suruplukKaldirmaPenceresiAktif = suruplukPencereHasatIcinAktif ||
             hasatBakimModuAktif ||
             (_suruplukKaldirildiMi && hasatModuAktif);
-        _suruplukKaldirmaMesaji = hasatBakimModuAktif
-            ? 'Bal/hasat kaydı girildi. Hasat sonrası bakım döneminde besleme alanı yeniden açılır; şurupluk ihtiyaç varsa tekrar kullanılabilir. İkinci bal akımı penceresi açıldığında aynı şurupluk kaldırma ve besleme kesme döngüsü yeniden çalışır.'
-            : (suruplukPencereHasatIcinAktif
-                ? (suruplukMesaji.trim().isNotEmpty
-                    ? suruplukMesaji
-                    : 'Bal akımı yaklaştığı için besleme kısıtı başladı. Şeker kalıntısı riskini azaltmak için şurupluğu gerçekten kaldırdıysan işaretle.')
-                : '');
+        // Hasat ve fallback mesajları widget'ta l10n ile üretilir; burada yalnızca
+        // servis kaynaklı mesaj saklanır.
+        _suruplukKaldirmaMesaji = (suruplukPencereHasatIcinAktif && !hasatBakimModuAktif)
+            ? suruplukMesaji.trim()
+            : '';
         if ((!suruplukPencereHasatIcinAktif || !hasatModuAktif) &&
             !hasatBakimModuAktif &&
             widget.muayene == null) {
@@ -412,12 +409,6 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       _anasizBaslangicTarihi ??= _tarih;
     }
 
-    _memeDurumu = _stringDeger(
-      m['memeDurumu'],
-      varsayilan: 'Yok',
-      izinliDegerler: const ['Yok', 'Açık', 'Kapalı', 'Çıkmış', 'Bozulmuş'],
-    );
-
     if (_yavruDuzeniYokMu) {
       _yavru = 0;
     }
@@ -472,12 +463,6 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     _anaKazanmaYontemi = _normalizeAnaKazanmaYontemi(m['anaKazanmaYontemi']);
     _anasizBaslangicTarihi = null;
 
-    _memeDurumu = _stringDeger(
-      m['memeDurumu'],
-      varsayilan: 'Yok',
-      izinliDegerler: const ['Yok', 'Açık', 'Kapalı', 'Çıkmış', 'Bozulmuş'],
-    );
-
     if (_yavruDuzeniYokMu) {
       _yavru = 0;
     }
@@ -500,30 +485,12 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     return 'kendi_anasi';
   }
 
-  String _anaKazanmaYontemiMetni(String kod) {
-    switch (kod) {
-      case 'kapali_meme':
-        return 'Hazır kapalı ana memesi var';
-      case 'hazir_ana':
-        return 'Hazır çiftleşmiş ana verildi';
-      case 'kendi_anasi':
-      default:
-        return 'Kendi anasını yapacak';
-    }
-  }
 
   int _intDeger(dynamic deger) {
     if (deger == null) return 0;
     if (deger is int) return deger;
     if (deger is double) return deger.round();
     return int.tryParse(deger.toString()) ?? 0;
-  }
-
-  int? _nullableIntDeger(dynamic deger) {
-    if (deger == null) return null;
-    if (deger is int) return deger;
-    if (deger is double) return deger.round();
-    return int.tryParse(deger.toString());
   }
 
   String _stringDeger(
@@ -627,22 +594,20 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
 
     if (!yeni.isBefore(mevcut)) return true;
 
+    final l = AppLocalizations.of(context);
     final onay = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Geçmiş tarih seçildi'),
-        content: const Text(
-          'Muayene tarihini geriye çekiyorsun. '
-          'Bu doğruysa devam et. Sistem, tarih koloni başlangıcı veya arılık başlangıcı ile çelişirse kaydı engeller.',
-        ),
+        title: Text(l.yeniKoloniGecmisTarihBaslik),
+        content: Text(l.muayeneEkleGecmisTarihIcerik),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Vazgeç'),
+            child: Text(l.vazgec),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: const Text('Evet, değiştir'),
+            child: Text(l.yeniKoloniEvetDegistir),
           ),
         ],
       ),
@@ -782,21 +747,18 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         onError: (_) {
           if (!mounted) return;
           setState(() => _sesDinleniyor = false);
+          final l = AppLocalizations.of(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                  'Ses algılama başlatılamadı. Android mikrofon iznini kontrol et.'),
-            ),
+            SnackBar(content: Text(l.muayeneEkleSesHata1)),
           );
         },
       );
 
       if (!_sesHazir) {
         if (!mounted) return;
+        final l = AppLocalizations.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Bu cihazda sesle yazma kullanılamıyor.'),
-          ),
+          SnackBar(content: Text(l.muayeneEkleSesHata2)),
         );
         return;
       }
@@ -825,10 +787,9 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     } catch (_) {
       if (!mounted) return;
       setState(() => _sesDinleniyor = false);
+      final l = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sesle not ekleme sırasında hata oluştu.'),
-        ),
+        SnackBar(content: Text(l.muayeneEkleSesHata3)),
       );
     }
   }
@@ -916,9 +877,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         setState(() {
           _kaydediliyor = false;
         });
+        final l = AppLocalizations.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Teknik sorun oluştu: $e'),
+            content: Text(l.muayeneEkleKayitHata(e.toString())),
             backgroundColor: Colors.red,
           ),
         );
@@ -927,6 +889,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   }
 
   Widget _ustKoloniBilgiKutusu() {
+    final l = AppLocalizations.of(context);
     final kovan = _ustKovanNo.trim().isEmpty ? '-' : _ustKovanNo.trim();
     final arilik = _ustArilikAdi.trim().isEmpty ? null : _ustArilikAdi.trim();
 
@@ -943,7 +906,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'KOVAN: $kovan',
+            l.muayeneEkleKovanEtiket(kovan),
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w900,
@@ -953,7 +916,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           if (arilik != null) ...[
             const SizedBox(height: 4),
             Text(
-              'ARILIK: $arilik',
+              l.muayeneEkleArilikEtiket(arilik),
               style: const TextStyle(
                 fontSize: 12.5,
                 color: Colors.black87,
@@ -967,6 +930,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   }
 
   Widget _tarihKarti() {
+    final l = AppLocalizations.of(context);
     return Card(
       elevation: 0,
       color: Colors.white,
@@ -976,9 +940,9 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       ),
       child: ListTile(
         leading: const Icon(Icons.calendar_today, color: Colors.brown),
-        title: const Text(
-          'Muayene Tarihi',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          l.muayeneEkleMuayeneTarihi,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(_tarihFormatla(_tarih)),
         trailing: const Icon(Icons.edit_calendar),
@@ -1024,14 +988,17 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.amber.shade200),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _adimliInput('Toplam', _cita, _citaSayisiniGuncelle),
-          _adimliInput('Yavrulu', _yavru, _yavruluCitaSayisiniGuncelle),
-          _adimliInput('Bal/Hasat', _bal, _balCitaSayisiniGuncelle),
-        ],
-      ),
+      child: Builder(builder: (context) {
+        final l = AppLocalizations.of(context);
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _adimliInput(l.muayeneEkleToplam, _cita, _citaSayisiniGuncelle),
+            _adimliInput(l.muayeneEkleYavrulu, _yavru, _yavruluCitaSayisiniGuncelle),
+            _adimliInput(l.muayeneEkleBalHasat, _bal, _balCitaSayisiniGuncelle),
+          ],
+        );
+      }),
     );
   }
 
@@ -1050,11 +1017,12 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         : (katGecisi ? Colors.amber.shade800 : Colors.green.shade700);
     final Color zemin =
         aniArtis ? const Color(0xFFFFF3E0) : const Color(0xFFE8F5E9);
+    final l = AppLocalizations.of(context);
     final String metin = aniArtis
-        ? 'Son muayeneye göre $artis çıta artış var. Koloni 9–10 çıta seviyesine ulaşmadan hızlı genişletme yapıldıysa sıkışık düzen bozulabilir. Sistem bu yeni hacmi hemen tam işlevsel kapasite saymaz.'
+        ? l.muayeneEklePetekAktivasyonAniArtis(artis)
         : (katGecisi
-            ? 'Koloni 9–10 çıta eşiğinden 11+ çıtaya geçtiği için sistem bunu kat/ballık geçişi olarak okur. Yeni üst hacim kademeli işlev kazanır.'
-            : 'Yeni verilen çıta fiziksel olarak kaydedilir; biyolojik model bu çıtanın işlev kazanmasını zamana yayarak değerlendirir.');
+            ? l.muayeneEklePetekAktivasyonKatGecis
+            : l.muayeneEklePetekAktivasyonNormal);
 
     return Container(
       width: double.infinity,
@@ -1069,7 +1037,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Petek / Hacim Aktivasyonu (+$artis çıta)',
+            l.muayeneEklePetekAktivasyonBaslik(artis),
             style: TextStyle(
               fontWeight: FontWeight.w900,
               color: renk,
@@ -1078,9 +1046,9 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           const SizedBox(height: 8),
           Text(metin, style: const TextStyle(fontSize: 12, height: 1.4)),
           const SizedBox(height: 10),
-          const Text(
-            'Eklenen peteklerin dağılımını gir. Temel ve kabarmış petek birlikte verilebilir; toplam artış sayısını geçmez.',
-            style: TextStyle(
+          Text(
+            l.muayeneEklePetekDagilimBilgi,
+            style: const TextStyle(
                 fontSize: 12, height: 1.35, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 10),
@@ -1088,7 +1056,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
             children: [
               Expanded(
                 child: _petekAdetSecici(
-                  'Temel',
+                  l.muayeneEkleTemel,
                   _eklenenTemelPetek,
                   (v) => setState(() {
                     _eklenenTemelPetek = v.clamp(0, artis).toInt();
@@ -1104,7 +1072,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
               const SizedBox(width: 10),
               Expanded(
                 child: _petekAdetSecici(
-                  'Kabarmış',
+                  l.muayeneEkleKabarmis,
                   _eklenenKabarmisPetek,
                   (v) => setState(() {
                     _eklenenKabarmisPetek = v.clamp(0, artis).toInt();
@@ -1122,7 +1090,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Toplam: ${_eklenenTemelPetek + _eklenenKabarmisPetek} / $artis çıta',
+            l.muayeneEklePetekToplam(_eklenenTemelPetek + _eklenenKabarmisPetek, artis),
             style: const TextStyle(fontSize: 11.8, fontWeight: FontWeight.w800),
           ),
         ],
@@ -1295,15 +1263,15 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.amber.shade300),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.info_outline, color: Colors.brown, size: 18),
-          SizedBox(width: 8),
+          const Icon(Icons.info_outline, color: Colors.brown, size: 18),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Yeni açılan kolonide Kaynak Koloni bilgisini girmen, soy takibi ve performans analizini güçlendirir.',
-              style: TextStyle(
+              AppLocalizations.of(context).muayeneEkleBolmeBilgi,
+              style: const TextStyle(
                 fontSize: 12,
                 height: 1.4,
                 color: Colors.black87,
@@ -1325,15 +1293,15 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.deepOrange.shade200),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.warning_amber_rounded, color: Colors.deepOrange, size: 18),
-          SizedBox(width: 8),
+          const Icon(Icons.warning_amber_rounded, color: Colors.deepOrange, size: 18),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Oğul attı, gerçekleşmiş olaydır. Seçilim ve hat değerlendirmesini etkiler.',
-              style: TextStyle(
+              AppLocalizations.of(context).muayeneEkleOgulAttiBilgi,
+              style: const TextStyle(
                 fontSize: 12,
                 height: 1.4,
                 color: Colors.black87,
@@ -1355,15 +1323,15 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.blue.shade200),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.history, color: Colors.blue, size: 18),
-          SizedBox(width: 8),
+          const Icon(Icons.history, color: Colors.blue, size: 18),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Son muayene verileri ön yüklendi. Gerekli alanları güncelleyerek devam edebilirsin.',
-              style: TextStyle(
+              AppLocalizations.of(context).muayeneEkleOnYuklemeBilgi,
+              style: const TextStyle(
                 fontSize: 12,
                 height: 1.4,
                 color: Colors.black87,
@@ -1403,13 +1371,13 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         activeColor: Colors.green,
         contentPadding: EdgeInsets.zero,
         controlAffinity: ListTileControlAffinity.leading,
-        title: const Text(
-          'Günlük / kapalı yavru görüldü',
-          style: TextStyle(fontWeight: FontWeight.w900),
+        title: Text(
+          AppLocalizations.of(context).muayeneEkleGunlukYavruBaslik,
+          style: const TextStyle(fontWeight: FontWeight.w900),
         ),
-        subtitle: const Text(
-          'Bölme, oğul, ana kazanma veya yavru yok takibinde kapanış işaretidir. İşaretlersen sistem yavru görülmeme penceresini kapatır ve koloniyi normal düzene alır.',
-          style: TextStyle(fontSize: 12, height: 1.4),
+        subtitle: Text(
+          AppLocalizations.of(context).muayeneEkleGunlukYavruAciklama,
+          style: const TextStyle(fontSize: 12, height: 1.4),
         ),
       ),
     );
@@ -1419,11 +1387,12 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   Widget _yavruYokBilgiKutusu() {
     if (!_yavruDuzeniYokMu) return const SizedBox.shrink();
 
+    final l = AppLocalizations.of(context);
     final String metin = _yavruYokErkenPencereMi
-        ? 'Yavru düzeni “Yok” olarak kaydedilecek. Aktif biyolojik süreçte erken pencere olabilir; bu aşamada yavru görülmemesi tek başına alarm değildir. ${_yavruYokTaniPencereMesaji.isNotEmpty ? _yavruYokTaniPencereMesaji : 'Gereksiz açma ve sert müdahale önerilmez.'}'
+        ? '${l.muayeneEkleYavruYokErken} ${_yavruYokTaniPencereMesaji.isNotEmpty ? _yavruYokTaniPencereMesaji : l.muayeneEkleYavruYokErkenVarsayilan}'
         : (_yavruYokTaniSorulariAcilmali
-            ? 'Yavru düzeni “Yok” olarak kaydedilecek. Sistem artık kısa tanı gözlemleriyle bal baskısı, geç çiftleşme, ana sorunu veya biyolojik zayıflama olasılıklarını ayıracak.'
-            : 'Yavru düzeni “Yok” olarak kaydedilecek. Sistem bunu normal koloni bağlamında ayrı okuyacak; yavrulu çıta sayısı 0 kabul edilir ve biyolojik model geri dönüş kapasitesini buna göre hesaplar.');
+            ? l.muayeneEkleYavruYokTani
+            : l.muayeneEkleYavruYokNormal);
 
     return _bilgiKutusu(
       icon: Icons.info_outline,
@@ -1463,30 +1432,33 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
             style: const TextStyle(fontSize: 11.8, height: 1.35),
           ),
           const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              ChoiceChip(
-                label: const Text('Evet'),
-                selected: deger == true,
-                selectedColor: Colors.amber,
-                onSelected: (_) => setState(() => onChanged(true)),
-              ),
-              ChoiceChip(
-                label: const Text('Hayır'),
-                selected: deger == false,
-                selectedColor: Colors.amber.shade100,
-                onSelected: (_) => setState(() => onChanged(false)),
-              ),
-              ChoiceChip(
-                label: const Text('Emin değilim'),
-                selected: deger == null,
-                selectedColor: Colors.grey.shade200,
-                onSelected: (_) => setState(() => onChanged(null)),
-              ),
-            ],
-          ),
+          Builder(builder: (context) {
+            final l = AppLocalizations.of(context);
+            return Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                ChoiceChip(
+                  label: Text(l.evet),
+                  selected: deger == true,
+                  selectedColor: Colors.amber,
+                  onSelected: (_) => setState(() => onChanged(true)),
+                ),
+                ChoiceChip(
+                  label: Text(l.hayir),
+                  selected: deger == false,
+                  selectedColor: Colors.amber.shade100,
+                  onSelected: (_) => setState(() => onChanged(false)),
+                ),
+                ChoiceChip(
+                  label: Text(l.muayeneEkleTaniEminDegil),
+                  selected: deger == null,
+                  selectedColor: Colors.grey.shade200,
+                  onSelected: (_) => setState(() => onChanged(null)),
+                ),
+              ],
+            );
+          }),
         ],
       ),
     );
@@ -1507,51 +1479,59 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Yavru Yok Kısa Tanı Gözlemleri',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w900,
-              color: Colors.brown,
-            ),
-          ),
-          const SizedBox(height: 6),
-          const Text(
-            'Bu alan teşhis seçtirmez. Sistem bu 4 basit gözlemi mevcut sezon, süreç penceresi ve koloni gücüyle birlikte okuyarak öneri üretir.',
-            style: TextStyle(fontSize: 12, height: 1.4),
-          ),
-          const SizedBox(height: 10),
-          _taniSecenekSatiri(
-            baslik: 'Koloni sakin mi?',
-            aciklama: 'Sakin koloni içeride yeni ana olma ihtimalini artırır. Huzursuz koloni anasızlık/stres şüphesini yükseltir.',
-            deger: _taniKoloniSakinMi,
-            onChanged: (v) {
-              _taniKoloniSakinMi = v;
-              if (v == true) {
-                _mizac = 'Sakin';
-              } else if (v == false) {
-                _mizac = 'Sinirli';
-              }
-            },
-          ),
-          _taniSecenekSatiri(
-            baslik: 'Polen gelişi var mı?',
-            aciklama: 'Polen gelişi, yavru hazırlığı veya içeride ana varlığı ihtimalini destekler. Polen yokluğu biyolojik durgunluk riskini artırır.',
-            deger: _taniPolenGelisiVar,
-            onChanged: (v) => _taniPolenGelisiVar = v,
-          ),
-          _taniSecenekSatiri(
-            baslik: 'Bal / nektar gelişi güçlü mü?',
-            aciklama: 'Güçlü akım yumurtlama alanını daraltabilir. Bu durumda yavru yokluğu doğrudan anasızlık anlamına gelmeyebilir.',
-            deger: _taniBalNektarGelisiGuclu,
-            onChanged: (v) => _taniBalNektarGelisiGuclu = v,
-          ),
-          _taniSecenekSatiri(
-            baslik: 'Erkek yavru gözleri baskın mı?',
-            aciklama: 'Evet ise çiftleşememiş ana, başarısız ana veya yalancı ana riski artar. Bu cevap bekleme kararını sertleştirir.',
-            deger: _taniErkekYavruBaskin,
-            onChanged: (v) => _taniErkekYavruBaskin = v,
-          ),
+          Builder(builder: (context) {
+            final l = AppLocalizations.of(context);
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l.muayeneEkleYavruYokTaniBaslik,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.brown,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  l.muayeneEkleYavruYokTaniAciklama,
+                  style: const TextStyle(fontSize: 12, height: 1.4),
+                ),
+                const SizedBox(height: 10),
+                _taniSecenekSatiri(
+                  baslik: l.muayeneEkleTaniKoloniSakin,
+                  aciklama: l.muayeneEkleTaniKoloniSakinAciklama,
+                  deger: _taniKoloniSakinMi,
+                  onChanged: (v) {
+                    _taniKoloniSakinMi = v;
+                    if (v == true) {
+                      _mizac = 'Sakin';
+                    } else if (v == false) {
+                      _mizac = 'Sinirli';
+                    }
+                  },
+                ),
+                _taniSecenekSatiri(
+                  baslik: l.muayeneEkleTaniPolen,
+                  aciklama: l.muayeneEkleTaniPolenAciklama,
+                  deger: _taniPolenGelisiVar,
+                  onChanged: (v) => _taniPolenGelisiVar = v,
+                ),
+                _taniSecenekSatiri(
+                  baslik: l.muayeneEkleTaniBal,
+                  aciklama: l.muayeneEkleTaniBalAciklama,
+                  deger: _taniBalNektarGelisiGuclu,
+                  onChanged: (v) => _taniBalNektarGelisiGuclu = v,
+                ),
+                _taniSecenekSatiri(
+                  baslik: l.muayeneEkleTaniErkek,
+                  aciklama: l.muayeneEkleTaniErkekAciklama,
+                  deger: _taniErkekYavruBaskin,
+                  onChanged: (v) => _taniErkekYavruBaskin = v,
+                ),
+              ],
+            );
+          }),
         ],
       ),
     );
@@ -1582,13 +1562,13 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           activeColor: Colors.deepPurple,
           contentPadding: EdgeInsets.zero,
           controlAffinity: ListTileControlAffinity.leading,
-          title: const Text(
-            'Şurupluk eklendi',
-            style: TextStyle(fontWeight: FontWeight.w900),
+          title: Text(
+            AppLocalizations.of(context).muayeneEkleSuruplukEklendi,
+            style: const TextStyle(fontWeight: FontWeight.w900),
           ),
-          subtitle: const Text(
-            'Bu koloni şurupluksuz. Muayenede şurupluk eklendiyse işaretle; aksi hâlde kaldırılmış sayılmaya devam eder.',
-            style: TextStyle(fontSize: 12, height: 1.4),
+          subtitle: Text(
+            AppLocalizations.of(context).muayeneEkleSuruplukEklendiAciklama,
+            style: const TextStyle(fontSize: 12, height: 1.4),
           ),
         ),
       );
@@ -1598,8 +1578,9 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       return const SizedBox.shrink();
     }
 
+    final l = AppLocalizations.of(context);
     final mesaj = _suruplukKaldirmaMesaji.trim().isEmpty
-        ? 'Bal akımı yaklaşıyor. Şeker kalıntısı riskini azaltmak için besleme sonlandırılmalı; şurupluk kaldırılıp yerine petek verilebilir.'
+        ? l.muayeneEkleSuruplukVarsayilanMesaj
         : _suruplukKaldirmaMesaji.trim();
 
     return Container(
@@ -1624,14 +1605,14 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
         activeColor: Colors.orange,
         contentPadding: EdgeInsets.zero,
         controlAffinity: ListTileControlAffinity.leading,
-        title: const Text(
-          'Şurupluk kaldırıldı',
-          style: TextStyle(fontWeight: FontWeight.w900),
+        title: Text(
+          l.muayeneEkleSuruplukKaldirildi,
+          style: const TextStyle(fontWeight: FontWeight.w900),
         ),
         subtitle: Text(
           _hasatBakimModuAktif
-              ? '$mesaj Bu kayıt hasat sonrası bakım olarak okunur; besleme seçimi yeniden kullanılabilir.'
-              : '$mesaj İşaretlersen biyolojik modelde şurupluk kalkar ve petek düzeni sola kayar.',
+              ? '$mesaj ${l.muayeneEkleSuruplukKaldirildiHasat}'
+              : '$mesaj ${l.muayeneEkleSuruplukKaldirildiNormal}',
           style: const TextStyle(fontSize: 12, height: 1.4),
         ),
       ),
@@ -1660,7 +1641,9 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                 ),
               )
             : Text(
-                widget.muayene == null ? 'KAYDET' : 'GÜNCELLE',
+                widget.muayene == null
+                    ? AppLocalizations.of(context).muayeneEkleKaydet
+                    : AppLocalizations.of(context).muayeneEkleGuncelle,
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
       ),
@@ -1669,13 +1652,14 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final double altBosluk = MediaQuery.of(context).padding.bottom + 110;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
         title: Text(
-          '${_tarihFormatla(_tarih)} / Muayene Girişi',
+          l.muayeneEkleAppBarBaslik(_tarihFormatla(_tarih)),
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         backgroundColor: Colors.amber,
@@ -1700,7 +1684,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                     _petekAktivasyonKutusu(),
                     const SizedBox(height: 20),
                     _hizliDropdown(
-                      'Yavru Düzeni',
+                      l.muayeneEkleYavruDuzeniLabel,
                       _yavruDuzeniSecenekleri,
                       _yavruDuzeni,
                       (v) {
@@ -1711,7 +1695,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                     _yavruYokBilgiKutusu(),
                     _yavruYokTaniSorulariKutusu(),
                     const SizedBox(height: 4),
-                    _baslik('Koloni Mizacı'),
+                    _baslik(l.muayeneEkleKoloniMizaci),
                     _ikonluSecim(
                       _mizacSecenekleri,
                       _mizac,
@@ -1719,7 +1703,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                     ),
                     const Divider(height: 32),
                     _hizliDropdown(
-                      'Besleme',
+                      l.muayeneEkleBeslemeLabel,
                       _beslemeSecenekleri,
                       _besleme,
                       (v) => setState(() => _besleme = v!),
@@ -1729,29 +1713,27 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       _bilgiKutusu(
                         icon: Icons.no_food,
                         renk: Colors.orange,
-                        metin:
-                            'Şurupluk kaldırıldı olarak işaretlendi. Aynı muayenede şeker bazlı besleme seçimi kapatıldı; bu kayıt hasat hazırlığı olarak okunur.',
+                        metin: l.muayeneEkleBeslemeSuruplukBilgi,
                       ),
                     if (_hasatBakimModuAktif)
                       _bilgiKutusu(
                         icon: Icons.restore,
                         renk: Colors.green,
-                        metin:
-                            'Bal/hasat kaydı girildiği için besleme alanı yeniden aktif. Bu dönem hasat sonrası bakım olarak okunur. İkinci bal akımı aktif olursa sistem yeniden besleme kesme ve şurupluk kaldırma uyarısına döner.',
+                        metin: l.muayeneEkleHasatBakimBilgi,
                       ),
                     _suruplukKaldirmaKutusu(),
                     _hizliDropdown(
-                      'Varroa Mücadelesi',
+                      l.muayeneEkleVarroaLabel,
                       _varroaSecenekleri,
                       _varroaMucadele,
                       (v) => setState(() => _varroaMucadele = v!),
                     ),
                     const SizedBox(height: 10),
                     CheckboxListTile(
-                      title: const Text('Oğul Belirtisi'),
-                      subtitle: const Text(
-                        'Karar önerisi ve yakın izleme sinyali üretir.',
-                        style: TextStyle(fontSize: 12),
+                      title: Text(l.muayeneEkleOgulBelirtisiBaslik),
+                      subtitle: Text(
+                        l.muayeneEkleOgulBelirtisiAciklama,
+                        style: const TextStyle(fontSize: 12),
                       ),
                       value: _ogulBelirtisi,
                       onChanged: (v) =>
@@ -1760,10 +1742,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       contentPadding: EdgeInsets.zero,
                     ),
                     CheckboxListTile(
-                      title: const Text('Oğul Attı'),
-                      subtitle: const Text(
-                        'Gerçekleşmiş olaydır. Skor ve hat pozisyonunu etkiler.',
-                        style: TextStyle(fontSize: 12),
+                      title: Text(l.muayeneEkleOgulAttiBaslik),
+                      subtitle: Text(
+                        l.muayeneEkleOgulAttiAciklama,
+                        style: const TextStyle(fontSize: 12),
                       ),
                       value: _ogulAtti,
                       onChanged: (v) {
@@ -1779,7 +1761,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                     ),
                     if (_ogulAtti) _ogulAttiBilgiKutusu(),
                     CheckboxListTile(
-                      title: const Text('Ana Görülmedi'),
+                      title: Text(l.muayeneEkleAnaGorulmedi),
                       value: _anaGorulmedi,
                       onChanged: (v) =>
                           setState(() => _anaGorulmedi = v ?? false),
@@ -1787,10 +1769,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       contentPadding: EdgeInsets.zero,
                     ),
                     CheckboxListTile(
-                      title: const Text('Bölme Yapıldı'),
-                      subtitle: const Text(
-                        'Çıta düşüşü performans kaybı değil, kontrollü çoğalma olarak yorumlanır.',
-                        style: TextStyle(fontSize: 12),
+                      title: Text(l.muayeneEkleBolmeYapildiBaslik),
+                      subtitle: Text(
+                        l.muayeneEkleBolmeYapildiAciklama,
+                        style: const TextStyle(fontSize: 12),
                       ),
                       value: _bolmeYapildi,
                       onChanged: (v) {
@@ -1806,10 +1788,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                     ),
                     if (_bolmeYapildi) _bolmeBilgiKutusu(),
                     CheckboxListTile(
-                      title: const Text('Kovan Söndü'),
-                      subtitle: const Text(
-                        'Koloninin aktif performans yerine yaşam döngüsü sonu olarak değerlendirilmesini sağlar.',
-                        style: TextStyle(fontSize: 12),
+                      title: Text(l.muayeneEkleKovanSonduBaslik),
+                      subtitle: Text(
+                        l.muayeneEkleKovanSonduAciklama,
+                        style: const TextStyle(fontSize: 12),
                       ),
                       value: _kovanSondu,
                       onChanged: (v) =>
@@ -1818,19 +1800,18 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       contentPadding: EdgeInsets.zero,
                     ),
                     const Divider(height: 36),
-                    _baslik('Ana Üretimi ve Zamanlama'),
+                    _baslik(l.muayeneEkleAnauretimBaslik),
                     _bilgiKutusu(
                       icon: Icons.schedule,
                       renk: Colors.blueGrey,
-                      metin:
-                          'Biyolojik ana kazanma takvimi yalnızca gerçekten anasız bırakılan koloni için çalışır. Anaç kolonideki bölme işlemi ayrı olarak toparlanma süreci üretir.',
+                      metin: l.muayeneEkleAnauretimBilgi,
                     ),
                     const SizedBox(height: 8),
                     CheckboxListTile(
-                      title: const Text('Koloni Anasız Bırakıldı'),
-                      subtitle: const Text(
-                        'Gün hesabı ve biyolojik pencere yorumu için kritik bilgidir.',
-                        style: TextStyle(fontSize: 12),
+                      title: Text(l.muayeneEkleAnasizBirakildiBaslik),
+                      subtitle: Text(
+                        l.muayeneEkleAnasizBirakildiAciklama,
+                        style: const TextStyle(fontSize: 12),
                       ),
                       value: _anasizBirakildiMi,
                       onChanged: (v) {
@@ -1853,38 +1834,30 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                     if (_anasizBirakildiMi) ...[
                       const SizedBox(height: 8),
                       DropdownButtonFormField<String>(
-                        value: _anaKazanmaYontemiMetni(_anaKazanmaYontemi),
-                        decoration: const InputDecoration(
-                          labelText: 'Ana Kazanma Yöntemi',
-                          border: OutlineInputBorder(),
+                        value: _anaKazanmaYontemi,
+                        decoration: InputDecoration(
+                          labelText: l.yeniKoloniAnaKazanmaLabel,
+                          border: const OutlineInputBorder(),
                           filled: true,
                           fillColor: Colors.white,
                         ),
-                        items: const [
+                        items: [
                           DropdownMenuItem(
-                            value: 'Kendi anasını yapacak',
-                            child: Text('Kendi anasını yapacak'),
+                            value: 'kendi_anasi',
+                            child: Text(l.muayeneDetayKendiAnasi),
                           ),
                           DropdownMenuItem(
-                            value: 'Hazır kapalı ana memesi var',
-                            child: Text('Hazır kapalı ana memesi var'),
+                            value: 'kapali_meme',
+                            child: Text(l.muayeneDetayKapaliMeme),
                           ),
                           DropdownMenuItem(
-                            value: 'Hazır çiftleşmiş ana verildi',
-                            child: Text('Hazır çiftleşmiş ana verildi'),
+                            value: 'hazir_ana',
+                            child: Text(l.muayeneDetayHazirAna),
                           ),
                         ],
                         onChanged: (v) {
                           if (v == null) return;
-                          setState(() {
-                            if (v == 'Hazır kapalı ana memesi var') {
-                              _anaKazanmaYontemi = 'kapali_meme';
-                            } else if (v == 'Hazır çiftleşmiş ana verildi') {
-                              _anaKazanmaYontemi = 'hazir_ana';
-                            } else {
-                              _anaKazanmaYontemi = 'kendi_anasi';
-                            }
-                          });
+                          setState(() => _anaKazanmaYontemi = v);
                         },
                       ),
                       const SizedBox(height: 8),
@@ -1892,10 +1865,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                         icon: Icons.timeline,
                         renk: Colors.brown,
                         metin: _anaKazanmaYontemi == 'kapali_meme'
-                            ? 'Takvim kapalı ana memesi aşamasından başlar. 5. gün meme bozma uyarısı verilmez; ana çıkışı ve yumurtlama kontrolü beklenir.'
+                            ? l.yeniKoloniAnaKazanmaBilgiKapaliMeme
                             : (_anaKazanmaYontemi == 'hazir_ana'
-                                ? 'Meme takvimi çalışmaz. Sistem kabul ve yumurtlama kontrolü penceresine odaklanır.'
-                                : 'Takvim sıfırdan ana yapma süreciyle başlar. 5. gün kapalı meme kontrolü anlamlıdır.'),
+                                ? l.yeniKoloniAnaKazanmaBilgiHazirAna
+                                : l.yeniKoloniAnaKazanmaBilgiKendiAnasi),
                       ),
                     ],
                     _gunlukKapaliYavruKapanisKutusu(),
@@ -1903,10 +1876,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                     TextFormField(
                       controller: _notController,
                       decoration: InputDecoration(
-                        labelText: 'Notlar',
+                        labelText: l.muayeneEkleNotlarLabel,
                         helperText: _sesDinleniyor
-                            ? 'Dinleniyor... Konuşman not alanına yazılıyor.'
-                            : 'Mikrofona dokunarak sesle not ekleyebilirsin.',
+                            ? l.muayeneEkleSesHelperAktif
+                            : l.muayeneEkleSesHelper,
                         helperStyle: TextStyle(
                           color: _sesDinleniyor
                               ? Colors.red.shade700
@@ -1939,8 +1912,8 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                             ),
                             child: IconButton(
                               tooltip: _sesDinleniyor
-                                  ? 'Sesle yazmayı durdur'
-                                  : 'Sesle not ekle',
+                                  ? l.muayeneEkleSesDurdur
+                                  : l.muayeneEkleSesBasla,
                               icon: Icon(
                                 _sesDinleniyor ? Icons.mic : Icons.mic_none,
                                 color: _sesDinleniyor

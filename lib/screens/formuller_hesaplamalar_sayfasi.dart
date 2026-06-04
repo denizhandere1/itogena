@@ -584,16 +584,6 @@ class _FormullerHesaplamalarSayfasiState
     return '$gun.$ay.$yil';
   }
 
-  (double, double) _oranParcala(String oran) {
-    final temiz = oran.replaceAll(' ', '');
-    final parcalar = temiz.split(':');
-    if (parcalar.length != 2) return (1, 1);
-
-    final a = double.tryParse(parcalar[0]) ?? 1;
-    final b = double.tryParse(parcalar[1]) ?? 1;
-    return (a, b);
-  }
-
   Widget _oranChip(String oran) {
     final secili = _surupOrani == oran;
 

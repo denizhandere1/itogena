@@ -288,7 +288,6 @@ class KoloniKararMotoru {
 
     final String mizac = (profil['mizac'] ?? 'Bilinmiyor').toString();
     final String trend = (profil['trend'] ?? 'Stabil').toString();
-    final String momentumEtiketi = (profil['momentumEtiketi'] ?? '').toString();
     final int momentumSkoru = _toInt(profil['momentumSkoru']);
     final bool gucluMomentum = momentumSkoru >= 70;
     final String davranisToleransi =

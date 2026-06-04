@@ -206,13 +206,6 @@ class SoyDevamlilikServisi {
     return _guvenliTarihParse(tarihMetni);
   }
 
-  static bool _sonmusDurumMu(dynamic durum) {
-    // Geriye dönük uyumluluk için tutulur.
-    // Normal akışta aktiflik/sönmüşlük yalnızca VeritabaniServisi.koloniAktifMi
-    // üzerinden okunur.
-    return VeritabaniServisi.sonmusDurumMu(durum);
-  }
-
   static int _toInt(dynamic deger) {
     if (deger == null) return 0;
     if (deger is int) return deger;

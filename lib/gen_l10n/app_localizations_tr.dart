@@ -1207,17 +1207,6 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get ayarlarTestAriligiBaslik => 'Test arılığı oluşturulsun mu?';
-
-  @override
-  String get ayarlarTestAriligiOlustur => 'Oluştur';
-
-  @override
-  String ayarlarTestAriligiHata(String hata) {
-    return 'Test arılığı oluşturulamadı: $hata';
-  }
-
-  @override
   String ayarlarGuncellemHata(String hata) {
     return 'Güncelleme kontrolü başarısız: $hata';
   }
@@ -1420,13 +1409,6 @@ class AppLocalizationsTr extends AppLocalizations {
       'Daha önce aldığın JSON yedeğini seç ve mevcut verinin yerine yükle.';
 
   @override
-  String get ayarlarTestAriligiIslem => 'Test Arılığı Oluştur / Yenile';
-
-  @override
-  String get ayarlarTestAriligiIslemAciklama =>
-      'Uluköy verisine dokunmadan ayrı ITOGENA_TEST_ARILIGI içinde 40 senaryo kurar.';
-
-  @override
   String get ayarlarGuncelleKontrol => 'Güncellemeyi Kontrol Et';
 
   @override
@@ -1475,11 +1457,569 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu işlem mevcut veriyi seçtiğin yedek ile tamamen değiştirir. Devam etmeden önce güncel bir yedek alman önerilir. Şimdi yükleme başlasın mı?';
 
   @override
-  String get ayarlarTestAriligiIcerik =>
-      'Bu işlem gerçek arılık verisine dokunmaz. Yalnızca ITOGENA_TEST_ARILIGI adlı ayrı test arılığını oluşturur. Aynı isimde eski test arılığı varsa sadece onu silip yeniden kurar.';
-
-  @override
   String ayarlarUygulamaGuncel(String surum, String kod) {
     return 'Uygulama güncel. Mevcut sürüm: $surum ($kod)';
   }
+
+  @override
+  String get yeniKoloniBaslik => 'YENİ KOLONİ KAYDI';
+
+  @override
+  String get yeniKoloniDuzenle => 'KOLONİ DÜZENLE';
+
+  @override
+  String get yeniKoloniGecmisTarihBaslik => 'Geçmiş tarih seçildi';
+
+  @override
+  String get yeniKoloniGecmisTarihIcerik =>
+      'Koloni başlangıç tarihini geriye çekiyorsun. Bu doğruysa devam et. Sistem, tarih arılık başlangıcı veya ilk muayene ile çelişirse kaydı engeller.';
+
+  @override
+  String get yeniKoloniEvetDegistir => 'Evet, değiştir';
+
+  @override
+  String get yeniKoloniKaynakBulunamadi =>
+      'Seçilen kaynak koloni bu arılıkta bulunamadı. Lütfen listeden geçerli bir kaynak koloni seç.';
+
+  @override
+  String yeniKoloniKayitHata(String hata) {
+    return 'Kayıt sırasında teknik sorun oluştu: $hata';
+  }
+
+  @override
+  String get yeniKoloniBolumKaynakOlusumBilgisi => 'Kaynak ve Oluşum Bilgisi';
+
+  @override
+  String get yeniKoloniBolumSahaBilgileri => 'Temel Saha Bilgileri';
+
+  @override
+  String get yeniKoloniBolumNotlar => 'Notlar';
+
+  @override
+  String get yeniKoloniKaynakTipiLabel => 'Kaynak Tipi';
+
+  @override
+  String get yeniKoloniKaynakAnaHat => 'Ana Hat';
+
+  @override
+  String get yeniKoloniKaynakBolme => 'Bölme';
+
+  @override
+  String get yeniKoloniKaynakOgul => 'Oğul';
+
+  @override
+  String get yeniKoloniKaynakBilgiAnaHat =>
+      'Ana Hat seçildi. Kaynak koloni istenmez. Sistem bu koloniyi yeni kök hat olarak başlatır.';
+
+  @override
+  String get yeniKoloniKaynakBilgiBolme =>
+      'Önce kaynak koloniyi seç, sonra yeni kovan numarasını gir. Sistem soy bağını buna göre kurar.';
+
+  @override
+  String get yeniKoloniKaynakBilgiOgul =>
+      'Önce oğulun çıktığı kaynak koloniyi seç, sonra yeni kovan numarasını gir. Oğul hazır analı kabul edilir; ayrıca ana kazanma yöntemi seçilmez.';
+
+  @override
+  String get yeniKoloniKaynakBilgiVarsayilan =>
+      'Kaynak bilgisi sistem kimliği ve soy bağı için kullanılır.';
+
+  @override
+  String get yeniKoloniAnaKazanmaLabel => 'Ana Kazanma Yöntemi';
+
+  @override
+  String get yeniKoloniAnaKazanmaBilgiKapaliMeme =>
+      'Takvim sıfırdan ana yapma gibi değil, kapalı meme aşamasından başlatılır. 5. gün meme bozma uyarısı verilmez.';
+
+  @override
+  String get yeniKoloniAnaKazanmaBilgiHazirAna =>
+      'Meme takvimi çalışmaz. Sistem kabul ve yumurtlama kontrolü penceresine odaklanır.';
+
+  @override
+  String get yeniKoloniAnaKazanmaBilgiKendiAnasi =>
+      'Takvim sıfırdan ana yapma süreciyle başlar. 5. gün kapalı meme kontrolü anlamlıdır.';
+
+  @override
+  String get yeniKoloniKaynakKoloniLabel => 'Kaynak Koloni';
+
+  @override
+  String get yeniKoloniDisKaynak => 'Dış Kaynak';
+
+  @override
+  String get yeniKoloniKaynakKoloniValidasyon => 'Kaynak koloni seçmelisin.';
+
+  @override
+  String get yeniKoloniKovanTipiLabel => 'Kovan Tipi';
+
+  @override
+  String get yeniKoloniSurupluk => 'Şurupluk';
+
+  @override
+  String get yeniKoloniSuruplukVar => 'Alt kat 9 çıta';
+
+  @override
+  String get yeniKoloniSuruplukYok => 'Alt kat 10 çıta';
+
+  @override
+  String get yeniKoloniSuruplukBilgiVar =>
+      'Şurupluk varsa sistem alt kuluçkalığı 9 çıta kabul eder; üstündeki çıtaları kat/ballık alanı olarak yorumlar.';
+
+  @override
+  String get yeniKoloniSuruplukBilgiYok =>
+      'Şurupluk yoksa sistem alt kuluçkalığı 10 çıta kabul eder; üstündeki çıtaları kat/ballık alanı olarak yorumlar.';
+
+  @override
+  String get yeniKoloniBaslangicTarihi => 'Koloni başlangıç tarihi';
+
+  @override
+  String get yeniKoloniKovanNoLabel => 'Kovan No / Saha Etiketi';
+
+  @override
+  String get yeniKoloniAnaAriYili => 'Ana Arı Yılı';
+
+  @override
+  String get yeniKoloniSahaSirasi => 'Saha Sırası';
+
+  @override
+  String get yeniKoloniIlkCitaSayisi => 'İlk Toplam Çıta Sayısı';
+
+  @override
+  String get yeniKoloniSahaBilgisiNot =>
+      'Bu ekranda yalnızca saha bilgileri girilir. Sistem kimliği, ana soy hattı ve genetik hat kodu otomatik türetilir; koloni detayında bilgi olarak gösterilir.';
+
+  @override
+  String get yeniKoloniOzelNotlar => 'Özel Notlar';
+
+  @override
+  String get yeniKoloniAlanZorunlu => 'Bu alan zorunlu.';
+
+  @override
+  String get yeniKoloniSayiGir => 'Sayı gir.';
+
+  @override
+  String get yeniKoloniBilgileriKaydet => 'BİLGİLERİ KAYDET';
+
+  @override
+  String get arilikSecimBaslik => 'ARILIK SEÇİMİ';
+
+  @override
+  String get arilikSecimRaporBaslik => 'RAPOR İÇİN ARILIK SEÇ';
+
+  @override
+  String get arilikSecimBos => 'Henüz arılık eklenmemiş.';
+
+  @override
+  String get arilikSecimIlkEkle => 'İlk Arılığını Ekle';
+
+  @override
+  String get arilikSecimYeniEkleBaslik => 'Yeni Arılık Ekle';
+
+  @override
+  String get arilikSecimArilikAdi => 'Arılık adı';
+
+  @override
+  String get arilikSecimAdiHint => 'Örn: Uluköy';
+
+  @override
+  String get arilikSecimBaslangicTarihi => 'Arılık başlangıç tarihi';
+
+  @override
+  String get arilikSecimGecmisTarihMesaji =>
+      'Arılık başlangıç tarihini geriye çekiyorsun. Bu doğruysa devam et. Sistem yine de koloni ve muayene tarihleriyle çakışırsa kaydı engeller.';
+
+  @override
+  String get arilikSecimDuzenleTarihMesaji =>
+      'Arılık başlangıç tarihini geriye çekiyorsun. Bu doğruysa devam et. Sistem, bu tarih koloni veya muayene kayıtlarıyla çelişirse kaydı engeller.';
+
+  @override
+  String get arilikSecimKalibrasyon => 'Kalibrasyon';
+
+  @override
+  String get arilikSecimVarsayilanKal => 'Varsayılan kalibrasyonu kullan';
+
+  @override
+  String get arilikSecimVarsayilanKalAciklama =>
+      'Yeni arılık özel ayar oluşturmaz; genel varsayılan bal akımı ve risk takvimini kullanır.';
+
+  @override
+  String get arilikSecimKopyalaKal => 'Mevcut bir arılıktan kopyala';
+
+  @override
+  String get arilikSecimKopyalaKalAciklama =>
+      'Seçilen arılığın bal akımı ve genel risk takvimi yeni arılığa özel kalibrasyon olarak kopyalanır.';
+
+  @override
+  String get arilikSecimKopyalanacakArilik => 'Kopyalanacak arılık';
+
+  @override
+  String get arilikSecimKalibrasyonSecmelisin =>
+      'Kalibrasyon kopyalanacak arılığı seçmelisin.';
+
+  @override
+  String arilikSecimKayitHata(String hata) {
+    return 'Arılık kaydedilemedi: $hata';
+  }
+
+  @override
+  String get arilikSecimDuzenleBaslik => 'Arılık Bilgilerini Düzenle';
+
+  @override
+  String get arilikSecimDuzenleKural =>
+      'Kural: Arılık başlangıç tarihi, bu arılıktaki koloni ve muayene tarihlerinden sonra olamaz. Aynı tarih kabul edilir.';
+
+  @override
+  String arilikSecimGuncellenemedi(String hata) {
+    return 'Arılık güncellenemedi: $hata';
+  }
+
+  @override
+  String arilikSecimUyariGizlendi(String baslik) {
+    return '$baslik bu arılıkta bu sezon gizlendi.';
+  }
+
+  @override
+  String get arilikSecimSilBaslik => 'ARILIĞI SİL';
+
+  @override
+  String arilikSecimSilIcerik(String ad, int toplam, int aktif, int pasif) {
+    return 'Bu işlem geri alınamaz.\n\nSilinecek arılık: $ad\nToplam koloni: $toplam\nAktif koloni: $aktif\nPasif / sönmüş koloni: $pasif\n\nBu arılığa bağlı koloniler, muayeneler, olay kayıtları, numara geçmişi ve arılık özel kalibrasyonları silinir.\n\nDevam etmeden önce güncel yedek aldığından emin ol.';
+  }
+
+  @override
+  String arilikSecimSilindi(String ad) {
+    return '$ad arılığı silindi.';
+  }
+
+  @override
+  String arilikSecimSilinemedi(String hata) {
+    return 'Arılık silinemedi: $hata';
+  }
+
+  @override
+  String get arilikSecimSonOnayBaslik => 'SON ONAY';
+
+  @override
+  String get arilikSecimSonOnayIcerik =>
+      'Silme işlemini kesinleştirmek için arılık adını birebir yaz.';
+
+  @override
+  String get arilikSecimAdiYaz => 'Arılık adını yaz';
+
+  @override
+  String get arilikSecimKaliciSilUyari =>
+      'Bu işlem arılık verisini kalıcı olarak siler.';
+
+  @override
+  String get arilikSecimKaliciSil => 'Kalıcı Olarak Sil';
+
+  @override
+  String arilikSecimAktifToplam(int aktif, int toplam) {
+    return 'Aktif $aktif / Toplam $toplam';
+  }
+
+  @override
+  String arilikSecimUyariSayisi(int sayi) {
+    return '$sayi aktif genel uyarı var';
+  }
+
+  @override
+  String get arilikSecimDetaylariAc => 'Detayları göster';
+
+  @override
+  String get arilikSecimDetaylariKapat => 'Detayları kapat';
+
+  @override
+  String get arilikSecimBuSezonGosterme => 'Bu arılıkta bu sezon gösterme';
+
+  @override
+  String arilikSecimBaslangic(String tarih) {
+    return 'Başlangıç: $tarih';
+  }
+
+  @override
+  String get arilikSecimDuzenleTooltip => 'Arılığı düzenle';
+
+  @override
+  String get arilikSecimSilTooltip => 'Arılığı sil';
+
+  @override
+  String get arilikSecimGir => 'Arılığa gir';
+
+  @override
+  String get arilikSecimToplam => 'Toplam';
+
+  @override
+  String get arilikSecimAktif => 'Aktif';
+
+  @override
+  String get arilikSecimPasif => 'Pasif';
+
+  @override
+  String muayeneEkleAppBarBaslik(String tarih) {
+    return '$tarih / Muayene Girişi';
+  }
+
+  @override
+  String get muayeneEkleGecmisTarihIcerik =>
+      'Muayene tarihini geriye çekiyorsun. Bu doğruysa devam et. Sistem, tarih koloni başlangıcı veya arılık başlangıcı ile çelişirse kaydı engeller.';
+
+  @override
+  String get muayeneEkleSesHata1 =>
+      'Ses algılama başlatılamadı. Android mikrofon iznini kontrol et.';
+
+  @override
+  String get muayeneEkleSesHata2 => 'Bu cihazda sesle yazma kullanılamıyor.';
+
+  @override
+  String get muayeneEkleSesHata3 => 'Sesle not ekleme sırasında hata oluştu.';
+
+  @override
+  String muayeneEkleKayitHata(String hata) {
+    return 'Teknik sorun oluştu: $hata';
+  }
+
+  @override
+  String muayeneEkleKovanEtiket(String no) {
+    return 'KOVAN: $no';
+  }
+
+  @override
+  String muayeneEkleArilikEtiket(String ad) {
+    return 'ARILIK: $ad';
+  }
+
+  @override
+  String get muayeneEkleMuayeneTarihi => 'Muayene Tarihi';
+
+  @override
+  String get muayeneEkleToplam => 'Toplam';
+
+  @override
+  String get muayeneEkleYavrulu => 'Yavrulu';
+
+  @override
+  String get muayeneEkleBalHasat => 'Bal/Hasat';
+
+  @override
+  String muayeneEklePetekAktivasyonBaslik(int artis) {
+    return 'Petek / Hacim Aktivasyonu (+$artis çıta)';
+  }
+
+  @override
+  String muayeneEklePetekAktivasyonAniArtis(int artis) {
+    return 'Son muayeneye göre $artis çıta artış var. Koloni 9–10 çıta seviyesine ulaşmadan hızlı genişletme yapıldıysa sıkışık düzen bozulabilir. Sistem bu yeni hacmi hemen tam işlevsel kapasite saymaz.';
+  }
+
+  @override
+  String get muayeneEklePetekAktivasyonKatGecis =>
+      'Koloni 9–10 çıta eşiğinden 11+ çıtaya geçtiği için sistem bunu kat/ballık geçişi olarak okur. Yeni üst hacim kademeli işlev kazanır.';
+
+  @override
+  String get muayeneEklePetekAktivasyonNormal =>
+      'Yeni verilen çıta fiziksel olarak kaydedilir; biyolojik model bu çıtanın işlev kazanmasını zamana yayarak değerlendirir.';
+
+  @override
+  String get muayeneEklePetekDagilimBilgi =>
+      'Eklenen peteklerin dağılımını gir. Temel ve kabarmış petek birlikte verilebilir; toplam artış sayısını geçmez.';
+
+  @override
+  String get muayeneEkleTemel => 'Temel';
+
+  @override
+  String get muayeneEkleKabarmis => 'Kabarmış';
+
+  @override
+  String muayeneEklePetekToplam(int toplam, int artis) {
+    return 'Toplam: $toplam / $artis çıta';
+  }
+
+  @override
+  String get muayeneEkleYavruDuzeniLabel => 'Yavru Düzeni';
+
+  @override
+  String get muayeneEkleKoloniMizaci => 'Koloni Mizacı';
+
+  @override
+  String get muayeneEkleBeslemeLabel => 'Besleme';
+
+  @override
+  String get muayeneEkleVarroaLabel => 'Varroa Mücadelesi';
+
+  @override
+  String get muayeneEkleOgulBelirtisiBaslik => 'Oğul Belirtisi';
+
+  @override
+  String get muayeneEkleOgulBelirtisiAciklama =>
+      'Karar önerisi ve yakın izleme sinyali üretir.';
+
+  @override
+  String get muayeneEkleOgulAttiBaslik => 'Oğul Attı';
+
+  @override
+  String get muayeneEkleOgulAttiAciklama =>
+      'Gerçekleşmiş olaydır. Skor ve hat pozisyonunu etkiler.';
+
+  @override
+  String get muayeneEkleAnaGorulmedi => 'Ana Görülmedi';
+
+  @override
+  String get muayeneEkleBolmeYapildiBaslik => 'Bölme Yapıldı';
+
+  @override
+  String get muayeneEkleBolmeYapildiAciklama =>
+      'Çıta düşüşü performans kaybı değil, kontrollü çoğalma olarak yorumlanır.';
+
+  @override
+  String get muayeneEkleKovanSonduBaslik => 'Kovan Söndü';
+
+  @override
+  String get muayeneEkleKovanSonduAciklama =>
+      'Koloninin aktif performans yerine yaşam döngüsü sonu olarak değerlendirilmesini sağlar.';
+
+  @override
+  String get muayeneEkleAnauretimBaslik => 'Ana Üretimi ve Zamanlama';
+
+  @override
+  String get muayeneEkleAnauretimBilgi =>
+      'Biyolojik ana kazanma takvimi yalnızca gerçekten anasız bırakılan koloni için çalışır. Anaç kolonideki bölme işlemi ayrı olarak toparlanma süreci üretir.';
+
+  @override
+  String get muayeneEkleAnasizBirakildiBaslik => 'Koloni Anasız Bırakıldı';
+
+  @override
+  String get muayeneEkleAnasizBirakildiAciklama =>
+      'Gün hesabı ve biyolojik pencere yorumu için kritik bilgidir.';
+
+  @override
+  String get muayeneEkleKaydet => 'KAYDET';
+
+  @override
+  String get muayeneEkleGuncelle => 'GÜNCELLE';
+
+  @override
+  String get muayeneEkleNotlarLabel => 'Notlar';
+
+  @override
+  String get muayeneEkleSesBasla => 'Sesle not ekle';
+
+  @override
+  String get muayeneEkleSesDurdur => 'Sesle yazmayı durdur';
+
+  @override
+  String get muayeneEkleSesHelper =>
+      'Mikrofona dokunarak sesle not ekleyebilirsin.';
+
+  @override
+  String get muayeneEkleSesHelperAktif =>
+      'Dinleniyor... Konuşman not alanına yazılıyor.';
+
+  @override
+  String get muayeneEkleOnYuklemeBilgi =>
+      'Son muayene verileri ön yüklendi. Gerekli alanları güncelleyerek devam edebilirsin.';
+
+  @override
+  String get muayeneEkleBolmeBilgi =>
+      'Yeni açılan kolonide Kaynak Koloni bilgisini girmen, soy takibi ve performans analizini güçlendirir.';
+
+  @override
+  String get muayeneEkleOgulAttiBilgi =>
+      'Oğul attı, gerçekleşmiş olaydır. Seçilim ve hat değerlendirmesini etkiler.';
+
+  @override
+  String get muayeneEkleSuruplukEklendi => 'Şurupluk eklendi';
+
+  @override
+  String get muayeneEkleSuruplukEklendiAciklama =>
+      'Bu koloni şurupluksuz. Muayenede şurupluk eklendiyse işaretle; aksi hâlde kaldırılmış sayılmaya devam eder.';
+
+  @override
+  String get muayeneEkleSuruplukKaldirildi => 'Şurupluk kaldırıldı';
+
+  @override
+  String get muayeneEkleSuruplukKaldirildiHasat =>
+      'Bu kayıt hasat sonrası bakım olarak okunur; besleme seçimi yeniden kullanılabilir.';
+
+  @override
+  String get muayeneEkleSuruplukKaldirildiNormal =>
+      'İşaretlersen biyolojik modelde şurupluk kalkar ve petek düzeni sola kayar.';
+
+  @override
+  String get muayeneEkleSuruplukVarsayilanMesaj =>
+      'Bal akımı yaklaşıyor. Şeker kalıntısı riskini azaltmak için besleme sonlandırılmalı; şurupluk kaldırılıp yerine petek verilebilir.';
+
+  @override
+  String get muayeneEkleSuruplukHasatMesaj =>
+      'Bal/hasat kaydı girildi. Hasat sonrası bakım döneminde besleme alanı yeniden açılır; şurupluk ihtiyaç varsa tekrar kullanılabilir. İkinci bal akımı penceresi açıldığında aynı şurupluk kaldırma ve besleme kesme döngüsü yeniden çalışır.';
+
+  @override
+  String get muayeneEkleSuruplukBildirilenKisit =>
+      'Bal akımı yaklaştığı için besleme kısıtı başladı. Şeker kalıntısı riskini azaltmak için şurupluğu gerçekten kaldırdıysan işaretle.';
+
+  @override
+  String get muayeneEkleBeslemeSuruplukBilgi =>
+      'Şurupluk kaldırıldı olarak işaretlendi. Aynı muayenede şeker bazlı besleme seçimi kapatıldı; bu kayıt hasat hazırlığı olarak okunur.';
+
+  @override
+  String get muayeneEkleHasatBakimBilgi =>
+      'Bal/hasat kaydı girildiği için besleme alanı yeniden aktif. Bu dönem hasat sonrası bakım olarak okunur. İkinci bal akımı aktif olursa sistem yeniden besleme kesme ve şurupluk kaldırma uyarısına döner.';
+
+  @override
+  String get muayeneEkleGunlukYavruBaslik => 'Günlük / kapalı yavru görüldü';
+
+  @override
+  String get muayeneEkleGunlukYavruAciklama =>
+      'Bölme, oğul, ana kazanma veya yavru yok takibinde kapanış işaretidir. İşaretlersen sistem yavru görülmeme penceresini kapatır ve koloniyi normal düzene alır.';
+
+  @override
+  String get muayeneEkleYavruYokErken =>
+      'Yavru düzeni \"Yok\" olarak kaydedilecek. Aktif biyolojik süreçte erken pencere olabilir; bu aşamada yavru görülmemesi tek başına alarm değildir.';
+
+  @override
+  String get muayeneEkleYavruYokErkenVarsayilan =>
+      'Gereksiz açma ve sert müdahale önerilmez.';
+
+  @override
+  String get muayeneEkleYavruYokTani =>
+      'Yavru düzeni \"Yok\" olarak kaydedilecek. Sistem artık kısa tanı gözlemleriyle bal baskısı, geç çiftleşme, ana sorunu veya biyolojik zayıflama olasılıklarını ayıracak.';
+
+  @override
+  String get muayeneEkleYavruYokNormal =>
+      'Yavru düzeni \"Yok\" olarak kaydedilecek. Sistem bunu normal koloni bağlamında ayrı okuyacak; yavrulu çıta sayısı 0 kabul edilir ve biyolojik model geri dönüş kapasitesini buna göre hesaplar.';
+
+  @override
+  String get muayeneEkleYavruYokTaniBaslik => 'Yavru Yok Kısa Tanı Gözlemleri';
+
+  @override
+  String get muayeneEkleYavruYokTaniAciklama =>
+      'Bu alan teşhis seçtirmez. Sistem bu 4 basit gözlemi mevcut sezon, süreç penceresi ve koloni gücüyle birlikte okuyarak öneri üretir.';
+
+  @override
+  String get muayeneEkleTaniKoloniSakin => 'Koloni sakin mi?';
+
+  @override
+  String get muayeneEkleTaniKoloniSakinAciklama =>
+      'Sakin koloni içeride yeni ana olma ihtimalini artırır. Huzursuz koloni anasızlık/stres şüphesini yükseltir.';
+
+  @override
+  String get muayeneEkleTaniPolen => 'Polen gelişi var mı?';
+
+  @override
+  String get muayeneEkleTaniPolenAciklama =>
+      'Polen gelişi, yavru hazırlığı veya içeride ana varlığı ihtimalini destekler. Polen yokluğu biyolojik durgunluk riskini artırır.';
+
+  @override
+  String get muayeneEkleTaniBal => 'Bal / nektar gelişi güçlü mü?';
+
+  @override
+  String get muayeneEkleTaniBalAciklama =>
+      'Güçlü akım yumurtlama alanını daraltabilir. Bu durumda yavru yokluğu doğrudan anasızlık anlamına gelmeyebilir.';
+
+  @override
+  String get muayeneEkleTaniErkek => 'Erkek yavru gözleri baskın mı?';
+
+  @override
+  String get muayeneEkleTaniErkekAciklama =>
+      'Evet ise çiftleşememiş ana, başarısız ana veya yalancı ana riski artar. Bu cevap bekleme kararını sertleştirir.';
+
+  @override
+  String get muayeneEkleTaniEminDegil => 'Emin değilim';
 }

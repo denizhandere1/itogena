@@ -4,8 +4,6 @@ import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/performans_ozeti_servisi.dart';
-import '../services/ari_biyoloji_servisi.dart';
-import '../services/soy_devamlilik_servisi.dart';
 import '../services/yorum_motoru.dart';
 import '../services/baglam_motoru.dart';
 import '../services/koloni_context_servisi.dart';
@@ -79,14 +77,11 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   Map<String, dynamic> _koloniOzet = {};
   Map<String, String>? _anaKarar;
   Map<String, String>? _secilimDurumu;
-  Map<String, dynamic> _kimlikOzeti = {};
   Map<String, dynamic> _hatSonmeOzeti = {};
-  Map<String, dynamic>? _biyolojiAnalizi;
   Map<String, dynamic>? _biyolojikModel;
   bool _biyolojikModelYukleniyor = false;
   bool _biyolojikModelYuklendi = false;
   Object? _biyolojikModelHatasi;
-  Map<String, dynamic>? _soyDevamlilikAnalizi;
   List<Map<String, dynamic>> _aktifSurecler = [];
   Map<String, dynamic>? _hacimAktivasyon;
   Object? _hacimAktivasyonHatasi;
@@ -99,10 +94,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   Object? _detayAnalizHatasi;
   int _detayYuklemeToken = 0;
   bool _veriDegisti = false;
-
-  DateTime? _balAkimTarihi;
-  DateTime? _balAkimBitisTarihi;
-  String? _balAkimEtiketi;
 
   bool _yukleniyor = true;
   double _balKgFiyati = 600.0;
@@ -165,14 +156,11 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         _detayAnalizHatasi = null;
         _tumKoloniler = [];
         _secilimDurumu = null;
-        _kimlikOzeti = {};
         _hatSonmeOzeti = {};
-        _biyolojiAnalizi = null;
         _biyolojikModel = null;
         _biyolojikModelYukleniyor = false;
         _biyolojikModelYuklendi = false;
         _biyolojikModelHatasi = null;
-        _soyDevamlilikAnalizi = null;
         _hacimAktivasyon = null;
         _hacimAktivasyonHatasi = null;
         _yonetimKararlari = [];
@@ -259,27 +247,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
 
 
-  Future<void> _yonetimKararlariniYukle(int token) async {
-    try {
-      final kararlar = await KararAsistanServisi.yonetimKararlariGetir(
-        _koloniId,
-        hazirKoloni: _koloniOzet,
-      );
-      if (!mounted || token != _detayYuklemeToken) return;
-
-      setState(() {
-        _yonetimKararlari = List<Map<String, dynamic>>.from(kararlar);
-        _yonetimKararlariHatasi = null;
-      });
-    } catch (e) {
-      if (!mounted || token != _detayYuklemeToken) return;
-      setState(() {
-        _yonetimKararlari = [];
-        _yonetimKararlariHatasi = e;
-      });
-    }
-  }
-
   Future<void> _biyolojikModeliYukle({bool forceRefresh = false}) async {
     if (_biyolojikModelYukleniyor) return;
     if (_biyolojikModelYuklendi && !forceRefresh) return;
@@ -336,19 +303,13 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
     try {
       final sonuclar = await Future.wait<dynamic>([
-        VeritabaniServisi.koloniHikayeOzetiGetir(_koloniId),
         VeritabaniServisi.hatSonmeAnaliziGetir(_koloniId),
-        AriBiyolojiServisi.analizMapiGetir(_koloniId),
-        SoyDevamlilikServisi.analizYap(_koloniId),
       ]);
 
       if (!mounted) return;
 
       setState(() {
-        _kimlikOzeti = Map<String, dynamic>.from(sonuclar[0]);
-        _hatSonmeOzeti = Map<String, dynamic>.from(sonuclar[1]);
-        _biyolojiAnalizi = Map<String, dynamic>.from(sonuclar[2]);
-        _soyDevamlilikAnalizi = (sonuclar[3] as SoyDevamlilikSonucu).toMap();
+        _hatSonmeOzeti = Map<String, dynamic>.from(sonuclar[0]);
         _detayAnalizYuklendi = true;
         _detayAnalizYukleniyor = false;
       });
@@ -386,51 +347,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     if (skor >= 70) return Colors.green;
     if (skor >= 50) return Colors.orange;
     return Colors.red;
-  }
-
-  Color _kararRengi(String tip) {
-    switch (tip.trim().toLowerCase()) {
-      case 'pozitif':
-        return Colors.green;
-      case 'negatif':
-        return Colors.red;
-      default:
-        return Colors.orange;
-    }
-  }
-
-  Color _biyolojiRengi(String durumKodu) {
-    switch (durumKodu) {
-      case 'UYGUN':
-      case 'UYGUN_PENCERE':
-        return Colors.green;
-      case 'KRITIK':
-      case 'ZAMAN_KRITIK':
-      case 'MUDAHALE':
-        return Colors.red;
-      case 'DIKKAT':
-      case 'IZLE':
-        return Colors.orange;
-      default:
-        return Colors.blueGrey;
-    }
-  }
-
-  IconData _biyolojiIkonu(String durumKodu) {
-    switch (durumKodu) {
-      case 'UYGUN':
-      case 'UYGUN_PENCERE':
-        return Icons.check_circle_outline;
-      case 'KRITIK':
-      case 'ZAMAN_KRITIK':
-      case 'MUDAHALE':
-        return Icons.warning_amber_rounded;
-      case 'DIKKAT':
-      case 'IZLE':
-        return Icons.visibility_outlined;
-      default:
-        return Icons.biotech_outlined;
-    }
   }
 
   List<Map<String, dynamic>> _tureyenler() {
@@ -478,10 +394,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
-  bool _anaKartlaAyniSurecMi(Map<String, dynamic> surec) {
-    return BaglamMotoru.anaKartlaAyniSurecMi(_anaKarar, surec);
-  }
-
   String _normalizeKarsilastirmaMetni(dynamic deger) {
     return (deger ?? '')
         .toString()
@@ -517,36 +429,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     }
 
     return 'Yakın takip et.';
-  }
-
-  String _kararOzetMetni() {
-    final anaMesaj = _metin(_anaKarar?['mesaj'], varsayilan: '');
-    final bool secilimSurecSizmasi = _secilimDurumu?['kod']?.startsWith('SUREC_') == true;
-    final secilimMesaji = secilimSurecSizmasi
-        ? ''
-        : _metin(_secilimDurumu?['mesaj'], varsayilan: '');
-
-    if (anaMesaj.isNotEmpty && anaMesaj != '-') {
-      return anaMesaj.endsWith('.') ? anaMesaj : '$anaMesaj.';
-    }
-
-    if (secilimMesaji.isNotEmpty && secilimMesaji != '-') {
-      return secilimMesaji.endsWith('.') ? secilimMesaji : '$secilimMesaji.';
-    }
-
-    return _kullanimMetni();
-  }
-
-  String _kullanimMetni() {
-    return 'Kapalı yavru desteği ve bal üretimi gibi destekleyici alanlarda değerlendirilmeli.';
-  }
-
-  // Kullanıcı ekranında tarih standardı: gün.ay.yıl.
-  String _tarihFormatla(DateTime dt) {
-    final gun = dt.day.toString().padLeft(2, '0');
-    final ay = dt.month.toString().padLeft(2, '0');
-    final yil = dt.year.toString();
-    return '$gun.$ay.$yil';
   }
 
   String _soyOzetMetni() {
@@ -1025,21 +907,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     }
   }
 
-  Widget _surecYokKarti() {
-    return _acilirBilgiKarti(
-      baslik: 'Aktif kritik süreç yok',
-      ozet: 'Kolonide şu an öne çıkan açma yasağı, oğul sonrası, anasızlık veya benzeri acil süreç görünmüyor.',
-      ikon: Icons.check_circle_outline_rounded,
-      renk: Colors.green.shade700,
-      detaylar: const [
-        Text(
-          'Süreç kartı yalnızca zaman hassasiyeti olan saha uyarılarını öne çıkarır. Kritik süreç yoksa biyolojik durum ve yönetim kararı daha fazla önem kazanır.',
-          style: TextStyle(fontSize: 12.4, height: 1.42),
-        ),
-      ],
-    );
-  }
-
   Map<String, Object> _surecOzetBilgisi() {
     final surecler = _gorunurSurecler();
     if (surecler.isEmpty) {
@@ -1441,20 +1308,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     }
   }
 
-  String _beslemeKisaOzet(
-      String mesaj,
-      List<String> gerekceler,
-      String dozBandi,
-      ) {
-    if (gerekceler.isNotEmpty) return gerekceler.first;
-    if (mesaj.trim().isNotEmpty) {
-      final parcalar = mesaj.split('.').map((e) => e.trim()).where((e) => e.isNotEmpty);
-      if (parcalar.isNotEmpty) return '${parcalar.first}.';
-    }
-    if (dozBandi.isNotEmpty && dozBandi != '-') return 'Tahmini destek bandı: $dozBandi';
-    return 'Besleme kararı stok, yavru, süreç ve işlevsel çıta birlikte okunarak verilir.';
-  }
-
   Widget _hacimAktivasyonKarti() {
     final aktivasyon = _hacimAktivasyon;
 
@@ -1685,15 +1538,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
               ),
             ],
     );
-  }
-
-  Color _beslemeOncelikRengi(String oncelik, bool gerekliMi) {
-    final temiz = oncelik.trim().toLowerCase();
-    if (temiz == 'kritik') return Colors.red.shade700;
-    if (temiz == 'yuksek' || temiz == 'yüksek') return Colors.deepOrange;
-    if (temiz == 'orta') return Colors.amber.shade800;
-    if (gerekliMi) return Colors.green.shade700;
-    return Colors.blueGrey;
   }
 
   Widget _biyolojikModelSekmesi() {
@@ -2522,16 +2366,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     return const Color(0xFFFFFFFF);
   }
 
-  String _citaKisaTip(String tip) {
-    final t = tip.toLowerCase();
-    if (t.contains('yavru') && t.contains('polen')) return 'Yavru';
-    if (t.contains('yavru')) return 'Yavru';
-    if (t.contains('polen')) return 'Polen';
-    if (t.contains('bal') || t.contains('stok')) return 'Bal';
-    if (t.contains('ballık')) return 'Bal';
-    return 'Alan';
-  }
-
   Widget _kabiliyetSatiri(String baslik, int puan) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
@@ -2607,29 +2441,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             .map((s) => _tekSurecKutusu(s, arkaPlan: _arkaPlanSureciMi(s)))
             .toList(growable: false),
       ),
-    );
-  }
-
-  Widget _surecBolumBasligi({
-    required String baslik,
-    required IconData ikon,
-    required Color renk,
-  }) {
-    return Row(
-      children: [
-        Icon(ikon, color: renk, size: 20),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            baslik,
-            style: TextStyle(
-              fontSize: 13.6,
-              fontWeight: FontWeight.w900,
-              color: renk,
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -3452,431 +3263,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     );
   }
 
-  Widget _maddeKutusu({
-    required String baslik,
-    required IconData ikon,
-    required Color renk,
-    required List<String> maddeler,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: renk.withOpacity(0.25)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(ikon, color: renk),
-              const SizedBox(width: 8),
-              Text(
-                baslik,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: renk,
-                  letterSpacing: 0.3,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ...maddeler.map(
-                (m) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(Icons.circle, size: 8, color: renk),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      m,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        height: 1.4,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _takvimAraligi(dynamic bas, dynamic bit) {
-    final b = _takvimTarihMetni(bas);
-    final e = _takvimTarihMetni(bit);
-    if (b.isEmpty && e.isEmpty) return '';
-    if (b.isNotEmpty && e.isEmpty) return b;
-    if (b.isEmpty && e.isNotEmpty) return e;
-    if (b == e) return b;
-    return '$b - $e';
-  }
-
-  String _takvimTarihMetni(dynamic deger) {
-    final metin = (deger ?? '').toString().trim();
-    if (metin.isEmpty || metin == 'null') return '';
-    final dt = DateTime.tryParse(metin);
-    if (dt == null) return metin;
-    final gun = dt.day.toString().padLeft(2, '0');
-    final ay = dt.month.toString().padLeft(2, '0');
-    return '$gun.$ay.${dt.year}';
-  }
-
-  String _anaKazanmaYontemiDetayMetni(dynamic deger) {
-    final temiz = (deger ?? '').toString().trim();
-    switch (temiz) {
-      case 'kapali_meme':
-        return 'Hazır kapalı ana memesi var';
-      case 'hazir_ana':
-        return 'Hazır çiftleşmiş ana verildi';
-      case 'kendi_anasi':
-      default:
-        return 'Kendi anasını yapacak';
-    }
-  }
-
-  Widget _biyolojiSahaUyarisiKutusu(Map<dynamic, dynamic> uyari) {
-    final baslik = (uyari['baslik'] ?? '').toString();
-    final mesaj = (uyari['mesaj'] ?? '').toString();
-    final neYap = (uyari['neYap'] ?? '').toString();
-    final neYapma = (uyari['neYapma'] ?? '').toString();
-    final gerekce = (uyari['gerekce'] ?? '').toString();
-    final seviye = (uyari['seviye'] ?? 'takip').toString();
-
-    final Color renk = seviye == 'kritik'
-        ? Colors.red
-        : (seviye == 'uyari' ? Colors.deepOrange : Colors.green);
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: renk.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: renk.withOpacity(0.35)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (baslik.isNotEmpty)
-            Text(
-              baslik,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w900,
-                color: renk,
-              ),
-            ),
-          if (mesaj.isNotEmpty) ...[
-            const SizedBox(height: 6),
-            Text(
-              mesaj,
-              style: const TextStyle(fontSize: 12, height: 1.4),
-            ),
-          ],
-          if (neYap.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            Text(
-              'Ne yap: $neYap',
-              style: const TextStyle(fontSize: 12, height: 1.4),
-            ),
-          ],
-          if (neYapma.isNotEmpty) ...[
-            const SizedBox(height: 5),
-            Text(
-              'Ne yapma: $neYapma',
-              style: const TextStyle(fontSize: 12, height: 1.4),
-            ),
-          ],
-          if (gerekce.isNotEmpty) ...[
-            const SizedBox(height: 5),
-            Text(
-              'Neden: $gerekce',
-              style: const TextStyle(fontSize: 12, height: 1.4),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _biyolojiDurumKarti(Map<String, dynamic> veri) {
-    final String baslik = (veri['baslik'] ?? 'Biyolojik takip').toString();
-    final String mesaj = (veri['mesaj'] ?? '').toString();
-    final String durumKodu = (veri['durumKodu'] ?? '').toString();
-    final Color renk = _biyolojiRengi(durumKodu);
-    final IconData ikon = _biyolojiIkonu(durumKodu);
-
-    final detaylar = <String>[
-      'Meme takibi: ${_metin(veri['memeTakipDurumu'], varsayilan: 'Bilinmiyor')}',
-    ];
-
-    Map<dynamic, dynamic>? sahaUyarisi;
-
-    final anasizlik = _toInt(veri['anasizlikGunSayisi']);
-    if (anasizlik > 0) {
-      detaylar.add('Süreç yaşı: $anasizlik gün');
-    }
-
-    final hamVeri = veri['hamVeri'];
-    if (hamVeri is Map) {
-      final hamSahaUyarisi = hamVeri['sahaUyarisi'];
-      if (hamSahaUyarisi is Map) {
-        sahaUyarisi = hamSahaUyarisi;
-        final gunNo = _toInt(hamSahaUyarisi['gunNo']);
-        final baslikUyari = (hamSahaUyarisi['baslik'] ?? '').toString();
-        if (gunNo > 0 && baslikUyari.isNotEmpty) {
-          detaylar.add('Bugün: $gunNo. gün — $baslikUyari');
-        }
-      }
-      final takvim = hamVeri['takvim'];
-      if (takvim is Map) {
-        final anaKazanmaYontemi =
-        _anaKazanmaYontemiDetayMetni(takvim['anaKazanmaYontemi']);
-        detaylar.add('Ana kazanma yöntemi: $anaKazanmaYontemi');
-
-        final memeKapanma = _takvimAraligi(
-          takvim['memeKapanmaBaslangic'],
-          takvim['memeKapanmaBitis'],
-        );
-        if (memeKapanma.isNotEmpty) {
-          detaylar.add('Tahmini meme kapanma: $memeKapanma');
-        }
-
-        final anaCikisi = _takvimAraligi(
-          takvim['anaCikisiBaslangic'],
-          takvim['anaCikisiBitis'],
-        );
-        if (anaCikisi.isNotEmpty) {
-          detaylar.add('Tahmini ana çıkışı: $anaCikisi');
-        }
-
-        final ciftlesme = _takvimAraligi(
-          takvim['ciftlesmeBaslangic'],
-          takvim['ciftlesmeBitis'],
-        );
-        if (ciftlesme.isNotEmpty) {
-          detaylar.add('Çiftleşme uçuş penceresi: $ciftlesme');
-        }
-
-        final yumurtlama = _takvimAraligi(
-          takvim['yumurtlamaKontrolBaslangic'],
-          takvim['yumurtlamaKontrolBitis'],
-        );
-        if (yumurtlama.isNotEmpty) {
-          detaylar.add('Yumurtlama kontrol penceresi: $yumurtlama');
-        }
-
-        final dokunma = _takvimAraligi(
-          takvim['kovanaDokunmaBaslangic'],
-          takvim['kovanaDokunmaBitis'],
-        );
-        if (dokunma.isNotEmpty && hamVeri['dokunmaPenceresi'] == true) {
-          detaylar.add('Kovana dokunma: $dokunma arasında gereksiz açma.');
-        }
-      }
-    }
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: renk.withOpacity(0.30)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(ikon, color: renk),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  'BİYOLOJİK DETAY',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w900,
-                    color: renk,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            baslik,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w900,
-              color: Colors.black87,
-            ),
-          ),
-          if (mesaj.trim().isNotEmpty) ...[
-            const SizedBox(height: 6),
-            Text(
-              mesaj,
-              style: const TextStyle(fontSize: 12, height: 1.45),
-            ),
-          ],
-          const SizedBox(height: 10),
-          if (sahaUyarisi != null) ...[
-            _biyolojiSahaUyarisiKutusu(sahaUyarisi!),
-            const SizedBox(height: 10),
-          ],
-          ...detaylar.map(
-                (e) => Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Text(
-                '• $e',
-                style: const TextStyle(fontSize: 12, height: 1.4),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _soyVeKimlikOzetiKarti() {
-    final kaynakTipi =
-    _metin(_kimlikOzeti['kaynakTipi'], varsayilan: _kaynakMetni());
-    final kaynakKoloni = _metin(_kimlikOzeti['kaynakKoloni'], varsayilan: '-');
-    final kokKoloni = _metin(_kimlikOzeti['kokKoloni'], varsayilan: '-');
-    final ebeveyn = _metin(_kimlikOzeti['ebeveynKoloni'], varsayilan: '-');
-    final sistemKimlik = _metin(_kimlikOzeti['sistemKimlik'], varsayilan: '-');
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.amber.shade300),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.account_tree_outlined, color: Colors.brown),
-              SizedBox(width: 8),
-              Text(
-                'SOY VE KİMLİK DETAYI',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.brown,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          _bilgiSatiri('Kaynak tipi', kaynakTipi),
-          _bilgiSatiri('Kaynak koloni', kaynakKoloni),
-          _bilgiSatiri('Ebeveyn koloni', ebeveyn),
-          _bilgiSatiri('Kök koloni', kokKoloni),
-          _bilgiSatiri('Sistem kimlik', sistemKimlik),
-        ],
-      ),
-    );
-  }
-
-  Widget _soyDevamlilikKarti(Map<String, dynamic> veri) {
-    final toplam = _toInt(veri['toplamTureyen']);
-    final aktif = _toInt(veri['aktifTureyen']);
-    final sonen = _toInt(veri['sonenTureyen']);
-    final yeni = _toInt(veri['hesabaKatilmayanCokYeni']);
-    final yorum = _metin(veri['yorum'], varsayilan: '-');
-    final puan = _toInt(veri['puan']);
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.green.withOpacity(0.25)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.insights_outlined, color: Colors.green),
-              SizedBox(width: 8),
-              Text(
-                'SOY DEVAMLILIK DETAYI',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.green,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _performansMiniKarti(
-                  ikon: Icons.hub_outlined,
-                  etiket: 'Toplam',
-                  deger: toplam.toString(),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _performansMiniKarti(
-                  ikon: Icons.check_circle_outline,
-                  etiket: 'Aktif',
-                  deger: aktif.toString(),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _performansMiniKarti(
-                  ikon: Icons.cancel_outlined,
-                  etiket: 'Sönen',
-                  deger: sonen.toString(),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _performansMiniKarti(
-                  ikon: Icons.hourglass_bottom,
-                  etiket: 'Çok Yeni',
-                  deger: yeni.toString(),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          _vurguluMetin(
-            yorum,
-            renk: Colors.green,
-            ikon: Icons.auto_awesome_outlined,
-            fontSize: 13,
-            agirlik: FontWeight.w600,
-          ),
-          const SizedBox(height: 8),
-          _bilgiSatiri('Soy puanı', puan.toString()),
-        ],
-      ),
-    );
-  }
-
   Widget _hatDayaniklilikAcilirKarti() {
     final hatSonmeOrani =
     _metin(_hatSonmeOzeti['hatSonmeOrani'], varsayilan: '-');
@@ -3921,50 +3307,6 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _hatDayaniklilikKarti() {
-    final hatSonmeOrani =
-    _metin(_hatSonmeOzeti['hatSonmeOrani'], varsayilan: '-');
-    final hatDurum = _metin(_hatSonmeOzeti['hatDurum'], varsayilan: '-');
-    final yorum = _metin(_hatSonmeOzeti['yorum'], varsayilan: '-');
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.deepOrange.withOpacity(0.22)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.shield_outlined, color: Colors.deepOrange),
-              SizedBox(width: 8),
-              Text(
-                'HAT DAYANIKLILIK DETAYI',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.deepOrange,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          _bilgiSatiri('Hat sönme oranı', hatSonmeOrani),
-          _bilgiSatiri('Hat durumu', hatDurum),
-          const SizedBox(height: 8),
-          Text(
-            yorum,
-            style: const TextStyle(fontSize: 12, height: 1.45),
-          ),
-        ],
       ),
     );
   }

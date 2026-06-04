@@ -1203,17 +1203,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get ayarlarTestAriligiBaslik => 'Create test apiary?';
-
-  @override
-  String get ayarlarTestAriligiOlustur => 'Create';
-
-  @override
-  String ayarlarTestAriligiHata(String hata) {
-    return 'Test apiary could not be created: $hata';
-  }
-
-  @override
   String ayarlarGuncellemHata(String hata) {
     return 'Update check failed: $hata';
   }
@@ -1416,13 +1405,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Select a previously taken JSON backup and load it in place of current data.';
 
   @override
-  String get ayarlarTestAriligiIslem => 'Create / Refresh Test Apiary';
-
-  @override
-  String get ayarlarTestAriligiIslemAciklama =>
-      'Sets up 40 scenarios in a separate ITOGENA_TEST_ARILIGI without touching production data.';
-
-  @override
   String get ayarlarGuncelleKontrol => 'Check for Updates';
 
   @override
@@ -1469,11 +1451,574 @@ class AppLocalizationsEn extends AppLocalizations {
       'This operation completely replaces current data with the selected backup. It is recommended to take a current backup before proceeding. Start loading now?';
 
   @override
-  String get ayarlarTestAriligiIcerik =>
-      'This operation does not touch real apiary data. It only creates a separate test apiary named ITOGENA_TEST_ARILIGI. If an old test apiary with the same name exists, it only deletes and recreates that.';
-
-  @override
   String ayarlarUygulamaGuncel(String surum, String kod) {
     return 'App is up to date. Current version: $surum ($kod)';
   }
+
+  @override
+  String get yeniKoloniBaslik => 'NEW COLONY RECORD';
+
+  @override
+  String get yeniKoloniDuzenle => 'EDIT COLONY';
+
+  @override
+  String get yeniKoloniGecmisTarihBaslik => 'Past date selected';
+
+  @override
+  String get yeniKoloniGecmisTarihIcerik =>
+      'You are moving the colony start date backwards. If this is correct, continue. The system will block the record if the date conflicts with the apiary start or first inspection.';
+
+  @override
+  String get yeniKoloniEvetDegistir => 'Yes, change';
+
+  @override
+  String get yeniKoloniKaynakBulunamadi =>
+      'Selected source colony not found in this apiary. Please select a valid source colony from the list.';
+
+  @override
+  String yeniKoloniKayitHata(String hata) {
+    return 'Technical problem occurred during save: $hata';
+  }
+
+  @override
+  String get yeniKoloniBolumKaynakOlusumBilgisi =>
+      'Source and Origin Information';
+
+  @override
+  String get yeniKoloniBolumSahaBilgileri => 'Basic Field Information';
+
+  @override
+  String get yeniKoloniBolumNotlar => 'Notes';
+
+  @override
+  String get yeniKoloniKaynakTipiLabel => 'Source Type';
+
+  @override
+  String get yeniKoloniKaynakAnaHat => 'Mother Line';
+
+  @override
+  String get yeniKoloniKaynakBolme => 'Split';
+
+  @override
+  String get yeniKoloniKaynakOgul => 'Swarm';
+
+  @override
+  String get yeniKoloniKaynakBilgiAnaHat =>
+      'Mother Line selected. Source colony not required. The system starts this colony as a new root line.';
+
+  @override
+  String get yeniKoloniKaynakBilgiBolme =>
+      'First select the source colony, then enter the new hive number. The system builds lineage based on this.';
+
+  @override
+  String get yeniKoloniKaynakBilgiOgul =>
+      'First select the source colony the swarm came from, then enter the new hive number. Swarm is accepted as already queenright; queen rearing method is not selected separately.';
+
+  @override
+  String get yeniKoloniKaynakBilgiVarsayilan =>
+      'Source information is used for system identity and lineage.';
+
+  @override
+  String get yeniKoloniAnaKazanmaLabel => 'Queen Rearing Method';
+
+  @override
+  String get yeniKoloniAnaKazanmaBilgiKapaliMeme =>
+      'Calendar starts from the sealed cell stage, not from scratch. Day 5 sealed cell break warning is not given.';
+
+  @override
+  String get yeniKoloniAnaKazanmaBilgiHazirAna =>
+      'Cell calendar does not run. System focuses on acceptance and laying check window.';
+
+  @override
+  String get yeniKoloniAnaKazanmaBilgiKendiAnasi =>
+      'Calendar starts with the queen rearing process from scratch. Day 5 sealed cell check is meaningful.';
+
+  @override
+  String get yeniKoloniKaynakKoloniLabel => 'Source Colony';
+
+  @override
+  String get yeniKoloniDisKaynak => 'External Source';
+
+  @override
+  String get yeniKoloniKaynakKoloniValidasyon =>
+      'You must select a source colony.';
+
+  @override
+  String get yeniKoloniKovanTipiLabel => 'Hive Type';
+
+  @override
+  String get yeniKoloniSurupluk => 'Feeder';
+
+  @override
+  String get yeniKoloniSuruplukVar => 'Lower box 9 frames';
+
+  @override
+  String get yeniKoloniSuruplukYok => 'Lower box 10 frames';
+
+  @override
+  String get yeniKoloniSuruplukBilgiVar =>
+      'If feeder is present, system accepts lower brood box as 9 frames; interprets frames above as super/honey area.';
+
+  @override
+  String get yeniKoloniSuruplukBilgiYok =>
+      'If no feeder, system accepts lower brood box as 10 frames; interprets frames above as super/honey area.';
+
+  @override
+  String get yeniKoloniBaslangicTarihi => 'Colony start date';
+
+  @override
+  String get yeniKoloniKovanNoLabel => 'Hive No / Field Label';
+
+  @override
+  String get yeniKoloniAnaAriYili => 'Queen Year';
+
+  @override
+  String get yeniKoloniSahaSirasi => 'Field Order';
+
+  @override
+  String get yeniKoloniIlkCitaSayisi => 'Initial Total Frame Count';
+
+  @override
+  String get yeniKoloniSahaBilgisiNot =>
+      'Only field information is entered on this screen. System identity, queen lineage and genetic line code are automatically derived; displayed as information in colony detail.';
+
+  @override
+  String get yeniKoloniOzelNotlar => 'Special Notes';
+
+  @override
+  String get yeniKoloniAlanZorunlu => 'This field is required.';
+
+  @override
+  String get yeniKoloniSayiGir => 'Enter a number.';
+
+  @override
+  String get yeniKoloniBilgileriKaydet => 'SAVE INFORMATION';
+
+  @override
+  String get arilikSecimBaslik => 'APIARY SELECTION';
+
+  @override
+  String get arilikSecimRaporBaslik => 'SELECT APIARY FOR REPORT';
+
+  @override
+  String get arilikSecimBos => 'No apiary added yet.';
+
+  @override
+  String get arilikSecimIlkEkle => 'Add Your First Apiary';
+
+  @override
+  String get arilikSecimYeniEkleBaslik => 'Add New Apiary';
+
+  @override
+  String get arilikSecimArilikAdi => 'Apiary name';
+
+  @override
+  String get arilikSecimAdiHint => 'E.g.: Hillside';
+
+  @override
+  String get arilikSecimBaslangicTarihi => 'Apiary start date';
+
+  @override
+  String get arilikSecimGecmisTarihMesaji =>
+      'You are moving the apiary start date backwards. If this is correct, continue. The system will still block the record if it conflicts with colony and inspection dates.';
+
+  @override
+  String get arilikSecimDuzenleTarihMesaji =>
+      'You are moving the apiary start date backwards. If this is correct, continue. The system will block the record if this date conflicts with colony or inspection records.';
+
+  @override
+  String get arilikSecimKalibrasyon => 'Calibration';
+
+  @override
+  String get arilikSecimVarsayilanKal => 'Use default calibration';
+
+  @override
+  String get arilikSecimVarsayilanKalAciklama =>
+      'New apiary won\'t create custom settings; uses general default honey flow and risk calendar.';
+
+  @override
+  String get arilikSecimKopyalaKal => 'Copy from an existing apiary';
+
+  @override
+  String get arilikSecimKopyalaKalAciklama =>
+      'The selected apiary\'s honey flow and general risk calendar are copied as custom calibration for the new apiary.';
+
+  @override
+  String get arilikSecimKopyalanacakArilik => 'Apiary to copy from';
+
+  @override
+  String get arilikSecimKalibrasyonSecmelisin =>
+      'You must select an apiary to copy calibration from.';
+
+  @override
+  String arilikSecimKayitHata(String hata) {
+    return 'Apiary could not be saved: $hata';
+  }
+
+  @override
+  String get arilikSecimDuzenleBaslik => 'Edit Apiary Information';
+
+  @override
+  String get arilikSecimDuzenleKural =>
+      'Rule: The apiary start date cannot be later than colony and inspection dates in this apiary. The same date is accepted.';
+
+  @override
+  String arilikSecimGuncellenemedi(String hata) {
+    return 'Apiary could not be updated: $hata';
+  }
+
+  @override
+  String arilikSecimUyariGizlendi(String baslik) {
+    return '$baslik hidden for this apiary this season.';
+  }
+
+  @override
+  String get arilikSecimSilBaslik => 'DELETE APIARY';
+
+  @override
+  String arilikSecimSilIcerik(String ad, int toplam, int aktif, int pasif) {
+    return 'This action cannot be undone.\n\nApiary to delete: $ad\nTotal colonies: $toplam\nActive colonies: $aktif\nPassive / extinct colonies: $pasif\n\nColonies, inspections, event records, number history and apiary-specific calibrations linked to this apiary will be deleted.\n\nMake sure you have taken a current backup before proceeding.';
+  }
+
+  @override
+  String arilikSecimSilindi(String ad) {
+    return '$ad apiary deleted.';
+  }
+
+  @override
+  String arilikSecimSilinemedi(String hata) {
+    return 'Apiary could not be deleted: $hata';
+  }
+
+  @override
+  String get arilikSecimSonOnayBaslik => 'FINAL CONFIRMATION';
+
+  @override
+  String get arilikSecimSonOnayIcerik =>
+      'Write the apiary name exactly to confirm deletion.';
+
+  @override
+  String get arilikSecimAdiYaz => 'Write apiary name';
+
+  @override
+  String get arilikSecimKaliciSilUyari =>
+      'This operation permanently deletes the apiary data.';
+
+  @override
+  String get arilikSecimKaliciSil => 'Delete Permanently';
+
+  @override
+  String arilikSecimAktifToplam(int aktif, int toplam) {
+    return 'Active $aktif / Total $toplam';
+  }
+
+  @override
+  String arilikSecimUyariSayisi(int sayi) {
+    return '$sayi active general warning(s)';
+  }
+
+  @override
+  String get arilikSecimDetaylariAc => 'Show details';
+
+  @override
+  String get arilikSecimDetaylariKapat => 'Hide details';
+
+  @override
+  String get arilikSecimBuSezonGosterme =>
+      'Don\'t show for this apiary this season';
+
+  @override
+  String arilikSecimBaslangic(String tarih) {
+    return 'Start: $tarih';
+  }
+
+  @override
+  String get arilikSecimDuzenleTooltip => 'Edit apiary';
+
+  @override
+  String get arilikSecimSilTooltip => 'Delete apiary';
+
+  @override
+  String get arilikSecimGir => 'Enter apiary';
+
+  @override
+  String get arilikSecimToplam => 'Total';
+
+  @override
+  String get arilikSecimAktif => 'Active';
+
+  @override
+  String get arilikSecimPasif => 'Passive';
+
+  @override
+  String muayeneEkleAppBarBaslik(String tarih) {
+    return '$tarih / Inspection Entry';
+  }
+
+  @override
+  String get muayeneEkleGecmisTarihIcerik =>
+      'You are moving the inspection date backwards. If this is correct, continue. The system will block the record if the date conflicts with colony or apiary start.';
+
+  @override
+  String get muayeneEkleSesHata1 =>
+      'Speech recognition could not start. Check Android microphone permission.';
+
+  @override
+  String get muayeneEkleSesHata2 =>
+      'Speech-to-text is not available on this device.';
+
+  @override
+  String get muayeneEkleSesHata3 =>
+      'An error occurred while adding voice note.';
+
+  @override
+  String muayeneEkleKayitHata(String hata) {
+    return 'Technical problem occurred: $hata';
+  }
+
+  @override
+  String muayeneEkleKovanEtiket(String no) {
+    return 'HIVE: $no';
+  }
+
+  @override
+  String muayeneEkleArilikEtiket(String ad) {
+    return 'APIARY: $ad';
+  }
+
+  @override
+  String get muayeneEkleMuayeneTarihi => 'Inspection Date';
+
+  @override
+  String get muayeneEkleToplam => 'Total';
+
+  @override
+  String get muayeneEkleYavrulu => 'Brood';
+
+  @override
+  String get muayeneEkleBalHasat => 'Honey/Harvest';
+
+  @override
+  String muayeneEklePetekAktivasyonBaslik(int artis) {
+    return 'Frame / Volume Activation (+$artis frames)';
+  }
+
+  @override
+  String muayeneEklePetekAktivasyonAniArtis(int artis) {
+    return 'There is an increase of $artis frames since the last inspection. If rapid expansion was done before the colony reached 9–10 frames, the compact pattern may break. The system does not count this new volume as fully functional capacity immediately.';
+  }
+
+  @override
+  String get muayeneEklePetekAktivasyonKatGecis =>
+      'Since the colony passed from the 9–10 frame threshold to 11+ frames, the system reads this as a box/super transition. The new upper volume gains function gradually.';
+
+  @override
+  String get muayeneEklePetekAktivasyonNormal =>
+      'The newly added frame is recorded physically; the biological model evaluates the function gain of this frame spread over time.';
+
+  @override
+  String get muayeneEklePetekDagilimBilgi =>
+      'Enter the distribution of added frames. Foundation and drawn comb can be given together; total does not exceed the increase count.';
+
+  @override
+  String get muayeneEkleTemel => 'Foundation';
+
+  @override
+  String get muayeneEkleKabarmis => 'Drawn';
+
+  @override
+  String muayeneEklePetekToplam(int toplam, int artis) {
+    return 'Total: $toplam / $artis frames';
+  }
+
+  @override
+  String get muayeneEkleYavruDuzeniLabel => 'Brood Pattern';
+
+  @override
+  String get muayeneEkleKoloniMizaci => 'Colony Temperament';
+
+  @override
+  String get muayeneEkleBeslemeLabel => 'Feeding';
+
+  @override
+  String get muayeneEkleVarroaLabel => 'Varroa Treatment';
+
+  @override
+  String get muayeneEkleOgulBelirtisiBaslik => 'Swarm Sign';
+
+  @override
+  String get muayeneEkleOgulBelirtisiAciklama =>
+      'Produces decision suggestion and close monitoring signal.';
+
+  @override
+  String get muayeneEkleOgulAttiBaslik => 'Swarmed';
+
+  @override
+  String get muayeneEkleOgulAttiAciklama =>
+      'This is a confirmed event. Affects score and lineage position.';
+
+  @override
+  String get muayeneEkleAnaGorulmedi => 'Queen Not Seen';
+
+  @override
+  String get muayeneEkleBolmeYapildiBaslik => 'Split Made';
+
+  @override
+  String get muayeneEkleBolmeYapildiAciklama =>
+      'Frame drop is interpreted as controlled multiplication, not performance loss.';
+
+  @override
+  String get muayeneEkleKovanSonduBaslik => 'Hive Died';
+
+  @override
+  String get muayeneEkleKovanSonduAciklama =>
+      'Causes the colony to be evaluated as end of life cycle rather than active performance.';
+
+  @override
+  String get muayeneEkleAnauretimBaslik => 'Queen Rearing & Timing';
+
+  @override
+  String get muayeneEkleAnauretimBilgi =>
+      'The biological queen rearing calendar only runs for colonies that are truly left queenless. The split operation on the donor colony separately produces a recovery process.';
+
+  @override
+  String get muayeneEkleAnasizBirakildiBaslik => 'Colony Left Queenless';
+
+  @override
+  String get muayeneEkleAnasizBirakildiAciklama =>
+      'Critical information for day counting and biological window interpretation.';
+
+  @override
+  String get muayeneEkleKaydet => 'SAVE';
+
+  @override
+  String get muayeneEkleGuncelle => 'UPDATE';
+
+  @override
+  String get muayeneEkleNotlarLabel => 'Notes';
+
+  @override
+  String get muayeneEkleSesBasla => 'Add voice note';
+
+  @override
+  String get muayeneEkleSesDurdur => 'Stop voice recording';
+
+  @override
+  String get muayeneEkleSesHelper => 'Tap the microphone to add a voice note.';
+
+  @override
+  String get muayeneEkleSesHelperAktif =>
+      'Listening... Your speech is being written to the notes field.';
+
+  @override
+  String get muayeneEkleOnYuklemeBilgi =>
+      'Last inspection data pre-loaded. You can update the required fields and continue.';
+
+  @override
+  String get muayeneEkleBolmeBilgi =>
+      'Entering the Source Colony information for the newly opened colony strengthens lineage tracking and performance analysis.';
+
+  @override
+  String get muayeneEkleOgulAttiBilgi =>
+      'Swarm has occurred, this is a confirmed event. Affects selection and lineage evaluation.';
+
+  @override
+  String get muayeneEkleSuruplukEklendi => 'Feeder added';
+
+  @override
+  String get muayeneEkleSuruplukEklendiAciklama =>
+      'This colony has no feeder. If a feeder was added during inspection, mark it; otherwise it continues to be counted as removed.';
+
+  @override
+  String get muayeneEkleSuruplukKaldirildi => 'Feeder removed';
+
+  @override
+  String get muayeneEkleSuruplukKaldirildiHasat =>
+      'This record is read as post-harvest care; feeding selection can be used again.';
+
+  @override
+  String get muayeneEkleSuruplukKaldirildiNormal =>
+      'If marked, the feeder is removed in the biological model and frame layout shifts left.';
+
+  @override
+  String get muayeneEkleSuruplukVarsayilanMesaj =>
+      'Honey flow is approaching. Feeding should be stopped to reduce sugar residue risk; feeder can be removed and frames given instead.';
+
+  @override
+  String get muayeneEkleSuruplukHasatMesaj =>
+      'Honey/harvest record entered. Feeding area will reopen in the post-harvest care period; feeder can be used again if needed. When the second honey flow window opens, the same feeder removal and feeding stop cycle will run again.';
+
+  @override
+  String get muayeneEkleSuruplukBildirilenKisit =>
+      'Feeding restriction started because honey flow is approaching. If you actually removed the feeder to reduce sugar residue risk, mark it.';
+
+  @override
+  String get muayeneEkleBeslemeSuruplukBilgi =>
+      'Feeder marked as removed. Sugar-based feeding selection was disabled in the same inspection; this record is read as harvest preparation.';
+
+  @override
+  String get muayeneEkleHasatBakimBilgi =>
+      'Feeding area reactivated because honey/harvest was entered. This period is read as post-harvest care. If the second honey flow becomes active, the system will return to feeding stop and feeder removal warnings.';
+
+  @override
+  String get muayeneEkleGunlukYavruBaslik => 'Daily / sealed brood seen';
+
+  @override
+  String get muayeneEkleGunlukYavruAciklama =>
+      'This is the closing marker in split, swarm, queen rearing or no-brood monitoring. If marked, the system closes the no-brood window and returns the colony to normal status.';
+
+  @override
+  String get muayeneEkleYavruYokErken =>
+      'Brood pattern will be recorded as \"None\". Active biological process may be in early window; absence of brood at this stage is not an alarm by itself.';
+
+  @override
+  String get muayeneEkleYavruYokErkenVarsayilan =>
+      'Unnecessary opening and harsh intervention is not recommended.';
+
+  @override
+  String get muayeneEkleYavruYokTani =>
+      'Brood pattern will be recorded as \"None\". The system will now use 4 short diagnostic observations together with current season, process window and colony strength to differentiate honey pressure, late mating, queen problem or biological weakening.';
+
+  @override
+  String get muayeneEkleYavruYokNormal =>
+      'Brood pattern will be recorded as \"None\". The system will read this separately in normal colony context; brood frame count will be 0 and the biological model will calculate recovery capacity accordingly.';
+
+  @override
+  String get muayeneEkleYavruYokTaniBaslik =>
+      'No-Brood Short Diagnostic Observations';
+
+  @override
+  String get muayeneEkleYavruYokTaniAciklama =>
+      'This section does not select a diagnosis. The system reads these 4 simple observations together with current season, process window and colony strength to produce recommendations.';
+
+  @override
+  String get muayeneEkleTaniKoloniSakin => 'Is the colony calm?';
+
+  @override
+  String get muayeneEkleTaniKoloniSakinAciklama =>
+      'A calm colony increases the probability of a new queen inside. A restless colony raises suspicion of queenlessness/stress.';
+
+  @override
+  String get muayeneEkleTaniPolen => 'Is there pollen coming in?';
+
+  @override
+  String get muayeneEkleTaniPolenAciklama =>
+      'Pollen input supports the probability of brood preparation or queen presence inside. Absence of pollen increases the risk of biological stagnation.';
+
+  @override
+  String get muayeneEkleTaniBal => 'Is honey / nectar flow strong?';
+
+  @override
+  String get muayeneEkleTaniBalAciklama =>
+      'Strong flow can narrow the laying area. In this case, absence of brood may not directly mean queenlessness.';
+
+  @override
+  String get muayeneEkleTaniErkek => 'Are drone brood cells dominant?';
+
+  @override
+  String get muayeneEkleTaniErkekAciklama =>
+      'If yes, the risk of unmated queen, failed queen or laying worker increases. This answer hardens the waiting decision.';
+
+  @override
+  String get muayeneEkleTaniEminDegil => 'Not sure';
 }

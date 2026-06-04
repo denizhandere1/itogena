@@ -206,10 +206,6 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     return _filtreleListe(_koloniler.where((k) => !_aktifMi(k)).toList());
   }
 
-  int get _aktifToplamSayi => _koloniler.where((k) => _aktifMi(k)).length;
-
-  int get _sonmusToplamSayi => _koloniler.where((k) => !_aktifMi(k)).length;
-
   bool _aktifMi(Map<String, dynamic> k) {
     final koloniId = _toInt(k['id']);
     return _gridContextMap[koloniId]?.aktifMi ?? true;

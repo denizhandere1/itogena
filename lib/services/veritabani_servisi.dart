@@ -366,8 +366,6 @@ class VeritabaniServisi {
       final int kaynakKoloniId = _toInt(koloni['kaynakKoloniId']);
       final int ebeveynKoloniId = _toInt(koloni['ebeveynKoloniId']);
       final int kokKoloniId = _toInt(koloni['kokKoloniId']);
-      final String kaynakKoloni = (koloni['kaynakKoloni'] ?? '').toString().trim();
-      final int arilikId = _toInt(koloni['arilikId']);
       final String durum = (koloni['durum'] ?? '').toString().trim();
       final String olusturmaTarihi = (koloni['olusturmaTarihi'] ?? '').toString().trim();
 
@@ -476,7 +474,6 @@ class VeritabaniServisi {
         if (!aktifMi) continue;
       }
       final aktifNo = (kayit['kovanNo'] ?? '').toString().trim();
-      final ilkNo = (kayit['ilkKovanNo'] ?? '').toString().trim();
 
       final adayNumaralar = <String>{
         ..._tumNumaraVaryasyonlari(aktifNo),
@@ -1216,7 +1213,7 @@ class VeritabaniServisi {
     }
 
     Map<String, dynamic>? aktif = byId[koloniId] ?? await koloniOzetiGetir(koloniId);
-    if (aktif == null || aktif.isEmpty) {
+    if (aktif.isEmpty) {
       return _bosHatSonmeOzeti();
     }
 
@@ -2414,8 +2411,6 @@ class VeritabaniServisi {
     final anaYiliMetni = (koloni['anaYili'] ?? '').toString().trim();
     final anaYili = int.tryParse(anaYiliMetni);
     final anaYasi = anaYili == null ? 0 : (DateTime.now().year - anaYili);
-    final ogulRiskOzeti = await ogulRiskOzetiGetir(koloniId);
-
     if (kovanSondu) {
       await dbClient.update(
         'koloniler',
@@ -3507,7 +3502,6 @@ class VeritabaniServisi {
     );
 
     final koloni = await koloniOzetiGetir(koloniId);
-    final bool suruplukVarMi = _toInt(koloni['suruplukVarMi']) == 1;
     final int arilikId = _toInt(koloni['arilikId']);
     const int varsayilanGun = 20;
 

@@ -12,7 +12,6 @@ import '../services/yedek_dosya_servisi.dart';
 import '../services/dil_servisi.dart';
 import '../services/guncelleme_servisi.dart';
 import '../services/premium_servisi.dart';
-import '../services/test_ariligi_servisi.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
   const AyarlarSayfasi({super.key});
@@ -30,7 +29,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   bool _yedekAliniyor = false;
   bool _isPro = false;
   bool _yedekYukleniyor = false;
-  bool _testAriligiOlusturuluyor = false;
 
   String _kisBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_kis_baslangic');
   String _kisBitis = VeritabaniServisi.varsayilanAyarDegeri('season_kis_bitis');
@@ -611,59 +609,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
 
 
 
-  Future<void> _testAriligiOlustur() async {
-    if (_testAriligiOlusturuluyor || _yedekAliniyor || _yedekYukleniyor || _kaydediliyor) return;
-
-    final onay = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(AppLocalizations.of(context).ayarlarTestAriligiBaslik),
-        content: Text(AppLocalizations.of(context).ayarlarTestAriligiIcerik),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text(AppLocalizations.of(context).vazgec),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(AppLocalizations.of(context).ayarlarTestAriligiOlustur),
-          ),
-        ],
-      ),
-    );
-
-    if (onay != true) return;
-
-    setState(() => _testAriligiOlusturuluyor = true);
-
-    try {
-      final sonuc = await TestAriligiServisi.olusturVeyaYenile();
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            '${TestAriligiServisi.testAriligiAdi} hazır. '
-            '${sonuc.koloniSayisi} test kolonisi oluşturuldu. '
-            '${sonuc.oncekiTestAriligiSilindi ? 'Eski test arılığı yenilendi.' : 'Mevcut gerçek arılıklara dokunulmadı.'}',
-          ),
-        ),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context).ayarlarTestAriligiHata(e.toString())),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } finally {
-      if (mounted) {
-        setState(() => _testAriligiOlusturuluyor = false);
-      }
-    }
-  }
-
   Future<void> _guncellemeKontrolEt() async {
     if (_yedekAliniyor || _yedekYukleniyor || _kaydediliyor) return;
 
@@ -712,50 +657,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       context,
       MaterialPageRoute(
         builder: (context) => const rehber.KullaniciRehberiSayfasi(),
-      ),
-    );
-  }
-
-  Widget _referansBolum(String baslik, List<String> maddeler) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            baslik,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w900,
-              color: Colors.brown,
-            ),
-          ),
-          const SizedBox(height: 8),
-          ...maddeler.map(
-            (m) => Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '• ',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  Expanded(
-                    child: Text(
-                      m,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        height: 1.45,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -1341,14 +1242,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           renk: Colors.indigo,
           calisiyor: _yedekYukleniyor,
           onTap: _yedektenYukle,
-        ),
-        _sistemIslemKarti(
-          baslik: AppLocalizations.of(context).ayarlarTestAriligiIslem,
-          altMetin: AppLocalizations.of(context).ayarlarTestAriligiIslemAciklama,
-          ikon: Icons.science_outlined,
-          renk: Colors.blueGrey,
-          calisiyor: _testAriligiOlusturuluyor,
-          onTap: _testAriligiOlustur,
         ),
         _sistemIslemKarti(
           baslik: AppLocalizations.of(context).ayarlarGuncelleKontrol,

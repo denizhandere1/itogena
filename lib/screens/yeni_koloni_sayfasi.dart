@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 
 class YeniKoloniSayfasi extends StatefulWidget {
   final Map<String, dynamic>? koloni;
@@ -128,15 +129,13 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     return 'kendi_anasi';
   }
 
-  String _anaKazanmaYontemiMetni(String kod) {
+  String _kaynakTipiMetni(BuildContext context, String kod) {
+    final l = AppLocalizations.of(context);
     switch (kod) {
-      case 'kapali_meme':
-        return 'Hazır kapalı ana memesi var';
-      case 'hazir_ana':
-        return 'Hazır çiftleşmiş ana verildi';
-      case 'kendi_anasi':
-      default:
-        return 'Kendi anasını yapacak';
+      case 'Ana Hat': return l.yeniKoloniKaynakAnaHat;
+      case 'Oğul': return l.yeniKoloniKaynakOgul;
+      case 'Bölme':
+      default: return l.yeniKoloniKaynakBolme;
     }
   }
 
@@ -197,6 +196,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     required DateTime mevcutTarih,
     required DateTime yeniTarih,
   }) async {
+    final l = AppLocalizations.of(context);
     final mevcut = DateTime(
       mevcutTarih.year,
       mevcutTarih.month,
@@ -213,19 +213,16 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     final onay = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Geçmiş tarih seçildi'),
-        content: const Text(
-          'Koloni başlangıç tarihini geriye çekiyorsun. '
-          'Bu doğruysa devam et. Sistem, tarih arılık başlangıcı veya ilk muayene ile çelişirse kaydı engeller.',
-        ),
+        title: Text(l.yeniKoloniGecmisTarihBaslik),
+        content: Text(l.yeniKoloniGecmisTarihIcerik),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Vazgeç'),
+            child: Text(l.vazgec),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: const Text('Evet, değiştir'),
+            child: Text(l.yeniKoloniEvetDegistir),
           ),
         ],
       ),
@@ -317,6 +314,8 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
       _kaydediliyor = true;
     });
 
+    final l = AppLocalizations.of(context);
+
     try {
       final aktifKovanNo = _noCont.text.trim();
       final bool disKaynakSecildi = _seciliKaynakKoloniId == -1;
@@ -331,10 +330,8 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
         if (kaynakKaydi == null) {
           if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Seçilen kaynak koloni bu arılıkta bulunamadı. Lütfen listeden geçerli bir kaynak koloni seç.',
-              ),
+            SnackBar(
+              content: Text(l.yeniKoloniKaynakBulunamadi),
               backgroundColor: Colors.red,
             ),
           );
@@ -387,7 +384,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Kayıt sırasında teknik sorun oluştu: $e'),
+          content: Text(l.yeniKoloniKayitHata(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -406,7 +403,8 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     return int.tryParse(deger.toString()) ?? 0;
   }
 
-  List<DropdownMenuItem<int>> _kaynakKoloniSecenekleri() {
+  List<DropdownMenuItem<int>> _kaynakKoloniSecenekleri(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final mevcutKoloniNo = widget.koloni?['kovanNo']?.toString().trim() ?? '';
 
     final secenekler = _arilikKolonileri.where((k) {
@@ -417,9 +415,9 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     }).toList();
 
     final items = <DropdownMenuItem<int>>[
-      const DropdownMenuItem<int>(
+      DropdownMenuItem<int>(
         value: -1,
-        child: Text('Dış Kaynak'),
+        child: Text(l.yeniKoloniDisKaynak),
       ),
     ];
 
@@ -435,26 +433,28 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
     return items;
   }
 
-  String get _kaynakBilgiMetni {
+  String _kaynakBilgiMetni(BuildContext context) {
+    final l = AppLocalizations.of(context);
     switch (_kaynakTipi) {
       case 'Ana Hat':
-        return 'Ana Hat seçildi. Kaynak koloni istenmez. Sistem bu koloniyi yeni kök hat olarak başlatır.';
+        return l.yeniKoloniKaynakBilgiAnaHat;
       case 'Bölme':
-        return 'Önce kaynak koloniyi seç, sonra yeni kovan numarasını gir. Sistem soy bağını buna göre kurar.';
+        return l.yeniKoloniKaynakBilgiBolme;
       case 'Oğul':
-        return 'Önce oğulun çıktığı kaynak koloniyi seç, sonra yeni kovan numarasını gir. Oğul hazır analı kabul edilir; ayrıca ana kazanma yöntemi seçilmez.';
+        return l.yeniKoloniKaynakBilgiOgul;
       default:
-        return 'Kaynak bilgisi sistem kimliği ve soy bağı için kullanılır.';
+        return l.yeniKoloniKaynakBilgiVarsayilan;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
         title: Text(
-          widget.koloni == null ? 'YENİ KOLONİ KAYDI' : 'KOLONİ DÜZENLE',
+          widget.koloni == null ? l.yeniKoloniBaslik : l.yeniKoloniDuzenle,
         ),
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
@@ -468,12 +468,23 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
           children: [
-            _bolumBaslik('Kaynak ve Oluşum Bilgisi'),
-            _dropdownField(
-              'Kaynak Tipi',
-              const ['Bölme', 'Oğul', 'Ana Hat'],
-              _kaynakTipi,
-                  (v) {
+            _bolumBaslik(l.yeniKoloniBolumKaynakOlusumBilgisi),
+            DropdownButtonFormField<String>(
+              value: _kaynakTipi,
+              decoration: InputDecoration(
+                labelText: l.yeniKoloniKaynakTipiLabel,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+              ),
+              items: const ['Bölme', 'Oğul', 'Ana Hat'].map((v) =>
+                  DropdownMenuItem<String>(
+                    value: v,
+                    child: Text(_kaynakTipiMetni(context, v)),
+                  )).toList(),
+              onChanged: (v) {
                 if (v == null) return;
                 setState(() {
                   _kaynakTipi = v;
@@ -490,51 +501,59 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
               },
             ),
             const SizedBox(height: 12),
-            _bilgiKutusu(_kaynakBilgiMetni),
+            _bilgiKutusu(_kaynakBilgiMetni(context)),
             if (_kaynakKoloniGerekli) ...[
               if (_anaKazanmaYontemiSecimiGoster) ...[
                 const SizedBox(height: 12),
-                _dropdownField(
-                  'Ana Kazanma Yöntemi',
-                  const [
-                    'Kendi anasını yapacak',
-                    'Hazır kapalı ana memesi var',
-                    'Hazır çiftleşmiş ana verildi',
+                DropdownButtonFormField<String>(
+                  value: _anaKazanmaYontemi,
+                  decoration: InputDecoration(
+                    labelText: l.yeniKoloniAnaKazanmaLabel,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'kendi_anasi',
+                      child: Text(l.muayeneDetayKendiAnasi),
+                    ),
+                    DropdownMenuItem(
+                      value: 'kapali_meme',
+                      child: Text(l.muayeneDetayKapaliMeme),
+                    ),
+                    DropdownMenuItem(
+                      value: 'hazir_ana',
+                      child: Text(l.muayeneDetayHazirAna),
+                    ),
                   ],
-                  _anaKazanmaYontemiMetni(_anaKazanmaYontemi),
-                      (v) {
+                  onChanged: (v) {
                     if (v == null) return;
-                    setState(() {
-                      if (v == 'Hazır kapalı ana memesi var') {
-                        _anaKazanmaYontemi = 'kapali_meme';
-                      } else if (v == 'Hazır çiftleşmiş ana verildi') {
-                        _anaKazanmaYontemi = 'hazir_ana';
-                      } else {
-                        _anaKazanmaYontemi = 'kendi_anasi';
-                      }
-                    });
+                    setState(() => _anaKazanmaYontemi = v);
                   },
                 ),
                 const SizedBox(height: 8),
                 _bilgiKutusu(
                   _anaKazanmaYontemi == 'kapali_meme'
-                      ? 'Takvim sıfırdan ana yapma gibi değil, kapalı meme aşamasından başlatılır. 5. gün meme bozma uyarısı verilmez.'
+                      ? l.yeniKoloniAnaKazanmaBilgiKapaliMeme
                       : (_anaKazanmaYontemi == 'hazir_ana'
-                          ? 'Meme takvimi çalışmaz. Sistem kabul ve yumurtlama kontrolü penceresine odaklanır.'
-                          : 'Takvim sıfırdan ana yapma süreciyle başlar. 5. gün kapalı meme kontrolü anlamlıdır.'),
+                          ? l.yeniKoloniAnaKazanmaBilgiHazirAna
+                          : l.yeniKoloniAnaKazanmaBilgiKendiAnasi),
                 ),
               ],
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: DropdownButtonFormField<int>(
                   value: _seciliKaynakKoloniId,
-                  decoration: const InputDecoration(
-                    labelText: 'Kaynak Koloni',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: l.yeniKoloniKaynakKoloniLabel,
+                    border: const OutlineInputBorder(),
                     filled: true,
                     fillColor: Colors.white,
                   ),
-                  items: _kaynakKoloniSecenekleri(),
+                  items: _kaynakKoloniSecenekleri(context),
                   onChanged: (v) {
                     setState(() {
                       _seciliKaynakKoloniId = v;
@@ -542,7 +561,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
                         _kaynakKoloniCont.text = 'Dış Kaynak';
                       } else {
                         final secili = _seciliKaynakKoloniKaydi();
-                        _kaynakKoloniCont.text = secili == null
+                         _kaynakKoloniCont.text = secili == null
                             ? ''
                             : (secili['kovanNo'] ?? '').toString();
                       }
@@ -550,7 +569,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
                   },
                   validator: (value) {
                     if (_kaynakKoloniGerekli && value == null) {
-                      return 'Kaynak koloni seçmelisin.';
+                      return l.yeniKoloniKaynakKoloniValidasyon;
                     }
                     return null;
                   },
@@ -558,12 +577,12 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
               ),
             ],
             const Divider(height: 32),
-            _bolumBaslik('Temel Saha Bilgileri'),
+            _bolumBaslik(l.yeniKoloniBolumSahaBilgileri),
             Row(
               children: [
                 Expanded(
                   child: _dropdownField(
-                    'Kovan Tipi',
+                    l.yeniKoloniKovanTipiLabel,
                     const ['Langstroth', 'Dadant'],
                     _kovanTipi,
                     (v) => setState(() => _kovanTipi = v ?? 'Langstroth'),
@@ -573,12 +592,12 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
                 Expanded(
                   child: SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text(
-                      'Şurupluk',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                    title: Text(
+                      l.yeniKoloniSurupluk,
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
                     ),
                     subtitle: Text(
-                      _suruplukVarMi ? 'Alt kat 9 çıta' : 'Alt kat 10 çıta',
+                      _suruplukVarMi ? l.yeniKoloniSuruplukVar : l.yeniKoloniSuruplukYok,
                       style: const TextStyle(fontSize: 11.5),
                     ),
                     value: _suruplukVarMi,
@@ -590,15 +609,15 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
             ),
             _bilgiKutusu(
               _suruplukVarMi
-                  ? 'Şurupluk varsa sistem alt kuluçkalığı 9 çıta kabul eder; üstündeki çıtaları kat/ballık alanı olarak yorumlar.'
-                  : 'Şurupluk yoksa sistem alt kuluçkalığı 10 çıta kabul eder; üstündeki çıtaları kat/ballık alanı olarak yorumlar.',
+                  ? l.yeniKoloniSuruplukBilgiVar
+                  : l.yeniKoloniSuruplukBilgiYok,
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _tarihCont,
               readOnly: true,
               decoration: InputDecoration(
-                labelText: 'Koloni başlangıç tarihi',
+                labelText: l.yeniKoloniBaslangicTarihi,
                 prefixIcon: const Icon(Icons.calendar_today),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -611,7 +630,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
             const SizedBox(height: 12),
             _inputField(
               _noCont,
-              'Kovan No / Saha Etiketi',
+              l.yeniKoloniKovanNoLabel,
               Icons.tag,
               zorunlu: true,
             ),
@@ -619,7 +638,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
               children: [
                 Expanded(
                   child: _dropdownField(
-                    'Ana Arı Yılı',
+                    l.yeniKoloniAnaAriYili,
                     const ['2023', '2024', '2025', '2026'],
                     _anaYili,
                         (v) => setState(() => _anaYili = v!),
@@ -629,7 +648,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
                 Expanded(
                   child: _inputField(
                     _siraCont,
-                    'Saha Sırası',
+                    l.yeniKoloniSahaSirasi,
                     Icons.format_list_numbered,
                     sayi: true,
                   ),
@@ -639,18 +658,16 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
             const SizedBox(height: 8),
             _inputField(
               _citaCont,
-              'İlk Toplam Çıta Sayısı',
+              l.yeniKoloniIlkCitaSayisi,
               Icons.grid_on,
               sayi: true,
             ),
-            _bilgiKutusu(
-              'Bu ekranda yalnızca saha bilgileri girilir. Sistem kimliği, ana soy hattı ve genetik hat kodu otomatik türetilir; koloni detayında bilgi olarak gösterilir.',
-            ),
+            _bilgiKutusu(l.yeniKoloniSahaBilgisiNot),
             const Divider(height: 32),
-            _bolumBaslik('Notlar'),
+            _bolumBaslik(l.yeniKoloniBolumNotlar),
             _inputField(
               _notCont,
-              'Özel Notlar',
+              l.yeniKoloniOzelNotlar,
               Icons.note,
               maxLine: 3,
             ),
@@ -673,7 +690,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
             )
                 : const Icon(Icons.save),
             label: Text(
-              _kaydediliyor ? 'KAYDEDİLİYOR...' : 'BİLGİLERİ KAYDET',
+              _kaydediliyor ? l.ayarlarKaydediliyor : l.yeniKoloniBilgileriKaydet,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -775,6 +792,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
         int maxLine = 1,
         String? Function(String?)? validator,
       }) {
+    final l = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: TextFormField(
@@ -795,10 +813,10 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
                 (value) {
               final metin = value?.trim() ?? '';
               if (zorunlu && metin.isEmpty) {
-                return 'Bu alan zorunlu.';
+                return l.yeniKoloniAlanZorunlu;
               }
               if (sayi && metin.isNotEmpty && int.tryParse(metin) == null) {
-                return 'Sayı gir.';
+                return l.yeniKoloniSayiGir;
               }
               return null;
             },

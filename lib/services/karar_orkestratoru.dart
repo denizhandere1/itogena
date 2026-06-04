@@ -149,7 +149,6 @@ class KararOrkestratoru {
     final String adayKategori = _norm(aday['kategori']);
     final String anaTip = _norm(ana['kararTipi']);
     final String adayTip = _norm(aday['kararTipi']);
-    final String anaKod = _norm(ana['kod']);
     final String adayKod = _norm(aday['kod']);
 
     final bool anaSurec = anaKatman == _norm(KararKatmani.surec) ||

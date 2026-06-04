@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import 'koloniler_sayfasi.dart';
@@ -126,6 +127,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
     required String baslik,
     required String mesaj,
   }) async {
+    final l = AppLocalizations.of(context);
     final mevcut = DateTime(
       mevcutTarih.year,
       mevcutTarih.month,
@@ -147,11 +149,11 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Vazgeç'),
+            child: Text(l.vazgec),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: const Text('Evet, değiştir'),
+            child: Text(l.yeniKoloniEvetDegistir),
           ),
         ],
       ),
@@ -161,6 +163,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
   }
 
   void _arilikEkleDiyalog() {
+    final l = AppLocalizations.of(context);
     final controller = TextEditingController();
     DateTime kurulusTarihi = _bugun();
     final tarihController = TextEditingController(
@@ -179,7 +182,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) {
           return AlertDialog(
-            title: const Text('Yeni Arılık Ekle'),
+            title: Text(l.arilikSecimYeniEkleBaslik),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -187,20 +190,20 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                 children: [
                   TextField(
                     controller: controller,
-                    decoration: const InputDecoration(
-                      labelText: 'Arılık adı',
-                      hintText: 'Örn: Uluköy',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l.arilikSecimArilikAdi,
+                      hintText: l.arilikSecimAdiHint,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: tarihController,
                     readOnly: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Arılık başlangıç tarihi',
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(Icons.calendar_today),
+                    decoration: InputDecoration(
+                      labelText: l.arilikSecimBaslangicTarihi,
+                      border: const OutlineInputBorder(),
+                      suffixIcon: const Icon(Icons.calendar_today),
                     ),
                     onTap: () async {
                       final secilen = await showDatePicker(
@@ -222,10 +225,8 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                       final onay = await _gecmisTarihOnayi(
                         mevcutTarih: kurulusTarihi,
                         yeniTarih: yeniTarih,
-                        baslik: 'Geçmiş tarih seçildi',
-                        mesaj:
-                        'Arılık başlangıç tarihini geriye çekiyorsun. '
-                            'Bu doğruysa devam et. Sistem yine de koloni ve muayene tarihleriyle çakışırsa kaydı engeller.',
+                        baslik: l.yeniKoloniGecmisTarihBaslik,
+                        mesaj: l.arilikSecimGecmisTarihMesaji,
                       );
 
                       if (!onay) return;
@@ -237,9 +238,9 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  const Text(
-                    'Kalibrasyon',
-                    style: TextStyle(
+                  Text(
+                    l.arilikSecimKalibrasyon,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w900,
                       color: Colors.brown,
                     ),
@@ -250,13 +251,13 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                     groupValue: kalibrasyonuKopyala,
                     contentPadding: EdgeInsets.zero,
                     activeColor: Colors.amber,
-                    title: const Text(
-                      'Varsayılan kalibrasyonu kullan',
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                    title: Text(
+                      l.arilikSecimVarsayilanKal,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
                     ),
-                    subtitle: const Text(
-                      'Yeni arılık özel ayar oluşturmaz; genel varsayılan bal akımı ve risk takvimini kullanır.',
-                      style: TextStyle(fontSize: 12, height: 1.35),
+                    subtitle: Text(
+                      l.arilikSecimVarsayilanKalAciklama,
+                      style: const TextStyle(fontSize: 12, height: 1.35),
                     ),
                     onChanged: (v) {
                       setDialogState(() {
@@ -270,13 +271,13 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                     groupValue: kalibrasyonuKopyala,
                     contentPadding: EdgeInsets.zero,
                     activeColor: Colors.amber,
-                    title: const Text(
-                      'Mevcut bir arılıktan kopyala',
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                    title: Text(
+                      l.arilikSecimKopyalaKal,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
                     ),
-                    subtitle: const Text(
-                      'Seçilen arılığın bal akımı ve genel risk takvimi yeni arılığa özel kalibrasyon olarak kopyalanır.',
-                      style: TextStyle(fontSize: 12, height: 1.35),
+                    subtitle: Text(
+                      l.arilikSecimKopyalaKalAciklama,
+                      style: const TextStyle(fontSize: 12, height: 1.35),
                     ),
                     onChanged: kopyalanabilirAriliklar.isEmpty
                         ? null
@@ -293,11 +294,11 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                     DropdownButtonFormField<int>(
                       value: kopyalanacakArilikId,
                       isExpanded: true,
-                      decoration: const InputDecoration(
-                        labelText: 'Kopyalanacak arılık',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: l.arilikSecimKopyalanacakArilik,
+                        border: const OutlineInputBorder(),
                         contentPadding:
-                        EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                       ),
                       items: kopyalanabilirAriliklar.map((arilik) {
                         final id = _toInt(arilik['id']);
@@ -321,7 +322,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
               AnaSayfaKisayol.aksiyon(context),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('İptal'),
+                child: Text(l.iptal),
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -332,8 +333,8 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                       (kopyalanacakArilikId == null ||
                           kopyalanacakArilikId! <= 0)) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Kalibrasyon kopyalanacak arılığı seçmelisin.'),
+                      SnackBar(
+                        content: Text(l.arilikSecimKalibrasyonSecmelisin),
                       ),
                     );
                     return;
@@ -363,13 +364,13 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                     if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Arılık kaydedilemedi: $e'),
+                        content: Text(l.arilikSecimKayitHata(e.toString())),
                         backgroundColor: Colors.red,
                       ),
                     );
                   }
                 },
-                child: const Text('Kaydet'),
+                child: Text(l.kaydet),
               ),
             ],
           );
@@ -379,6 +380,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
   }
 
   void _arilikDuzenleDiyalog(Map<String, dynamic> arilik) {
+    final l = AppLocalizations.of(context);
     final arilikId = _toInt(arilik['id']);
     if (arilikId <= 0) return;
 
@@ -397,7 +399,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) {
           return AlertDialog(
-            title: const Text('Arılık Bilgilerini Düzenle'),
+            title: Text(l.arilikSecimDuzenleBaslik),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -405,19 +407,19 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                 children: [
                   TextField(
                     controller: adController,
-                    decoration: const InputDecoration(
-                      labelText: 'Arılık adı',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l.arilikSecimArilikAdi,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: tarihController,
                     readOnly: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Arılık başlangıç tarihi',
-                      border: OutlineInputBorder(),
-                      suffixIcon: Icon(Icons.calendar_today),
+                    decoration: InputDecoration(
+                      labelText: l.arilikSecimBaslangicTarihi,
+                      border: const OutlineInputBorder(),
+                      suffixIcon: const Icon(Icons.calendar_today),
                     ),
                     onTap: () async {
                       final secilen = await showDatePicker(
@@ -439,10 +441,8 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                       final onay = await _gecmisTarihOnayi(
                         mevcutTarih: kurulusTarihi,
                         yeniTarih: yeniTarih,
-                        baslik: 'Geçmiş tarih seçildi',
-                        mesaj:
-                        'Arılık başlangıç tarihini geriye çekiyorsun. '
-                            'Bu doğruysa devam et. Sistem, bu tarih koloni veya muayene kayıtlarıyla çelişirse kaydı engeller.',
+                        baslik: l.yeniKoloniGecmisTarihBaslik,
+                        mesaj: l.arilikSecimDuzenleTarihMesaji,
                       );
 
                       if (!onay) return;
@@ -454,9 +454,9 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                     },
                   ),
                   const SizedBox(height: 10),
-                  const Text(
-                    'Kural: Arılık başlangıç tarihi, bu arılıktaki koloni ve muayene tarihlerinden sonra olamaz. Aynı tarih kabul edilir.',
-                    style: TextStyle(fontSize: 12, height: 1.35),
+                  Text(
+                    l.arilikSecimDuzenleKural,
+                    style: const TextStyle(fontSize: 12, height: 1.35),
                   ),
                 ],
               ),
@@ -464,7 +464,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(dialogContext),
-                child: const Text('İptal'),
+                child: Text(l.iptal),
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -487,13 +487,13 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                     if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Arılık güncellenemedi: $e'),
+                        content: Text(l.arilikSecimGuncellenemedi(e.toString())),
                         backgroundColor: Colors.red,
                       ),
                     );
                   }
                 },
-                child: const Text('Kaydet'),
+                child: Text(l.kaydet),
               ),
             ],
           );
@@ -536,9 +536,10 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
 
     if (!mounted) return;
 
+    final l = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${uyari.baslik} bu arılıkta bu sezon gizlendi.'),
+        content: Text(l.arilikSecimUyariGizlendi(uyari.baslik)),
       ),
     );
 
@@ -546,6 +547,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
   }
 
   Future<void> _arilikSilAkisi(Map<String, dynamic> arilik) async {
+    final l = AppLocalizations.of(context);
     final arilikId = _toInt(arilik['id']);
     final arilikAdi = (arilik['ad'] ?? '').toString().trim();
     if (arilikId <= 0 || arilikAdi.isEmpty) return;
@@ -559,20 +561,12 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
       context: context,
       useRootNavigator: true,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('ARILIĞI SİL'),
-        content: Text(
-          'Bu işlem geri alınamaz.\n\n'
-              'Silinecek arılık: $arilikAdi\n'
-              'Toplam koloni: $toplam\n'
-              'Aktif koloni: $aktif\n'
-              'Pasif / sönmüş koloni: $pasif\n\n'
-              'Bu arılığa bağlı koloniler, muayeneler, olay kayıtları, numara geçmişi ve arılık özel kalibrasyonları silinir.\n\n'
-              'Devam etmeden önce güncel yedek aldığından emin ol.',
-        ),
+        title: Text(l.arilikSecimSilBaslik),
+        content: Text(l.arilikSecimSilIcerik(arilikAdi, toplam, aktif, pasif)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext, rootNavigator: true).pop(false),
-            child: const Text('Vazgeç'),
+            child: Text(l.vazgec),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -580,7 +574,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
               foregroundColor: Colors.white,
             ),
             onPressed: () => Navigator.of(dialogContext, rootNavigator: true).pop(true),
-            child: const Text('Devam Et'),
+            child: Text(l.kolonilerDevamEt),
           ),
         ],
       ),
@@ -608,7 +602,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$arilikAdi arılığı silindi.')),
+        SnackBar(content: Text(l.arilikSecimSilindi(arilikAdi))),
       );
 
       await _verileriYukle();
@@ -619,7 +613,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Arılık silinemedi: $e'),
+          content: Text(l.arilikSecimSilinemedi(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -627,6 +621,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
   }
 
   Future<bool?> _arilikSilmeAdOnayi(String arilikAdi) async {
+    final l = AppLocalizations.of(context);
     final controller = TextEditingController();
     bool adDogru = false;
 
@@ -637,14 +632,12 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setDialogState) {
           return AlertDialog(
-            title: const Text('SON ONAY'),
+            title: Text(l.arilikSecimSonOnayBaslik),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Silme işlemini kesinleştirmek için arılık adını birebir yaz.',
-                ),
+                Text(l.arilikSecimSonOnayIcerik),
                 const SizedBox(height: 10),
                 SelectableText(
                   arilikAdi,
@@ -657,9 +650,9 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                 TextField(
                   controller: controller,
                   autofocus: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Arılık adını yaz',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: l.arilikSecimAdiYaz,
+                    border: const OutlineInputBorder(),
                   ),
                   onChanged: (v) {
                     setDialogState(() {
@@ -668,9 +661,9 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                   },
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'Bu işlem arılık verisini kalıcı olarak siler.',
-                  style: TextStyle(
+                Text(
+                  l.arilikSecimKaliciSilUyari,
+                  style: const TextStyle(
                     color: Colors.red,
                     fontSize: 12,
                     height: 1.35,
@@ -681,7 +674,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(dialogContext, rootNavigator: true).pop(false),
-                child: const Text('Vazgeç'),
+                child: Text(l.vazgec),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -691,7 +684,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                 onPressed: adDogru
                     ? () => Navigator.of(dialogContext, rootNavigator: true).pop(true)
                     : null,
-                child: const Text('Kalıcı Olarak Sil'),
+                child: Text(l.arilikSecimKaliciSil),
               ),
             ],
           );
@@ -709,11 +702,12 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
         title: Text(
-          widget.raporModu ? 'RAPOR İÇİN ARILIK SEÇ' : 'ARILIK SEÇİMİ',
+          widget.raporModu ? l.arilikSecimRaporBaslik : l.arilikSecimBaslik,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
@@ -733,14 +727,14 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
               color: Colors.grey,
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Henüz arılık eklenmemiş.',
-              style: TextStyle(fontSize: 18, color: Colors.grey),
+            Text(
+              l.arilikSecimBos,
+              style: const TextStyle(fontSize: 18, color: Colors.grey),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _arilikEkleDiyalog,
-              child: const Text('İlk Arılığını Ekle'),
+              child: Text(l.arilikSecimIlkEkle),
             ),
           ],
         ),
@@ -771,6 +765,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
 
 
   Widget _raporArilikSatiri(Map<String, dynamic> arilik) {
+    final l = AppLocalizations.of(context);
     final arilikId = _toInt(arilik['id']);
     final ozet = _ozetMap[arilikId] ?? const <String, dynamic>{};
     final ad = arilik['ad']?.toString() ?? '-';
@@ -810,7 +805,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Aktif $aktif / Toplam $toplam',
+                    l.arilikSecimAktifToplam(aktif, toplam),
                     style: const TextStyle(
                       fontSize: 11.5,
                       color: Colors.black54,
@@ -844,27 +839,11 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
     );
   }
 
-  Widget _raporModuBilgiKarti() {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.amber.shade300),
-      ),
-      child: const Text(
-        'Raporlar seçtiğin arılığa göre hazırlanır. Ekonomik değer, arılık istatistikleri, donör listeleri ve güçlü/zayıf sıralamaları yalnızca bu arılıktaki aktif kolonileri dikkate alır.',
-        style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.black87),
-      ),
-    );
-  }
-
   Widget _genelUyariAlani({
     required int arilikId,
     required List<ArilikUyari> uyarilar,
   }) {
+    final l = AppLocalizations.of(context);
     final detayAcik = _uyariDetayMap[arilikId] ?? false;
 
     return Container(
@@ -885,7 +864,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  '${uyarilar.length} aktif genel uyarı var',
+                  l.arilikSecimUyariSayisi(uyarilar.length),
                   style: TextStyle(
                     fontSize: 12.8,
                     fontWeight: FontWeight.w900,
@@ -919,7 +898,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                 size: 20,
               ),
               label: Text(
-                detayAcik ? 'Detayları kapat' : 'Detayları göster',
+                detayAcik ? l.arilikSecimDetaylariKapat : l.arilikSecimDetaylariAc,
                 style: const TextStyle(fontWeight: FontWeight.w800),
               ),
               style: TextButton.styleFrom(
@@ -939,6 +918,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
     required ArilikUyari uyari,
     required bool detayAcik,
   }) {
+    final l = AppLocalizations.of(context);
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 8),
@@ -980,9 +960,9 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                   uyari: uyari,
                 ),
                 icon: const Icon(Icons.visibility_off_outlined, size: 16),
-                label: const Text(
-                  'Bu arılıkta bu sezon gösterme',
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                label: Text(
+                  l.arilikSecimBuSezonGosterme,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.blueGrey.shade700,
@@ -1008,6 +988,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
   }
 
   Widget _arilikKarti(Map<String, dynamic> arilik) {
+    final l = AppLocalizations.of(context);
     final arilikId = _toInt(arilik['id']);
     final ozet = _ozetMap[arilikId] ?? {};
     final uyarilar = _uyariMap[arilikId] ?? const <ArilikUyari>[];
@@ -1060,7 +1041,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        "Başlangıç: ${_tarihFormatla(_guvenliTarihParse(arilik['kurulusTarihi']) ?? _bugun())}",
+                        l.arilikSecimBaslangic(_tarihFormatla(_guvenliTarihParse(arilik['kurulusTarihi']) ?? _bugun())),
                         style: const TextStyle(
                           fontSize: 11.5,
                           color: Colors.black54,
@@ -1071,13 +1052,13 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                   ),
                 ),
                 IconButton(
-                  tooltip: 'Arılığı düzenle',
+                  tooltip: l.arilikSecimDuzenleTooltip,
                   onPressed: () => _arilikDuzenleDiyalog(arilik),
                   icon: const Icon(Icons.edit_calendar_outlined),
                   color: Colors.brown,
                 ),
                 IconButton(
-                  tooltip: 'Arılığı sil',
+                  tooltip: l.arilikSecimSilTooltip,
                   onPressed: () => _arilikSilAkisi(arilik),
                   icon: const Icon(Icons.delete_outline),
                   color: Colors.red,
@@ -1110,7 +1091,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
               children: [
                 Expanded(
                   child: _ozetKutusu(
-                    'Toplam',
+                    l.arilikSecimToplam,
                     toplam.toString(),
                     Colors.blueGrey,
                   ),
@@ -1118,7 +1099,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _ozetKutusu(
-                    'Aktif',
+                    l.arilikSecimAktif,
                     aktif.toString(),
                     Colors.green,
                   ),
@@ -1126,7 +1107,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _ozetKutusu(
-                    'Pasif',
+                    l.arilikSecimPasif,
                     pasif.toString(),
                     Colors.deepOrange,
                   ),
@@ -1142,7 +1123,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                'Arılığa gir',
+                l.arilikSecimGir,
                 style: TextStyle(
                   color: Colors.blueGrey.shade700,
                   fontWeight: FontWeight.w700,

@@ -639,8 +639,6 @@ class KararAsistanServisi {
     final int? balAkiminaKalanGun = balBas == null ? null : balBas.difference(bugun).inDays;
     final bool balAkimiKesmePenceresi =
         balAkiminaKalanGun != null && balAkiminaKalanGun >= 0 && balAkiminaKalanGun <= 20;
-    final bool balAkimiYakinKatPenceresi =
-        balAkiminaKalanGun != null && balAkiminaKalanGun >= 0 && balAkiminaKalanGun <= 24;
     final bool bolmeAnaPenceresi =
         balAkiminaKalanGun != null && balAkiminaKalanGun >= 35 && balAkiminaKalanGun <= 45;
     final bool bolmeDikkatPenceresi =
@@ -1613,14 +1611,6 @@ class KararAsistanServisi {
       'mesaj': surec.mesaj,
       'neden': _surecNedeni(surec),
       'tip': _surecTipiNormalizeEt(surec.tip),
-    };
-  }
-
-  static Map<String, String> _surecSecilimMap(SurecUyarisi surec) {
-    return {
-      'kod': 'SUREC_${surec.kod}',
-      'baslik': surec.baslik,
-      'mesaj': surec.mesaj,
     };
   }
 

@@ -200,13 +200,6 @@ class KoloniContextServisi {
     return sonuc;
   }
 
-  static int _toInt(dynamic deger) {
-    if (deger == null) return 0;
-    if (deger is int) return deger;
-    if (deger is double) return deger.round();
-    return int.tryParse(deger.toString()) ?? 0;
-  }
-
   static int? _nullableInt(dynamic deger) {
     if (deger == null) return null;
     if (deger is int) return deger;

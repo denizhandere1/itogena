@@ -330,11 +330,11 @@ class SezonBiyolojiMatrisi {
       }
       if (gun.isBefore(p.baslangic)) {
         final fark = p.baslangic.difference(gun).inDays;
-        if (kalanGun == null || fark < kalanGun!) kalanGun = fark;
+        if (kalanGun == null || fark < kalanGun) kalanGun = fark;
       }
       if (gun.isAfter(p.bitis)) {
         final fark = gun.difference(p.bitis).inDays;
-        if (sonraGecenGun == null || fark < sonraGecenGun!) {
+        if (sonraGecenGun == null || fark < sonraGecenGun) {
           sonraGecenGun = fark;
         }
       }

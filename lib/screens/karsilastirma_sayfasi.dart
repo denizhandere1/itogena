@@ -400,7 +400,7 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
     );
   }
 
-  Widget _bilgiSatiri(String baslik, String metin, {bool isLabel = false}) {
+  Widget _bilgiSatiri(String baslik, String metin) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

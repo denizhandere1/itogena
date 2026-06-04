@@ -2229,24 +2229,6 @@ abstract class AppLocalizations {
   /// **'Yedek yüklenirken hata oluştu: {hata}'**
   String ayarlarGeriYukleHata(String hata);
 
-  /// No description provided for @ayarlarTestAriligiBaslik.
-  ///
-  /// In tr, this message translates to:
-  /// **'Test arılığı oluşturulsun mu?'**
-  String get ayarlarTestAriligiBaslik;
-
-  /// No description provided for @ayarlarTestAriligiOlustur.
-  ///
-  /// In tr, this message translates to:
-  /// **'Oluştur'**
-  String get ayarlarTestAriligiOlustur;
-
-  /// No description provided for @ayarlarTestAriligiHata.
-  ///
-  /// In tr, this message translates to:
-  /// **'Test arılığı oluşturulamadı: {hata}'**
-  String ayarlarTestAriligiHata(String hata);
-
   /// No description provided for @ayarlarGuncellemHata.
   ///
   /// In tr, this message translates to:
@@ -2583,18 +2565,6 @@ abstract class AppLocalizations {
   /// **'Daha önce aldığın JSON yedeğini seç ve mevcut verinin yerine yükle.'**
   String get ayarlarYedekYukleAciklama;
 
-  /// No description provided for @ayarlarTestAriligiIslem.
-  ///
-  /// In tr, this message translates to:
-  /// **'Test Arılığı Oluştur / Yenile'**
-  String get ayarlarTestAriligiIslem;
-
-  /// No description provided for @ayarlarTestAriligiIslemAciklama.
-  ///
-  /// In tr, this message translates to:
-  /// **'Uluköy verisine dokunmadan ayrı ITOGENA_TEST_ARILIGI içinde 40 senaryo kurar.'**
-  String get ayarlarTestAriligiIslemAciklama;
-
   /// No description provided for @ayarlarGuncelleKontrol.
   ///
   /// In tr, this message translates to:
@@ -2673,17 +2643,959 @@ abstract class AppLocalizations {
   /// **'Bu işlem mevcut veriyi seçtiğin yedek ile tamamen değiştirir. Devam etmeden önce güncel bir yedek alman önerilir. Şimdi yükleme başlasın mı?'**
   String get ayarlarGeriYukleIcerik;
 
-  /// No description provided for @ayarlarTestAriligiIcerik.
-  ///
-  /// In tr, this message translates to:
-  /// **'Bu işlem gerçek arılık verisine dokunmaz. Yalnızca ITOGENA_TEST_ARILIGI adlı ayrı test arılığını oluşturur. Aynı isimde eski test arılığı varsa sadece onu silip yeniden kurar.'**
-  String get ayarlarTestAriligiIcerik;
-
   /// No description provided for @ayarlarUygulamaGuncel.
   ///
   /// In tr, this message translates to:
   /// **'Uygulama güncel. Mevcut sürüm: {surum} ({kod})'**
   String ayarlarUygulamaGuncel(String surum, String kod);
+
+  /// No description provided for @yeniKoloniBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'YENİ KOLONİ KAYDI'**
+  String get yeniKoloniBaslik;
+
+  /// No description provided for @yeniKoloniDuzenle.
+  ///
+  /// In tr, this message translates to:
+  /// **'KOLONİ DÜZENLE'**
+  String get yeniKoloniDuzenle;
+
+  /// No description provided for @yeniKoloniGecmisTarihBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçmiş tarih seçildi'**
+  String get yeniKoloniGecmisTarihBaslik;
+
+  /// No description provided for @yeniKoloniGecmisTarihIcerik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni başlangıç tarihini geriye çekiyorsun. Bu doğruysa devam et. Sistem, tarih arılık başlangıcı veya ilk muayene ile çelişirse kaydı engeller.'**
+  String get yeniKoloniGecmisTarihIcerik;
+
+  /// No description provided for @yeniKoloniEvetDegistir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Evet, değiştir'**
+  String get yeniKoloniEvetDegistir;
+
+  /// No description provided for @yeniKoloniKaynakBulunamadi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçilen kaynak koloni bu arılıkta bulunamadı. Lütfen listeden geçerli bir kaynak koloni seç.'**
+  String get yeniKoloniKaynakBulunamadi;
+
+  /// No description provided for @yeniKoloniKayitHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt sırasında teknik sorun oluştu: {hata}'**
+  String yeniKoloniKayitHata(String hata);
+
+  /// No description provided for @yeniKoloniBolumKaynakOlusumBilgisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaynak ve Oluşum Bilgisi'**
+  String get yeniKoloniBolumKaynakOlusumBilgisi;
+
+  /// No description provided for @yeniKoloniBolumSahaBilgileri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temel Saha Bilgileri'**
+  String get yeniKoloniBolumSahaBilgileri;
+
+  /// No description provided for @yeniKoloniBolumNotlar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Notlar'**
+  String get yeniKoloniBolumNotlar;
+
+  /// No description provided for @yeniKoloniKaynakTipiLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaynak Tipi'**
+  String get yeniKoloniKaynakTipiLabel;
+
+  /// No description provided for @yeniKoloniKaynakAnaHat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Hat'**
+  String get yeniKoloniKaynakAnaHat;
+
+  /// No description provided for @yeniKoloniKaynakBolme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme'**
+  String get yeniKoloniKaynakBolme;
+
+  /// No description provided for @yeniKoloniKaynakOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul'**
+  String get yeniKoloniKaynakOgul;
+
+  /// No description provided for @yeniKoloniKaynakBilgiAnaHat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Hat seçildi. Kaynak koloni istenmez. Sistem bu koloniyi yeni kök hat olarak başlatır.'**
+  String get yeniKoloniKaynakBilgiAnaHat;
+
+  /// No description provided for @yeniKoloniKaynakBilgiBolme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce kaynak koloniyi seç, sonra yeni kovan numarasını gir. Sistem soy bağını buna göre kurar.'**
+  String get yeniKoloniKaynakBilgiBolme;
+
+  /// No description provided for @yeniKoloniKaynakBilgiOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce oğulun çıktığı kaynak koloniyi seç, sonra yeni kovan numarasını gir. Oğul hazır analı kabul edilir; ayrıca ana kazanma yöntemi seçilmez.'**
+  String get yeniKoloniKaynakBilgiOgul;
+
+  /// No description provided for @yeniKoloniKaynakBilgiVarsayilan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaynak bilgisi sistem kimliği ve soy bağı için kullanılır.'**
+  String get yeniKoloniKaynakBilgiVarsayilan;
+
+  /// No description provided for @yeniKoloniAnaKazanmaLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Kazanma Yöntemi'**
+  String get yeniKoloniAnaKazanmaLabel;
+
+  /// No description provided for @yeniKoloniAnaKazanmaBilgiKapaliMeme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim sıfırdan ana yapma gibi değil, kapalı meme aşamasından başlatılır. 5. gün meme bozma uyarısı verilmez.'**
+  String get yeniKoloniAnaKazanmaBilgiKapaliMeme;
+
+  /// No description provided for @yeniKoloniAnaKazanmaBilgiHazirAna.
+  ///
+  /// In tr, this message translates to:
+  /// **'Meme takvimi çalışmaz. Sistem kabul ve yumurtlama kontrolü penceresine odaklanır.'**
+  String get yeniKoloniAnaKazanmaBilgiHazirAna;
+
+  /// No description provided for @yeniKoloniAnaKazanmaBilgiKendiAnasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvim sıfırdan ana yapma süreciyle başlar. 5. gün kapalı meme kontrolü anlamlıdır.'**
+  String get yeniKoloniAnaKazanmaBilgiKendiAnasi;
+
+  /// No description provided for @yeniKoloniKaynakKoloniLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaynak Koloni'**
+  String get yeniKoloniKaynakKoloniLabel;
+
+  /// No description provided for @yeniKoloniDisKaynak.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dış Kaynak'**
+  String get yeniKoloniDisKaynak;
+
+  /// No description provided for @yeniKoloniKaynakKoloniValidasyon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaynak koloni seçmelisin.'**
+  String get yeniKoloniKaynakKoloniValidasyon;
+
+  /// No description provided for @yeniKoloniKovanTipiLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan Tipi'**
+  String get yeniKoloniKovanTipiLabel;
+
+  /// No description provided for @yeniKoloniSurupluk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk'**
+  String get yeniKoloniSurupluk;
+
+  /// No description provided for @yeniKoloniSuruplukVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alt kat 9 çıta'**
+  String get yeniKoloniSuruplukVar;
+
+  /// No description provided for @yeniKoloniSuruplukYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alt kat 10 çıta'**
+  String get yeniKoloniSuruplukYok;
+
+  /// No description provided for @yeniKoloniSuruplukBilgiVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk varsa sistem alt kuluçkalığı 9 çıta kabul eder; üstündeki çıtaları kat/ballık alanı olarak yorumlar.'**
+  String get yeniKoloniSuruplukBilgiVar;
+
+  /// No description provided for @yeniKoloniSuruplukBilgiYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk yoksa sistem alt kuluçkalığı 10 çıta kabul eder; üstündeki çıtaları kat/ballık alanı olarak yorumlar.'**
+  String get yeniKoloniSuruplukBilgiYok;
+
+  /// No description provided for @yeniKoloniBaslangicTarihi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni başlangıç tarihi'**
+  String get yeniKoloniBaslangicTarihi;
+
+  /// No description provided for @yeniKoloniKovanNoLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan No / Saha Etiketi'**
+  String get yeniKoloniKovanNoLabel;
+
+  /// No description provided for @yeniKoloniAnaAriYili.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Arı Yılı'**
+  String get yeniKoloniAnaAriYili;
+
+  /// No description provided for @yeniKoloniSahaSirasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saha Sırası'**
+  String get yeniKoloniSahaSirasi;
+
+  /// No description provided for @yeniKoloniIlkCitaSayisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk Toplam Çıta Sayısı'**
+  String get yeniKoloniIlkCitaSayisi;
+
+  /// No description provided for @yeniKoloniSahaBilgisiNot.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu ekranda yalnızca saha bilgileri girilir. Sistem kimliği, ana soy hattı ve genetik hat kodu otomatik türetilir; koloni detayında bilgi olarak gösterilir.'**
+  String get yeniKoloniSahaBilgisiNot;
+
+  /// No description provided for @yeniKoloniOzelNotlar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Özel Notlar'**
+  String get yeniKoloniOzelNotlar;
+
+  /// No description provided for @yeniKoloniAlanZorunlu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu alan zorunlu.'**
+  String get yeniKoloniAlanZorunlu;
+
+  /// No description provided for @yeniKoloniSayiGir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sayı gir.'**
+  String get yeniKoloniSayiGir;
+
+  /// No description provided for @yeniKoloniBilgileriKaydet.
+  ///
+  /// In tr, this message translates to:
+  /// **'BİLGİLERİ KAYDET'**
+  String get yeniKoloniBilgileriKaydet;
+
+  /// No description provided for @arilikSecimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'ARILIK SEÇİMİ'**
+  String get arilikSecimBaslik;
+
+  /// No description provided for @arilikSecimRaporBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'RAPOR İÇİN ARILIK SEÇ'**
+  String get arilikSecimRaporBaslik;
+
+  /// No description provided for @arilikSecimBos.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz arılık eklenmemiş.'**
+  String get arilikSecimBos;
+
+  /// No description provided for @arilikSecimIlkEkle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk Arılığını Ekle'**
+  String get arilikSecimIlkEkle;
+
+  /// No description provided for @arilikSecimYeniEkleBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni Arılık Ekle'**
+  String get arilikSecimYeniEkleBaslik;
+
+  /// No description provided for @arilikSecimArilikAdi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık adı'**
+  String get arilikSecimArilikAdi;
+
+  /// No description provided for @arilikSecimAdiHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Örn: Uluköy'**
+  String get arilikSecimAdiHint;
+
+  /// No description provided for @arilikSecimBaslangicTarihi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık başlangıç tarihi'**
+  String get arilikSecimBaslangicTarihi;
+
+  /// No description provided for @arilikSecimGecmisTarihMesaji.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık başlangıç tarihini geriye çekiyorsun. Bu doğruysa devam et. Sistem yine de koloni ve muayene tarihleriyle çakışırsa kaydı engeller.'**
+  String get arilikSecimGecmisTarihMesaji;
+
+  /// No description provided for @arilikSecimDuzenleTarihMesaji.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık başlangıç tarihini geriye çekiyorsun. Bu doğruysa devam et. Sistem, bu tarih koloni veya muayene kayıtlarıyla çelişirse kaydı engeller.'**
+  String get arilikSecimDuzenleTarihMesaji;
+
+  /// No description provided for @arilikSecimKalibrasyon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalibrasyon'**
+  String get arilikSecimKalibrasyon;
+
+  /// No description provided for @arilikSecimVarsayilanKal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varsayılan kalibrasyonu kullan'**
+  String get arilikSecimVarsayilanKal;
+
+  /// No description provided for @arilikSecimVarsayilanKalAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni arılık özel ayar oluşturmaz; genel varsayılan bal akımı ve risk takvimini kullanır.'**
+  String get arilikSecimVarsayilanKalAciklama;
+
+  /// No description provided for @arilikSecimKopyalaKal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut bir arılıktan kopyala'**
+  String get arilikSecimKopyalaKal;
+
+  /// No description provided for @arilikSecimKopyalaKalAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçilen arılığın bal akımı ve genel risk takvimi yeni arılığa özel kalibrasyon olarak kopyalanır.'**
+  String get arilikSecimKopyalaKalAciklama;
+
+  /// No description provided for @arilikSecimKopyalanacakArilik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kopyalanacak arılık'**
+  String get arilikSecimKopyalanacakArilik;
+
+  /// No description provided for @arilikSecimKalibrasyonSecmelisin.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalibrasyon kopyalanacak arılığı seçmelisin.'**
+  String get arilikSecimKalibrasyonSecmelisin;
+
+  /// No description provided for @arilikSecimKayitHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık kaydedilemedi: {hata}'**
+  String arilikSecimKayitHata(String hata);
+
+  /// No description provided for @arilikSecimDuzenleBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık Bilgilerini Düzenle'**
+  String get arilikSecimDuzenleBaslik;
+
+  /// No description provided for @arilikSecimDuzenleKural.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kural: Arılık başlangıç tarihi, bu arılıktaki koloni ve muayene tarihlerinden sonra olamaz. Aynı tarih kabul edilir.'**
+  String get arilikSecimDuzenleKural;
+
+  /// No description provided for @arilikSecimGuncellenemedi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık güncellenemedi: {hata}'**
+  String arilikSecimGuncellenemedi(String hata);
+
+  /// No description provided for @arilikSecimUyariGizlendi.
+  ///
+  /// In tr, this message translates to:
+  /// **'{baslik} bu arılıkta bu sezon gizlendi.'**
+  String arilikSecimUyariGizlendi(String baslik);
+
+  /// No description provided for @arilikSecimSilBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'ARILIĞI SİL'**
+  String get arilikSecimSilBaslik;
+
+  /// No description provided for @arilikSecimSilIcerik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem geri alınamaz.\n\nSilinecek arılık: {ad}\nToplam koloni: {toplam}\nAktif koloni: {aktif}\nPasif / sönmüş koloni: {pasif}\n\nBu arılığa bağlı koloniler, muayeneler, olay kayıtları, numara geçmişi ve arılık özel kalibrasyonları silinir.\n\nDevam etmeden önce güncel yedek aldığından emin ol.'**
+  String arilikSecimSilIcerik(String ad, int toplam, int aktif, int pasif);
+
+  /// No description provided for @arilikSecimSilindi.
+  ///
+  /// In tr, this message translates to:
+  /// **'{ad} arılığı silindi.'**
+  String arilikSecimSilindi(String ad);
+
+  /// No description provided for @arilikSecimSilinemedi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık silinemedi: {hata}'**
+  String arilikSecimSilinemedi(String hata);
+
+  /// No description provided for @arilikSecimSonOnayBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'SON ONAY'**
+  String get arilikSecimSonOnayBaslik;
+
+  /// No description provided for @arilikSecimSonOnayIcerik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Silme işlemini kesinleştirmek için arılık adını birebir yaz.'**
+  String get arilikSecimSonOnayIcerik;
+
+  /// No description provided for @arilikSecimAdiYaz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık adını yaz'**
+  String get arilikSecimAdiYaz;
+
+  /// No description provided for @arilikSecimKaliciSilUyari.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem arılık verisini kalıcı olarak siler.'**
+  String get arilikSecimKaliciSilUyari;
+
+  /// No description provided for @arilikSecimKaliciSil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalıcı Olarak Sil'**
+  String get arilikSecimKaliciSil;
+
+  /// No description provided for @arilikSecimAktifToplam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif {aktif} / Toplam {toplam}'**
+  String arilikSecimAktifToplam(int aktif, int toplam);
+
+  /// No description provided for @arilikSecimUyariSayisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'{sayi} aktif genel uyarı var'**
+  String arilikSecimUyariSayisi(int sayi);
+
+  /// No description provided for @arilikSecimDetaylariAc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Detayları göster'**
+  String get arilikSecimDetaylariAc;
+
+  /// No description provided for @arilikSecimDetaylariKapat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Detayları kapat'**
+  String get arilikSecimDetaylariKapat;
+
+  /// No description provided for @arilikSecimBuSezonGosterme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu arılıkta bu sezon gösterme'**
+  String get arilikSecimBuSezonGosterme;
+
+  /// No description provided for @arilikSecimBaslangic.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlangıç: {tarih}'**
+  String arilikSecimBaslangic(String tarih);
+
+  /// No description provided for @arilikSecimDuzenleTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılığı düzenle'**
+  String get arilikSecimDuzenleTooltip;
+
+  /// No description provided for @arilikSecimSilTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılığı sil'**
+  String get arilikSecimSilTooltip;
+
+  /// No description provided for @arilikSecimGir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılığa gir'**
+  String get arilikSecimGir;
+
+  /// No description provided for @arilikSecimToplam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam'**
+  String get arilikSecimToplam;
+
+  /// No description provided for @arilikSecimAktif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif'**
+  String get arilikSecimAktif;
+
+  /// No description provided for @arilikSecimPasif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pasif'**
+  String get arilikSecimPasif;
+
+  /// No description provided for @muayeneEkleAppBarBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'{tarih} / Muayene Girişi'**
+  String muayeneEkleAppBarBaslik(String tarih);
+
+  /// No description provided for @muayeneEkleGecmisTarihIcerik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayene tarihini geriye çekiyorsun. Bu doğruysa devam et. Sistem, tarih koloni başlangıcı veya arılık başlangıcı ile çelişirse kaydı engeller.'**
+  String get muayeneEkleGecmisTarihIcerik;
+
+  /// No description provided for @muayeneEkleSesHata1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ses algılama başlatılamadı. Android mikrofon iznini kontrol et.'**
+  String get muayeneEkleSesHata1;
+
+  /// No description provided for @muayeneEkleSesHata2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu cihazda sesle yazma kullanılamıyor.'**
+  String get muayeneEkleSesHata2;
+
+  /// No description provided for @muayeneEkleSesHata3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sesle not ekleme sırasında hata oluştu.'**
+  String get muayeneEkleSesHata3;
+
+  /// No description provided for @muayeneEkleKayitHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Teknik sorun oluştu: {hata}'**
+  String muayeneEkleKayitHata(String hata);
+
+  /// No description provided for @muayeneEkleKovanEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'KOVAN: {no}'**
+  String muayeneEkleKovanEtiket(String no);
+
+  /// No description provided for @muayeneEkleArilikEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'ARILIK: {ad}'**
+  String muayeneEkleArilikEtiket(String ad);
+
+  /// No description provided for @muayeneEkleMuayeneTarihi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayene Tarihi'**
+  String get muayeneEkleMuayeneTarihi;
+
+  /// No description provided for @muayeneEkleToplam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam'**
+  String get muayeneEkleToplam;
+
+  /// No description provided for @muayeneEkleYavrulu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavrulu'**
+  String get muayeneEkleYavrulu;
+
+  /// No description provided for @muayeneEkleBalHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal/Hasat'**
+  String get muayeneEkleBalHasat;
+
+  /// No description provided for @muayeneEklePetekAktivasyonBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Petek / Hacim Aktivasyonu (+{artis} çıta)'**
+  String muayeneEklePetekAktivasyonBaslik(int artis);
+
+  /// No description provided for @muayeneEklePetekAktivasyonAniArtis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son muayeneye göre {artis} çıta artış var. Koloni 9–10 çıta seviyesine ulaşmadan hızlı genişletme yapıldıysa sıkışık düzen bozulabilir. Sistem bu yeni hacmi hemen tam işlevsel kapasite saymaz.'**
+  String muayeneEklePetekAktivasyonAniArtis(int artis);
+
+  /// No description provided for @muayeneEklePetekAktivasyonKatGecis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni 9–10 çıta eşiğinden 11+ çıtaya geçtiği için sistem bunu kat/ballık geçişi olarak okur. Yeni üst hacim kademeli işlev kazanır.'**
+  String get muayeneEklePetekAktivasyonKatGecis;
+
+  /// No description provided for @muayeneEklePetekAktivasyonNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni verilen çıta fiziksel olarak kaydedilir; biyolojik model bu çıtanın işlev kazanmasını zamana yayarak değerlendirir.'**
+  String get muayeneEklePetekAktivasyonNormal;
+
+  /// No description provided for @muayeneEklePetekDagilimBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eklenen peteklerin dağılımını gir. Temel ve kabarmış petek birlikte verilebilir; toplam artış sayısını geçmez.'**
+  String get muayeneEklePetekDagilimBilgi;
+
+  /// No description provided for @muayeneEkleTemel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temel'**
+  String get muayeneEkleTemel;
+
+  /// No description provided for @muayeneEkleKabarmis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kabarmış'**
+  String get muayeneEkleKabarmis;
+
+  /// No description provided for @muayeneEklePetekToplam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam: {toplam} / {artis} çıta'**
+  String muayeneEklePetekToplam(int toplam, int artis);
+
+  /// No description provided for @muayeneEkleYavruDuzeniLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru Düzeni'**
+  String get muayeneEkleYavruDuzeniLabel;
+
+  /// No description provided for @muayeneEkleKoloniMizaci.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni Mizacı'**
+  String get muayeneEkleKoloniMizaci;
+
+  /// No description provided for @muayeneEkleBeslemeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme'**
+  String get muayeneEkleBeslemeLabel;
+
+  /// No description provided for @muayeneEkleVarroaLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varroa Mücadelesi'**
+  String get muayeneEkleVarroaLabel;
+
+  /// No description provided for @muayeneEkleOgulBelirtisiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul Belirtisi'**
+  String get muayeneEkleOgulBelirtisiBaslik;
+
+  /// No description provided for @muayeneEkleOgulBelirtisiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar önerisi ve yakın izleme sinyali üretir.'**
+  String get muayeneEkleOgulBelirtisiAciklama;
+
+  /// No description provided for @muayeneEkleOgulAttiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul Attı'**
+  String get muayeneEkleOgulAttiBaslik;
+
+  /// No description provided for @muayeneEkleOgulAttiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerçekleşmiş olaydır. Skor ve hat pozisyonunu etkiler.'**
+  String get muayeneEkleOgulAttiAciklama;
+
+  /// No description provided for @muayeneEkleAnaGorulmedi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Görülmedi'**
+  String get muayeneEkleAnaGorulmedi;
+
+  /// No description provided for @muayeneEkleBolmeYapildiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme Yapıldı'**
+  String get muayeneEkleBolmeYapildiBaslik;
+
+  /// No description provided for @muayeneEkleBolmeYapildiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıta düşüşü performans kaybı değil, kontrollü çoğalma olarak yorumlanır.'**
+  String get muayeneEkleBolmeYapildiAciklama;
+
+  /// No description provided for @muayeneEkleKovanSonduBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan Söndü'**
+  String get muayeneEkleKovanSonduBaslik;
+
+  /// No description provided for @muayeneEkleKovanSonduAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloninin aktif performans yerine yaşam döngüsü sonu olarak değerlendirilmesini sağlar.'**
+  String get muayeneEkleKovanSonduAciklama;
+
+  /// No description provided for @muayeneEkleAnauretimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Üretimi ve Zamanlama'**
+  String get muayeneEkleAnauretimBaslik;
+
+  /// No description provided for @muayeneEkleAnauretimBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik ana kazanma takvimi yalnızca gerçekten anasız bırakılan koloni için çalışır. Anaç kolonideki bölme işlemi ayrı olarak toparlanma süreci üretir.'**
+  String get muayeneEkleAnauretimBilgi;
+
+  /// No description provided for @muayeneEkleAnasizBirakildiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni Anasız Bırakıldı'**
+  String get muayeneEkleAnasizBirakildiBaslik;
+
+  /// No description provided for @muayeneEkleAnasizBirakildiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gün hesabı ve biyolojik pencere yorumu için kritik bilgidir.'**
+  String get muayeneEkleAnasizBirakildiAciklama;
+
+  /// No description provided for @muayeneEkleKaydet.
+  ///
+  /// In tr, this message translates to:
+  /// **'KAYDET'**
+  String get muayeneEkleKaydet;
+
+  /// No description provided for @muayeneEkleGuncelle.
+  ///
+  /// In tr, this message translates to:
+  /// **'GÜNCELLE'**
+  String get muayeneEkleGuncelle;
+
+  /// No description provided for @muayeneEkleNotlarLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Notlar'**
+  String get muayeneEkleNotlarLabel;
+
+  /// No description provided for @muayeneEkleSesBasla.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sesle not ekle'**
+  String get muayeneEkleSesBasla;
+
+  /// No description provided for @muayeneEkleSesDurdur.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sesle yazmayı durdur'**
+  String get muayeneEkleSesDurdur;
+
+  /// No description provided for @muayeneEkleSesHelper.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mikrofona dokunarak sesle not ekleyebilirsin.'**
+  String get muayeneEkleSesHelper;
+
+  /// No description provided for @muayeneEkleSesHelperAktif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dinleniyor... Konuşman not alanına yazılıyor.'**
+  String get muayeneEkleSesHelperAktif;
+
+  /// No description provided for @muayeneEkleOnYuklemeBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son muayene verileri ön yüklendi. Gerekli alanları güncelleyerek devam edebilirsin.'**
+  String get muayeneEkleOnYuklemeBilgi;
+
+  /// No description provided for @muayeneEkleBolmeBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni açılan kolonide Kaynak Koloni bilgisini girmen, soy takibi ve performans analizini güçlendirir.'**
+  String get muayeneEkleBolmeBilgi;
+
+  /// No description provided for @muayeneEkleOgulAttiBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul attı, gerçekleşmiş olaydır. Seçilim ve hat değerlendirmesini etkiler.'**
+  String get muayeneEkleOgulAttiBilgi;
+
+  /// No description provided for @muayeneEkleSuruplukEklendi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk eklendi'**
+  String get muayeneEkleSuruplukEklendi;
+
+  /// No description provided for @muayeneEkleSuruplukEklendiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni şurupluksuz. Muayenede şurupluk eklendiyse işaretle; aksi hâlde kaldırılmış sayılmaya devam eder.'**
+  String get muayeneEkleSuruplukEklendiAciklama;
+
+  /// No description provided for @muayeneEkleSuruplukKaldirildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk kaldırıldı'**
+  String get muayeneEkleSuruplukKaldirildi;
+
+  /// No description provided for @muayeneEkleSuruplukKaldirildiHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kayıt hasat sonrası bakım olarak okunur; besleme seçimi yeniden kullanılabilir.'**
+  String get muayeneEkleSuruplukKaldirildiHasat;
+
+  /// No description provided for @muayeneEkleSuruplukKaldirildiNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşaretlersen biyolojik modelde şurupluk kalkar ve petek düzeni sola kayar.'**
+  String get muayeneEkleSuruplukKaldirildiNormal;
+
+  /// No description provided for @muayeneEkleSuruplukVarsayilanMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı yaklaşıyor. Şeker kalıntısı riskini azaltmak için besleme sonlandırılmalı; şurupluk kaldırılıp yerine petek verilebilir.'**
+  String get muayeneEkleSuruplukVarsayilanMesaj;
+
+  /// No description provided for @muayeneEkleSuruplukHasatMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal/hasat kaydı girildi. Hasat sonrası bakım döneminde besleme alanı yeniden açılır; şurupluk ihtiyaç varsa tekrar kullanılabilir. İkinci bal akımı penceresi açıldığında aynı şurupluk kaldırma ve besleme kesme döngüsü yeniden çalışır.'**
+  String get muayeneEkleSuruplukHasatMesaj;
+
+  /// No description provided for @muayeneEkleSuruplukBildirilenKisit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı yaklaştığı için besleme kısıtı başladı. Şeker kalıntısı riskini azaltmak için şurupluğu gerçekten kaldırdıysan işaretle.'**
+  String get muayeneEkleSuruplukBildirilenKisit;
+
+  /// No description provided for @muayeneEkleBeslemeSuruplukBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk kaldırıldı olarak işaretlendi. Aynı muayenede şeker bazlı besleme seçimi kapatıldı; bu kayıt hasat hazırlığı olarak okunur.'**
+  String get muayeneEkleBeslemeSuruplukBilgi;
+
+  /// No description provided for @muayeneEkleHasatBakimBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal/hasat kaydı girildiği için besleme alanı yeniden aktif. Bu dönem hasat sonrası bakım olarak okunur. İkinci bal akımı aktif olursa sistem yeniden besleme kesme ve şurupluk kaldırma uyarısına döner.'**
+  String get muayeneEkleHasatBakimBilgi;
+
+  /// No description provided for @muayeneEkleGunlukYavruBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük / kapalı yavru görüldü'**
+  String get muayeneEkleGunlukYavruBaslik;
+
+  /// No description provided for @muayeneEkleGunlukYavruAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme, oğul, ana kazanma veya yavru yok takibinde kapanış işaretidir. İşaretlersen sistem yavru görülmeme penceresini kapatır ve koloniyi normal düzene alır.'**
+  String get muayeneEkleGunlukYavruAciklama;
+
+  /// No description provided for @muayeneEkleYavruYokErken.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru düzeni \"Yok\" olarak kaydedilecek. Aktif biyolojik süreçte erken pencere olabilir; bu aşamada yavru görülmemesi tek başına alarm değildir.'**
+  String get muayeneEkleYavruYokErken;
+
+  /// No description provided for @muayeneEkleYavruYokErkenVarsayilan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gereksiz açma ve sert müdahale önerilmez.'**
+  String get muayeneEkleYavruYokErkenVarsayilan;
+
+  /// No description provided for @muayeneEkleYavruYokTani.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru düzeni \"Yok\" olarak kaydedilecek. Sistem artık kısa tanı gözlemleriyle bal baskısı, geç çiftleşme, ana sorunu veya biyolojik zayıflama olasılıklarını ayıracak.'**
+  String get muayeneEkleYavruYokTani;
+
+  /// No description provided for @muayeneEkleYavruYokNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru düzeni \"Yok\" olarak kaydedilecek. Sistem bunu normal koloni bağlamında ayrı okuyacak; yavrulu çıta sayısı 0 kabul edilir ve biyolojik model geri dönüş kapasitesini buna göre hesaplar.'**
+  String get muayeneEkleYavruYokNormal;
+
+  /// No description provided for @muayeneEkleYavruYokTaniBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru Yok Kısa Tanı Gözlemleri'**
+  String get muayeneEkleYavruYokTaniBaslik;
+
+  /// No description provided for @muayeneEkleYavruYokTaniAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu alan teşhis seçtirmez. Sistem bu 4 basit gözlemi mevcut sezon, süreç penceresi ve koloni gücüyle birlikte okuyarak öneri üretir.'**
+  String get muayeneEkleYavruYokTaniAciklama;
+
+  /// No description provided for @muayeneEkleTaniKoloniSakin.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni sakin mi?'**
+  String get muayeneEkleTaniKoloniSakin;
+
+  /// No description provided for @muayeneEkleTaniKoloniSakinAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sakin koloni içeride yeni ana olma ihtimalini artırır. Huzursuz koloni anasızlık/stres şüphesini yükseltir.'**
+  String get muayeneEkleTaniKoloniSakinAciklama;
+
+  /// No description provided for @muayeneEkleTaniPolen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Polen gelişi var mı?'**
+  String get muayeneEkleTaniPolen;
+
+  /// No description provided for @muayeneEkleTaniPolenAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Polen gelişi, yavru hazırlığı veya içeride ana varlığı ihtimalini destekler. Polen yokluğu biyolojik durgunluk riskini artırır.'**
+  String get muayeneEkleTaniPolenAciklama;
+
+  /// No description provided for @muayeneEkleTaniBal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal / nektar gelişi güçlü mü?'**
+  String get muayeneEkleTaniBal;
+
+  /// No description provided for @muayeneEkleTaniBalAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü akım yumurtlama alanını daraltabilir. Bu durumda yavru yokluğu doğrudan anasızlık anlamına gelmeyebilir.'**
+  String get muayeneEkleTaniBalAciklama;
+
+  /// No description provided for @muayeneEkleTaniErkek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erkek yavru gözleri baskın mı?'**
+  String get muayeneEkleTaniErkek;
+
+  /// No description provided for @muayeneEkleTaniErkekAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Evet ise çiftleşememiş ana, başarısız ana veya yalancı ana riski artar. Bu cevap bekleme kararını sertleştirir.'**
+  String get muayeneEkleTaniErkekAciklama;
+
+  /// No description provided for @muayeneEkleTaniEminDegil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Emin değilim'**
+  String get muayeneEkleTaniEminDegil;
 }
 
 class _AppLocalizationsDelegate

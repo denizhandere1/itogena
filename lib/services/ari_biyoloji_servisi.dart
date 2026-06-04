@@ -872,13 +872,6 @@ class AriBiyolojiServisi {
     return varsayilan;
   }
 
-  static int _toInt(dynamic deger) {
-    if (deger == null) return 0;
-    if (deger is int) return deger;
-    if (deger is double) return deger.round();
-    return int.tryParse(deger.toString()) ?? 0;
-  }
-
   static String _stringAlan(Map<String, dynamic> veri, String anahtar) {
     return (veri[anahtar] ?? '').toString().trim();
   }

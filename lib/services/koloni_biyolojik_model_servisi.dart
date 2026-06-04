@@ -971,17 +971,6 @@ class KoloniBiyolojikModelServisi {
       };
     }
 
-    String tipBelirle(int globalNo) {
-      final int indeks = globalNo - 1;
-      if (indeks >= 0 && indeks < yerlesim.length) {
-        return yerlesim[indeks];
-      }
-      if (globalNo <= kuluclukKapasitesi) {
-        return 'Aktivasyon sürecinde';
-      }
-      return 'Ballık / aktivasyon sürecinde';
-    }
-
     // Görsel dizilim fiziksel çıta sayısına göre okunur. İşlevsel çıta sayısı
     // biyolojik kapasite hesabında kalır; fakat yeni verilen petek ekranda
     // "sonda yavru" gibi gösterilmez. Dış stok kalkanı korunur, yavru bloğu
@@ -1344,106 +1333,6 @@ class KoloniBiyolojikModelServisi {
     if (adaylar.isEmpty) return '';
     final metin = adaylar.join(', ');
     return '$metin sayılı çıtalar yavrusuz ve sırlıysa hasat için değerlendirilebilir.';
-  }
-
-  static Map<String, dynamic> _demografiOlustur({
-    required int tahminiAri,
-    required int tahminiYavru,
-    required int kuluclukCita,
-    required int ballikCita,
-    required double gunlukMomentum,
-    required String momentumEtiketi,
-    required String kaynakTipi,
-  }) {
-    // Temporal polyethism saha modeli:
-    // 0–3 gün temizlik, 3–10 gün bakıcı, 10–16 gün petek örme/bal işleme,
-    // 16–21 gün bekçilik/iç iş, 21+ gün tarlacı. Bu kesin sayım değil, karar katsayısıdır.
-    double temizlikOran = 0.08;
-    double bakiciOran = 0.24;
-    double petekOrucuOran = 0.16;
-    double icIsciOran = 0.12;
-    double bekciOran = 0.06;
-    double tarlaciOran = 0.29;
-    double erkekOran = 0.05;
-
-    if (gunlukMomentum >= 0.15 ||
-        momentumEtiketi.contains('Güçlü') ||
-        momentumEtiketi.contains('Patlayıcı')) {
-      temizlikOran += 0.01;
-      bakiciOran += 0.04;
-      petekOrucuOran += 0.04;
-      tarlaciOran -= 0.05;
-      bekciOran -= 0.01;
-    }
-    if (ballikCita > 0 || kuluclukCita >= 8) {
-      tarlaciOran += 0.04;
-      icIsciOran += 0.02;
-      bakiciOran -= 0.03;
-      temizlikOran -= 0.01;
-    }
-    if (kaynakTipi.contains('oğul') || kaynakTipi.contains('ogul')) {
-      petekOrucuOran += 0.03;
-      bakiciOran += 0.02;
-      tarlaciOran -= 0.03;
-    }
-
-    final toplamOran = temizlikOran +
-        bakiciOran +
-        petekOrucuOran +
-        icIsciOran +
-        bekciOran +
-        tarlaciOran +
-        erkekOran;
-    temizlikOran /= toplamOran;
-    bakiciOran /= toplamOran;
-    petekOrucuOran /= toplamOran;
-    icIsciOran /= toplamOran;
-    bekciOran /= toplamOran;
-    tarlaciOran /= toplamOran;
-    erkekOran /= toplamOran;
-
-    int adet(double oran) => (tahminiAri * oran).round();
-
-    final int temizlikAri = adet(temizlikOran);
-    final int bakiciAri = adet(bakiciOran);
-    final int petekOrucuAri = adet(petekOrucuOran);
-    final int icIsci = adet(icIsciOran);
-    final int bekciAri = adet(bekciOran);
-    final int tarlaciAri = adet(tarlaciOran);
-    final int erkekAri = adet(erkekOran);
-    final int gencIsciAri = temizlikAri + bakiciAri + petekOrucuAri;
-
-    return {
-      'toplamAri': tahminiAri,
-      'isciAri': (tahminiAri * (1 - erkekOran)).round(),
-      'erkekAri': erkekAri,
-      'yavru': tahminiYavru,
-      'temizlikAri': temizlikAri,
-      'bakiciAri': bakiciAri,
-      'petekOrucuAri': petekOrucuAri,
-      'gencIsciAri': gencIsciAri,
-      'icIsci': icIsci,
-      'bekciAri': bekciAri,
-      'tarlaciAri': tarlaciAri,
-      'temizlikOran': _yuvarla(temizlikOran * 100),
-      'bakiciOran': _yuvarla(bakiciOran * 100),
-      'petekOrucuOran': _yuvarla(petekOrucuOran * 100),
-      'gencIsciOran':
-      _yuvarla((temizlikOran + bakiciOran + petekOrucuOran) * 100),
-      'icIsciOran': _yuvarla(icIsciOran * 100),
-      'bekciOran': _yuvarla(bekciOran * 100),
-      'tarlaciOran': _yuvarla(tarlaciOran * 100),
-      'erkekOran': _yuvarla(erkekOran * 100),
-      'yasGorevDagilimi': {
-        '0_3_gun_temizlik': temizlikAri,
-        '3_10_gun_bakici': bakiciAri,
-        '10_16_gun_petek_orme_bal_isleme': petekOrucuAri,
-        '16_21_gun_bekcilik_ic_is': bekciAri + icIsci,
-        '21_gun_ustu_tarlaci': tarlaciAri,
-      },
-      'demografiNotu':
-      'Bu dağılım kesin sayım değil; çıta, yavru, sezon ve momentumdan üretilen saha projeksiyonudur.',
-    };
   }
 
   static Map<String, dynamic> _kabiliyetOlustur({

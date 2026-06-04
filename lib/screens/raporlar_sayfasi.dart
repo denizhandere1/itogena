@@ -234,12 +234,6 @@ class RaporlarSayfasi extends StatefulWidget {
 class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
   bool _yukleniyor = true;
   bool _donorlerYukleniyor = false;
-  bool _ekonomikAlanAcik = false;
-  bool _ekonomikYukleniyor = false;
-  bool _ekonomikVeriYuklendi = false;
-  bool _ilgincBilgilerAcik = false;
-  bool _ilgincBilgilerYukleniyor = false;
-  bool _ilgincBilgilerYuklendi = false;
   bool _arilikIstatistikAcik = false;
   bool _arilikIstatistikYukleniyor = false;
   bool _arilikIstatistikYuklendi = false;
@@ -254,26 +248,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
   int _ortalamaSkor = 0;
   int _aktifKovanSayisi = 0;
   double _toplamAriliCita = 0;
-  double _ekonomikDeger = 0;
-  double _tahminiBalPotansiyeliMinKg = 0;
-  double _tahminiBalPotansiyeliMaxKg = 0;
-  double _tahminiBalDegeriMin = 0;
-  double _tahminiBalDegeriMax = 0;
-  double _aktivasyonluBalliCita = 0;
-  final List<String> _ilgincBilgiler = [];
-
-  Timer? _ekonomikKaydetDebounce;
-
-  final TextEditingController _ariliCitaDegeriController =
-  TextEditingController();
-  final TextEditingController _bosKovanDegeriController =
-  TextEditingController();
-  final TextEditingController _bosKabarmisPetekSayisiController =
-  TextEditingController();
-  final TextEditingController _bosKabarmisPetekDegeriController =
-  TextEditingController();
-  final TextEditingController _balKgFiyatiController =
-  TextEditingController();
 
   @override
   void initState() {
@@ -283,12 +257,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
 
   @override
   void dispose() {
-    _ekonomikKaydetDebounce?.cancel();
-    _ariliCitaDegeriController.dispose();
-    _bosKovanDegeriController.dispose();
-    _bosKabarmisPetekSayisiController.dispose();
-    _bosKabarmisPetekDegeriController.dispose();
-    _balKgFiyatiController.dispose();
     super.dispose();
   }
 
@@ -348,19 +316,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
       _ortalamaSkor = aktifKoloniler.isEmpty
           ? 0
           : (toplamSkor / aktifKoloniler.length).round();
-      _tahminiBalPotansiyeliMinKg = 0;
-      _tahminiBalPotansiyeliMaxKg = 0;
-      _tahminiBalDegeriMin = 0;
-      _tahminiBalDegeriMax = 0;
-      _aktivasyonluBalliCita = 0;
-      _ilgincBilgiler.clear();
-      _ekonomikDeger = 0;
-      _ekonomikAlanAcik = false;
-      _ekonomikYukleniyor = false;
-      _ekonomikVeriYuklendi = false;
-      _ilgincBilgilerAcik = false;
-      _ilgincBilgilerYukleniyor = false;
-      _ilgincBilgilerYuklendi = false;
       _arilikIstatistikAcik = false;
       _arilikIstatistikYukleniyor = false;
       _arilikIstatistikYuklendi = false;
@@ -444,111 +399,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     return aDonor ? -1 : 1;
   }
 
-  Future<void> _ekonomikVerileriYukle() async {
-    if (_ekonomikYukleniyor) return;
-
-    if (_ekonomikVeriYuklendi) {
-      setState(() => _ekonomikAlanAcik = !_ekonomikAlanAcik);
-      return;
-    }
-
-    final int token = _yuklemeToken;
-    setState(() {
-      _ekonomikAlanAcik = true;
-      _ekonomikYukleniyor = true;
-    });
-
-    final ekonomikAriliCita = await VeritabaniServisi.ayarStringGetir(
-      'ekonomik_arili_cita',
-      varsayilan: '900',
-    );
-    final ekonomikBosKovan = await VeritabaniServisi.ayarStringGetir(
-      'ekonomik_bos_kovan',
-      varsayilan: '1500',
-    );
-    final ekonomikPetekSayi = await VeritabaniServisi.ayarStringGetir(
-      'ekonomik_petek_sayi',
-      varsayilan: '0',
-    );
-    final ekonomikPetekDeger = await VeritabaniServisi.ayarStringGetir(
-      'ekonomik_petek_deger',
-      varsayilan: '120',
-    );
-    final ekonomikBalKgFiyat = await VeritabaniServisi.ayarStringGetir(
-      'ekonomik_bal_kg_fiyat',
-      varsayilan: '600',
-    );
-
-    final balHesabi = await _aktivasyonluBalliCitaPotansiyeliHesapla(
-      _aktifKoloniler,
-    );
-    final balPotansiyeliMin = balHesabi.minKg;
-    final balPotansiyeliMax = balHesabi.maxKg;
-    final bilgiler = balHesabi.bilgiler;
-
-    if (!mounted || token != _yuklemeToken) return;
-
-    _ariliCitaDegeriController.text = ekonomikAriliCita;
-    _bosKovanDegeriController.text = ekonomikBosKovan;
-    _bosKabarmisPetekSayisiController.text = ekonomikPetekSayi;
-    _bosKabarmisPetekDegeriController.text = ekonomikPetekDeger;
-    _balKgFiyatiController.text = ekonomikBalKgFiyat;
-
-    setState(() {
-      _tahminiBalPotansiyeliMinKg = balPotansiyeliMin;
-      _tahminiBalPotansiyeliMaxKg = balPotansiyeliMax;
-      _aktivasyonluBalliCita = balHesabi.aktivasyonluBalliCita;
-      _tahminiBalDegeriMin =
-          balPotansiyeliMin * _toDouble(_balKgFiyatiController.text);
-      _tahminiBalDegeriMax =
-          balPotansiyeliMax * _toDouble(_balKgFiyatiController.text);
-      _ilgincBilgiler
-        ..clear()
-        ..addAll(bilgiler);
-      _ilgincBilgilerYuklendi = true;
-      _ekonomikDeger = _hesaplananEkonomikDeger();
-      _ekonomikYukleniyor = false;
-      _ekonomikVeriYuklendi = true;
-    });
-  }
-
-  Future<void> _ilgincBilgileriYukle() async {
-    if (_ilgincBilgilerYukleniyor) return;
-
-    if (_ilgincBilgilerYuklendi) {
-      setState(() => _ilgincBilgilerAcik = !_ilgincBilgilerAcik);
-      return;
-    }
-
-    final int token = _yuklemeToken;
-    setState(() {
-      _ilgincBilgilerAcik = true;
-      _ilgincBilgilerYukleniyor = true;
-    });
-
-    final bilgiler = <String>[];
-    for (final koloni in _aktifKoloniler) {
-      final model = KoloniBiyolojikModelServisi.modelOlustur(koloni: koloni);
-      final kovanNo = (koloni['kovanNo'] ?? '-').toString();
-      final hasatMetni = (model['hasatAdayMetni'] ?? '').toString();
-      if (hasatMetni.isNotEmpty &&
-          !hasatMetni.contains('önerilmez') &&
-          bilgiler.length < 5) {
-        bilgiler.add('Kovan $kovanNo: $hasatMetni');
-      }
-    }
-
-    if (!mounted || token != _yuklemeToken) return;
-
-    setState(() {
-      _ilgincBilgiler
-        ..clear()
-        ..addAll(bilgiler);
-      _ilgincBilgilerYukleniyor = false;
-      _ilgincBilgilerYuklendi = true;
-    });
-  }
-
   Future<void> _arilikIstatistikleriniYukle() async {
     if (_arilikIstatistikYukleniyor) return;
 
@@ -584,56 +434,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
         _arilikIstatistikHatasi = e;
       });
     }
-  }
-
-  double _hesaplananEkonomikDeger() {
-    final ariliCitaDegeri = _toDouble(_ariliCitaDegeriController.text);
-    final bosKovanDegeri = _toDouble(_bosKovanDegeriController.text);
-    final bosKabarmisPetekSayisi =
-    _toIntFromText(_bosKabarmisPetekSayisiController.text);
-    final bosKabarmisPetekDegeri =
-    _toDouble(_bosKabarmisPetekDegeriController.text);
-
-    final balKgFiyati = _toDouble(_balKgFiyatiController.text);
-    final tahminiBalDegeriOrta = ((_tahminiBalPotansiyeliMinKg + _tahminiBalPotansiyeliMaxKg) / 2) * balKgFiyati;
-
-    return (_toplamAriliCita * ariliCitaDegeri) +
-        (_aktifKovanSayisi * bosKovanDegeri) +
-        (bosKabarmisPetekSayisi * bosKabarmisPetekDegeri) +
-        tahminiBalDegeriOrta;
-  }
-
-  void _ekonomikAlanDegisti() {
-    setState(() {
-      final balKgFiyati = _toDouble(_balKgFiyatiController.text);
-      _tahminiBalDegeriMin = _tahminiBalPotansiyeliMinKg * balKgFiyati;
-      _tahminiBalDegeriMax = _tahminiBalPotansiyeliMaxKg * balKgFiyati;
-      _ekonomikDeger = _hesaplananEkonomikDeger();
-    });
-
-    _ekonomikKaydetDebounce?.cancel();
-    _ekonomikKaydetDebounce = Timer(const Duration(milliseconds: 450), () async {
-      await VeritabaniServisi.ayarKaydet(
-        'ekonomik_arili_cita',
-        _ariliCitaDegeriController.text.trim(),
-      );
-      await VeritabaniServisi.ayarKaydet(
-        'ekonomik_bos_kovan',
-        _bosKovanDegeriController.text.trim(),
-      );
-      await VeritabaniServisi.ayarKaydet(
-        'ekonomik_petek_sayi',
-        _bosKabarmisPetekSayisiController.text.trim(),
-      );
-      await VeritabaniServisi.ayarKaydet(
-        'ekonomik_petek_deger',
-        _bosKabarmisPetekDegeriController.text.trim(),
-      );
-      await VeritabaniServisi.ayarKaydet(
-        'ekonomik_bal_kg_fiyat',
-        _balKgFiyatiController.text.trim(),
-      );
-    });
   }
 
   @override
@@ -1240,288 +1040,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     );
   }
 
-  Widget _ekonomikDegerKarti() {
-    if (!_ekonomikAlanAcik) {
-      return Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.amber.shade300),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'EKONOMİK DEĞER',
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 15,
-                color: Colors.brown,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Ağır ekonomik değer ve bal potansiyeli hesabı ilk açılışta çalışmaz. Kullanıcı isterse hesaplanır.',
-              style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.black87),
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: _ekonomikVerileriYukle,
-                icon: const Icon(Icons.calculate_outlined),
-                label: const Text('Ekonomik değeri hesapla'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.amber,
-                  foregroundColor: Colors.black,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    if (_ekonomikYukleniyor) {
-      return Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.amber.shade300),
-        ),
-        child: const Row(
-          children: [
-            SizedBox(
-              width: 22,
-              height: 22,
-              child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.amber),
-            ),
-            SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                'Ekonomik değer hesaplanıyor...',
-                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.amber.shade300),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Expanded(
-                child: Text(
-                  'EKONOMİK DEĞER',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 15,
-                    color: Colors.brown,
-                  ),
-                ),
-              ),
-              TextButton.icon(
-                onPressed: () => setState(() => _ekonomikAlanAcik = false),
-                icon: const Icon(Icons.expand_less, size: 18),
-                label: const Text('Kapat'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Tahmini toplam değer: ${_paraFormatla(_ekonomikDeger)} TL',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          if (_tahminiBalPotansiyeliMaxKg > 0) ...[
-            const SizedBox(height: 6),
-            Text(
-              'Aktivasyonlu ballı çıta: ${_kg(_aktivasyonluBalliCita)} çıta',
-              style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.brown.shade700),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Tahmini bal: ${_kg(_tahminiBalPotansiyeliMinKg)}–${_kg(_tahminiBalPotansiyeliMaxKg)} kg / ${_paraFormatla(_tahminiBalDegeriMin)}–${_paraFormatla(_tahminiBalDegeriMax)} TL',
-              style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.brown.shade700),
-            ),
-            const SizedBox(height: 6),
-            const Text(
-              'Bu hesap biyolojik modelde bal/ballık pozisyonunda görünen çıtaları aktivasyon düzeyiyle okur; boş çıta, toplam fiziksel çıta veya boş kabarmış petek bal gibi sayılmaz.',
-              style: TextStyle(fontSize: 12, height: 1.35, color: Colors.black54),
-            ),
-          ],
-          const SizedBox(height: 12),
-          _alan('Bal satış fiyatı (kg/TL)', _balKgFiyatiController),
-          const SizedBox(height: 10),
-          _alan('Arılı çıta değeri', _ariliCitaDegeriController),
-          const SizedBox(height: 10),
-          _alan('Boş kovan değeri', _bosKovanDegeriController),
-          const SizedBox(height: 10),
-          _alan('Boş kabarmış petek adedi', _bosKabarmisPetekSayisiController),
-          const SizedBox(height: 10),
-          _alan(
-            'Boş kabarmış petek birim değeri',
-            _bosKabarmisPetekDegeriController,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _ilgincBilgilerKarti() {
-    if (!_ilgincBilgilerAcik) {
-      return Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.green.shade200),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'KOLONİLER HAKKINDA İLGİNÇ BİLGİLER',
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 15,
-                color: Colors.brown,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Koloni bazlı biyolojik notlar ağır hesap içerdiği için ilk açılışta çalışmaz.',
-              style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.black87),
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: _ilgincBilgileriYukle,
-                icon: const Icon(Icons.auto_awesome_outlined),
-                label: const Text('Biyolojik notları oluştur'),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    if (_ilgincBilgilerYukleniyor) {
-      return Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.green.shade200),
-        ),
-        child: const Row(
-          children: [
-            SizedBox(
-              width: 22,
-              height: 22,
-              child: CircularProgressIndicator(strokeWidth: 2.4, color: Colors.green),
-            ),
-            SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                'Biyolojik notlar hazırlanıyor...',
-                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    final bilgiler = _ilgincBilgiler.isEmpty
-        ? <String>[
-      'Hasat adayı çıta verisi oluştuğunda burada koloni bazlı kısa biyolojik notlar gösterilir.',
-      'Biyolojik model akademik genel kabuller ve saha verisiyle tahmini projeksiyon üretir; kesin ölçüm değildir.',
-    ]
-        : _ilgincBilgiler;
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.green.shade200),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Expanded(
-                child: Text(
-                  'KOLONİLER HAKKINDA İLGİNÇ BİLGİLER',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 15,
-                    color: Colors.brown,
-                  ),
-                ),
-              ),
-              TextButton.icon(
-                onPressed: () => setState(() => _ilgincBilgilerAcik = false),
-                icon: const Icon(Icons.expand_less, size: 18),
-                label: const Text('Kapat'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ...bilgiler.map(
-                (b) => Padding(
-              padding: const EdgeInsets.only(bottom: 7),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(Icons.auto_awesome_outlined, size: 17, color: Colors.green),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      b,
-                      style: const TextStyle(fontSize: 12.5, height: 1.4),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _alan(String etiket, TextEditingController controller) {
-    return TextField(
-      controller: controller,
-      keyboardType: TextInputType.number,
-      onChanged: (_) => _ekonomikAlanDegisti(),
-      decoration: InputDecoration(
-        labelText: etiket,
-        border: const OutlineInputBorder(),
-        filled: true,
-        fillColor: const Color(0xFFFFFDF7),
-      ),
-    );
-  }
-
   Widget _anaOzetKutusu(String baslik, String deger, Color renk) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
@@ -1602,13 +1120,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
 
   String _kg(double v) => v.toStringAsFixed(v.truncateToDouble() == v ? 0 : 1);
 
-  String _paraFormatla(double deger) {
-    return deger.toStringAsFixed(0).replaceAllMapped(
-      RegExp(r'\B(?=(\d{3})+(?!\d))'),
-          (match) => '.',
-    );
-  }
-
   String _ariSayisiAraligi(int min, int max) {
     if (max <= 0) return '0';
     if (max >= 1000000) {
@@ -1626,15 +1137,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     return int.tryParse(v.toString()) ?? 0;
   }
 
-  int _toIntFromText(String metin) {
-    return int.tryParse(metin.trim()) ?? 0;
-  }
-
-  double _toDouble(dynamic deger) {
-    if (deger == null) return 0;
-    if (deger is num) return deger.toDouble();
-    return double.tryParse(deger.toString().trim().replaceAll(',', '.')) ?? 0;
-  }
 }
 
 class EkonomikDegerSayfasi extends StatefulWidget {

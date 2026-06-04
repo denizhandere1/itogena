@@ -367,13 +367,6 @@ class KarsilastirmaliPerformansSayfasi extends StatelessWidget {
     return Colors.red;
   }
 
-  String _yorumSkoraGore(int skor) {
-    if (skor >= 85) return 'Üst';
-    if (skor >= 70) return 'Güçlü';
-    if (skor >= 50) return 'Orta';
-    return 'Zayıf';
-  }
-
   int _hamPuaniGetir(_KarsilastirmaKoloniVerisi v, String anahtar) {
     final raw = v.hamProfil[anahtar];
     if (raw == null) return 0;

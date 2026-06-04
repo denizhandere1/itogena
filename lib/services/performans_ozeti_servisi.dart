@@ -653,28 +653,6 @@ class PerformansOzetiServisi {
   }
 
 
-  static String _gelisimEtiketi(String etiket) {
-    final temiz = etiket.trim();
-    if (temiz.isEmpty) return 'Veri yok';
-
-    final kucuk = temiz.toLowerCase();
-    if (kucuk.contains('momentum')) {
-      return temiz
-          .replaceAll('Momentum', 'Üreme gelişimi')
-          .replaceAll('momentum', 'üreme gelişimi');
-    }
-    if (kucuk.contains('güçlü') || kucuk.contains('guclu') || kucuk.contains('yükseliş')) {
-      return 'Üreme gelişimi güçlü';
-    }
-    if (kucuk.contains('düşüş') || kucuk.contains('dus')) {
-      return 'Üreme gelişimi zayıflıyor';
-    }
-    if (kucuk.contains('stabil') || kucuk.contains('durağan')) {
-      return 'Üreme gelişimi dengeli';
-    }
-    return temiz == 'Veri Yok' ? 'Veri yok' : temiz;
-  }
-
   static String _yorum(int skor) {
     if (skor >= 85) return 'Çok güçlü';
     if (skor >= 70) return 'Güçlü';
