@@ -10,9 +10,7 @@
   "girisBaslatmaSorunu": "Başlatma sırasında sorun oluştu.",
   "girisBaslatmaHatasi": "Başlatma hatası: {hata}",
   "@girisBaslatmaHatasi": {
-    "placeholders": {
-      "hata": { "type": "String" }
-    }
+    "placeholders": { "hata": { "type": "String" } }
   },
 
   "iptal": "İptal",
@@ -33,8 +31,172 @@
   "bilgi": "Bilgi",
   "yukleniyor": "Yükleniyor...",
   "bilinmiyor": "Bilinmiyor",
+  "bulunamadi": "Bulunamadı.",
+  "anaSayfa": "Ana sayfa",
+  "kovan": "Kovan",
+  "koloni": "Koloni",
+  "arilik": "Arılık",
 
   "proRozeti": "PRO",
   "proOzellik": "Bu özellik PRO sürümüne aittir.",
-  "proYukselt": "PRO'ya Yükselt"
+  "proYukselt": "PRO'ya Yükselt",
+
+  "anaSayfaAsistan": "Arılıktaki asistanınız",
+  "anaSayfaSlogan": "Muayeneni kaydet, gerisini biz hallederiz.",
+  "anaSayfaOzellik1Baslik": "Kovanın içini gör",
+  "anaSayfaOzellik1Aciklama": "Hangi çıtada yavru var, hangi çıtada bal — görsel olarak.",
+  "anaSayfaOzellik2Baslik": "Ne yapman gerektiğini öğren",
+  "anaSayfaOzellik2Aciklama": "Donör adayı mı, ana değişimi mi, bölme mi — sistem söyler.",
+  "anaSayfaOzellik3Baslik": "Riskleri önceden gör",
+  "anaSayfaOzellik3Aciklama": "Varroa, arı kuşu, yağmacılık — sezon ve koloni birlikte okunur.",
+  "anaSayfaOzellik4Baslik": "Hasat tahminini al",
+  "anaSayfaOzellik4Aciklama": "Tahmini bal miktarı ve ekonomik değer koloniye göre hesaplanır.",
+  "anaSayfaRehber": "Kullanıcı Rehberi",
+
+  "menuArilikYonetimi": "Arılık Yönetimi",
+  "menuArilikYonetimiAciklama": "Kolonilerini ekle, muayene yap, takip et",
+  "menuRaporlar": "Raporlar",
+  "menuRaporlarAciklama": "Arılık geneli istatistik, ekonomik değer ve donör listesi",
+  "menuSoyAgaci": "Soy Ağacı",
+  "menuSoyAgaciAciklama": "Kolonilerin genetik hat takibi",
+  "menuFormullerHesaplamalar": "Formüller ve Hesaplamalar",
+  "menuFormullerHesaplamalarAciklama": "Şurup ve oksalik asit yardımcı ekranı",
+  "menuAyarlar": "Ayarlar",
+  "menuAyarlarAciklama": "Kalibrasyon, bal akımı, risk takvimi ve sistem tercihleri",
+
+  "karsilastirmaBaslik": "KARŞILAŞTIRMALI ANALİZ",
+  "karsilastirmaHata": "Karşılaştırma verisi üretilemedi:\n{hata}",
+  "@karsilastirmaHata": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "karsilastirmaKoloniBulunamadi": "Karşılaştırılacak koloni bulunamadı.",
+  "karsilastirmaAciklama": "Bu ekran iki farklı şeyi birlikte gösterir: genel performans ve genetik seçilim. Yüksek performans tek başına donörlük anlamına gelmez. Bir koloni güçlü olsa bile genetik veto nedeniyle temiz donör havuzunun dışında kalabilir.",
+  "karsilastirmaKovanNo": "Kovan {kovanNo}",
+  "@karsilastirmaKovanNo": {
+    "placeholders": { "kovanNo": { "type": "String" } }
+  },
+  "karsilastirmaPerformans": "Performans {skor}",
+  "@karsilastirmaPerformans": {
+    "placeholders": { "skor": { "type": "String" } }
+  },
+  "karsilastirmaTemizDonor": "Temiz donör #{sira}",
+  "@karsilastirmaTemizDonor": {
+    "placeholders": { "sira": { "type": "String" } }
+  },
+  "karsilastirmaTemizHavuzda": "Temiz havuzda önde değil",
+  "karsilastirmaGenetikVeto": "Genetik veto",
+  "karsilastirmaTablo": "KARŞILAŞTIRMA TABLOSU",
+  "karsilastirmaKriter": "Kriter",
+  "karsilastirmaSistemYorumu": "SİSTEM YORUMU",
+  "karsilastirmaSistemYorumuLabel": "Sistem Yorumu",
+  "karsilastirmaBiyoloji": "Biyoloji",
+
+  "soyAgaciBaslik": "SOY AĞACI",
+  "soyAgaciBasitHat": "BASİT HAT",
+  "soyAgaciDetayli": "DETAYLI",
+  "soyAgaciHata": "Soy ağacı yüklenemedi:\n{hata}",
+  "@soyAgaciHata": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "soyAgaciBulunamadi": "Yaşayan hat bulunamadı.\nKaynak koloni ilişkilerini kontrol et.",
+  "soyAgaciBasitAciklama": "Bu görünüm yaşayan hatları sade biçimde gösterir. Tamamen sönmüş hatlar gizlenir. Pasif koloniler sadece yaşayan bir hattın içinde görünür.",
+  "soyAgaciHatOzeti": "Hat Özeti",
+  "soyAgaciToplam": "Toplam {sayi}",
+  "@soyAgaciToplam": {
+    "placeholders": { "sayi": { "type": "int" } }
+  },
+  "soyAgaciAktif": "Aktif {sayi}",
+  "@soyAgaciAktif": {
+    "placeholders": { "sayi": { "type": "int" } }
+  },
+  "soyAgaciPasif": "Pasif {sayi}",
+  "@soyAgaciPasif": {
+    "placeholders": { "sayi": { "type": "int" } }
+  },
+  "soyAgaciAktifDurum": "AKTİF",
+  "soyAgaciPasifDurum": "pasif",
+
+  "formullerBaslik": "FORMÜLLER VE HESAPLAMALAR",
+  "formullerSekmeSurup": "ŞURUP",
+  "formullerSekmeOksalik": "OKSALİK",
+  "formullerSekmeBiyoloji": "BİYOLOJİ",
+  "formullerSekmeBalAkimi": "BAL AKIMI",
+  "formullerSurupFormulu": "Şurup Formülü",
+  "formullerSurupAciklama": "Hedef şerbet miktarını kg olarak girersen sistem kg su ve kg şeker verir. Sahada aynı ölçü kabını kullanıyorsan 1:1 veya 2:1 oranı aynı mantıkla korunur.",
+  "formullerSurupOrani": "Şurup Oranı",
+  "formullerSurupOraniAciklama": "1:1 genelde teşvik şurubu, 2:1 genelde stok / kış hazırlığı için kullanılır. Bu ekran zorunlu uygulama emri değil, oran hesabı yardımcısıdır.",
+  "formullerHedefSerbet": "Hedef Şerbet",
+  "formullerHedefSerbetEtiket": "Hedef şerbet miktarı",
+  "formullerHedefSerbetYardim": "Örnek: 10 kg hedef şerbet için gerekli kg su ve kg şeker hesaplanır.",
+  "formullerSurupSonuc": "{oran} Şurup Sonucu",
+  "@formullerSurupSonuc": {
+    "placeholders": { "oran": { "type": "String" } }
+  },
+  "formullerHedefSerbetSatir": "Hedef Şerbet",
+  "formullerSeker": "Şeker",
+  "formullerSu": "Su",
+  "formullerSahaKatsayisi": "Saha Katsayısı",
+  "formullerSurupNot": "Kg hesabı hedef şerbet ağırlığı içindir. Hacimsel kapla çalışıyorsan aynı kapla oran kur; 1:1 için eşit kap, 2:1 için iki kap şeker bir kap su mantığı korunur.",
+  "formullerOksalikBaslik": "Oksalik Asit Yardımcı Hesabı",
+  "formullerOksalikAciklama": "Bu ekran yalnızca hesaplama yardımcısıdır. Uygulama kararı için ruhsatlı ürün etiketi, yerel mevzuat ve veteriner/teknik danışman talimatı esas alınır.",
+  "formullerOksalikStandart": "10–15 Kovan İçin Standart Formül",
+  "formullerUygulamaNotu": "Uygulama Notu",
+  "formullerOksalikNot": "Oksalik uygulaması genelde yavrusuz / yavru çok az dönemde daha anlamlıdır. Sıcaklık, doz, uygulama yöntemi ve tekrar sayısı için ürün etiketi esas alınmalıdır.",
+  "formullerGuvenlikUyarisi": "Güvenlik Uyarısı",
+  "formullerOksalikGuvenlik": "Koruyucu gözlük, eldiven ve maske kullan. Asit buharını soluma, cilt ve göz temasından kaçın. Ruhsatsız ürün, belirsiz doz veya etiketsiz karışım kullanma. Bu ekran tedavi talimatı değil, yardımcı hesaplama ekranıdır.",
+  "formullerBiyolojikTakvim": "Biyolojik Takvim",
+  "formullerBiyolojikAciklama": "Bu ekran ana kazanma biyoloji takvimini merkezi AriBiyolojiServisi üzerinden okur. Koloni detay, süreç uyarıları ve formüller aynı tarih mantığını kullanır.",
+  "formullerAnaKazanmaSureci": "Ana Kazanma Süreci",
+  "formullerBaslangicTipi": "Başlangıç tipi",
+  "formullerAnasizBirakildi": "Anasız Bırakıldı",
+  "formullerBolmeYapildi": "Bölme Yapıldı",
+  "formullerHazirKapaliMeme": "Hazır Kapalı Ana Memesi",
+  "formullerHazirCiftlesmisAna": "Hazır Çiftleşmiş Ana",
+  "formullerBaslangicTarihi": "Başlangıç tarihi",
+  "formullerTakvim": "{tip} Takvimi",
+  "@formullerTakvim": {
+    "placeholders": { "tip": { "type": "String" } }
+  },
+  "formullerSahaNotu": "Saha Notu",
+  "formullerAnaKazanmaSahaNot": "Gün sayımı başlangıç günü dahil edilerek yapılır. Günlük / kapalı yavru görülürse muayene ekranındaki ilgili kutucuk işaretlenir ve ana kazanma süreci kapanır.",
+  "formullerKapaliIsciYavrusu": "Kapalı İşçi Yavrusu Çıkışı",
+  "formullerKapaliIsciTarih": "Kapalı işçi yavrusu görülen tarih",
+  "formullerKapaliIsciSonuc": "Kapalı İşçi Yavrusu Çıkış Penceresi",
+  "formullerKapaliErkekYavrusu": "Kapalı Erkek Yavrusu Çıkışı",
+  "formullerKapaliErkekTarih": "Kapalı erkek yavrusu görülen tarih",
+  "formullerKapaliErkekSonuc": "Kapalı Erkek Yavrusu Çıkış Penceresi",
+  "formullerBalAkimiKarar": "Bal Akımı Kararı",
+  "formullerBalAkimiAciklama": "Sistem, bal akımına zayıf girmemek için 57 günlük saha planlama eşiğini kullanır. 42 gün ise yumurtadan tarlacıya biyolojik süredir; bu ikisi aynı şey değildir.",
+  "formullerBalAkimTarihi": "Bal akım başlangıç tarihi",
+  "formullerMevcutCita": "Mevcut çıta sayısı",
+  "formullerCitaOrnek": "Örnek: 9",
+  "formullerTarihBekleniyor": "Tarih Bekleniyor",
+  "formullerTarihBekleniyorAciklama": "Karar üretilebilmesi için önce bal akım başlangıç tarihini seç.",
+  "formullerKarar": "Karar",
+  "formullerSonGuvenliBolme": "Son güvenli bölme tarihi",
+  "formullerPlanlamaEsigi": "Planlama eşiği",
+  "formullerPlanlamaEsigiDeger": "57 gün",
+  "formullerBiyolojikSure": "Biyolojik süre",
+  "formullerBiyolojikSureDeger": "42 gün: yumurtadan tarlacıya",
+  "formullerMevcutGuc": "Mevcut güç",
+  "formullerMevcutGucDeger": "{cita} çıta",
+  "@formullerMevcutGucDeger": {
+    "placeholders": { "cita": { "type": "int" } }
+  },
+  "formullerHedefAltSinir": "Hedef alt sınır",
+  "formullerEnFazlaAlinabilir": "En fazla alınabilir",
+  "formullerBolmePenceresiYok": "Bu güçte güvenli bölme penceresi açılmamış görünüyor.",
+  "formullerBolmePenceresiVar": "{max} çıtadan fazla alınırsa koloni bal dönemine zayıf girebilir.",
+  "@formullerBolmePenceresiVar": {
+    "placeholders": { "max": { "type": "int" } }
+  },
+  "formullerKabulKontrol": "Kabul kontrol penceresi",
+  "formullerMemeKapanma": "Tahmini meme kapanma",
+  "formullerAnaCikisi": "Tahmini ana çıkışı",
+  "formullerCiftlesme": "Çiftleşme uçuş penceresi",
+  "formullerYumurtlamaKontrol": "Yumurtlama kontrol penceresi",
+  "formullerKovanaDokunma": "Kovana dokunma penceresi",
+  "formullerBaslangic": "Başlangıç",
+  "formullerTahminiCikis": "Tahmini çıkış",
+  "formullerUygulamaModeli": "Damlatma"
 }

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/karsilastirma_ozeti_servisi.dart';
 import '../services/premium_servisi.dart';
@@ -32,9 +33,9 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
-        title: const Text(
-          'KARŞILAŞTIRMALI ANALİZ',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context).karsilastirmaBaslik,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
@@ -54,7 +55,7 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  'Karşılaştırma verisi üretilemedi:\n${snapshot.error}',
+                  AppLocalizations.of(context).karsilastirmaHata(snapshot.error.toString()),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.red,
@@ -69,10 +70,10 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
           if (!snapshot.hasData ||
               snapshot.data == null ||
               snapshot.data!.koloniler.isEmpty) {
-            return const Center(
+            return Center(
               child: Text(
-                'Karşılaştırılacak koloni bulunamadı.',
-                style: TextStyle(fontSize: 14),
+                AppLocalizations.of(context).karsilastirmaKoloniBulunamadi,
+                style: const TextStyle(fontSize: 14),
               ),
             );
           }
@@ -102,8 +103,8 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: Colors.amber.shade300),
       ),
-      child: const Text(
-        'Bu ekran iki farklı şeyi birlikte gösterir: genel performans ve genetik seçilim. Yüksek performans tek başına donörlük anlamına gelmez. Bir koloni güçlü olsa bile genetik veto nedeniyle temiz donör havuzunun dışında kalabilir.',
+      child: Text(
+        AppLocalizations.of(context).karsilastirmaAciklama,
         style: TextStyle(
           fontSize: 12,
           height: 1.45,
@@ -144,7 +145,7 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Kovan ${k.kovanNo}',
+                      AppLocalizations.of(context).karsilastirmaKovanNo(k.kovanNo),
                       style: const TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 16,
@@ -159,7 +160,7 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: Text(
-                      'Performans ${k.genelSkor}',
+                      AppLocalizations.of(context).karsilastirmaPerformans(k.genelSkor.toString()),
                       style: TextStyle(
                         color: renk,
                         fontWeight: FontWeight.w900,
@@ -175,10 +176,10 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
                 children: [
                   _chip(
                     k.vetoVarMi
-                        ? (k.vetoOzeti.isEmpty ? 'Genetik veto' : k.vetoOzeti)
+                        ? (k.vetoOzeti.isEmpty ? AppLocalizations.of(context).karsilastirmaGenetikVeto : k.vetoOzeti)
                         : (k.donorMu
-                        ? 'Temiz donör #${k.donorSirasi ?? "-"}'
-                        : 'Temiz havuzda önde değil'),
+                        ? AppLocalizations.of(context).karsilastirmaTemizDonor((k.donorSirasi ?? '-').toString())
+                        : AppLocalizations.of(context).karsilastirmaTemizHavuzda),
                     secilimRenk,
                   ),
                   _chip(k.secilimBaslik, secilimRenk),
@@ -194,9 +195,9 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
                 ],
               ),
               const SizedBox(height: 12),
-              _bilgiSatiri('Sistem Yorumu', k.sistemYorumu),
+              _bilgiSatiri(AppLocalizations.of(context).karsilastirmaSistemYorumuLabel, k.sistemYorumu),
               const SizedBox(height: 8),
-              _bilgiSatiri('Biyoloji', k.biyolojiMesaji),
+              _bilgiSatiri(AppLocalizations.of(context).karsilastirmaBiyoloji, k.biyolojiMesaji),
             ],
           ),
         );
@@ -216,13 +217,13 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.table_chart_outlined, color: Colors.brown),
-              SizedBox(width: 8),
+              const Icon(Icons.table_chart_outlined, color: Colors.brown),
+              const SizedBox(width: 8),
               Text(
-                'KARŞILAŞTIRMA TABLOSU',
-                style: TextStyle(
+                AppLocalizations.of(context).karsilastirmaTablo,
+                style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w900,
                   color: Colors.brown,
@@ -255,7 +256,7 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
                     label: SizedBox(
                       width: 130,
                       child: Text(
-                        'Kovan ${k.kovanNo}',
+                        AppLocalizations.of(context).karsilastirmaKovanNo(k.kovanNo),
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -346,13 +347,13 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.psychology_alt_outlined, color: Colors.brown),
-              SizedBox(width: 8),
+              const Icon(Icons.psychology_alt_outlined, color: Colors.brown),
+              const SizedBox(width: 8),
               Text(
-                'SİSTEM YORUMU',
-                style: TextStyle(
+                AppLocalizations.of(context).karsilastirmaSistemYorumu,
+                style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w900,
                   color: Colors.brown,
@@ -399,7 +400,7 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
     );
   }
 
-  Widget _bilgiSatiri(String baslik, String metin) {
+  Widget _bilgiSatiri(String baslik, String metin, {bool isLabel = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

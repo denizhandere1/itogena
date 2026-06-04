@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/premium_servisi.dart';
 import '../services/soy_servisi.dart';
@@ -35,9 +36,9 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
-        title: const Text(
-          'SOY AĞACI',
-          style: TextStyle(fontWeight: FontWeight.w900),
+        title: Text(
+          AppLocalizations.of(context).soyAgaciBaslik,
+          style: const TextStyle(fontWeight: FontWeight.w900),
         ),
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
@@ -46,9 +47,9 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
           controller: _tabController,
           labelColor: Colors.black,
           indicatorColor: Colors.brown,
-          tabs: const [
-            Tab(text: 'BASİT HAT'),
-            Tab(text: 'DETAYLI'),
+          tabs: [
+            Tab(text: AppLocalizations.of(context).soyAgaciBasitHat),
+            Tab(text: AppLocalizations.of(context).soyAgaciDetayli),
           ],
         ),
       ),
@@ -68,7 +69,7 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Text(
-                    'Soy ağacı yüklenemedi:\n${snapshot.error}',
+                    AppLocalizations.of(context).soyAgaciHata(snapshot.error.toString()),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 13,
@@ -84,11 +85,11 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
             final veri = _yasayanHatlariFiltrele(hamVeri);
 
             if (veri.isEmpty) {
-              return const Center(
+              return Center(
                 child: Text(
-                  'Yaşayan hat bulunamadı.\nKaynak koloni ilişkilerini kontrol et.',
+                  AppLocalizations.of(context).soyAgaciBulunamadi,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
               );
             }
@@ -111,11 +112,10 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 110),
       children: [
         _ustAciklamaKutusu(
-          'Bu görünüm yaşayan hatları sade biçimde gösterir. '
-              'Tamamen sönmüş hatlar gizlenir. Pasif koloniler sadece yaşayan bir hattın içinde görünür.',
+          AppLocalizations.of(context).soyAgaciBasitAciklama,
         ),
         const SizedBox(height: 12),
-        ...veri.map((kok) => _basitHatBloku(kok)).toList(),
+        ...veri.map((kok) => _basitHatBloku(kok, context)).toList(),
       ],
     );
   }
@@ -153,9 +153,9 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
     );
   }
 
-  Widget _basitHatBloku(Map<String, dynamic> kok) {
+  Widget _basitHatBloku(Map<String, dynamic> kok, BuildContext context) {
     final satirlar = <_HatSatiri>[];
-    _satirlariDoldur(kok, satirlar, derinlik: 0);
+    _satirlariDoldur(kok, satirlar, derinlik: 0, context: context);
 
     final toplam = _toplamKoloniSayisi(kok);
     final aktif = _aktifKoloniSayisi(kok);
@@ -173,7 +173,7 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hat Özeti',
+            AppLocalizations.of(context).soyAgaciHatOzeti,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w800,
@@ -185,9 +185,9 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
             spacing: 8,
             runSpacing: 8,
             children: [
-              _ozetChip('Toplam $toplam'),
-              _ozetChip('Aktif $aktif'),
-              _ozetChip('Pasif $pasif'),
+              _ozetChip(AppLocalizations.of(context).soyAgaciToplam(toplam)),
+              _ozetChip(AppLocalizations.of(context).soyAgaciAktif(aktif)),
+              _ozetChip(AppLocalizations.of(context).soyAgaciPasif(pasif)),
             ],
           ),
           const SizedBox(height: 12),
@@ -254,6 +254,7 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
       Map<String, dynamic> koloni,
       List<_HatSatiri> satirlar, {
         required int derinlik,
+        required BuildContext context,
       }) {
     final aktifMi = koloni['aktifMi'] == true;
     final cocuklar =
@@ -263,30 +264,26 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
       _HatSatiri(
         derinlik: derinlik,
         aktifMi: aktifMi,
-        metin: _basitSatirMetni(koloni, derinlik: derinlik),
+        metin: _basitSatirMetni(koloni, derinlik: derinlik, context: context),
       ),
     );
 
     for (final cocuk in cocuklar) {
-      _satirlariDoldur(cocuk, satirlar, derinlik: derinlik + 1);
+      _satirlariDoldur(cocuk, satirlar, derinlik: derinlik + 1, context: context);
     }
   }
 
-  String _basitSatirMetni(Map<String, dynamic> koloni, {required int derinlik}) {
+  String _basitSatirMetni(Map<String, dynamic> koloni, {required int derinlik, required BuildContext context}) {
+    final l10n = AppLocalizations.of(context);
     final aktifMi = koloni['aktifMi'] == true;
     final kovanNo = _metin(koloni['kovanNo']);
     final anaYili = _metin(koloni['anaYili'], varsayilan: '');
-    final durum = aktifMi ? 'AKTİF' : 'pasif';
+    final durum = aktifMi ? l10n.soyAgaciAktifDurum : l10n.soyAgaciPasifDurum;
 
     if (anaYili.isNotEmpty) {
-      return derinlik == 0
-          ? 'Kovan $kovanNo · Ana $anaYili ($durum)'
-          : 'Kovan $kovanNo · Ana $anaYili ($durum)';
+      return 'Kovan $kovanNo · Ana $anaYili ($durum)';
     }
-
-    return derinlik == 0
-        ? 'Kovan $kovanNo ($durum)'
-        : 'Kovan $kovanNo ($durum)';
+    return 'Kovan $kovanNo ($durum)';
   }
 
   List<Map<String, dynamic>> _yasayanHatlariFiltrele(

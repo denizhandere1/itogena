@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/ari_biyoloji_servisi.dart';
 import '../services/premium_servisi.dart';
@@ -65,9 +66,9 @@ class _FormullerHesaplamalarSayfasiState
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
-        title: const Text(
-          'FORMÜLLER VE HESAPLAMALAR',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context).formullerBaslik,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
@@ -80,11 +81,11 @@ class _FormullerHesaplamalarSayfasiState
           unselectedLabelColor: Colors.black87,
           indicatorColor: Colors.brown,
           indicatorWeight: 3,
-          tabs: const [
-            Tab(text: 'ŞURUP'),
-            Tab(text: 'OKSALİK'),
-            Tab(text: 'BİYOLOJİ'),
-            Tab(text: 'BAL AKIMI'),
+          tabs: [
+            Tab(text: AppLocalizations.of(context).formullerSekmeSurup),
+            Tab(text: AppLocalizations.of(context).formullerSekmeOksalik),
+            Tab(text: AppLocalizations.of(context).formullerSekmeBiyoloji),
+            Tab(text: AppLocalizations.of(context).formullerSekmeBalAkimi),
           ],
         ),
       ),

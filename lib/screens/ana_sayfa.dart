@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'package:itogena_v45/screens/arilik_secim_sayfasi.dart';
 import 'package:itogena_v45/screens/ayarlar_sayfasi.dart';
 import 'package:itogena_v45/screens/soy_agaci_sayfasi.dart';
@@ -9,6 +10,7 @@ class AnaSayfa extends StatelessWidget {
   const AnaSayfa({super.key});
 
   Widget _hakkindaKarti(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       margin: const EdgeInsets.fromLTRB(14, 14, 14, 10),
       decoration: BoxDecoration(
@@ -33,19 +35,19 @@ class AnaSayfa extends StatelessWidget {
             color: Color(0xFFFFA000),
             size: 26,
           ),
-          title: const Text(
-            'Arılıktaki asistanınız',
-            style: TextStyle(
+          title: Text(
+            l10n.anaSayfaAsistan,
+            style: const TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 15,
               color: Colors.black87,
             ),
           ),
-          subtitle: const Padding(
-            padding: EdgeInsets.only(top: 2, bottom: 4),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 2, bottom: 4),
             child: Text(
-              'Muayeneni kaydet, gerisini biz hallederiz.',
-              style: TextStyle(
+              l10n.anaSayfaSlogan,
+              style: const TextStyle(
                 fontSize: 12.5,
                 color: Colors.black54,
                 height: 1.3,
@@ -57,28 +59,28 @@ class AnaSayfa extends StatelessWidget {
             const SizedBox(height: 12),
             _ozellikSatiri(
               Icons.hive_outlined,
-              'Kovanın içini gör',
-              'Hangi çıtada yavru var, hangi çıtada bal — görsel olarak.',
+              l10n.anaSayfaOzellik1Baslik,
+              l10n.anaSayfaOzellik1Aciklama,
             ),
             const SizedBox(height: 10),
             _ozellikSatiri(
               Icons.assignment_turned_in_outlined,
-              'Ne yapman gerektiğini öğren',
-              'Donör adayı mı, ana değişimi mi, bölme mi — sistem söyler.',
+              l10n.anaSayfaOzellik2Baslik,
+              l10n.anaSayfaOzellik2Aciklama,
               isPro: true,
             ),
             const SizedBox(height: 10),
             _ozellikSatiri(
               Icons.warning_amber_outlined,
-              'Riskleri önceden gör',
-              'Varroa, arı kuşu, yağmacılık — sezon ve koloni birlikte okunur.',
+              l10n.anaSayfaOzellik3Baslik,
+              l10n.anaSayfaOzellik3Aciklama,
               isPro: true,
             ),
             const SizedBox(height: 10),
             _ozellikSatiri(
               Icons.savings_outlined,
-              'Hasat tahminini al',
-              'Tahmini bal miktarı ve ekonomik değer koloniye göre hesaplanır.',
+              l10n.anaSayfaOzellik4Baslik,
+              l10n.anaSayfaOzellik4Aciklama,
               isPro: true,
             ),
             const SizedBox(height: 14),
@@ -94,7 +96,7 @@ class AnaSayfa extends StatelessWidget {
                   );
                 },
                 icon: const Icon(Icons.menu_book_outlined, size: 18),
-                label: const Text('Kullanıcı Rehberi'),
+                label: Text(l10n.anaSayfaRehber),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.brown,
                   side: BorderSide(color: Colors.brown.shade200),
@@ -241,6 +243,7 @@ class AnaSayfa extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final double altBosluk = MediaQuery.of(context).padding.bottom + 90;
 
     return Scaffold(
@@ -262,41 +265,39 @@ class AnaSayfa extends StatelessWidget {
             _hakkindaKarti(context),
             _menuKarti(
               context: context,
-              baslik: 'Arılık Yönetimi',
-              altBaslik: 'Kolonilerini ekle, muayene yap, takip et',
+              baslik: l10n.menuArilikYonetimi,
+              altBaslik: l10n.menuArilikYonetimiAciklama,
               ikon: Icons.hive_outlined,
               sayfa: const ArilikSecimSayfasi(),
             ),
             _menuKarti(
               context: context,
-              baslik: 'Raporlar',
-              altBaslik:
-                  'Arılık geneli istatistik, ekonomik değer ve donör listesi',
+              baslik: l10n.menuRaporlar,
+              altBaslik: l10n.menuRaporlarAciklama,
               ikon: Icons.analytics_outlined,
               isPro: true,
               sayfa: const ArilikSecimSayfasi(raporModu: true),
             ),
             _menuKarti(
               context: context,
-              baslik: 'Soy Ağacı',
-              altBaslik: 'Kolonilerin genetik hat takibi',
+              baslik: l10n.menuSoyAgaci,
+              altBaslik: l10n.menuSoyAgaciAciklama,
               ikon: Icons.account_tree_outlined,
               isPro: true,
               sayfa: const SoyAgaciSayfasi(),
             ),
             _menuKarti(
               context: context,
-              baslik: 'Formüller ve Hesaplamalar',
-              altBaslik: 'Şurup ve oksalik asit yardımcı ekranı',
+              baslik: l10n.menuFormullerHesaplamalar,
+              altBaslik: l10n.menuFormullerHesaplamalarAciklama,
               ikon: Icons.calculate_outlined,
               isPro: true,
               sayfa: const FormullerHesaplamalarSayfasi(),
             ),
             _menuKarti(
               context: context,
-              baslik: 'Ayarlar',
-              altBaslik:
-                  'Kalibrasyon, bal akımı, risk takvimi ve sistem tercihleri',
+              baslik: l10n.menuAyarlar,
+              altBaslik: l10n.menuAyarlarAciklama,
               ikon: Icons.settings_outlined,
               sayfa: const AyarlarSayfasi(),
             ),

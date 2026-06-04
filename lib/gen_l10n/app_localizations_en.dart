@@ -86,6 +86,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bilinmiyor => 'Unknown';
 
   @override
+  String get bulunamadi => 'Not found.';
+
+  @override
+  String get anaSayfa => 'Home';
+
+  @override
+  String get kovan => 'Hive';
+
+  @override
+  String get koloni => 'Colony';
+
+  @override
+  String get arilik => 'Apiary';
+
+  @override
   String get proRozeti => 'PRO';
 
   @override
@@ -93,4 +108,404 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get proYukselt => 'Upgrade to PRO';
+
+  @override
+  String get anaSayfaAsistan => 'Your apiary assistant';
+
+  @override
+  String get anaSayfaSlogan => 'Record your inspection, we handle the rest.';
+
+  @override
+  String get anaSayfaOzellik1Baslik => 'See inside the hive';
+
+  @override
+  String get anaSayfaOzellik1Aciklama =>
+      'Which frame has brood, which has honey — visually.';
+
+  @override
+  String get anaSayfaOzellik2Baslik => 'Know what to do';
+
+  @override
+  String get anaSayfaOzellik2Aciklama =>
+      'Donor candidate, queen replacement, split — the system tells you.';
+
+  @override
+  String get anaSayfaOzellik3Baslik => 'See risks ahead';
+
+  @override
+  String get anaSayfaOzellik3Aciklama =>
+      'Varroa, bee-eater, robbing — season and colony read together.';
+
+  @override
+  String get anaSayfaOzellik4Baslik => 'Get your harvest estimate';
+
+  @override
+  String get anaSayfaOzellik4Aciklama =>
+      'Estimated honey amount and economic value calculated per colony.';
+
+  @override
+  String get anaSayfaRehber => 'User Guide';
+
+  @override
+  String get menuArilikYonetimi => 'Apiary Management';
+
+  @override
+  String get menuArilikYonetimiAciklama => 'Add colonies, inspect, track';
+
+  @override
+  String get menuRaporlar => 'Reports';
+
+  @override
+  String get menuRaporlarAciklama =>
+      'Apiary-wide statistics, economic value and donor list';
+
+  @override
+  String get menuSoyAgaci => 'Lineage Tree';
+
+  @override
+  String get menuSoyAgaciAciklama => 'Genetic lineage tracking of colonies';
+
+  @override
+  String get menuFormullerHesaplamalar => 'Formulas & Calculations';
+
+  @override
+  String get menuFormullerHesaplamalarAciklama =>
+      'Syrup and oxalic acid helper screen';
+
+  @override
+  String get menuAyarlar => 'Settings';
+
+  @override
+  String get menuAyarlarAciklama =>
+      'Calibration, honey flow, risk calendar and system preferences';
+
+  @override
+  String get karsilastirmaBaslik => 'COMPARATIVE ANALYSIS';
+
+  @override
+  String karsilastirmaHata(String hata) {
+    return 'Comparison data could not be generated:\n$hata';
+  }
+
+  @override
+  String get karsilastirmaKoloniBulunamadi => 'No colonies found to compare.';
+
+  @override
+  String get karsilastirmaAciklama =>
+      'This screen shows two different things together: general performance and genetic selection. High performance alone does not mean donor eligibility. A colony may be strong but remain outside the clean donor pool due to genetic veto.';
+
+  @override
+  String karsilastirmaKovanNo(String kovanNo) {
+    return 'Hive $kovanNo';
+  }
+
+  @override
+  String karsilastirmaPerformans(String skor) {
+    return 'Performance $skor';
+  }
+
+  @override
+  String karsilastirmaTemizDonor(String sira) {
+    return 'Clean donor #$sira';
+  }
+
+  @override
+  String get karsilastirmaTemizHavuzda => 'Not leading in clean pool';
+
+  @override
+  String get karsilastirmaGenetikVeto => 'Genetic veto';
+
+  @override
+  String get karsilastirmaTablo => 'COMPARISON TABLE';
+
+  @override
+  String get karsilastirmaKriter => 'Criterion';
+
+  @override
+  String get karsilastirmaSistemYorumu => 'SYSTEM INTERPRETATION';
+
+  @override
+  String get karsilastirmaSistemYorumuLabel => 'System Interpretation';
+
+  @override
+  String get karsilastirmaBiyoloji => 'Biology';
+
+  @override
+  String get soyAgaciBaslik => 'LINEAGE TREE';
+
+  @override
+  String get soyAgaciBasitHat => 'SIMPLE LINE';
+
+  @override
+  String get soyAgaciDetayli => 'DETAILED';
+
+  @override
+  String soyAgaciHata(String hata) {
+    return 'Lineage tree could not be loaded:\n$hata';
+  }
+
+  @override
+  String get soyAgaciBulunamadi =>
+      'No living lineage found.\nCheck source colony relationships.';
+
+  @override
+  String get soyAgaciBasitAciklama =>
+      'This view shows living lineages in a simple format. Fully extinct lineages are hidden. Passive colonies appear only within a living lineage.';
+
+  @override
+  String get soyAgaciHatOzeti => 'Line Summary';
+
+  @override
+  String soyAgaciToplam(int sayi) {
+    return 'Total $sayi';
+  }
+
+  @override
+  String soyAgaciAktif(int sayi) {
+    return 'Active $sayi';
+  }
+
+  @override
+  String soyAgaciPasif(int sayi) {
+    return 'Passive $sayi';
+  }
+
+  @override
+  String get soyAgaciAktifDurum => 'ACTIVE';
+
+  @override
+  String get soyAgaciPasifDurum => 'passive';
+
+  @override
+  String get formullerBaslik => 'FORMULAS & CALCULATIONS';
+
+  @override
+  String get formullerSekmeSurup => 'SYRUP';
+
+  @override
+  String get formullerSekmeOksalik => 'OXALIC';
+
+  @override
+  String get formullerSekmeBiyoloji => 'BIOLOGY';
+
+  @override
+  String get formullerSekmeBalAkimi => 'HONEY FLOW';
+
+  @override
+  String get formullerSurupFormulu => 'Syrup Formula';
+
+  @override
+  String get formullerSurupAciklama =>
+      'Enter the target syrup amount in kg and the system gives you kg of water and kg of sugar. If you use the same measuring container in the field, the 1:1 or 2:1 ratio is maintained in the same logic.';
+
+  @override
+  String get formullerSurupOrani => 'Syrup Ratio';
+
+  @override
+  String get formullerSurupOraniAciklama =>
+      '1:1 is generally for stimulation syrup, 2:1 for stock/winter preparation. This screen is a ratio calculation helper, not a mandatory application order.';
+
+  @override
+  String get formullerHedefSerbet => 'Target Syrup';
+
+  @override
+  String get formullerHedefSerbetEtiket => 'Target syrup amount';
+
+  @override
+  String get formullerHedefSerbetYardim =>
+      'Example: Required kg water and kg sugar for 10 kg target syrup is calculated.';
+
+  @override
+  String formullerSurupSonuc(String oran) {
+    return '$oran Syrup Result';
+  }
+
+  @override
+  String get formullerHedefSerbetSatir => 'Target Syrup';
+
+  @override
+  String get formullerSeker => 'Sugar';
+
+  @override
+  String get formullerSu => 'Water';
+
+  @override
+  String get formullerSahaKatsayisi => 'Field Factor';
+
+  @override
+  String get formullerSurupNot =>
+      'Kg calculation is for target syrup weight. If working with volumetric containers, use the same container for ratio; 1:1 means equal containers, 2:1 means two containers of sugar and one of water.';
+
+  @override
+  String get formullerOksalikBaslik => 'Oxalic Acid Helper Calculation';
+
+  @override
+  String get formullerOksalikAciklama =>
+      'This screen is only a calculation helper. For application decisions, the licensed product label, local regulations and veterinary/technical advisor instructions are authoritative.';
+
+  @override
+  String get formullerOksalikStandart => 'Standard Formula for 10–15 Hives';
+
+  @override
+  String get formullerUygulamaNotu => 'Application Note';
+
+  @override
+  String get formullerOksalikNot =>
+      'Oxalic acid application is generally more meaningful during broodless or very low brood periods. For temperature, dose, application method and number of repetitions, follow the product label.';
+
+  @override
+  String get formullerGuvenlikUyarisi => 'Safety Warning';
+
+  @override
+  String get formullerOksalikGuvenlik =>
+      'Use protective goggles, gloves and mask. Avoid inhaling acid fumes, skin and eye contact. Do not use unlicensed products, unclear doses or unlabeled mixtures. This screen is a helper calculation screen, not a treatment instruction.';
+
+  @override
+  String get formullerBiyolojikTakvim => 'Biological Calendar';
+
+  @override
+  String get formullerBiyolojikAciklama =>
+      'This screen reads the queen rearing biology calendar through the central AriBiyolojiServisi. Colony detail, process warnings and formulas use the same date logic.';
+
+  @override
+  String get formullerAnaKazanmaSureci => 'Queen Rearing Process';
+
+  @override
+  String get formullerBaslangicTipi => 'Start type';
+
+  @override
+  String get formullerAnasizBirakildi => 'Left Queenless';
+
+  @override
+  String get formullerBolmeYapildi => 'Split Made';
+
+  @override
+  String get formullerHazirKapaliMeme => 'Ready Sealed Queen Cell';
+
+  @override
+  String get formullerHazirCiftlesmisAna => 'Ready Mated Queen';
+
+  @override
+  String get formullerBaslangicTarihi => 'Start date';
+
+  @override
+  String formullerTakvim(String tip) {
+    return '$tip Calendar';
+  }
+
+  @override
+  String get formullerSahaNotu => 'Field Note';
+
+  @override
+  String get formullerAnaKazanmaSahaNot =>
+      'Day count includes the start day. If daily/sealed brood is seen, check the relevant box in the inspection screen and the queen rearing process closes.';
+
+  @override
+  String get formullerKapaliIsciYavrusu => 'Sealed Worker Brood Emergence';
+
+  @override
+  String get formullerKapaliIsciTarih => 'Date sealed worker brood was seen';
+
+  @override
+  String get formullerKapaliIsciSonuc => 'Sealed Worker Brood Emergence Window';
+
+  @override
+  String get formullerKapaliErkekYavrusu => 'Sealed Drone Brood Emergence';
+
+  @override
+  String get formullerKapaliErkekTarih => 'Date sealed drone brood was seen';
+
+  @override
+  String get formullerKapaliErkekSonuc => 'Sealed Drone Brood Emergence Window';
+
+  @override
+  String get formullerBalAkimiKarar => 'Honey Flow Decision';
+
+  @override
+  String get formullerBalAkimiAciklama =>
+      'The system uses a 57-day field planning threshold to avoid entering the honey flow weak. 42 days is the biological duration from egg to forager; these two are not the same thing.';
+
+  @override
+  String get formullerBalAkimTarihi => 'Honey flow start date';
+
+  @override
+  String get formullerMevcutCita => 'Current frame count';
+
+  @override
+  String get formullerCitaOrnek => 'Example: 9';
+
+  @override
+  String get formullerTarihBekleniyor => 'Waiting for Date';
+
+  @override
+  String get formullerTarihBekleniyorAciklama =>
+      'Select the honey flow start date first to generate a decision.';
+
+  @override
+  String get formullerKarar => 'Decision';
+
+  @override
+  String get formullerSonGuvenliBolme => 'Last safe split date';
+
+  @override
+  String get formullerPlanlamaEsigi => 'Planning threshold';
+
+  @override
+  String get formullerPlanlamaEsigiDeger => '57 days';
+
+  @override
+  String get formullerBiyolojikSure => 'Biological duration';
+
+  @override
+  String get formullerBiyolojikSureDeger => '42 days: egg to forager';
+
+  @override
+  String get formullerMevcutGuc => 'Current strength';
+
+  @override
+  String formullerMevcutGucDeger(int cita) {
+    return '$cita frames';
+  }
+
+  @override
+  String get formullerHedefAltSinir => 'Target lower limit';
+
+  @override
+  String get formullerEnFazlaAlinabilir => 'Max removable';
+
+  @override
+  String get formullerBolmePenceresiYok =>
+      'No safe split window appears to be open at this strength.';
+
+  @override
+  String formullerBolmePenceresiVar(int max) {
+    return 'If more than $max frames are removed, the colony may enter the honey flow weak.';
+  }
+
+  @override
+  String get formullerKabulKontrol => 'Acceptance check window';
+
+  @override
+  String get formullerMemeKapanma => 'Estimated cell capping';
+
+  @override
+  String get formullerAnaCikisi => 'Estimated queen emergence';
+
+  @override
+  String get formullerCiftlesme => 'Mating flight window';
+
+  @override
+  String get formullerYumurtlamaKontrol => 'Laying check window';
+
+  @override
+  String get formullerKovanaDokunma => 'Hive disturbance window';
+
+  @override
+  String get formullerBaslangic => 'Start';
+
+  @override
+  String get formullerTahminiCikis => 'Estimated emergence';
+
+  @override
+  String get formullerUygulamaModeli => 'Drizzle';
 }
