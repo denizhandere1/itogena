@@ -132,43 +132,50 @@ Future<_ArilikIstatistikHesabi> _arilikIstatistikHesapla(
 Future<_BalPotansiyeliHesabi> _aktivasyonluBalliCitaPotansiyeliHesapla(
     List<Map<String, dynamic>> koloniler,
     ) async {
+  // Tüm koloniler için modelleri aynı anda başlat — sequential await yerine paralel
+  final sonuclar = await Future.wait(
+    koloniler.map((koloni) async {
+      final int koloniId = _ekInt(koloni['id']);
+      if (koloniId <= 0) return null;
+
+      double aktifBalliCita = 0;
+      double hamBalliCita = 0;
+      try {
+        final model = await KoloniBiyolojikModelServisi.modelGetir(koloniId);
+        aktifBalliCita = _modelBalliCitaSayisi(
+          model,
+          aktivasyonlaAgirliklandir: true,
+        );
+        hamBalliCita = _modelBalliCitaSayisi(
+          model,
+          aktivasyonlaAgirliklandir: false,
+        );
+      } catch (_) {
+        final kayitli = _ekDouble(koloni['bal_cita'] ?? koloni['balCita']);
+        aktifBalliCita = kayitli;
+        hamBalliCita = kayitli;
+      }
+
+      if (aktifBalliCita <= 0) return null;
+      return (koloni: koloni, aktif: aktifBalliCita, ham: hamBalliCita);
+    }),
+  );
+
   double aktivasyonluBalliCita = 0;
   double minKg = 0;
   double maxKg = 0;
   final bilgiler = <String>[];
 
-  for (final koloni in koloniler) {
-    final int koloniId = _ekInt(koloni['id']);
-    if (koloniId <= 0) continue;
-
-    double aktifBalliCita = 0;
-    double hamBalliCita = 0;
-    try {
-      final model = await KoloniBiyolojikModelServisi.modelGetir(koloniId);
-      aktifBalliCita = _modelBalliCitaSayisi(
-        model,
-        aktivasyonlaAgirliklandir: true,
-      );
-      hamBalliCita = _modelBalliCitaSayisi(
-        model,
-        aktivasyonlaAgirliklandir: false,
-      );
-    } catch (_) {
-      final kayitli = _ekDouble(koloni['bal_cita'] ?? koloni['balCita']);
-      aktifBalliCita = kayitli;
-      hamBalliCita = kayitli;
-    }
-
-    if (aktifBalliCita <= 0) continue;
-
-    aktivasyonluBalliCita += aktifBalliCita;
-    minKg += aktifBalliCita * _balliCitaMinKg;
-    maxKg += aktifBalliCita * _balliCitaMaxKg;
+  for (final sonuc in sonuclar) {
+    if (sonuc == null) continue;
+    aktivasyonluBalliCita += sonuc.aktif;
+    minKg += sonuc.aktif * _balliCitaMinKg;
+    maxKg += sonuc.aktif * _balliCitaMaxKg;
 
     if (bilgiler.length < 5) {
-      final kovanNo = (koloni['kovanNo'] ?? '-').toString();
+      final kovanNo = (sonuc.koloni['kovanNo'] ?? '-').toString();
       bilgiler.add(
-        'Kovan $kovanNo: biyolojik modelde ${_ekFmt(hamBalliCita)} ballı pozisyon, aktivasyonla ${_ekFmt(aktifBalliCita)} çıta üretim hesabına alındı.',
+        'Kovan $kovanNo: biyolojik modelde ${_ekFmt(sonuc.ham)} ballı pozisyon, aktivasyonla ${_ekFmt(sonuc.aktif)} çıta üretim hesabına alındı.',
       );
     }
   }
