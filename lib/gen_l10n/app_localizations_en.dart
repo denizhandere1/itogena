@@ -508,4 +508,303 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get formullerUygulamaModeli => 'Drizzle';
+
+  @override
+  String raporListeHata(String hata) {
+    return 'Report list could not be generated:\n$hata';
+  }
+
+  @override
+  String get raporListeBos => 'No active colonies found for this list.';
+
+  @override
+  String raporListeAciklama(String arilik, int adet) {
+    return 'This list is generated from active colonies in the $arilik apiary. Ranking is primarily by score. In case of tie, reproduction first, then production, then donor eligibility. Total $adet records.';
+  }
+
+  @override
+  String get raporListeSira => 'RANK';
+
+  @override
+  String get raporListeKoloniNo => 'COLONY NO';
+
+  @override
+  String get raporListeDurum => 'STATUS';
+
+  @override
+  String raporListeSkorCita(int skor, int cita) {
+    return 'Score $skor  •  $cita frames';
+  }
+
+  @override
+  String muayeneDetayBaslik(String kovanNo) {
+    return 'HIVE $kovanNo / INSPECTION';
+  }
+
+  @override
+  String get muayeneDetayGenelBilgi => 'GENERAL INFO';
+
+  @override
+  String get muayeneDetayNotlar => 'NOTES';
+
+  @override
+  String get muayeneDetayTetikler => 'TRIGGERS';
+
+  @override
+  String get muayeneDetaySurec => 'PROCESS RECORDS';
+
+  @override
+  String get muayeneDetayTarih => 'Date';
+
+  @override
+  String get muayeneDetayCita => 'Frames';
+
+  @override
+  String get muayeneDetayYavruluCita => 'Brood Frames';
+
+  @override
+  String get muayeneDetayBalHasat => 'Honey/Harvest';
+
+  @override
+  String get muayeneDetayYavruDuzeni => 'Brood Pattern';
+
+  @override
+  String get muayeneDetayMizac => 'Temperament';
+
+  @override
+  String get muayeneDetayBesleme => 'Feeding';
+
+  @override
+  String get muayeneDetayVarroaMucadele => 'Varroa Treatment';
+
+  @override
+  String get muayeneDetayYok => 'None';
+
+  @override
+  String get muayeneDetayEvet => 'Yes';
+
+  @override
+  String get muayeneDetayKapaliMeme => 'Ready sealed queen cell';
+
+  @override
+  String get muayeneDetayHazirAna => 'Ready mated queen given';
+
+  @override
+  String get muayeneDetayKendiAnasi => 'Will raise own queen';
+
+  @override
+  String get muayeneDetayOgulBelirtisi => 'Swarm Sign';
+
+  @override
+  String get muayeneDetayOgulAtti => 'Swarmed';
+
+  @override
+  String get muayeneDetayBolmeYapildi => 'Split Made';
+
+  @override
+  String get muayeneDetayAnasizBirakildi => 'Left Queenless';
+
+  @override
+  String get muayeneDetayKovanSondu => 'Hive Died';
+
+  @override
+  String get muayeneDetayKapaliYavruAktarildi =>
+      'Sealed Brood Frame Transferred';
+
+  @override
+  String get muayeneDetayAnaKazanmaYontemi => 'Queen Rearing Method';
+
+  @override
+  String get muayeneDetayDisaridanAna => 'Outside Mated Queen Given';
+
+  @override
+  String get muayeneDetayGunlukYavru => 'Daily / Sealed Brood Seen';
+
+  @override
+  String get muayeneDetaySuruplukKaldirildi => 'Feeder Removed';
+
+  @override
+  String get muayeneDetayDroneKesimi => 'Drone Comb Removal';
+
+  @override
+  String get muayeneDetayTimol => 'Thymol';
+
+  @override
+  String get muayeneDetayAmitraz => 'Amitraz';
+
+  @override
+  String get muayeneDetayFormik => 'Formic';
+
+  @override
+  String get muayeneDetayOksalik => 'Oxalic';
+
+  @override
+  String get muayeneDetayYavruYokAnaSureci =>
+      'Brood pattern recorded as \"None\" in this inspection. In the context of active queen rearing/split/swarm, the system first interprets this through the biological day window; early period is considered normal waiting, delayed period is evaluated as queenlessness diagnosis.';
+
+  @override
+  String get muayeneDetayYavruYokBasit =>
+      'Brood pattern recorded as \"None\" in this inspection. The system accepts brood frames as 0 in the biological model and reads the colony\'s recovery capacity with this information.';
+
+  @override
+  String get hatAnalizAppBarBaslik => 'Lineage Analysis';
+
+  @override
+  String get hatAnalizSayfaBasligi => 'LINEAGE-BASED SELECTION ANALYSIS';
+
+  @override
+  String get hatAnalizAciklama =>
+      'This screen shows lineages with living continuity. The goal is to quickly see root lineages suitable for donor use and evaluate extinctions within living lineages without losing them.';
+
+  @override
+  String get hatAnalizUstAciklama =>
+      'Only lineages with living continuity are shown on this screen. Completely closed lineages that left no active colonies are not included in the main list.';
+
+  @override
+  String get hatAnalizToplamYasayan => 'Total living lineages';
+
+  @override
+  String get hatAnalizFiltre => 'FILTER';
+
+  @override
+  String get hatAnalizBos => 'No living lineage found for this filter.';
+
+  @override
+  String get hatAnalizNeden => 'REASON / NOTE';
+
+  @override
+  String hatAnalizAktifHat(String kovan) {
+    return 'Active Lineage: $kovan';
+  }
+
+  @override
+  String hatAnalizAktifTemsilci(String kovan) {
+    return 'Active Lineage Representative: $kovan';
+  }
+
+  @override
+  String hatAnalizSonmusDurum(String karar, String kok) {
+    return '$karar · Root $kok extinct';
+  }
+
+  @override
+  String get hatAnalizAktifHatiAc => 'Open Active Lineage';
+
+  @override
+  String get hatAnalizAktifTemsilciAc => 'Open Active Representative';
+
+  @override
+  String get hatAnalizToplam => 'Total';
+
+  @override
+  String get hatAnalizAktif => 'Active';
+
+  @override
+  String get hatAnalizSonmus => 'Extinct';
+
+  @override
+  String get hatAnalizSonmeOrani => 'Extinction %';
+
+  @override
+  String get hatAnalizOrtMaksCita => 'Avg. Max Frames';
+
+  @override
+  String get hatAnalizOrtBalCita => 'Avg. Honey Frames';
+
+  @override
+  String get hatAnalizTumu => 'All';
+
+  @override
+  String get hatAnalizDonorHat => 'Donor Lineage';
+
+  @override
+  String get hatAnalizGucluUretim => 'Strong Production Line';
+
+  @override
+  String get hatAnalizOperasyonel => 'Operational Line';
+
+  @override
+  String get hatAnalizRiskli => 'At-Risk Line';
+
+  @override
+  String get hatAnalizTakip => 'Needs Monitoring';
+
+  @override
+  String get hatAnalizVeriYetersiz => 'Insufficient Data';
+
+  @override
+  String get hatAnalizSayacUretim => 'Production';
+
+  @override
+  String get hatAnalizSayacOperasyonel => 'Operational';
+
+  @override
+  String get hatAnalizSayacRiskli => 'At-Risk';
+
+  @override
+  String get hatAnalizSayacTakip => 'Monitor';
+
+  @override
+  String get hatAnalizSayacVeriAz => 'Low Data';
+
+  @override
+  String get karsilastirmaSecimMinKoloni =>
+      'You must select at least 2 colonies for comparison.';
+
+  @override
+  String get karsilastirmaSecimMaxKoloni =>
+      'You can select at most 3 colonies.';
+
+  @override
+  String get karsilastirmaSecimAciklama =>
+      'Comparison is made with up to 3 colonies. The system tries to make the difference between general performance and genetic selection visible in the same table.';
+
+  @override
+  String get karsilastirmaSecimSkor => 'Score';
+
+  @override
+  String get karsilastirmaSecimSonCita => 'Last Frames';
+
+  @override
+  String get karsilastirmaSecimBal => 'Honey';
+
+  @override
+  String get karsilastirmaSecimBekle => 'Preparing...';
+
+  @override
+  String get karsilastirmaSecimButon => 'Compare';
+
+  @override
+  String get karsilastirmaPerformansBaslik => 'Comparative Analysis';
+
+  @override
+  String get karsilastirmaSistemYorumuPerf =>
+      'SYSTEM INTERPRETATION (PERFORMANCE + SELECTION)';
+
+  @override
+  String get karsilastirmaDonorDurumu => 'Donor Status';
+
+  @override
+  String get karsilastirmaUreme => 'Reproduction';
+
+  @override
+  String get karsilastirmaUretim => 'Production';
+
+  @override
+  String get karsilastirmaDayaniklilik => 'Resilience';
+
+  @override
+  String get karsilastirmaKisCikisi => 'Winter Exit';
+
+  @override
+  String get karsilastirmaHatGucu => 'Line Strength';
+
+  @override
+  String get karsilastirmaDavranis => 'Behavior';
+
+  @override
+  String get karsilastirmaVeriGuveni => 'Data Confidence';
+
+  @override
+  String get karsilastirmaOgulDurumu => 'Swarm Status';
 }

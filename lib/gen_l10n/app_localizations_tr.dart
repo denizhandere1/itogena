@@ -511,4 +511,303 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get formullerUygulamaModeli => 'Damlatma';
+
+  @override
+  String raporListeHata(String hata) {
+    return 'Rapor listesi üretilemedi:\n$hata';
+  }
+
+  @override
+  String get raporListeBos =>
+      'Bu listede gösterilecek aktif koloni bulunamadı.';
+
+  @override
+  String raporListeAciklama(String arilik, int adet) {
+    return 'Bu liste $arilik arılığındaki aktif kolonilerden üretilir. Sıralama ana eksende skora göre yapılır. Eşitlikte önce üreme, sonra üretim, sonra donörlük öne çıkar. Toplam $adet kayıt var.';
+  }
+
+  @override
+  String get raporListeSira => 'SIRA';
+
+  @override
+  String get raporListeKoloniNo => 'KOLONİ NO';
+
+  @override
+  String get raporListeDurum => 'DURUM';
+
+  @override
+  String raporListeSkorCita(int skor, int cita) {
+    return 'Skor $skor  •  $cita çıta';
+  }
+
+  @override
+  String muayeneDetayBaslik(String kovanNo) {
+    return 'KOVAN $kovanNo / MUAYENE';
+  }
+
+  @override
+  String get muayeneDetayGenelBilgi => 'GENEL BİLGİ';
+
+  @override
+  String get muayeneDetayNotlar => 'NOTLAR';
+
+  @override
+  String get muayeneDetayTetikler => 'TETİKLER';
+
+  @override
+  String get muayeneDetaySurec => 'SÜREÇ KAYITLARI';
+
+  @override
+  String get muayeneDetayTarih => 'Tarih';
+
+  @override
+  String get muayeneDetayCita => 'Çıta';
+
+  @override
+  String get muayeneDetayYavruluCita => 'Yavrulu Çıta';
+
+  @override
+  String get muayeneDetayBalHasat => 'Bal/Hasat';
+
+  @override
+  String get muayeneDetayYavruDuzeni => 'Yavru Düzeni';
+
+  @override
+  String get muayeneDetayMizac => 'Mizaç';
+
+  @override
+  String get muayeneDetayBesleme => 'Besleme';
+
+  @override
+  String get muayeneDetayVarroaMucadele => 'Varroa Mücadelesi';
+
+  @override
+  String get muayeneDetayYok => 'Yok';
+
+  @override
+  String get muayeneDetayEvet => 'Evet';
+
+  @override
+  String get muayeneDetayKapaliMeme => 'Hazır kapalı ana memesi var';
+
+  @override
+  String get muayeneDetayHazirAna => 'Hazır çiftleşmiş ana verildi';
+
+  @override
+  String get muayeneDetayKendiAnasi => 'Kendi anasını yapacak';
+
+  @override
+  String get muayeneDetayOgulBelirtisi => 'Oğul Belirtisi';
+
+  @override
+  String get muayeneDetayOgulAtti => 'Oğul Attı';
+
+  @override
+  String get muayeneDetayBolmeYapildi => 'Bölme Yapıldı';
+
+  @override
+  String get muayeneDetayAnasizBirakildi => 'Anasız Bırakıldı';
+
+  @override
+  String get muayeneDetayKovanSondu => 'Kovan Söndü';
+
+  @override
+  String get muayeneDetayKapaliYavruAktarildi =>
+      'Kapalı Yavrulu Çıta Aktarıldı';
+
+  @override
+  String get muayeneDetayAnaKazanmaYontemi => 'Ana Kazanma Yöntemi';
+
+  @override
+  String get muayeneDetayDisaridanAna => 'Dışarıdan Hazır Ana Verildi';
+
+  @override
+  String get muayeneDetayGunlukYavru => 'Günlük / Kapalı Yavru Görüldü';
+
+  @override
+  String get muayeneDetaySuruplukKaldirildi => 'Şurupluk Kaldırıldı';
+
+  @override
+  String get muayeneDetayDroneKesimi => 'Drone Kesimi';
+
+  @override
+  String get muayeneDetayTimol => 'Timol';
+
+  @override
+  String get muayeneDetayAmitraz => 'Amitraz';
+
+  @override
+  String get muayeneDetayFormik => 'Formik';
+
+  @override
+  String get muayeneDetayOksalik => 'Oksalik';
+
+  @override
+  String get muayeneDetayYavruYokAnaSureci =>
+      'Bu muayenede yavru düzeni \"Yok\" kaydedilmiş. Aktif ana kazanma/bölme/oğul bağlamında sistem bunu önce biyolojik gün penceresine göre yorumlar; erken dönemde normal bekleme, gecikmiş dönemde yavrusuzluk tanısı olarak değerlendirir.';
+
+  @override
+  String get muayeneDetayYavruYokBasit =>
+      'Bu muayenede yavru düzeni \"Yok\" kaydedilmiş. Sistem biyolojik modelde yavrulu çıtayı 0 kabul eder ve koloni geri dönüş kapasitesini bu bilgiyle okur.';
+
+  @override
+  String get hatAnalizAppBarBaslik => 'Hat Analizi';
+
+  @override
+  String get hatAnalizSayfaBasligi => 'HAT BAZLI SEÇİLİM ANALİZİ';
+
+  @override
+  String get hatAnalizAciklama =>
+      'Bu ekran yaşayan devamı olan hatları gösterir. Amaç, donörlüğe uygun kök hatları hızlıca görmek ve yaşayan hat içindeki sönmeleri kaybetmeden değerlendirmektir.';
+
+  @override
+  String get hatAnalizUstAciklama =>
+      'Bu ekranda yalnızca yaşayan devamı olan hatlar gösterilir. Tamamen kapanmış ve aktif koloni bırakmamış hatlar ana listede yer almaz.';
+
+  @override
+  String get hatAnalizToplamYasayan => 'Toplam yaşayan hat sayısı';
+
+  @override
+  String get hatAnalizFiltre => 'FİLTRE';
+
+  @override
+  String get hatAnalizBos => 'Bu filtrede gösterilecek yaşayan hat bulunamadı.';
+
+  @override
+  String get hatAnalizNeden => 'NEDEN / NOT';
+
+  @override
+  String hatAnalizAktifHat(String kovan) {
+    return 'Aktif Hat: $kovan';
+  }
+
+  @override
+  String hatAnalizAktifTemsilci(String kovan) {
+    return 'Aktif Hat Temsilcisi: $kovan';
+  }
+
+  @override
+  String hatAnalizSonmusDurum(String karar, String kok) {
+    return '$karar · Kök $kok sönmüş';
+  }
+
+  @override
+  String get hatAnalizAktifHatiAc => 'Aktif Hattı Aç';
+
+  @override
+  String get hatAnalizAktifTemsilciAc => 'Aktif Temsilciyi Aç';
+
+  @override
+  String get hatAnalizToplam => 'Toplam';
+
+  @override
+  String get hatAnalizAktif => 'Aktif';
+
+  @override
+  String get hatAnalizSonmus => 'Sönmüş';
+
+  @override
+  String get hatAnalizSonmeOrani => 'Sönme %';
+
+  @override
+  String get hatAnalizOrtMaksCita => 'Ort. Maks Çıta';
+
+  @override
+  String get hatAnalizOrtBalCita => 'Ort. Bal Çıtası';
+
+  @override
+  String get hatAnalizTumu => 'Tümü';
+
+  @override
+  String get hatAnalizDonorHat => 'Donör Hat';
+
+  @override
+  String get hatAnalizGucluUretim => 'Güçlü Üretim Hattı';
+
+  @override
+  String get hatAnalizOperasyonel => 'Operasyonel Hat';
+
+  @override
+  String get hatAnalizRiskli => 'Riskli Hat';
+
+  @override
+  String get hatAnalizTakip => 'Takip Edilmeli';
+
+  @override
+  String get hatAnalizVeriYetersiz => 'Veri Yetersiz';
+
+  @override
+  String get hatAnalizSayacUretim => 'Üretim Hattı';
+
+  @override
+  String get hatAnalizSayacOperasyonel => 'Operasyonel';
+
+  @override
+  String get hatAnalizSayacRiskli => 'Riskli';
+
+  @override
+  String get hatAnalizSayacTakip => 'Takip';
+
+  @override
+  String get hatAnalizSayacVeriAz => 'Veri Az';
+
+  @override
+  String get karsilastirmaSecimMinKoloni =>
+      'Karşılaştırma için en az 2 koloni seçmelisin.';
+
+  @override
+  String get karsilastirmaSecimMaxKoloni => 'En fazla 3 koloni seçebilirsin.';
+
+  @override
+  String get karsilastirmaSecimAciklama =>
+      'Karşılaştırma en fazla 3 koloni ile yapılır. Sistem genel performans ile genetik seçilim farkını aynı tabloda görünür hale getirmeye çalışır.';
+
+  @override
+  String get karsilastirmaSecimSkor => 'Skor';
+
+  @override
+  String get karsilastirmaSecimSonCita => 'Son Çıta';
+
+  @override
+  String get karsilastirmaSecimBal => 'Bal';
+
+  @override
+  String get karsilastirmaSecimBekle => 'Hazırlanıyor...';
+
+  @override
+  String get karsilastirmaSecimButon => 'Karşılaştır';
+
+  @override
+  String get karsilastirmaPerformansBaslik => 'Karşılaştırmalı Analiz';
+
+  @override
+  String get karsilastirmaSistemYorumuPerf =>
+      'SİSTEM YORUMU (PERFORMANS + SEÇİLİM)';
+
+  @override
+  String get karsilastirmaDonorDurumu => 'Donör Durumu';
+
+  @override
+  String get karsilastirmaUreme => 'Üreme';
+
+  @override
+  String get karsilastirmaUretim => 'Üretim';
+
+  @override
+  String get karsilastirmaDayaniklilik => 'Dayanıklılık';
+
+  @override
+  String get karsilastirmaKisCikisi => 'Kış Çıkışı';
+
+  @override
+  String get karsilastirmaHatGucu => 'Hat Gücü';
+
+  @override
+  String get karsilastirmaDavranis => 'Davranış';
+
+  @override
+  String get karsilastirmaVeriGuveni => 'Veri Güveni';
+
+  @override
+  String get karsilastirmaOgulDurumu => 'Oğul Durumu';
 }

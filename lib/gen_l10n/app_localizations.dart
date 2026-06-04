@@ -1003,6 +1003,558 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Damlatma'**
   String get formullerUygulamaModeli;
+
+  /// No description provided for @raporListeHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rapor listesi üretilemedi:\n{hata}'**
+  String raporListeHata(String hata);
+
+  /// No description provided for @raporListeBos.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu listede gösterilecek aktif koloni bulunamadı.'**
+  String get raporListeBos;
+
+  /// No description provided for @raporListeAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu liste {arilik} arılığındaki aktif kolonilerden üretilir. Sıralama ana eksende skora göre yapılır. Eşitlikte önce üreme, sonra üretim, sonra donörlük öne çıkar. Toplam {adet} kayıt var.'**
+  String raporListeAciklama(String arilik, int adet);
+
+  /// No description provided for @raporListeSira.
+  ///
+  /// In tr, this message translates to:
+  /// **'SIRA'**
+  String get raporListeSira;
+
+  /// No description provided for @raporListeKoloniNo.
+  ///
+  /// In tr, this message translates to:
+  /// **'KOLONİ NO'**
+  String get raporListeKoloniNo;
+
+  /// No description provided for @raporListeDurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'DURUM'**
+  String get raporListeDurum;
+
+  /// No description provided for @raporListeSkorCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Skor {skor}  •  {cita} çıta'**
+  String raporListeSkorCita(int skor, int cita);
+
+  /// No description provided for @muayeneDetayBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'KOVAN {kovanNo} / MUAYENE'**
+  String muayeneDetayBaslik(String kovanNo);
+
+  /// No description provided for @muayeneDetayGenelBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'GENEL BİLGİ'**
+  String get muayeneDetayGenelBilgi;
+
+  /// No description provided for @muayeneDetayNotlar.
+  ///
+  /// In tr, this message translates to:
+  /// **'NOTLAR'**
+  String get muayeneDetayNotlar;
+
+  /// No description provided for @muayeneDetayTetikler.
+  ///
+  /// In tr, this message translates to:
+  /// **'TETİKLER'**
+  String get muayeneDetayTetikler;
+
+  /// No description provided for @muayeneDetaySurec.
+  ///
+  /// In tr, this message translates to:
+  /// **'SÜREÇ KAYITLARI'**
+  String get muayeneDetaySurec;
+
+  /// No description provided for @muayeneDetayTarih.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarih'**
+  String get muayeneDetayTarih;
+
+  /// No description provided for @muayeneDetayCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıta'**
+  String get muayeneDetayCita;
+
+  /// No description provided for @muayeneDetayYavruluCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavrulu Çıta'**
+  String get muayeneDetayYavruluCita;
+
+  /// No description provided for @muayeneDetayBalHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal/Hasat'**
+  String get muayeneDetayBalHasat;
+
+  /// No description provided for @muayeneDetayYavruDuzeni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru Düzeni'**
+  String get muayeneDetayYavruDuzeni;
+
+  /// No description provided for @muayeneDetayMizac.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mizaç'**
+  String get muayeneDetayMizac;
+
+  /// No description provided for @muayeneDetayBesleme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme'**
+  String get muayeneDetayBesleme;
+
+  /// No description provided for @muayeneDetayVarroaMucadele.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varroa Mücadelesi'**
+  String get muayeneDetayVarroaMucadele;
+
+  /// No description provided for @muayeneDetayYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yok'**
+  String get muayeneDetayYok;
+
+  /// No description provided for @muayeneDetayEvet.
+  ///
+  /// In tr, this message translates to:
+  /// **'Evet'**
+  String get muayeneDetayEvet;
+
+  /// No description provided for @muayeneDetayKapaliMeme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hazır kapalı ana memesi var'**
+  String get muayeneDetayKapaliMeme;
+
+  /// No description provided for @muayeneDetayHazirAna.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hazır çiftleşmiş ana verildi'**
+  String get muayeneDetayHazirAna;
+
+  /// No description provided for @muayeneDetayKendiAnasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kendi anasını yapacak'**
+  String get muayeneDetayKendiAnasi;
+
+  /// No description provided for @muayeneDetayOgulBelirtisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul Belirtisi'**
+  String get muayeneDetayOgulBelirtisi;
+
+  /// No description provided for @muayeneDetayOgulAtti.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul Attı'**
+  String get muayeneDetayOgulAtti;
+
+  /// No description provided for @muayeneDetayBolmeYapildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme Yapıldı'**
+  String get muayeneDetayBolmeYapildi;
+
+  /// No description provided for @muayeneDetayAnasizBirakildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anasız Bırakıldı'**
+  String get muayeneDetayAnasizBirakildi;
+
+  /// No description provided for @muayeneDetayKovanSondu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan Söndü'**
+  String get muayeneDetayKovanSondu;
+
+  /// No description provided for @muayeneDetayKapaliYavruAktarildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı Yavrulu Çıta Aktarıldı'**
+  String get muayeneDetayKapaliYavruAktarildi;
+
+  /// No description provided for @muayeneDetayAnaKazanmaYontemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Kazanma Yöntemi'**
+  String get muayeneDetayAnaKazanmaYontemi;
+
+  /// No description provided for @muayeneDetayDisaridanAna.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dışarıdan Hazır Ana Verildi'**
+  String get muayeneDetayDisaridanAna;
+
+  /// No description provided for @muayeneDetayGunlukYavru.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük / Kapalı Yavru Görüldü'**
+  String get muayeneDetayGunlukYavru;
+
+  /// No description provided for @muayeneDetaySuruplukKaldirildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk Kaldırıldı'**
+  String get muayeneDetaySuruplukKaldirildi;
+
+  /// No description provided for @muayeneDetayDroneKesimi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Drone Kesimi'**
+  String get muayeneDetayDroneKesimi;
+
+  /// No description provided for @muayeneDetayTimol.
+  ///
+  /// In tr, this message translates to:
+  /// **'Timol'**
+  String get muayeneDetayTimol;
+
+  /// No description provided for @muayeneDetayAmitraz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Amitraz'**
+  String get muayeneDetayAmitraz;
+
+  /// No description provided for @muayeneDetayFormik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Formik'**
+  String get muayeneDetayFormik;
+
+  /// No description provided for @muayeneDetayOksalik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oksalik'**
+  String get muayeneDetayOksalik;
+
+  /// No description provided for @muayeneDetayYavruYokAnaSureci.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu muayenede yavru düzeni \"Yok\" kaydedilmiş. Aktif ana kazanma/bölme/oğul bağlamında sistem bunu önce biyolojik gün penceresine göre yorumlar; erken dönemde normal bekleme, gecikmiş dönemde yavrusuzluk tanısı olarak değerlendirir.'**
+  String get muayeneDetayYavruYokAnaSureci;
+
+  /// No description provided for @muayeneDetayYavruYokBasit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu muayenede yavru düzeni \"Yok\" kaydedilmiş. Sistem biyolojik modelde yavrulu çıtayı 0 kabul eder ve koloni geri dönüş kapasitesini bu bilgiyle okur.'**
+  String get muayeneDetayYavruYokBasit;
+
+  /// No description provided for @hatAnalizAppBarBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hat Analizi'**
+  String get hatAnalizAppBarBaslik;
+
+  /// No description provided for @hatAnalizSayfaBasligi.
+  ///
+  /// In tr, this message translates to:
+  /// **'HAT BAZLI SEÇİLİM ANALİZİ'**
+  String get hatAnalizSayfaBasligi;
+
+  /// No description provided for @hatAnalizAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu ekran yaşayan devamı olan hatları gösterir. Amaç, donörlüğe uygun kök hatları hızlıca görmek ve yaşayan hat içindeki sönmeleri kaybetmeden değerlendirmektir.'**
+  String get hatAnalizAciklama;
+
+  /// No description provided for @hatAnalizUstAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu ekranda yalnızca yaşayan devamı olan hatlar gösterilir. Tamamen kapanmış ve aktif koloni bırakmamış hatlar ana listede yer almaz.'**
+  String get hatAnalizUstAciklama;
+
+  /// No description provided for @hatAnalizToplamYasayan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam yaşayan hat sayısı'**
+  String get hatAnalizToplamYasayan;
+
+  /// No description provided for @hatAnalizFiltre.
+  ///
+  /// In tr, this message translates to:
+  /// **'FİLTRE'**
+  String get hatAnalizFiltre;
+
+  /// No description provided for @hatAnalizBos.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu filtrede gösterilecek yaşayan hat bulunamadı.'**
+  String get hatAnalizBos;
+
+  /// No description provided for @hatAnalizNeden.
+  ///
+  /// In tr, this message translates to:
+  /// **'NEDEN / NOT'**
+  String get hatAnalizNeden;
+
+  /// No description provided for @hatAnalizAktifHat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif Hat: {kovan}'**
+  String hatAnalizAktifHat(String kovan);
+
+  /// No description provided for @hatAnalizAktifTemsilci.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif Hat Temsilcisi: {kovan}'**
+  String hatAnalizAktifTemsilci(String kovan);
+
+  /// No description provided for @hatAnalizSonmusDurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'{karar} · Kök {kok} sönmüş'**
+  String hatAnalizSonmusDurum(String karar, String kok);
+
+  /// No description provided for @hatAnalizAktifHatiAc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif Hattı Aç'**
+  String get hatAnalizAktifHatiAc;
+
+  /// No description provided for @hatAnalizAktifTemsilciAc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif Temsilciyi Aç'**
+  String get hatAnalizAktifTemsilciAc;
+
+  /// No description provided for @hatAnalizToplam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam'**
+  String get hatAnalizToplam;
+
+  /// No description provided for @hatAnalizAktif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif'**
+  String get hatAnalizAktif;
+
+  /// No description provided for @hatAnalizSonmus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sönmüş'**
+  String get hatAnalizSonmus;
+
+  /// No description provided for @hatAnalizSonmeOrani.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sönme %'**
+  String get hatAnalizSonmeOrani;
+
+  /// No description provided for @hatAnalizOrtMaksCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ort. Maks Çıta'**
+  String get hatAnalizOrtMaksCita;
+
+  /// No description provided for @hatAnalizOrtBalCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ort. Bal Çıtası'**
+  String get hatAnalizOrtBalCita;
+
+  /// No description provided for @hatAnalizTumu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümü'**
+  String get hatAnalizTumu;
+
+  /// No description provided for @hatAnalizDonorHat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör Hat'**
+  String get hatAnalizDonorHat;
+
+  /// No description provided for @hatAnalizGucluUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü Üretim Hattı'**
+  String get hatAnalizGucluUretim;
+
+  /// No description provided for @hatAnalizOperasyonel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Operasyonel Hat'**
+  String get hatAnalizOperasyonel;
+
+  /// No description provided for @hatAnalizRiskli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Riskli Hat'**
+  String get hatAnalizRiskli;
+
+  /// No description provided for @hatAnalizTakip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takip Edilmeli'**
+  String get hatAnalizTakip;
+
+  /// No description provided for @hatAnalizVeriYetersiz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri Yetersiz'**
+  String get hatAnalizVeriYetersiz;
+
+  /// No description provided for @hatAnalizSayacUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim Hattı'**
+  String get hatAnalizSayacUretim;
+
+  /// No description provided for @hatAnalizSayacOperasyonel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Operasyonel'**
+  String get hatAnalizSayacOperasyonel;
+
+  /// No description provided for @hatAnalizSayacRiskli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Riskli'**
+  String get hatAnalizSayacRiskli;
+
+  /// No description provided for @hatAnalizSayacTakip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takip'**
+  String get hatAnalizSayacTakip;
+
+  /// No description provided for @hatAnalizSayacVeriAz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri Az'**
+  String get hatAnalizSayacVeriAz;
+
+  /// No description provided for @karsilastirmaSecimMinKoloni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karşılaştırma için en az 2 koloni seçmelisin.'**
+  String get karsilastirmaSecimMinKoloni;
+
+  /// No description provided for @karsilastirmaSecimMaxKoloni.
+  ///
+  /// In tr, this message translates to:
+  /// **'En fazla 3 koloni seçebilirsin.'**
+  String get karsilastirmaSecimMaxKoloni;
+
+  /// No description provided for @karsilastirmaSecimAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karşılaştırma en fazla 3 koloni ile yapılır. Sistem genel performans ile genetik seçilim farkını aynı tabloda görünür hale getirmeye çalışır.'**
+  String get karsilastirmaSecimAciklama;
+
+  /// No description provided for @karsilastirmaSecimSkor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Skor'**
+  String get karsilastirmaSecimSkor;
+
+  /// No description provided for @karsilastirmaSecimSonCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son Çıta'**
+  String get karsilastirmaSecimSonCita;
+
+  /// No description provided for @karsilastirmaSecimBal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal'**
+  String get karsilastirmaSecimBal;
+
+  /// No description provided for @karsilastirmaSecimBekle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hazırlanıyor...'**
+  String get karsilastirmaSecimBekle;
+
+  /// No description provided for @karsilastirmaSecimButon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karşılaştır'**
+  String get karsilastirmaSecimButon;
+
+  /// No description provided for @karsilastirmaPerformansBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karşılaştırmalı Analiz'**
+  String get karsilastirmaPerformansBaslik;
+
+  /// No description provided for @karsilastirmaSistemYorumuPerf.
+  ///
+  /// In tr, this message translates to:
+  /// **'SİSTEM YORUMU (PERFORMANS + SEÇİLİM)'**
+  String get karsilastirmaSistemYorumuPerf;
+
+  /// No description provided for @karsilastirmaDonorDurumu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör Durumu'**
+  String get karsilastirmaDonorDurumu;
+
+  /// No description provided for @karsilastirmaUreme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üreme'**
+  String get karsilastirmaUreme;
+
+  /// No description provided for @karsilastirmaUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim'**
+  String get karsilastirmaUretim;
+
+  /// No description provided for @karsilastirmaDayaniklilik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dayanıklılık'**
+  String get karsilastirmaDayaniklilik;
+
+  /// No description provided for @karsilastirmaKisCikisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış Çıkışı'**
+  String get karsilastirmaKisCikisi;
+
+  /// No description provided for @karsilastirmaHatGucu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hat Gücü'**
+  String get karsilastirmaHatGucu;
+
+  /// No description provided for @karsilastirmaDavranis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Davranış'**
+  String get karsilastirmaDavranis;
+
+  /// No description provided for @karsilastirmaVeriGuveni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri Güveni'**
+  String get karsilastirmaVeriGuveni;
+
+  /// No description provided for @karsilastirmaOgulDurumu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul Durumu'**
+  String get karsilastirmaOgulDurumu;
 }
 
 class _AppLocalizationsDelegate

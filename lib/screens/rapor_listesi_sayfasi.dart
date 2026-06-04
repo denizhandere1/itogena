@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/rapor_siralama_servisi.dart';
 import 'koloni_detay_sayfasi.dart';
@@ -61,7 +61,7 @@ class _RaporListesiSayfasiState extends State<RaporListesiSayfasi> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  'Rapor listesi üretilemedi:\n${snapshot.error}',
+                  AppLocalizations.of(context).raporListeHata(snapshot.error.toString()),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.red,
@@ -75,10 +75,10 @@ class _RaporListesiSayfasiState extends State<RaporListesiSayfasi> {
 
           final liste = snapshot.data ?? const <RaporListeKaydi>[];
           if (liste.isEmpty) {
-            return const Center(
+            return Center(
               child: Text(
-                'Bu listede gösterilecek aktif koloni bulunamadı.',
-                style: TextStyle(fontSize: 14),
+                AppLocalizations.of(context).raporListeBos,
+                style: const TextStyle(fontSize: 14),
                 textAlign: TextAlign.center,
               ),
             );
@@ -108,7 +108,7 @@ class _RaporListesiSayfasiState extends State<RaporListesiSayfasi> {
         border: Border.all(color: Colors.amber.shade300),
       ),
       child: Text(
-        'Bu liste ${widget.arilikAd} arılığındaki aktif kolonilerden üretilir. Sıralama ana eksende skora göre yapılır. Eşitlikte önce üreme, sonra üretim, sonra donörlük öne çıkar. Toplam $adet kayıt var.',
+        AppLocalizations.of(context).raporListeAciklama(widget.arilikAd, adet),
         style: const TextStyle(
           fontSize: 12,
           height: 1.45,
@@ -126,27 +126,27 @@ class _RaporListesiSayfasiState extends State<RaporListesiSayfasi> {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.brown.shade100),
       ),
-      child: const Row(
+      child: Row(
         children: [
           SizedBox(
             width: 52,
             child: Text(
-              'SIRA',
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
+              AppLocalizations.of(context).raporListeSira,
+              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
             ),
           ),
           Expanded(
             child: Text(
-              'KOLONİ NO',
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
+              AppLocalizations.of(context).raporListeKoloniNo,
+              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
             ),
           ),
           SizedBox(
             width: 124,
             child: Text(
-              'DURUM',
+              AppLocalizations.of(context).raporListeDurum,
               textAlign: TextAlign.right,
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
+              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
             ),
           ),
         ],
@@ -201,7 +201,7 @@ class _RaporListesiSayfasiState extends State<RaporListesiSayfasi> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Skor ${kayit.genelSkor}  •  ${kayit.sonCita} çıta',
+                    AppLocalizations.of(context).raporListeSkorCita(kayit.genelSkor, kayit.sonCita),
                     style: const TextStyle(
                       fontSize: 12,
                       color: Colors.black54,

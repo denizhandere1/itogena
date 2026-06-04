@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/performans_ozeti_servisi.dart';
@@ -60,8 +61,8 @@ class _KarsilastirmaSecimSayfasiState extends State<KarsilastirmaSecimSayfasi> {
   Future<void> _karsilastir() async {
     if (_seciliKoloniIdleri.length < 2) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Karşılaştırma için en az 2 koloni seçmelisin.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).karsilastirmaSecimMinKoloni),
         ),
       );
       return;
@@ -155,8 +156,8 @@ class _KarsilastirmaSecimSayfasiState extends State<KarsilastirmaSecimSayfasi> {
       } else {
         if (_seciliKoloniIdleri.length >= 3) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('En fazla 3 koloni seçebilirsin.'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context).karsilastirmaSecimMaxKoloni),
             ),
           );
           return;
@@ -202,7 +203,7 @@ class _KarsilastirmaSecimSayfasiState extends State<KarsilastirmaSecimSayfasi> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Kovan $kovanNo',
+                    AppLocalizations.of(context).karsilastirmaKovanNo(kovanNo),
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
@@ -211,11 +212,11 @@ class _KarsilastirmaSecimSayfasiState extends State<KarsilastirmaSecimSayfasi> {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      _miniBilgi('Skor', '%$skor'),
+                      _miniBilgi(AppLocalizations.of(context).karsilastirmaSecimSkor, '%$skor'),
                       const SizedBox(width: 8),
-                      _miniBilgi('Son Çıta', sonCita.toString()),
+                      _miniBilgi(AppLocalizations.of(context).karsilastirmaSecimSonCita, sonCita.toString()),
                       const SizedBox(width: 8),
-                      _miniBilgi('Bal', bal.toString()),
+                      _miniBilgi(AppLocalizations.of(context).karsilastirmaSecimBal, bal.toString()),
                     ],
                   ),
                 ],
@@ -307,8 +308,8 @@ class _KarsilastirmaSecimSayfasiState extends State<KarsilastirmaSecimSayfasi> {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: Colors.amber.shade300),
             ),
-            child: const Text(
-              'Karşılaştırma en fazla 3 koloni ile yapılır. Sistem genel performans ile genetik seçilim farkını aynı tabloda görünür hale getirmeye çalışır.',
+            child: Text(
+              AppLocalizations.of(context).karsilastirmaSecimAciklama,
               style: TextStyle(
                 fontSize: 12,
                 height: 1.45,
@@ -338,7 +339,7 @@ class _KarsilastirmaSecimSayfasiState extends State<KarsilastirmaSecimSayfasi> {
         )
             : const Icon(Icons.table_chart, color: Colors.black),
         label: Text(
-          _hesapliyor ? 'Hazırlanıyor...' : 'Karşılaştır',
+          _hesapliyor ? AppLocalizations.of(context).karsilastirmaSecimBekle : AppLocalizations.of(context).karsilastirmaSecimButon,
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w900,
@@ -531,7 +532,7 @@ class KarsilastirmaliPerformansSayfasi extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
-        title: const Text('Karşılaştırmalı Analiz'),
+        title: Text(AppLocalizations.of(context).karsilastirmaPerformansBaslik),
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
         actions: [AnaSayfaKisayol.aksiyon(context)],
@@ -568,13 +569,13 @@ class KarsilastirmaliPerformansSayfasi extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      SizedBox(width: 110, child: _hucre('Kriter', vurgu: true)),
+                      SizedBox(width: 110, child: _hucre(AppLocalizations.of(context).karsilastirmaKriter, vurgu: true)),
                       ...veriler.map(
                             (v) => Expanded(
                           child: SizedBox(
                             width: 120,
                             child: _hucre(
-                              'Kovan ${v.kovanNo}',
+                              AppLocalizations.of(context).karsilastirmaKovanNo(v.kovanNo),
                               renk: _renkSkoraGore(v.genelSkor),
                               vurgu: true,
                             ),
@@ -583,16 +584,16 @@ class KarsilastirmaliPerformansSayfasi extends StatelessWidget {
                       ),
                     ],
                   ),
-                  _satir('Donör Durumu', 'donor'),
-                  _satir('Performans', 'genel'),
-                  _satir('Üreme', 'ureme'),
-                  _satir('Üretim', 'uretim'),
-                  _satir('Dayanıklılık', 'dayaniklilik'),
-                  _satir('Kış Çıkışı', 'kis'),
-                  _satir('Hat Gücü', 'hat'),
-                  _satir('Davranış', 'davranis'),
-                  _satir('Veri Güveni', 'veri'),
-                  _satir('Oğul Durumu', 'ogul'),
+                  _satir(AppLocalizations.of(context).karsilastirmaDonorDurumu, 'donor'),
+                  _satir(AppLocalizations.of(context).karsilastirmaBiyoloji, 'genel'),
+                  _satir(AppLocalizations.of(context).karsilastirmaUreme, 'ureme'),
+                  _satir(AppLocalizations.of(context).karsilastirmaUretim, 'uretim'),
+                  _satir(AppLocalizations.of(context).karsilastirmaDayaniklilik, 'dayaniklilik'),
+                  _satir(AppLocalizations.of(context).karsilastirmaKisCikisi, 'kis'),
+                  _satir(AppLocalizations.of(context).karsilastirmaHatGucu, 'hat'),
+                  _satir(AppLocalizations.of(context).karsilastirmaDavranis, 'davranis'),
+                  _satir(AppLocalizations.of(context).karsilastirmaVeriGuveni, 'veri'),
+                  _satir(AppLocalizations.of(context).karsilastirmaOgulDurumu, 'ogul'),
                 ],
               ),
             ),
@@ -608,8 +609,8 @@ class KarsilastirmaliPerformansSayfasi extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'SİSTEM YORUMU (PERFORMANS + SEÇİLİM)',
+                Text(
+                  AppLocalizations.of(context).karsilastirmaSistemYorumuPerf,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w900,

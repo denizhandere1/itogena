@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 
 class MuayeneDetaySayfasi extends StatelessWidget {
   final Map<String, dynamic> muayene;
@@ -26,16 +27,16 @@ class MuayeneDetaySayfasi extends StatelessWidget {
 
   bool _boolAlan(dynamic v) => _int(v) == 1;
 
-  String _anaKazanmaYontemiMetni(dynamic v) {
+  String _anaKazanmaYontemiMetni(dynamic v, AppLocalizations l10n) {
     final temiz = (v ?? '').toString().trim();
     if (temiz.isEmpty) return '-';
     switch (temiz) {
       case 'kapali_meme':
-        return 'Hazır kapalı ana memesi var';
+        return l10n.muayeneDetayKapaliMeme;
       case 'hazir_ana':
-        return 'Hazır çiftleşmiş ana verildi';
+        return l10n.muayeneDetayHazirAna;
       case 'kendi_anasi':
-        return 'Kendi anasını yapacak';
+        return l10n.muayeneDetayKendiAnasi;
       default:
         return temiz;
     }
@@ -133,30 +134,30 @@ class MuayeneDetaySayfasi extends StatelessWidget {
     return temiz;
   }
 
-  List<String> _varroaSecimleri() {
+  List<String> _varroaSecimleri(AppLocalizations l10n) {
     final secimler = <String>[];
 
     void ekle(String etiket) {
       if (!secimler.contains(etiket)) secimler.add(etiket);
     }
 
-    if (_boolAlan(muayene['varroaDroneKesimi'])) ekle('Drone Kesimi');
-    if (_boolAlan(muayene['varroaBolme'])) ekle('Bölme');
-    if (_boolAlan(muayene['varroaTimol'])) ekle('Timol');
-    if (_boolAlan(muayene['varroaAmitraz'])) ekle('Amitraz');
-    if (_boolAlan(muayene['varroaFormik'])) ekle('Formik');
-    if (_boolAlan(muayene['varroaOksalik'])) ekle('Oksalik');
+    if (_boolAlan(muayene['varroaDroneKesimi'])) ekle(l10n.muayeneDetayDroneKesimi);
+    if (_boolAlan(muayene['varroaBolme'])) ekle(l10n.muayeneDetayBolmeYapildi);
+    if (_boolAlan(muayene['varroaTimol'])) ekle(l10n.muayeneDetayTimol);
+    if (_boolAlan(muayene['varroaAmitraz'])) ekle(l10n.muayeneDetayAmitraz);
+    if (_boolAlan(muayene['varroaFormik'])) ekle(l10n.muayeneDetayFormik);
+    if (_boolAlan(muayene['varroaOksalik'])) ekle(l10n.muayeneDetayOksalik);
 
     final eski = _metin(muayene['varroaMucadele'], varsayilan: '');
     final eskiNorm = eski.toLowerCase();
 
     if (secimler.isEmpty && eski.isNotEmpty && eski != '-') {
-      if (eskiNorm.contains('drone')) ekle('Drone Kesimi');
-      else if (eskiNorm == 'bölme' || eskiNorm == 'bolme') ekle('Bölme');
-      else if (eskiNorm.contains('timol')) ekle('Timol');
-      else if (eskiNorm.contains('varroset') || eskiNorm.contains('amitraz')) ekle('Amitraz');
-      else if (eskiNorm.contains('formik')) ekle('Formik');
-      else if (eskiNorm.contains('oksalik')) ekle('Oksalik');
+      if (eskiNorm.contains('drone')) ekle(l10n.muayeneDetayDroneKesimi);
+      else if (eskiNorm == 'bölme' || eskiNorm == 'bolme') ekle(l10n.muayeneDetayBolmeYapildi);
+      else if (eskiNorm.contains('timol')) ekle(l10n.muayeneDetayTimol);
+      else if (eskiNorm.contains('varroset') || eskiNorm.contains('amitraz')) ekle(l10n.muayeneDetayAmitraz);
+      else if (eskiNorm.contains('formik')) ekle(l10n.muayeneDetayFormik);
+      else if (eskiNorm.contains('oksalik')) ekle(l10n.muayeneDetayOksalik);
       else if (eskiNorm != 'yok') ekle(eski);
     }
 
@@ -168,7 +169,7 @@ class MuayeneDetaySayfasi extends StatelessWidget {
     return yavruDuzeni.trim().toLowerCase() == 'yok';
   }
 
-  Widget _yavruYokKayitKutusu() {
+  Widget _yavruYokKayitKutusu(AppLocalizations l10n) {
     if (!_yavruDuzeniYokMu()) return const SizedBox.shrink();
 
     final bool anaSureciKaydi =
@@ -176,11 +177,11 @@ class MuayeneDetaySayfasi extends StatelessWidget {
         _boolAlan(muayene['bolmeYapildi']) ||
         _boolAlan(muayene['ogulAtti']) ||
         _boolAlan(muayene['gunlukKapaliYavruGoruldu']) ||
-        _anaKazanmaYontemiMetni(muayene['anaKazanmaYontemi']) != '-';
+        _anaKazanmaYontemiMetni(muayene['anaKazanmaYontemi'], l10n) != '-';
 
     final String mesaj = anaSureciKaydi
-        ? 'Bu muayenede yavru düzeni “Yok” kaydedilmiş. Aktif ana kazanma/bölme/oğul bağlamında sistem bunu önce biyolojik gün penceresine göre yorumlar; erken dönemde normal bekleme, gecikmiş dönemde yavrusuzluk tanısı olarak değerlendirir.'
-        : 'Bu muayenede yavru düzeni “Yok” kaydedilmiş. Sistem biyolojik modelde yavrulu çıtayı 0 kabul eder ve koloni geri dönüş kapasitesini bu bilgiyle okur.';
+        ? l10n.muayeneDetayYavruYokAnaSureci
+        : l10n.muayeneDetayYavruYokBasit;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -211,44 +212,44 @@ class MuayeneDetaySayfasi extends StatelessWidget {
     );
   }
 
-  List<Widget> _tetikSatirlari() {
+  List<Widget> _tetikSatirlari(AppLocalizations l10n) {
     final satirlar = <Widget>[];
 
     void ekle(String etiket, bool kosul) {
       if (!kosul) return;
-      satirlar.add(_satir(etiket, 'Evet'));
+      satirlar.add(_satir(etiket, l10n.muayeneDetayEvet));
     }
 
-    ekle('Oğul Belirtisi', _boolAlan(muayene['ogulBelirtisi']));
-    ekle('Oğul Attı', _boolAlan(muayene['ogulAtti']));
-    ekle('Bölme Yapıldı', _boolAlan(muayene['bolmeYapildi']));
-    ekle('Anasız Bırakıldı', _boolAlan(muayene['anasizBirakildiMi']));
-    ekle('Kovan Söndü', _boolAlan(muayene['kovanSondu']));
+    ekle(l10n.muayeneDetayOgulBelirtisi, _boolAlan(muayene['ogulBelirtisi']));
+    ekle(l10n.muayeneDetayOgulAtti, _boolAlan(muayene['ogulAtti']));
+    ekle(l10n.muayeneDetayBolmeYapildi, _boolAlan(muayene['bolmeYapildi']));
+    ekle(l10n.muayeneDetayAnasizBirakildi, _boolAlan(muayene['anasizBirakildiMi']));
+    ekle(l10n.muayeneDetayKovanSondu, _boolAlan(muayene['kovanSondu']));
 
     final balHasat = _int(muayene['bal_cita']);
     if (balHasat > 0) {
-      satirlar.add(_satir('Bal/Hasat', balHasat.toString()));
+      satirlar.add(_satir(l10n.muayeneDetayBalHasat, balHasat.toString()));
     }
 
     return satirlar;
   }
 
-  List<Widget> _surecSatirlari() {
+  List<Widget> _surecSatirlari(AppLocalizations l10n) {
     final satirlar = <Widget>[];
 
     void ekle(String etiket, bool kosul) {
       if (!kosul) return;
-      satirlar.add(_satir(etiket, 'Evet'));
+      satirlar.add(_satir(etiket, l10n.muayeneDetayEvet));
     }
 
-    ekle('Kapalı Yavrulu Çıta Aktarıldı', _boolAlan(muayene['kapaliYavruluCitaAktarildi']));
-    final anaKazanmaYontemi = _anaKazanmaYontemiMetni(muayene['anaKazanmaYontemi']);
+    ekle(l10n.muayeneDetayKapaliYavruAktarildi, _boolAlan(muayene['kapaliYavruluCitaAktarildi']));
+    final anaKazanmaYontemi = _anaKazanmaYontemiMetni(muayene['anaKazanmaYontemi'], l10n);
     if (anaKazanmaYontemi != '-') {
-      satirlar.add(_satir('Ana Kazanma Yöntemi', anaKazanmaYontemi));
+      satirlar.add(_satir(l10n.muayeneDetayAnaKazanmaYontemi, anaKazanmaYontemi));
     }
-    ekle('Dışarıdan Hazır Ana Verildi', _boolAlan(muayene['disaridanHazirAnaVerildi']));
-    ekle('Günlük / Kapalı Yavru Görüldü', _boolAlan(muayene['gunlukKapaliYavruGoruldu']));
-    ekle('Şurupluk Kaldırıldı', _boolAlan(muayene['suruplukKaldirildiMi']));
+    ekle(l10n.muayeneDetayDisaridanAna, _boolAlan(muayene['disaridanHazirAnaVerildi']));
+    ekle(l10n.muayeneDetayGunlukYavru, _boolAlan(muayene['gunlukKapaliYavruGoruldu']));
+    ekle(l10n.muayeneDetaySuruplukKaldirildi, _boolAlan(muayene['suruplukKaldirildiMi']));
 
     return satirlar;
   }
@@ -265,17 +266,18 @@ class MuayeneDetaySayfasi extends StatelessWidget {
     final yavruDuzeni = _metin(muayene['yavruDuzeni']);
     final mizac = _metin(muayene['mizac']);
     final besleme = _metin(muayene['beslemeTipi']);
-    final notlar = _metin(muayene['notlar'], varsayilan: 'Yok');
-    final varroaSecimleri = _varroaSecimleri();
+    final l10n = AppLocalizations.of(context);
+    final notlar = _metin(muayene['notlar'], varsayilan: l10n.muayeneDetayYok);
+    final varroaSecimleri = _varroaSecimleri(l10n);
 
-    final tetikSatirlari = _tetikSatirlari();
-    final surecSatirlari = _surecSatirlari();
+    final tetikSatirlari = _tetikSatirlari(l10n);
+    final surecSatirlari = _surecSatirlari(l10n);
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
         title: Text(
-          'KOVAN $kovanNo / MUAYENE',
+          l10n.muayeneDetayBaslik(kovanNo),
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
@@ -286,37 +288,37 @@ class MuayeneDetaySayfasi extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(14, 14, 14, altBosluk),
           children: [
             _bolumKart(
-              baslik: 'GENEL BİLGİ',
+              baslik: l10n.muayeneDetayGenelBilgi,
               ikon: Icons.calendar_month_outlined,
               children: [
-                _satir('Tarih', tarih),
-                _satir('Çıta', cita),
-                _satir('Yavrulu Çıta', yavruluCita),
-                _satir('Bal/Hasat', balHasat),
-                _satir('Yavru Düzeni', yavruDuzeni),
-                _satir('Mizaç', mizac),
-                _satir('Besleme', besleme),
+                _satir(l10n.muayeneDetayTarih, tarih),
+                _satir(l10n.muayeneDetayCita, cita),
+                _satir(l10n.muayeneDetayYavruluCita, yavruluCita),
+                _satir(l10n.muayeneDetayBalHasat, balHasat),
+                _satir(l10n.muayeneDetayYavruDuzeni, yavruDuzeni),
+                _satir(l10n.muayeneDetayMizac, mizac),
+                _satir(l10n.muayeneDetayBesleme, besleme),
                 _satir(
-                  'Varroa Mücadelesi',
-                  varroaSecimleri.isEmpty ? 'Yok' : varroaSecimleri.join(', '),
+                  l10n.muayeneDetayVarroaMucadele,
+                  varroaSecimleri.isEmpty ? l10n.muayeneDetayYok : varroaSecimleri.join(', '),
                 ),
               ],
             ),
-            _yavruYokKayitKutusu(),
+            _yavruYokKayitKutusu(l10n),
             if (tetikSatirlari.isNotEmpty)
               _bolumKart(
-                baslik: 'TETİKLER',
+                baslik: l10n.muayeneDetayTetikler,
                 ikon: Icons.bolt_outlined,
                 children: tetikSatirlari,
               ),
             if (surecSatirlari.isNotEmpty)
               _bolumKart(
-                baslik: 'SÜREÇ KAYITLARI',
+                baslik: l10n.muayeneDetaySurec,
                 ikon: Icons.timeline_outlined,
                 children: surecSatirlari,
               ),
             _bolumKart(
-              baslik: 'NOTLAR',
+              baslik: l10n.muayeneDetayNotlar,
               ikon: Icons.notes_outlined,
               children: [
                 Text(

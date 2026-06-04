@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/hat_analiz_servisi.dart';
 import '../services/premium_servisi.dart';
@@ -345,8 +346,8 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
                   children: [
                     Text(
                       s.kokAktifMi
-                          ? 'Aktif Hat: ${s.temsilKovanNo}'
-                          : 'Aktif Hat Temsilcisi: ${s.temsilKovanNo}',
+                          ? AppLocalizations.of(context).hatAnalizAktifHat(s.temsilKovanNo)
+                          : AppLocalizations.of(context).hatAnalizAktifTemsilci(s.temsilKovanNo),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w900,
@@ -357,7 +358,7 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
                     Text(
                       s.kokAktifMi
                           ? s.karar
-                          : '${s.karar} · Kök ${s.kokKovanNo} sönmüş',
+                          : AppLocalizations.of(context).hatAnalizSonmusDurum(s.karar, s.kokKovanNo),
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
@@ -396,27 +397,27 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
           const SizedBox(height: 12),
           Row(
             children: [
-              _ozetHucre('Toplam', s.toplamKoloni.toString()),
+              _ozetHucre(AppLocalizations.of(context).hatAnalizToplam, s.toplamKoloni.toString()),
               const SizedBox(width: 8),
-              _ozetHucre('Aktif', s.aktifKoloni.toString()),
+              _ozetHucre(AppLocalizations.of(context).hatAnalizAktif, s.aktifKoloni.toString()),
               const SizedBox(width: 8),
-              _ozetHucre('Sönmüş', s.sonenKoloni.toString()),
+              _ozetHucre(AppLocalizations.of(context).hatAnalizSonmus, s.sonenKoloni.toString()),
             ],
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              _ozetHucre('Sönme %', s.sonmeOrani.toStringAsFixed(0)),
+              _ozetHucre(AppLocalizations.of(context).hatAnalizSonmeOrani, s.sonmeOrani.toStringAsFixed(0)),
               const SizedBox(width: 8),
-              _ozetHucre('Ort. Maks Çıta', s.ortalamaMaxCita.toStringAsFixed(1)),
+              _ozetHucre(AppLocalizations.of(context).hatAnalizOrtMaksCita, s.ortalamaMaxCita.toStringAsFixed(1)),
               const SizedBox(width: 8),
-              _ozetHucre('Ort. Bal Çıtası', s.ortalamaBalCita.toStringAsFixed(1)),
+              _ozetHucre(AppLocalizations.of(context).hatAnalizOrtBalCita, s.ortalamaBalCita.toStringAsFixed(1)),
             ],
           ),
           if (s.notlar.isNotEmpty) ...[
             const SizedBox(height: 14),
-            const Text(
-              'NEDEN / NOT',
+            Text(
+              AppLocalizations.of(context).hatAnalizNeden,
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w900,
@@ -458,7 +459,7 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
             child: TextButton.icon(
               onPressed: () => _temsilKoloniDetayinaGit(s),
               icon: const Icon(Icons.open_in_new),
-              label: Text(s.kokAktifMi ? 'Aktif Hattı Aç' : 'Aktif Temsilciyi Aç'),
+              label: Text(s.kokAktifMi ? AppLocalizations.of(context).hatAnalizAktifHatiAc : AppLocalizations.of(context).hatAnalizAktifTemsilciAc),
             ),
           ),
         ],
@@ -482,7 +483,7 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
-        title: const Text('Hat Analizi'),
+        title: Text(AppLocalizations.of(context).hatAnalizAppBarBaslik),
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
         actions: [AnaSayfaKisayol.aksiyon(context)],
@@ -494,17 +495,17 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            const Text(
-              'HAT BAZLI SEÇİLİM ANALİZİ',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context).hatAnalizSayfaBasligi,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
                 color: Colors.brown,
               ),
             ),
             const SizedBox(height: 6),
-            const Text(
-              'Bu ekran yaşayan devamı olan hatları gösterir. Amaç, donörlüğe uygun kök hatları hızlıca görmek ve yaşayan hat içindeki sönmeleri kaybetmeden değerlendirmektir.',
+            Text(
+              AppLocalizations.of(context).hatAnalizAciklama,
               style: TextStyle(
                 fontSize: 13,
                 height: 1.45,
@@ -516,9 +517,9 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
             const SizedBox(height: 14),
             _kategoriPaneli(),
             const SizedBox(height: 16),
-            const Text(
-              'FİLTRE',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context).hatAnalizFiltre,
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w900,
                 color: Colors.blueGrey,
@@ -533,12 +534,12 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
             ),
             const SizedBox(height: 16),
             if (_filtreli.isEmpty)
-              const Padding(
-                padding: EdgeInsets.only(top: 30),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
                 child: Center(
                   child: Text(
-                    'Bu filtrede gösterilecek yaşayan hat bulunamadı.',
-                    style: TextStyle(fontSize: 14),
+                    AppLocalizations.of(context).hatAnalizBos,
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ),
               )
