@@ -1665,13 +1665,24 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       varsayilan: _metin(ilkKarar['baslik'], varsayilan: 'Yönetim kararı'),
     );
 
+    final detayWidgets = _yonetimKararlari.map(_yonetimKarariSatiri).toList(growable: false);
+
     return _acilirBilgiKarti(
       baslik: baslik,
       ozet: ozet,
       ikon: Icons.assignment_turned_in_outlined,
       renk: renk,
       rozet: 'Yönetim',
-      detaylar: _yonetimKararlari.map(_yonetimKarariSatiri).toList(growable: false),
+      detaylar: PremiumServisi.isPro
+          ? detayWidgets
+          : [
+              ProKapit(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: detayWidgets,
+                ),
+              ),
+            ],
     );
   }
 
@@ -1863,6 +1874,19 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
               _miniBilgiHap('Tahmini arı', '$ariMin–$ariMax'),
             ],
           ),
+          // ÖZET YORUM — ücretsiz (tek cümle)
+          if (yorum.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Text(
+              _ilkCumle(yorum, varsayilan: ''),
+              style: TextStyle(
+                fontSize: 12.5,
+                height: 1.4,
+                fontStyle: FontStyle.italic,
+                color: Colors.brown.shade600,
+              ),
+            ),
+          ],
           const SizedBox(height: 10),
           // PRO KISIM — tüm derin analiz
           ProKapit(

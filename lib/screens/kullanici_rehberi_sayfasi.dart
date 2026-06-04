@@ -76,6 +76,136 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
     );
   }
 
+  Widget _proTablosu() {
+    const satirlar = [
+      ['Sınırsız koloni kaydı', true, true],
+      ['Muayene formu ve geçmiş', true, true],
+      ['Kovan yerleşim görseli', true, true],
+      ['Tahmini arı sayısı', true, true],
+      ['Özet yorum (tek cümle)', true, true],
+      ['Yönetim kararı detayı', false, true],
+      ['Risk analizi (Varroa, arı kuşu…)', false, true],
+      ['Hasat projeksiyonu ve miktar', false, true],
+      ['Ekonomik değer tahmini', false, true],
+      ['Demografi ve kabiliyet skorları', false, true],
+      ['Koloni projeksiyonu', false, true],
+      ['Performans raporları', false, true],
+      ['Hat analizi', false, true],
+      ['Koloni karşılaştırma', false, true],
+      ['Soy ağacı', false, true],
+      ['Formüller ve hesaplamalar', false, true],
+    ];
+
+    return Container(
+      margin: const EdgeInsets.only(top: 8, bottom: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.amber.shade300),
+      ),
+      child: Column(
+        children: [
+          // Başlık satırı
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.amber.shade50,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+            ),
+            child: const Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Text(
+                    'Özellik',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 64,
+                  child: Center(
+                    child: Text(
+                      'Ücretsiz',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 48,
+                  child: Center(
+                    child: Text(
+                      'PRO',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFFFFB300),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Satırlar
+          ...satirlar.asMap().entries.map((e) {
+            final i = e.key;
+            final satir = e.value;
+            final ucretsiz = satir[1] as bool;
+            final pro = satir[2] as bool;
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+              decoration: BoxDecoration(
+                color: i.isOdd ? Colors.grey.shade50 : Colors.white,
+                borderRadius: i == satirlar.length - 1
+                    ? const BorderRadius.vertical(bottom: Radius.circular(15))
+                    : null,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: Text(
+                      satir[0] as String,
+                      style: const TextStyle(fontSize: 12.5, height: 1.3),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 64,
+                    child: Center(
+                      child: Icon(
+                        ucretsiz ? Icons.check_circle : Icons.remove,
+                        size: 18,
+                        color: ucretsiz ? Colors.green : Colors.grey.shade300,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 48,
+                    child: Center(
+                      child: Icon(
+                        pro ? Icons.check_circle : Icons.remove,
+                        size: 18,
+                        color: pro ? const Color(0xFFFFB300) : Colors.grey.shade300,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,7 +323,13 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             'Karar metinleri uygulamanın kendi işleyişini anlatmak yerine doğrudan saha sonucunu ve kısa gerekçesini verir. Tekrarlayan besleme/varroa uyarıları uzlaştırıcı tarafından tekilleştirilir.',
           ),
 
-          _baslik('2. SİSTEM ÇITADAN NE ANLAR?'),
+          _baslik('2. ÜCRETSİZ VE PRO'),
+          _kutu(
+            'ITOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Derin analiz, risk izleme, hasat tahmini ve raporlama PRO kapsamındadır.',
+          ),
+          _proTablosu(),
+
+          _baslik('3. SİSTEM ÇITADAN NE ANLAR?'),
           _madde(
             'Çıta sayısı koloni gücünün temel saha göstergesidir; tek başına kesin karar değildir.',
           ),
