@@ -3,6 +3,7 @@ import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:itogena_v45/screens/ana_sayfa.dart';
 import 'package:itogena_v45/services/guncelleme_servisi.dart';
+import 'package:itogena_v45/services/dil_servisi.dart';
 import 'package:itogena_v45/services/premium_servisi.dart';
 import 'package:itogena_v45/services/veritabani_servisi.dart';
 
@@ -15,14 +16,28 @@ void main() {
   runApp(const ItogenaApp());
 }
 
-class ItogenaApp extends StatelessWidget {
+class ItogenaApp extends StatefulWidget {
   const ItogenaApp({super.key});
+
+  @override
+  State<ItogenaApp> createState() => _ItogenaAppState();
+}
+
+class _ItogenaAppState extends State<ItogenaApp> {
+  @override
+  void initState() {
+    super.initState();
+    DilServisi.init(() {
+      if (mounted) setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'İtogena Arılık Yönetimi',
       debugShowCheckedModeBanner: false,
+      locale: DilServisi.secilenDil,
       supportedLocales: const [
         Locale('tr', 'TR'),
         Locale('en', 'US'),
@@ -72,6 +87,7 @@ class _GirisEkraniState extends State<GirisEkrani> {
       ]);
 
       await PremiumServisi.yukle();
+      await DilServisi.yukle();
 
       if (!mounted) return;
 

@@ -8,6 +8,7 @@ import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/arilik_uyari_servisi.dart';
 import '../services/yedek_dosya_servisi.dart';
+import '../services/dil_servisi.dart';
 import '../services/guncelleme_servisi.dart';
 import '../services/premium_servisi.dart';
 import '../services/test_ariligi_servisi.dart';
@@ -1257,6 +1258,35 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   }
 
 
+  Widget _dilButonu(String etiket, String? kod) {
+    final secili = DilServisi.secilenKod() == (kod ?? 'sistem');
+    return Expanded(
+      child: GestureDetector(
+        onTap: () async {
+          await DilServisi.dilAyarla(kod);
+          setState(() {});
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: secili ? Colors.grey.shade700 : Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Center(
+            child: Text(
+              etiket,
+              style: TextStyle(
+                fontSize: 12.5,
+                fontWeight: FontWeight.w700,
+                color: secili ? Colors.white : Colors.black54,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _sistemIslemKarti({
     required String baslik,
     required String altMetin,
@@ -1395,6 +1425,30 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                   }
                   setState(() => _isPro = deger);
                 },
+              ),
+              const Divider(height: 16),
+              const Text(
+                'Dil (test)',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Yalnızca lokalizasyon sistemine taşınan metinleri etkiler.',
+                style: TextStyle(fontSize: 11.5, color: Colors.grey),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  _dilButonu('Sistem', null),
+                  const SizedBox(width: 8),
+                  _dilButonu('Türkçe', 'tr'),
+                  const SizedBox(width: 8),
+                  _dilButonu('English', 'en'),
+                ],
               ),
             ],
           ),
