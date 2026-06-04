@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 
 import 'ana_sayfa_kisayol.dart';
 import '../services/premium_servisi.dart';
@@ -641,9 +642,9 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
-        title: const Text(
-          'RAPORLAR',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context).raporlarSayfaBaslik,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
@@ -681,9 +682,9 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
           children: [
             const Icon(Icons.hive_outlined, size: 20, color: Colors.brown),
             const SizedBox(width: 8),
-            const Text(
-              'Arılık:',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context).raporlarArilikEtiketi,
+              style: const TextStyle(
                 fontSize: 12.5,
                 fontWeight: FontWeight.w800,
                 color: Colors.black54,
@@ -721,9 +722,9 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
       ),
       builder: (context) {
         if (ariliklar.isEmpty) {
-          return const Padding(
-            padding: EdgeInsets.all(20),
-            child: Text('Kayıtlı arılık bulunamadı.'),
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(AppLocalizations.of(context).raporlarArilikBulunamadi),
           );
         }
         return SafeArea(
@@ -731,11 +732,11 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
             shrinkWrap: true,
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
             children: [
-              const Padding(
-                padding: EdgeInsets.fromLTRB(8, 8, 8, 12),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
                 child: Text(
-                  'Rapor alınacak arılığı seç',
-                  style: TextStyle(
+                  AppLocalizations.of(context).raporlarArilikSec,
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
                     color: Colors.brown,
@@ -791,9 +792,9 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'GENEL DURUM',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context).raporlarGenelDurum,
+            style: const TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 15,
               color: Colors.brown,
@@ -804,7 +805,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
             children: [
               Expanded(
                 child: _anaOzetKutusu(
-                  'Aktif kovan',
+                  AppLocalizations.of(context).raporlarAktifKovan,
                   _aktifKovanSayisi.toString(),
                   Colors.green,
                 ),
@@ -812,7 +813,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
               const SizedBox(width: 8),
               Expanded(
                 child: _anaOzetKutusu(
-                  'Orta skor',
+                  AppLocalizations.of(context).raporlarOrtaSkor,
                   _ortalamaSkor.toString(),
                   _skorRengi(_ortalamaSkor),
                 ),
@@ -820,7 +821,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
               const SizedBox(width: 8),
               Expanded(
                 child: _anaOzetKutusu(
-                  'Arılı çıta',
+                  AppLocalizations.of(context).raporlarAriliCita,
                   _kg(_toplamAriliCita),
                   Colors.blueGrey,
                 ),
@@ -836,18 +837,19 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
             children: [
               Expanded(
                 child: _kompaktGridBolumu(
-                  baslik: 'DONÖRLER',
+                  baslik: AppLocalizations.of(context).raporlarDonorler,
                   koloniler: _ilkUcDonor,
-                  fallbackMetin:
-                  _donorlerYukleniyor ? 'Hesaplanıyor' : 'Henüz yok',
+                  fallbackMetin: _donorlerYukleniyor
+                      ? AppLocalizations.of(context).raporlarHesaplaniyor
+                      : AppLocalizations.of(context).raporlarHenuzYok,
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: _kompaktGridBolumu(
-                  baslik: 'İLK 3 GÜÇLÜ',
+                  baslik: AppLocalizations.of(context).raporlarIlkUcGuclu,
                   koloniler: _ilkUcGuclu,
-                  fallbackMetin: 'Henüz yok',
+                  fallbackMetin: AppLocalizations.of(context).raporlarHenuzYok,
                 ),
               ),
             ],
@@ -950,59 +952,59 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'RAPOR SEÇ',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context).raporlarRaporSec,
+            style: const TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 15,
               color: Colors.brown,
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Ağır liste hesapları ilk açılışta çalışmaz. Sadece görmek istediğin liste açıldığında yüklenir.',
-            style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+          Text(
+            AppLocalizations.of(context).raporlarListeLazyAciklama,
+            style: const TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
           ),
           const SizedBox(height: 12),
           _raporSatiri(
-            baslik: 'Güçlüden Zayıfa',
-            altMetin: 'Tüm aktif koloniler yüksek skordan düşüğe sıralanır.',
+            baslik: AppLocalizations.of(context).raporlarGucludenZayifaBaslik,
+            altMetin: AppLocalizations.of(context).raporlarGucludenZayifaAlt,
             ikon: Icons.arrow_downward_rounded,
             onTap: () => _listeyeGit(
-              'GÜÇLÜDEN ZAYIFA',
+              AppLocalizations.of(context).raporlarGucludenZayifaListeBaslik,
               'gucluden_zayifa',
             ),
           ),
           _raporSatiri(
-            baslik: 'Zayıftan Güçlüye',
-            altMetin: 'Tüm aktif koloniler düşük skordan yükseğe sıralanır.',
+            baslik: AppLocalizations.of(context).raporlarZayiftanGucluye,
+            altMetin: AppLocalizations.of(context).raporlarZayiftanGucluAlt,
             ikon: Icons.arrow_upward_rounded,
             onTap: () => _listeyeGit(
-              'ZAYIFTAN GÜÇLÜYE',
+              AppLocalizations.of(context).raporlarZayiftanGucluListeBaslik,
               'zayiftan_gucluye',
             ),
           ),
           _raporSatiri(
-            baslik: 'Donör Adayları',
-            altMetin: '1. sıradan başlayarak donör havuzu listelenir.',
+            baslik: AppLocalizations.of(context).raporlarDonorAdaylariBaslik,
+            altMetin: AppLocalizations.of(context).raporlarDonorAdaylariAlt,
             ikon: Icons.workspace_premium_outlined,
             onTap: () => _listeyeGit(
-              'DONÖR ADAYLARI',
+              AppLocalizations.of(context).raporlarDonorAdaylariListeBaslik,
               'donor_adaylari',
             ),
           ),
           _raporSatiri(
-            baslik: 'Genetik Veto',
-            altMetin: 'Donör dışı kalan veto kayıtları kendi içinde sıralanır.',
+            baslik: AppLocalizations.of(context).raporlarGenetikVetoBaslik,
+            altMetin: AppLocalizations.of(context).raporlarGenetikVetoAlt,
             ikon: Icons.block_outlined,
             onTap: () => _listeyeGit(
-              'GENETİK VETO',
+              AppLocalizations.of(context).raporlarGenetikVetoListeBaslik,
               'genetik_veto',
             ),
           ),
           _raporSatiri(
-            baslik: 'Ekonomik Değer',
-            altMetin: 'Arılık ekonomik değeri ve bal potansiyeli ayrı ekranda hesaplanır.',
+            baslik: AppLocalizations.of(context).raporlarEkonomikDegerBaslik,
+            altMetin: AppLocalizations.of(context).raporlarEkonomikDegerAlt,
             ikon: Icons.payments_outlined,
             onTap: _ekonomikDegerSayfasinaGit,
           ),
@@ -1018,7 +1020,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
         child: OutlinedButton.icon(
           onPressed: _arilikIstatistikleriniYukle,
           icon: const Icon(Icons.calculate_outlined),
-          label: const Text('Arılık istatistiklerini hesapla'),
+          label: Text(AppLocalizations.of(context).raporlarIstatistikHesapla),
           style: OutlinedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             foregroundColor: Colors.deepPurple,
@@ -1040,18 +1042,18 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: Colors.amber.shade200),
         ),
-        child: const Row(
+        child: Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(strokeWidth: 2.3, color: Colors.amber),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: Text(
-                'Arılık istatistikleri hesaplanıyor...',
-                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700),
+                AppLocalizations.of(context).raporlarIstatistikHesaplaniyor,
+                style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700),
               ),
             ),
           ],
@@ -1072,7 +1074,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Arılık istatistikleri hesaplanamadı: $_arilikIstatistikHatasi',
+              AppLocalizations.of(context).raporlarIstatistikHata(_arilikIstatistikHatasi.toString()),
               style: const TextStyle(fontSize: 12, color: Colors.red, height: 1.35),
             ),
             const SizedBox(height: 8),
@@ -1085,7 +1087,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
                 _arilikIstatistikleriniYukle();
               },
               icon: const Icon(Icons.refresh),
-              label: const Text('Tekrar hesapla'),
+              label: Text(AppLocalizations.of(context).raporlarTekrarHesapla),
             ),
           ],
         ),
@@ -1113,10 +1115,10 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'ARILIK İSTATİSTİKLERİ',
-                  style: TextStyle(
+                  AppLocalizations.of(context).raporlarArilikIstatistikleri,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w900,
                     fontSize: 13.5,
                     color: Colors.brown,
@@ -1126,7 +1128,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
               TextButton.icon(
                 onPressed: () => setState(() => _arilikIstatistikAcik = false),
                 icon: const Icon(Icons.expand_less, size: 17),
-                label: const Text('Kapat'),
+                label: Text(AppLocalizations.of(context).kapat),
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   visualDensity: VisualDensity.compact,
@@ -1143,15 +1145,15 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
             crossAxisSpacing: 8,
             childAspectRatio: 1.24,
             children: [
-              _istatistikKutusu('Kovan', istatistik.kovanSayisi.toString(), Colors.green),
-              _istatistikKutusu('Toplam çıta', istatistik.toplamCita.toString(), Colors.blueGrey),
-              _istatistikKutusu('Bal temaslı', _kg(istatistik.balliCita), Colors.amber.shade800),
-              _istatistikKutusu('Arılı çıta', _kg(istatistik.ariliCita), Colors.teal),
-              _istatistikKutusu('Aktivasyon', _kg(aktivasyonFarki), Colors.deepOrange),
-              _istatistikKutusu('Tahmini arı', _ariSayisiAraligi(istatistik.tahminiAriMin, istatistik.tahminiAriMax), Colors.brown),
-              _istatistikKutusu('Güçlü', istatistik.gucluSayisi.toString(), Colors.green),
-              _istatistikKutusu('Orta', istatistik.ortaSayisi.toString(), Colors.orange),
-              _istatistikKutusu('Zayıf', istatistik.zayifSayisi.toString(), Colors.red),
+              _istatistikKutusu(AppLocalizations.of(context).kovan, istatistik.kovanSayisi.toString(), Colors.green),
+              _istatistikKutusu(AppLocalizations.of(context).raporlarToplamCita, istatistik.toplamCita.toString(), Colors.blueGrey),
+              _istatistikKutusu(AppLocalizations.of(context).raporlarBalTemasi, _kg(istatistik.balliCita), Colors.amber.shade800),
+              _istatistikKutusu(AppLocalizations.of(context).raporlarAriliCita, _kg(istatistik.ariliCita), Colors.teal),
+              _istatistikKutusu(AppLocalizations.of(context).raporlarAktivasyonFarki, _kg(aktivasyonFarki), Colors.deepOrange),
+              _istatistikKutusu(AppLocalizations.of(context).raporlarTahminiAri, _ariSayisiAraligi(istatistik.tahminiAriMin, istatistik.tahminiAriMax), Colors.brown),
+              _istatistikKutusu(AppLocalizations.of(context).raporlarGuclu, istatistik.gucluSayisi.toString(), Colors.green),
+              _istatistikKutusu(AppLocalizations.of(context).raporlarOrta, istatistik.ortaSayisi.toString(), Colors.orange),
+              _istatistikKutusu(AppLocalizations.of(context).raporlarZayif, istatistik.zayifSayisi.toString(), Colors.red),
             ],
           ),
         ],
@@ -1803,7 +1805,7 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
         title: Text(
-          '${widget.arilikAd} EKONOMİK DEĞER',
+          AppLocalizations.of(context).ekDegerAppBarBaslik(widget.arilikAd),
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
@@ -1817,7 +1819,7 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Text(
-            'Ekonomik değer hesaplanamadı:\n$_hata',
+            AppLocalizations.of(context).ekDegerHata(_hata.toString()),
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.red, height: 1.4),
           ),
@@ -1843,9 +1845,9 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'EKONOMİK DEĞER',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context).ekDegerKartBaslik,
+            style: const TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 15,
               color: Colors.brown,
@@ -1853,36 +1855,41 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Tahmini toplam değer: ${_paraFormatla(_ekonomikDeger)} TL',
+            AppLocalizations.of(context).ekDegerTahminiToplam(_paraFormatla(_ekonomikDeger)),
             style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900),
           ),
           if (_tahminiBalPotansiyeliMaxKg > 0) ...[
             const SizedBox(height: 6),
             Text(
-              'Aktivasyonlu ballı çıta: ${_kg(_aktivasyonluBalliCita)} çıta',
+              AppLocalizations.of(context).ekDegerAktivasyonluBalliCita(_kg(_aktivasyonluBalliCita)),
               style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.brown.shade700),
             ),
             const SizedBox(height: 4),
             Text(
-              'Tahmini bal: ${_kg(_tahminiBalPotansiyeliMinKg)}–${_kg(_tahminiBalPotansiyeliMaxKg)} kg / ${_paraFormatla(_tahminiBalDegeriMin)}–${_paraFormatla(_tahminiBalDegeriMax)} TL',
+              AppLocalizations.of(context).ekDegerTahminiBalAraligi(
+                _kg(_tahminiBalPotansiyeliMinKg),
+                _kg(_tahminiBalPotansiyeliMaxKg),
+                _paraFormatla(_tahminiBalDegeriMin),
+                _paraFormatla(_tahminiBalDegeriMax),
+              ),
               style: TextStyle(fontSize: 12.5, height: 1.4, color: Colors.brown.shade700),
             ),
             const SizedBox(height: 6),
-            const Text(
-              'Bu hesap biyolojik modelde bal/ballık pozisyonunda görünen çıtaları aktivasyon düzeyiyle okur; boş çıta, toplam fiziksel çıta veya boş kabarmış petek bal gibi sayılmaz.',
-              style: TextStyle(fontSize: 12, height: 1.35, color: Colors.black54),
+            Text(
+              AppLocalizations.of(context).ekDegerHesapAciklama,
+              style: const TextStyle(fontSize: 12, height: 1.35, color: Colors.black54),
             ),
           ],
           const SizedBox(height: 12),
-          _alan('Bal satış fiyatı (kg/TL)', _balKgFiyatiController),
+          _alan(AppLocalizations.of(context).ekDegerBalFiyati, _balKgFiyatiController),
           const SizedBox(height: 10),
-          _alan('Arılı çıta değeri', _ariliCitaDegeriController),
+          _alan(AppLocalizations.of(context).ekDegerAriliCita, _ariliCitaDegeriController),
           const SizedBox(height: 10),
-          _alan('Boş kovan değeri', _bosKovanDegeriController),
+          _alan(AppLocalizations.of(context).ekDegerBosKovan, _bosKovanDegeriController),
           const SizedBox(height: 10),
-          _alan('Boş kabarmış petek adedi', _bosKabarmisPetekSayisiController),
+          _alan(AppLocalizations.of(context).ekDegerBosKabarmisPetek, _bosKabarmisPetekSayisiController),
           const SizedBox(height: 10),
-          _alan('Boş kabarmış petek birim değeri', _bosKabarmisPetekDegeriController),
+          _alan(AppLocalizations.of(context).ekDegerBosKabarmisPetekBirim, _bosKabarmisPetekDegeriController),
         ],
       ),
     );

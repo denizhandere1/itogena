@@ -1555,6 +1555,1135 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Oğul Durumu'**
   String get karsilastirmaOgulDurumu;
+
+  /// No description provided for @kolonilerBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniler'**
+  String get kolonilerBaslik;
+
+  /// No description provided for @kolonilerDonorHazirlaniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniler • Donör rozetleri hazırlanıyor'**
+  String get kolonilerDonorHazirlaniyor;
+
+  /// No description provided for @kolonilerSeciliSayi.
+  ///
+  /// In tr, this message translates to:
+  /// **'{sayi} koloni seçildi'**
+  String kolonilerSeciliSayi(int sayi);
+
+  /// No description provided for @kolonilerAktifSekme.
+  ///
+  /// In tr, this message translates to:
+  /// **'AKTİF ({sayi})'**
+  String kolonilerAktifSekme(int sayi);
+
+  /// No description provided for @kolonilerSonmusSekme.
+  ///
+  /// In tr, this message translates to:
+  /// **'SÖNMÜŞ ({sayi})'**
+  String kolonilerSonmusSekme(int sayi);
+
+  /// No description provided for @kolonilerKarsilastirmaModuSadece.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karşılaştırma modu yalnızca aktif koloniler için kullanılabilir.'**
+  String get kolonilerKarsilastirmaModuSadece;
+
+  /// No description provided for @kolonilerDuzenleBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniyi Düzenle'**
+  String get kolonilerDuzenleBaslik;
+
+  /// No description provided for @kolonilerDuzenleOnay.
+  ///
+  /// In tr, this message translates to:
+  /// **'{kovanNo} numaralı koloni için düzenleme ekranı açılsın mı?'**
+  String kolonilerDuzenleOnay(String kovanNo);
+
+  /// No description provided for @kolonilerDevamEt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam Et'**
+  String get kolonilerDevamEt;
+
+  /// No description provided for @kolonilerSilBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniyi Sil'**
+  String get kolonilerSilBaslik;
+
+  /// No description provided for @kolonilerSilOnay.
+  ///
+  /// In tr, this message translates to:
+  /// **'{kovanNo} numaralı koloni silinsin mi?\n\nBu işlem geri alınamaz. İlgili numara geçmişi ve olay kayıtları da silinir.'**
+  String kolonilerSilOnay(String kovanNo);
+
+  /// No description provided for @kolonilerSilindi.
+  ///
+  /// In tr, this message translates to:
+  /// **'{kovanNo} numaralı koloni silindi.'**
+  String kolonilerSilindi(String kovanNo);
+
+  /// No description provided for @kolonilerSilHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni silinirken hata oluştu: {hata}'**
+  String kolonilerSilHata(String hata);
+
+  /// No description provided for @kolonilerAktifBos.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu arılıkta aktif koloni kaydı yok.'**
+  String get kolonilerAktifBos;
+
+  /// No description provided for @kolonilerSonmusBos.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu arılıkta sönmüş koloni kaydı yok.'**
+  String get kolonilerSonmusBos;
+
+  /// No description provided for @kolonilerKovanAra.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan ara...'**
+  String get kolonilerKovanAra;
+
+  /// No description provided for @kolonilerAramaTemizle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aramayı temizle'**
+  String get kolonilerAramaTemizle;
+
+  /// No description provided for @kolonilerFiltreYeniBolme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni bölmeler'**
+  String get kolonilerFiltreYeniBolme;
+
+  /// No description provided for @kolonilerFiltreYeniOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni oğullar'**
+  String get kolonilerFiltreYeniOgul;
+
+  /// No description provided for @kolonilerFiltreAlarm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alarm'**
+  String get kolonilerFiltreAlarm;
+
+  /// No description provided for @kolonilerFiltreYavruYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yok'**
+  String get kolonilerFiltreYavruYok;
+
+  /// No description provided for @kolonilerFiltreHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat adayı'**
+  String get kolonilerFiltreHasat;
+
+  /// No description provided for @kolonilerDonorRozetAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rozetler: 1/2/3 ilk donör adaylarını, D donör havuzundaki diğer adayları gösterir. Genetik veto varsa detay ekranında ayrıca açıklanır.'**
+  String get kolonilerDonorRozetAciklama;
+
+  /// No description provided for @kolonilerKarsilastirmaModuBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'KARŞILAŞTIRMA MODU'**
+  String get kolonilerKarsilastirmaModuBaslik;
+
+  /// No description provided for @kolonilerKarsilastirmaModuInfo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karşılaştırmak istediğiniz 2 veya 3 aktif koloniye dokunun. Bu mod açıkken koloni detayı yerine seçim yapılır.'**
+  String get kolonilerKarsilastirmaModuInfo;
+
+  /// No description provided for @kolonilerSeciliKoloniSayisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçili koloni: {sayi} / 3'**
+  String kolonilerSeciliKoloniSayisi(int sayi);
+
+  /// No description provided for @kolonilerKarsilastirButon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karşılaştır ({sayi})'**
+  String kolonilerKarsilastirButon(int sayi);
+
+  /// No description provided for @kolonilerPasif.
+  ///
+  /// In tr, this message translates to:
+  /// **'PASİF'**
+  String get kolonilerPasif;
+
+  /// No description provided for @kolonilerSondu.
+  ///
+  /// In tr, this message translates to:
+  /// **'SÖNDÜ'**
+  String get kolonilerSondu;
+
+  /// No description provided for @kolonilerSonCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'{cita} çıta'**
+  String kolonilerSonCita(int cita);
+
+  /// No description provided for @raporlarSayfaBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'RAPORLAR'**
+  String get raporlarSayfaBaslik;
+
+  /// No description provided for @raporlarArilikEtiketi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık:'**
+  String get raporlarArilikEtiketi;
+
+  /// No description provided for @raporlarArilikBulunamadi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıtlı arılık bulunamadı.'**
+  String get raporlarArilikBulunamadi;
+
+  /// No description provided for @raporlarArilikSec.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rapor alınacak arılığı seç'**
+  String get raporlarArilikSec;
+
+  /// No description provided for @raporlarGenelDurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'GENEL DURUM'**
+  String get raporlarGenelDurum;
+
+  /// No description provided for @raporlarAktifKovan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif kovan'**
+  String get raporlarAktifKovan;
+
+  /// No description provided for @raporlarOrtaSkor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta skor'**
+  String get raporlarOrtaSkor;
+
+  /// No description provided for @raporlarAriliCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılı çıta'**
+  String get raporlarAriliCita;
+
+  /// No description provided for @raporlarDonorler.
+  ///
+  /// In tr, this message translates to:
+  /// **'DONÖRLER'**
+  String get raporlarDonorler;
+
+  /// No description provided for @raporlarHesaplaniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesaplanıyor'**
+  String get raporlarHesaplaniyor;
+
+  /// No description provided for @raporlarHenuzYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz yok'**
+  String get raporlarHenuzYok;
+
+  /// No description provided for @raporlarIlkUcGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'İLK 3 GÜÇLÜ'**
+  String get raporlarIlkUcGuclu;
+
+  /// No description provided for @raporlarRaporSec.
+  ///
+  /// In tr, this message translates to:
+  /// **'RAPOR SEÇ'**
+  String get raporlarRaporSec;
+
+  /// No description provided for @raporlarListeLazyAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ağır liste hesapları ilk açılışta çalışmaz. Sadece görmek istediğin liste açıldığında yüklenir.'**
+  String get raporlarListeLazyAciklama;
+
+  /// No description provided for @raporlarGucludenZayifaBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlüden Zayıfa'**
+  String get raporlarGucludenZayifaBaslik;
+
+  /// No description provided for @raporlarGucludenZayifaAlt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm aktif koloniler yüksek skordan düşüğe sıralanır.'**
+  String get raporlarGucludenZayifaAlt;
+
+  /// No description provided for @raporlarGucludenZayifaListeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'GÜÇLÜDEN ZAYIFA'**
+  String get raporlarGucludenZayifaListeBaslik;
+
+  /// No description provided for @raporlarZayiftanGucluye.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıftan Güçlüye'**
+  String get raporlarZayiftanGucluye;
+
+  /// No description provided for @raporlarZayiftanGucluAlt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm aktif koloniler düşük skordan yükseğe sıralanır.'**
+  String get raporlarZayiftanGucluAlt;
+
+  /// No description provided for @raporlarZayiftanGucluListeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'ZAYIFTAN GÜÇLÜYE'**
+  String get raporlarZayiftanGucluListeBaslik;
+
+  /// No description provided for @raporlarDonorAdaylariBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör Adayları'**
+  String get raporlarDonorAdaylariBaslik;
+
+  /// No description provided for @raporlarDonorAdaylariAlt.
+  ///
+  /// In tr, this message translates to:
+  /// **'1. sıradan başlayarak donör havuzu listelenir.'**
+  String get raporlarDonorAdaylariAlt;
+
+  /// No description provided for @raporlarDonorAdaylariListeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'DONÖR ADAYLARI'**
+  String get raporlarDonorAdaylariListeBaslik;
+
+  /// No description provided for @raporlarGenetikVetoBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik Veto'**
+  String get raporlarGenetikVetoBaslik;
+
+  /// No description provided for @raporlarGenetikVetoAlt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör dışı kalan veto kayıtları kendi içinde sıralanır.'**
+  String get raporlarGenetikVetoAlt;
+
+  /// No description provided for @raporlarGenetikVetoListeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'GENETİK VETO'**
+  String get raporlarGenetikVetoListeBaslik;
+
+  /// No description provided for @raporlarEkonomikDegerBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekonomik Değer'**
+  String get raporlarEkonomikDegerBaslik;
+
+  /// No description provided for @raporlarEkonomikDegerAlt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık ekonomik değeri ve bal potansiyeli ayrı ekranda hesaplanır.'**
+  String get raporlarEkonomikDegerAlt;
+
+  /// No description provided for @raporlarIstatistikHesapla.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık istatistiklerini hesapla'**
+  String get raporlarIstatistikHesapla;
+
+  /// No description provided for @raporlarIstatistikHesaplaniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık istatistikleri hesaplanıyor...'**
+  String get raporlarIstatistikHesaplaniyor;
+
+  /// No description provided for @raporlarIstatistikHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık istatistikleri hesaplanamadı: {hata}'**
+  String raporlarIstatistikHata(String hata);
+
+  /// No description provided for @raporlarTekrarHesapla.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar hesapla'**
+  String get raporlarTekrarHesapla;
+
+  /// No description provided for @raporlarArilikIstatistikleri.
+  ///
+  /// In tr, this message translates to:
+  /// **'ARILIK İSTATİSTİKLERİ'**
+  String get raporlarArilikIstatistikleri;
+
+  /// No description provided for @raporlarToplamCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam çıta'**
+  String get raporlarToplamCita;
+
+  /// No description provided for @raporlarBalTemasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal temaslı'**
+  String get raporlarBalTemasi;
+
+  /// No description provided for @raporlarAktivasyonFarki.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivasyon'**
+  String get raporlarAktivasyonFarki;
+
+  /// No description provided for @raporlarTahminiAri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini arı'**
+  String get raporlarTahminiAri;
+
+  /// No description provided for @raporlarGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü'**
+  String get raporlarGuclu;
+
+  /// No description provided for @raporlarOrta.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta'**
+  String get raporlarOrta;
+
+  /// No description provided for @raporlarZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get raporlarZayif;
+
+  /// No description provided for @ekDegerAppBarBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'{arilikAd} EKONOMİK DEĞER'**
+  String ekDegerAppBarBaslik(String arilikAd);
+
+  /// No description provided for @ekDegerHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekonomik değer hesaplanamadı:\n{hata}'**
+  String ekDegerHata(String hata);
+
+  /// No description provided for @ekDegerKartBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'EKONOMİK DEĞER'**
+  String get ekDegerKartBaslik;
+
+  /// No description provided for @ekDegerTahminiToplam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini toplam değer: {deger} TL'**
+  String ekDegerTahminiToplam(String deger);
+
+  /// No description provided for @ekDegerAktivasyonluBalliCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivasyonlu ballı çıta: {cita} çıta'**
+  String ekDegerAktivasyonluBalliCita(String cita);
+
+  /// No description provided for @ekDegerTahminiBalAraligi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini bal: {minKg}–{maxKg} kg / {minTL}–{maxTL} TL'**
+  String ekDegerTahminiBalAraligi(
+      String minKg, String maxKg, String minTL, String maxTL);
+
+  /// No description provided for @ekDegerHesapAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hesap biyolojik modelde bal/ballık pozisyonunda görünen çıtaları aktivasyon düzeyiyle okur; boş çıta, toplam fiziksel çıta veya boş kabarmış petek bal gibi sayılmaz.'**
+  String get ekDegerHesapAciklama;
+
+  /// No description provided for @ekDegerBalFiyati.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal satış fiyatı (kg/TL)'**
+  String get ekDegerBalFiyati;
+
+  /// No description provided for @ekDegerAriliCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılı çıta değeri'**
+  String get ekDegerAriliCita;
+
+  /// No description provided for @ekDegerBosKovan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Boş kovan değeri'**
+  String get ekDegerBosKovan;
+
+  /// No description provided for @ekDegerBosKabarmisPetek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Boş kabarmış petek adedi'**
+  String get ekDegerBosKabarmisPetek;
+
+  /// No description provided for @ekDegerBosKabarmisPetekBirim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Boş kabarmış petek birim değeri'**
+  String get ekDegerBosKabarmisPetekBirim;
+
+  /// No description provided for @koloniDetayMuayeneSil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayene Sil'**
+  String get koloniDetayMuayeneSil;
+
+  /// No description provided for @koloniDetayMuayeneSilOnay.
+  ///
+  /// In tr, this message translates to:
+  /// **'{tarih} tarihli muayene silinsin mi?\n\nBu işlem geri alınamaz.'**
+  String koloniDetayMuayeneSilOnay(String tarih);
+
+  /// No description provided for @koloniDetayMuayeneSilindi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayene silindi.'**
+  String get koloniDetayMuayeneSilindi;
+
+  /// No description provided for @koloniDetayNumaraDegistir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni Numarasını Değiştir'**
+  String get koloniDetayNumaraDegistir;
+
+  /// No description provided for @koloniDetayNumaraAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem koloninin saha numarasını değiştirir. Soy bağı ve muayene geçmişi korunur.'**
+  String get koloniDetayNumaraAciklama;
+
+  /// No description provided for @koloniDetayYeniNumara.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni koloni / kovan numarası'**
+  String get koloniDetayYeniNumara;
+
+  /// No description provided for @koloniDetayNumaraGuncellendi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni numarası {no} olarak güncellendi.'**
+  String koloniDetayNumaraGuncellendi(String no);
+
+  /// No description provided for @koloniDetayAppBarBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'KOVAN {no}'**
+  String koloniDetayAppBarBaslik(String no);
+
+  /// No description provided for @koloniDetayTabGenelDurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'GENEL DURUM'**
+  String get koloniDetayTabGenelDurum;
+
+  /// No description provided for @koloniDetayTabMuayeneler.
+  ///
+  /// In tr, this message translates to:
+  /// **'MUAYENELER'**
+  String get koloniDetayTabMuayeneler;
+
+  /// No description provided for @koloniDetayTabBiyolojikModel.
+  ///
+  /// In tr, this message translates to:
+  /// **'BİYOLOJİK MODEL'**
+  String get koloniDetayTabBiyolojikModel;
+
+  /// No description provided for @koloniDetayTabPerformans.
+  ///
+  /// In tr, this message translates to:
+  /// **'PERFORMANS'**
+  String get koloniDetayTabPerformans;
+
+  /// No description provided for @koloniDetayMuayeneEkle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayene Ekle'**
+  String get koloniDetayMuayeneEkle;
+
+  /// No description provided for @koloniDetayOzetSurec.
+  ///
+  /// In tr, this message translates to:
+  /// **'SÜREÇ'**
+  String get koloniDetayOzetSurec;
+
+  /// No description provided for @koloniDetayOzetBiyoloji.
+  ///
+  /// In tr, this message translates to:
+  /// **'BİYOLOJİ'**
+  String get koloniDetayOzetBiyoloji;
+
+  /// No description provided for @koloniDetayOzetYonetim.
+  ///
+  /// In tr, this message translates to:
+  /// **'YÖNETİM'**
+  String get koloniDetayOzetYonetim;
+
+  /// No description provided for @koloniDetayOzetGenetik.
+  ///
+  /// In tr, this message translates to:
+  /// **'GENETİK'**
+  String get koloniDetayOzetGenetik;
+
+  /// No description provided for @koloniDetayPerfVeriBulunamadi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Performans özeti verisi bulunamadı.'**
+  String get koloniDetayPerfVeriBulunamadi;
+
+  /// No description provided for @ayarlarBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'AYARLAR VE KALİBRASYON'**
+  String get ayarlarBaslik;
+
+  /// No description provided for @ayarlarTabGenel.
+  ///
+  /// In tr, this message translates to:
+  /// **'GENEL'**
+  String get ayarlarTabGenel;
+
+  /// No description provided for @ayarlarTabSistem.
+  ///
+  /// In tr, this message translates to:
+  /// **'SİSTEM'**
+  String get ayarlarTabSistem;
+
+  /// No description provided for @ayarlarKaydediliyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'KAYDEDİLİYOR...'**
+  String get ayarlarKaydediliyor;
+
+  /// No description provided for @ayarlarKaydet.
+  ///
+  /// In tr, this message translates to:
+  /// **'GENEL AYARLARI KAYDET'**
+  String get ayarlarKaydet;
+
+  /// No description provided for @ayarlarKaydedilemedi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayarlar kaydedilemedi: {hata}'**
+  String ayarlarKaydedilemedi(String hata);
+
+  /// No description provided for @ayarlarYedekHazir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedek hazırlandı. Güvenli bir yere kaydet.'**
+  String get ayarlarYedekHazir;
+
+  /// No description provided for @ayarlarYedekHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedek alınırken hata oluştu: {hata}'**
+  String ayarlarYedekHata(String hata);
+
+  /// No description provided for @ayarlarGeriYukleBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'YEDEKTEN GERİ YÜKLE'**
+  String get ayarlarGeriYukleBaslik;
+
+  /// No description provided for @ayarlarGeriYukleButon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüklemeyi Başlat'**
+  String get ayarlarGeriYukleButon;
+
+  /// No description provided for @ayarlarGeriYukleTamamlandi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedekten geri yükleme tamamlandı.'**
+  String get ayarlarGeriYukleTamamlandi;
+
+  /// No description provided for @ayarlarGeriYukleHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedek yüklenirken hata oluştu: {hata}'**
+  String ayarlarGeriYukleHata(String hata);
+
+  /// No description provided for @ayarlarTestAriligiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Test arılığı oluşturulsun mu?'**
+  String get ayarlarTestAriligiBaslik;
+
+  /// No description provided for @ayarlarTestAriligiOlustur.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oluştur'**
+  String get ayarlarTestAriligiOlustur;
+
+  /// No description provided for @ayarlarTestAriligiHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Test arılığı oluşturulamadı: {hata}'**
+  String ayarlarTestAriligiHata(String hata);
+
+  /// No description provided for @ayarlarGuncellemHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güncelleme kontrolü başarısız: {hata}'**
+  String ayarlarGuncellemHata(String hata);
+
+  /// No description provided for @ayarlarKalibrasyonTamam.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık kalibrasyonu tanımlı. Sistem sezon ve bal akımı bağlamını kullanabilir.'**
+  String get ayarlarKalibrasyonTamam;
+
+  /// No description provided for @ayarlarKalibrasyonEksik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılık kalibrasyonu eksik. Sezon ve bal akımı tanımları gözden geçirilmeli.'**
+  String get ayarlarKalibrasyonEksik;
+
+  /// No description provided for @ayarlarTarihFormatNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarih gösterimi gün/ay formatındadır; kayıt formatı sistem içinde korunur.'**
+  String get ayarlarTarihFormatNotu;
+
+  /// No description provided for @ayarlarBaslangicTarih.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlangıç: {tarih}'**
+  String ayarlarBaslangicTarih(String tarih);
+
+  /// No description provided for @ayarlarBitisTarih.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bitiş: {tarih}'**
+  String ayarlarBitisTarih(String tarih);
+
+  /// No description provided for @ayarlarDavranisTercihi.
+  ///
+  /// In tr, this message translates to:
+  /// **'DAVRANIŞ TERCİHİ'**
+  String get ayarlarDavranisTercihi;
+
+  /// No description provided for @ayarlarDavranisTercihiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu ayar yalnızca genetik seçilim ve donör filtresi tarafını etkiler. Çekirdek eşikleri değiştirmez.'**
+  String get ayarlarDavranisTercihiAciklama;
+
+  /// No description provided for @ayarlarDavranisStandart.
+  ///
+  /// In tr, this message translates to:
+  /// **'Standart'**
+  String get ayarlarDavranisStandart;
+
+  /// No description provided for @ayarlarDavranisStandartAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetilebilir koloniler önceliklidir. Hırçınlık seçilim tarafında daha belirgin eksidir.'**
+  String get ayarlarDavranisStandartAciklama;
+
+  /// No description provided for @ayarlarDavranisEsnek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Esnek'**
+  String get ayarlarDavranisEsnek;
+
+  /// No description provided for @ayarlarDavranisEsnekAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güç ve verim öne çıkıyorsa davranış verisi seçilim tarafında daha yumuşak yorumlanır.'**
+  String get ayarlarDavranisEsnekAciklama;
+
+  /// No description provided for @ayarlarKalibrasyonKapsami.
+  ///
+  /// In tr, this message translates to:
+  /// **'KALİBRASYON KAPSAMI'**
+  String get ayarlarKalibrasyonKapsami;
+
+  /// No description provided for @ayarlarKalibrasyonKapsamiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı ve genel risk takvimi bu kapsama göre kaydedilir. Tüm arılıklar seçilirse genel varsayılanlar güncellenir. Tek arılık seçilirse yalnızca o arılık için özel kalibrasyon oluşturulur.'**
+  String get ayarlarKalibrasyonKapsamiAciklama;
+
+  /// No description provided for @ayarlarKalibrasyonLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kalibrasyonu kullan'**
+  String get ayarlarKalibrasyonLabel;
+
+  /// No description provided for @ayarlarKalibrasyonTumAriliklar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm arılıklar için kullan'**
+  String get ayarlarKalibrasyonTumAriliklar;
+
+  /// No description provided for @ayarlarKalibrasyonYalnizca.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalnızca {ad} arılığı için kullan'**
+  String ayarlarKalibrasyonYalnizca(String ad);
+
+  /// No description provided for @ayarlarKalibrasyonGenelAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şu anda genel varsayılan kalibrasyonu düzenliyorsun. Özel ayarı olmayan tüm arılıklar bunu kullanır.'**
+  String get ayarlarKalibrasyonGenelAciklama;
+
+  /// No description provided for @ayarlarKalibrasyonOzelAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'{kapsam} için özel kalibrasyon alanı açık. Burada yaptığın bal akımı ve risk takvimi değişiklikleri diğer arılıkları etkilemez.'**
+  String ayarlarKalibrasyonOzelAciklama(String kapsam);
+
+  /// No description provided for @ayarlarBalAkimiBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı pencereleri biyolojik geri sayımların temel referansıdır. İlk pencere zorunlu, ikinci pencere ise sadece gerçekten ihtiyaç varsa açık tutulur.'**
+  String get ayarlarBalAkimiBilgi;
+
+  /// No description provided for @ayarlarIkinciBalAkimi.
+  ///
+  /// In tr, this message translates to:
+  /// **'2. bal akımını kullan'**
+  String get ayarlarIkinciBalAkimi;
+
+  /// No description provided for @ayarlarIkinciBalAkimiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Örn: Ağustos / Eylül çam balı. İhtiyacın yoksa kapalı bırak.'**
+  String get ayarlarIkinciBalAkimiAciklama;
+
+  /// No description provided for @ayarlarRiskTakvimiBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genel risk takvimi koloniye özel karar üretmez. Arı kuşu, eşek arısı, yağmacılık, mum güvesi ve fare gibi dönemsel riskleri arılık ekranında hatırlatır. Tarihleri kendi bölgenin gerçek baskı dönemine göre daraltabilirsin.'**
+  String get ayarlarRiskTakvimiBilgi;
+
+  /// No description provided for @ayarlarAriKusuDonemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arı Kuşu Risk Dönemi'**
+  String get ayarlarAriKusuDonemi;
+
+  /// No description provided for @ayarlarAriKusuAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varsayılan: Mayıs – Ağustos. Kendi bölgenin göç ve baskı dönemine göre daraltabilirsin.'**
+  String get ayarlarAriKusuAciklama;
+
+  /// No description provided for @ayarlarEsekArisiDonemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eşek Arısı / Sarıca Risk Dönemi'**
+  String get ayarlarEsekArisiDonemi;
+
+  /// No description provided for @ayarlarEsekArisiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varsayılan: Temmuz – Ekim. Baskının yoğunlaştığı döneme göre ayarla.'**
+  String get ayarlarEsekArisiAciklama;
+
+  /// No description provided for @ayarlarYagmacilikDonemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yağmacılık Risk Dönemi'**
+  String get ayarlarYagmacilikDonemi;
+
+  /// No description provided for @ayarlarYagmacilikAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varsayılan: Temmuz – Eylül. Hasat sonrası ve kurak dönem baskısına göre ayarla.'**
+  String get ayarlarYagmacilikAciklama;
+
+  /// No description provided for @ayarlarMumGuvesiDonemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mum Güvesi Risk Dönemi'**
+  String get ayarlarMumGuvesiDonemi;
+
+  /// No description provided for @ayarlarMumGuvesiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varsayılan: Haziran – Eylül. Sıcak dönem ve zayıf koloni riskine göre ayarla.'**
+  String get ayarlarMumGuvesiAciklama;
+
+  /// No description provided for @ayarlarFareDonemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fare Risk Dönemi'**
+  String get ayarlarFareDonemi;
+
+  /// No description provided for @ayarlarFareAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varsayılan: Kasım – Şubat. Bu aralık yıl taşar; sistem bunu doğru yorumlar.'**
+  String get ayarlarFareAciklama;
+
+  /// No description provided for @ayarlarKisDonemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış / Dayanıklılık Dönemi'**
+  String get ayarlarKisDonemi;
+
+  /// No description provided for @ayarlarKisAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varsayılan yapı 1 Eylül – 15 Marttır. Gerekirse sahana göre ince ayar yap.'**
+  String get ayarlarKisAciklama;
+
+  /// No description provided for @ayarlarUretimDonemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif / Üretim Dönemi'**
+  String get ayarlarUretimDonemi;
+
+  /// No description provided for @ayarlarUretimAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varsayılan yapı 15 Mart – 31 Ağustostur. Gerekirse sahana göre ince ayar yap.'**
+  String get ayarlarUretimAciklama;
+
+  /// No description provided for @ayarlarBalAkimiAraligi1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal Akımı Aralığı 1'**
+  String get ayarlarBalAkimiAraligi1;
+
+  /// No description provided for @ayarlarBalAkimiAraligi1Aciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk ana akım. Örn: Mayıs sonu / Haziran başı.'**
+  String get ayarlarBalAkimiAraligi1Aciklama;
+
+  /// No description provided for @ayarlarBalAkimiAraligi2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal Akımı Aralığı 2'**
+  String get ayarlarBalAkimiAraligi2;
+
+  /// No description provided for @ayarlarBalAkimiAraligi2Aciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'İkinci akım. Örn: Ağustos / Eylül çam balı.'**
+  String get ayarlarBalAkimiAraligi2Aciklama;
+
+  /// No description provided for @ayarlarRehberiAc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı rehberini aç'**
+  String get ayarlarRehberiAc;
+
+  /// No description provided for @ayarlarSistemBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedek alma ve geri yükleme akışı sistemde tutulur. Geri yükleme sonrası bakım adımı çalıştırılır ve karar önbelleği temizlenir.'**
+  String get ayarlarSistemBilgi;
+
+  /// No description provided for @ayarlarUygulamaKimligi.
+  ///
+  /// In tr, this message translates to:
+  /// **'UYGULAMA KİMLİĞİ'**
+  String get ayarlarUygulamaKimligi;
+
+  /// No description provided for @ayarlarKimlikUygulama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama'**
+  String get ayarlarKimlikUygulama;
+
+  /// No description provided for @ayarlarKimlikTanim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tanım'**
+  String get ayarlarKimlikTanim;
+
+  /// No description provided for @ayarlarKimlikSurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sürüm'**
+  String get ayarlarKimlikSurum;
+
+  /// No description provided for @ayarlarKimlikYil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yıl'**
+  String get ayarlarKimlikYil;
+
+  /// No description provided for @ayarlarKimlikUretici.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretici'**
+  String get ayarlarKimlikUretici;
+
+  /// No description provided for @ayarlarKimlikVeri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri'**
+  String get ayarlarKimlikVeri;
+
+  /// No description provided for @ayarlarKimlikSistemAmaci.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem amacı: basit saha verisini zaman, olay ve süreç mantığıyla okuyarak uygulanabilir koloni kararı üretmek.'**
+  String get ayarlarKimlikSistemAmaci;
+
+  /// No description provided for @ayarlarSurumYukleniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yükleniyor'**
+  String get ayarlarSurumYukleniyor;
+
+  /// No description provided for @ayarlarYedekAl.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedek Al'**
+  String get ayarlarYedekAl;
+
+  /// No description provided for @ayarlarYedekAlAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm veriyi JSON yedek dosyası olarak oluştur ve paylaş.'**
+  String get ayarlarYedekAlAciklama;
+
+  /// No description provided for @ayarlarYedekYukle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedekten Yükle'**
+  String get ayarlarYedekYukle;
+
+  /// No description provided for @ayarlarYedekYukleAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha önce aldığın JSON yedeğini seç ve mevcut verinin yerine yükle.'**
+  String get ayarlarYedekYukleAciklama;
+
+  /// No description provided for @ayarlarTestAriligiIslem.
+  ///
+  /// In tr, this message translates to:
+  /// **'Test Arılığı Oluştur / Yenile'**
+  String get ayarlarTestAriligiIslem;
+
+  /// No description provided for @ayarlarTestAriligiIslemAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uluköy verisine dokunmadan ayrı ITOGENA_TEST_ARILIGI içinde 40 senaryo kurar.'**
+  String get ayarlarTestAriligiIslemAciklama;
+
+  /// No description provided for @ayarlarGuncelleKontrol.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güncellemeyi Kontrol Et'**
+  String get ayarlarGuncelleKontrol;
+
+  /// No description provided for @ayarlarGuncelleKontrolAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni sürüm varsa önce yedek aldırır, ardından güvenli APK bağlantısını açar.'**
+  String get ayarlarGuncelleKontrolAciklama;
+
+  /// No description provided for @ayarlarYedekUyari.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedekten yükleme mevcut veriyi tamamen değiştirir. Yüklemeden hemen önce yeni bir yedek almak en güvenli yaklaşımdır.'**
+  String get ayarlarYedekUyari;
+
+  /// No description provided for @ayarlarGizlilik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik Politikası'**
+  String get ayarlarGizlilik;
+
+  /// No description provided for @ayarlarGizlilikAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.'**
+  String get ayarlarGizlilikAciklama;
+
+  /// No description provided for @ayarlarGelistirici.
+  ///
+  /// In tr, this message translates to:
+  /// **'GELİŞTİRİCİ'**
+  String get ayarlarGelistirici;
+
+  /// No description provided for @ayarlarProMod.
+  ///
+  /// In tr, this message translates to:
+  /// **'PRO mod (test)'**
+  String get ayarlarProMod;
+
+  /// No description provided for @ayarlarProModAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'PRO özellikleri kilit olmadan görüntüler.'**
+  String get ayarlarProModAciklama;
+
+  /// No description provided for @ayarlarDilTest.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dil (test)'**
+  String get ayarlarDilTest;
+
+  /// No description provided for @ayarlarDilAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalnızca lokalizasyon sistemine taşınan metinleri etkiler.'**
+  String get ayarlarDilAciklama;
+
+  /// No description provided for @ayarlarKaydedildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genel ayarlar tüm arılıklar için kaydedildi.'**
+  String get ayarlarKaydedildi;
+
+  /// No description provided for @ayarlarOzelKaydedildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'{kapsam} arılığı için özel kalibrasyon kaydedildi.'**
+  String ayarlarOzelKaydedildi(String kapsam);
+
+  /// No description provided for @ayarlarGeriYukleIcerik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem mevcut veriyi seçtiğin yedek ile tamamen değiştirir. Devam etmeden önce güncel bir yedek alman önerilir. Şimdi yükleme başlasın mı?'**
+  String get ayarlarGeriYukleIcerik;
+
+  /// No description provided for @ayarlarTestAriligiIcerik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem gerçek arılık verisine dokunmaz. Yalnızca ITOGENA_TEST_ARILIGI adlı ayrı test arılığını oluşturur. Aynı isimde eski test arılığı varsa sadece onu silip yeniden kurar.'**
+  String get ayarlarTestAriligiIcerik;
+
+  /// No description provided for @ayarlarUygulamaGuncel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama güncel. Mevcut sürüm: {surum} ({kod})'**
+  String ayarlarUygulamaGuncel(String surum, String kod);
 }
 
 class _AppLocalizationsDelegate

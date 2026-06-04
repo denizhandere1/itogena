@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/koloni_grid_context.dart';
@@ -216,10 +217,10 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
   bool _sonmusMu(Map<String, dynamic> k) => !_aktifMi(k);
 
-  String _pasifDurumEtiketi(Map<String, dynamic> k) {
+  String _pasifDurumEtiketi(BuildContext context, Map<String, dynamic> k) {
     final durum = (k['durum'] ?? '').toString().trim().toLowerCase();
-    if (durum == 'pasif') return 'PASİF';
-    return 'SÖNDÜ';
+    if (durum == 'pasif') return AppLocalizations.of(context).kolonilerPasif;
+    return AppLocalizations.of(context).kolonilerSondu;
   }
 
   int _toInt(dynamic v) {
@@ -306,9 +307,9 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     return _gridContextMap[koloniId]?.yonetimEtiketi ?? '';
   }
 
-  String _citaAktivasyonGridMetni(Map<String, dynamic> k) {
+  String _citaAktivasyonGridMetni(BuildContext context, Map<String, dynamic> k) {
     final koloniId = _toInt(k['id']);
-    return _gridContextMap[koloniId]?.citaGridMetni ?? '${_toInt(k['sonCita'])} çıta';
+    return _gridContextMap[koloniId]?.citaGridMetni ?? AppLocalizations.of(context).kolonilerSonCita(_toInt(k['sonCita']));
   }
 
   Color _skorRengi(int skor) {
@@ -451,10 +452,8 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   void _karsilastirmaModunuDegistir() {
     if (_tabController.index == 1) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Karşılaştırma modu yalnızca aktif koloniler için kullanılabilir.',
-          ),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).kolonilerKarsilastirmaModuSadece),
         ),
       );
       return;
@@ -482,8 +481,8 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
     if (_seciliKoloniIdleri.length >= 3) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('En fazla 3 koloni karşılaştırılabilir.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).karsilastirmaSecimMaxKoloni),
         ),
       );
       return;
@@ -497,8 +496,8 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   Future<void> _karsilastirmayaGit() async {
     if (_seciliKoloniIdleri.length < 2) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Karşılaştırma için en az 2 koloni seçmelisiniz.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).karsilastirmaSecimMinKoloni),
         ),
       );
       return;
@@ -547,14 +546,14 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     final onay = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Koloniyi Düzenle'),
-        content: Text(
-          '${k['kovanNo'] ?? '-'} numaralı koloni için düzenleme ekranı açılsın mı?',
-        ),
+        title: Text(AppLocalizations.of(context).kolonilerDuzenleBaslik),
+        content: Text(AppLocalizations.of(context).kolonilerDuzenleOnay(
+          (k['kovanNo'] ?? '-').toString(),
+        )),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç'),
+            child: Text(AppLocalizations.of(context).vazgec),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -562,7 +561,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
               foregroundColor: Colors.black,
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Devam Et'),
+            child: Text(AppLocalizations.of(context).kolonilerDevamEt),
           ),
         ],
       ),
@@ -593,15 +592,14 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     final onay = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Koloniyi Sil'),
-        content: Text(
-          '${k['kovanNo'] ?? '-'} numaralı koloni silinsin mi?\n\n'
-              'Bu işlem geri alınamaz. İlgili numara geçmişi ve olay kayıtları da silinir.',
-        ),
+        title: Text(AppLocalizations.of(context).kolonilerSilBaslik),
+        content: Text(AppLocalizations.of(context).kolonilerSilOnay(
+          (k['kovanNo'] ?? '-').toString(),
+        )),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç'),
+            child: Text(AppLocalizations.of(context).vazgec),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -609,7 +607,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
               foregroundColor: Colors.white,
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Sil'),
+            child: Text(AppLocalizations.of(context).sil),
           ),
         ],
       ),
@@ -626,7 +624,9 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${k['kovanNo'] ?? '-'} numaralı koloni silindi.'),
+          content: Text(AppLocalizations.of(context).kolonilerSilindi(
+            (k['kovanNo'] ?? '-').toString(),
+          )),
         ),
       );
 
@@ -636,7 +636,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Koloni silinirken hata oluştu: $e'),
+          content: Text(AppLocalizations.of(context).kolonilerSilHata(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -665,10 +665,10 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
             ),
             Text(
               _karsilastirmaModu
-                  ? '$seciliSayi koloni seçildi'
+                  ? AppLocalizations.of(context).kolonilerSeciliSayi(seciliSayi)
                   : (_donorlerYukleniyor
-                  ? 'Koloniler • Donör rozetleri hazırlanıyor'
-                  : 'Koloniler'),
+                  ? AppLocalizations.of(context).kolonilerDonorHazirlaniyor
+                  : AppLocalizations.of(context).kolonilerBaslik),
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
@@ -685,8 +685,8 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
           labelColor: Colors.black,
           indicatorColor: Colors.brown,
           tabs: [
-            Tab(text: 'AKTİF ($aktifSayi)'),
-            Tab(text: 'SÖNMÜŞ ($sonmusSayi)'),
+            Tab(text: AppLocalizations.of(context).kolonilerAktifSekme(aktifSayi)),
+            Tab(text: AppLocalizations.of(context).kolonilerSonmusSekme(sonmusSayi)),
           ],
           onTap: (index) {
             if (index == 1 && _karsilastirmaModu) {
@@ -732,7 +732,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        _karsilastirmaModu ? 'Kapat' : 'Karşılaştır',
+                        _karsilastirmaModu ? AppLocalizations.of(context).kapat : AppLocalizations.of(context).karsilastirmaSecimButon,
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w900,
@@ -771,7 +771,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
                     Expanded(
                       child: _koloniGridi(
                         koloniler: _aktifKoloniler,
-                        bosMesaj: 'Bu arılıkta aktif koloni kaydı yok.',
+                        bosMesaj: AppLocalizations.of(context).kolonilerAktifBos,
                         sonmusSekmesi: false,
                       ),
                     ),
@@ -779,7 +779,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
                 ),
                 _koloniGridi(
                   koloniler: _sonmusKoloniler,
-                  bosMesaj: 'Bu arılıkta sönmüş koloni kaydı yok.',
+                  bosMesaj: AppLocalizations.of(context).kolonilerSonmusBos,
                   sonmusSekmesi: true,
                 ),
               ],
@@ -793,7 +793,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
         backgroundColor: seciliSayi >= 2 ? Colors.amber : Colors.grey,
         foregroundColor: Colors.black,
         icon: const Icon(Icons.compare),
-        label: Text('Karşılaştır ($seciliSayi)'),
+        label: Text(AppLocalizations.of(context).kolonilerKarsilastirButon(seciliSayi)),
       )
           : FloatingActionButton(
         onPressed: _yeniKovan,
@@ -813,12 +813,12 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
         controller: _aramaController,
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
-          hintText: 'Kovan ara...',
+          hintText: AppLocalizations.of(context).kolonilerKovanAra,
           prefixIcon: const Icon(Icons.search, size: 20),
           suffixIcon: _aramaController.text.trim().isEmpty
               ? null
               : IconButton(
-            tooltip: 'Aramayı temizle',
+            tooltip: AppLocalizations.of(context).kolonilerAramaTemizle,
             icon: const Icon(Icons.close, size: 20),
             onPressed: () => _aramaController.clear(),
           ),
@@ -855,12 +855,12 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            _filtreChip('tum', 'Tümü'),
-            _filtreChip('bolme', 'Yeni bölmeler'),
-            _filtreChip('ogul', 'Yeni oğullar'),
-            _filtreChip('alarm', 'Alarm'),
-            _filtreChip('yavru_yok', 'Yavru yok'),
-            _filtreChip('hasat', 'Hasat adayı'),
+            _filtreChip('tum', AppLocalizations.of(context).hatAnalizTumu),
+            _filtreChip('bolme', AppLocalizations.of(context).kolonilerFiltreYeniBolme),
+            _filtreChip('ogul', AppLocalizations.of(context).kolonilerFiltreYeniOgul),
+            _filtreChip('alarm', AppLocalizations.of(context).kolonilerFiltreAlarm),
+            _filtreChip('yavru_yok', AppLocalizations.of(context).kolonilerFiltreYavruYok),
+            _filtreChip('hasat', AppLocalizations.of(context).kolonilerFiltreHasat),
           ],
         ),
       ),
@@ -937,15 +937,15 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: Colors.amber.shade200),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.workspace_premium_outlined, size: 18, color: Colors.brown),
-          SizedBox(width: 8),
+          const Icon(Icons.workspace_premium_outlined, size: 18, color: Colors.brown),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Rozetler: 1/2/3 ilk donör adaylarını, D donör havuzundaki diğer adayları gösterir. Genetik veto varsa detay ekranında ayrıca açıklanır.',
-              style: TextStyle(
+              AppLocalizations.of(context).kolonilerDonorRozetAciklama,
+              style: const TextStyle(
                 fontSize: 11.5,
                 height: 1.35,
                 color: Colors.black87,
@@ -973,13 +973,13 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.compare_arrows, size: 18, color: Colors.brown),
-              SizedBox(width: 8),
+              const Icon(Icons.compare_arrows, size: 18, color: Colors.brown),
+              const SizedBox(width: 8),
               Text(
-                'KARŞILAŞTIRMA MODU',
-                style: TextStyle(
+                AppLocalizations.of(context).kolonilerKarsilastirmaModuBaslik,
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w900,
                   color: Colors.brown,
@@ -988,9 +988,9 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Karşılaştırmak istediğiniz 2 veya 3 aktif koloniye dokunun. Bu mod açıkken koloni detayı yerine seçim yapılır.',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context).kolonilerKarsilastirmaModuInfo,
+            style: const TextStyle(
               fontSize: 12,
               height: 1.4,
               color: Colors.black87,
@@ -998,7 +998,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
           ),
           const SizedBox(height: 8),
           Text(
-            'Seçili koloni: $seciliSayi / 3',
+            AppLocalizations.of(context).kolonilerSeciliKoloniSayisi(seciliSayi),
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w800,
@@ -1199,7 +1199,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
                             ),
                           ),
                           Text(
-                            sonmusSekmesi ? _pasifDurumEtiketi(k) : '%$skor',
+                            sonmusSekmesi ? _pasifDurumEtiketi(context, k) : '%$skor',
                             style: TextStyle(
                               fontSize: sonmusSekmesi ? 17 : 22,
                               fontWeight: FontWeight.w900,
@@ -1214,7 +1214,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
                           Column(
                             children: [
                               Text(
-                                sonmusSekmesi ? '$sonCita çıta' : _citaAktivasyonGridMetni(k),
+                                sonmusSekmesi ? AppLocalizations.of(context).kolonilerSonCita(sonCita) : _citaAktivasyonGridMetni(context, k),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,

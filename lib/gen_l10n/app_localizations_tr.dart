@@ -810,4 +810,676 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get karsilastirmaOgulDurumu => 'Oğul Durumu';
+
+  @override
+  String get kolonilerBaslik => 'Koloniler';
+
+  @override
+  String get kolonilerDonorHazirlaniyor =>
+      'Koloniler • Donör rozetleri hazırlanıyor';
+
+  @override
+  String kolonilerSeciliSayi(int sayi) {
+    return '$sayi koloni seçildi';
+  }
+
+  @override
+  String kolonilerAktifSekme(int sayi) {
+    return 'AKTİF ($sayi)';
+  }
+
+  @override
+  String kolonilerSonmusSekme(int sayi) {
+    return 'SÖNMÜŞ ($sayi)';
+  }
+
+  @override
+  String get kolonilerKarsilastirmaModuSadece =>
+      'Karşılaştırma modu yalnızca aktif koloniler için kullanılabilir.';
+
+  @override
+  String get kolonilerDuzenleBaslik => 'Koloniyi Düzenle';
+
+  @override
+  String kolonilerDuzenleOnay(String kovanNo) {
+    return '$kovanNo numaralı koloni için düzenleme ekranı açılsın mı?';
+  }
+
+  @override
+  String get kolonilerDevamEt => 'Devam Et';
+
+  @override
+  String get kolonilerSilBaslik => 'Koloniyi Sil';
+
+  @override
+  String kolonilerSilOnay(String kovanNo) {
+    return '$kovanNo numaralı koloni silinsin mi?\n\nBu işlem geri alınamaz. İlgili numara geçmişi ve olay kayıtları da silinir.';
+  }
+
+  @override
+  String kolonilerSilindi(String kovanNo) {
+    return '$kovanNo numaralı koloni silindi.';
+  }
+
+  @override
+  String kolonilerSilHata(String hata) {
+    return 'Koloni silinirken hata oluştu: $hata';
+  }
+
+  @override
+  String get kolonilerAktifBos => 'Bu arılıkta aktif koloni kaydı yok.';
+
+  @override
+  String get kolonilerSonmusBos => 'Bu arılıkta sönmüş koloni kaydı yok.';
+
+  @override
+  String get kolonilerKovanAra => 'Kovan ara...';
+
+  @override
+  String get kolonilerAramaTemizle => 'Aramayı temizle';
+
+  @override
+  String get kolonilerFiltreYeniBolme => 'Yeni bölmeler';
+
+  @override
+  String get kolonilerFiltreYeniOgul => 'Yeni oğullar';
+
+  @override
+  String get kolonilerFiltreAlarm => 'Alarm';
+
+  @override
+  String get kolonilerFiltreYavruYok => 'Yavru yok';
+
+  @override
+  String get kolonilerFiltreHasat => 'Hasat adayı';
+
+  @override
+  String get kolonilerDonorRozetAciklama =>
+      'Rozetler: 1/2/3 ilk donör adaylarını, D donör havuzundaki diğer adayları gösterir. Genetik veto varsa detay ekranında ayrıca açıklanır.';
+
+  @override
+  String get kolonilerKarsilastirmaModuBaslik => 'KARŞILAŞTIRMA MODU';
+
+  @override
+  String get kolonilerKarsilastirmaModuInfo =>
+      'Karşılaştırmak istediğiniz 2 veya 3 aktif koloniye dokunun. Bu mod açıkken koloni detayı yerine seçim yapılır.';
+
+  @override
+  String kolonilerSeciliKoloniSayisi(int sayi) {
+    return 'Seçili koloni: $sayi / 3';
+  }
+
+  @override
+  String kolonilerKarsilastirButon(int sayi) {
+    return 'Karşılaştır ($sayi)';
+  }
+
+  @override
+  String get kolonilerPasif => 'PASİF';
+
+  @override
+  String get kolonilerSondu => 'SÖNDÜ';
+
+  @override
+  String kolonilerSonCita(int cita) {
+    return '$cita çıta';
+  }
+
+  @override
+  String get raporlarSayfaBaslik => 'RAPORLAR';
+
+  @override
+  String get raporlarArilikEtiketi => 'Arılık:';
+
+  @override
+  String get raporlarArilikBulunamadi => 'Kayıtlı arılık bulunamadı.';
+
+  @override
+  String get raporlarArilikSec => 'Rapor alınacak arılığı seç';
+
+  @override
+  String get raporlarGenelDurum => 'GENEL DURUM';
+
+  @override
+  String get raporlarAktifKovan => 'Aktif kovan';
+
+  @override
+  String get raporlarOrtaSkor => 'Orta skor';
+
+  @override
+  String get raporlarAriliCita => 'Arılı çıta';
+
+  @override
+  String get raporlarDonorler => 'DONÖRLER';
+
+  @override
+  String get raporlarHesaplaniyor => 'Hesaplanıyor';
+
+  @override
+  String get raporlarHenuzYok => 'Henüz yok';
+
+  @override
+  String get raporlarIlkUcGuclu => 'İLK 3 GÜÇLÜ';
+
+  @override
+  String get raporlarRaporSec => 'RAPOR SEÇ';
+
+  @override
+  String get raporlarListeLazyAciklama =>
+      'Ağır liste hesapları ilk açılışta çalışmaz. Sadece görmek istediğin liste açıldığında yüklenir.';
+
+  @override
+  String get raporlarGucludenZayifaBaslik => 'Güçlüden Zayıfa';
+
+  @override
+  String get raporlarGucludenZayifaAlt =>
+      'Tüm aktif koloniler yüksek skordan düşüğe sıralanır.';
+
+  @override
+  String get raporlarGucludenZayifaListeBaslik => 'GÜÇLÜDEN ZAYIFA';
+
+  @override
+  String get raporlarZayiftanGucluye => 'Zayıftan Güçlüye';
+
+  @override
+  String get raporlarZayiftanGucluAlt =>
+      'Tüm aktif koloniler düşük skordan yükseğe sıralanır.';
+
+  @override
+  String get raporlarZayiftanGucluListeBaslik => 'ZAYIFTAN GÜÇLÜYE';
+
+  @override
+  String get raporlarDonorAdaylariBaslik => 'Donör Adayları';
+
+  @override
+  String get raporlarDonorAdaylariAlt =>
+      '1. sıradan başlayarak donör havuzu listelenir.';
+
+  @override
+  String get raporlarDonorAdaylariListeBaslik => 'DONÖR ADAYLARI';
+
+  @override
+  String get raporlarGenetikVetoBaslik => 'Genetik Veto';
+
+  @override
+  String get raporlarGenetikVetoAlt =>
+      'Donör dışı kalan veto kayıtları kendi içinde sıralanır.';
+
+  @override
+  String get raporlarGenetikVetoListeBaslik => 'GENETİK VETO';
+
+  @override
+  String get raporlarEkonomikDegerBaslik => 'Ekonomik Değer';
+
+  @override
+  String get raporlarEkonomikDegerAlt =>
+      'Arılık ekonomik değeri ve bal potansiyeli ayrı ekranda hesaplanır.';
+
+  @override
+  String get raporlarIstatistikHesapla => 'Arılık istatistiklerini hesapla';
+
+  @override
+  String get raporlarIstatistikHesaplaniyor =>
+      'Arılık istatistikleri hesaplanıyor...';
+
+  @override
+  String raporlarIstatistikHata(String hata) {
+    return 'Arılık istatistikleri hesaplanamadı: $hata';
+  }
+
+  @override
+  String get raporlarTekrarHesapla => 'Tekrar hesapla';
+
+  @override
+  String get raporlarArilikIstatistikleri => 'ARILIK İSTATİSTİKLERİ';
+
+  @override
+  String get raporlarToplamCita => 'Toplam çıta';
+
+  @override
+  String get raporlarBalTemasi => 'Bal temaslı';
+
+  @override
+  String get raporlarAktivasyonFarki => 'Aktivasyon';
+
+  @override
+  String get raporlarTahminiAri => 'Tahmini arı';
+
+  @override
+  String get raporlarGuclu => 'Güçlü';
+
+  @override
+  String get raporlarOrta => 'Orta';
+
+  @override
+  String get raporlarZayif => 'Zayıf';
+
+  @override
+  String ekDegerAppBarBaslik(String arilikAd) {
+    return '$arilikAd EKONOMİK DEĞER';
+  }
+
+  @override
+  String ekDegerHata(String hata) {
+    return 'Ekonomik değer hesaplanamadı:\n$hata';
+  }
+
+  @override
+  String get ekDegerKartBaslik => 'EKONOMİK DEĞER';
+
+  @override
+  String ekDegerTahminiToplam(String deger) {
+    return 'Tahmini toplam değer: $deger TL';
+  }
+
+  @override
+  String ekDegerAktivasyonluBalliCita(String cita) {
+    return 'Aktivasyonlu ballı çıta: $cita çıta';
+  }
+
+  @override
+  String ekDegerTahminiBalAraligi(
+      String minKg, String maxKg, String minTL, String maxTL) {
+    return 'Tahmini bal: $minKg–$maxKg kg / $minTL–$maxTL TL';
+  }
+
+  @override
+  String get ekDegerHesapAciklama =>
+      'Bu hesap biyolojik modelde bal/ballık pozisyonunda görünen çıtaları aktivasyon düzeyiyle okur; boş çıta, toplam fiziksel çıta veya boş kabarmış petek bal gibi sayılmaz.';
+
+  @override
+  String get ekDegerBalFiyati => 'Bal satış fiyatı (kg/TL)';
+
+  @override
+  String get ekDegerAriliCita => 'Arılı çıta değeri';
+
+  @override
+  String get ekDegerBosKovan => 'Boş kovan değeri';
+
+  @override
+  String get ekDegerBosKabarmisPetek => 'Boş kabarmış petek adedi';
+
+  @override
+  String get ekDegerBosKabarmisPetekBirim => 'Boş kabarmış petek birim değeri';
+
+  @override
+  String get koloniDetayMuayeneSil => 'Muayene Sil';
+
+  @override
+  String koloniDetayMuayeneSilOnay(String tarih) {
+    return '$tarih tarihli muayene silinsin mi?\n\nBu işlem geri alınamaz.';
+  }
+
+  @override
+  String get koloniDetayMuayeneSilindi => 'Muayene silindi.';
+
+  @override
+  String get koloniDetayNumaraDegistir => 'Koloni Numarasını Değiştir';
+
+  @override
+  String get koloniDetayNumaraAciklama =>
+      'Bu işlem koloninin saha numarasını değiştirir. Soy bağı ve muayene geçmişi korunur.';
+
+  @override
+  String get koloniDetayYeniNumara => 'Yeni koloni / kovan numarası';
+
+  @override
+  String koloniDetayNumaraGuncellendi(String no) {
+    return 'Koloni numarası $no olarak güncellendi.';
+  }
+
+  @override
+  String koloniDetayAppBarBaslik(String no) {
+    return 'KOVAN $no';
+  }
+
+  @override
+  String get koloniDetayTabGenelDurum => 'GENEL DURUM';
+
+  @override
+  String get koloniDetayTabMuayeneler => 'MUAYENELER';
+
+  @override
+  String get koloniDetayTabBiyolojikModel => 'BİYOLOJİK MODEL';
+
+  @override
+  String get koloniDetayTabPerformans => 'PERFORMANS';
+
+  @override
+  String get koloniDetayMuayeneEkle => 'Muayene Ekle';
+
+  @override
+  String get koloniDetayOzetSurec => 'SÜREÇ';
+
+  @override
+  String get koloniDetayOzetBiyoloji => 'BİYOLOJİ';
+
+  @override
+  String get koloniDetayOzetYonetim => 'YÖNETİM';
+
+  @override
+  String get koloniDetayOzetGenetik => 'GENETİK';
+
+  @override
+  String get koloniDetayPerfVeriBulunamadi =>
+      'Performans özeti verisi bulunamadı.';
+
+  @override
+  String get ayarlarBaslik => 'AYARLAR VE KALİBRASYON';
+
+  @override
+  String get ayarlarTabGenel => 'GENEL';
+
+  @override
+  String get ayarlarTabSistem => 'SİSTEM';
+
+  @override
+  String get ayarlarKaydediliyor => 'KAYDEDİLİYOR...';
+
+  @override
+  String get ayarlarKaydet => 'GENEL AYARLARI KAYDET';
+
+  @override
+  String ayarlarKaydedilemedi(String hata) {
+    return 'Ayarlar kaydedilemedi: $hata';
+  }
+
+  @override
+  String get ayarlarYedekHazir => 'Yedek hazırlandı. Güvenli bir yere kaydet.';
+
+  @override
+  String ayarlarYedekHata(String hata) {
+    return 'Yedek alınırken hata oluştu: $hata';
+  }
+
+  @override
+  String get ayarlarGeriYukleBaslik => 'YEDEKTEN GERİ YÜKLE';
+
+  @override
+  String get ayarlarGeriYukleButon => 'Yüklemeyi Başlat';
+
+  @override
+  String get ayarlarGeriYukleTamamlandi => 'Yedekten geri yükleme tamamlandı.';
+
+  @override
+  String ayarlarGeriYukleHata(String hata) {
+    return 'Yedek yüklenirken hata oluştu: $hata';
+  }
+
+  @override
+  String get ayarlarTestAriligiBaslik => 'Test arılığı oluşturulsun mu?';
+
+  @override
+  String get ayarlarTestAriligiOlustur => 'Oluştur';
+
+  @override
+  String ayarlarTestAriligiHata(String hata) {
+    return 'Test arılığı oluşturulamadı: $hata';
+  }
+
+  @override
+  String ayarlarGuncellemHata(String hata) {
+    return 'Güncelleme kontrolü başarısız: $hata';
+  }
+
+  @override
+  String get ayarlarKalibrasyonTamam =>
+      'Arılık kalibrasyonu tanımlı. Sistem sezon ve bal akımı bağlamını kullanabilir.';
+
+  @override
+  String get ayarlarKalibrasyonEksik =>
+      'Arılık kalibrasyonu eksik. Sezon ve bal akımı tanımları gözden geçirilmeli.';
+
+  @override
+  String get ayarlarTarihFormatNotu =>
+      'Tarih gösterimi gün/ay formatındadır; kayıt formatı sistem içinde korunur.';
+
+  @override
+  String ayarlarBaslangicTarih(String tarih) {
+    return 'Başlangıç: $tarih';
+  }
+
+  @override
+  String ayarlarBitisTarih(String tarih) {
+    return 'Bitiş: $tarih';
+  }
+
+  @override
+  String get ayarlarDavranisTercihi => 'DAVRANIŞ TERCİHİ';
+
+  @override
+  String get ayarlarDavranisTercihiAciklama =>
+      'Bu ayar yalnızca genetik seçilim ve donör filtresi tarafını etkiler. Çekirdek eşikleri değiştirmez.';
+
+  @override
+  String get ayarlarDavranisStandart => 'Standart';
+
+  @override
+  String get ayarlarDavranisStandartAciklama =>
+      'Yönetilebilir koloniler önceliklidir. Hırçınlık seçilim tarafında daha belirgin eksidir.';
+
+  @override
+  String get ayarlarDavranisEsnek => 'Esnek';
+
+  @override
+  String get ayarlarDavranisEsnekAciklama =>
+      'Güç ve verim öne çıkıyorsa davranış verisi seçilim tarafında daha yumuşak yorumlanır.';
+
+  @override
+  String get ayarlarKalibrasyonKapsami => 'KALİBRASYON KAPSAMI';
+
+  @override
+  String get ayarlarKalibrasyonKapsamiAciklama =>
+      'Bal akımı ve genel risk takvimi bu kapsama göre kaydedilir. Tüm arılıklar seçilirse genel varsayılanlar güncellenir. Tek arılık seçilirse yalnızca o arılık için özel kalibrasyon oluşturulur.';
+
+  @override
+  String get ayarlarKalibrasyonLabel => 'Bu kalibrasyonu kullan';
+
+  @override
+  String get ayarlarKalibrasyonTumAriliklar => 'Tüm arılıklar için kullan';
+
+  @override
+  String ayarlarKalibrasyonYalnizca(String ad) {
+    return 'Yalnızca $ad arılığı için kullan';
+  }
+
+  @override
+  String get ayarlarKalibrasyonGenelAciklama =>
+      'Şu anda genel varsayılan kalibrasyonu düzenliyorsun. Özel ayarı olmayan tüm arılıklar bunu kullanır.';
+
+  @override
+  String ayarlarKalibrasyonOzelAciklama(String kapsam) {
+    return '$kapsam için özel kalibrasyon alanı açık. Burada yaptığın bal akımı ve risk takvimi değişiklikleri diğer arılıkları etkilemez.';
+  }
+
+  @override
+  String get ayarlarBalAkimiBilgi =>
+      'Bal akımı pencereleri biyolojik geri sayımların temel referansıdır. İlk pencere zorunlu, ikinci pencere ise sadece gerçekten ihtiyaç varsa açık tutulur.';
+
+  @override
+  String get ayarlarIkinciBalAkimi => '2. bal akımını kullan';
+
+  @override
+  String get ayarlarIkinciBalAkimiAciklama =>
+      'Örn: Ağustos / Eylül çam balı. İhtiyacın yoksa kapalı bırak.';
+
+  @override
+  String get ayarlarRiskTakvimiBilgi =>
+      'Genel risk takvimi koloniye özel karar üretmez. Arı kuşu, eşek arısı, yağmacılık, mum güvesi ve fare gibi dönemsel riskleri arılık ekranında hatırlatır. Tarihleri kendi bölgenin gerçek baskı dönemine göre daraltabilirsin.';
+
+  @override
+  String get ayarlarAriKusuDonemi => 'Arı Kuşu Risk Dönemi';
+
+  @override
+  String get ayarlarAriKusuAciklama =>
+      'Varsayılan: Mayıs – Ağustos. Kendi bölgenin göç ve baskı dönemine göre daraltabilirsin.';
+
+  @override
+  String get ayarlarEsekArisiDonemi => 'Eşek Arısı / Sarıca Risk Dönemi';
+
+  @override
+  String get ayarlarEsekArisiAciklama =>
+      'Varsayılan: Temmuz – Ekim. Baskının yoğunlaştığı döneme göre ayarla.';
+
+  @override
+  String get ayarlarYagmacilikDonemi => 'Yağmacılık Risk Dönemi';
+
+  @override
+  String get ayarlarYagmacilikAciklama =>
+      'Varsayılan: Temmuz – Eylül. Hasat sonrası ve kurak dönem baskısına göre ayarla.';
+
+  @override
+  String get ayarlarMumGuvesiDonemi => 'Mum Güvesi Risk Dönemi';
+
+  @override
+  String get ayarlarMumGuvesiAciklama =>
+      'Varsayılan: Haziran – Eylül. Sıcak dönem ve zayıf koloni riskine göre ayarla.';
+
+  @override
+  String get ayarlarFareDonemi => 'Fare Risk Dönemi';
+
+  @override
+  String get ayarlarFareAciklama =>
+      'Varsayılan: Kasım – Şubat. Bu aralık yıl taşar; sistem bunu doğru yorumlar.';
+
+  @override
+  String get ayarlarKisDonemi => 'Kış / Dayanıklılık Dönemi';
+
+  @override
+  String get ayarlarKisAciklama =>
+      'Varsayılan yapı 1 Eylül – 15 Marttır. Gerekirse sahana göre ince ayar yap.';
+
+  @override
+  String get ayarlarUretimDonemi => 'Aktif / Üretim Dönemi';
+
+  @override
+  String get ayarlarUretimAciklama =>
+      'Varsayılan yapı 15 Mart – 31 Ağustostur. Gerekirse sahana göre ince ayar yap.';
+
+  @override
+  String get ayarlarBalAkimiAraligi1 => 'Bal Akımı Aralığı 1';
+
+  @override
+  String get ayarlarBalAkimiAraligi1Aciklama =>
+      'İlk ana akım. Örn: Mayıs sonu / Haziran başı.';
+
+  @override
+  String get ayarlarBalAkimiAraligi2 => 'Bal Akımı Aralığı 2';
+
+  @override
+  String get ayarlarBalAkimiAraligi2Aciklama =>
+      'İkinci akım. Örn: Ağustos / Eylül çam balı.';
+
+  @override
+  String get ayarlarRehberiAc => 'Kullanıcı rehberini aç';
+
+  @override
+  String get ayarlarSistemBilgi =>
+      'Yedek alma ve geri yükleme akışı sistemde tutulur. Geri yükleme sonrası bakım adımı çalıştırılır ve karar önbelleği temizlenir.';
+
+  @override
+  String get ayarlarUygulamaKimligi => 'UYGULAMA KİMLİĞİ';
+
+  @override
+  String get ayarlarKimlikUygulama => 'Uygulama';
+
+  @override
+  String get ayarlarKimlikTanim => 'Tanım';
+
+  @override
+  String get ayarlarKimlikSurum => 'Sürüm';
+
+  @override
+  String get ayarlarKimlikYil => 'Yıl';
+
+  @override
+  String get ayarlarKimlikUretici => 'Üretici';
+
+  @override
+  String get ayarlarKimlikVeri => 'Veri';
+
+  @override
+  String get ayarlarKimlikSistemAmaci =>
+      'Sistem amacı: basit saha verisini zaman, olay ve süreç mantığıyla okuyarak uygulanabilir koloni kararı üretmek.';
+
+  @override
+  String get ayarlarSurumYukleniyor => 'Yükleniyor';
+
+  @override
+  String get ayarlarYedekAl => 'Yedek Al';
+
+  @override
+  String get ayarlarYedekAlAciklama =>
+      'Tüm veriyi JSON yedek dosyası olarak oluştur ve paylaş.';
+
+  @override
+  String get ayarlarYedekYukle => 'Yedekten Yükle';
+
+  @override
+  String get ayarlarYedekYukleAciklama =>
+      'Daha önce aldığın JSON yedeğini seç ve mevcut verinin yerine yükle.';
+
+  @override
+  String get ayarlarTestAriligiIslem => 'Test Arılığı Oluştur / Yenile';
+
+  @override
+  String get ayarlarTestAriligiIslemAciklama =>
+      'Uluköy verisine dokunmadan ayrı ITOGENA_TEST_ARILIGI içinde 40 senaryo kurar.';
+
+  @override
+  String get ayarlarGuncelleKontrol => 'Güncellemeyi Kontrol Et';
+
+  @override
+  String get ayarlarGuncelleKontrolAciklama =>
+      'Yeni sürüm varsa önce yedek aldırır, ardından güvenli APK bağlantısını açar.';
+
+  @override
+  String get ayarlarYedekUyari =>
+      'Yedekten yükleme mevcut veriyi tamamen değiştirir. Yüklemeden hemen önce yeni bir yedek almak en güvenli yaklaşımdır.';
+
+  @override
+  String get ayarlarGizlilik => 'Gizlilik Politikası';
+
+  @override
+  String get ayarlarGizlilikAciklama =>
+      'Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.';
+
+  @override
+  String get ayarlarGelistirici => 'GELİŞTİRİCİ';
+
+  @override
+  String get ayarlarProMod => 'PRO mod (test)';
+
+  @override
+  String get ayarlarProModAciklama =>
+      'PRO özellikleri kilit olmadan görüntüler.';
+
+  @override
+  String get ayarlarDilTest => 'Dil (test)';
+
+  @override
+  String get ayarlarDilAciklama =>
+      'Yalnızca lokalizasyon sistemine taşınan metinleri etkiler.';
+
+  @override
+  String get ayarlarKaydedildi =>
+      'Genel ayarlar tüm arılıklar için kaydedildi.';
+
+  @override
+  String ayarlarOzelKaydedildi(String kapsam) {
+    return '$kapsam arılığı için özel kalibrasyon kaydedildi.';
+  }
+
+  @override
+  String get ayarlarGeriYukleIcerik =>
+      'Bu işlem mevcut veriyi seçtiğin yedek ile tamamen değiştirir. Devam etmeden önce güncel bir yedek alman önerilir. Şimdi yükleme başlasın mı?';
+
+  @override
+  String get ayarlarTestAriligiIcerik =>
+      'Bu işlem gerçek arılık verisine dokunmaz. Yalnızca ITOGENA_TEST_ARILIGI adlı ayrı test arılığını oluşturur. Aynı isimde eski test arılığı varsa sadece onu silip yeniden kurar.';
+
+  @override
+  String ayarlarUygulamaGuncel(String surum, String kod) {
+    return 'Uygulama güncel. Mevcut sürüm: $surum ($kod)';
+  }
 }

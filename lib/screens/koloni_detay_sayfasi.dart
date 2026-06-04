@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
@@ -632,22 +633,22 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     final onay = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Muayene Sil'),
-        content: Text(
-          '${muayene['tarih'] ?? '-'} tarihli muayene silinsin mi?\n\nBu işlem geri alınamaz.',
-        ),
+        title: Text(AppLocalizations.of(context).koloniDetayMuayeneSil),
+        content: Text(AppLocalizations.of(context).koloniDetayMuayeneSilOnay(
+          (muayene['tarih'] ?? '-').toString(),
+        )),
         actions: [
           AnaSayfaKisayol.aksiyon(context),
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç'),
+            child: Text(AppLocalizations.of(context).vazgec),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text(
-              'Sil',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              AppLocalizations.of(context).sil,
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -665,7 +666,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Muayene silindi.')),
+      SnackBar(content: Text(AppLocalizations.of(context).koloniDetayMuayeneSilindi)),
     );
 
     await _verileriYukle();
@@ -680,21 +681,21 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     final yeniNo = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Koloni Numarasını Değiştir'),
+        title: Text(AppLocalizations.of(context).koloniDetayNumaraDegistir),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Bu işlem koloninin saha numarasını değiştirir. Soy bağı ve muayene geçmişi korunur.',
-              style: TextStyle(fontSize: 12, height: 1.4),
+            Text(
+              AppLocalizations.of(context).koloniDetayNumaraAciklama,
+              style: const TextStyle(fontSize: 12, height: 1.4),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: controller,
               autofocus: true,
-              decoration: const InputDecoration(
-                labelText: 'Yeni koloni / kovan numarası',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).koloniDetayYeniNumara,
+                border: const OutlineInputBorder(),
               ),
             ),
           ],
@@ -703,7 +704,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
           AnaSayfaKisayol.aksiyon(context),
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Vazgeç'),
+            child: Text(AppLocalizations.of(context).vazgec),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -711,7 +712,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
               foregroundColor: Colors.black,
             ),
             onPressed: () => Navigator.pop(context, controller.text.trim()),
-            child: const Text('Devam Et'),
+            child: Text(AppLocalizations.of(context).kolonilerDevamEt),
           ),
         ],
       ),
@@ -730,7 +731,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Koloni numarası ${yeniNo.trim()} olarak güncellendi.'),
+        content: Text(AppLocalizations.of(context).koloniDetayNumaraGuncellendi(yeniNo.trim())),
       ),
     );
     await _verileriYukle();
@@ -746,13 +747,13 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       child: Scaffold(
         backgroundColor: const Color(0xFFFFFDE7),
         appBar: AppBar(
-          title: Text('KOVAN $_kovanNo'),
+          title: Text(AppLocalizations.of(context).koloniDetayAppBarBaslik(_kovanNo)),
           backgroundColor: Colors.amber,
           foregroundColor: Colors.black,
           actions: [
             AnaSayfaKisayol.aksiyon(context),
             IconButton(
-              tooltip: 'Koloni numarasını değiştir',
+              tooltip: AppLocalizations.of(context).koloniDetayNumaraDegistir,
               onPressed: _koloniNumarasiDegistir,
               icon: const Icon(Icons.edit_note_rounded, color: Colors.black),
             ),
@@ -762,11 +763,11 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             isScrollable: true,
             labelColor: Colors.black,
             indicatorColor: Colors.brown,
-            tabs: const [
-              Tab(text: 'GENEL DURUM'),
-              Tab(text: 'MUAYENELER'),
-              Tab(text: 'BİYOLOJİK MODEL'),
-              Tab(text: 'PERFORMANS'),
+            tabs: [
+              Tab(text: AppLocalizations.of(context).koloniDetayTabGenelDurum),
+              Tab(text: AppLocalizations.of(context).koloniDetayTabMuayeneler),
+              Tab(text: AppLocalizations.of(context).koloniDetayTabBiyolojikModel),
+              Tab(text: AppLocalizations.of(context).koloniDetayTabPerformans),
             ],
           ),
         ),
@@ -790,9 +791,9 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
           onPressed: _muayeneEkle,
           backgroundColor: Colors.amber,
           icon: const Icon(Icons.add_chart, color: Colors.black),
-          label: const Text(
-            'Muayene Ekle',
-            style: TextStyle(
+          label: Text(
+            AppLocalizations.of(context).koloniDetayMuayeneEkle,
+            style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
@@ -831,7 +832,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 child: _anaBaslikKarti(
                   id: 'surec',
                   sira: '1',
-                  etiket: 'SÜREÇ',
+                  etiket: AppLocalizations.of(context).koloniDetayOzetSurec,
                   anaMetin: surec['ana'].toString(),
                   altMetin: surec['alt'].toString(),
                   dipMetin: surec['dip'].toString(),
@@ -844,7 +845,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 child: _anaBaslikKarti(
                   id: 'biyoloji',
                   sira: '2',
-                  etiket: 'BİYOLOJİ',
+                  etiket: AppLocalizations.of(context).koloniDetayOzetBiyoloji,
                   anaMetin: biyoloji['ana'].toString(),
                   altMetin: biyoloji['alt'].toString(),
                   dipMetin: biyoloji['dip'].toString(),
@@ -861,7 +862,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 child: _anaBaslikKarti(
                   id: 'yonetim',
                   sira: '3',
-                  etiket: 'YÖNETİM',
+                  etiket: AppLocalizations.of(context).koloniDetayOzetYonetim,
                   anaMetin: yonetim['ana'].toString(),
                   altMetin: yonetim['alt'].toString(),
                   dipMetin: yonetim['dip'].toString(),
@@ -874,7 +875,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 child: _anaBaslikKarti(
                   id: 'genetik',
                   sira: '4',
-                  etiket: 'GENETİK',
+                  etiket: AppLocalizations.of(context).koloniDetayOzetGenetik,
                   anaMetin: genetik['ana'].toString(),
                   altMetin: genetik['alt'].toString(),
                   dipMetin: genetik['dip'].toString(),
@@ -2998,8 +2999,8 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         }
 
         if (!snapshot.hasData) {
-          return const Center(
-            child: Text('Performans özeti verisi bulunamadı.'),
+          return Center(
+            child: Text(AppLocalizations.of(context).koloniDetayPerfVeriBulunamadi),
           );
         }
 

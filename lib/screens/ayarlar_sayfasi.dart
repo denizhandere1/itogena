@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
@@ -512,8 +513,8 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         SnackBar(
           content: Text(
             seciliArilikId == null
-                ? 'Genel ayarlar tüm arılıklar için kaydedildi.'
-                : '${_kalibrasyonKapsamMetni()} arılığı için özel kalibrasyon kaydedildi.',
+                ? AppLocalizations.of(context).ayarlarKaydedildi
+                : AppLocalizations.of(context).ayarlarOzelKaydedildi(_kalibrasyonKapsamMetni()),
           ),
         ),
       );
@@ -521,7 +522,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Ayarlar kaydedilemedi: $e'),
+          content: Text(AppLocalizations.of(context).ayarlarKaydedilemedi(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -539,15 +540,15 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       await YedekDosyaServisi.yedekOlusturVePaylas();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Yedek hazırlandı. Güvenli bir yere kaydet.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).ayarlarYedekHazir),
         ),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Yedek alınırken hata oluştu: $e'),
+          content: Text(AppLocalizations.of(context).ayarlarYedekHata(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -564,14 +565,12 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     final onay = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('YEDEKTEN GERİ YÜKLE'),
-        content: const Text(
-          'Bu işlem mevcut veriyi seçtiğin yedek ile tamamen değiştirir. Devam etmeden önce güncel bir yedek alman önerilir. Şimdi yükleme başlasın mı?',
-        ),
+        title: Text(AppLocalizations.of(context).ayarlarGeriYukleBaslik),
+        content: Text(AppLocalizations.of(context).ayarlarGeriYukleIcerik),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Vazgeç'),
+            child: Text(AppLocalizations.of(context).vazgec),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -579,7 +578,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
               foregroundColor: Colors.white,
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Yüklemeyi Başlat'),
+            child: Text(AppLocalizations.of(context).ayarlarGeriYukleButon),
           ),
         ],
       ),
@@ -593,13 +592,13 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       await _ayarlariYukle();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Yedekten geri yükleme tamamlandı.')),
+        SnackBar(content: Text(AppLocalizations.of(context).ayarlarGeriYukleTamamlandi)),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Yedek yüklenirken hata oluştu: $e'),
+          content: Text(AppLocalizations.of(context).ayarlarGeriYukleHata(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -618,20 +617,16 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     final onay = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Test arılığı oluşturulsun mu?'),
-        content: const Text(
-          'Bu işlem Uluköy veya başka gerçek arılık verisine dokunmaz. '
-          'Yalnızca ITOGENA_TEST_ARILIGI adlı ayrı test arılığını oluşturur. '
-          'Aynı isimde eski test arılığı varsa sadece onu silip yeniden kurar.',
-        ),
+        title: Text(AppLocalizations.of(context).ayarlarTestAriligiBaslik),
+        content: Text(AppLocalizations.of(context).ayarlarTestAriligiIcerik),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: const Text('Vazgeç'),
+            child: Text(AppLocalizations.of(context).vazgec),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: const Text('Oluştur'),
+            child: Text(AppLocalizations.of(context).ayarlarTestAriligiOlustur),
           ),
         ],
       ),
@@ -658,7 +653,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Test arılığı oluşturulamadı: $e'),
+          content: Text(AppLocalizations.of(context).ayarlarTestAriligiHata(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -691,9 +686,10 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       if (!bilgi.diyalogGoster) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              'Uygulama güncel. Mevcut sürüm: ${bilgi.currentVersionName} (${bilgi.currentVersionCode})',
-            ),
+            content: Text(AppLocalizations.of(context).ayarlarUygulamaGuncel(
+              bilgi.currentVersionName,
+              bilgi.currentVersionCode.toString(),
+            )),
           ),
         );
         return;
@@ -704,7 +700,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Güncelleme kontrolü başarısız: $e'),
+          content: Text(AppLocalizations.of(context).ayarlarGuncellemHata(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -786,8 +782,8 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           Expanded(
             child: Text(
               tamam
-                  ? 'Arılık kalibrasyonu tanımlı. Sistem sezon ve bal akımı bağlamını kullanabilir.'
-                  : 'Arılık kalibrasyonu eksik. Sezon ve bal akımı tanımları gözden geçirilmeli.',
+                  ? AppLocalizations.of(context).ayarlarKalibrasyonTamam
+                  : AppLocalizations.of(context).ayarlarKalibrasyonEksik,
               style: const TextStyle(fontSize: 12, height: 1.45),
             ),
           ),
@@ -825,9 +821,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           const SizedBox(height: 6),
           Text(altMetin, style: const TextStyle(fontSize: 12, height: 1.4)),
           const SizedBox(height: 6),
-          const Text(
-            'Tarih gösterimi gün/ay formatındadır; kayıt formatı sistem içinde korunur.',
-            style: TextStyle(fontSize: 11, height: 1.35, color: Colors.black54),
+          Text(
+            AppLocalizations.of(context).ayarlarTarihFormatNotu,
+            style: const TextStyle(fontSize: 11, height: 1.35, color: Colors.black54),
           ),
           const SizedBox(height: 14),
           Row(
@@ -836,7 +832,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                 child: OutlinedButton.icon(
                   onPressed: onBaslangicTap,
                   icon: const Icon(Icons.event),
-                  label: Text('Başlangıç: ${_mmDdGoster(baslangic)}'),
+                  label: Text(AppLocalizations.of(context).ayarlarBaslangicTarih(_mmDdGoster(baslangic))),
                 ),
               ),
               const SizedBox(width: 10),
@@ -844,7 +840,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                 child: OutlinedButton.icon(
                   onPressed: onBitisTap,
                   icon: const Icon(Icons.event_available),
-                  label: Text('Bitiş: ${_mmDdGoster(bitis)}'),
+                  label: Text(AppLocalizations.of(context).ayarlarBitisTarih(_mmDdGoster(bitis))),
                 ),
               ),
             ],
@@ -866,14 +862,14 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'DAVRANIŞ TERCİHİ',
-            style: TextStyle(fontWeight: FontWeight.w900, color: Colors.brown),
+          Text(
+            AppLocalizations.of(context).ayarlarDavranisTercihi,
+            style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.brown),
           ),
           const SizedBox(height: 6),
-          const Text(
-            'Bu ayar yalnızca genetik seçilim ve donör filtresi tarafını etkiler. Çekirdek eşikleri değiştirmez.',
-            style: TextStyle(fontSize: 12, height: 1.4),
+          Text(
+            AppLocalizations.of(context).ayarlarDavranisTercihiAciklama,
+            style: const TextStyle(fontSize: 12, height: 1.4),
           ),
           const SizedBox(height: 12),
           RadioListTile<String>(
@@ -881,10 +877,10 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
             groupValue: _davranisToleransi,
             activeColor: Colors.amber,
             contentPadding: EdgeInsets.zero,
-            title: const Text('Standart', style: TextStyle(fontWeight: FontWeight.w700)),
-            subtitle: const Text(
-              'Yönetilebilir koloniler önceliklidir. Hırçınlık seçilim tarafında daha belirgin eksidir.',
-              style: TextStyle(fontSize: 12, height: 1.35),
+            title: Text(AppLocalizations.of(context).ayarlarDavranisStandart, style: const TextStyle(fontWeight: FontWeight.w700)),
+            subtitle: Text(
+              AppLocalizations.of(context).ayarlarDavranisStandartAciklama,
+              style: const TextStyle(fontSize: 12, height: 1.35),
             ),
             onChanged: (v) {
               if (v == null) return;
@@ -896,10 +892,10 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
             groupValue: _davranisToleransi,
             activeColor: Colors.amber,
             contentPadding: EdgeInsets.zero,
-            title: const Text('Esnek', style: TextStyle(fontWeight: FontWeight.w700)),
-            subtitle: const Text(
-              'Güç ve verim öne çıkıyorsa davranış verisi seçilim tarafında daha yumuşak yorumlanır.',
-              style: TextStyle(fontSize: 12, height: 1.35),
+            title: Text(AppLocalizations.of(context).ayarlarDavranisEsnek, style: const TextStyle(fontWeight: FontWeight.w700)),
+            subtitle: Text(
+              AppLocalizations.of(context).ayarlarDavranisEsnekAciklama,
+              style: const TextStyle(fontSize: 12, height: 1.35),
             ),
             onChanged: (v) {
               if (v == null) return;
@@ -926,14 +922,14 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.tune_rounded, color: Colors.blueGrey),
-              SizedBox(width: 8),
+              const Icon(Icons.tune_rounded, color: Colors.blueGrey),
+              const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'KALİBRASYON KAPSAMI',
-                  style: TextStyle(
+                  AppLocalizations.of(context).ayarlarKalibrasyonKapsami,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w900,
                     color: Colors.brown,
                   ),
@@ -942,30 +938,30 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Bal akımı ve genel risk takvimi bu kapsama göre kaydedilir. Tüm arılıklar seçilirse genel varsayılanlar güncellenir. Tek arılık seçilirse yalnızca o arılık için özel kalibrasyon oluşturulur.',
-            style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+          Text(
+            AppLocalizations.of(context).ayarlarKalibrasyonKapsamiAciklama,
+            style: const TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<int>(
             value: seciliDeger,
             isExpanded: true,
-            decoration: const InputDecoration(
-              labelText: 'Bu kalibrasyonu kullan',
-              border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context).ayarlarKalibrasyonLabel,
+              border: const OutlineInputBorder(),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
             items: [
-              const DropdownMenuItem<int>(
+              DropdownMenuItem<int>(
                 value: 0,
-                child: Text('Tüm arılıklar için kullan'),
+                child: Text(AppLocalizations.of(context).ayarlarKalibrasyonTumAriliklar),
               ),
               ..._kalibrasyonAriliklari.map((arilik) {
                 final id = _toInt(arilik['id']);
                 final ad = (arilik['ad'] ?? '-').toString();
                 return DropdownMenuItem<int>(
                   value: id,
-                  child: Text('Yalnızca $ad arılığı için kullan'),
+                  child: Text(AppLocalizations.of(context).ayarlarKalibrasyonYalnizca(ad)),
                 );
               }),
             ],
@@ -981,8 +977,8 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           const SizedBox(height: 10),
           Text(
             _kalibrasyonArilikId == null
-                ? 'Şu anda genel varsayılan kalibrasyonu düzenliyorsun. Özel ayarı olmayan tüm arılıklar bunu kullanır.'
-                : '$kapsamMetni için özel kalibrasyon alanı açık. Burada yaptığın bal akımı ve risk takvimi değişiklikleri diğer arılıkları etkilemez.',
+                ? AppLocalizations.of(context).ayarlarKalibrasyonGenelAciklama
+                : AppLocalizations.of(context).ayarlarKalibrasyonOzelAciklama(kapsamMetni),
             style: const TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
           ),
         ],
@@ -999,9 +995,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.lightBlue.shade200),
       ),
-      child: const Text(
-        'Bal akımı pencereleri biyolojik geri sayımların temel referansıdır. İlk pencere zorunlu, ikinci pencere ise sadece gerçekten ihtiyaç varsa açık tutulur.',
-        style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+      child: Text(
+        AppLocalizations.of(context).ayarlarBalAkimiBilgi,
+        style: const TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
       ),
     );
   }
@@ -1019,13 +1015,13 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         value: _balAkim2Aktif,
         activeColor: Colors.amber,
         contentPadding: EdgeInsets.zero,
-        title: const Text(
-          '2. bal akımını kullan',
-          style: TextStyle(fontWeight: FontWeight.w900, color: Colors.brown),
+        title: Text(
+          AppLocalizations.of(context).ayarlarIkinciBalAkimi,
+          style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.brown),
         ),
-        subtitle: const Text(
-          'Örn: Ağustos / Eylül çam balı. İhtiyacın yoksa kapalı bırak.',
-          style: TextStyle(fontSize: 12, height: 1.4),
+        subtitle: Text(
+          AppLocalizations.of(context).ayarlarIkinciBalAkimiAciklama,
+          style: const TextStyle(fontSize: 12, height: 1.4),
         ),
         onChanged: (v) {
           setState(() => _balAkim2Aktif = v);
@@ -1044,9 +1040,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.orange.shade200),
       ),
-      child: const Text(
-        'Genel risk takvimi koloniye özel karar üretmez. Arı kuşu, eşek arısı, yağmacılık, mum güvesi ve fare gibi dönemsel riskleri arılık ekranında hatırlatır. Tarihleri kendi bölgenin gerçek baskı dönemine göre daraltabilirsin.',
-        style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+      child: Text(
+        AppLocalizations.of(context).ayarlarRiskTakvimiBilgi,
+        style: const TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
       ),
     );
   }
@@ -1073,36 +1069,36 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       _riskTakvimiBilgiKarti(),
       _riskTarihKarti(
         kod: 'ARI_KUSU',
-        baslik: 'Arı Kuşu Risk Dönemi',
-        altMetin: 'Varsayılan: Mayıs – Ağustos. Kendi bölgenin göç ve baskı dönemine göre daraltabilirsin.',
+        baslik: AppLocalizations.of(context).ayarlarAriKusuDonemi,
+        altMetin: AppLocalizations.of(context).ayarlarAriKusuAciklama,
         baslangic: _riskAriKusuBaslangic,
         bitis: _riskAriKusuBitis,
       ),
       _riskTarihKarti(
         kod: 'ESEK_ARISI',
-        baslik: 'Eşek Arısı / Sarıca Risk Dönemi',
-        altMetin: 'Varsayılan: Temmuz – Ekim. Baskının yoğunlaştığı döneme göre ayarla.',
+        baslik: AppLocalizations.of(context).ayarlarEsekArisiDonemi,
+        altMetin: AppLocalizations.of(context).ayarlarEsekArisiAciklama,
         baslangic: _riskEsekArisiBaslangic,
         bitis: _riskEsekArisiBitis,
       ),
       _riskTarihKarti(
         kod: 'YAGMACILIK',
-        baslik: 'Yağmacılık Risk Dönemi',
-        altMetin: 'Varsayılan: Temmuz – Eylül. Hasat sonrası ve kurak dönem baskısına göre ayarla.',
+        baslik: AppLocalizations.of(context).ayarlarYagmacilikDonemi,
+        altMetin: AppLocalizations.of(context).ayarlarYagmacilikAciklama,
         baslangic: _riskYagmacilikBaslangic,
         bitis: _riskYagmacilikBitis,
       ),
       _riskTarihKarti(
         kod: 'MUM_GUVESI',
-        baslik: 'Mum Güvesi Risk Dönemi',
-        altMetin: 'Varsayılan: Haziran – Eylül. Sıcak dönem ve zayıf koloni riskine göre ayarla.',
+        baslik: AppLocalizations.of(context).ayarlarMumGuvesiDonemi,
+        altMetin: AppLocalizations.of(context).ayarlarMumGuvesiAciklama,
         baslangic: _riskMumGuvesiBaslangic,
         bitis: _riskMumGuvesiBitis,
       ),
       _riskTarihKarti(
         kod: 'FARE',
-        baslik: 'Fare Risk Dönemi',
-        altMetin: 'Varsayılan: Kasım – Şubat. Bu aralık yıl taşar; sistem bunu doğru yorumlar.',
+        baslik: AppLocalizations.of(context).ayarlarFareDonemi,
+        altMetin: AppLocalizations.of(context).ayarlarFareAciklama,
         baslangic: _riskFareBaslangic,
         bitis: _riskFareBitis,
       ),
@@ -1115,16 +1111,16 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       children: [
         _kalibrasyonDurumKarti(),
         _sezonTarihKarti(
-          baslik: 'Kış / Dayanıklılık Dönemi',
-          altMetin: 'Varsayılan yapı 1 Eylül – 15 Marttır. Gerekirse sahana göre ince ayar yap.',
+          baslik: AppLocalizations.of(context).ayarlarKisDonemi,
+          altMetin: AppLocalizations.of(context).ayarlarKisAciklama,
           baslangic: _kisBaslangic,
           bitis: _kisBitis,
           onBaslangicTap: () => _tarihSec(baslangicMi: 'bas', kisSezonu: true),
           onBitisTap: () => _tarihSec(baslangicMi: 'bit', kisSezonu: true),
         ),
         _sezonTarihKarti(
-          baslik: 'Aktif / Üretim Dönemi',
-          altMetin: 'Varsayılan yapı 15 Mart – 31 Ağustostur. Gerekirse sahana göre ince ayar yap.',
+          baslik: AppLocalizations.of(context).ayarlarUretimDonemi,
+          altMetin: AppLocalizations.of(context).ayarlarUretimAciklama,
           baslangic: _uretimBaslangic,
           bitis: _uretimBitis,
           onBaslangicTap: () => _tarihSec(baslangicMi: 'bas', kisSezonu: false),
@@ -1133,8 +1129,8 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         _kalibrasyonKapsamKarti(),
         _balAkimBilgiKarti(),
         _sezonTarihKarti(
-          baslik: 'Bal Akımı Aralığı 1',
-          altMetin: 'İlk ana akım. Örn: Mayıs sonu / Haziran başı.',
+          baslik: AppLocalizations.of(context).ayarlarBalAkimiAraligi1,
+          altMetin: AppLocalizations.of(context).ayarlarBalAkimiAraligi1Aciklama,
           baslangic: _balAkim1Baslangic,
           bitis: _balAkim1Bitis,
           onBaslangicTap: () => _balAkimTarihSec(index: 1, baslangic: true),
@@ -1143,8 +1139,8 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         _ikinciBalAkimAnahtari(),
         if (_balAkim2Aktif)
           _sezonTarihKarti(
-            baslik: 'Bal Akımı Aralığı 2',
-            altMetin: 'İkinci akım. Örn: Ağustos / Eylül çam balı.',
+            baslik: AppLocalizations.of(context).ayarlarBalAkimiAraligi2,
+            altMetin: AppLocalizations.of(context).ayarlarBalAkimiAraligi2Aciklama,
             baslangic: _balAkim2Baslangic,
             bitis: _balAkim2Bitis,
             onBaslangicTap: () => _balAkimTarihSec(index: 2, baslangic: true),
@@ -1155,7 +1151,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         OutlinedButton.icon(
           onPressed: _teknikReferansGoster,
           icon: const Icon(Icons.menu_book_outlined),
-          label: const Text('Kullanıcı rehberini aç'),
+          label: Text(AppLocalizations.of(context).ayarlarRehberiAc),
         ),
       ],
     );
@@ -1170,9 +1166,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.amber.shade300),
       ),
-      child: const Text(
-        'Yedek alma ve geri yükleme akışı sistemde tutulur. Geri yükleme sonrası bakım adımı çalıştırılır ve karar önbelleği temizlenir.',
-        style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+      child: Text(
+        AppLocalizations.of(context).ayarlarSistemBilgi,
+        style: const TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
       ),
     );
   }
@@ -1181,7 +1177,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       future: PackageInfo.fromPlatform(),
       builder: (context, snapshot) {
         final info = snapshot.data;
-        final surum = info == null ? "Yükleniyor" : "${info.version}+${info.buildNumber}";
+        final surum = info == null ? AppLocalizations.of(context).ayarlarSurumYukleniyor : "${info.version}+${info.buildNumber}";
         return Container(
           margin: const EdgeInsets.only(bottom: 16),
           padding: const EdgeInsets.all(16),
@@ -1193,14 +1189,14 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.verified_outlined, color: Colors.brown),
-                  SizedBox(width: 8),
+                  const Icon(Icons.verified_outlined, color: Colors.brown),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      "UYGULAMA KİMLİĞİ",
-                      style: TextStyle(
+                      AppLocalizations.of(context).ayarlarUygulamaKimligi,
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w900,
                         color: Colors.brown,
@@ -1210,16 +1206,16 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                 ],
               ),
               const SizedBox(height: 12),
-              _kimlikSatiri("Uygulama", "ITOGENA"),
-              _kimlikSatiri("Tanım", "Arı Kolonileri Yönetim Sistemi"),
-              _kimlikSatiri("Sürüm", surum),
-              _kimlikSatiri("Yıl", "2026"),
-              _kimlikSatiri("Üretici", "İTOGA Çiftliği"),
-              _kimlikSatiri("Veri", "Cihaz içi SQLite veritabanı"),
+              _kimlikSatiri(AppLocalizations.of(context).ayarlarKimlikUygulama, "ITOGENA"),
+              _kimlikSatiri(AppLocalizations.of(context).ayarlarKimlikTanim, "Arı Kolonileri Yönetim Sistemi"),
+              _kimlikSatiri(AppLocalizations.of(context).ayarlarKimlikSurum, surum),
+              _kimlikSatiri(AppLocalizations.of(context).ayarlarKimlikYil, "2026"),
+              _kimlikSatiri(AppLocalizations.of(context).ayarlarKimlikUretici, "İTOGA Çiftliği"),
+              _kimlikSatiri(AppLocalizations.of(context).ayarlarKimlikVeri, "Cihaz içi SQLite veritabanı"),
               const SizedBox(height: 8),
-              const Text(
-                "Sistem amacı: basit saha verisini zaman, olay ve süreç mantığıyla okuyarak uygulanabilir koloni kararı üretmek.",
-                style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+              Text(
+                AppLocalizations.of(context).ayarlarKimlikSistemAmaci,
+                style: const TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
               ),
             ],
           ),
@@ -1331,32 +1327,32 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         _sistemBilgiKarti(),
         _uygulamaKimlikKarti(),
         _sistemIslemKarti(
-          baslik: 'Yedek Al',
-          altMetin: 'Tüm veriyi JSON yedek dosyası olarak oluştur ve paylaş.',
+          baslik: AppLocalizations.of(context).ayarlarYedekAl,
+          altMetin: AppLocalizations.of(context).ayarlarYedekAlAciklama,
           ikon: Icons.backup_outlined,
           renk: Colors.green,
           calisiyor: _yedekAliniyor,
           onTap: _yedekAlVePaylas,
         ),
         _sistemIslemKarti(
-          baslik: 'Yedekten Yükle',
-          altMetin: 'Daha önce aldığın JSON yedeğini seç ve mevcut verinin yerine yükle.',
+          baslik: AppLocalizations.of(context).ayarlarYedekYukle,
+          altMetin: AppLocalizations.of(context).ayarlarYedekYukleAciklama,
           ikon: Icons.restore_outlined,
           renk: Colors.indigo,
           calisiyor: _yedekYukleniyor,
           onTap: _yedektenYukle,
         ),
         _sistemIslemKarti(
-          baslik: 'Test Arılığı Oluştur / Yenile',
-          altMetin: 'Uluköy verisine dokunmadan ayrı ITOGENA_TEST_ARILIGI içinde 40 senaryo kurar.',
+          baslik: AppLocalizations.of(context).ayarlarTestAriligiIslem,
+          altMetin: AppLocalizations.of(context).ayarlarTestAriligiIslemAciklama,
           ikon: Icons.science_outlined,
           renk: Colors.blueGrey,
           calisiyor: _testAriligiOlusturuluyor,
           onTap: _testAriligiOlustur,
         ),
         _sistemIslemKarti(
-          baslik: 'Güncellemeyi Kontrol Et',
-          altMetin: 'Yeni sürüm varsa önce yedek aldırır, ardından güvenli APK bağlantısını açar.',
+          baslik: AppLocalizations.of(context).ayarlarGuncelleKontrol,
+          altMetin: AppLocalizations.of(context).ayarlarGuncelleKontrolAciklama,
           ikon: Icons.system_update_alt_outlined,
           renk: Colors.orange,
           onTap: _guncellemeKontrolEt,
@@ -1369,14 +1365,14 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: Colors.deepOrange.shade200),
           ),
-          child: const Text(
-            'Yedekten yükleme mevcut veriyi tamamen değiştirir. Yüklemeden hemen önce yeni bir yedek almak en güvenli yaklaşımdır.',
-            style: TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
+          child: Text(
+            AppLocalizations.of(context).ayarlarYedekUyari,
+            style: const TextStyle(fontSize: 12, height: 1.45, color: Colors.black87),
           ),
         ),
         _sistemIslemKarti(
-          baslik: 'Gizlilik Politikası',
-          altMetin: 'Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.',
+          baslik: AppLocalizations.of(context).ayarlarGizlilik,
+          altMetin: AppLocalizations.of(context).ayarlarGizlilikAciklama,
           ikon: Icons.privacy_tip_outlined,
           renk: Colors.teal,
           onTap: () => launchUrl(
@@ -1395,9 +1391,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'GELİŞTİRİCİ',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context).ayarlarGelistirici,
+                style: const TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w900,
                   color: Colors.grey,
@@ -1407,13 +1403,13 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
               const SizedBox(height: 8),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
-                title: const Text(
-                  'PRO mod (test)',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                title: Text(
+                  AppLocalizations.of(context).ayarlarProMod,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 ),
-                subtitle: const Text(
-                  'PRO özellikleri kilit olmadan görüntüler.',
-                  style: TextStyle(fontSize: 12),
+                subtitle: Text(
+                  AppLocalizations.of(context).ayarlarProModAciklama,
+                  style: const TextStyle(fontSize: 12),
                 ),
                 value: _isPro,
                 activeColor: const Color(0xFFFFB300),
@@ -1427,18 +1423,18 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                 },
               ),
               const Divider(height: 16),
-              const Text(
-                'Dil (test)',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context).ayarlarDilTest,
+                style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: Colors.black87,
                 ),
               ),
               const SizedBox(height: 4),
-              const Text(
-                'Yalnızca lokalizasyon sistemine taşınan metinleri etkiler.',
-                style: TextStyle(fontSize: 11.5, color: Colors.grey),
+              Text(
+                AppLocalizations.of(context).ayarlarDilAciklama,
+                style: const TextStyle(fontSize: 11.5, color: Colors.grey),
               ),
               const SizedBox(height: 8),
               Row(
@@ -1462,9 +1458,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
-        title: const Text(
-          'AYARLAR VE KALİBRASYON',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context).ayarlarBaslik,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.amber,
         foregroundColor: Colors.black,
@@ -1473,9 +1469,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           controller: _tabController,
           labelColor: Colors.black,
           indicatorColor: Colors.brown,
-          tabs: const [
-            Tab(text: 'GENEL'),
-            Tab(text: 'SİSTEM'),
+          tabs: [
+            Tab(text: AppLocalizations.of(context).ayarlarTabGenel),
+            Tab(text: AppLocalizations.of(context).ayarlarTabSistem),
           ],
         ),
       ),
@@ -1510,7 +1506,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
                   )
                 : const Icon(Icons.save_outlined),
             label: Text(
-              _kaydediliyor ? 'KAYDEDİLİYOR...' : 'GENEL AYARLARI KAYDET',
+              _kaydediliyor ? AppLocalizations.of(context).ayarlarKaydediliyor : AppLocalizations.of(context).ayarlarKaydet,
               style: const TextStyle(
                 fontWeight: FontWeight.w900,
                 letterSpacing: 0.5,

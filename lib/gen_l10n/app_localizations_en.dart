@@ -807,4 +807,673 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get karsilastirmaOgulDurumu => 'Swarm Status';
+
+  @override
+  String get kolonilerBaslik => 'Colonies';
+
+  @override
+  String get kolonilerDonorHazirlaniyor => 'Colonies • Preparing donor badges';
+
+  @override
+  String kolonilerSeciliSayi(int sayi) {
+    return '$sayi colonies selected';
+  }
+
+  @override
+  String kolonilerAktifSekme(int sayi) {
+    return 'ACTIVE ($sayi)';
+  }
+
+  @override
+  String kolonilerSonmusSekme(int sayi) {
+    return 'EXTINCT ($sayi)';
+  }
+
+  @override
+  String get kolonilerKarsilastirmaModuSadece =>
+      'Comparison mode is only available for active colonies.';
+
+  @override
+  String get kolonilerDuzenleBaslik => 'Edit Colony';
+
+  @override
+  String kolonilerDuzenleOnay(String kovanNo) {
+    return 'Open editing screen for colony $kovanNo?';
+  }
+
+  @override
+  String get kolonilerDevamEt => 'Continue';
+
+  @override
+  String get kolonilerSilBaslik => 'Delete Colony';
+
+  @override
+  String kolonilerSilOnay(String kovanNo) {
+    return 'Delete colony $kovanNo?\n\nThis action cannot be undone. Related number history and event records will also be deleted.';
+  }
+
+  @override
+  String kolonilerSilindi(String kovanNo) {
+    return 'Colony $kovanNo deleted.';
+  }
+
+  @override
+  String kolonilerSilHata(String hata) {
+    return 'Error occurred while deleting colony: $hata';
+  }
+
+  @override
+  String get kolonilerAktifBos => 'No active colony records in this apiary.';
+
+  @override
+  String get kolonilerSonmusBos => 'No extinct colony records in this apiary.';
+
+  @override
+  String get kolonilerKovanAra => 'Search hive...';
+
+  @override
+  String get kolonilerAramaTemizle => 'Clear search';
+
+  @override
+  String get kolonilerFiltreYeniBolme => 'New splits';
+
+  @override
+  String get kolonilerFiltreYeniOgul => 'New swarms';
+
+  @override
+  String get kolonilerFiltreAlarm => 'Alarm';
+
+  @override
+  String get kolonilerFiltreYavruYok => 'No brood';
+
+  @override
+  String get kolonilerFiltreHasat => 'Harvest candidate';
+
+  @override
+  String get kolonilerDonorRozetAciklama =>
+      'Badges: 1/2/3 show top donor candidates, D shows other candidates in donor pool. If genetic veto exists, it is explained separately in the detail screen.';
+
+  @override
+  String get kolonilerKarsilastirmaModuBaslik => 'COMPARISON MODE';
+
+  @override
+  String get kolonilerKarsilastirmaModuInfo =>
+      'Tap 2 or 3 active colonies you want to compare. While this mode is on, selection is made instead of colony detail.';
+
+  @override
+  String kolonilerSeciliKoloniSayisi(int sayi) {
+    return 'Selected colonies: $sayi / 3';
+  }
+
+  @override
+  String kolonilerKarsilastirButon(int sayi) {
+    return 'Compare ($sayi)';
+  }
+
+  @override
+  String get kolonilerPasif => 'PASSIVE';
+
+  @override
+  String get kolonilerSondu => 'EXTINCT';
+
+  @override
+  String kolonilerSonCita(int cita) {
+    return '$cita frames';
+  }
+
+  @override
+  String get raporlarSayfaBaslik => 'REPORTS';
+
+  @override
+  String get raporlarArilikEtiketi => 'Apiary:';
+
+  @override
+  String get raporlarArilikBulunamadi => 'No registered apiary found.';
+
+  @override
+  String get raporlarArilikSec => 'Select the apiary to report on';
+
+  @override
+  String get raporlarGenelDurum => 'GENERAL STATUS';
+
+  @override
+  String get raporlarAktifKovan => 'Active hives';
+
+  @override
+  String get raporlarOrtaSkor => 'Avg. score';
+
+  @override
+  String get raporlarAriliCita => 'Bee frames';
+
+  @override
+  String get raporlarDonorler => 'DONORS';
+
+  @override
+  String get raporlarHesaplaniyor => 'Calculating';
+
+  @override
+  String get raporlarHenuzYok => 'None yet';
+
+  @override
+  String get raporlarIlkUcGuclu => 'TOP 3 STRONG';
+
+  @override
+  String get raporlarRaporSec => 'SELECT REPORT';
+
+  @override
+  String get raporlarListeLazyAciklama =>
+      'Heavy list calculations don\'t run on first open. Only loaded when you open the list you want to see.';
+
+  @override
+  String get raporlarGucludenZayifaBaslik => 'Strongest to Weakest';
+
+  @override
+  String get raporlarGucludenZayifaAlt =>
+      'All active colonies sorted from highest to lowest score.';
+
+  @override
+  String get raporlarGucludenZayifaListeBaslik => 'STRONGEST TO WEAKEST';
+
+  @override
+  String get raporlarZayiftanGucluye => 'Weakest to Strongest';
+
+  @override
+  String get raporlarZayiftanGucluAlt =>
+      'All active colonies sorted from lowest to highest score.';
+
+  @override
+  String get raporlarZayiftanGucluListeBaslik => 'WEAKEST TO STRONGEST';
+
+  @override
+  String get raporlarDonorAdaylariBaslik => 'Donor Candidates';
+
+  @override
+  String get raporlarDonorAdaylariAlt =>
+      'Donor pool listed starting from rank 1.';
+
+  @override
+  String get raporlarDonorAdaylariListeBaslik => 'DONOR CANDIDATES';
+
+  @override
+  String get raporlarGenetikVetoBaslik => 'Genetic Veto';
+
+  @override
+  String get raporlarGenetikVetoAlt =>
+      'Veto records excluded from donor pool, sorted within themselves.';
+
+  @override
+  String get raporlarGenetikVetoListeBaslik => 'GENETIC VETO';
+
+  @override
+  String get raporlarEkonomikDegerBaslik => 'Economic Value';
+
+  @override
+  String get raporlarEkonomikDegerAlt =>
+      'Apiary economic value and honey potential calculated on a separate screen.';
+
+  @override
+  String get raporlarIstatistikHesapla => 'Calculate apiary statistics';
+
+  @override
+  String get raporlarIstatistikHesaplaniyor =>
+      'Calculating apiary statistics...';
+
+  @override
+  String raporlarIstatistikHata(String hata) {
+    return 'Apiary statistics could not be calculated: $hata';
+  }
+
+  @override
+  String get raporlarTekrarHesapla => 'Recalculate';
+
+  @override
+  String get raporlarArilikIstatistikleri => 'APIARY STATISTICS';
+
+  @override
+  String get raporlarToplamCita => 'Total frames';
+
+  @override
+  String get raporlarBalTemasi => 'Honey contact';
+
+  @override
+  String get raporlarAktivasyonFarki => 'Activation';
+
+  @override
+  String get raporlarTahminiAri => 'Est. bees';
+
+  @override
+  String get raporlarGuclu => 'Strong';
+
+  @override
+  String get raporlarOrta => 'Medium';
+
+  @override
+  String get raporlarZayif => 'Weak';
+
+  @override
+  String ekDegerAppBarBaslik(String arilikAd) {
+    return '$arilikAd ECONOMIC VALUE';
+  }
+
+  @override
+  String ekDegerHata(String hata) {
+    return 'Economic value could not be calculated:\n$hata';
+  }
+
+  @override
+  String get ekDegerKartBaslik => 'ECONOMIC VALUE';
+
+  @override
+  String ekDegerTahminiToplam(String deger) {
+    return 'Estimated total value: $deger TL';
+  }
+
+  @override
+  String ekDegerAktivasyonluBalliCita(String cita) {
+    return 'Activation-weighted honey frames: $cita frames';
+  }
+
+  @override
+  String ekDegerTahminiBalAraligi(
+      String minKg, String maxKg, String minTL, String maxTL) {
+    return 'Est. honey: $minKg–$maxKg kg / $minTL–$maxTL TL';
+  }
+
+  @override
+  String get ekDegerHesapAciklama =>
+      'This calculation reads frames in honey/honey position in the biological model at activation level; empty frames, total physical frames or empty drawn combs are not counted as honey.';
+
+  @override
+  String get ekDegerBalFiyati => 'Honey sale price (kg/TL)';
+
+  @override
+  String get ekDegerAriliCita => 'Bee frame value';
+
+  @override
+  String get ekDegerBosKovan => 'Empty hive value';
+
+  @override
+  String get ekDegerBosKabarmisPetek => 'Empty drawn comb count';
+
+  @override
+  String get ekDegerBosKabarmisPetekBirim => 'Empty drawn comb unit value';
+
+  @override
+  String get koloniDetayMuayeneSil => 'Delete Inspection';
+
+  @override
+  String koloniDetayMuayeneSilOnay(String tarih) {
+    return 'Delete inspection dated $tarih?\n\nThis action cannot be undone.';
+  }
+
+  @override
+  String get koloniDetayMuayeneSilindi => 'Inspection deleted.';
+
+  @override
+  String get koloniDetayNumaraDegistir => 'Change Colony Number';
+
+  @override
+  String get koloniDetayNumaraAciklama =>
+      'This changes the colony\'s field number. Lineage and inspection history are preserved.';
+
+  @override
+  String get koloniDetayYeniNumara => 'New colony / hive number';
+
+  @override
+  String koloniDetayNumaraGuncellendi(String no) {
+    return 'Colony number updated to $no.';
+  }
+
+  @override
+  String koloniDetayAppBarBaslik(String no) {
+    return 'HIVE $no';
+  }
+
+  @override
+  String get koloniDetayTabGenelDurum => 'GENERAL STATUS';
+
+  @override
+  String get koloniDetayTabMuayeneler => 'INSPECTIONS';
+
+  @override
+  String get koloniDetayTabBiyolojikModel => 'BIOLOGICAL MODEL';
+
+  @override
+  String get koloniDetayTabPerformans => 'PERFORMANCE';
+
+  @override
+  String get koloniDetayMuayeneEkle => 'Add Inspection';
+
+  @override
+  String get koloniDetayOzetSurec => 'PROCESS';
+
+  @override
+  String get koloniDetayOzetBiyoloji => 'BIOLOGY';
+
+  @override
+  String get koloniDetayOzetYonetim => 'MANAGEMENT';
+
+  @override
+  String get koloniDetayOzetGenetik => 'GENETIC';
+
+  @override
+  String get koloniDetayPerfVeriBulunamadi =>
+      'Performance summary data not found.';
+
+  @override
+  String get ayarlarBaslik => 'SETTINGS & CALIBRATION';
+
+  @override
+  String get ayarlarTabGenel => 'GENERAL';
+
+  @override
+  String get ayarlarTabSistem => 'SYSTEM';
+
+  @override
+  String get ayarlarKaydediliyor => 'SAVING...';
+
+  @override
+  String get ayarlarKaydet => 'SAVE GENERAL SETTINGS';
+
+  @override
+  String ayarlarKaydedilemedi(String hata) {
+    return 'Settings could not be saved: $hata';
+  }
+
+  @override
+  String get ayarlarYedekHazir => 'Backup ready. Save it to a safe location.';
+
+  @override
+  String ayarlarYedekHata(String hata) {
+    return 'Error occurred while taking backup: $hata';
+  }
+
+  @override
+  String get ayarlarGeriYukleBaslik => 'RESTORE FROM BACKUP';
+
+  @override
+  String get ayarlarGeriYukleButon => 'Start Loading';
+
+  @override
+  String get ayarlarGeriYukleTamamlandi => 'Restore from backup completed.';
+
+  @override
+  String ayarlarGeriYukleHata(String hata) {
+    return 'Error occurred while loading backup: $hata';
+  }
+
+  @override
+  String get ayarlarTestAriligiBaslik => 'Create test apiary?';
+
+  @override
+  String get ayarlarTestAriligiOlustur => 'Create';
+
+  @override
+  String ayarlarTestAriligiHata(String hata) {
+    return 'Test apiary could not be created: $hata';
+  }
+
+  @override
+  String ayarlarGuncellemHata(String hata) {
+    return 'Update check failed: $hata';
+  }
+
+  @override
+  String get ayarlarKalibrasyonTamam =>
+      'Apiary calibration defined. System can use season and honey flow context.';
+
+  @override
+  String get ayarlarKalibrasyonEksik =>
+      'Apiary calibration missing. Season and honey flow definitions should be reviewed.';
+
+  @override
+  String get ayarlarTarihFormatNotu =>
+      'Date display is in day/month format; storage format is maintained internally.';
+
+  @override
+  String ayarlarBaslangicTarih(String tarih) {
+    return 'Start: $tarih';
+  }
+
+  @override
+  String ayarlarBitisTarih(String tarih) {
+    return 'End: $tarih';
+  }
+
+  @override
+  String get ayarlarDavranisTercihi => 'BEHAVIOR PREFERENCE';
+
+  @override
+  String get ayarlarDavranisTercihiAciklama =>
+      'This setting only affects the genetic selection and donor filter side. It does not change core thresholds.';
+
+  @override
+  String get ayarlarDavranisStandart => 'Standard';
+
+  @override
+  String get ayarlarDavranisStandartAciklama =>
+      'Manageable colonies are prioritized. Aggression is a more significant negative on the selection side.';
+
+  @override
+  String get ayarlarDavranisEsnek => 'Flexible';
+
+  @override
+  String get ayarlarDavranisEsnekAciklama =>
+      'If strength and yield stand out, behavior data is interpreted more leniently on the selection side.';
+
+  @override
+  String get ayarlarKalibrasyonKapsami => 'CALIBRATION SCOPE';
+
+  @override
+  String get ayarlarKalibrasyonKapsamiAciklama =>
+      'Honey flow and general risk calendar are saved according to this scope. If all apiaries selected, general defaults are updated. If one apiary selected, only custom calibration for that apiary is created.';
+
+  @override
+  String get ayarlarKalibrasyonLabel => 'Use this calibration';
+
+  @override
+  String get ayarlarKalibrasyonTumAriliklar => 'Use for all apiaries';
+
+  @override
+  String ayarlarKalibrasyonYalnizca(String ad) {
+    return 'Use only for $ad apiary';
+  }
+
+  @override
+  String get ayarlarKalibrasyonGenelAciklama =>
+      'You are currently editing the general default calibration. All apiaries without custom settings use this.';
+
+  @override
+  String ayarlarKalibrasyonOzelAciklama(String kapsam) {
+    return 'Custom calibration area open for $kapsam. Honey flow and risk calendar changes here do not affect other apiaries.';
+  }
+
+  @override
+  String get ayarlarBalAkimiBilgi =>
+      'Honey flow windows are the main reference for biological countdowns. First window is mandatory, second window is kept open only when truly needed.';
+
+  @override
+  String get ayarlarIkinciBalAkimi => 'Use 2nd honey flow';
+
+  @override
+  String get ayarlarIkinciBalAkimiAciklama =>
+      'E.g.: August / September pine honey. Leave off if not needed.';
+
+  @override
+  String get ayarlarRiskTakvimiBilgi =>
+      'The general risk calendar does not produce colony-specific decisions. It reminds about seasonal risks like bee-eater, hornet, robbing, wax moth and mouse on the apiary screen. You can narrow dates according to actual pressure periods in your region.';
+
+  @override
+  String get ayarlarAriKusuDonemi => 'Bee-eater Risk Period';
+
+  @override
+  String get ayarlarAriKusuAciklama =>
+      'Default: May – August. You can narrow it according to migration and pressure periods in your region.';
+
+  @override
+  String get ayarlarEsekArisiDonemi => 'Hornet / Wasp Risk Period';
+
+  @override
+  String get ayarlarEsekArisiAciklama =>
+      'Default: July – October. Adjust according to when pressure intensifies.';
+
+  @override
+  String get ayarlarYagmacilikDonemi => 'Robbing Risk Period';
+
+  @override
+  String get ayarlarYagmacilikAciklama =>
+      'Default: July – September. Adjust according to post-harvest and drought period pressure.';
+
+  @override
+  String get ayarlarMumGuvesiDonemi => 'Wax Moth Risk Period';
+
+  @override
+  String get ayarlarMumGuvesiAciklama =>
+      'Default: June – September. Adjust according to hot period and weak colony risk.';
+
+  @override
+  String get ayarlarFareDonemi => 'Mouse Risk Period';
+
+  @override
+  String get ayarlarFareAciklama =>
+      'Default: November – February. This range crosses year-end; the system interprets this correctly.';
+
+  @override
+  String get ayarlarKisDonemi => 'Winter / Resilience Period';
+
+  @override
+  String get ayarlarKisAciklama =>
+      'Default structure is September 1 – March 15. Fine-tune according to your field if needed.';
+
+  @override
+  String get ayarlarUretimDonemi => 'Active / Production Period';
+
+  @override
+  String get ayarlarUretimAciklama =>
+      'Default structure is March 15 – August 31. Fine-tune according to your field if needed.';
+
+  @override
+  String get ayarlarBalAkimiAraligi1 => 'Honey Flow Period 1';
+
+  @override
+  String get ayarlarBalAkimiAraligi1Aciklama =>
+      'First main flow. E.g.: late May / early June.';
+
+  @override
+  String get ayarlarBalAkimiAraligi2 => 'Honey Flow Period 2';
+
+  @override
+  String get ayarlarBalAkimiAraligi2Aciklama =>
+      'Second flow. E.g.: August / September pine honey.';
+
+  @override
+  String get ayarlarRehberiAc => 'Open user guide';
+
+  @override
+  String get ayarlarSistemBilgi =>
+      'Backup and restore flow is maintained in the system. After restore, a maintenance step is run and decision cache is cleared.';
+
+  @override
+  String get ayarlarUygulamaKimligi => 'APPLICATION IDENTITY';
+
+  @override
+  String get ayarlarKimlikUygulama => 'Application';
+
+  @override
+  String get ayarlarKimlikTanim => 'Description';
+
+  @override
+  String get ayarlarKimlikSurum => 'Version';
+
+  @override
+  String get ayarlarKimlikYil => 'Year';
+
+  @override
+  String get ayarlarKimlikUretici => 'Producer';
+
+  @override
+  String get ayarlarKimlikVeri => 'Data';
+
+  @override
+  String get ayarlarKimlikSistemAmaci =>
+      'System purpose: reading simple field data through time, event and process logic to produce actionable colony decisions.';
+
+  @override
+  String get ayarlarSurumYukleniyor => 'Loading';
+
+  @override
+  String get ayarlarYedekAl => 'Take Backup';
+
+  @override
+  String get ayarlarYedekAlAciklama =>
+      'Create and share all data as a JSON backup file.';
+
+  @override
+  String get ayarlarYedekYukle => 'Restore from Backup';
+
+  @override
+  String get ayarlarYedekYukleAciklama =>
+      'Select a previously taken JSON backup and load it in place of current data.';
+
+  @override
+  String get ayarlarTestAriligiIslem => 'Create / Refresh Test Apiary';
+
+  @override
+  String get ayarlarTestAriligiIslemAciklama =>
+      'Sets up 40 scenarios in a separate ITOGENA_TEST_ARILIGI without touching production data.';
+
+  @override
+  String get ayarlarGuncelleKontrol => 'Check for Updates';
+
+  @override
+  String get ayarlarGuncelleKontrolAciklama =>
+      'If a new version is available, first prompts for backup, then opens the secure APK link.';
+
+  @override
+  String get ayarlarYedekUyari =>
+      'Restoring from backup completely replaces current data. Taking a new backup immediately before loading is the safest approach.';
+
+  @override
+  String get ayarlarGizlilik => 'Privacy Policy';
+
+  @override
+  String get ayarlarGizlilikAciklama =>
+      'View app data usage and privacy principles.';
+
+  @override
+  String get ayarlarGelistirici => 'DEVELOPER';
+
+  @override
+  String get ayarlarProMod => 'PRO mode (test)';
+
+  @override
+  String get ayarlarProModAciklama => 'Displays PRO features without lock.';
+
+  @override
+  String get ayarlarDilTest => 'Language (test)';
+
+  @override
+  String get ayarlarDilAciklama =>
+      'Only affects texts that have been migrated to the localization system.';
+
+  @override
+  String get ayarlarKaydedildi => 'General settings saved for all apiaries.';
+
+  @override
+  String ayarlarOzelKaydedildi(String kapsam) {
+    return 'Custom calibration saved for $kapsam apiary.';
+  }
+
+  @override
+  String get ayarlarGeriYukleIcerik =>
+      'This operation completely replaces current data with the selected backup. It is recommended to take a current backup before proceeding. Start loading now?';
+
+  @override
+  String get ayarlarTestAriligiIcerik =>
+      'This operation does not touch real apiary data. It only creates a separate test apiary named ITOGENA_TEST_ARILIGI. If an old test apiary with the same name exists, it only deletes and recreates that.';
+
+  @override
+  String ayarlarUygulamaGuncel(String surum, String kod) {
+    return 'App is up to date. Current version: $surum ($kod)';
+  }
 }

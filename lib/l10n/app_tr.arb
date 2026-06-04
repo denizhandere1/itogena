@@ -316,5 +316,296 @@
   "karsilastirmaHatGucu": "Hat Gücü",
   "karsilastirmaDavranis": "Davranış",
   "karsilastirmaVeriGuveni": "Veri Güveni",
-  "karsilastirmaOgulDurumu": "Oğul Durumu"
+  "karsilastirmaOgulDurumu": "Oğul Durumu",
+
+  "kolonilerBaslik": "Koloniler",
+  "kolonilerDonorHazirlaniyor": "Koloniler • Donör rozetleri hazırlanıyor",
+  "kolonilerSeciliSayi": "{sayi} koloni seçildi",
+  "@kolonilerSeciliSayi": {
+    "placeholders": { "sayi": { "type": "int" } }
+  },
+  "kolonilerAktifSekme": "AKTİF ({sayi})",
+  "@kolonilerAktifSekme": {
+    "placeholders": { "sayi": { "type": "int" } }
+  },
+  "kolonilerSonmusSekme": "SÖNMÜŞ ({sayi})",
+  "@kolonilerSonmusSekme": {
+    "placeholders": { "sayi": { "type": "int" } }
+  },
+  "kolonilerKarsilastirmaModuSadece": "Karşılaştırma modu yalnızca aktif koloniler için kullanılabilir.",
+  "kolonilerDuzenleBaslik": "Koloniyi Düzenle",
+  "kolonilerDuzenleOnay": "{kovanNo} numaralı koloni için düzenleme ekranı açılsın mı?",
+  "@kolonilerDuzenleOnay": {
+    "placeholders": { "kovanNo": { "type": "String" } }
+  },
+  "kolonilerDevamEt": "Devam Et",
+  "kolonilerSilBaslik": "Koloniyi Sil",
+  "kolonilerSilOnay": "{kovanNo} numaralı koloni silinsin mi?\n\nBu işlem geri alınamaz. İlgili numara geçmişi ve olay kayıtları da silinir.",
+  "@kolonilerSilOnay": {
+    "placeholders": { "kovanNo": { "type": "String" } }
+  },
+  "kolonilerSilindi": "{kovanNo} numaralı koloni silindi.",
+  "@kolonilerSilindi": {
+    "placeholders": { "kovanNo": { "type": "String" } }
+  },
+  "kolonilerSilHata": "Koloni silinirken hata oluştu: {hata}",
+  "@kolonilerSilHata": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "kolonilerAktifBos": "Bu arılıkta aktif koloni kaydı yok.",
+  "kolonilerSonmusBos": "Bu arılıkta sönmüş koloni kaydı yok.",
+  "kolonilerKovanAra": "Kovan ara...",
+  "kolonilerAramaTemizle": "Aramayı temizle",
+  "kolonilerFiltreYeniBolme": "Yeni bölmeler",
+  "kolonilerFiltreYeniOgul": "Yeni oğullar",
+  "kolonilerFiltreAlarm": "Alarm",
+  "kolonilerFiltreYavruYok": "Yavru yok",
+  "kolonilerFiltreHasat": "Hasat adayı",
+  "kolonilerDonorRozetAciklama": "Rozetler: 1/2/3 ilk donör adaylarını, D donör havuzundaki diğer adayları gösterir. Genetik veto varsa detay ekranında ayrıca açıklanır.",
+  "kolonilerKarsilastirmaModuBaslik": "KARŞILAŞTIRMA MODU",
+  "kolonilerKarsilastirmaModuInfo": "Karşılaştırmak istediğiniz 2 veya 3 aktif koloniye dokunun. Bu mod açıkken koloni detayı yerine seçim yapılır.",
+  "kolonilerSeciliKoloniSayisi": "Seçili koloni: {sayi} / 3",
+  "@kolonilerSeciliKoloniSayisi": {
+    "placeholders": { "sayi": { "type": "int" } }
+  },
+  "kolonilerKarsilastirButon": "Karşılaştır ({sayi})",
+  "@kolonilerKarsilastirButon": {
+    "placeholders": { "sayi": { "type": "int" } }
+  },
+  "kolonilerPasif": "PASİF",
+  "kolonilerSondu": "SÖNDÜ",
+  "kolonilerSonCita": "{cita} çıta",
+  "@kolonilerSonCita": {
+    "placeholders": { "cita": { "type": "int" } }
+  },
+
+  "raporlarSayfaBaslik": "RAPORLAR",
+  "raporlarArilikEtiketi": "Arılık:",
+  "raporlarArilikBulunamadi": "Kayıtlı arılık bulunamadı.",
+  "raporlarArilikSec": "Rapor alınacak arılığı seç",
+  "raporlarGenelDurum": "GENEL DURUM",
+  "raporlarAktifKovan": "Aktif kovan",
+  "raporlarOrtaSkor": "Orta skor",
+  "raporlarAriliCita": "Arılı çıta",
+  "raporlarDonorler": "DONÖRLER",
+  "raporlarHesaplaniyor": "Hesaplanıyor",
+  "raporlarHenuzYok": "Henüz yok",
+  "raporlarIlkUcGuclu": "İLK 3 GÜÇLÜ",
+  "raporlarRaporSec": "RAPOR SEÇ",
+  "raporlarListeLazyAciklama": "Ağır liste hesapları ilk açılışta çalışmaz. Sadece görmek istediğin liste açıldığında yüklenir.",
+  "raporlarGucludenZayifaBaslik": "Güçlüden Zayıfa",
+  "raporlarGucludenZayifaAlt": "Tüm aktif koloniler yüksek skordan düşüğe sıralanır.",
+  "raporlarGucludenZayifaListeBaslik": "GÜÇLÜDEN ZAYIFA",
+  "raporlarZayiftanGucluye": "Zayıftan Güçlüye",
+  "raporlarZayiftanGucluAlt": "Tüm aktif koloniler düşük skordan yükseğe sıralanır.",
+  "raporlarZayiftanGucluListeBaslik": "ZAYIFTAN GÜÇLÜYE",
+  "raporlarDonorAdaylariBaslik": "Donör Adayları",
+  "raporlarDonorAdaylariAlt": "1. sıradan başlayarak donör havuzu listelenir.",
+  "raporlarDonorAdaylariListeBaslik": "DONÖR ADAYLARI",
+  "raporlarGenetikVetoBaslik": "Genetik Veto",
+  "raporlarGenetikVetoAlt": "Donör dışı kalan veto kayıtları kendi içinde sıralanır.",
+  "raporlarGenetikVetoListeBaslik": "GENETİK VETO",
+  "raporlarEkonomikDegerBaslik": "Ekonomik Değer",
+  "raporlarEkonomikDegerAlt": "Arılık ekonomik değeri ve bal potansiyeli ayrı ekranda hesaplanır.",
+  "raporlarIstatistikHesapla": "Arılık istatistiklerini hesapla",
+  "raporlarIstatistikHesaplaniyor": "Arılık istatistikleri hesaplanıyor...",
+  "raporlarIstatistikHata": "Arılık istatistikleri hesaplanamadı: {hata}",
+  "@raporlarIstatistikHata": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "raporlarTekrarHesapla": "Tekrar hesapla",
+  "raporlarArilikIstatistikleri": "ARILIK İSTATİSTİKLERİ",
+  "raporlarToplamCita": "Toplam çıta",
+  "raporlarBalTemasi": "Bal temaslı",
+  "raporlarAktivasyonFarki": "Aktivasyon",
+  "raporlarTahminiAri": "Tahmini arı",
+  "raporlarGuclu": "Güçlü",
+  "raporlarOrta": "Orta",
+  "raporlarZayif": "Zayıf",
+
+  "ekDegerAppBarBaslik": "{arilikAd} EKONOMİK DEĞER",
+  "@ekDegerAppBarBaslik": {
+    "placeholders": { "arilikAd": { "type": "String" } }
+  },
+  "ekDegerHata": "Ekonomik değer hesaplanamadı:\n{hata}",
+  "@ekDegerHata": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "ekDegerKartBaslik": "EKONOMİK DEĞER",
+  "ekDegerTahminiToplam": "Tahmini toplam değer: {deger} TL",
+  "@ekDegerTahminiToplam": {
+    "placeholders": { "deger": { "type": "String" } }
+  },
+  "ekDegerAktivasyonluBalliCita": "Aktivasyonlu ballı çıta: {cita} çıta",
+  "@ekDegerAktivasyonluBalliCita": {
+    "placeholders": { "cita": { "type": "String" } }
+  },
+  "ekDegerTahminiBalAraligi": "Tahmini bal: {minKg}–{maxKg} kg / {minTL}–{maxTL} TL",
+  "@ekDegerTahminiBalAraligi": {
+    "placeholders": {
+      "minKg": { "type": "String" },
+      "maxKg": { "type": "String" },
+      "minTL": { "type": "String" },
+      "maxTL": { "type": "String" }
+    }
+  },
+  "ekDegerHesapAciklama": "Bu hesap biyolojik modelde bal/ballık pozisyonunda görünen çıtaları aktivasyon düzeyiyle okur; boş çıta, toplam fiziksel çıta veya boş kabarmış petek bal gibi sayılmaz.",
+  "ekDegerBalFiyati": "Bal satış fiyatı (kg/TL)",
+  "ekDegerAriliCita": "Arılı çıta değeri",
+  "ekDegerBosKovan": "Boş kovan değeri",
+  "ekDegerBosKabarmisPetek": "Boş kabarmış petek adedi",
+  "ekDegerBosKabarmisPetekBirim": "Boş kabarmış petek birim değeri",
+
+  "koloniDetayMuayeneSil": "Muayene Sil",
+  "koloniDetayMuayeneSilOnay": "{tarih} tarihli muayene silinsin mi?\n\nBu işlem geri alınamaz.",
+  "@koloniDetayMuayeneSilOnay": {
+    "placeholders": { "tarih": { "type": "String" } }
+  },
+  "koloniDetayMuayeneSilindi": "Muayene silindi.",
+  "koloniDetayNumaraDegistir": "Koloni Numarasını Değiştir",
+  "koloniDetayNumaraAciklama": "Bu işlem koloninin saha numarasını değiştirir. Soy bağı ve muayene geçmişi korunur.",
+  "koloniDetayYeniNumara": "Yeni koloni / kovan numarası",
+  "koloniDetayNumaraGuncellendi": "Koloni numarası {no} olarak güncellendi.",
+  "@koloniDetayNumaraGuncellendi": {
+    "placeholders": { "no": { "type": "String" } }
+  },
+  "koloniDetayAppBarBaslik": "KOVAN {no}",
+  "@koloniDetayAppBarBaslik": {
+    "placeholders": { "no": { "type": "String" } }
+  },
+  "koloniDetayTabGenelDurum": "GENEL DURUM",
+  "koloniDetayTabMuayeneler": "MUAYENELER",
+  "koloniDetayTabBiyolojikModel": "BİYOLOJİK MODEL",
+  "koloniDetayTabPerformans": "PERFORMANS",
+  "koloniDetayMuayeneEkle": "Muayene Ekle",
+  "koloniDetayOzetSurec": "SÜREÇ",
+  "koloniDetayOzetBiyoloji": "BİYOLOJİ",
+  "koloniDetayOzetYonetim": "YÖNETİM",
+  "koloniDetayOzetGenetik": "GENETİK",
+  "koloniDetayPerfVeriBulunamadi": "Performans özeti verisi bulunamadı.",
+
+  "ayarlarBaslik": "AYARLAR VE KALİBRASYON",
+  "ayarlarTabGenel": "GENEL",
+  "ayarlarTabSistem": "SİSTEM",
+  "ayarlarKaydediliyor": "KAYDEDİLİYOR...",
+  "ayarlarKaydet": "GENEL AYARLARI KAYDET",
+  "ayarlarKaydedilemedi": "Ayarlar kaydedilemedi: {hata}",
+  "@ayarlarKaydedilemedi": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "ayarlarYedekHazir": "Yedek hazırlandı. Güvenli bir yere kaydet.",
+  "ayarlarYedekHata": "Yedek alınırken hata oluştu: {hata}",
+  "@ayarlarYedekHata": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "ayarlarGeriYukleBaslik": "YEDEKTEN GERİ YÜKLE",
+  "ayarlarGeriYukleButon": "Yüklemeyi Başlat",
+  "ayarlarGeriYukleTamamlandi": "Yedekten geri yükleme tamamlandı.",
+  "ayarlarGeriYukleHata": "Yedek yüklenirken hata oluştu: {hata}",
+  "@ayarlarGeriYukleHata": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "ayarlarTestAriligiBaslik": "Test arılığı oluşturulsun mu?",
+  "ayarlarTestAriligiOlustur": "Oluştur",
+  "ayarlarTestAriligiHata": "Test arılığı oluşturulamadı: {hata}",
+  "@ayarlarTestAriligiHata": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "ayarlarGuncellemHata": "Güncelleme kontrolü başarısız: {hata}",
+  "@ayarlarGuncellemHata": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "ayarlarKalibrasyonTamam": "Arılık kalibrasyonu tanımlı. Sistem sezon ve bal akımı bağlamını kullanabilir.",
+  "ayarlarKalibrasyonEksik": "Arılık kalibrasyonu eksik. Sezon ve bal akımı tanımları gözden geçirilmeli.",
+  "ayarlarTarihFormatNotu": "Tarih gösterimi gün/ay formatındadır; kayıt formatı sistem içinde korunur.",
+  "ayarlarBaslangicTarih": "Başlangıç: {tarih}",
+  "@ayarlarBaslangicTarih": {
+    "placeholders": { "tarih": { "type": "String" } }
+  },
+  "ayarlarBitisTarih": "Bitiş: {tarih}",
+  "@ayarlarBitisTarih": {
+    "placeholders": { "tarih": { "type": "String" } }
+  },
+  "ayarlarDavranisTercihi": "DAVRANIŞ TERCİHİ",
+  "ayarlarDavranisTercihiAciklama": "Bu ayar yalnızca genetik seçilim ve donör filtresi tarafını etkiler. Çekirdek eşikleri değiştirmez.",
+  "ayarlarDavranisStandart": "Standart",
+  "ayarlarDavranisStandartAciklama": "Yönetilebilir koloniler önceliklidir. Hırçınlık seçilim tarafında daha belirgin eksidir.",
+  "ayarlarDavranisEsnek": "Esnek",
+  "ayarlarDavranisEsnekAciklama": "Güç ve verim öne çıkıyorsa davranış verisi seçilim tarafında daha yumuşak yorumlanır.",
+  "ayarlarKalibrasyonKapsami": "KALİBRASYON KAPSAMI",
+  "ayarlarKalibrasyonKapsamiAciklama": "Bal akımı ve genel risk takvimi bu kapsama göre kaydedilir. Tüm arılıklar seçilirse genel varsayılanlar güncellenir. Tek arılık seçilirse yalnızca o arılık için özel kalibrasyon oluşturulur.",
+  "ayarlarKalibrasyonLabel": "Bu kalibrasyonu kullan",
+  "ayarlarKalibrasyonTumAriliklar": "Tüm arılıklar için kullan",
+  "ayarlarKalibrasyonYalnizca": "Yalnızca {ad} arılığı için kullan",
+  "@ayarlarKalibrasyonYalnizca": {
+    "placeholders": { "ad": { "type": "String" } }
+  },
+  "ayarlarKalibrasyonGenelAciklama": "Şu anda genel varsayılan kalibrasyonu düzenliyorsun. Özel ayarı olmayan tüm arılıklar bunu kullanır.",
+  "ayarlarKalibrasyonOzelAciklama": "{kapsam} için özel kalibrasyon alanı açık. Burada yaptığın bal akımı ve risk takvimi değişiklikleri diğer arılıkları etkilemez.",
+  "@ayarlarKalibrasyonOzelAciklama": {
+    "placeholders": { "kapsam": { "type": "String" } }
+  },
+  "ayarlarBalAkimiBilgi": "Bal akımı pencereleri biyolojik geri sayımların temel referansıdır. İlk pencere zorunlu, ikinci pencere ise sadece gerçekten ihtiyaç varsa açık tutulur.",
+  "ayarlarIkinciBalAkimi": "2. bal akımını kullan",
+  "ayarlarIkinciBalAkimiAciklama": "Örn: Ağustos / Eylül çam balı. İhtiyacın yoksa kapalı bırak.",
+  "ayarlarRiskTakvimiBilgi": "Genel risk takvimi koloniye özel karar üretmez. Arı kuşu, eşek arısı, yağmacılık, mum güvesi ve fare gibi dönemsel riskleri arılık ekranında hatırlatır. Tarihleri kendi bölgenin gerçek baskı dönemine göre daraltabilirsin.",
+  "ayarlarAriKusuDonemi": "Arı Kuşu Risk Dönemi",
+  "ayarlarAriKusuAciklama": "Varsayılan: Mayıs – Ağustos. Kendi bölgenin göç ve baskı dönemine göre daraltabilirsin.",
+  "ayarlarEsekArisiDonemi": "Eşek Arısı / Sarıca Risk Dönemi",
+  "ayarlarEsekArisiAciklama": "Varsayılan: Temmuz – Ekim. Baskının yoğunlaştığı döneme göre ayarla.",
+  "ayarlarYagmacilikDonemi": "Yağmacılık Risk Dönemi",
+  "ayarlarYagmacilikAciklama": "Varsayılan: Temmuz – Eylül. Hasat sonrası ve kurak dönem baskısına göre ayarla.",
+  "ayarlarMumGuvesiDonemi": "Mum Güvesi Risk Dönemi",
+  "ayarlarMumGuvesiAciklama": "Varsayılan: Haziran – Eylül. Sıcak dönem ve zayıf koloni riskine göre ayarla.",
+  "ayarlarFareDonemi": "Fare Risk Dönemi",
+  "ayarlarFareAciklama": "Varsayılan: Kasım – Şubat. Bu aralık yıl taşar; sistem bunu doğru yorumlar.",
+  "ayarlarKisDonemi": "Kış / Dayanıklılık Dönemi",
+  "ayarlarKisAciklama": "Varsayılan yapı 1 Eylül – 15 Marttır. Gerekirse sahana göre ince ayar yap.",
+  "ayarlarUretimDonemi": "Aktif / Üretim Dönemi",
+  "ayarlarUretimAciklama": "Varsayılan yapı 15 Mart – 31 Ağustostur. Gerekirse sahana göre ince ayar yap.",
+  "ayarlarBalAkimiAraligi1": "Bal Akımı Aralığı 1",
+  "ayarlarBalAkimiAraligi1Aciklama": "İlk ana akım. Örn: Mayıs sonu / Haziran başı.",
+  "ayarlarBalAkimiAraligi2": "Bal Akımı Aralığı 2",
+  "ayarlarBalAkimiAraligi2Aciklama": "İkinci akım. Örn: Ağustos / Eylül çam balı.",
+  "ayarlarRehberiAc": "Kullanıcı rehberini aç",
+  "ayarlarSistemBilgi": "Yedek alma ve geri yükleme akışı sistemde tutulur. Geri yükleme sonrası bakım adımı çalıştırılır ve karar önbelleği temizlenir.",
+  "ayarlarUygulamaKimligi": "UYGULAMA KİMLİĞİ",
+  "ayarlarKimlikUygulama": "Uygulama",
+  "ayarlarKimlikTanim": "Tanım",
+  "ayarlarKimlikSurum": "Sürüm",
+  "ayarlarKimlikYil": "Yıl",
+  "ayarlarKimlikUretici": "Üretici",
+  "ayarlarKimlikVeri": "Veri",
+  "ayarlarKimlikSistemAmaci": "Sistem amacı: basit saha verisini zaman, olay ve süreç mantığıyla okuyarak uygulanabilir koloni kararı üretmek.",
+  "ayarlarSurumYukleniyor": "Yükleniyor",
+  "ayarlarYedekAl": "Yedek Al",
+  "ayarlarYedekAlAciklama": "Tüm veriyi JSON yedek dosyası olarak oluştur ve paylaş.",
+  "ayarlarYedekYukle": "Yedekten Yükle",
+  "ayarlarYedekYukleAciklama": "Daha önce aldığın JSON yedeğini seç ve mevcut verinin yerine yükle.",
+  "ayarlarTestAriligiIslem": "Test Arılığı Oluştur / Yenile",
+  "ayarlarTestAriligiIslemAciklama": "Uluköy verisine dokunmadan ayrı ITOGENA_TEST_ARILIGI içinde 40 senaryo kurar.",
+  "ayarlarGuncelleKontrol": "Güncellemeyi Kontrol Et",
+  "ayarlarGuncelleKontrolAciklama": "Yeni sürüm varsa önce yedek aldırır, ardından güvenli APK bağlantısını açar.",
+  "ayarlarYedekUyari": "Yedekten yükleme mevcut veriyi tamamen değiştirir. Yüklemeden hemen önce yeni bir yedek almak en güvenli yaklaşımdır.",
+  "ayarlarGizlilik": "Gizlilik Politikası",
+  "ayarlarGizlilikAciklama": "Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.",
+  "ayarlarGelistirici": "GELİŞTİRİCİ",
+  "ayarlarProMod": "PRO mod (test)",
+  "ayarlarProModAciklama": "PRO özellikleri kilit olmadan görüntüler.",
+  "ayarlarDilTest": "Dil (test)",
+  "ayarlarDilAciklama": "Yalnızca lokalizasyon sistemine taşınan metinleri etkiler.",
+  "ayarlarKaydedildi": "Genel ayarlar tüm arılıklar için kaydedildi.",
+  "ayarlarOzelKaydedildi": "{kapsam} arılığı için özel kalibrasyon kaydedildi.",
+  "@ayarlarOzelKaydedildi": {
+    "placeholders": { "kapsam": { "type": "String" } }
+  },
+  "ayarlarGeriYukleIcerik": "Bu işlem mevcut veriyi seçtiğin yedek ile tamamen değiştirir. Devam etmeden önce güncel bir yedek alman önerilir. Şimdi yükleme başlasın mı?",
+  "ayarlarTestAriligiIcerik": "Bu işlem gerçek arılık verisine dokunmaz. Yalnızca ITOGENA_TEST_ARILIGI adlı ayrı test arılığını oluşturur. Aynı isimde eski test arılığı varsa sadece onu silip yeniden kurar.",
+  "ayarlarUygulamaGuncel": "Uygulama güncel. Mevcut sürüm: {surum} ({kod})",
+  "@ayarlarUygulamaGuncel": {
+    "placeholders": {
+      "surum": { "type": "String" },
+      "kod": { "type": "String" }
+    }
+  }
 }
