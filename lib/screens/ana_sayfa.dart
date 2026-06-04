@@ -5,99 +5,109 @@ import 'package:itogena_v45/screens/soy_agaci_sayfasi.dart';
 import 'package:itogena_v45/screens/formuller_hesaplamalar_sayfasi.dart';
 import 'package:itogena_v45/screens/kullanici_rehberi_sayfasi.dart' as rehber;
 
-class AnaSayfa extends StatefulWidget {
+class AnaSayfa extends StatelessWidget {
   const AnaSayfa({super.key});
 
-  @override
-  State<AnaSayfa> createState() => _AnaSayfaState();
-}
-
-class _AnaSayfaState extends State<AnaSayfa> {
-  Widget _bilgiKarti() {
+  Widget _hakkindaKarti(BuildContext context) {
     return Container(
       margin: const EdgeInsets.fromLTRB(14, 14, 14, 10),
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: Colors.amber.shade300),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Başlık
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/anasayfa_ikon.png',
-                height: 28,
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(width: 10),
-              const Expanded(
-                child: Text(
-                  'Muayeneni kaydet,\ngerisini biz hallederiz.',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 15,
-                    color: Colors.black87,
-                    height: 1.3,
-                  ),
-                ),
-              ),
-            ],
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          tilePadding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+          childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          initiallyExpanded: false,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(18)),
           ),
-          const SizedBox(height: 14),
-          // Özellik listesi
-          _ozellikSatiri(
-            Icons.hive_outlined,
-            'Kovanın içini gör',
-            'Hangi çıtada yavru var, hangi çıtada bal — görsel olarak.',
+          collapsedShape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(18)),
           ),
-          const SizedBox(height: 8),
-          _ozellikSatiri(
-            Icons.assignment_turned_in_outlined,
-            'Ne yapman gerektiğini öğren',
-            'Donör adayı mı, ana değişimi mi, bölme mi — sistem söyler.',
-            isPro: true,
+          leading: const Icon(
+            Icons.hive_rounded,
+            color: Color(0xFFFFA000),
+            size: 26,
           ),
-          const SizedBox(height: 8),
-          _ozellikSatiri(
-            Icons.warning_amber_outlined,
-            'Riskleri önceden gör',
-            'Varroa, arı kuşu, yağmacılık — sezon ve koloni birlikte okunur.',
-            isPro: true,
-          ),
-          const SizedBox(height: 8),
-          _ozellikSatiri(
-            Icons.savings_outlined,
-            'Hasat tahminini al',
-            'Tahmini bal miktarı ve ekonomik değer koloniye göre hesaplanır.',
-            isPro: true,
-          ),
-          const SizedBox(height: 14),
-          OutlinedButton.icon(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (c) => const rehber.KullaniciRehberiSayfasi(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.menu_book_outlined, size: 18),
-            label: const Text('Kullanıcı Rehberi'),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.brown,
-              side: BorderSide(color: Colors.brown.shade200),
+          title: const Text(
+            'Arılıktaki asistanınız',
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: 15,
+              color: Colors.black87,
             ),
           ),
-        ],
+          subtitle: const Padding(
+            padding: EdgeInsets.only(top: 2, bottom: 4),
+            child: Text(
+              'Muayeneni kaydet, gerisini biz hallederiz.',
+              style: TextStyle(
+                fontSize: 12.5,
+                color: Colors.black54,
+                height: 1.3,
+              ),
+            ),
+          ),
+          children: [
+            const Divider(height: 1, color: Color(0xFFFFE082)),
+            const SizedBox(height: 12),
+            _ozellikSatiri(
+              Icons.hive_outlined,
+              'Kovanın içini gör',
+              'Hangi çıtada yavru var, hangi çıtada bal — görsel olarak.',
+            ),
+            const SizedBox(height: 10),
+            _ozellikSatiri(
+              Icons.assignment_turned_in_outlined,
+              'Ne yapman gerektiğini öğren',
+              'Donör adayı mı, ana değişimi mi, bölme mi — sistem söyler.',
+              isPro: true,
+            ),
+            const SizedBox(height: 10),
+            _ozellikSatiri(
+              Icons.warning_amber_outlined,
+              'Riskleri önceden gör',
+              'Varroa, arı kuşu, yağmacılık — sezon ve koloni birlikte okunur.',
+              isPro: true,
+            ),
+            const SizedBox(height: 10),
+            _ozellikSatiri(
+              Icons.savings_outlined,
+              'Hasat tahminini al',
+              'Tahmini bal miktarı ve ekonomik değer koloniye göre hesaplanır.',
+              isPro: true,
+            ),
+            const SizedBox(height: 14),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (c) => const rehber.KullaniciRehberiSayfasi(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.menu_book_outlined, size: 18),
+                label: const Text('Kullanıcı Rehberi'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.brown,
+                  side: BorderSide(color: Colors.brown.shade200),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _ozellikSatiri(
+  static Widget _ozellikSatiri(
     IconData ikon,
     String baslik,
     String aciklama, {
@@ -249,7 +259,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.fromLTRB(0, 0, 0, altBosluk),
           children: [
-            _bilgiKarti(),
+            _hakkindaKarti(context),
             _menuKarti(
               context: context,
               baslik: 'Arılık Yönetimi',
@@ -260,7 +270,8 @@ class _AnaSayfaState extends State<AnaSayfa> {
             _menuKarti(
               context: context,
               baslik: 'Raporlar',
-              altBaslik: 'Arılık geneli istatistik, ekonomik değer ve donör listesi',
+              altBaslik:
+                  'Arılık geneli istatistik, ekonomik değer ve donör listesi',
               ikon: Icons.analytics_outlined,
               isPro: true,
               sayfa: const ArilikSecimSayfasi(raporModu: true),
