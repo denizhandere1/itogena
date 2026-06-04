@@ -1825,6 +1825,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // BAŞLIK — ücretsiz
           const Row(
             children: [
               Icon(Icons.hive_outlined, color: Color(0xFF2E7D32), size: 20),
@@ -1842,6 +1843,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             ],
           ),
           const SizedBox(height: 10),
+          // KOVAN GÖRSELİ — ücretsiz
           if (altKatYerlesim.isNotEmpty || ustKatYerlesim.isNotEmpty) ...[
             _kovanYerlesimGorseli(
               altKat: altKatYerlesim,
@@ -1853,90 +1855,110 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
             ),
             const SizedBox(height: 12),
           ],
-          if (toplamCita >= 8 && hasatAdayMetni.trim().isNotEmpty) ...[
-            _hasatProjeksiyonuKarti(
-              hasatAdayMetni: hasatAdayMetni,
-              hasatMin: hasatMin,
-              hasatMax: hasatMax,
-              balKgFiyati: _balKgFiyati,
-              suruplukPenceresiAktif: suruplukPenceresiAktif,
-              suruplukKaldirildiMi: suruplukKaldirildiMi,
-              suruplukKaldirmaMesaji: suruplukKaldirmaMesaji,
-            ),
-            const SizedBox(height: 10),
-          ],
-          Text(
-            'Merkez yavru bloğu: $yavruBlok. Bu blok korunmalı.',
-            style: const TextStyle(
-              fontSize: 12.7,
-              height: 1.4,
-              fontWeight: FontWeight.w800,
-              color: Colors.black87,
-            ),
-          ),
-          if (gelisimAlani.isNotEmpty) ...[
-            const SizedBox(height: 6),
-            Text(
-              gelisimAlani,
-              style: const TextStyle(
-                  fontSize: 12.5, height: 1.4, color: Colors.black87),
-            ),
-          ],
-          const SizedBox(height: 10),
+          // TAHMİNİ ARI SAYISI — ücretsiz
           Wrap(
             spacing: 6,
             runSpacing: 6,
             children: [
               _miniBilgiHap('Tahmini arı', '$ariMin–$ariMax'),
-              if (hasatMax > 0)
-                _miniBilgiHap(
-                    'Bal potansiyeli', '${_kg(hasatMin)}–${_kg(hasatMax)} kg'),
-              _miniBilgiHap(
-                  'Bırakılacak stok', '${_kg(birakMin)}–${_kg(birakMax)} kg'),
-              if (_toInt(citaAktivasyon['toplamHacimAktivasyonYuzde']) > 0)
-                _miniBilgiHap(
-                  'Hacim aktivasyonu',
-                  '%${_toInt(citaAktivasyon['toplamHacimAktivasyonYuzde'])}',
-                ),
-              if (tarlaciYuzde > 0)
-                _miniBilgiHap('Tarlacı', '%$tarlaciYuzde'),
-              if (bakiciYuzde > 0)
-                _miniBilgiHap('Bakıcı', '%$bakiciYuzde'),
-              if (gencIsciYuzde > 0)
-                _miniBilgiHap('Genç işçi', '%$gencIsciYuzde'),
             ],
           ),
           const SizedBox(height: 10),
-          _kabiliyetSatiri('Petek örme', _toInt(kabiliyet['petekOrmePuani'])),
-          _kabiliyetSatiri(
-              'Yavru bakımı', _toInt(kabiliyet['yavruBakimPuani'])),
-          _kabiliyetSatiri(
-              'Nektar toplama', _toInt(kabiliyet['nektarToplamaPuani'])),
-          _kabiliyetSatiri('Bal işleme', _toInt(kabiliyet['balIslemePuani'])),
-          if (hamPetekOnerisi.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            Text(
-              hamPetekOnerisi,
-              style: const TextStyle(
-                  fontSize: 12.5, height: 1.4, color: Colors.black87),
+          // PRO KISIM — tüm derin analiz
+          ProKapit(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (toplamCita >= 8 && hasatAdayMetni.trim().isNotEmpty) ...[
+                  _hasatProjeksiyonuKarti(
+                    hasatAdayMetni: hasatAdayMetni,
+                    hasatMin: hasatMin,
+                    hasatMax: hasatMax,
+                    balKgFiyati: _balKgFiyati,
+                    suruplukPenceresiAktif: suruplukPenceresiAktif,
+                    suruplukKaldirildiMi: suruplukKaldirildiMi,
+                    suruplukKaldirmaMesaji: suruplukKaldirmaMesaji,
+                  ),
+                  const SizedBox(height: 10),
+                ],
+                Text(
+                  'Merkez yavru bloğu: $yavruBlok. Bu blok korunmalı.',
+                  style: const TextStyle(
+                    fontSize: 12.7,
+                    height: 1.4,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.black87,
+                  ),
+                ),
+                if (gelisimAlani.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    gelisimAlani,
+                    style: const TextStyle(
+                        fontSize: 12.5, height: 1.4, color: Colors.black87),
+                  ),
+                ],
+                const SizedBox(height: 10),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: [
+                    if (hasatMax > 0)
+                      _miniBilgiHap('Bal potansiyeli',
+                          '${_kg(hasatMin)}–${_kg(hasatMax)} kg'),
+                    _miniBilgiHap('Bırakılacak stok',
+                        '${_kg(birakMin)}–${_kg(birakMax)} kg'),
+                    if (_toInt(citaAktivasyon['toplamHacimAktivasyonYuzde']) > 0)
+                      _miniBilgiHap(
+                        'Hacim aktivasyonu',
+                        '%${_toInt(citaAktivasyon['toplamHacimAktivasyonYuzde'])}',
+                      ),
+                    if (tarlaciYuzde > 0)
+                      _miniBilgiHap('Tarlacı', '%$tarlaciYuzde'),
+                    if (bakiciYuzde > 0)
+                      _miniBilgiHap('Bakıcı', '%$bakiciYuzde'),
+                    if (gencIsciYuzde > 0)
+                      _miniBilgiHap('Genç işçi', '%$gencIsciYuzde'),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                _kabiliyetSatiri(
+                    'Petek örme', _toInt(kabiliyet['petekOrmePuani'])),
+                _kabiliyetSatiri(
+                    'Yavru bakımı', _toInt(kabiliyet['yavruBakimPuani'])),
+                _kabiliyetSatiri(
+                    'Nektar toplama', _toInt(kabiliyet['nektarToplamaPuani'])),
+                _kabiliyetSatiri(
+                    'Bal işleme', _toInt(kabiliyet['balIslemePuani'])),
+                if (hamPetekOnerisi.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    hamPetekOnerisi,
+                    style: const TextStyle(
+                        fontSize: 12.5, height: 1.4, color: Colors.black87),
+                  ),
+                ],
+                if (beslemeOnerisi.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    beslemeOnerisi,
+                    style: const TextStyle(
+                        fontSize: 12.5, height: 1.4, color: Colors.black87),
+                  ),
+                ],
+                if (yorum.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    yorum,
+                    style: TextStyle(
+                        fontSize: 12.5,
+                        height: 1.4,
+                        color: Colors.brown.shade700),
+                  ),
+                ],
+              ],
             ),
-          ],
-          if (beslemeOnerisi.isNotEmpty) ...[
-            const SizedBox(height: 6),
-            Text(
-              beslemeOnerisi,
-              style: const TextStyle(
-                  fontSize: 12.5, height: 1.4, color: Colors.black87),
-            ),
-          ],
-          if (yorum.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            Text(
-              yorum,
-              style: TextStyle(
-                  fontSize: 12.5, height: 1.4, color: Colors.brown.shade700),
-            ),
-          ],
+          ),
         ],
       ),
     );
@@ -1978,7 +2000,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       return '${tutar.round()} ₺';
     }
 
-    return ProKapit(child: Container(
+    return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -2120,7 +2142,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
           ],
         ],
       ),
-    ));
+    );
   }
 
   Widget _kovanYerlesimGorseli({

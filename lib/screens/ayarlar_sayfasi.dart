@@ -9,6 +9,7 @@ import '../services/karar_asistan_servisi.dart';
 import '../services/arilik_uyari_servisi.dart';
 import '../services/yedek_dosya_servisi.dart';
 import '../services/guncelleme_servisi.dart';
+import '../services/premium_servisi.dart';
 import '../services/test_ariligi_servisi.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
@@ -25,6 +26,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   bool _yukleniyor = true;
   bool _kaydediliyor = false;
   bool _yedekAliniyor = false;
+  bool _isPro = false;
   bool _yedekYukleniyor = false;
   bool _testAriligiOlusturuluyor = false;
 
@@ -59,6 +61,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _isPro = PremiumServisi.isPro;
     _ayarlariYukle();
   }
 
@@ -1349,6 +1352,51 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           onTap: () => launchUrl(
             Uri.parse('https://itogaciftligi.com/itogena-gizlilik-politikasi/'),
             mode: LaunchMode.externalApplication,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'GELİŞTİRİCİ',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.grey,
+                  letterSpacing: 1,
+                ),
+              ),
+              const SizedBox(height: 8),
+              SwitchListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text(
+                  'PRO mod (test)',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                ),
+                subtitle: const Text(
+                  'PRO özellikleri kilit olmadan görüntüler.',
+                  style: TextStyle(fontSize: 12),
+                ),
+                value: _isPro,
+                activeColor: const Color(0xFFFFB300),
+                onChanged: (deger) async {
+                  if (deger) {
+                    await PremiumServisi.proAktifEt();
+                  } else {
+                    await PremiumServisi.proIptalEt();
+                  }
+                  setState(() => _isPro = deger);
+                },
+              ),
+            ],
           ),
         ),
       ],
