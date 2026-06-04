@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/karsilastirma_ozeti_servisi.dart';
+import '../services/premium_servisi.dart';
+import '../widgets/pro_kapit.dart';
 
 class KarsilastirmaSayfasi extends StatefulWidget {
   final List<int> koloniIdleri;
@@ -26,6 +28,7 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    if (!PremiumServisi.isPro) return const ProSayfaKapit(child: SizedBox.shrink());
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(

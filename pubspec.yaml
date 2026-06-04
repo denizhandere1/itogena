@@ -31,6 +31,7 @@ dependencies:
   url_launcher: ^6.3.1
   package_info_plus: ^8.3.1
   speech_to_text: ^7.0.0
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +41,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:

@@ -1,0 +1,40 @@
+{
+  "@@locale": "tr",
+
+  "appTitle": "İtogena Arılık Yönetimi",
+
+  "girisYukleniyor": "Veriler hazırlanıyor...",
+  "girisSurumKontrol": "Sürüm kontrol ediliyor...",
+  "girisYeniSurum": "Yeni sürüm denetleniyor...",
+  "girisAnaSayfaAciliyor": "Ana sayfa açılıyor...",
+  "girisBaslatmaSorunu": "Başlatma sırasında sorun oluştu.",
+  "girisBaslatmaHatasi": "Başlatma hatası: {hata}",
+  "@girisBaslatmaHatasi": {
+    "placeholders": {
+      "hata": { "type": "String" }
+    }
+  },
+
+  "iptal": "İptal",
+  "tamam": "Tamam",
+  "evet": "Evet",
+  "hayir": "Hayır",
+  "sil": "Sil",
+  "duzenle": "Düzenle",
+  "kaydet": "Kaydet",
+  "ekle": "Ekle",
+  "vazgec": "Vazgeç",
+  "kapat": "Kapat",
+  "geri": "Geri",
+  "onayla": "Onayla",
+  "hata": "Hata",
+  "basarili": "Başarılı",
+  "uyari": "Uyarı",
+  "bilgi": "Bilgi",
+  "yukleniyor": "Yükleniyor...",
+  "bilinmiyor": "Bilinmiyor",
+
+  "proRozeti": "PRO",
+  "proOzellik": "Bu özellik PRO sürümüne aittir.",
+  "proYukselt": "PRO'ya Yükselt"
+}

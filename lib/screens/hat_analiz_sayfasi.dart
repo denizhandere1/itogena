@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/hat_analiz_servisi.dart';
+import '../services/premium_servisi.dart';
 import '../services/veritabani_servisi.dart';
+import '../widgets/pro_kapit.dart';
 import 'koloni_detay_sayfasi.dart';
 
 class HatAnalizSayfasi extends StatefulWidget {
@@ -466,6 +468,7 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    if (!PremiumServisi.isPro) return const ProSayfaKapit(child: SizedBox.shrink());
     final filtreler = <String>[
       'Tümü',
       'Donör Hat',

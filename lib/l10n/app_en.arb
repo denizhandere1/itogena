@@ -1,0 +1,35 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Itogena Apiary Management",
+
+  "girisYukleniyor": "Preparing data...",
+  "girisSurumKontrol": "Checking version...",
+  "girisYeniSurum": "Checking for new version...",
+  "girisAnaSayfaAciliyor": "Opening home page...",
+  "girisBaslatmaSorunu": "A problem occurred during startup.",
+  "girisBaslatmaHatasi": "Startup error: {hata}",
+
+  "iptal": "Cancel",
+  "tamam": "OK",
+  "evet": "Yes",
+  "hayir": "No",
+  "sil": "Delete",
+  "duzenle": "Edit",
+  "kaydet": "Save",
+  "ekle": "Add",
+  "vazgec": "Cancel",
+  "kapat": "Close",
+  "geri": "Back",
+  "onayla": "Confirm",
+  "hata": "Error",
+  "basarili": "Success",
+  "uyari": "Warning",
+  "bilgi": "Info",
+  "yukleniyor": "Loading...",
+  "bilinmiyor": "Unknown",
+
+  "proRozeti": "PRO",
+  "proOzellik": "This feature is available in the PRO version.",
+  "proYukselt": "Upgrade to PRO"
+}

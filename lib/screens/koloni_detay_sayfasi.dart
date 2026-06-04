@@ -10,6 +10,8 @@ import '../services/baglam_motoru.dart';
 import '../services/koloni_context_servisi.dart';
 import '../services/cita_aktivasyon_servisi.dart';
 import '../services/performans_izleme_servisi.dart';
+import '../services/premium_servisi.dart';
+import '../widgets/pro_kapit.dart';
 import 'muayene_ekle_sayfasi.dart';
 import 'muayene_detay_sayfasi.dart';
 
@@ -1976,7 +1978,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       return '${tutar.round()} ₺';
     }
 
-    return Container(
+    return ProKapit(child: Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -2118,7 +2120,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
           ],
         ],
       ),
-    );
+    ));
   }
 
   Widget _kovanYerlesimGorseli({

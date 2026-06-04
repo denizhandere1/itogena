@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'ana_sayfa_kisayol.dart';
+import '../services/premium_servisi.dart';
 import '../services/veritabani_servisi.dart';
+import '../widgets/pro_kapit.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/koloni_biyolojik_model_servisi.dart';
 import 'koloni_detay_sayfasi.dart';
@@ -628,6 +630,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    if (!PremiumServisi.isPro) return const ProSayfaKapit(child: SizedBox.shrink());
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
@@ -1788,6 +1791,7 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
 
   @override
   Widget build(BuildContext context) {
+    if (!PremiumServisi.isPro) return const ProSayfaKapit(child: SizedBox.shrink());
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(

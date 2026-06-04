@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:itogena_v45/screens/ana_sayfa.dart';
 import 'package:itogena_v45/services/guncelleme_servisi.dart';
+import 'package:itogena_v45/services/premium_servisi.dart';
 import 'package:itogena_v45/services/veritabani_servisi.dart';
+
+extension L10n on BuildContext {
+  AppLocalizations get l10n => AppLocalizations.of(this);
+}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,12 +23,12 @@ class ItogenaApp extends StatelessWidget {
     return MaterialApp(
       title: 'İtogena Arılık Yönetimi',
       debugShowCheckedModeBanner: false,
-      locale: const Locale('tr', 'TR'),
       supportedLocales: const [
         Locale('tr', 'TR'),
         Locale('en', 'US'),
       ],
       localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -46,7 +52,7 @@ class GirisEkrani extends StatefulWidget {
 
 class _GirisEkraniState extends State<GirisEkrani> {
   bool _hazirlaniyor = true;
-  String _durumMetni = 'Veriler hazırlanıyor...';
+  String? _durumMetni;
 
   @override
   void initState() {
@@ -58,7 +64,6 @@ class _GirisEkraniState extends State<GirisEkrani> {
     try {
       setState(() {
         _hazirlaniyor = true;
-        _durumMetni = 'Veriler hazırlanıyor...';
       });
 
       await Future.wait([
@@ -66,10 +71,12 @@ class _GirisEkraniState extends State<GirisEkrani> {
         Future.delayed(const Duration(milliseconds: 900)),
       ]);
 
+      await PremiumServisi.yukle();
+
       if (!mounted) return;
 
       setState(() {
-        _durumMetni = 'Sürüm kontrol ediliyor...';
+        _durumMetni = context.l10n.girisSurumKontrol;
       });
 
       final dilKodu =
@@ -83,7 +90,7 @@ class _GirisEkraniState extends State<GirisEkrani> {
 
       if (guncelleme.diyalogGoster) {
         setState(() {
-          _durumMetni = 'Yeni sürüm denetleniyor...';
+          _durumMetni = context.l10n.girisYeniSurum;
         });
 
         await GuncellemeServisi.guncellemeDiyaloguGoster(
@@ -95,7 +102,7 @@ class _GirisEkraniState extends State<GirisEkrani> {
       if (!mounted) return;
 
       setState(() {
-        _durumMetni = 'Ana sayfa açılıyor...';
+        _durumMetni = context.l10n.girisAnaSayfaAciliyor;
       });
 
       await Future.delayed(const Duration(milliseconds: 250));
@@ -113,12 +120,12 @@ class _GirisEkraniState extends State<GirisEkrani> {
 
       setState(() {
         _hazirlaniyor = false;
-        _durumMetni = 'Başlatma sırasında sorun oluştu.';
+        _durumMetni = context.l10n.girisBaslatmaSorunu;
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Başlatma hatası: $e'),
+          content: Text(context.l10n.girisBaslatmaHatasi(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -153,7 +160,7 @@ class _GirisEkraniState extends State<GirisEkrani> {
                 ),
                 const SizedBox(height: 18),
                 Text(
-                  _durumMetni,
+                  _durumMetni ?? context.l10n.girisYukleniyor,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 14,

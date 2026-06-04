@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/ari_biyoloji_servisi.dart';
+import '../services/premium_servisi.dart';
+import '../widgets/pro_kapit.dart';
 
 class FormullerHesaplamalarSayfasi extends StatefulWidget {
   const FormullerHesaplamalarSayfasi({super.key});
@@ -59,6 +61,7 @@ class _FormullerHesaplamalarSayfasiState
 
   @override
   Widget build(BuildContext context) {
+    if (!PremiumServisi.isPro) return const ProSayfaKapit(child: SizedBox.shrink());
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(
