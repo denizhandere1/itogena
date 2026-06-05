@@ -2022,4 +2022,609 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get muayeneEkleTaniEminDegil => 'Emin değilim';
+
+  @override
+  String get rehberBaslik => 'KULLANICI REHBERİ';
+
+  @override
+  String get rehberProOzellik => 'Özellik';
+
+  @override
+  String get rehberProUcretsiz => 'Ücretsiz';
+
+  @override
+  String get rehberProPRO => 'PRO';
+
+  @override
+  String get rehberProS1 => 'Sınırsız koloni kaydı';
+
+  @override
+  String get rehberProS2 => 'Muayene formu ve geçmiş';
+
+  @override
+  String get rehberProS3 => 'Kovan yerleşim görseli';
+
+  @override
+  String get rehberProS4 => 'Tahmini arı sayısı';
+
+  @override
+  String get rehberProS5 => 'Özet yorum (tek cümle)';
+
+  @override
+  String get rehberProS6 => 'Yönetim kararı detayı';
+
+  @override
+  String get rehberProS7 => 'Risk analizi (Varroa, arı kuşu…)';
+
+  @override
+  String get rehberProS8 => 'Hasat projeksiyonu ve miktar';
+
+  @override
+  String get rehberProS9 => 'Ekonomik değer tahmini';
+
+  @override
+  String get rehberProS10 => 'Demografi ve kabiliyet skorları';
+
+  @override
+  String get rehberProS11 => 'Koloni projeksiyonu';
+
+  @override
+  String get rehberProS12 => 'Performans raporları';
+
+  @override
+  String get rehberProS13 => 'Hat analizi';
+
+  @override
+  String get rehberProS14 => 'Koloni karşılaştırma';
+
+  @override
+  String get rehberProS15 => 'Soy ağacı';
+
+  @override
+  String get rehberProS16 => 'Formüller ve hesaplamalar';
+
+  @override
+  String get rehber1Baslik => '1. İTOGENA Ne Yapar?';
+
+  @override
+  String get rehber1Kutu =>
+      'İTOGENA, basit saha verisini zaman, süreç, soy, performans ve arılık kalibrasyonu ile birlikte okuyarak uygulanabilir koloni kararı üretir. Amaç yalnızca kayıt tutmak değil; arıcıya neyi, neden ve ne zaman yapacağını anlaşılır biçimde göstermektir.';
+
+  @override
+  String get rehber1M1 =>
+      'Sistem tetik → süreç → öneri → saha eylemi → yeni muayene → kapanış mantığıyla çalışır.';
+
+  @override
+  String get rehber1M2 =>
+      'Koloni sınıfı tek biyolojik kaynaktan üretilir: işlevsel üretim çıtası 0–3 ise zayıf, 4–7 ise gelişim, 8–9 ise üretim, 10 ve üzeri ise hasat sınıfıdır.';
+
+  @override
+  String get rehber1M3 =>
+      'Her süreç için ayrıca onay istemez; sonucu sonraki muayene verisinden anlamaya çalışır.';
+
+  @override
+  String get rehber1M4 =>
+      'Koloni detay ekranı hızlı açılır; ağır analizler arka planda yüklenir.';
+
+  @override
+  String get rehber1M5 =>
+      'Sistem fiziksel çıta ile işlevsel üretim kapasitesini ayrı okur. Hızlı genişleme, temel petek yüklenmesi veya hasat sonrası hacim değişimleri doğrudan güçlü koloni kabul edilmez.';
+
+  @override
+  String get rehber1M6 =>
+      'Koloni detay genel durum ekranında dört ana başlık gösterilir: Süreç, Biyoloji, Yönetim ve Genetik.';
+
+  @override
+  String get rehber1M7 =>
+      'Yönetim kartı besleme, kat, alan, varroa, kış ve hasat sonrası bakım kararlarını aynı yönetim listesinde standartlaştırır.';
+
+  @override
+  String get rehber1M8 =>
+      'Muayene, koloni veya arılık verisi değiştiğinde tüm önbellekler birlikte temizlenir; eski kararın ekranda kalma riski azaltılır.';
+
+  @override
+  String get rehber2Baslik => '2. Ücretsiz ve PRO';
+
+  @override
+  String get rehber2Kutu =>
+      'ITOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Derin analiz, risk izleme, hasat tahmini ve raporlama PRO kapsamındadır.';
+
+  @override
+  String get rehber3Baslik => '3. Sistem Çıtadan Ne Anlar?';
+
+  @override
+  String get rehber3M1 =>
+      'Çıta sayısı koloni gücünün temel saha göstergesidir; tek başına kesin karar değildir.';
+
+  @override
+  String get rehber3M2 =>
+      'Son çıta mevcut canlı gücü, maksimum çıta sezon içi kapasiteyi, bal çıtası ise üretim dönemindeki verimi anlatır.';
+
+  @override
+  String get rehber3M3 =>
+      'Kışta çıta gücü dayanıklılık için önemlidir; bal çıtası kış performansı gibi okunmaz.';
+
+  @override
+  String get rehber3M4 =>
+      'Sistem çıta sayısını yalnızca sayı olarak değil, tahmini biyolojik kapasite olarak okur: arı nüfusu, göz kapasitesi, yavru/stok alanı, ana bölgesi ve hasat potansiyeli bu veriden türetilir.';
+
+  @override
+  String get rehber3M5 =>
+      'Bu değerler kesin ölçüm değildir; iklim, flora, arı ırkı, sezon ve yönetim farkları sonucu değiştirebilir.';
+
+  @override
+  String get rehber3M6 =>
+      'Langstroth varsayılan referanstır. Dadant seçilirse aynı biyolojik düzen korunur ancak çıta kapasitesi daha yüksek katsayıyla hesaplanır.';
+
+  @override
+  String get rehber3M7 =>
+      'Şurupluk varsa alt kuluçkalık 9 çıta, yoksa 10 çıta kabul edilir. Bu sınırın üstündeki çıtalar kat/ballık alanı olarak yorumlanır.';
+
+  @override
+  String get rehber3bBaslik => '3B. İşlevsel Çıta ve Hacim Aktivasyonu';
+
+  @override
+  String get rehber3bM1 =>
+      'İTOGENA fiziksel çıta ile işlevsel çıtayı ayrı okur. Kovandaki çıta sayısı fiziksel hacmi, koloninin gerçekten kullanabildiği alan ise işlevsel biyolojik kapasiteyi anlatır.';
+
+  @override
+  String get rehber3bM2 =>
+      'Yeni verilen çıta hemen tam kapasite sayılmaz. Sistem temel petek veya kabarmış petek ayrımına, geçen gün sayısına, yavru düzenine, koloni gücüne ve bal akımı penceresine göre aktivasyon süresi hesaplar.';
+
+  @override
+  String get rehber3bM3 =>
+      'Sistem sıkışık düzen varsayımıyla çalışır. Bir muayenede +1 çıta normal, +2 çıta kontrollü genişleme, +3 ve üzeri ise kat geçişi dışında uyarı sebebidir.';
+
+  @override
+  String get rehber3bM4 =>
+      'Şurupluk + 9 çıta veya şurupluksuz 10 çıta %95 ve üzeri aktivasyona ulaşırsa sistem bunu \"Kat ver\" eşiği olarak okur.';
+
+  @override
+  String get rehber3bM5 =>
+      'Şurupluk + 19 çıta veya şurupluksuz 20 çıta %95 ve üzeri aktivasyona ulaşırsa sistem \"3. kat ver\" uyarısı üretir.';
+
+  @override
+  String get rehber3bM6 =>
+      'Hasat kaydıyla birlikte oluşan hızlı çıta düşüşü biyolojik çöküş sayılmaz; sistem bunu hasat kaynaklı hacim daralması olarak normalleştirir.';
+
+  @override
+  String get rehber3cBaslik => '3C. Sezon Biyoloji Matrisi';
+
+  @override
+  String get rehber3cM1 =>
+      'İTOGENA sezonu yalnızca takvim adı olarak okumaz. Her sezon için yavru beklentisi, stok baskısı, polen/arı ekmeği beklentisi, ana amaç ve aktivasyon katsayısı birlikte değerlendirilir.';
+
+  @override
+  String get rehber3cM2 =>
+      'Sistem kış, kış çıkışı, ilkbahar gelişimi, bal akımı öncesi, bal akımı, hasat sonrası, sonbahar hazırlık ve geç sonbahar evrelerini ayrı biyolojik davranışlar olarak ele alır.';
+
+  @override
+  String get rehber3cM3 =>
+      'Bu matris koloniye doğrudan emir vermez; aktivasyon, kabiliyet, besleme, hasat ve bölme kararlarına biyolojik bağlam sağlar.';
+
+  @override
+  String get rehber3cM4 =>
+      'Sezon bilgisi yerel bal akımı kalibrasyonu ile birlikte okunur. Bu nedenle aynı tarih her arılıkta aynı karar anlamına gelmeyebilir.';
+
+  @override
+  String get rehber3dBaslik => '3D. Koloni Gidişatı ve Normalize Momentum';
+
+  @override
+  String get rehber3dM1 =>
+      'Koloni Gidişatı, koloninin yalnız bugünkü gücünü değil hangi yöne gittiğini anlatır. Momentum bu hesabın içinde yaşar.';
+
+  @override
+  String get rehber3dM2 =>
+      'Momentum artık ham çıta artışı değildir. Hasat sonrası hızlı düşüş biyolojik çöküş sayılmaz; bölme sonrası düşüş işlem kaynaklı okunur; kat atılması ise fiziksel hacim artışı olduğu için aktivasyon tamamlanmadan tam büyüme kabul edilmez.';
+
+  @override
+  String get rehber3dM3 =>
+      'Kat geçişi, riskli hızlı genişleme, düşük aktivasyon ve bal akımı içindeki sağlıklı üst hacim genişlemesi ayrı ayrı normalize edilir.';
+
+  @override
+  String get rehber3dM4 =>
+      'Performans sekmesindeki Koloni Gidişatı; gelişim yönü, üretim yönü, alan baskısı, toparlanma potansiyeli, çöküş riski ve normalize momentumu birlikte okur.';
+
+  @override
+  String get rehber3eBaslik => '3E. Demografi Projeksiyonu';
+
+  @override
+  String get rehber3eM1 =>
+      'Demografi projeksiyonu kesin arı sayımı yapmaz; çıta gücü, yavru yükü, sezon ve gelişim yönünden koloni içindeki iş gücü dağılımını tahmin eder.';
+
+  @override
+  String get rehber3eM2 =>
+      'Sistem genç işçi, bakıcı arı, petek işleyici, iç işçi, bekçi, tarlacı ve erkek arı dağılımını saha kararı için ayrı ayrı okur.';
+
+  @override
+  String get rehber3eM3 =>
+      'Genç işçi kapasitesi ham petek ve yavru bakım kararlarında; tarlacı kapasitesi bal akımı ve üretim kararlarında kullanılır.';
+
+  @override
+  String get rehber3eM4 =>
+      'Demografi çıktısı \"kesin nüfus\" değildir; biyolojik olasılık ve saha projeksiyonudur.';
+
+  @override
+  String get rehber3fBaslik => '3F. İş Gücü ve Kabiliyet Projeksiyonu';
+
+  @override
+  String get rehber3fM1 =>
+      'İTOGENA yalnızca kaç arı olduğunu değil, bu arıların hangi işi yapabilecek biyolojik kapasitede olduğunu yorumlamaya çalışır.';
+
+  @override
+  String get rehber3fM2 =>
+      'Petek örme, yavru bakım, nektar toplama, bal işleme, savunma, toparlanma, kış dayanımı ve çiftleşme desteği ayrı iş gücü alanları olarak değerlendirilir.';
+
+  @override
+  String get rehber3fM3 =>
+      'Aynı çıta sayısına sahip iki koloni farklı iş gücü kapasitesine sahip olabilir. Genç işçi oranı düşük koloniler geniş görünse bile hızlı petek işleme veya yavru büyütmede zorlanabilir.';
+
+  @override
+  String get rehber3fM4 =>
+      'Bu projeksiyon kesin biyolojik ölçüm yapmaz; saha kararını destekleyen açıklanabilir biyolojik eğilim modeli üretir.';
+
+  @override
+  String get rehber3gBaslik => '3G. Risk Projeksiyonu ve Doğal Risk Frenleri';
+
+  @override
+  String get rehber3gM1 =>
+      'Risk projeksiyonu koloniyi korkutucu uyarılarla yönetmez; sezonun doğal risk primini ve koloninin biyolojik kırılganlığını birlikte okuyarak dengeli karar freni üretir.';
+
+  @override
+  String get rehber3gM2 =>
+      'Varroa, arı kuşu, eşek arısı, yağmacılık, nem/kış, aşırı genişleme, yavrusuzluk/yaşlanma ve bal kalitesi riski aynı merkezde değerlendirilir.';
+
+  @override
+  String get rehber3gM3 =>
+      'Risk freni kararları doğrudan yasaklamaz. Genişletme, bölme, besleme, hasat ve müdahale önerilerini küçük katsayılarla temkinli hale getirir.';
+
+  @override
+  String get rehber3gM4 =>
+      'Bu sistem kesin hastalık veya zararlı teşhisi koymaz; açıklanabilir risk eğilimi üretir.';
+
+  @override
+  String get rehber4Baslik => '4. Bölme Neden 9 Çıta Altında Önerilmez?';
+
+  @override
+  String get rehber4M1 =>
+      '6 çıta biyolojik olarak mümkün olabilir; fakat güvenli saha önerisi değildir.';
+
+  @override
+  String get rehber4M2 =>
+      'İTOGENA mümkün olanı değil, arıcıyı koloni kaybı riskinden koruyan doğru öneriyi verir.';
+
+  @override
+  String get rehber4M3 =>
+      'Bölme önerisi için güvenli eşik 9 çıtadır. Ana koloni bölmeden sonra en az 5 çıta kalabilmeli, yeni bölme en az 4 çıta başlayabilmelidir.';
+
+  @override
+  String get rehber4M4 =>
+      '6–8 çıta arası riskli kabul edilir; sistem bölme önermek yerine önce güçlendirmeyi söyler.';
+
+  @override
+  String get rehber4M5 => 'Kış döneminde bölme önerisi üretilmez.';
+
+  @override
+  String get rehber4M6 =>
+      'Bölme kararı zaman bağlamıyla okunur. Bal akımına 57 günden fazla varsa güçlü kolonide bölme anlamlıdır; 57 günden az kaldıysa standart bölme üretim gücünü düşürebilir.';
+
+  @override
+  String get rehber5Baslik => '5. Donör Skoru ile Genel Skor Farkı Nedir?';
+
+  @override
+  String get rehber5M1 => 'Genel skor koloninin saha performansıdır.';
+
+  @override
+  String get rehber5M2 =>
+      'Donör skoru ana üretimi ve genetik seçilim değeridir.';
+
+  @override
+  String get rehber5M3 =>
+      '85 genel skor tek başına donörlük anlamına gelmez. Oğul izi/genetik filtre, soy devamlılığı, üreme gücü, dayanıklılık ve veri güveni ayrıca okunur.';
+
+  @override
+  String get rehber5M4 =>
+      'Güçlü ama genetik filtreye takılan koloni üretimde veya kapalı yavru desteğinde değerlendirilebilir; ana üretim havuzuna alınmaz.';
+
+  @override
+  String get rehber6Baslik => '6. Oğul İzi ve Oğul Sonrası Süreç';
+
+  @override
+  String get rehber6M1 =>
+      'Oğul sağlık problemi değildir; bu nedenle sağlık skorunu düşürmez.';
+
+  @override
+  String get rehber6M2 =>
+      'Oğul kökeni veya oğul izi taşıyan koloni donör havuzuna girmez.';
+
+  @override
+  String get rehber6M3 =>
+      'Oğul attı işaretlenirse koloni geçici olarak üretim/hasat kolonisi gibi okunmaz. 0–7. gün arası artçı oğul riski en yüksektir.';
+
+  @override
+  String get rehber6M4 =>
+      '8–16. gün arası artçı oğul riski azalır. 17–30. gün yeni ana çıkışı, olgunlaşma ve çiftleşme penceresidir.';
+
+  @override
+  String get rehber6M5 =>
+      '31–45. gün arası yumurtlama artık netleşmelidir. Hâlâ yavru yoksa sistem bunu ana başarısızlığı veya yalancı ana riski olarak değerlendirir.';
+
+  @override
+  String get rehber7Baslik => '7. Yavru Yok Alarmı ve Karar Önceliği';
+
+  @override
+  String get rehber7M1 =>
+      'Yavru yok en kritik biyolojik alarmlardan biridir. Sistem önce bunun aktif bölme, oğul sonrası veya ana kazanma penceresinde normal bekleme olup olmadığını kontrol eder.';
+
+  @override
+  String get rehber7M2 =>
+      'Bekleme penceresi aşılmışsa yavru yok; varroa, besleme ve hasat gibi rutin kararların önüne geçer. Grid kartta önce koloni devamlılığı konuşur.';
+
+  @override
+  String get rehber7M3 =>
+      'Yalancı ana şüphesi, erkek yavru baskısı, ardışık yavrusuz kayıt ve güç düşüşü birlikte görülürse sistem bunu yüksek öncelikli ana problemi olarak ele alır.';
+
+  @override
+  String get rehber7M4 =>
+      'Bal akımı içinde güçlü bal baskısı varsa yavru yokluğu hemen anasızlık sayılmaz; önce alan ve bal baskısı değerlendirilir.';
+
+  @override
+  String get rehber8Baslik => '8. Ana Kazanma Süreci Nasıl Okunur?';
+
+  @override
+  String get rehber8M1 =>
+      'Ana kazanma süreci anasız bırakıldı, bölme, kapalı ana memesi veya hazır ana gibi tetiklerle başlar.';
+
+  @override
+  String get rehber8M2 =>
+      'Kendi anasını yapacak kolonide 5. gün kapalı memeler bozulur; açık/kapanmamış kaliteli memeler bırakılır.';
+
+  @override
+  String get rehber8M3 =>
+      'Hazır ana verilen kolonide süreç kabul ve yumurtlama kontrolüne göre okunur.';
+
+  @override
+  String get rehber8M4 =>
+      'Günlük veya kapalı yavru görüldüğünde ana varlığı dolaylı kabul edilir ve ilgili ana kazanma süreci kapanabilir.';
+
+  @override
+  String get rehber9Baslik => '9. Bal Akımı 57/42 Gün Mantığı Nedir?';
+
+  @override
+  String get rehber9M1 =>
+      '42 gün yumurtadan tarlacı arıya uzanan biyolojik süredir.';
+
+  @override
+  String get rehber9M2 =>
+      '57 gün saha planlama eşiğidir: 42 günlük biyolojiye yaklaşık 15 gün güvenlik payı eklenir.';
+
+  @override
+  String get rehber9M3 =>
+      'Karar motoru bölme önerisini bu 57 günlük saha penceresine göre ciddiye alır. Zaman uygun değilse güçlü koloni bile otomatik bölme adayı yapılmaz.';
+
+  @override
+  String get rehber9M4 =>
+      'Bal akımına 24 gün veya daha az kaldığında alan, kat, kalıntı güvenliği ve oğul kontrolü öne çıkar.';
+
+  @override
+  String get rehber9M5 =>
+      'Ana değişimi için en güçlü karar penceresi hasat sonrası / sonbahara giriş dönemidir.';
+
+  @override
+  String get rehber10Baslik => '10. Varroa Uyarıları Nasıl Çalışır?';
+
+  @override
+  String get rehber10M1 =>
+      'Varroa uyarıları sezon ve bal akımı penceresiyle birlikte okunur.';
+
+  @override
+  String get rehber10M2 =>
+      'Bal akımı öncesi ve sırasında kalıntı riski dikkate alınır.';
+
+  @override
+  String get rehber10M3 =>
+      'Hasat sonrası / yaz sonu erken sonbahar dönemi kışı taşıyacak arıların sağlığı için kritik kabul edilir.';
+
+  @override
+  String get rehber10M4 =>
+      'Oksalik, timol, amitraz, formik ve benzeri uygulamalarda ürün etiketi, ruhsat durumu ve yerel mevzuat esas alınmalıdır.';
+
+  @override
+  String get rehber11Baslik => '11. Veri Güveni Ne Demektir?';
+
+  @override
+  String get rehber11M1 =>
+      'Tek muayeneli kolonide sistem karar verir ama veri güveni düşük der.';
+
+  @override
+  String get rehber11M2 =>
+      '2–4 muayene izleme bandıdır. 5 ve üzeri muayene güvenilir değerlendirme başlangıcıdır.';
+
+  @override
+  String get rehber11M3 =>
+      'Veri güveni, kararın neden güçlü veya sınırlı olduğunu açıklamak için gösterilir; kullanıcıyı kararsız bırakmak için değildir.';
+
+  @override
+  String get rehber12Baslik =>
+      '12. Biyolojik Model ve Kabiliyet Analizi Nedir?';
+
+  @override
+  String get rehber12M1 =>
+      'İTOGENA çıta sayısını yalnızca sayı olarak okumaz; standart koloni organizasyonu üzerinden tahmini kuluçkalık dizilimi, yavru bloğu, stok alanı ve hasat adayı dış çıtaları yorumlar.';
+
+  @override
+  String get rehber12M2 =>
+      'Kovan tipi Langstroth veya Dadant olarak seçilebilir. Şurupluk varsa alt kuluçkalık 9 çıta, yoksa 10 çıta kabul edilir.';
+
+  @override
+  String get rehber12M3 =>
+      'Temporal polyethism mantığıyla işçi arıların yaşa bağlı görev dağılımı tahmin edilir: bakıcı arı, petek örücü, iç işçi, tarlacı ve erkek arı yoğunluğu kabiliyet puanı olarak kullanılır.';
+
+  @override
+  String get rehber12M4 =>
+      'Sistem \"şu çıtaları hasat et\" derken kesin hüküm vermez; yalnızca tahmini yerleşime göre yavrusuz ve sırlı olması halinde hasat için değerlendirilebilecek dış/ballık çıtaları işaret eder.';
+
+  @override
+  String get rehber13Baslik => '13. Kış Yönetimi Nasıl Çalışır?';
+
+  @override
+  String get rehber13M1 =>
+      'Kış döneminde ana hedef üretim değil yaşatmadır. Sistem gereksiz kovan açmayı önleyecek şekilde dış gözlem, ağırlık hissi ve nem/su girişi kontrolünü öne alır.';
+
+  @override
+  String get rehber13M2 =>
+      'Stok çok düşük görünüyorsa açlık riski minimum müdahale kuralından daha yüksek öncelik alır.';
+
+  @override
+  String get rehber13M3 =>
+      'Fiziksel hacim yüksek ama işlevsel arı gücü düşükse sistem boş hacim ve ısı kaybı riskini belirtir.';
+
+  @override
+  String get rehber14Baslik => '14. Genetik Çoğaltma Değeri Nasıl Okunur?';
+
+  @override
+  String get rehber14M1 =>
+      'Genetik çoğaltma değeri yalnızca bal veya çıta sayısı değildir. İşlevsel kapasite, yavru düzeni, gelişim yönü, aktivasyon, risk, stok/kış güvenliği ve oğul izi birlikte okunur.';
+
+  @override
+  String get rehber14M2 =>
+      'Oğul kökeni veya oğul izi görülen koloniler üretimde değerli olabilir; ancak temiz genetik yayılım adayı olarak otomatik öne çıkarılmaz.';
+
+  @override
+  String get rehber14M3 =>
+      'Bu skor kesin damızlık hükmü değildir; çoğaltmaya değer kolonileri izleme ve doğru zamanda kontrollü bölme kararını destekleyen stratejik sinyaldir.';
+
+  @override
+  String get rehber15Baslik => '15. Ekonomik Değer Neyi İfade Eder?';
+
+  @override
+  String get rehber15M1 =>
+      'Ekonomik değer ekranı kesin gelir hesabı değil, yaklaşık arılık varlığı ve tahmini bal potansiyeli projeksiyonudur.';
+
+  @override
+  String get rehber15M2 =>
+      'Aktif kovan sayısı, toplam arılı çıta, boş kovan, kabarmış petek ve tahmini hasat edilebilir bal potansiyeli birlikte okunur.';
+
+  @override
+  String get rehber15M3 =>
+      'Kullanıcı bal kg satış fiyatını girer; sistem tahmini hasat potansiyelini bu fiyatla çarpar ve potansiyel değer bandı üretir.';
+
+  @override
+  String get rehber15M4 =>
+      'Bal verimi flora, hava, hasat zamanı, bırakılacak stok ve arıcının yönetimine bağlı olarak değişir.';
+
+  @override
+  String get rehber16Baslik => '16. Besleme Karar Projeksiyonu Nasıl Çalışır?';
+
+  @override
+  String get rehber16M1 =>
+      'Besleme önerileri kesin stok ölçümü değildir; çıta gücü, yavru alanı, sezon, aktif süreç, bal akımı penceresi ve kullanıcının muayene gözlemi birlikte değerlendirilir.';
+
+  @override
+  String get rehber16M2 =>
+      'Sistem kesin reçete vermez; tahmini ml/L veya gram bandı üretir.';
+
+  @override
+  String get rehber16M3 =>
+      '1:1 şurup daha çok gelişim desteği; 2:1 şurup stok tamamlama; polenli destek ise yalnızca polen baskısı sahada doğrulanırsa anlamlı kabul edilir.';
+
+  @override
+  String get rehber16M4 =>
+      'Bal akımına 20 gün veya daha az kalmışsa ve koloni hasat hedefindeyse şeker bazlı besleme önerilmez.';
+
+  @override
+  String get rehber17Baslik => '17. İTOGENA Karar Sözlüğü';
+
+  @override
+  String get rehber17Kutu =>
+      'Bu bölüm, ekranda görülen kavramların ne anlama geldiğini açıklar.';
+
+  @override
+  String get rehber17M1 =>
+      'Koloni Gidişatı: Koloninin yalnız bugünkü gücünü değil, hangi yöne ilerlediğini anlatır.';
+
+  @override
+  String get rehber17M2 =>
+      'Koloni Gücü: Son muayenedeki canlı arı ve çıta gücünü anlatır.';
+
+  @override
+  String get rehber17M3 =>
+      'Koloni Sağlığı: Yavru düzeni, ana süreci, yavrusuzluk, varroa dönemi, davranış ve risk sinyallerinin birlikte okunmasıdır.';
+
+  @override
+  String get rehber17M4 =>
+      'İşlevsel Çıta: Kovandaki fiziksel çıta sayısı değil, arının gerçekten kullandığı biyolojik kapasitedir.';
+
+  @override
+  String get rehber17M5 =>
+      'Hacim Aktivasyonu: Verilen çıta veya katın koloni tarafından ne kadar kullanılır hale geldiğini anlatır.';
+
+  @override
+  String get rehber17M6 =>
+      'Normalize Momentum: Kısa dönem çıta artışı veya düşüşünü ham şekilde okumaz. Hasat sonrası düşüş, bölme, kat geçişi ve riskli hızlı genişleme ayrılır.';
+
+  @override
+  String get rehber17M7 =>
+      'Genetik Filtre: Koloninin üretimde değerli olabileceği halde ana üretme havuzuna alınmamasıdır.';
+
+  @override
+  String get rehber17M8 =>
+      'Yönetim Kararı: Besleme, kat, alan, hasat sonrası bakım, varroa ve kış hazırlığı gibi arıcının sahada yapacağı işleri anlatır.';
+
+  @override
+  String get rehber17M9 =>
+      'Süreç: Ana kazanma, bölme sonrası toparlanma, oğul sonrası veya yavru yok tanısı gibi zamana bağlı biyolojik/yönetim penceresidir.';
+
+  @override
+  String get rehber17M10 =>
+      'Kilit / Bekle: Müdahale edilmemesi gereken hassas pencereyi anlatır.';
+
+  @override
+  String get rehber17M11 =>
+      'Veri Güveni: Kararın kaç muayeneye dayandığını anlatır.';
+
+  @override
+  String get rehber18Baslik =>
+      '18. Uygulama Hangi Konularda Kesin Hüküm Vermez?';
+
+  @override
+  String get rehber18U1 =>
+      'İTOGENA veterinerlik, ruhsatlı ilaç kullanımı veya resmi mevzuat yerine geçmez.';
+
+  @override
+  String get rehber18U2 =>
+      'Kimyasal mücadelede ürün etiketi, ruhsatlı kullanım talimatı, koruyucu ekipman ve yerel mevzuat esas alınmalıdır.';
+
+  @override
+  String get rehber18U3 =>
+      'Hava, flora, yöresel nektar akımı, arıcı deneyimi ve koloni davranışı sahada ayrıca gözlenmelidir.';
+
+  @override
+  String get rehber18U4 =>
+      'Sistem doğru kararı destekler; son sorumluluk sahadaki arıcıdadır.';
+
+  @override
+  String get rehber19Baslik => '19. Sesli Not';
+
+  @override
+  String get rehber19M1 =>
+      'Not alanında mikrofon ikonuna basarak konuşarak not girebilirsiniz.';
+
+  @override
+  String get rehber19M2 =>
+      'Konuşma otomatik olarak metne çevrilir ve not alanına eklenir.';
+
+  @override
+  String get rehber19U1 =>
+      'Rüzgar, arı sesi, cihaz mikrofonu ve bazı cihazlarda internet bağlantısı algılamayı etkileyebilir.';
+
+  @override
+  String get rehber20Baslik => '20. Gizlilik Politikası';
+
+  @override
+  String get rehber20M1 =>
+      'İTOGENA\'nın kişisel veri işleme, saklama ve kullanım politikasını aşağıdaki bağlantıdan okuyabilirsiniz.';
+
+  @override
+  String get rehber20Link => 'itogaciftligi.com/itogena-gizlilik-politikasi';
 }

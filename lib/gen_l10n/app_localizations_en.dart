@@ -2021,4 +2021,613 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get muayeneEkleTaniEminDegil => 'Not sure';
+
+  @override
+  String get rehberBaslik => 'USER GUIDE';
+
+  @override
+  String get rehberProOzellik => 'Feature';
+
+  @override
+  String get rehberProUcretsiz => 'Free';
+
+  @override
+  String get rehberProPRO => 'PRO';
+
+  @override
+  String get rehberProS1 => 'Unlimited colony records';
+
+  @override
+  String get rehberProS2 => 'Inspection form and history';
+
+  @override
+  String get rehberProS3 => 'Hive layout visual';
+
+  @override
+  String get rehberProS4 => 'Estimated bee count';
+
+  @override
+  String get rehberProS5 => 'Summary comment (one sentence)';
+
+  @override
+  String get rehberProS6 => 'Management decision detail';
+
+  @override
+  String get rehberProS7 => 'Risk analysis (Varroa, bee-eater…)';
+
+  @override
+  String get rehberProS8 => 'Harvest projection and quantity';
+
+  @override
+  String get rehberProS9 => 'Economic value estimate';
+
+  @override
+  String get rehberProS10 => 'Demographics and capability scores';
+
+  @override
+  String get rehberProS11 => 'Colony projection';
+
+  @override
+  String get rehberProS12 => 'Performance reports';
+
+  @override
+  String get rehberProS13 => 'Line analysis';
+
+  @override
+  String get rehberProS14 => 'Colony comparison';
+
+  @override
+  String get rehberProS15 => 'Lineage tree';
+
+  @override
+  String get rehberProS16 => 'Formulas and calculations';
+
+  @override
+  String get rehber1Baslik => '1. What Does İTOGENA Do?';
+
+  @override
+  String get rehber1Kutu =>
+      'İTOGENA reads simple field data together with time, process, lineage, performance and apiary calibration to produce actionable colony decisions. The goal is not merely record-keeping; it is to clearly show the beekeeper what to do, why, and when.';
+
+  @override
+  String get rehber1M1 =>
+      'The system works on a trigger → process → suggestion → field action → new inspection → closure logic.';
+
+  @override
+  String get rehber1M2 =>
+      'Colony class is derived from a single biological source: if functional production frames are 0–3 it is weak, 4–7 is development, 8–9 is production, and 10 or above is harvest class.';
+
+  @override
+  String get rehber1M3 =>
+      'It does not ask for additional confirmation for each process; it tries to understand the outcome from the next inspection data.';
+
+  @override
+  String get rehber1M4 =>
+      'The colony detail screen opens quickly; heavy analyses are loaded in the background.';
+
+  @override
+  String get rehber1M5 =>
+      'The system reads physical frames and functional production capacity separately. Rapid expansion, foundation frame loading, or post-harvest volume changes are not automatically treated as a strong colony.';
+
+  @override
+  String get rehber1M6 =>
+      'The colony detail general status screen shows four main headings: Process, Biology, Management and Genetics.';
+
+  @override
+  String get rehber1M7 =>
+      'The management card standardises feeding, super, space, varroa, winter and post-harvest care decisions in the same management list.';
+
+  @override
+  String get rehber1M8 =>
+      'When inspection, colony or apiary data changes, all caches are cleared together; the risk of an old decision remaining on screen is reduced.';
+
+  @override
+  String get rehber2Baslik => '2. Free and PRO';
+
+  @override
+  String get rehber2Kutu =>
+      'You can use ITOGENA for free for inspection records and basic colony tracking. Deep analysis, risk monitoring, harvest estimation and reporting are PRO features.';
+
+  @override
+  String get rehber3Baslik => '3. What Does the System Read from Frames?';
+
+  @override
+  String get rehber3M1 =>
+      'Frame count is the primary field indicator of colony strength; it is not a definitive decision on its own.';
+
+  @override
+  String get rehber3M2 =>
+      'The last frame reflects current live strength, the maximum frame indicates in-season capacity, and honey frames reflect productivity during the production period.';
+
+  @override
+  String get rehber3M3 =>
+      'In winter, frame strength matters for resilience; honey frames are not read as winter performance.';
+
+  @override
+  String get rehber3M4 =>
+      'The system reads frame count not just as a number but as estimated biological capacity: bee population, cell capacity, brood/stock area, queen zone and harvest potential are all derived from this data.';
+
+  @override
+  String get rehber3M5 =>
+      'These values are not precise measurements; climate, flora, bee breed, season and management differences can change the outcome.';
+
+  @override
+  String get rehber3M6 =>
+      'Langstroth is the default reference. If Dadant is selected, the same biological layout is maintained but frame capacity is calculated with a higher coefficient.';
+
+  @override
+  String get rehber3M7 =>
+      'If a feeder is present, the lower brood box is assumed to be 9 frames; without a feeder, 10 frames. Frames above this limit are interpreted as super/honey space.';
+
+  @override
+  String get rehber3bBaslik => '3B. Functional Frames and Volume Activation';
+
+  @override
+  String get rehber3bM1 =>
+      'İTOGENA reads physical frames and functional frames separately. The number of frames in the hive represents physical volume, while the space the colony can actually use represents functional biological capacity.';
+
+  @override
+  String get rehber3bM2 =>
+      'A newly added frame is not immediately counted as full capacity. The system calculates an activation period based on whether it is a foundation or drawn comb, the number of days elapsed, brood layout, colony strength and the honey flow window.';
+
+  @override
+  String get rehber3bM3 =>
+      'The system operates on a tight-layout assumption. In a single inspection +1 frame is normal, +2 frames is controlled expansion, and +3 or more is a cause for concern unless it is a super transition.';
+
+  @override
+  String get rehber3bM4 =>
+      'If feeder + 9 frames or feeder-free 10 frames reach 95% or more activation, the system reads this as the \"Add super\" threshold.';
+
+  @override
+  String get rehber3bM5 =>
+      'If feeder + 19 frames or feeder-free 20 frames reach 95% or more activation, the system generates an \"Add 3rd super\" alert.';
+
+  @override
+  String get rehber3bM6 =>
+      'A rapid frame drop coinciding with a harvest record is not counted as biological collapse; the system normalises this as harvest-induced volume contraction.';
+
+  @override
+  String get rehber3cBaslik => '3C. Season Biology Matrix';
+
+  @override
+  String get rehber3cM1 =>
+      'İTOGENA does not read season as just a calendar name. For each season, brood expectation, stock pressure, pollen/bee bread expectation, queen purpose and activation coefficient are evaluated together.';
+
+  @override
+  String get rehber3cM2 =>
+      'The system treats winter, winter emergence, spring development, pre-honey flow, honey flow, post-harvest, autumn preparation and late autumn as separate biological behaviours.';
+
+  @override
+  String get rehber3cM3 =>
+      'This matrix does not give direct orders to the colony; it provides biological context for activation, capability, feeding, harvest and split decisions.';
+
+  @override
+  String get rehber3cM4 =>
+      'Season data is read together with local honey flow calibration. Therefore the same date may not mean the same decision at every apiary.';
+
+  @override
+  String get rehber3dBaslik => '3D. Colony Trend and Normalised Momentum';
+
+  @override
+  String get rehber3dM1 =>
+      'Colony Trend describes not just today\'s strength but which direction the colony is heading. Momentum lives within this calculation.';
+
+  @override
+  String get rehber3dM2 =>
+      'Momentum is no longer a raw frame increase. A rapid post-harvest drop is not counted as biological collapse; a post-split drop is read as process-related; and adding a super is not counted as full growth until activation is complete, as it is a physical volume increase.';
+
+  @override
+  String get rehber3dM3 =>
+      'Super transition, risky rapid expansion, low activation and healthy upper-volume expansion within the honey flow are each normalised separately.';
+
+  @override
+  String get rehber3dM4 =>
+      'Colony Trend in the performance tab reads development direction, production direction, space pressure, recovery potential, collapse risk and normalised momentum together.';
+
+  @override
+  String get rehber3eBaslik => '3E. Demography Projection';
+
+  @override
+  String get rehber3eM1 =>
+      'The demography projection does not perform an exact bee count; it estimates the workforce distribution within the colony from frame strength, brood load, season and development direction.';
+
+  @override
+  String get rehber3eM2 =>
+      'The system reads young worker, nurse bee, comb processor, house bee, guard, forager and drone distribution separately for field decisions.';
+
+  @override
+  String get rehber3eM3 =>
+      'Young worker capacity is used in raw comb and brood care decisions; forager capacity is used in honey flow and production decisions.';
+
+  @override
+  String get rehber3eM4 =>
+      'Demographic output is not an \"exact population\"; it is biological probability and a field projection.';
+
+  @override
+  String get rehber3fBaslik => '3F. Workforce and Capability Projection';
+
+  @override
+  String get rehber3fM1 =>
+      'İTOGENA tries to interpret not just how many bees there are, but the biological capacity those bees have to perform specific tasks.';
+
+  @override
+  String get rehber3fM2 =>
+      'Comb drawing, brood care, nectar collection, honey processing, defence, recovery, winter hardiness and mating support are evaluated as separate workforce areas.';
+
+  @override
+  String get rehber3fM3 =>
+      'Two colonies with the same frame count can have different workforce capacities. Colonies with a low young-worker ratio may struggle with rapid comb processing or rearing brood even if they appear large.';
+
+  @override
+  String get rehber3fM4 =>
+      'This projection does not perform exact biological measurement; it produces an explainable biological trend model that supports field decisions.';
+
+  @override
+  String get rehber3gBaslik => '3G. Risk Projection and Natural Risk Brakes';
+
+  @override
+  String get rehber3gM1 =>
+      'The risk projection does not manage the colony with alarming warnings; it produces a balanced decision brake by reading the season\'s natural risk premium and the colony\'s biological vulnerability together.';
+
+  @override
+  String get rehber3gM2 =>
+      'Varroa, bee-eater, hornet, robbing, moisture/winter, over-expansion, broodlessness/ageing and honey quality risks are all assessed in the same centre.';
+
+  @override
+  String get rehber3gM3 =>
+      'Risk brakes do not directly prohibit decisions. They make expansion, split, feeding, harvest and intervention suggestions more cautious through small coefficients.';
+
+  @override
+  String get rehber3gM4 =>
+      'This system does not make a definitive disease or pest diagnosis; it produces an explainable risk trend.';
+
+  @override
+  String get rehber4Baslik =>
+      '4. Why Is Splitting Not Recommended Below 9 Frames?';
+
+  @override
+  String get rehber4M1 =>
+      '6 frames may be biologically possible; but it is not a safe field recommendation.';
+
+  @override
+  String get rehber4M2 =>
+      'İTOGENA gives not what is possible, but the right recommendation that protects the beekeeper from colony loss risk.';
+
+  @override
+  String get rehber4M3 =>
+      'The safe threshold for a split recommendation is 9 frames. The parent colony should be able to retain at least 5 frames after splitting, and the new split should be able to start with at least 4 frames.';
+
+  @override
+  String get rehber4M4 =>
+      'The 6–8 frame range is considered risky; rather than recommending a split, the system first advises strengthening.';
+
+  @override
+  String get rehber4M5 =>
+      'No split recommendation is made during the winter period.';
+
+  @override
+  String get rehber4M6 =>
+      'The split decision is read in time context. If there are more than 57 days until the honey flow, splitting a strong colony is meaningful; if fewer than 57 days remain, a standard split may reduce production strength.';
+
+  @override
+  String get rehber5Baslik =>
+      '5. What Is the Difference Between Donor Score and General Score?';
+
+  @override
+  String get rehber5M1 => 'General score is the colony\'s field performance.';
+
+  @override
+  String get rehber5M2 =>
+      'Donor score is the queen-rearing and genetic selection value.';
+
+  @override
+  String get rehber5M3 =>
+      'A general score of 85 alone does not mean donor eligibility. Swarm trace/genetic filter, lineage continuity, reproductive strength, hardiness and data confidence are also read.';
+
+  @override
+  String get rehber5M4 =>
+      'A strong colony caught by the genetic filter can be evaluated in production or closed-brood support; it is not placed in the queen-rearing pool.';
+
+  @override
+  String get rehber6Baslik => '6. Swarm Trace and Post-Swarm Process';
+
+  @override
+  String get rehber6M1 =>
+      'Swarming is not a health problem; therefore it does not reduce the health score.';
+
+  @override
+  String get rehber6M2 =>
+      'A colony with swarm origin or swarm trace does not enter the donor pool.';
+
+  @override
+  String get rehber6M3 =>
+      'If marked as swarmed, the colony is not temporarily read as a production/harvest colony. The after-swarm risk is highest in days 0–7.';
+
+  @override
+  String get rehber6M4 =>
+      'After-swarm risk decreases in days 8–16. Days 17–30 are the new queen emergence, maturation and mating window.';
+
+  @override
+  String get rehber6M5 =>
+      'By days 31–45, laying should now be evident. If there is still no brood, the system evaluates this as queen failure or laying-worker risk.';
+
+  @override
+  String get rehber7Baslik => '7. No-Brood Alarm and Decision Priority';
+
+  @override
+  String get rehber7M1 =>
+      'No brood is one of the most critical biological alarms. The system first checks whether this is a normal wait within an active split, post-swarm or queen-rearing window.';
+
+  @override
+  String get rehber7M2 =>
+      'If the waiting window has passed, no brood takes priority over routine decisions like varroa, feeding and harvest. On the grid card, colony continuity is discussed first.';
+
+  @override
+  String get rehber7M3 =>
+      'If laying-worker suspicion, drone brood pressure, consecutive broodless records and strength decline are seen together, the system treats this as a high-priority queen problem.';
+
+  @override
+  String get rehber7M4 =>
+      'If there is strong honey pressure within the honey flow, broodlessness is not immediately counted as queenlessness; space and honey pressure are evaluated first.';
+
+  @override
+  String get rehber8Baslik => '8. How Is the Queen-Rearing Process Read?';
+
+  @override
+  String get rehber8M1 =>
+      'The queen-rearing process begins with triggers such as left queenless, split, sealed queen cell or a mated queen introduced.';
+
+  @override
+  String get rehber8M2 =>
+      'In a colony that will raise its own queen, sealed cells are destroyed on day 5; open/unsealed quality cells are left.';
+
+  @override
+  String get rehber8M3 =>
+      'In a colony where a mated queen has been introduced, the process is read according to acceptance and laying check.';
+
+  @override
+  String get rehber8M4 =>
+      'When daily or capped brood is seen, queen presence is indirectly accepted and the relevant queen-rearing process can close.';
+
+  @override
+  String get rehber9Baslik => '9. What Is the 57/42-Day Honey Flow Logic?';
+
+  @override
+  String get rehber9M1 =>
+      '42 days is the biological period from egg to forager bee.';
+
+  @override
+  String get rehber9M2 =>
+      '57 days is the field planning threshold: approximately 15 days of safety margin is added to the 42-day biology.';
+
+  @override
+  String get rehber9M3 =>
+      'The decision engine takes split recommendations seriously according to this 57-day field window. If timing is not right, even a strong colony is not automatically made a split candidate.';
+
+  @override
+  String get rehber9M4 =>
+      'When 24 days or fewer remain to the honey flow, space, super, residue safety and swarm control come to the fore.';
+
+  @override
+  String get rehber9M5 =>
+      'The strongest decision window for queen replacement is the post-harvest / autumn entry period.';
+
+  @override
+  String get rehber10Baslik => '10. How Do Varroa Alerts Work?';
+
+  @override
+  String get rehber10M1 =>
+      'Varroa alerts are read together with the season and honey flow window.';
+
+  @override
+  String get rehber10M2 =>
+      'Residue risk is taken into account before and during the honey flow.';
+
+  @override
+  String get rehber10M3 =>
+      'The post-harvest / late-summer early-autumn period is considered critical for the health of bees that will carry through winter.';
+
+  @override
+  String get rehber10M4 =>
+      'For oxalic, thymol, amitraz, formic and similar applications, the product label, licensed use instructions and local regulations must be followed.';
+
+  @override
+  String get rehber11Baslik => '11. What Does Data Confidence Mean?';
+
+  @override
+  String get rehber11M1 =>
+      'With a single-inspection colony, the system makes a decision but states that data confidence is low.';
+
+  @override
+  String get rehber11M2 =>
+      '2–4 inspections is the monitoring band. 5 or more inspections is the start of reliable evaluation.';
+
+  @override
+  String get rehber11M3 =>
+      'Data confidence is shown to explain why a decision is strong or limited; it is not meant to leave the user undecided.';
+
+  @override
+  String get rehber12Baslik =>
+      '12. What Is the Biological Model and Capability Analysis?';
+
+  @override
+  String get rehber12M1 =>
+      'İTOGENA does not read frame count just as a number; it interprets the estimated brood-box layout, brood block, stock area and harvest-candidate outer frames from standard colony organisation.';
+
+  @override
+  String get rehber12M2 =>
+      'Hive type can be selected as Langstroth or Dadant. If a feeder is present, the lower brood box is 9 frames; without a feeder, 10 frames.';
+
+  @override
+  String get rehber12M3 =>
+      'Using temporal polyethism logic, the age-related task distribution of worker bees is estimated: nurse bee, comb builder, house bee, forager and drone density are used as capability scores.';
+
+  @override
+  String get rehber12M4 =>
+      'When the system says \"harvest these frames\" it does not make a definitive judgement; it only points to outer/super frames that, based on the estimated layout, could be considered for harvest if they are brood-free and capped.';
+
+  @override
+  String get rehber13Baslik => '13. How Does Winter Management Work?';
+
+  @override
+  String get rehber13M1 =>
+      'In winter the primary goal is survival, not production. The system prioritises external observation, weight feel and moisture/water entry check in a way that prevents unnecessary hive opening.';
+
+  @override
+  String get rehber13M2 =>
+      'If stock appears very low, starvation risk takes higher priority than the minimum-intervention rule.';
+
+  @override
+  String get rehber13M3 =>
+      'If physical volume is high but functional bee strength is low, the system flags the risk of empty volume and heat loss.';
+
+  @override
+  String get rehber14Baslik => '14. How Is Genetic Multiplication Value Read?';
+
+  @override
+  String get rehber14M1 =>
+      'Genetic multiplication value is not just honey or frame count. Functional capacity, brood layout, development direction, activation, risk, stock/winter safety and swarm trace are all read together.';
+
+  @override
+  String get rehber14M2 =>
+      'Colonies with swarm origin or swarm trace may be valuable in production; but they are not automatically highlighted as clean genetic propagation candidates.';
+
+  @override
+  String get rehber14M3 =>
+      'This score is not a definitive breeding verdict; it is a strategic signal that supports monitoring colonies worth multiplying and making controlled split decisions at the right time.';
+
+  @override
+  String get rehber15Baslik => '15. What Does Economic Value Represent?';
+
+  @override
+  String get rehber15M1 =>
+      'The economic value screen is not a precise income calculation, but an approximate apiary asset and estimated honey potential projection.';
+
+  @override
+  String get rehber15M2 =>
+      'Active hive count, total framed bees, empty hives, drawn combs and estimated harvestable honey potential are all read together.';
+
+  @override
+  String get rehber15M3 =>
+      'The user enters the honey kg sale price; the system multiplies the estimated harvest potential by this price and produces a potential value band.';
+
+  @override
+  String get rehber15M4 =>
+      'Honey yield varies depending on flora, weather, harvest timing, remaining stock and the beekeeper\'s management.';
+
+  @override
+  String get rehber16Baslik =>
+      '16. How Does the Feeding Decision Projection Work?';
+
+  @override
+  String get rehber16M1 =>
+      'Feeding suggestions are not precise stock measurements; frame strength, brood area, season, active process, honey flow window and the user\'s inspection observation are evaluated together.';
+
+  @override
+  String get rehber16M2 =>
+      'The system does not give a precise prescription; it produces an estimated ml/L or gram band.';
+
+  @override
+  String get rehber16M3 =>
+      '1:1 syrup is mostly for development support; 2:1 syrup for stock replenishment; pollen supplement is considered meaningful only if pollen pressure is confirmed in the field.';
+
+  @override
+  String get rehber16M4 =>
+      'If 20 days or fewer remain to the honey flow and the colony is targeting harvest, sugar-based feeding is not recommended.';
+
+  @override
+  String get rehber17Baslik => '17. İTOGENA Decision Glossary';
+
+  @override
+  String get rehber17Kutu =>
+      'This section explains what the terms seen on screen mean.';
+
+  @override
+  String get rehber17M1 =>
+      'Colony Trend: Describes not just today\'s strength, but which direction the colony is progressing.';
+
+  @override
+  String get rehber17M2 =>
+      'Colony Strength: Reflects the live bee and frame strength at the last inspection.';
+
+  @override
+  String get rehber17M3 =>
+      'Colony Health: The combined reading of brood layout, queen process, broodlessness, varroa period, behaviour and risk signals.';
+
+  @override
+  String get rehber17M4 =>
+      'Functional Frame: Not the physical frame count in the hive, but the biological capacity the bees are actually using.';
+
+  @override
+  String get rehber17M5 =>
+      'Volume Activation: Describes how much of a given frame or super the colony has made usable.';
+
+  @override
+  String get rehber17M6 =>
+      'Normalised Momentum: Does not read short-term frame increase or decrease in raw form. Post-harvest drop, split, super transition and risky rapid expansion are separated.';
+
+  @override
+  String get rehber17M7 =>
+      'Genetic Filter: The colony may be valuable in production yet is not placed in the queen-rearing pool.';
+
+  @override
+  String get rehber17M8 =>
+      'Management Decision: The actions the beekeeper will take in the field, such as feeding, super, space, post-harvest care, varroa and winter preparation.';
+
+  @override
+  String get rehber17M9 =>
+      'Process: A time-bound biological/management window such as queen rearing, post-split recovery, post-swarm or no-brood diagnosis.';
+
+  @override
+  String get rehber17M10 =>
+      'Lock / Wait: Describes a sensitive window where intervention should not occur.';
+
+  @override
+  String get rehber17M11 =>
+      'Data Confidence: Describes how many inspections the decision is based on.';
+
+  @override
+  String get rehber18Baslik =>
+      '18. On Which Topics Does the App Not Give a Definitive Verdict?';
+
+  @override
+  String get rehber18U1 =>
+      'İTOGENA is not a substitute for veterinary advice, licensed medication use or official regulations.';
+
+  @override
+  String get rehber18U2 =>
+      'For chemical treatments, the product label, licensed use instructions, protective equipment and local regulations must be followed.';
+
+  @override
+  String get rehber18U3 =>
+      'Weather, flora, local nectar flow, beekeeper experience and colony behaviour must be observed separately in the field.';
+
+  @override
+  String get rehber18U4 =>
+      'The system supports the right decision; final responsibility lies with the beekeeper in the field.';
+
+  @override
+  String get rehber19Baslik => '19. Voice Note';
+
+  @override
+  String get rehber19M1 =>
+      'You can add a voice note by pressing the microphone icon in the notes field and speaking.';
+
+  @override
+  String get rehber19M2 =>
+      'Your speech is automatically converted to text and added to the notes field.';
+
+  @override
+  String get rehber19U1 =>
+      'Wind, bee noise, the device microphone and internet connection on some devices may affect recognition.';
+
+  @override
+  String get rehber20Baslik => '20. Privacy Policy';
+
+  @override
+  String get rehber20M1 =>
+      'You can read İTOGENA\'s personal data processing, storage and usage policy at the link below.';
+
+  @override
+  String get rehber20Link => 'itogaciftligi.com/itogena-gizlilik-politikasi';
 }

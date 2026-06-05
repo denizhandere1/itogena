@@ -3596,6 +3596,984 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Emin değilim'**
   String get muayeneEkleTaniEminDegil;
+
+  /// No description provided for @rehberBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'KULLANICI REHBERİ'**
+  String get rehberBaslik;
+
+  /// No description provided for @rehberProOzellik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Özellik'**
+  String get rehberProOzellik;
+
+  /// No description provided for @rehberProUcretsiz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ücretsiz'**
+  String get rehberProUcretsiz;
+
+  /// No description provided for @rehberProPRO.
+  ///
+  /// In tr, this message translates to:
+  /// **'PRO'**
+  String get rehberProPRO;
+
+  /// No description provided for @rehberProS1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sınırsız koloni kaydı'**
+  String get rehberProS1;
+
+  /// No description provided for @rehberProS2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayene formu ve geçmiş'**
+  String get rehberProS2;
+
+  /// No description provided for @rehberProS3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan yerleşim görseli'**
+  String get rehberProS3;
+
+  /// No description provided for @rehberProS4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini arı sayısı'**
+  String get rehberProS4;
+
+  /// No description provided for @rehberProS5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Özet yorum (tek cümle)'**
+  String get rehberProS5;
+
+  /// No description provided for @rehberProS6.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetim kararı detayı'**
+  String get rehberProS6;
+
+  /// No description provided for @rehberProS7.
+  ///
+  /// In tr, this message translates to:
+  /// **'Risk analizi (Varroa, arı kuşu…)'**
+  String get rehberProS7;
+
+  /// No description provided for @rehberProS8.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat projeksiyonu ve miktar'**
+  String get rehberProS8;
+
+  /// No description provided for @rehberProS9.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekonomik değer tahmini'**
+  String get rehberProS9;
+
+  /// No description provided for @rehberProS10.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demografi ve kabiliyet skorları'**
+  String get rehberProS10;
+
+  /// No description provided for @rehberProS11.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni projeksiyonu'**
+  String get rehberProS11;
+
+  /// No description provided for @rehberProS12.
+  ///
+  /// In tr, this message translates to:
+  /// **'Performans raporları'**
+  String get rehberProS12;
+
+  /// No description provided for @rehberProS13.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hat analizi'**
+  String get rehberProS13;
+
+  /// No description provided for @rehberProS14.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni karşılaştırma'**
+  String get rehberProS14;
+
+  /// No description provided for @rehberProS15.
+  ///
+  /// In tr, this message translates to:
+  /// **'Soy ağacı'**
+  String get rehberProS15;
+
+  /// No description provided for @rehberProS16.
+  ///
+  /// In tr, this message translates to:
+  /// **'Formüller ve hesaplamalar'**
+  String get rehberProS16;
+
+  /// No description provided for @rehber1Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'1. İTOGENA Ne Yapar?'**
+  String get rehber1Baslik;
+
+  /// No description provided for @rehber1Kutu.
+  ///
+  /// In tr, this message translates to:
+  /// **'İTOGENA, basit saha verisini zaman, süreç, soy, performans ve arılık kalibrasyonu ile birlikte okuyarak uygulanabilir koloni kararı üretir. Amaç yalnızca kayıt tutmak değil; arıcıya neyi, neden ve ne zaman yapacağını anlaşılır biçimde göstermektir.'**
+  String get rehber1Kutu;
+
+  /// No description provided for @rehber1M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem tetik → süreç → öneri → saha eylemi → yeni muayene → kapanış mantığıyla çalışır.'**
+  String get rehber1M1;
+
+  /// No description provided for @rehber1M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni sınıfı tek biyolojik kaynaktan üretilir: işlevsel üretim çıtası 0–3 ise zayıf, 4–7 ise gelişim, 8–9 ise üretim, 10 ve üzeri ise hasat sınıfıdır.'**
+  String get rehber1M2;
+
+  /// No description provided for @rehber1M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her süreç için ayrıca onay istemez; sonucu sonraki muayene verisinden anlamaya çalışır.'**
+  String get rehber1M3;
+
+  /// No description provided for @rehber1M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni detay ekranı hızlı açılır; ağır analizler arka planda yüklenir.'**
+  String get rehber1M4;
+
+  /// No description provided for @rehber1M5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem fiziksel çıta ile işlevsel üretim kapasitesini ayrı okur. Hızlı genişleme, temel petek yüklenmesi veya hasat sonrası hacim değişimleri doğrudan güçlü koloni kabul edilmez.'**
+  String get rehber1M5;
+
+  /// No description provided for @rehber1M6.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni detay genel durum ekranında dört ana başlık gösterilir: Süreç, Biyoloji, Yönetim ve Genetik.'**
+  String get rehber1M6;
+
+  /// No description provided for @rehber1M7.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetim kartı besleme, kat, alan, varroa, kış ve hasat sonrası bakım kararlarını aynı yönetim listesinde standartlaştırır.'**
+  String get rehber1M7;
+
+  /// No description provided for @rehber1M8.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayene, koloni veya arılık verisi değiştiğinde tüm önbellekler birlikte temizlenir; eski kararın ekranda kalma riski azaltılır.'**
+  String get rehber1M8;
+
+  /// No description provided for @rehber2Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'2. Ücretsiz ve PRO'**
+  String get rehber2Baslik;
+
+  /// No description provided for @rehber2Kutu.
+  ///
+  /// In tr, this message translates to:
+  /// **'ITOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Derin analiz, risk izleme, hasat tahmini ve raporlama PRO kapsamındadır.'**
+  String get rehber2Kutu;
+
+  /// No description provided for @rehber3Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'3. Sistem Çıtadan Ne Anlar?'**
+  String get rehber3Baslik;
+
+  /// No description provided for @rehber3M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıta sayısı koloni gücünün temel saha göstergesidir; tek başına kesin karar değildir.'**
+  String get rehber3M1;
+
+  /// No description provided for @rehber3M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son çıta mevcut canlı gücü, maksimum çıta sezon içi kapasiteyi, bal çıtası ise üretim dönemindeki verimi anlatır.'**
+  String get rehber3M2;
+
+  /// No description provided for @rehber3M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kışta çıta gücü dayanıklılık için önemlidir; bal çıtası kış performansı gibi okunmaz.'**
+  String get rehber3M3;
+
+  /// No description provided for @rehber3M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem çıta sayısını yalnızca sayı olarak değil, tahmini biyolojik kapasite olarak okur: arı nüfusu, göz kapasitesi, yavru/stok alanı, ana bölgesi ve hasat potansiyeli bu veriden türetilir.'**
+  String get rehber3M4;
+
+  /// No description provided for @rehber3M5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu değerler kesin ölçüm değildir; iklim, flora, arı ırkı, sezon ve yönetim farkları sonucu değiştirebilir.'**
+  String get rehber3M5;
+
+  /// No description provided for @rehber3M6.
+  ///
+  /// In tr, this message translates to:
+  /// **'Langstroth varsayılan referanstır. Dadant seçilirse aynı biyolojik düzen korunur ancak çıta kapasitesi daha yüksek katsayıyla hesaplanır.'**
+  String get rehber3M6;
+
+  /// No description provided for @rehber3M7.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk varsa alt kuluçkalık 9 çıta, yoksa 10 çıta kabul edilir. Bu sınırın üstündeki çıtalar kat/ballık alanı olarak yorumlanır.'**
+  String get rehber3M7;
+
+  /// No description provided for @rehber3bBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'3B. İşlevsel Çıta ve Hacim Aktivasyonu'**
+  String get rehber3bBaslik;
+
+  /// No description provided for @rehber3bM1.
+  ///
+  /// In tr, this message translates to:
+  /// **'İTOGENA fiziksel çıta ile işlevsel çıtayı ayrı okur. Kovandaki çıta sayısı fiziksel hacmi, koloninin gerçekten kullanabildiği alan ise işlevsel biyolojik kapasiteyi anlatır.'**
+  String get rehber3bM1;
+
+  /// No description provided for @rehber3bM2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni verilen çıta hemen tam kapasite sayılmaz. Sistem temel petek veya kabarmış petek ayrımına, geçen gün sayısına, yavru düzenine, koloni gücüne ve bal akımı penceresine göre aktivasyon süresi hesaplar.'**
+  String get rehber3bM2;
+
+  /// No description provided for @rehber3bM3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem sıkışık düzen varsayımıyla çalışır. Bir muayenede +1 çıta normal, +2 çıta kontrollü genişleme, +3 ve üzeri ise kat geçişi dışında uyarı sebebidir.'**
+  String get rehber3bM3;
+
+  /// No description provided for @rehber3bM4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk + 9 çıta veya şurupluksuz 10 çıta %95 ve üzeri aktivasyona ulaşırsa sistem bunu \"Kat ver\" eşiği olarak okur.'**
+  String get rehber3bM4;
+
+  /// No description provided for @rehber3bM5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk + 19 çıta veya şurupluksuz 20 çıta %95 ve üzeri aktivasyona ulaşırsa sistem \"3. kat ver\" uyarısı üretir.'**
+  String get rehber3bM5;
+
+  /// No description provided for @rehber3bM6.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat kaydıyla birlikte oluşan hızlı çıta düşüşü biyolojik çöküş sayılmaz; sistem bunu hasat kaynaklı hacim daralması olarak normalleştirir.'**
+  String get rehber3bM6;
+
+  /// No description provided for @rehber3cBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'3C. Sezon Biyoloji Matrisi'**
+  String get rehber3cBaslik;
+
+  /// No description provided for @rehber3cM1.
+  ///
+  /// In tr, this message translates to:
+  /// **'İTOGENA sezonu yalnızca takvim adı olarak okumaz. Her sezon için yavru beklentisi, stok baskısı, polen/arı ekmeği beklentisi, ana amaç ve aktivasyon katsayısı birlikte değerlendirilir.'**
+  String get rehber3cM1;
+
+  /// No description provided for @rehber3cM2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem kış, kış çıkışı, ilkbahar gelişimi, bal akımı öncesi, bal akımı, hasat sonrası, sonbahar hazırlık ve geç sonbahar evrelerini ayrı biyolojik davranışlar olarak ele alır.'**
+  String get rehber3cM2;
+
+  /// No description provided for @rehber3cM3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu matris koloniye doğrudan emir vermez; aktivasyon, kabiliyet, besleme, hasat ve bölme kararlarına biyolojik bağlam sağlar.'**
+  String get rehber3cM3;
+
+  /// No description provided for @rehber3cM4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sezon bilgisi yerel bal akımı kalibrasyonu ile birlikte okunur. Bu nedenle aynı tarih her arılıkta aynı karar anlamına gelmeyebilir.'**
+  String get rehber3cM4;
+
+  /// No description provided for @rehber3dBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'3D. Koloni Gidişatı ve Normalize Momentum'**
+  String get rehber3dBaslik;
+
+  /// No description provided for @rehber3dM1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni Gidişatı, koloninin yalnız bugünkü gücünü değil hangi yöne gittiğini anlatır. Momentum bu hesabın içinde yaşar.'**
+  String get rehber3dM1;
+
+  /// No description provided for @rehber3dM2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Momentum artık ham çıta artışı değildir. Hasat sonrası hızlı düşüş biyolojik çöküş sayılmaz; bölme sonrası düşüş işlem kaynaklı okunur; kat atılması ise fiziksel hacim artışı olduğu için aktivasyon tamamlanmadan tam büyüme kabul edilmez.'**
+  String get rehber3dM2;
+
+  /// No description provided for @rehber3dM3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kat geçişi, riskli hızlı genişleme, düşük aktivasyon ve bal akımı içindeki sağlıklı üst hacim genişlemesi ayrı ayrı normalize edilir.'**
+  String get rehber3dM3;
+
+  /// No description provided for @rehber3dM4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Performans sekmesindeki Koloni Gidişatı; gelişim yönü, üretim yönü, alan baskısı, toparlanma potansiyeli, çöküş riski ve normalize momentumu birlikte okur.'**
+  String get rehber3dM4;
+
+  /// No description provided for @rehber3eBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'3E. Demografi Projeksiyonu'**
+  String get rehber3eBaslik;
+
+  /// No description provided for @rehber3eM1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demografi projeksiyonu kesin arı sayımı yapmaz; çıta gücü, yavru yükü, sezon ve gelişim yönünden koloni içindeki iş gücü dağılımını tahmin eder.'**
+  String get rehber3eM1;
+
+  /// No description provided for @rehber3eM2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem genç işçi, bakıcı arı, petek işleyici, iç işçi, bekçi, tarlacı ve erkek arı dağılımını saha kararı için ayrı ayrı okur.'**
+  String get rehber3eM2;
+
+  /// No description provided for @rehber3eM3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genç işçi kapasitesi ham petek ve yavru bakım kararlarında; tarlacı kapasitesi bal akımı ve üretim kararlarında kullanılır.'**
+  String get rehber3eM3;
+
+  /// No description provided for @rehber3eM4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Demografi çıktısı \"kesin nüfus\" değildir; biyolojik olasılık ve saha projeksiyonudur.'**
+  String get rehber3eM4;
+
+  /// No description provided for @rehber3fBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'3F. İş Gücü ve Kabiliyet Projeksiyonu'**
+  String get rehber3fBaslik;
+
+  /// No description provided for @rehber3fM1.
+  ///
+  /// In tr, this message translates to:
+  /// **'İTOGENA yalnızca kaç arı olduğunu değil, bu arıların hangi işi yapabilecek biyolojik kapasitede olduğunu yorumlamaya çalışır.'**
+  String get rehber3fM1;
+
+  /// No description provided for @rehber3fM2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Petek örme, yavru bakım, nektar toplama, bal işleme, savunma, toparlanma, kış dayanımı ve çiftleşme desteği ayrı iş gücü alanları olarak değerlendirilir.'**
+  String get rehber3fM2;
+
+  /// No description provided for @rehber3fM3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aynı çıta sayısına sahip iki koloni farklı iş gücü kapasitesine sahip olabilir. Genç işçi oranı düşük koloniler geniş görünse bile hızlı petek işleme veya yavru büyütmede zorlanabilir.'**
+  String get rehber3fM3;
+
+  /// No description provided for @rehber3fM4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu projeksiyon kesin biyolojik ölçüm yapmaz; saha kararını destekleyen açıklanabilir biyolojik eğilim modeli üretir.'**
+  String get rehber3fM4;
+
+  /// No description provided for @rehber3gBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'3G. Risk Projeksiyonu ve Doğal Risk Frenleri'**
+  String get rehber3gBaslik;
+
+  /// No description provided for @rehber3gM1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Risk projeksiyonu koloniyi korkutucu uyarılarla yönetmez; sezonun doğal risk primini ve koloninin biyolojik kırılganlığını birlikte okuyarak dengeli karar freni üretir.'**
+  String get rehber3gM1;
+
+  /// No description provided for @rehber3gM2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varroa, arı kuşu, eşek arısı, yağmacılık, nem/kış, aşırı genişleme, yavrusuzluk/yaşlanma ve bal kalitesi riski aynı merkezde değerlendirilir.'**
+  String get rehber3gM2;
+
+  /// No description provided for @rehber3gM3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Risk freni kararları doğrudan yasaklamaz. Genişletme, bölme, besleme, hasat ve müdahale önerilerini küçük katsayılarla temkinli hale getirir.'**
+  String get rehber3gM3;
+
+  /// No description provided for @rehber3gM4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu sistem kesin hastalık veya zararlı teşhisi koymaz; açıklanabilir risk eğilimi üretir.'**
+  String get rehber3gM4;
+
+  /// No description provided for @rehber4Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'4. Bölme Neden 9 Çıta Altında Önerilmez?'**
+  String get rehber4Baslik;
+
+  /// No description provided for @rehber4M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'6 çıta biyolojik olarak mümkün olabilir; fakat güvenli saha önerisi değildir.'**
+  String get rehber4M1;
+
+  /// No description provided for @rehber4M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'İTOGENA mümkün olanı değil, arıcıyı koloni kaybı riskinden koruyan doğru öneriyi verir.'**
+  String get rehber4M2;
+
+  /// No description provided for @rehber4M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme önerisi için güvenli eşik 9 çıtadır. Ana koloni bölmeden sonra en az 5 çıta kalabilmeli, yeni bölme en az 4 çıta başlayabilmelidir.'**
+  String get rehber4M3;
+
+  /// No description provided for @rehber4M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'6–8 çıta arası riskli kabul edilir; sistem bölme önermek yerine önce güçlendirmeyi söyler.'**
+  String get rehber4M4;
+
+  /// No description provided for @rehber4M5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış döneminde bölme önerisi üretilmez.'**
+  String get rehber4M5;
+
+  /// No description provided for @rehber4M6.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme kararı zaman bağlamıyla okunur. Bal akımına 57 günden fazla varsa güçlü kolonide bölme anlamlıdır; 57 günden az kaldıysa standart bölme üretim gücünü düşürebilir.'**
+  String get rehber4M6;
+
+  /// No description provided for @rehber5Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'5. Donör Skoru ile Genel Skor Farkı Nedir?'**
+  String get rehber5Baslik;
+
+  /// No description provided for @rehber5M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genel skor koloninin saha performansıdır.'**
+  String get rehber5M1;
+
+  /// No description provided for @rehber5M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör skoru ana üretimi ve genetik seçilim değeridir.'**
+  String get rehber5M2;
+
+  /// No description provided for @rehber5M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'85 genel skor tek başına donörlük anlamına gelmez. Oğul izi/genetik filtre, soy devamlılığı, üreme gücü, dayanıklılık ve veri güveni ayrıca okunur.'**
+  String get rehber5M3;
+
+  /// No description provided for @rehber5M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü ama genetik filtreye takılan koloni üretimde veya kapalı yavru desteğinde değerlendirilebilir; ana üretim havuzuna alınmaz.'**
+  String get rehber5M4;
+
+  /// No description provided for @rehber6Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'6. Oğul İzi ve Oğul Sonrası Süreç'**
+  String get rehber6Baslik;
+
+  /// No description provided for @rehber6M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul sağlık problemi değildir; bu nedenle sağlık skorunu düşürmez.'**
+  String get rehber6M1;
+
+  /// No description provided for @rehber6M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul kökeni veya oğul izi taşıyan koloni donör havuzuna girmez.'**
+  String get rehber6M2;
+
+  /// No description provided for @rehber6M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul attı işaretlenirse koloni geçici olarak üretim/hasat kolonisi gibi okunmaz. 0–7. gün arası artçı oğul riski en yüksektir.'**
+  String get rehber6M3;
+
+  /// No description provided for @rehber6M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'8–16. gün arası artçı oğul riski azalır. 17–30. gün yeni ana çıkışı, olgunlaşma ve çiftleşme penceresidir.'**
+  String get rehber6M4;
+
+  /// No description provided for @rehber6M5.
+  ///
+  /// In tr, this message translates to:
+  /// **'31–45. gün arası yumurtlama artık netleşmelidir. Hâlâ yavru yoksa sistem bunu ana başarısızlığı veya yalancı ana riski olarak değerlendirir.'**
+  String get rehber6M5;
+
+  /// No description provided for @rehber7Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'7. Yavru Yok Alarmı ve Karar Önceliği'**
+  String get rehber7Baslik;
+
+  /// No description provided for @rehber7M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yok en kritik biyolojik alarmlardan biridir. Sistem önce bunun aktif bölme, oğul sonrası veya ana kazanma penceresinde normal bekleme olup olmadığını kontrol eder.'**
+  String get rehber7M1;
+
+  /// No description provided for @rehber7M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bekleme penceresi aşılmışsa yavru yok; varroa, besleme ve hasat gibi rutin kararların önüne geçer. Grid kartta önce koloni devamlılığı konuşur.'**
+  String get rehber7M2;
+
+  /// No description provided for @rehber7M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalancı ana şüphesi, erkek yavru baskısı, ardışık yavrusuz kayıt ve güç düşüşü birlikte görülürse sistem bunu yüksek öncelikli ana problemi olarak ele alır.'**
+  String get rehber7M3;
+
+  /// No description provided for @rehber7M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı içinde güçlü bal baskısı varsa yavru yokluğu hemen anasızlık sayılmaz; önce alan ve bal baskısı değerlendirilir.'**
+  String get rehber7M4;
+
+  /// No description provided for @rehber8Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'8. Ana Kazanma Süreci Nasıl Okunur?'**
+  String get rehber8Baslik;
+
+  /// No description provided for @rehber8M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana kazanma süreci anasız bırakıldı, bölme, kapalı ana memesi veya hazır ana gibi tetiklerle başlar.'**
+  String get rehber8M1;
+
+  /// No description provided for @rehber8M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kendi anasını yapacak kolonide 5. gün kapalı memeler bozulur; açık/kapanmamış kaliteli memeler bırakılır.'**
+  String get rehber8M2;
+
+  /// No description provided for @rehber8M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hazır ana verilen kolonide süreç kabul ve yumurtlama kontrolüne göre okunur.'**
+  String get rehber8M3;
+
+  /// No description provided for @rehber8M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük veya kapalı yavru görüldüğünde ana varlığı dolaylı kabul edilir ve ilgili ana kazanma süreci kapanabilir.'**
+  String get rehber8M4;
+
+  /// No description provided for @rehber9Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'9. Bal Akımı 57/42 Gün Mantığı Nedir?'**
+  String get rehber9Baslik;
+
+  /// No description provided for @rehber9M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'42 gün yumurtadan tarlacı arıya uzanan biyolojik süredir.'**
+  String get rehber9M1;
+
+  /// No description provided for @rehber9M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'57 gün saha planlama eşiğidir: 42 günlük biyolojiye yaklaşık 15 gün güvenlik payı eklenir.'**
+  String get rehber9M2;
+
+  /// No description provided for @rehber9M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar motoru bölme önerisini bu 57 günlük saha penceresine göre ciddiye alır. Zaman uygun değilse güçlü koloni bile otomatik bölme adayı yapılmaz.'**
+  String get rehber9M3;
+
+  /// No description provided for @rehber9M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımına 24 gün veya daha az kaldığında alan, kat, kalıntı güvenliği ve oğul kontrolü öne çıkar.'**
+  String get rehber9M4;
+
+  /// No description provided for @rehber9M5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana değişimi için en güçlü karar penceresi hasat sonrası / sonbahara giriş dönemidir.'**
+  String get rehber9M5;
+
+  /// No description provided for @rehber10Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'10. Varroa Uyarıları Nasıl Çalışır?'**
+  String get rehber10Baslik;
+
+  /// No description provided for @rehber10M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varroa uyarıları sezon ve bal akımı penceresiyle birlikte okunur.'**
+  String get rehber10M1;
+
+  /// No description provided for @rehber10M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı öncesi ve sırasında kalıntı riski dikkate alınır.'**
+  String get rehber10M2;
+
+  /// No description provided for @rehber10M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası / yaz sonu erken sonbahar dönemi kışı taşıyacak arıların sağlığı için kritik kabul edilir.'**
+  String get rehber10M3;
+
+  /// No description provided for @rehber10M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oksalik, timol, amitraz, formik ve benzeri uygulamalarda ürün etiketi, ruhsat durumu ve yerel mevzuat esas alınmalıdır.'**
+  String get rehber10M4;
+
+  /// No description provided for @rehber11Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'11. Veri Güveni Ne Demektir?'**
+  String get rehber11Baslik;
+
+  /// No description provided for @rehber11M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tek muayeneli kolonide sistem karar verir ama veri güveni düşük der.'**
+  String get rehber11M1;
+
+  /// No description provided for @rehber11M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'2–4 muayene izleme bandıdır. 5 ve üzeri muayene güvenilir değerlendirme başlangıcıdır.'**
+  String get rehber11M2;
+
+  /// No description provided for @rehber11M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri güveni, kararın neden güçlü veya sınırlı olduğunu açıklamak için gösterilir; kullanıcıyı kararsız bırakmak için değildir.'**
+  String get rehber11M3;
+
+  /// No description provided for @rehber12Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'12. Biyolojik Model ve Kabiliyet Analizi Nedir?'**
+  String get rehber12Baslik;
+
+  /// No description provided for @rehber12M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'İTOGENA çıta sayısını yalnızca sayı olarak okumaz; standart koloni organizasyonu üzerinden tahmini kuluçkalık dizilimi, yavru bloğu, stok alanı ve hasat adayı dış çıtaları yorumlar.'**
+  String get rehber12M1;
+
+  /// No description provided for @rehber12M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan tipi Langstroth veya Dadant olarak seçilebilir. Şurupluk varsa alt kuluçkalık 9 çıta, yoksa 10 çıta kabul edilir.'**
+  String get rehber12M2;
+
+  /// No description provided for @rehber12M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temporal polyethism mantığıyla işçi arıların yaşa bağlı görev dağılımı tahmin edilir: bakıcı arı, petek örücü, iç işçi, tarlacı ve erkek arı yoğunluğu kabiliyet puanı olarak kullanılır.'**
+  String get rehber12M3;
+
+  /// No description provided for @rehber12M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem \"şu çıtaları hasat et\" derken kesin hüküm vermez; yalnızca tahmini yerleşime göre yavrusuz ve sırlı olması halinde hasat için değerlendirilebilecek dış/ballık çıtaları işaret eder.'**
+  String get rehber12M4;
+
+  /// No description provided for @rehber13Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'13. Kış Yönetimi Nasıl Çalışır?'**
+  String get rehber13Baslik;
+
+  /// No description provided for @rehber13M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış döneminde ana hedef üretim değil yaşatmadır. Sistem gereksiz kovan açmayı önleyecek şekilde dış gözlem, ağırlık hissi ve nem/su girişi kontrolünü öne alır.'**
+  String get rehber13M1;
+
+  /// No description provided for @rehber13M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stok çok düşük görünüyorsa açlık riski minimum müdahale kuralından daha yüksek öncelik alır.'**
+  String get rehber13M2;
+
+  /// No description provided for @rehber13M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiziksel hacim yüksek ama işlevsel arı gücü düşükse sistem boş hacim ve ısı kaybı riskini belirtir.'**
+  String get rehber13M3;
+
+  /// No description provided for @rehber14Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'14. Genetik Çoğaltma Değeri Nasıl Okunur?'**
+  String get rehber14Baslik;
+
+  /// No description provided for @rehber14M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik çoğaltma değeri yalnızca bal veya çıta sayısı değildir. İşlevsel kapasite, yavru düzeni, gelişim yönü, aktivasyon, risk, stok/kış güvenliği ve oğul izi birlikte okunur.'**
+  String get rehber14M1;
+
+  /// No description provided for @rehber14M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul kökeni veya oğul izi görülen koloniler üretimde değerli olabilir; ancak temiz genetik yayılım adayı olarak otomatik öne çıkarılmaz.'**
+  String get rehber14M2;
+
+  /// No description provided for @rehber14M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu skor kesin damızlık hükmü değildir; çoğaltmaya değer kolonileri izleme ve doğru zamanda kontrollü bölme kararını destekleyen stratejik sinyaldir.'**
+  String get rehber14M3;
+
+  /// No description provided for @rehber15Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'15. Ekonomik Değer Neyi İfade Eder?'**
+  String get rehber15Baslik;
+
+  /// No description provided for @rehber15M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekonomik değer ekranı kesin gelir hesabı değil, yaklaşık arılık varlığı ve tahmini bal potansiyeli projeksiyonudur.'**
+  String get rehber15M1;
+
+  /// No description provided for @rehber15M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif kovan sayısı, toplam arılı çıta, boş kovan, kabarmış petek ve tahmini hasat edilebilir bal potansiyeli birlikte okunur.'**
+  String get rehber15M2;
+
+  /// No description provided for @rehber15M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı bal kg satış fiyatını girer; sistem tahmini hasat potansiyelini bu fiyatla çarpar ve potansiyel değer bandı üretir.'**
+  String get rehber15M3;
+
+  /// No description provided for @rehber15M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal verimi flora, hava, hasat zamanı, bırakılacak stok ve arıcının yönetimine bağlı olarak değişir.'**
+  String get rehber15M4;
+
+  /// No description provided for @rehber16Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'16. Besleme Karar Projeksiyonu Nasıl Çalışır?'**
+  String get rehber16Baslik;
+
+  /// No description provided for @rehber16M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme önerileri kesin stok ölçümü değildir; çıta gücü, yavru alanı, sezon, aktif süreç, bal akımı penceresi ve kullanıcının muayene gözlemi birlikte değerlendirilir.'**
+  String get rehber16M1;
+
+  /// No description provided for @rehber16M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem kesin reçete vermez; tahmini ml/L veya gram bandı üretir.'**
+  String get rehber16M2;
+
+  /// No description provided for @rehber16M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'1:1 şurup daha çok gelişim desteği; 2:1 şurup stok tamamlama; polenli destek ise yalnızca polen baskısı sahada doğrulanırsa anlamlı kabul edilir.'**
+  String get rehber16M3;
+
+  /// No description provided for @rehber16M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımına 20 gün veya daha az kalmışsa ve koloni hasat hedefindeyse şeker bazlı besleme önerilmez.'**
+  String get rehber16M4;
+
+  /// No description provided for @rehber17Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'17. İTOGENA Karar Sözlüğü'**
+  String get rehber17Baslik;
+
+  /// No description provided for @rehber17Kutu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu bölüm, ekranda görülen kavramların ne anlama geldiğini açıklar.'**
+  String get rehber17Kutu;
+
+  /// No description provided for @rehber17M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni Gidişatı: Koloninin yalnız bugünkü gücünü değil, hangi yöne ilerlediğini anlatır.'**
+  String get rehber17M1;
+
+  /// No description provided for @rehber17M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni Gücü: Son muayenedeki canlı arı ve çıta gücünü anlatır.'**
+  String get rehber17M2;
+
+  /// No description provided for @rehber17M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni Sağlığı: Yavru düzeni, ana süreci, yavrusuzluk, varroa dönemi, davranış ve risk sinyallerinin birlikte okunmasıdır.'**
+  String get rehber17M3;
+
+  /// No description provided for @rehber17M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşlevsel Çıta: Kovandaki fiziksel çıta sayısı değil, arının gerçekten kullandığı biyolojik kapasitedir.'**
+  String get rehber17M4;
+
+  /// No description provided for @rehber17M5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hacim Aktivasyonu: Verilen çıta veya katın koloni tarafından ne kadar kullanılır hale geldiğini anlatır.'**
+  String get rehber17M5;
+
+  /// No description provided for @rehber17M6.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normalize Momentum: Kısa dönem çıta artışı veya düşüşünü ham şekilde okumaz. Hasat sonrası düşüş, bölme, kat geçişi ve riskli hızlı genişleme ayrılır.'**
+  String get rehber17M6;
+
+  /// No description provided for @rehber17M7.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik Filtre: Koloninin üretimde değerli olabileceği halde ana üretme havuzuna alınmamasıdır.'**
+  String get rehber17M7;
+
+  /// No description provided for @rehber17M8.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetim Kararı: Besleme, kat, alan, hasat sonrası bakım, varroa ve kış hazırlığı gibi arıcının sahada yapacağı işleri anlatır.'**
+  String get rehber17M8;
+
+  /// No description provided for @rehber17M9.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süreç: Ana kazanma, bölme sonrası toparlanma, oğul sonrası veya yavru yok tanısı gibi zamana bağlı biyolojik/yönetim penceresidir.'**
+  String get rehber17M9;
+
+  /// No description provided for @rehber17M10.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilit / Bekle: Müdahale edilmemesi gereken hassas pencereyi anlatır.'**
+  String get rehber17M10;
+
+  /// No description provided for @rehber17M11.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri Güveni: Kararın kaç muayeneye dayandığını anlatır.'**
+  String get rehber17M11;
+
+  /// No description provided for @rehber18Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'18. Uygulama Hangi Konularda Kesin Hüküm Vermez?'**
+  String get rehber18Baslik;
+
+  /// No description provided for @rehber18U1.
+  ///
+  /// In tr, this message translates to:
+  /// **'İTOGENA veterinerlik, ruhsatlı ilaç kullanımı veya resmi mevzuat yerine geçmez.'**
+  String get rehber18U1;
+
+  /// No description provided for @rehber18U2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kimyasal mücadelede ürün etiketi, ruhsatlı kullanım talimatı, koruyucu ekipman ve yerel mevzuat esas alınmalıdır.'**
+  String get rehber18U2;
+
+  /// No description provided for @rehber18U3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hava, flora, yöresel nektar akımı, arıcı deneyimi ve koloni davranışı sahada ayrıca gözlenmelidir.'**
+  String get rehber18U3;
+
+  /// No description provided for @rehber18U4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem doğru kararı destekler; son sorumluluk sahadaki arıcıdadır.'**
+  String get rehber18U4;
+
+  /// No description provided for @rehber19Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'19. Sesli Not'**
+  String get rehber19Baslik;
+
+  /// No description provided for @rehber19M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Not alanında mikrofon ikonuna basarak konuşarak not girebilirsiniz.'**
+  String get rehber19M1;
+
+  /// No description provided for @rehber19M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konuşma otomatik olarak metne çevrilir ve not alanına eklenir.'**
+  String get rehber19M2;
+
+  /// No description provided for @rehber19U1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rüzgar, arı sesi, cihaz mikrofonu ve bazı cihazlarda internet bağlantısı algılamayı etkileyebilir.'**
+  String get rehber19U1;
+
+  /// No description provided for @rehber20Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'20. Gizlilik Politikası'**
+  String get rehber20Baslik;
+
+  /// No description provided for @rehber20M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'İTOGENA\'nın kişisel veri işleme, saklama ve kullanım politikasını aşağıdaki bağlantıdan okuyabilirsiniz.'**
+  String get rehber20M1;
+
+  /// No description provided for @rehber20Link.
+  ///
+  /// In tr, this message translates to:
+  /// **'itogaciftligi.com/itogena-gizlilik-politikasi'**
+  String get rehber20Link;
 }
 
 class _AppLocalizationsDelegate
