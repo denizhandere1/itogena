@@ -2627,4 +2627,344 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get rehber20Link => 'itogaciftligi.com/itogena-gizlilik-politikasi';
+
+  @override
+  String get kolonGridYavruYok => 'Yavru yok';
+
+  @override
+  String get kolonGridMemeKontrol => 'Meme kontrolü';
+
+  @override
+  String get kolonGridYalanciAna => 'Yalancı ana riski';
+
+  @override
+  String get kolonGridBeklemeSureci => 'Bekleme süreci';
+
+  @override
+  String get kolonGridSurecIzleniyor => 'Süreç izleniyor';
+
+  @override
+  String get kolonGridUcuncuKat => '3. kat ver';
+
+  @override
+  String get kolonGridAlanAc => 'Alan aç';
+
+  @override
+  String get kolonGridKatVer => 'Kat ver';
+
+  @override
+  String get kolonDetaySurecYok => 'Aktif süreç yok';
+
+  @override
+  String get kolonDetayKritikUyariYok => 'Kritik uyarı görünmüyor';
+
+  @override
+  String get kolonDetayNormalTakip => 'Normal takip';
+
+  @override
+  String get kolonDetaySurecTakibiGerekli => 'Süreç takibi gerekli.';
+
+  @override
+  String kolonDetayOncelik(int oncelik) {
+    return 'Öncelik $oncelik/100';
+  }
+
+  @override
+  String get kolonDetayDetaylariAc => 'Detayları aç';
+
+  @override
+  String get kolonDetayGereksizAcma => 'Koloniyi gereksiz açma';
+
+  @override
+  String get kolonDetayKoloniAcma => 'Koloniyi açma';
+
+  @override
+  String get kolonDetayMudahaleEtme => 'Müdahale etme';
+
+  @override
+  String get kolonDetayMemeSayisiKontrol => 'Meme sayısını kontrol et';
+
+  @override
+  String get kolonDetayBirlestir => 'Birleştirmeyi değerlendir';
+
+  @override
+  String get kolonDetayAlanKontrol => 'Alanı kontrol et';
+
+  @override
+  String get kolonDetayAnaKarar => 'Ana kararını değerlendir';
+
+  @override
+  String get kolonDetayTekrarKontrol => 'Tekrar kontrol et';
+
+  @override
+  String get kolonDetayBolmeNetlestir => 'Bölme kararını netleştir';
+
+  @override
+  String get kolonDetayKontrolEt => 'Kontrol et';
+
+  @override
+  String get kolonDetayYakinTakip => 'Yakından takip et';
+
+  @override
+  String get kolonDetayAktifSurecMetni => 'Aktif süreç';
+
+  @override
+  String get kolonDetayOkunamadi => 'Okunamadı';
+
+  @override
+  String get kolonDetayAktivasyonHata => 'Aktivasyon hesabı hatalı';
+
+  @override
+  String get kolonDetayBiyolojiYukleniyor => 'Hazırlanıyor';
+
+  @override
+  String get kolonDetayAktivasyonYukleniyor => 'Aktivasyon yükleniyor';
+
+  @override
+  String get kolonDetayArkaPlanda => 'Arka planda';
+
+  @override
+  String kolonDetayHacimYuzde(int yuzde) {
+    return 'Hacim %$yuzde';
+  }
+
+  @override
+  String kolonDetayHacimDetay(int fiziksel, String islevsel) {
+    return '$fiziksel → $islevsel çıta';
+  }
+
+  @override
+  String get kolonDetayIslevselOkunuyor => 'İşlevsel hacim okunuyor';
+
+  @override
+  String get kolonDetayAktivasyonAlanDolu => 'alan dolu';
+
+  @override
+  String get kolonDetayAktivasyonTamamlaniyor => 'tamamlanıyor';
+
+  @override
+  String get kolonDetayAktivasyonIyi => 'iyi';
+
+  @override
+  String get kolonDetayAktivasyonOrta => 'orta';
+
+  @override
+  String get kolonDetayAktivasyonDusuk => 'düşük';
+
+  @override
+  String get kolonDetayAktivasyonCokDusuk => 'çok düşük';
+
+  @override
+  String get kolonDetayYonetimDip => 'Yönetim';
+
+  @override
+  String get kolonDetayKararHatasi => 'Karar hatası';
+
+  @override
+  String get kolonDetayYonetimOkunamadi => 'Yönetim kararları okunamadı';
+
+  @override
+  String get kolonDetayYonetimYok => 'Yönetim yok';
+
+  @override
+  String get kolonDetayMudahaleYok => 'Öne çıkan saha müdahalesi görünmüyor';
+
+  @override
+  String get kolonDetayTakipDip => 'Takip';
+
+  @override
+  String get kolonDetayGenetikBekleniyor => 'Genetik bekleniyor';
+
+  @override
+  String get kolonDetaySecilimArkaPlanda =>
+      'Seçilim bilgisi arka planda hazırlanıyor.';
+
+  @override
+  String get kolonDetaySecilimAyri => 'Seçilim ayrı okunacak';
+
+  @override
+  String get kolonDetaySecilimYukleniyor => 'Seçilim yükleniyor';
+
+  @override
+  String get kolonDetayDonorDisi => 'Donör dışı';
+
+  @override
+  String get kolonDetayOgulVeto => 'Oğul izi / veto';
+
+  @override
+  String get kolonDetayUretimDegerlendir => 'Üretimde değerlendir';
+
+  @override
+  String get kolonDetayVetoVar => 'Veto bilgisi var';
+
+  @override
+  String get kolonDetayDonorAdayi => 'Donör adayı';
+
+  @override
+  String get kolonDetaySoyTakibi => 'Soy takibi uygun';
+
+  @override
+  String get kolonDetayUretimKolonisi => 'Üretim kolonisi';
+
+  @override
+  String get kolonDetaySahaRolUretim => 'Saha rolü üretim';
+
+  @override
+  String get kolonDetayDestekKolonisi => 'Destek kolonisi';
+
+  @override
+  String get kolonDetayDestekRolu => 'Destek rolü';
+
+  @override
+  String get kolonDetayVetoBilgisi => 'Veto bilgisi';
+
+  @override
+  String get kolonDetayDonorBilgisi => 'Donör bilgisi';
+
+  @override
+  String get kolonDetayUretimRolu => 'Üretim rolü';
+
+  @override
+  String get kolonDetaySecilimDip => 'Seçilim';
+
+  @override
+  String get kolonDetayYonetimKararlari => 'Yönetim kararları';
+
+  @override
+  String get kolonDetayYonetimKarari => 'Yönetim kararı';
+
+  @override
+  String get kolonDetayGenetikDegerlendirme => 'Genetik değerlendirme';
+
+  @override
+  String get muayeneSecYavruYok => 'Yok';
+
+  @override
+  String get muayeneSecYavruBlok => 'Blok';
+
+  @override
+  String get muayeneSecYavruNormal => 'Normal';
+
+  @override
+  String get muayeneSecYavruDaginik => 'Dağınık';
+
+  @override
+  String get muayeneSecYavruKambur => 'Kambur';
+
+  @override
+  String get muayeneSecMizacSakin => 'Sakin';
+
+  @override
+  String get muayeneSecMizacSinirli => 'Sinirli';
+
+  @override
+  String get muayeneSecMizacSaldirgan => 'Saldırgan';
+
+  @override
+  String get muayeneSecBeslemeYok => 'Yok';
+
+  @override
+  String get muayeneSecBesleme11 => '1:1 Şurup';
+
+  @override
+  String get muayeneSecBesleme21 => '2:1 Şurup';
+
+  @override
+  String get muayeneSecBeslemeKek => 'Kek';
+
+  @override
+  String get muayeneSecBeslemeFondan => 'Fondan';
+
+  @override
+  String get muayeneSecVarroaYok => 'Yok';
+
+  @override
+  String get muayeneSecVarroaDrone => 'Drone Kesimi';
+
+  @override
+  String get muayeneSecVarroaBolme => 'Bölme';
+
+  @override
+  String get muayeneSecVarroaTimol => 'Timol';
+
+  @override
+  String get muayeneSecVarroaAmitraz => 'Amitraz';
+
+  @override
+  String get muayeneSecVarroaFormik => 'Formik';
+
+  @override
+  String get muayeneSecVarroaOksalik => 'Oksalik';
+
+  @override
+  String get srvKoloniAktifDegil => 'Bu koloni aktif değil';
+
+  @override
+  String get srvPasifKayit => 'Pasif kayıt';
+
+  @override
+  String get srvDonorHavuzunda => 'Donör havuzunda';
+
+  @override
+  String get srvBolmeUygun => 'Bu koloni bölme için uygun görünüyor';
+
+  @override
+  String get srvBolmeSinirinda => 'Bölme için güç sınırında';
+
+  @override
+  String get srvBolmeOnerilmez => 'Bölme önerilmez';
+
+  @override
+  String get srvBolmeZayif => 'Güç var; standart bölme zamanı zayıf';
+
+  @override
+  String get srvYakindanBak => 'Bu koloniye yakından bakmak gerekir';
+
+  @override
+  String get srvIzleyerek => 'İzleyerek karar ver';
+
+  @override
+  String get srvDestekUretim => 'Destek / üretim rolü';
+
+  @override
+  String get srvVeriGuveniDusuk => 'Veri güveni düşük';
+
+  @override
+  String get srvKararVarVeriDusuk => 'Karar var; veri güveni düşük';
+
+  @override
+  String get srvAnaKazanma => 'Ana Kazanma';
+
+  @override
+  String get srvBolmeSonrasi => 'Bölme Sonrası';
+
+  @override
+  String get srvKisYonetimi => 'Kış Yönetimi';
+
+  @override
+  String get srvBakimSureci => 'Bakım Süreci';
+
+  @override
+  String get srvGelisimDonemi => 'Gelişim Dönemi';
+
+  @override
+  String get srvUretimDonemi => 'Üretim Dönemi';
+
+  @override
+  String get srvHasatHazirlik => 'Hasat Hazırlığı';
+
+  @override
+  String get srvHasatSonrasiBakim => 'Hasat Sonrası Bakım';
+
+  @override
+  String get srvOgulSonrasi => 'Oğul Sonrası';
+
+  @override
+  String get srvVarroaYonetimi => 'Varroa Yönetimi';
+
+  @override
+  String get srvSahadaOncelik => 'Sahada Öncelik';
+
+  @override
+  String get srvBiyolojikNot => 'Biyolojik Not';
 }

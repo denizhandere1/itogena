@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itogena_v45/gen_l10n/app_localizations.dart';
+import '../utils/servis_metin_lokalizer.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
@@ -908,38 +909,35 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   Map<String, Object> _surecOzetBilgisi() {
+    final l = AppLocalizations.of(context);
     final surecler = _gorunurSurecler();
     if (surecler.isEmpty) {
       return {
-        'ana': 'Aktif süreç yok',
-        'alt': 'Kritik uyarı görünmüyor',
-        'dip': 'Normal takip',
+        'ana': l.kolonDetaySurecYok,
+        'alt': l.kolonDetayKritikUyariYok,
+        'dip': l.kolonDetayNormalTakip,
         'renk': Colors.green.shade700,
       };
     }
 
     final surec = surecler.first;
-    final baslik = _metin(surec['baslik'], varsayilan: 'Aktif süreç');
-    final mesaj = _metin(surec['mesaj'], varsayilan: 'Süreç takibi gerekli.');
+    final baslik = _metin(surec['baslik'], varsayilan: l.kolonDetayAktifSurecMetni);
+    final mesaj = _metin(surec['mesaj'], varsayilan: l.kolonDetaySurecTakibiGerekli);
     final tip = _metin(surec['tip'], varsayilan: 'takip').toLowerCase();
     final oncelik = _toInt(surec['oncelik']);
     final renk = tip == 'kritik' || oncelik >= 90
         ? Colors.red.shade700
         : (tip == 'uyari' ? Colors.orange.shade800 : Colors.brown.shade700);
 
-    final String anaEylem = _surecAnaEylemMetni(
-      baslik: baslik,
-      mesaj: mesaj,
-    );
-    final String altBaglam = _surecBaglamMetni(
-      baslik: baslik,
-      mesaj: mesaj,
-    );
+    final String anaEylem = _surecAnaEylemMetni(baslik: baslik, mesaj: mesaj);
+    final String altBaglam = _surecBaglamMetni(baslik: baslik, mesaj: mesaj);
 
     return {
       'ana': anaEylem,
       'alt': altBaglam,
-      'dip': oncelik > 0 ? 'Öncelik $oncelik/100' : 'Detayları aç',
+      'dip': oncelik > 0
+          ? l.kolonDetayOncelik(oncelik)
+          : l.kolonDetayDetaylariAc,
       'renk': renk,
     };
   }
@@ -948,79 +946,85 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     required String baslik,
     required String mesaj,
   }) {
+    final l = AppLocalizations.of(context);
     final birlesik = _normalizeKarsilastirmaMetni('$baslik $mesaj');
 
     if (birlesik.contains('koloniyi gereksiz acma') ||
         birlesik.contains('gereksiz acma')) {
-      return 'Koloniyi gereksiz açma';
+      return l.kolonDetayGereksizAcma;
     }
     if (birlesik.contains('kesinlikle acma') ||
         birlesik.contains('kovani kesinlikle acma') ||
         birlesik.contains('koloniyi acma')) {
-      return 'Koloniyi açma';
+      return l.kolonDetayKoloniAcma;
     }
     if (birlesik.contains('mudahale etme') ||
         birlesik.contains('mudahele etme')) {
-      return 'Müdahale etme';
+      return l.kolonDetayMudahaleEtme;
     }
     if (birlesik.contains('fazla memeleri azalt') ||
         birlesik.contains('meme sayisini kontrol')) {
-      return 'Meme sayısını kontrol et';
+      return l.kolonDetayMemeSayisiKontrol;
     }
     if (birlesik.contains('birleştir') || birlesik.contains('birlestir')) {
-      return 'Birleştirmeyi değerlendir';
+      return l.kolonDetayBirlestir;
     }
     if (birlesik.contains('alan') && birlesik.contains('bal bask')) {
-      return 'Alanı kontrol et';
+      return l.kolonDetayAlanKontrol;
     }
     if (birlesik.contains('ana değiş') || birlesik.contains('ana degis')) {
-      return 'Ana kararını değerlendir';
+      return l.kolonDetayAnaKarar;
     }
     if (birlesik.contains('tekrar kontrol') || birlesik.contains('5–7 gün')) {
-      return 'Tekrar kontrol et';
+      return l.kolonDetayTekrarKontrol;
     }
     if (birlesik.contains('bolme yap') || birlesik.contains('bolme karari')) {
-      return 'Bölme kararını netleştir';
+      return l.kolonDetayBolmeNetlestir;
     }
     if (birlesik.contains('kontrol et')) {
-      return 'Kontrol et';
+      return l.kolonDetayKontrolEt;
     }
     if (birlesik.contains('takip')) {
-      return 'Yakından takip et';
+      return l.kolonDetayYakinTakip;
     }
 
-    return _kisaKartMetni(_ilkCumle(mesaj, varsayilan: baslik), 28);
+    return _kisaKartMetni(
+      _ilkCumle(mesaj, varsayilan: baslik),
+      28,
+    );
   }
 
   String _surecBaglamMetni({
     required String baslik,
     required String mesaj,
   }) {
+    final l = AppLocalizations.of(context);
     final temizBaslik = baslik.trim();
     if (temizBaslik.isNotEmpty && temizBaslik != '-') {
       return _kisaKartMetni(temizBaslik, 42);
     }
     return _kisaKartMetni(
-      _ilkCumle(mesaj, varsayilan: 'Aktif süreç'),
+      _ilkCumle(mesaj, varsayilan: l.kolonDetayAktifSurecMetni),
       42,
     );
   }
 
   Map<String, Object> _biyolojiOzetBilgisi() {
+    final l = AppLocalizations.of(context);
     final aktivasyon = _hacimAktivasyon;
     if (_hacimAktivasyonHatasi != null && aktivasyon == null) {
       return {
-        'ana': 'Okunamadı',
-        'alt': 'Aktivasyon hesabı hatalı',
-        'dip': 'Kontrol et',
+        'ana': l.kolonDetayOkunamadi,
+        'alt': l.kolonDetayAktivasyonHata,
+        'dip': l.kolonDetayKontrolEt,
         'renk': Colors.deepOrange,
       };
     }
     if (aktivasyon == null || aktivasyon.isEmpty) {
       return {
-        'ana': 'Hazırlanıyor',
-        'alt': 'Aktivasyon yükleniyor',
-        'dip': 'Arka planda',
+        'ana': l.kolonDetayBiyolojiYukleniyor,
+        'alt': l.kolonDetayAktivasyonYukleniyor,
+        'dip': l.kolonDetayArkaPlanda,
         'renk': Colors.blueGrey,
       };
     }
@@ -1046,52 +1050,59 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     final renk = _aktivasyonRengi(toplamOran, hacimTipi);
 
     return {
-      'ana': 'Hacim %$yuzde',
-      'alt': fizikselCita > 0 ? '$fizikselCita → ${_kg(islevsel)} çıta' : 'İşlevsel hacim okunuyor',
+      'ana': l.kolonDetayHacimYuzde(yuzde),
+      'alt': fizikselCita > 0
+          ? l.kolonDetayHacimDetay(fizikselCita, _kg(islevsel))
+          : l.kolonDetayIslevselOkunuyor,
       'dip': _aktivasyonSeviyesi(toplamOran),
       'renk': renk,
     };
   }
 
   Map<String, Object> _yonetimOzetBilgisi() {
+    final l = AppLocalizations.of(context);
     final yonetimKarari = _yonetimKararlari.isEmpty ? null : _yonetimKararlari.first;
     if (yonetimKarari != null) {
-      final baslik = _metin(yonetimKarari['baslik'], varsayilan: 'Yönetim kararı');
+      final baslik = _metin(yonetimKarari['baslik'], varsayilan: l.kolonDetayYonetimKarari);
       final mesaj = _metin(yonetimKarari['mesaj'], varsayilan: baslik);
       final kategori = _metin(yonetimKarari['kategori'], varsayilan: 'yonetim').toLowerCase();
       final renk = kategori == 'veto'
           ? Colors.deepOrange.shade700
           : Colors.brown.shade700;
       return {
-        'ana': _metin(yonetimKarari['kisa'], varsayilan: baslik),
-        'alt': _ilkCumle(mesaj, varsayilan: baslik),
-        'dip': 'Yönetim',
+        'ana': ServisMetinLokalizer.cevir(
+          _metin(yonetimKarari['kisa'], varsayilan: baslik), l),
+        'alt': _ilkCumle(
+          ServisMetinLokalizer.cevir(mesaj, l),
+          varsayilan: ServisMetinLokalizer.cevir(baslik, l)),
+        'dip': l.kolonDetayYonetimDip,
         'renk': renk,
       };
     }
 
     if (_yonetimKararlariHatasi != null) {
       return {
-        'ana': 'Karar hatası',
-        'alt': 'Yönetim kararları okunamadı',
-        'dip': 'Kontrol et',
+        'ana': l.kolonDetayKararHatasi,
+        'alt': l.kolonDetayYonetimOkunamadi,
+        'dip': l.kolonDetayKontrolEt,
         'renk': Colors.deepOrange,
       };
     }
 
     return {
-      'ana': 'Yönetim yok',
-      'alt': 'Öne çıkan saha müdahalesi görünmüyor',
-      'dip': 'Takip',
+      'ana': l.kolonDetayYonetimYok,
+      'alt': l.kolonDetayMudahaleYok,
+      'dip': l.kolonDetayTakipDip,
       'renk': Colors.blueGrey.shade700,
     };
   }
 
   Map<String, Object> _genetikOzetBilgisi() {
-    final baslik = _metin(_secilimDurumu?['baslik'], varsayilan: 'Genetik bekleniyor');
+    final l = AppLocalizations.of(context);
+    final baslik = _metin(_secilimDurumu?['baslik'], varsayilan: l.kolonDetayGenetikBekleniyor);
     final mesaj = _metin(
       _secilimDurumu?['mesaj'],
-      varsayilan: 'Seçilim bilgisi arka planda hazırlanıyor.',
+      varsayilan: l.kolonDetaySecilimArkaPlanda,
     );
     final temizBaslik = baslik.toLowerCase();
     final temizMesaj = mesaj.toLowerCase();
@@ -1107,29 +1118,29 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     String alt;
 
     if (surecMetniSizmis) {
-      ana = 'Genetik bekleniyor';
-      alt = 'Seçilim ayrı okunacak';
+      ana = l.kolonDetayGenetikBekleniyor;
+      alt = l.kolonDetaySecilimAyri;
     } else if (temizBaslik.contains('bekleniyor')) {
-      ana = 'Hazırlanıyor';
-      alt = 'Seçilim yükleniyor';
+      ana = l.kolonDetayBiyolojiYukleniyor;
+      alt = l.kolonDetaySecilimYukleniyor;
     } else if (temizBaslik.contains('veto') || temizMesaj.contains('donör havuzunda değil') || temizMesaj.contains('donor havuzunda değil')) {
-      ana = 'Donör dışı';
+      ana = l.kolonDetayDonorDisi;
       if (temizMesaj.contains('oğul') || temizMesaj.contains('ogul') || temizBaslik.contains('oğul') || temizBaslik.contains('ogul')) {
-        alt = 'Oğul izi / veto';
+        alt = l.kolonDetayOgulVeto;
       } else if (temizBaslik.contains('üretim') || temizBaslik.contains('uretim') || temizMesaj.contains('üretim') || temizMesaj.contains('uretim')) {
-        alt = 'Üretimde değerlendir';
+        alt = l.kolonDetayUretimDegerlendir;
       } else {
-        alt = 'Veto bilgisi var';
+        alt = l.kolonDetayVetoVar;
       }
     } else if (temizBaslik.contains('donör') || temizBaslik.contains('donor')) {
-      ana = 'Donör adayı';
-      alt = _ilkCumle(mesaj, varsayilan: 'Soy takibi uygun');
+      ana = l.kolonDetayDonorAdayi;
+      alt = _ilkCumle(mesaj, varsayilan: l.kolonDetaySoyTakibi);
     } else if (temizBaslik.contains('üretim') || temizBaslik.contains('uretim')) {
-      ana = 'Üretim kolonisi';
-      alt = _ilkCumle(mesaj, varsayilan: 'Saha rolü üretim');
+      ana = l.kolonDetayUretimKolonisi;
+      alt = _ilkCumle(mesaj, varsayilan: l.kolonDetaySahaRolUretim);
     } else if (temizBaslik.contains('destek')) {
-      ana = 'Destek kolonisi';
-      alt = _ilkCumle(mesaj, varsayilan: 'Destek rolü');
+      ana = l.kolonDetayDestekKolonisi;
+      alt = _ilkCumle(mesaj, varsayilan: l.kolonDetayDestekRolu);
     } else {
       ana = _kisaKartMetni(baslik, 34);
       alt = _ilkCumle(mesaj, varsayilan: _kararMetni());
@@ -1144,11 +1155,12 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   String _genetikDipMetni() {
+    final l = AppLocalizations.of(context);
     final baslik = _metin(_secilimDurumu?['baslik'], varsayilan: '').toLowerCase();
-    if (baslik.contains('veto')) return 'Veto bilgisi';
-    if (baslik.contains('donör') || baslik.contains('donor')) return 'Donör bilgisi';
-    if (baslik.contains('üretim') || baslik.contains('uretim')) return 'Üretim rolü';
-    return 'Seçilim';
+    if (baslik.contains('veto')) return l.kolonDetayVetoBilgisi;
+    if (baslik.contains('donör') || baslik.contains('donor')) return l.kolonDetayDonorBilgisi;
+    if (baslik.contains('üretim') || baslik.contains('uretim')) return l.kolonDetayUretimRolu;
+    return l.kolonDetaySecilimDip;
   }
 
   String _ilkCumle(String metin, {String varsayilan = ''}) {
@@ -1270,12 +1282,13 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   String _aktivasyonSeviyesi(double oran) {
-    if (oran >= 0.95) return 'alan dolu';
-    if (oran >= 0.85) return 'tamamlanıyor';
-    if (oran >= 0.70) return 'iyi';
-    if (oran >= 0.45) return 'orta';
-    if (oran >= 0.20) return 'düşük';
-    return 'çok düşük';
+    final l = AppLocalizations.of(context);
+    if (oran >= 0.95) return l.kolonDetayAktivasyonAlanDolu;
+    if (oran >= 0.85) return l.kolonDetayAktivasyonTamamlaniyor;
+    if (oran >= 0.70) return l.kolonDetayAktivasyonIyi;
+    if (oran >= 0.45) return l.kolonDetayAktivasyonOrta;
+    if (oran >= 0.20) return l.kolonDetayAktivasyonDusuk;
+    return l.kolonDetayAktivasyonCokDusuk;
   }
 
   Color _aktivasyonRengi(double oran, String hacimTipi) {
@@ -1425,7 +1438,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
 
   Widget _yonetimKarariSatiri(Map<String, dynamic> karar) {
-    final baslik = _metin(karar['baslik'], varsayilan: 'Yönetim kararı');
+    final baslik = _metin(karar['baslik'], varsayilan: AppLocalizations.of(context).kolonDetayYonetimKarari);
     final mesaj = _metin(karar['mesaj'], varsayilan: '');
     final gerekce = _metin(karar['gerekce'], varsayilan: '');
 
@@ -1513,10 +1526,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     final Color renk = kategori == 'veto'
         ? Colors.deepOrange.shade700
         : Colors.brown.shade700;
-    final String baslik = 'Yönetim kararları';
+    final String baslik = AppLocalizations.of(context).kolonDetayYonetimKararlari;
     final String ozet = _ilkCumle(
       _metin(ilkKarar['mesaj'], varsayilan: ''),
-      varsayilan: _metin(ilkKarar['baslik'], varsayilan: 'Yönetim kararı'),
+      varsayilan: _metin(ilkKarar['baslik'], varsayilan: AppLocalizations.of(context).kolonDetayYonetimKarari),
     );
 
     final detayWidgets = _yonetimKararlari.map(_yonetimKarariSatiri).toList(growable: false);
@@ -2452,7 +2465,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       Map<String, dynamic> surec, {
         bool arkaPlan = false,
       }) {
-    final baslik = _metin(surec['baslik'], varsayilan: 'Aktif süreç');
+    final baslik = _metin(surec['baslik'], varsayilan: AppLocalizations.of(context).kolonDetayAktifSurecMetni);
     final mesaj = _metin(surec['mesaj'], varsayilan: '');
 
     return Container(
@@ -2595,8 +2608,9 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     if (baslik.isNotEmpty && baslik != '-') return baslik;
 
     final ozet = _genetikOzetBilgisi();
-    final ana = _metin(ozet['ana'], varsayilan: 'Genetik değerlendirme');
-    return ana == '-' ? 'Genetik değerlendirme' : ana;
+    final l = AppLocalizations.of(context);
+    final ana = _metin(ozet['ana'], varsayilan: l.kolonDetayGenetikDegerlendirme);
+    return ana == '-' ? l.kolonDetayGenetikDegerlendirme : ana;
   }
 
   String _genetikDetayOzeti() {

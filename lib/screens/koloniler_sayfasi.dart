@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itogena_v45/gen_l10n/app_localizations.dart';
+import '../utils/servis_metin_lokalizer.dart';
 import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/koloni_grid_context.dart';
@@ -1026,7 +1027,9 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     final bool anaMemesiAlarmi = !sonmusSekmesi && _anaMemesiAlarmiVar(k);
     final bool ogulAttiAlarmi = !sonmusSekmesi && _ogulAttiAlarmiVar(k);
     final bool hasatAkintisiGoster = _hasatAkintisiGoster(k, sonmusSekmesi: sonmusSekmesi);
-    final String yonetimEtiketi = sonmusSekmesi ? '' : _yonetimGridEtiketi(k);
+    final String yonetimEtiketi = sonmusSekmesi
+        ? ''
+        : ServisMetinLokalizer.gridEtiketi(_yonetimGridEtiketi(k), AppLocalizations.of(context));
 
     final Color ustRenk = sonmusSekmesi ? Colors.grey.shade500 : skorRenk;
     final Color cerceveRenk = sonmusSekmesi

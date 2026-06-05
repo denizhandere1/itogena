@@ -4574,6 +4574,672 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'itogaciftligi.com/itogena-gizlilik-politikasi'**
   String get rehber20Link;
+
+  /// No description provided for @kolonGridYavruYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yok'**
+  String get kolonGridYavruYok;
+
+  /// No description provided for @kolonGridMemeKontrol.
+  ///
+  /// In tr, this message translates to:
+  /// **'Meme kontrolü'**
+  String get kolonGridMemeKontrol;
+
+  /// No description provided for @kolonGridYalanciAna.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalancı ana riski'**
+  String get kolonGridYalanciAna;
+
+  /// No description provided for @kolonGridBeklemeSureci.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bekleme süreci'**
+  String get kolonGridBeklemeSureci;
+
+  /// No description provided for @kolonGridSurecIzleniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süreç izleniyor'**
+  String get kolonGridSurecIzleniyor;
+
+  /// No description provided for @kolonGridUcuncuKat.
+  ///
+  /// In tr, this message translates to:
+  /// **'3. kat ver'**
+  String get kolonGridUcuncuKat;
+
+  /// No description provided for @kolonGridAlanAc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alan aç'**
+  String get kolonGridAlanAc;
+
+  /// No description provided for @kolonGridKatVer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kat ver'**
+  String get kolonGridKatVer;
+
+  /// No description provided for @kolonDetaySurecYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif süreç yok'**
+  String get kolonDetaySurecYok;
+
+  /// No description provided for @kolonDetayKritikUyariYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kritik uyarı görünmüyor'**
+  String get kolonDetayKritikUyariYok;
+
+  /// No description provided for @kolonDetayNormalTakip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal takip'**
+  String get kolonDetayNormalTakip;
+
+  /// No description provided for @kolonDetaySurecTakibiGerekli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süreç takibi gerekli.'**
+  String get kolonDetaySurecTakibiGerekli;
+
+  /// No description provided for @kolonDetayOncelik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öncelik {oncelik}/100'**
+  String kolonDetayOncelik(int oncelik);
+
+  /// No description provided for @kolonDetayDetaylariAc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Detayları aç'**
+  String get kolonDetayDetaylariAc;
+
+  /// No description provided for @kolonDetayGereksizAcma.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniyi gereksiz açma'**
+  String get kolonDetayGereksizAcma;
+
+  /// No description provided for @kolonDetayKoloniAcma.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniyi açma'**
+  String get kolonDetayKoloniAcma;
+
+  /// No description provided for @kolonDetayMudahaleEtme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Müdahale etme'**
+  String get kolonDetayMudahaleEtme;
+
+  /// No description provided for @kolonDetayMemeSayisiKontrol.
+  ///
+  /// In tr, this message translates to:
+  /// **'Meme sayısını kontrol et'**
+  String get kolonDetayMemeSayisiKontrol;
+
+  /// No description provided for @kolonDetayBirlestir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Birleştirmeyi değerlendir'**
+  String get kolonDetayBirlestir;
+
+  /// No description provided for @kolonDetayAlanKontrol.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alanı kontrol et'**
+  String get kolonDetayAlanKontrol;
+
+  /// No description provided for @kolonDetayAnaKarar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana kararını değerlendir'**
+  String get kolonDetayAnaKarar;
+
+  /// No description provided for @kolonDetayTekrarKontrol.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar kontrol et'**
+  String get kolonDetayTekrarKontrol;
+
+  /// No description provided for @kolonDetayBolmeNetlestir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme kararını netleştir'**
+  String get kolonDetayBolmeNetlestir;
+
+  /// No description provided for @kolonDetayKontrolEt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kontrol et'**
+  String get kolonDetayKontrolEt;
+
+  /// No description provided for @kolonDetayYakinTakip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakından takip et'**
+  String get kolonDetayYakinTakip;
+
+  /// No description provided for @kolonDetayAktifSurecMetni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif süreç'**
+  String get kolonDetayAktifSurecMetni;
+
+  /// No description provided for @kolonDetayOkunamadi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Okunamadı'**
+  String get kolonDetayOkunamadi;
+
+  /// No description provided for @kolonDetayAktivasyonHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivasyon hesabı hatalı'**
+  String get kolonDetayAktivasyonHata;
+
+  /// No description provided for @kolonDetayBiyolojiYukleniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hazırlanıyor'**
+  String get kolonDetayBiyolojiYukleniyor;
+
+  /// No description provided for @kolonDetayAktivasyonYukleniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivasyon yükleniyor'**
+  String get kolonDetayAktivasyonYukleniyor;
+
+  /// No description provided for @kolonDetayArkaPlanda.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arka planda'**
+  String get kolonDetayArkaPlanda;
+
+  /// No description provided for @kolonDetayHacimYuzde.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hacim %{yuzde}'**
+  String kolonDetayHacimYuzde(int yuzde);
+
+  /// No description provided for @kolonDetayHacimDetay.
+  ///
+  /// In tr, this message translates to:
+  /// **'{fiziksel} → {islevsel} çıta'**
+  String kolonDetayHacimDetay(int fiziksel, String islevsel);
+
+  /// No description provided for @kolonDetayIslevselOkunuyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşlevsel hacim okunuyor'**
+  String get kolonDetayIslevselOkunuyor;
+
+  /// No description provided for @kolonDetayAktivasyonAlanDolu.
+  ///
+  /// In tr, this message translates to:
+  /// **'alan dolu'**
+  String get kolonDetayAktivasyonAlanDolu;
+
+  /// No description provided for @kolonDetayAktivasyonTamamlaniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'tamamlanıyor'**
+  String get kolonDetayAktivasyonTamamlaniyor;
+
+  /// No description provided for @kolonDetayAktivasyonIyi.
+  ///
+  /// In tr, this message translates to:
+  /// **'iyi'**
+  String get kolonDetayAktivasyonIyi;
+
+  /// No description provided for @kolonDetayAktivasyonOrta.
+  ///
+  /// In tr, this message translates to:
+  /// **'orta'**
+  String get kolonDetayAktivasyonOrta;
+
+  /// No description provided for @kolonDetayAktivasyonDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'düşük'**
+  String get kolonDetayAktivasyonDusuk;
+
+  /// No description provided for @kolonDetayAktivasyonCokDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'çok düşük'**
+  String get kolonDetayAktivasyonCokDusuk;
+
+  /// No description provided for @kolonDetayYonetimDip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetim'**
+  String get kolonDetayYonetimDip;
+
+  /// No description provided for @kolonDetayKararHatasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar hatası'**
+  String get kolonDetayKararHatasi;
+
+  /// No description provided for @kolonDetayYonetimOkunamadi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetim kararları okunamadı'**
+  String get kolonDetayYonetimOkunamadi;
+
+  /// No description provided for @kolonDetayYonetimYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetim yok'**
+  String get kolonDetayYonetimYok;
+
+  /// No description provided for @kolonDetayMudahaleYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öne çıkan saha müdahalesi görünmüyor'**
+  String get kolonDetayMudahaleYok;
+
+  /// No description provided for @kolonDetayTakipDip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takip'**
+  String get kolonDetayTakipDip;
+
+  /// No description provided for @kolonDetayGenetikBekleniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik bekleniyor'**
+  String get kolonDetayGenetikBekleniyor;
+
+  /// No description provided for @kolonDetaySecilimArkaPlanda.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçilim bilgisi arka planda hazırlanıyor.'**
+  String get kolonDetaySecilimArkaPlanda;
+
+  /// No description provided for @kolonDetaySecilimAyri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçilim ayrı okunacak'**
+  String get kolonDetaySecilimAyri;
+
+  /// No description provided for @kolonDetaySecilimYukleniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçilim yükleniyor'**
+  String get kolonDetaySecilimYukleniyor;
+
+  /// No description provided for @kolonDetayDonorDisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör dışı'**
+  String get kolonDetayDonorDisi;
+
+  /// No description provided for @kolonDetayOgulVeto.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul izi / veto'**
+  String get kolonDetayOgulVeto;
+
+  /// No description provided for @kolonDetayUretimDegerlendir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretimde değerlendir'**
+  String get kolonDetayUretimDegerlendir;
+
+  /// No description provided for @kolonDetayVetoVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veto bilgisi var'**
+  String get kolonDetayVetoVar;
+
+  /// No description provided for @kolonDetayDonorAdayi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör adayı'**
+  String get kolonDetayDonorAdayi;
+
+  /// No description provided for @kolonDetaySoyTakibi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Soy takibi uygun'**
+  String get kolonDetaySoyTakibi;
+
+  /// No description provided for @kolonDetayUretimKolonisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim kolonisi'**
+  String get kolonDetayUretimKolonisi;
+
+  /// No description provided for @kolonDetaySahaRolUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saha rolü üretim'**
+  String get kolonDetaySahaRolUretim;
+
+  /// No description provided for @kolonDetayDestekKolonisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Destek kolonisi'**
+  String get kolonDetayDestekKolonisi;
+
+  /// No description provided for @kolonDetayDestekRolu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Destek rolü'**
+  String get kolonDetayDestekRolu;
+
+  /// No description provided for @kolonDetayVetoBilgisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veto bilgisi'**
+  String get kolonDetayVetoBilgisi;
+
+  /// No description provided for @kolonDetayDonorBilgisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör bilgisi'**
+  String get kolonDetayDonorBilgisi;
+
+  /// No description provided for @kolonDetayUretimRolu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim rolü'**
+  String get kolonDetayUretimRolu;
+
+  /// No description provided for @kolonDetaySecilimDip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçilim'**
+  String get kolonDetaySecilimDip;
+
+  /// No description provided for @kolonDetayYonetimKararlari.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetim kararları'**
+  String get kolonDetayYonetimKararlari;
+
+  /// No description provided for @kolonDetayYonetimKarari.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetim kararı'**
+  String get kolonDetayYonetimKarari;
+
+  /// No description provided for @kolonDetayGenetikDegerlendirme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik değerlendirme'**
+  String get kolonDetayGenetikDegerlendirme;
+
+  /// No description provided for @muayeneSecYavruYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yok'**
+  String get muayeneSecYavruYok;
+
+  /// No description provided for @muayeneSecYavruBlok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Blok'**
+  String get muayeneSecYavruBlok;
+
+  /// No description provided for @muayeneSecYavruNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get muayeneSecYavruNormal;
+
+  /// No description provided for @muayeneSecYavruDaginik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dağınık'**
+  String get muayeneSecYavruDaginik;
+
+  /// No description provided for @muayeneSecYavruKambur.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kambur'**
+  String get muayeneSecYavruKambur;
+
+  /// No description provided for @muayeneSecMizacSakin.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sakin'**
+  String get muayeneSecMizacSakin;
+
+  /// No description provided for @muayeneSecMizacSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sinirli'**
+  String get muayeneSecMizacSinirli;
+
+  /// No description provided for @muayeneSecMizacSaldirgan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saldırgan'**
+  String get muayeneSecMizacSaldirgan;
+
+  /// No description provided for @muayeneSecBeslemeYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yok'**
+  String get muayeneSecBeslemeYok;
+
+  /// No description provided for @muayeneSecBesleme11.
+  ///
+  /// In tr, this message translates to:
+  /// **'1:1 Şurup'**
+  String get muayeneSecBesleme11;
+
+  /// No description provided for @muayeneSecBesleme21.
+  ///
+  /// In tr, this message translates to:
+  /// **'2:1 Şurup'**
+  String get muayeneSecBesleme21;
+
+  /// No description provided for @muayeneSecBeslemeKek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kek'**
+  String get muayeneSecBeslemeKek;
+
+  /// No description provided for @muayeneSecBeslemeFondan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fondan'**
+  String get muayeneSecBeslemeFondan;
+
+  /// No description provided for @muayeneSecVarroaYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yok'**
+  String get muayeneSecVarroaYok;
+
+  /// No description provided for @muayeneSecVarroaDrone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Drone Kesimi'**
+  String get muayeneSecVarroaDrone;
+
+  /// No description provided for @muayeneSecVarroaBolme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme'**
+  String get muayeneSecVarroaBolme;
+
+  /// No description provided for @muayeneSecVarroaTimol.
+  ///
+  /// In tr, this message translates to:
+  /// **'Timol'**
+  String get muayeneSecVarroaTimol;
+
+  /// No description provided for @muayeneSecVarroaAmitraz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Amitraz'**
+  String get muayeneSecVarroaAmitraz;
+
+  /// No description provided for @muayeneSecVarroaFormik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Formik'**
+  String get muayeneSecVarroaFormik;
+
+  /// No description provided for @muayeneSecVarroaOksalik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oksalik'**
+  String get muayeneSecVarroaOksalik;
+
+  /// No description provided for @srvKoloniAktifDegil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni aktif değil'**
+  String get srvKoloniAktifDegil;
+
+  /// No description provided for @srvPasifKayit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pasif kayıt'**
+  String get srvPasifKayit;
+
+  /// No description provided for @srvDonorHavuzunda.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzunda'**
+  String get srvDonorHavuzunda;
+
+  /// No description provided for @srvBolmeUygun.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni bölme için uygun görünüyor'**
+  String get srvBolmeUygun;
+
+  /// No description provided for @srvBolmeSinirinda.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme için güç sınırında'**
+  String get srvBolmeSinirinda;
+
+  /// No description provided for @srvBolmeOnerilmez.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme önerilmez'**
+  String get srvBolmeOnerilmez;
+
+  /// No description provided for @srvBolmeZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güç var; standart bölme zamanı zayıf'**
+  String get srvBolmeZayif;
+
+  /// No description provided for @srvYakindanBak.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloniye yakından bakmak gerekir'**
+  String get srvYakindanBak;
+
+  /// No description provided for @srvIzleyerek.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzleyerek karar ver'**
+  String get srvIzleyerek;
+
+  /// No description provided for @srvDestekUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Destek / üretim rolü'**
+  String get srvDestekUretim;
+
+  /// No description provided for @srvVeriGuveniDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri güveni düşük'**
+  String get srvVeriGuveniDusuk;
+
+  /// No description provided for @srvKararVarVeriDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar var; veri güveni düşük'**
+  String get srvKararVarVeriDusuk;
+
+  /// No description provided for @srvAnaKazanma.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Kazanma'**
+  String get srvAnaKazanma;
+
+  /// No description provided for @srvBolmeSonrasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme Sonrası'**
+  String get srvBolmeSonrasi;
+
+  /// No description provided for @srvKisYonetimi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış Yönetimi'**
+  String get srvKisYonetimi;
+
+  /// No description provided for @srvBakimSureci.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bakım Süreci'**
+  String get srvBakimSureci;
+
+  /// No description provided for @srvGelisimDonemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim Dönemi'**
+  String get srvGelisimDonemi;
+
+  /// No description provided for @srvUretimDonemi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim Dönemi'**
+  String get srvUretimDonemi;
+
+  /// No description provided for @srvHasatHazirlik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat Hazırlığı'**
+  String get srvHasatHazirlik;
+
+  /// No description provided for @srvHasatSonrasiBakim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat Sonrası Bakım'**
+  String get srvHasatSonrasiBakim;
+
+  /// No description provided for @srvOgulSonrasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul Sonrası'**
+  String get srvOgulSonrasi;
+
+  /// No description provided for @srvVarroaYonetimi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varroa Yönetimi'**
+  String get srvVarroaYonetimi;
+
+  /// No description provided for @srvSahadaOncelik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sahada Öncelik'**
+  String get srvSahadaOncelik;
+
+  /// No description provided for @srvBiyolojikNot.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik Not'**
+  String get srvBiyolojikNot;
 }
 
 class _AppLocalizationsDelegate

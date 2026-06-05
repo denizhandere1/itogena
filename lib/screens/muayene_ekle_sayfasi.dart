@@ -1163,15 +1163,16 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   Widget _ikonluSecim(
     List<String> secenekler,
     String secili,
-    Function(String) secildi,
-  ) {
+    Function(String) secildi, {
+    Map<String, String>? displayMap,
+  }) {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
       children: secenekler
           .map(
             (s) => ChoiceChip(
-              label: Text(s),
+              label: Text(displayMap?[s] ?? s),
               selected: secili == s,
               selectedColor: Colors.amber,
               onSelected: (_) => secildi(s),
@@ -1187,6 +1188,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
     String deger,
     Function(String?) degisti, {
     bool enabled = true,
+    Map<String, String>? displayMap,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -1199,7 +1201,10 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           fillColor: enabled ? Colors.white : Colors.grey.shade100,
         ),
         items: liste
-            .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+            .map((e) => DropdownMenuItem(
+                  value: e,
+                  child: Text(displayMap?[e] ?? e),
+                ))
             .toList(),
         onChanged: enabled ? degisti : null,
       ),
@@ -1691,6 +1696,13 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                         if (v == null) return;
                         _yavruDuzeniDegistir(v);
                       },
+                      displayMap: {
+                        'Yok': l.muayeneSecYavruYok,
+                        'Blok': l.muayeneSecYavruBlok,
+                        'Normal': l.muayeneSecYavruNormal,
+                        'Dağınık': l.muayeneSecYavruDaginik,
+                        'Kambur': l.muayeneSecYavruKambur,
+                      },
                     ),
                     _yavruYokBilgiKutusu(),
                     _yavruYokTaniSorulariKutusu(),
@@ -1700,6 +1712,11 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       _mizacSecenekleri,
                       _mizac,
                       (v) => setState(() => _mizac = v),
+                      displayMap: {
+                        'Sakin': l.muayeneSecMizacSakin,
+                        'Sinirli': l.muayeneSecMizacSinirli,
+                        'Saldırgan': l.muayeneSecMizacSaldirgan,
+                      },
                     ),
                     const Divider(height: 32),
                     _hizliDropdown(
@@ -1708,6 +1725,13 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       _besleme,
                       (v) => setState(() => _besleme = v!),
                       enabled: !_suruplukKaldirildiMi || _hasatBakimModuAktif,
+                      displayMap: {
+                        'Yok': l.muayeneSecBeslemeYok,
+                        '1:1 Şurup': l.muayeneSecBesleme11,
+                        '2:1 Şurup': l.muayeneSecBesleme21,
+                        'Kek': l.muayeneSecBeslemeKek,
+                        'Fondan': l.muayeneSecBeslemeFondan,
+                      },
                     ),
                     if (_suruplukKaldirildiMi && !_hasatBakimModuAktif)
                       _bilgiKutusu(
@@ -1727,6 +1751,15 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
                       _varroaSecenekleri,
                       _varroaMucadele,
                       (v) => setState(() => _varroaMucadele = v!),
+                      displayMap: {
+                        'Yok': l.muayeneSecVarroaYok,
+                        'Drone Kesimi': l.muayeneSecVarroaDrone,
+                        'Bölme': l.muayeneSecVarroaBolme,
+                        'Timol': l.muayeneSecVarroaTimol,
+                        'Amitraz': l.muayeneSecVarroaAmitraz,
+                        'Formik': l.muayeneSecVarroaFormik,
+                        'Oksalik': l.muayeneSecVarroaOksalik,
+                      },
                     ),
                     const SizedBox(height: 10),
                     CheckboxListTile(

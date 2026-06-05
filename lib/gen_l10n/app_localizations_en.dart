@@ -2630,4 +2630,344 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rehber20Link => 'itogaciftligi.com/itogena-gizlilik-politikasi';
+
+  @override
+  String get kolonGridYavruYok => 'No brood';
+
+  @override
+  String get kolonGridMemeKontrol => 'Cell check';
+
+  @override
+  String get kolonGridYalanciAna => 'Laying worker risk';
+
+  @override
+  String get kolonGridBeklemeSureci => 'Waiting period';
+
+  @override
+  String get kolonGridSurecIzleniyor => 'Process monitored';
+
+  @override
+  String get kolonGridUcuncuKat => 'Add 3rd super';
+
+  @override
+  String get kolonGridAlanAc => 'Open space';
+
+  @override
+  String get kolonGridKatVer => 'Add super';
+
+  @override
+  String get kolonDetaySurecYok => 'No active process';
+
+  @override
+  String get kolonDetayKritikUyariYok => 'No critical alert';
+
+  @override
+  String get kolonDetayNormalTakip => 'Normal monitoring';
+
+  @override
+  String get kolonDetaySurecTakibiGerekli => 'Process tracking required.';
+
+  @override
+  String kolonDetayOncelik(int oncelik) {
+    return 'Priority $oncelik/100';
+  }
+
+  @override
+  String get kolonDetayDetaylariAc => 'Open details';
+
+  @override
+  String get kolonDetayGereksizAcma => 'Avoid unnecessary opening';
+
+  @override
+  String get kolonDetayKoloniAcma => 'Do not open colony';
+
+  @override
+  String get kolonDetayMudahaleEtme => 'Do not intervene';
+
+  @override
+  String get kolonDetayMemeSayisiKontrol => 'Check cell count';
+
+  @override
+  String get kolonDetayBirlestir => 'Consider merging';
+
+  @override
+  String get kolonDetayAlanKontrol => 'Check space';
+
+  @override
+  String get kolonDetayAnaKarar => 'Evaluate queen decision';
+
+  @override
+  String get kolonDetayTekrarKontrol => 'Check again';
+
+  @override
+  String get kolonDetayBolmeNetlestir => 'Confirm split decision';
+
+  @override
+  String get kolonDetayKontrolEt => 'Check';
+
+  @override
+  String get kolonDetayYakinTakip => 'Monitor closely';
+
+  @override
+  String get kolonDetayAktifSurecMetni => 'Active process';
+
+  @override
+  String get kolonDetayOkunamadi => 'Read error';
+
+  @override
+  String get kolonDetayAktivasyonHata => 'Activation calculation error';
+
+  @override
+  String get kolonDetayBiyolojiYukleniyor => 'Loading';
+
+  @override
+  String get kolonDetayAktivasyonYukleniyor => 'Activation loading';
+
+  @override
+  String get kolonDetayArkaPlanda => 'In background';
+
+  @override
+  String kolonDetayHacimYuzde(int yuzde) {
+    return 'Volume %$yuzde';
+  }
+
+  @override
+  String kolonDetayHacimDetay(int fiziksel, String islevsel) {
+    return '$fiziksel → $islevsel frames';
+  }
+
+  @override
+  String get kolonDetayIslevselOkunuyor => 'Functional volume reading';
+
+  @override
+  String get kolonDetayAktivasyonAlanDolu => 'full';
+
+  @override
+  String get kolonDetayAktivasyonTamamlaniyor => 'completing';
+
+  @override
+  String get kolonDetayAktivasyonIyi => 'good';
+
+  @override
+  String get kolonDetayAktivasyonOrta => 'medium';
+
+  @override
+  String get kolonDetayAktivasyonDusuk => 'low';
+
+  @override
+  String get kolonDetayAktivasyonCokDusuk => 'very low';
+
+  @override
+  String get kolonDetayYonetimDip => 'Management';
+
+  @override
+  String get kolonDetayKararHatasi => 'Decision error';
+
+  @override
+  String get kolonDetayYonetimOkunamadi => 'Management decisions unavailable';
+
+  @override
+  String get kolonDetayYonetimYok => 'No management';
+
+  @override
+  String get kolonDetayMudahaleYok => 'No prominent field action needed';
+
+  @override
+  String get kolonDetayTakipDip => 'Monitor';
+
+  @override
+  String get kolonDetayGenetikBekleniyor => 'Genetics pending';
+
+  @override
+  String get kolonDetaySecilimArkaPlanda =>
+      'Selection data loading in background.';
+
+  @override
+  String get kolonDetaySecilimAyri => 'Selection read separately';
+
+  @override
+  String get kolonDetaySecilimYukleniyor => 'Selection loading';
+
+  @override
+  String get kolonDetayDonorDisi => 'Non-donor';
+
+  @override
+  String get kolonDetayOgulVeto => 'Swarm trace / veto';
+
+  @override
+  String get kolonDetayUretimDegerlendir => 'Evaluate for production';
+
+  @override
+  String get kolonDetayVetoVar => 'Veto info available';
+
+  @override
+  String get kolonDetayDonorAdayi => 'Donor candidate';
+
+  @override
+  String get kolonDetaySoyTakibi => 'Lineage tracking suitable';
+
+  @override
+  String get kolonDetayUretimKolonisi => 'Production colony';
+
+  @override
+  String get kolonDetaySahaRolUretim => 'Field role: production';
+
+  @override
+  String get kolonDetayDestekKolonisi => 'Support colony';
+
+  @override
+  String get kolonDetayDestekRolu => 'Support role';
+
+  @override
+  String get kolonDetayVetoBilgisi => 'Veto info';
+
+  @override
+  String get kolonDetayDonorBilgisi => 'Donor info';
+
+  @override
+  String get kolonDetayUretimRolu => 'Production role';
+
+  @override
+  String get kolonDetaySecilimDip => 'Selection';
+
+  @override
+  String get kolonDetayYonetimKararlari => 'Management decisions';
+
+  @override
+  String get kolonDetayYonetimKarari => 'Management decision';
+
+  @override
+  String get kolonDetayGenetikDegerlendirme => 'Genetic evaluation';
+
+  @override
+  String get muayeneSecYavruYok => 'None';
+
+  @override
+  String get muayeneSecYavruBlok => 'Block';
+
+  @override
+  String get muayeneSecYavruNormal => 'Normal';
+
+  @override
+  String get muayeneSecYavruDaginik => 'Scattered';
+
+  @override
+  String get muayeneSecYavruKambur => 'Humpback';
+
+  @override
+  String get muayeneSecMizacSakin => 'Calm';
+
+  @override
+  String get muayeneSecMizacSinirli => 'Nervous';
+
+  @override
+  String get muayeneSecMizacSaldirgan => 'Aggressive';
+
+  @override
+  String get muayeneSecBeslemeYok => 'None';
+
+  @override
+  String get muayeneSecBesleme11 => '1:1 Syrup';
+
+  @override
+  String get muayeneSecBesleme21 => '2:1 Syrup';
+
+  @override
+  String get muayeneSecBeslemeKek => 'Cake';
+
+  @override
+  String get muayeneSecBeslemeFondan => 'Fondant';
+
+  @override
+  String get muayeneSecVarroaYok => 'None';
+
+  @override
+  String get muayeneSecVarroaDrone => 'Drone Removal';
+
+  @override
+  String get muayeneSecVarroaBolme => 'Split';
+
+  @override
+  String get muayeneSecVarroaTimol => 'Thymol';
+
+  @override
+  String get muayeneSecVarroaAmitraz => 'Amitraz';
+
+  @override
+  String get muayeneSecVarroaFormik => 'Formic';
+
+  @override
+  String get muayeneSecVarroaOksalik => 'Oxalic';
+
+  @override
+  String get srvKoloniAktifDegil => 'Colony inactive';
+
+  @override
+  String get srvPasifKayit => 'Passive record';
+
+  @override
+  String get srvDonorHavuzunda => 'In donor pool';
+
+  @override
+  String get srvBolmeUygun => 'Colony suitable for splitting';
+
+  @override
+  String get srvBolmeSinirinda => 'On strength limit for split';
+
+  @override
+  String get srvBolmeOnerilmez => 'Split not recommended';
+
+  @override
+  String get srvBolmeZayif => 'Strong colony; split timing poor';
+
+  @override
+  String get srvYakindanBak => 'Colony needs close attention';
+
+  @override
+  String get srvIzleyerek => 'Monitor and decide';
+
+  @override
+  String get srvDestekUretim => 'Support / production role';
+
+  @override
+  String get srvVeriGuveniDusuk => 'Low data confidence';
+
+  @override
+  String get srvKararVarVeriDusuk => 'Decision made; low data confidence';
+
+  @override
+  String get srvAnaKazanma => 'Queen Rearing';
+
+  @override
+  String get srvBolmeSonrasi => 'Post-Split';
+
+  @override
+  String get srvKisYonetimi => 'Winter Management';
+
+  @override
+  String get srvBakimSureci => 'Care Process';
+
+  @override
+  String get srvGelisimDonemi => 'Development Period';
+
+  @override
+  String get srvUretimDonemi => 'Production Period';
+
+  @override
+  String get srvHasatHazirlik => 'Harvest Preparation';
+
+  @override
+  String get srvHasatSonrasiBakim => 'Post-Harvest Care';
+
+  @override
+  String get srvOgulSonrasi => 'Post-Swarm';
+
+  @override
+  String get srvVarroaYonetimi => 'Varroa Management';
+
+  @override
+  String get srvSahadaOncelik => 'Field Priority';
+
+  @override
+  String get srvBiyolojikNot => 'Biological Note';
 }
