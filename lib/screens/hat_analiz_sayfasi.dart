@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/hat_analiz_servisi.dart';
+import '../utils/servis_metin_lokalizer.dart';
 import '../services/premium_servisi.dart';
 import '../services/veritabani_servisi.dart';
 import '../widgets/pro_kapit.dart';
@@ -92,9 +93,13 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
 
   Widget _filtreChip(String etiket) {
     final secili = _filtre == etiket;
+    final l = AppLocalizations.of(context);
+    final goruntu = etiket == 'Tümü'
+        ? l.hatAnalizTumu
+        : ServisMetinLokalizer.cevir(etiket, l);
     return ChoiceChip(
       label: Text(
-        etiket,
+        goruntu,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: secili ? Colors.black : Colors.black87,
@@ -309,6 +314,7 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
   }
 
   Widget _hatKarti(HatAnalizSonucu s) {
+    final l = AppLocalizations.of(context);
     final renk = _kararRengi(s.karar);
 
     return Container(
@@ -357,8 +363,8 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
                     const SizedBox(height: 4),
                     Text(
                       s.kokAktifMi
-                          ? s.karar
-                          : AppLocalizations.of(context).hatAnalizSonmusDurum(s.karar, s.kokKovanNo),
+                          ? ServisMetinLokalizer.cevir(s.karar, l)
+                          : AppLocalizations.of(context).hatAnalizSonmusDurum(ServisMetinLokalizer.cevir(s.karar, l), s.kokKovanNo),
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
@@ -387,7 +393,7 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
           ),
           const SizedBox(height: 12),
           Text(
-            s.gerekce,
+            ServisMetinLokalizer.cevir(s.gerekce, l),
             style: const TextStyle(
               fontSize: 13,
               height: 1.4,
@@ -440,7 +446,7 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(
-                        n,
+                        ServisMetinLokalizer.cevir(n, l),
                         style: const TextStyle(
                           fontSize: 12,
                           height: 1.35,

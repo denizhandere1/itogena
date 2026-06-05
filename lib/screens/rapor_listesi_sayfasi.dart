@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/rapor_siralama_servisi.dart';
+import '../utils/servis_metin_lokalizer.dart';
 import 'koloni_detay_sayfasi.dart';
 
 class RaporListesiSayfasi extends StatefulWidget {
@@ -223,7 +224,7 @@ class _RaporListesiSayfasiState extends State<RaporListesiSayfasi> {
                     border: Border.all(color: renk.withOpacity(0.25)),
                   ),
                   child: Text(
-                    kayit.durumMetni,
+                    ServisMetinLokalizer.cevir(kayit.durumMetni, AppLocalizations.of(context)),
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       color: renk,

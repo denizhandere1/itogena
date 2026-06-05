@@ -2872,7 +2872,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              veri.durum.toUpperCase(),
+                              ServisMetinLokalizer.cevir(veri.durum, AppLocalizations.of(context)).toUpperCase(),
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w900,

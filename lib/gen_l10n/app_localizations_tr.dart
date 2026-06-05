@@ -2967,4 +2967,443 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get srvBiyolojikNot => 'Biyolojik Not';
+
+  @override
+  String get trendVeriYok => 'Veri Yok';
+
+  @override
+  String get trendStabil => 'Stabil';
+
+  @override
+  String get trendYukselis => 'Yükseliş';
+
+  @override
+  String get trendDusus => 'Düşüş';
+
+  @override
+  String get trendSonmus => 'Sönmüş';
+
+  @override
+  String get trendKontrolluBolme => 'Kontrollü Bölme';
+
+  @override
+  String get trendBolmeSonrasiIzleme => 'Bölme Sonrası İzleme';
+
+  @override
+  String get trendGucluBiyolojikYon => 'Güçlü Biyolojik Yön';
+
+  @override
+  String get trendHasatSonrasiStabil => 'Hasat Sonrası Stabil';
+
+  @override
+  String get trendYavasGelisim => 'Yavaş Gelişim';
+
+  @override
+  String get trendHenuzMuayeneYok => 'Henüz muayene verisi bulunmuyor.';
+
+  @override
+  String get trendMomentumKovanSondu =>
+      'Kovan sönmüş işaretlendi; momentum gerçek biyolojik kayıp olarak okunur.';
+
+  @override
+  String get trendMomentumBolme =>
+      'Bölme kaydı nedeniyle çıta düşüşü biyolojik zayıflama sayılmadı.';
+
+  @override
+  String get trendMomentumHasat =>
+      'Bal/hasat kaydı nedeniyle çıta düşüşü biyolojik momentum cezası sayılmadı.';
+
+  @override
+  String get trendMomentumFizikselDegismedi =>
+      'Fiziksel hacim değişmedi; momentum nötr okundu.';
+
+  @override
+  String get trendMomentumHizliArtis =>
+      'Hızlı hacim artışı aktivasyon tamamlanmadan gerçek büyüme sayılmadı.';
+
+  @override
+  String get trendMomentumKatGecisi =>
+      'Kat/ballık geçişi fiziksel hacim artışı olarak görüldü; biyolojik momentum temkinli normalleştirildi.';
+
+  @override
+  String get trendMomentumDusukAktivasyon =>
+      'Yeni hacmin aktivasyonu düşük olduğu için büyüme sinyali frenlendi.';
+
+  @override
+  String get trendMomentumBalAkimi =>
+      'Bal akımı içinde sağlıklı üst hacim genişlemesi biyolojik üretim yönü olarak okundu.';
+
+  @override
+  String get trendMomentumNormalize =>
+      'Fiziksel artış işlevsel kapasiteye göre normalize edildi.';
+
+  @override
+  String get surecOgulRiski => 'Oğul riski';
+
+  @override
+  String get surecOgulRiskiTakip => 'Oğul riski takibi';
+
+  @override
+  String get surecTekrarlayanOgul => 'Tekrarlayan oğul / nüfus kaybı riski';
+
+  @override
+  String get surecOgulSonrasiArtciYuksek => 'Oğul sonrası artçı riski yüksek';
+
+  @override
+  String get surecArtciOgulIzleniyor => 'Artçı oğul riski izleniyor';
+
+  @override
+  String get surecOgulSonrasiAnaCiftlesme =>
+      'Oğul sonrası ana / çiftleşme süreci';
+
+  @override
+  String get surecOgulSonrasiYumurtlamaKontrol =>
+      'Oğul sonrası yumurtlama kontrolü';
+
+  @override
+  String get surecBolmeSonrasiToparlanma => 'Bölme sonrası toparlanma';
+
+  @override
+  String get surecHasatSonrasiBakimGerekli => 'Hasat sonrası bakım gerekli';
+
+  @override
+  String get surecGelisimYavas => 'Gelişim yavaş görünüyor';
+
+  @override
+  String get surecMesajOgulRiski1 =>
+      'Ana memesi görüldü. Bu sağlık sorunu değil, oğul davranışı ve koloni sıkışıklığı işaretidir. Koloniyi sakin biçimde kontrol et; gerekiyorsa bölme yap veya 1–2 kaliteli meme bırakıp fazlasını azalt.';
+
+  @override
+  String get surecMesajOgulRiski2 =>
+      'İlk hafta artçı oğul riski yüksektir. Meme sayısını kontrol et; birden fazla güçlü meme bırakmak koloniyi tekrar bölebilir. Gerekiyorsa bölme veya fazla memeleri azaltma kararı ver.';
+
+  @override
+  String get surecMesajOgulRiskiTakip =>
+      'Oğul belirtisi takip döneminde. Yeni meme, sıkışıklık veya huzursuzluk yoksa süreç kendiliğinden sönümlenir; gereksiz tekrar uyarı üretmez.';
+
+  @override
+  String get surecMesajTekrarlayanOgul =>
+      'Oğul kaydı tekrar ediyor. Bu artık normal artçı takibi değil; koloni hızla nüfus kaybedebilir. Meme sayısı, kalan arı gücü, stok ve ana belirtisi birlikte okunmalı. Çok zayıfladıysa yoğun emek yerine birleştirme veya sınırlı destek daha doğru olabilir.';
+
+  @override
+  String get surecMesajArtciYuksek =>
+      'Oğul sonrası ilk hafta artçı oğul riski yüksektir. Amaç koloniyi tekrar böldürmemektir. Kontrol gerekiyorsa kısa ve sakin yapılmalı; fazla meme bırakmak tekrar nüfus kaybı doğurabilir. Üretim/kat/hasat kararı geri plandadır.';
+
+  @override
+  String get surecMesajArtciIzleniyor =>
+      'Artçı oğul riski devam eder ama ilk haftaya göre azalır. Yeni meme, huzursuzluk veya tekrar çıkış belirtisi yoksa ana sürecini bozmadan beklemek daha doğrudur. Günlük veya kapalı yavru görülürse süreç kapanır.';
+
+  @override
+  String get surecMesajAnaCiftlesme =>
+      'Artçı riski büyük ölçüde kapanır. Bu dönem yeni ana çıkışı, olgunlaşma ve çiftleşme penceresidir. Yavru hâlâ görülmeyebilir; bu tek başına çöküş sayılmaz. Dış uçuş, polen gelişi ve sakinlik izlenir. Günlük veya kapalı yavru görülürse muayenede işaretle, süreç kapanır.';
+
+  @override
+  String get surecMesajYumurtlamaKontrol =>
+      'Oğul sonrası 31–45. gün arası artık yumurtlama netleşmelidir. Günlük veya kapalı yavru görülürse süreç kapanır. Hâlâ yavru yoksa bu süreç normal bekleme olmaktan çıkar; ana başarısızlığı, çiftleşme kaybı veya yalancı ana riski yavru-yok tanısı ile öne alınır.';
+
+  @override
+  String get surecMesajBolmeErken =>
+      'Koloniyi sıkışık tut ve besleme yap. Yeni düzen kurulana kadar destek gerekir.';
+
+  @override
+  String get surecMesajBolmeGecikti =>
+      'Ana durumunu kontrol et. Toparlanma gecikmiş olabilir.';
+
+  @override
+  String get kabiliyetBiyolojikBaslik => 'Biyolojik Kabiliyet';
+
+  @override
+  String get kabiliyetBiyolojikMesaj =>
+      'Petek örme kapasitesi güçlü görünüyor. Ham petek verilecekse yavru bloğu kesilmeden dıştan genişletme daha güvenlidir.';
+
+  @override
+  String get kabiliyetGenisletmeRiskiBaslik => 'Genişletme Riski';
+
+  @override
+  String get kabiliyetGenisletmeRiskiMesaj =>
+      'Petek örme kapasitesi sınırlı görünüyor. Ham petek yerine kabarmış petek veya sıkı düzen daha güvenlidir.';
+
+  @override
+  String get kabiliyetBalAkimiBaslik => 'Bal Akımı Kapasitesi';
+
+  @override
+  String get kabiliyetBalAkimiMesaj =>
+      'Tarlacı ve bal işleme kapasitesi güçlü görünüyor. Bal akımı döneminde alan, kat ve sırlanma takibi öne alınmalı.';
+
+  @override
+  String get kabiliyetBakiciDengeBaslik => 'Bakıcı Dengesi';
+
+  @override
+  String get kabiliyetBakiciDengeMesaj =>
+      'Yavru bakım kapasitesi iyi fakat petek örme sınırlı. Yavru alanını bozmayacak kabarmış petek, ham petekten daha güvenli olur.';
+
+  @override
+  String get kabiliyetKisGuvenligiBaslik => 'Kış Güvenliği';
+
+  @override
+  String get kabiliyetKisGuvenligiMesaj =>
+      'Kış dayanımı sınırlı görünüyor. Öncelik hasat veya genişletme değil stok güvenliği ve sıkı düzendir.';
+
+  @override
+  String get kabiliyetBiyolojikSahaNotBaslik => 'Biyolojik Saha Notu';
+
+  @override
+  String get kararAsBiyolojikYon => 'Biyolojik yön';
+
+  @override
+  String get perfKriterUreme => 'Üreme';
+
+  @override
+  String get perfKriterUretim => 'Üretim';
+
+  @override
+  String get perfKriterDayaniklilik => 'Dayanıklılık';
+
+  @override
+  String get perfKriterDavranis => 'Davranış';
+
+  @override
+  String get perfKriterHatGucu => 'Hat Gücü';
+
+  @override
+  String get perfKriterVeriGuveni => 'Veri Güveni';
+
+  @override
+  String get perfKriterBiyolojikDurum => 'Biyolojik Durum';
+
+  @override
+  String get perfKriterKoloniGidisati => 'Koloni Gidişatı';
+
+  @override
+  String get perfKriterHacimAktivasyonu => 'Hacim Aktivasyonu';
+
+  @override
+  String get perfKriterPetekOrme => 'Petek Örme Kapasitesi';
+
+  @override
+  String get perfKriterYavruBakim => 'Yavru Bakım Kapasitesi';
+
+  @override
+  String get perfKriterBalAkimi => 'Bal Akımı Kapasitesi';
+
+  @override
+  String get perfKriterKisGuvenligi => 'Kış Güvenliği';
+
+  @override
+  String get yorumVeriYok =>
+      'Veri yok; karar yalnızca kimlik ve kaynak bilgisine göre sınırlıdır.';
+
+  @override
+  String get yorumVeriCokSinirli =>
+      'Veri çok sınırlı; sistem karar verir ama güven düzeyi düşüktür.';
+
+  @override
+  String get yorumVeriIzlenmeli =>
+      'Veri izlenmeli; karar var ama sonraki muayenelerle güçlenmelidir.';
+
+  @override
+  String get yorumVeriYeterli =>
+      'Veri güveni yeterli; değerlendirme güvenilir banda girmiştir.';
+
+  @override
+  String get yorumYetersizVeri =>
+      'Henüz değerlendirilebilir türeyen koloni verisi yok.';
+
+  @override
+  String get yorumKararYetersiz => 'Karar üretmek için yeterli veri yok.';
+
+  @override
+  String get soyDurumVeriYok => 'Veri Yok';
+
+  @override
+  String get soyDurumVeriYetersiz => 'Veri Yetersiz';
+
+  @override
+  String get soyDurumGucluSoy => 'Güçlü Soy';
+
+  @override
+  String get soyDurumOlumluSoy => 'Olumlu Soy';
+
+  @override
+  String get soyDurumZayifSoy => 'Zayıf Soy';
+
+  @override
+  String get soyDurumRiskliSoy => 'Riskli Soy';
+
+  @override
+  String get soyDurumNotr => 'Nötr';
+
+  @override
+  String get soyYorumTureyenYok =>
+      'Bu koloniden türeyen kayıtlı koloni görünmüyor.';
+
+  @override
+  String get soyYorumVeriYetersiz =>
+      'Türeyen koloniler var; ancak henüz en az 45 gün geçmiş yeterli veri oluşmamış.';
+
+  @override
+  String get hatKararVeriYetersiz => 'Veri Yetersiz';
+
+  @override
+  String get hatKararOperasyonel => 'Operasyonel Hat';
+
+  @override
+  String get hatKararRiskli => 'Riskli Hat';
+
+  @override
+  String get hatKararDonor => 'Donör Hat';
+
+  @override
+  String get hatKararGucluUretim => 'Güçlü Üretim Hattı';
+
+  @override
+  String get hatKararTakip => 'Takip Edilmeli';
+
+  @override
+  String get hatGerekceVeriYetersiz =>
+      'Bu hat için güvenilir karar üretecek kadar yeterli koloni geçmişi oluşmamış.';
+
+  @override
+  String get hatGerekceOperasyonel =>
+      'Bu hatta oğul kökeni veya gerçekleşmiş oğul olayı bulunduğu için donör hat olarak kabul edilmez.';
+
+  @override
+  String get hatGerekceRiskli =>
+      'Bu hatta tekrar eden sönme veya yüksek sönme oranı görülüyor.';
+
+  @override
+  String get hatGereceDonor =>
+      'Hat; gelişim, üretim ve dayanıklılık açısından güçlü ve dengeli görünüyor.';
+
+  @override
+  String get hatGerekceGucluUretim =>
+      'Hat donör kadar temiz ve güçlü görünmese de üretim omurgası olarak değerlidir.';
+
+  @override
+  String get hatGerekceTakip =>
+      'Hat tamamen zayıf görünmüyor; ancak çoğaltma kararı için daha net tekrar ve performans verisi gerekiyor.';
+
+  @override
+  String get hatNotVeriIhtiyac =>
+      'En az iki koloni ve daha fazla saha tekrarına ihtiyaç var.';
+
+  @override
+  String get hatNotDonorOncelikli =>
+      'Bu hat donör çoğaltma için öncelikli adaydır.';
+
+  @override
+  String get hatNotTekrarlayanSonme =>
+      'Tekrarlayan sönmeler seçilim açısından güçlü negatif sinyaldir.';
+
+  @override
+  String get hatNotTekSonme =>
+      'Tek sönme doğrudan eleme değildir, ama uyarı sinyalidir.';
+
+  @override
+  String get hatNotGelisimGuclu => 'Hat içinde gelişim gücü olumlu görünüyor.';
+
+  @override
+  String get hatNotBalPerformans =>
+      'Ortalama bal performansı olumlu ayrışıyor.';
+
+  @override
+  String get hatNotIzlemeDEvam => 'Bu hat için izleme devam etmeli.';
+
+  @override
+  String get hatNotKisGuclu => 'Kıştan çıkış gücü olumlu görünüyor.';
+
+  @override
+  String get hatAksiyonVeriTopla => 'Bu hat için veri toplamaya devam et';
+
+  @override
+  String get hatAksiyonErkenKarar => 'Erken damızlık kararı verme';
+
+  @override
+  String get hatAksiyonAnaUretme => 'Bu hattan ana üretme';
+
+  @override
+  String get hatAksiyonSinirliUretim => 'Yeni bölme üretimini sınırlı tut';
+
+  @override
+  String get hatAksiyonUretimDestek =>
+      'Üretim veya destek hattı olarak değerlendir';
+
+  @override
+  String get hatAksiyonBolmeYapma => 'Bu hattan bölme yapma';
+
+  @override
+  String get hatAksiyonDonorHavuzu => 'Donör havuzuna alma';
+
+  @override
+  String get hatAksiyonHatEleme =>
+      'Hat elemesini veya ana yenilemeyi değerlendir';
+
+  @override
+  String get hatAksiyonAnaUret => 'Bu hattan ana üret';
+
+  @override
+  String get hatAksiyonTemizHat => 'Temiz çoğaltma hattı olarak koru';
+
+  @override
+  String get hatAksiyonDonorOncelik => 'Donör havuzunda önceliklendir';
+
+  @override
+  String get hatAksiyonUretimdeKor => 'Bu hattı üretimde koru';
+
+  @override
+  String get hatAksiyonSinirliKontrolluBolme =>
+      'Sınırlı ve kontrollü bölme düşün';
+
+  @override
+  String get hatAksiyonUretimOmurgasi =>
+      'Donör değil, üretim omurgası olarak değerlendir';
+
+  @override
+  String get hatAksiyonIzlemeDevam => 'İzlemeye devam et';
+
+  @override
+  String get hatAksiyonKarariErtele => 'Kararı ertele, veri biriktir';
+
+  @override
+  String get hatAksiyonMuayeneSiklik =>
+      'Kritik kolonilerde muayene sıklığını artır';
+
+  @override
+  String get perfDurumGenetikFiltre => 'Genetik Filtre';
+
+  @override
+  String get perfDurumSartliDonor => 'Şartlı Donör';
+
+  @override
+  String get perfDurumGucluUretim => 'Güçlü Üretim';
+
+  @override
+  String get perfDurumIzlenmeli => 'İzlenmeli';
+
+  @override
+  String get perfDurumMudahale => 'Müdahale';
+
+  @override
+  String get raporDurumGenetikVeto => 'Genetik veto';
+
+  @override
+  String get raporDurumDonor1 => 'Donör 1';
+
+  @override
+  String get raporDurumDonor2 => 'Donör 2';
+
+  @override
+  String get raporDurumDonor3 => 'Donör 3';
+
+  @override
+  String get raporDurumCokZayif => 'Çok zayıf';
+
+  @override
+  String get raporDurumGelismekte => 'Gelişmekte';
+
+  @override
+  String get raporDurumGuclu => 'Güçlü';
+
+  @override
+  String get raporDurumCokGuclu => 'Çok güçlü';
 }

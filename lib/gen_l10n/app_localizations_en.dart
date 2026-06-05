@@ -2970,4 +2970,440 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get srvBiyolojikNot => 'Biological Note';
+
+  @override
+  String get trendVeriYok => 'No Data';
+
+  @override
+  String get trendStabil => 'Stable';
+
+  @override
+  String get trendYukselis => 'Rising';
+
+  @override
+  String get trendDusus => 'Declining';
+
+  @override
+  String get trendSonmus => 'Extinct';
+
+  @override
+  String get trendKontrolluBolme => 'Controlled Split';
+
+  @override
+  String get trendBolmeSonrasiIzleme => 'Post-Split Monitoring';
+
+  @override
+  String get trendGucluBiyolojikYon => 'Strong Biological Direction';
+
+  @override
+  String get trendHasatSonrasiStabil => 'Post-Harvest Stable';
+
+  @override
+  String get trendYavasGelisim => 'Slow Development';
+
+  @override
+  String get trendHenuzMuayeneYok => 'No inspection data yet.';
+
+  @override
+  String get trendMomentumKovanSondu =>
+      'Hive marked extinct; momentum read as actual biological loss.';
+
+  @override
+  String get trendMomentumBolme =>
+      'Frame drop not counted as biological weakening due to split record.';
+
+  @override
+  String get trendMomentumHasat =>
+      'Frame drop not counted as biological momentum penalty due to honey/harvest record.';
+
+  @override
+  String get trendMomentumFizikselDegismedi =>
+      'Physical volume unchanged; momentum read as neutral.';
+
+  @override
+  String get trendMomentumHizliArtis =>
+      'Rapid volume increase not counted as true growth until activation completes.';
+
+  @override
+  String get trendMomentumKatGecisi =>
+      'Super/honey transition seen as physical volume increase; biological momentum normalised cautiously.';
+
+  @override
+  String get trendMomentumDusukAktivasyon =>
+      'Growth signal braked because new volume activation is low.';
+
+  @override
+  String get trendMomentumBalAkimi =>
+      'Healthy upper-volume expansion within honey flow read as biological production direction.';
+
+  @override
+  String get trendMomentumNormalize =>
+      'Physical increase normalised according to functional capacity.';
+
+  @override
+  String get surecOgulRiski => 'Swarm risk';
+
+  @override
+  String get surecOgulRiskiTakip => 'Swarm risk monitoring';
+
+  @override
+  String get surecTekrarlayanOgul => 'Recurring swarm / population loss risk';
+
+  @override
+  String get surecOgulSonrasiArtciYuksek => 'Post-swarm after-swarm risk high';
+
+  @override
+  String get surecArtciOgulIzleniyor => 'After-swarm risk monitored';
+
+  @override
+  String get surecOgulSonrasiAnaCiftlesme =>
+      'Post-swarm queen / mating process';
+
+  @override
+  String get surecOgulSonrasiYumurtlamaKontrol => 'Post-swarm laying check';
+
+  @override
+  String get surecBolmeSonrasiToparlanma => 'Post-split recovery';
+
+  @override
+  String get surecHasatSonrasiBakimGerekli => 'Post-harvest care required';
+
+  @override
+  String get surecGelisimYavas => 'Development appears slow';
+
+  @override
+  String get surecMesajOgulRiski1 =>
+      'Queen cell seen. This is not a health problem but swarm behaviour and colony crowding. Check the colony calmly; if necessary, split or leave 1–2 quality cells and reduce the rest.';
+
+  @override
+  String get surecMesajOgulRiski2 =>
+      'After-swarm risk is high in the first week. Check the cell count; leaving more than one strong cell can split the colony again. Decide on splitting or reducing excess cells if necessary.';
+
+  @override
+  String get surecMesajOgulRiskiTakip =>
+      'Swarm sign is in the monitoring period. If there is no new cell, crowding or restlessness, the process will resolve on its own; no unnecessary repeat alerts are generated.';
+
+  @override
+  String get surecMesajTekrarlayanOgul =>
+      'Swarm records are repeating. This is no longer normal after-swarm monitoring; the colony may lose population rapidly. Cell count, remaining bee strength, stock and queen signs should be read together. If severely weakened, merging or limited support may be more appropriate than intensive labour.';
+
+  @override
+  String get surecMesajArtciYuksek =>
+      'After-swarm risk is highest in the first week. The goal is not to let the colony swarm again. If inspection is needed, keep it short and calm; leaving too many cells can cause population loss again. Production/super/harvest decisions are secondary.';
+
+  @override
+  String get surecMesajArtciIzleniyor =>
+      'After-swarm risk continues but decreases compared to the first week. If there is no new cell, restlessness or repeat exit sign, waiting without disturbing the queen process is more appropriate. If daily or sealed brood is seen, the process closes.';
+
+  @override
+  String get surecMesajAnaCiftlesme =>
+      'After-swarm risk largely closes. This is the new queen emergence, maturation and mating window. Brood may still not be visible; this alone is not collapse. External flight, pollen input and calmness are monitored. If daily or sealed brood is seen, mark it in inspection and the process closes.';
+
+  @override
+  String get surecMesajYumurtlamaKontrol =>
+      'By days 31–45 post-swarm, laying should now be evident. If daily or sealed brood is seen, the process closes. If still no brood, this is no longer normal waiting; queen failure, mating loss or laying-worker risk is elevated via the no-brood diagnosis.';
+
+  @override
+  String get surecMesajBolmeErken =>
+      'Keep the colony compact and feed. Support is needed until the new order is established.';
+
+  @override
+  String get surecMesajBolmeGecikti =>
+      'Check queen status. Recovery may be delayed.';
+
+  @override
+  String get kabiliyetBiyolojikBaslik => 'Biological Capability';
+
+  @override
+  String get kabiliyetBiyolojikMesaj =>
+      'Comb-drawing capacity appears strong. If foundation is to be given, outer expansion without cutting the brood block is safer.';
+
+  @override
+  String get kabiliyetGenisletmeRiskiBaslik => 'Expansion Risk';
+
+  @override
+  String get kabiliyetGenisletmeRiskiMesaj =>
+      'Comb-drawing capacity appears limited. Drawn comb or compact layout is safer than foundation.';
+
+  @override
+  String get kabiliyetBalAkimiBaslik => 'Honey Flow Capacity';
+
+  @override
+  String get kabiliyetBalAkimiMesaj =>
+      'Forager and honey-processing capacity appears strong. Space, super and capping monitoring should be prioritised during the honey flow.';
+
+  @override
+  String get kabiliyetBakiciDengeBaslik => 'Nurse Balance';
+
+  @override
+  String get kabiliyetBakiciDengeMesaj =>
+      'Brood-care capacity is good but comb drawing is limited. Drawn comb that doesn\'t disrupt the brood area is safer than foundation.';
+
+  @override
+  String get kabiliyetKisGuvenligiBaslik => 'Winter Safety';
+
+  @override
+  String get kabiliyetKisGuvenligiMesaj =>
+      'Winter hardiness appears limited. Priority is stock safety and compact layout, not harvest or expansion.';
+
+  @override
+  String get kabiliyetBiyolojikSahaNotBaslik => 'Biological Field Note';
+
+  @override
+  String get kararAsBiyolojikYon => 'Biological direction';
+
+  @override
+  String get perfKriterUreme => 'Reproduction';
+
+  @override
+  String get perfKriterUretim => 'Production';
+
+  @override
+  String get perfKriterDayaniklilik => 'Resilience';
+
+  @override
+  String get perfKriterDavranis => 'Behaviour';
+
+  @override
+  String get perfKriterHatGucu => 'Line Strength';
+
+  @override
+  String get perfKriterVeriGuveni => 'Data Confidence';
+
+  @override
+  String get perfKriterBiyolojikDurum => 'Biological Status';
+
+  @override
+  String get perfKriterKoloniGidisati => 'Colony Trend';
+
+  @override
+  String get perfKriterHacimAktivasyonu => 'Volume Activation';
+
+  @override
+  String get perfKriterPetekOrme => 'Comb Drawing Capacity';
+
+  @override
+  String get perfKriterYavruBakim => 'Brood Care Capacity';
+
+  @override
+  String get perfKriterBalAkimi => 'Honey Flow Capacity';
+
+  @override
+  String get perfKriterKisGuvenligi => 'Winter Safety';
+
+  @override
+  String get yorumVeriYok =>
+      'No data; decision is limited to identity and source information only.';
+
+  @override
+  String get yorumVeriCokSinirli =>
+      'Data very limited; system makes a decision but confidence level is low.';
+
+  @override
+  String get yorumVeriIzlenmeli =>
+      'Data should be monitored; decision exists but should be strengthened with future inspections.';
+
+  @override
+  String get yorumVeriYeterli =>
+      'Data confidence sufficient; evaluation has entered the reliable band.';
+
+  @override
+  String get yorumYetersizVeri => 'No evaluable offspring colony data yet.';
+
+  @override
+  String get yorumKararYetersiz => 'Insufficient data to produce a decision.';
+
+  @override
+  String get soyDurumVeriYok => 'No Data';
+
+  @override
+  String get soyDurumVeriYetersiz => 'Insufficient Data';
+
+  @override
+  String get soyDurumGucluSoy => 'Strong Lineage';
+
+  @override
+  String get soyDurumOlumluSoy => 'Positive Lineage';
+
+  @override
+  String get soyDurumZayifSoy => 'Weak Lineage';
+
+  @override
+  String get soyDurumRiskliSoy => 'At-Risk Lineage';
+
+  @override
+  String get soyDurumNotr => 'Neutral';
+
+  @override
+  String get soyYorumTureyenYok =>
+      'No registered offspring colony visible from this colony.';
+
+  @override
+  String get soyYorumVeriYetersiz =>
+      'Offspring colonies exist; however sufficient data of at least 45 days has not yet accumulated.';
+
+  @override
+  String get hatKararVeriYetersiz => 'Insufficient Data';
+
+  @override
+  String get hatKararOperasyonel => 'Operational Line';
+
+  @override
+  String get hatKararRiskli => 'At-Risk Line';
+
+  @override
+  String get hatKararDonor => 'Donor Line';
+
+  @override
+  String get hatKararGucluUretim => 'Strong Production Line';
+
+  @override
+  String get hatKararTakip => 'Needs Monitoring';
+
+  @override
+  String get hatGerekceVeriYetersiz =>
+      'Insufficient colony history has accumulated to produce a reliable decision for this line.';
+
+  @override
+  String get hatGerekceOperasyonel =>
+      'This line is not accepted as a donor line because it contains swarm origin or a confirmed swarm event.';
+
+  @override
+  String get hatGerekceRiskli =>
+      'Recurring extinction or high extinction rate is observed in this line.';
+
+  @override
+  String get hatGereceDonor =>
+      'The line appears strong and balanced in terms of development, production and hardiness.';
+
+  @override
+  String get hatGerekceGucluUretim =>
+      'The line may not be as clean and strong as a donor but is valuable as a production backbone.';
+
+  @override
+  String get hatGerekceTakip =>
+      'The line does not appear entirely weak; however more clear repeats and performance data are needed before a multiplication decision.';
+
+  @override
+  String get hatNotVeriIhtiyac =>
+      'At least two colonies and more field repetitions are needed.';
+
+  @override
+  String get hatNotDonorOncelikli =>
+      'This line is the primary candidate for donor multiplication.';
+
+  @override
+  String get hatNotTekrarlayanSonme =>
+      'Recurring extinctions are a strong negative signal from a selection perspective.';
+
+  @override
+  String get hatNotTekSonme =>
+      'A single extinction is not direct elimination, but is a warning signal.';
+
+  @override
+  String get hatNotGelisimGuclu =>
+      'Development strength within the line appears positive.';
+
+  @override
+  String get hatNotBalPerformans =>
+      'Average honey performance is positively differentiated.';
+
+  @override
+  String get hatNotIzlemeDEvam => 'Monitoring for this line should continue.';
+
+  @override
+  String get hatNotKisGuclu => 'Winter exit strength appears positive.';
+
+  @override
+  String get hatAksiyonVeriTopla => 'Continue collecting data for this line';
+
+  @override
+  String get hatAksiyonErkenKarar => 'Do not make early breeding decisions';
+
+  @override
+  String get hatAksiyonAnaUretme => 'Do not rear queens from this line';
+
+  @override
+  String get hatAksiyonSinirliUretim => 'Keep new split production limited';
+
+  @override
+  String get hatAksiyonUretimDestek => 'Evaluate as production or support line';
+
+  @override
+  String get hatAksiyonBolmeYapma => 'Do not split from this line';
+
+  @override
+  String get hatAksiyonDonorHavuzu => 'Do not admit to donor pool';
+
+  @override
+  String get hatAksiyonHatEleme => 'Consider line culling or queen replacement';
+
+  @override
+  String get hatAksiyonAnaUret => 'Rear queens from this line';
+
+  @override
+  String get hatAksiyonTemizHat => 'Maintain as a clean multiplication line';
+
+  @override
+  String get hatAksiyonDonorOncelik => 'Prioritise in donor pool';
+
+  @override
+  String get hatAksiyonUretimdeKor => 'Keep this line in production';
+
+  @override
+  String get hatAksiyonSinirliKontrolluBolme =>
+      'Consider limited and controlled splitting';
+
+  @override
+  String get hatAksiyonUretimOmurgasi =>
+      'Evaluate as production backbone, not donor';
+
+  @override
+  String get hatAksiyonIzlemeDevam => 'Continue monitoring';
+
+  @override
+  String get hatAksiyonKarariErtele => 'Defer decision, accumulate data';
+
+  @override
+  String get hatAksiyonMuayeneSiklik =>
+      'Increase inspection frequency for critical colonies';
+
+  @override
+  String get perfDurumGenetikFiltre => 'Genetic Filter';
+
+  @override
+  String get perfDurumSartliDonor => 'Conditional Donor';
+
+  @override
+  String get perfDurumGucluUretim => 'Strong Production';
+
+  @override
+  String get perfDurumIzlenmeli => 'Needs Monitoring';
+
+  @override
+  String get perfDurumMudahale => 'Intervention';
+
+  @override
+  String get raporDurumGenetikVeto => 'Genetic Veto';
+
+  @override
+  String get raporDurumDonor1 => 'Donor 1';
+
+  @override
+  String get raporDurumDonor2 => 'Donor 2';
+
+  @override
+  String get raporDurumDonor3 => 'Donor 3';
+
+  @override
+  String get raporDurumCokZayif => 'Very Weak';
+
+  @override
+  String get raporDurumGelismekte => 'Developing';
+
+  @override
+  String get raporDurumGuclu => 'Strong';
+
+  @override
+  String get raporDurumCokGuclu => 'Very Strong';
 }
