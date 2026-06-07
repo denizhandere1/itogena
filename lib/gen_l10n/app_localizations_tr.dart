@@ -4225,4 +4225,686 @@ class AppLocalizationsTr extends AppLocalizations {
   String uyariBalBolmeGecMesaj(String kritikEsik) {
     return '$kritikEsik sonrası 42 günlük biyolojik eşik aşılmış olur. Bu tarihten sonra yapılan bölmeler bal verimini düşürebilir. Üretim hedefi korunacaksa bölme kararını ertele.';
   }
+
+  @override
+  String get kararVetoDogrudan =>
+      'Koloni oğul kökenli olduğu için temiz donör havuzuna alınmadı.';
+
+  @override
+  String get kararVetoKendisiOgulAtti =>
+      'Koloni kendi geçmişinde oğul attığı için donör değerlendirmesinde veto aldı.';
+
+  @override
+  String kararVetoAtaHattaRef(String referansNo) {
+    return '$referansNo hattında oğul izi bulunduğu için temiz donör havuzuna alınmadı.';
+  }
+
+  @override
+  String get kararVetoAtaHatta =>
+      'Atasal hatta oğul izi bulunduğu için temiz donör havuzuna alınmadı.';
+
+  @override
+  String kararDonorSirasi(int sira) {
+    return 'Temiz donör havuzunda $sira. sırada görünüyor.';
+  }
+
+  @override
+  String kararSonCitaMetni(int cita) {
+    return 'Son muayenede koloni $cita çıta gücünde görünüyor.';
+  }
+
+  @override
+  String kararMaxCitaMetni(int cita) {
+    return 'Bu sezon gördüğü en yüksek güç $cita çıta.';
+  }
+
+  @override
+  String kararBalCitaMetni(int cita) {
+    return 'Bal taşıma sinyali $cita ballı çıta ile görülüyor.';
+  }
+
+  @override
+  String get kararTrendYukselis => 'Son muayenelerde gelişim yönü yukarı.';
+
+  @override
+  String get kararTrendDusus => 'Son muayenelerde güç kaybı eğilimi görülüyor.';
+
+  @override
+  String get kararTrendStabil => 'Gidişat stabil görünüyor.';
+
+  @override
+  String kararAnaYasiRisk(int yas) {
+    return 'Ana yaşı $yas yıl olduğu için verim ve düzen düşüşü riski taşıyor.';
+  }
+
+  @override
+  String get kararMizacRisk => 'Mizaç verisi saha yönetimini zorlaştırabilir.';
+
+  @override
+  String get kararAzVeriUyari =>
+      'Karar az veriyle üretildiği için güven payı düşüktür.';
+
+  @override
+  String get kararBolmePlan =>
+      'Bölme yapacaksan koloniyi 6 çıtanın altına düşürmeden planla.';
+
+  @override
+  String get kararDonorOncelik =>
+      'Ana üretiminde bu koloniyi aday havuzunda öncelikli düşün.';
+
+  @override
+  String get kararAnaDegisimPlan =>
+      'Ana değişimini aktif dönemin sonuna yakın planlamak genelde daha güvenli olur.';
+
+  @override
+  String get kararGuclendir =>
+      'Kapalı yavru, besleme ve düzenli muayene ile güçlenme yönünü izle.';
+
+  @override
+  String get kararUretimTut =>
+      'Üretimde tut; bal akımı yaklaşırken alan ve kat yönetimini öne al.';
+
+  @override
+  String get kararPasifKayitOner =>
+      'Koloniyi aktif üretimden çok soy ve geçmiş kaydı olarak değerlendir.';
+
+  @override
+  String get kararNeden => 'Neden';
+
+  @override
+  String get kararKilitBekle => 'Bekle';
+
+  @override
+  String get kararKilitGerekce =>
+      'Bu pencere kapanmadan çelişen eylem önerilmez.';
+
+  @override
+  String kararBolmeGucluMesaj(int gun) {
+    return 'Koloni güçlü gelişim gösteriyor ve bal akımına yaklaşık $gun gün var. Kat seviyesine yaklaşmış olsa da bu süre içinde oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme değerlendirilebilir.';
+  }
+
+  @override
+  String kararBolmeSinirliMesaj(int gun) {
+    return 'Koloni güçlü; ancak bal akımına yaklaşık $gun gün kaldığı için bölme kararı sınırlı ve dikkatli düşünülmeli. Ana koloni bala yetişemeyecekse bölme yerine alan/oğul yönetimi öne alınır.';
+  }
+
+  @override
+  String get kararBolmeGerekce =>
+      'Bölme kararı sadece çıta sayısı değildir: bal akımına kalan süre, gelişim yönü, yavru düzeni, işlevsel çıta ve genetik veto birlikte okundu.';
+
+  @override
+  String get kararKatEsikSurupluklu => 'Şurupluk + 9 çıta kapasitesi';
+
+  @override
+  String get kararKatEsikSurupluksuz => 'Şurupluksuz 10 çıta kapasitesi';
+
+  @override
+  String get kararKatAkimAktif => 'Bal akımı aktif görünüyor.';
+
+  @override
+  String get kararKatAkimKontrol =>
+      'Bal akımı penceresi ayrıca kontrol edilmeli.';
+
+  @override
+  String kararKatAkimKalan(int gun) {
+    return 'Bal akımına yaklaşık $gun gün var.';
+  }
+
+  @override
+  String kararKatMesaj(String esik, int yuzde, String akim) {
+    return '$esik dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. $akim Bu eşik artık normal çıta ekleme değil, kat/ballık verme eşiğidir.';
+  }
+
+  @override
+  String get kararKatGerekce =>
+      'Şurupluk varsa kuluçkalık 9 çıta, şurupluk kaldırıldıysa 10 çıta kapasite kabul edilir.';
+
+  @override
+  String get kararUcuncuKatEsikSurupluklu => 'Şurupluk + 19 çıta kapasitesi';
+
+  @override
+  String get kararUcuncuKatEsikSurupluksuz => 'Şurupluksuz 20 çıta kapasitesi';
+
+  @override
+  String kararUcuncuKatMesaj(String esik, int yuzde) {
+    return '$esik dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. Koloni ikinci üst hacmi doldurma eşiğine gelmiş; 3. kat/ikinci ballık değerlendirilmeli.';
+  }
+
+  @override
+  String get kararUcuncuKatGerekce =>
+      'Şurupluk varsa 19 çıta, şurupluk kaldırıldıysa 20 çıta 3. kat verme eşiğidir. Bir sonraki çıta artışı 3 katlı koloni olarak okunur.';
+
+  @override
+  String kararAlanMesajKulucluk(int yuzde) {
+    return 'Mevcut hacim yaklaşık %$yuzde aktive olmuş. Koloni sıkışmadan ballık/alan yönetimi değerlendirilebilir.';
+  }
+
+  @override
+  String kararAlanMesajCita(int cita) {
+    return 'Mevcut $cita çıtanın tamamına yakını işlevsel kullanılıyor. Koloni sıkışmadan 1 çıta eklenmasi değerlendirilebilir.';
+  }
+
+  @override
+  String get kararHasatSonrasiMesaj =>
+      'Hasat sonrası koloni sıkışabilir; stok, alan ve varroa kontrolü yapılmalıdır.';
+
+  @override
+  String get kararHasatSonrasiGerekce =>
+      'Bal alımı sonrası aynı çıta düzeni artık üretim değil bakım kararıdır.';
+
+  @override
+  String get kararKisHazirlikMesaj =>
+      'Koloni kışa doğru yeterli stok, doğru hacim, düşük varroa baskısı ve uygun nüfusla hazırlanmalı.';
+
+  @override
+  String get kararKisHazirlikGerekce =>
+      'Kış başarısı genetik seçilim ve sürdürülebilir arılık yönetiminin temel ölçütlerinden biridir.';
+
+  @override
+  String get kararSinifiZayif => 'Zayıf';
+
+  @override
+  String get kararSinifiGelisim => 'Gelişim';
+
+  @override
+  String get kararSinifiUretim => 'Üretim';
+
+  @override
+  String get kararSinifiHasat => 'Hasat';
+
+  @override
+  String get kararSinifiIzleme => 'İzleme';
+
+  @override
+  String get surecNedeniAnasizlik =>
+      'Ana kazanma / anasızlık süreci biyolojik zamanlamaya bağlıdır. Bu pencere açıkken önce süreç yönetilir.';
+
+  @override
+  String get surecNedeniOgul =>
+      'Ana memesi veya oğul belirtisi aktif saha riskidir. Önce oğul yönetimi yapılır.';
+
+  @override
+  String get surecNedeniOgulSonrasi =>
+      'Oğul sonrası yeni ana ve artçı oğul riski önceliklidir. Süreç kapanmadan genel üretim veya donör dili öne çıkarılmaz.';
+
+  @override
+  String get surecNedenibolme =>
+      'Bölme sonrası koloni düzeni ve ana süreci oturmadan genel performans dili ana karar olarak gösterilmez.';
+
+  @override
+  String get surecNedeniHasat =>
+      'Bal alımı koloni düzenini değiştirir. Önce sıkışık düzen, stres yönetimi, besleme ihtiyacı ve varroa penceresi birlikte değerlendirilir.';
+
+  @override
+  String get surecNedeniGelisim =>
+      'Gelişim yavaşlığı açıklanması gereken saha durumudur. Önce neden aranır; sonra üretim veya genetik rol yeniden değerlendirilir.';
+
+  @override
+  String get surecNedeniVarsayilan =>
+      'Aktif süreç varsa önce süreç yönetimi öne alınır.';
+
+  @override
+  String get sezonHedefRiskliAnaBaslik => 'Ana/yavru netleşmeli';
+
+  @override
+  String get sezonHedefRiskliAnaMesaj =>
+      'Ana ve yavru düzeni netleşmeden üretim, kat veya çoğaltma kararı öne alınmaz.';
+
+  @override
+  String get sezonHedefRiskliAnaGerekce =>
+      'Yavru düzeni netleşmeden yapılan işlem koloni kaybı riskini artırır.';
+
+  @override
+  String get sezonHedefBolmeBaslik => 'Bölme toparlanıyor';
+
+  @override
+  String get sezonHedefBolmeMesaj =>
+      'Bu koloni için öncelik ana düzeninin oturması ve nüfusun korunmasıdır.';
+
+  @override
+  String get sezonHedefBolmeGerekce =>
+      'Yeni bölmelerin bu sezon ana hedefi bal değil, sağlıklı koloni düzenine geçmektir.';
+
+  @override
+  String get sezonHedefKisBaslik => 'Kış kontrolü';
+
+  @override
+  String get sezonHedefKisMesaj =>
+      'Kovan gereksiz açılmadan stok, nem ve dış uçuş durumu izlenmelidir.';
+
+  @override
+  String get sezonHedefKisGerekce =>
+      'Kışta gereksiz müdahale salkımı ve ısı düzenini bozar.';
+
+  @override
+  String get sezonHedefKisHazirlikBaslik => 'Kışa hazırlık';
+
+  @override
+  String get sezonHedefKisHazirlikMesaj =>
+      'Stok, hacim ve varroa durumu kışa giriş için kontrol edilmelidir.';
+
+  @override
+  String get sezonHedefKisHazirlikGerekce =>
+      'Kışa hazırlık vurgusu sonbahar döneminde anlamlıdır.';
+
+  @override
+  String get sezonHedefHasatSonrasiBaslik => 'Hasat sonrası bakım';
+
+  @override
+  String get sezonHedefHasatSonrasiMesaj =>
+      'Hasat sonrası stok, alan ve varroa durumu kontrol edilmelidir.';
+
+  @override
+  String get sezonHedefHasatSonrasiGerekce =>
+      'Bal alımı sonrası koloni düzeni değişir; bakım kararı üretim kararının önüne geçer.';
+
+  @override
+  String get sezonHedefHasatKolonisiBaslik => 'Hasat kolonisi';
+
+  @override
+  String get sezonHedefHasatKolonisiMesaj =>
+      'Koloni bal akımı içinde alan ve hasat yönünden izlenebilir.';
+
+  @override
+  String get sezonHedefHasatKolonisiGerekce =>
+      'İşlevsel güç hasat değerlendirmesi için yeterli görünüyor.';
+
+  @override
+  String get sezonHedefGelisimAkimMesaj =>
+      'Hasat hedefi yok. Öncelik güçlenme, stok ve ana düzenidir.';
+
+  @override
+  String get sezonHedefGelisimAkimGerekce =>
+      'İşlevsel çıta gücü hasat eşiğinin altında.';
+
+  @override
+  String get sezonHedefGenetikCogaltmaBaslik => 'Kontrollü çoğaltma adayı';
+
+  @override
+  String get sezonHedefGenetikCogaltmaMesaj =>
+      'Koloni güçlü ve düzenli ilerliyor; süre uygunsa kontrollü bölme değerlendirilebilir.';
+
+  @override
+  String get sezonHedefGenetikCogaltmaGerekce =>
+      'Bal akımına kalan süre ana koloninin tekrar toparlanmasına izin verebilir.';
+
+  @override
+  String get sezonHedefKisaHazirlikBaslik => 'Bal akımı hazırlık';
+
+  @override
+  String get sezonHedefKisaHazirlikMesaj =>
+      'Bal akımına kısa süre kaldığından koloninin gücünü korumak önemlidir. Hasat kalıntı güvenliği önemsenmelidir. Zaman zaman bal akım döneminde, bal tüketen nüfusu koloniden uzaklaştırmak için teknik bir koloni bölme işlemi yapılabilir. Bu uygulama bilgi olarak verilmiştir. Gerçekleştirebilmek bilgi ve tecrübe gerektirir.';
+
+  @override
+  String get sezonHedefZayifDestekBaslik => 'Güçlendirme';
+
+  @override
+  String get sezonHedefZayifDestekMesaj =>
+      'Öncelik stok, nüfus ve ana düzenini güvenli seviyeye çıkarmaktır.';
+
+  @override
+  String get sezonHedefGelisimKolonisiBaslik => 'Gelişim kolonisi';
+
+  @override
+  String get sezonHedefGelisimKolonisiMesaj =>
+      'Gelişim aşamasındaki koloni. Hasat süreci dışında kabul edilmelidir.';
+
+  @override
+  String get sezonHedefBalHazirlanBaslik => 'Bala hazırlanıyor';
+
+  @override
+  String get sezonHedefBalHazirlanMesaj =>
+      'Koloni üretim gücüne yaklaşıyor; hedef oğul baskısı oluşturmadan bal akımına güçlü girmektir.';
+
+  @override
+  String get sezonHedefBalHazirlanGerekce =>
+      'Gelişim yönü ve işlevsel çıta gücü üretim hedefini destekliyor.';
+
+  @override
+  String get kisAclikRiskiBaslik => 'Kış riski: stok yetersiz görünüyor';
+
+  @override
+  String get kisAclikRiskiMesaj =>
+      'Kış döneminde kovanı gereksiz açma önerilmez; ancak stok çok düşükse açlık riski önceliklidir. Hava ve saha koşulu uygunsa hızlı, sınırlı stok desteği/kek değerlendirilir.';
+
+  @override
+  String get kisAclikRiskiGerekce =>
+      'Kış yönetiminde temel kural minimum müdahaledir; fakat açlık riski minimum müdahale kuralından daha yüksek önceliklidir.';
+
+  @override
+  String get kisHacimRiskiBaslik => 'Kış riski: boş hacim yüksek olabilir';
+
+  @override
+  String get kisHacimRiskiMesaj =>
+      'Fiziksel hacim yüksek ama işlevsel güç düşük görünüyorsa kış salkımı ısıyı korumakta zorlanabilir. Uygun zamanda hacim daraltma ve nem kontrolü değerlendirilir.';
+
+  @override
+  String get kisHacimRiskiGerekce =>
+      'Kış başarısı yalnızca stokla değil, koloni hacmi ile arı nüfusunun uyumuyla belirlenir.';
+
+  @override
+  String get kisZayiflamaTakibiBaslik => 'Kış riski: güç kaybı izlenmeli';
+
+  @override
+  String get kisZayiflamaTakibiMesaj =>
+      'Kış döneminde güç kaybı görülüyorsa kovanı açmadan dış gözlem, ağırlık, uçuş deliği ve nem kontrolü öne alınır. Uygun havada sınırlı kontrol yapılabilir.';
+
+  @override
+  String get kisZayiflamaTakibiGerekce =>
+      'Kışta gereksiz muayene salkımı ve ısı düzenini bozabilir.';
+
+  @override
+  String get kisDisGozlemBaslik => 'Kış yönetimi: gereksiz açma yok';
+
+  @override
+  String get kisDisGozlemMesaj =>
+      'Koloni için ana yaklaşım kovanı gereksiz açmadan dış gözlem, ağırlık hissi, uçuş deliği, nem ve su girişi kontrolüdür.';
+
+  @override
+  String get kisDisGozlemGerekce =>
+      'Kış dönemi algoritması üretim değil yaşatma odaklıdır. İlkbahar çıkışı genetik istikrar skoruna veri sağlar.';
+
+  @override
+  String get sapmaAnaSureczyBaslik => 'Ana sürecinde zayıflama riski';
+
+  @override
+  String get sapmaAnaSureczyMesaj =>
+      'Ana/yavru süreci devam ederken koloni gücü düşüyorsa normal bekleme senaryosu zayıflama riskine döner. Bu aşamada üretim değil, ana durumunu netleştirme ve yaşatma hedefi öne çıkar.';
+
+  @override
+  String get sapmaAnaSureczyGerekce =>
+      'Beklenen akış: ana kazanma → yavru görülmesi → toparlanma. Sapma: süreç uzar ve nüfus düşerse ana kaybı, çiftleşme başarısızlığı veya dış tehdit olasılığı artar.';
+
+  @override
+  String get sapmaBolmeTutmadiBaslik => 'Bölme toparlanmıyor';
+
+  @override
+  String get sapmaBolmeTutmadiMesaj =>
+      'Bölme sonrası beklenen akış ana düzeninin oturması ve nüfusun korunmasıdır. Yavru düzeni yoksa ve güç düşüyorsa bu koloni için bal hedefi değil, ana tutma/yaşatma süreci öne çıkar.';
+
+  @override
+  String get sapmaBolmeTutmadiGerekce =>
+      'Bölme süreci sadece gün sayısıyla kapanmaz; yavru düzeni, işlevsel çıta ve yeniden büyüme görülmeden süreç tamamlanmış kabul edilmez.';
+
+  @override
+  String get sapmaOgulRiskiBaslik => 'Erken sıkışma oğul riski';
+
+  @override
+  String get sapmaOgulRiskiMesaj =>
+      'Koloni bal akımı başlamadan güçlü büyümeye devam ediyor. Bu güç yalnızca kat ile yönetilirse bal akımına kadar oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme, değilse alan/oğul yönetimi düşünülmelidir.';
+
+  @override
+  String get sapmaOgulRiskiGerekce =>
+      'Beklenen hedef 11–12 çıtalık güçlü ama yönetilebilir koloniyle bal akımına girmektir. Bu eşiğin erken aşılması üretim değil oğul riski üretebilir.';
+
+  @override
+  String get sapmaAkimAlanTakibiBaslik => 'Bal akımında alan izle';
+
+  @override
+  String get sapmaAkimAlanTakibiMesaj =>
+      'Bal akımı içinde davranış değişir; koloni yavru büyütmeden çok nektar depolamaya yönelebilir. Düşük görünen stok tek başına zayıflık sayılmaz, alan ve sırlanma birlikte izlenir.';
+
+  @override
+  String get sapmaAkimAlanTakibiGerekce =>
+      'Bal akımı döneminde yavru ve stok verileri normal dönem gibi okunmaz; nektar girişi, ballık alanı ve hasat zamanı birlikte değerlendirilir.';
+
+  @override
+  String get sapmaHasatStokRiskiBaslik => 'Hasat sonrası stok düşük';
+
+  @override
+  String get sapmaHasatStokRiskiMesaj =>
+      'Hasat sonrası beklenen akış stok, varroa ve hacim düzeninin toparlanmasıdır. Stok düşük görünüyorsa üretim dili kapanır; kışa güvenli giriş için stok ve sıkıştırma birlikte değerlendirilir.';
+
+  @override
+  String get sapmaHasatStokRiskiGerekce =>
+      'Hasat balı alındıktan sonra aynı çıta gücü üretim başarısı değil, kışa hazırlık riski olarak okunabilir.';
+
+  @override
+  String get sapmaHasatHacimRiskiBaslik => 'Hasat sonrası hacim fazla olabilir';
+
+  @override
+  String get sapmaHasatHacimRiskiMesaj =>
+      'Fiziksel çıta alanı yüksek ama işlevsel güç düşükse koloni gereksiz hacimde kalabilir. Bu durumda alan daraltma, stok ve kış düzeni üretim kararlarının önüne geçer.';
+
+  @override
+  String get sapmaHasatHacimRiskiGerekce =>
+      'Hasat sonrası dönemde fazla boş hacim yağmacılık, nem ve ısı yönetimi riskini artırabilir.';
+
+  @override
+  String get genetikVetoBaslik => 'Genetik çoğaltma değeri: veto';
+
+  @override
+  String get genetikYuksekBaslik => 'Genetik çoğaltma değeri yüksek';
+
+  @override
+  String get genetikIzleBaslik => 'Genetik çoğaltma değeri izleme bandında';
+
+  @override
+  String get genetikVetoMesaj =>
+      'Koloni çoğaltma havuzunda öne çıkarılmaz. Üretim değeri ayrı, genetik yayılım değeri ayrıdır.';
+
+  @override
+  String get genetikSkorGerekce =>
+      'Biyolojik güç, yavru düzeni, gelişim istikrarı ve riskler birlikte değerlendirilir.';
+
+  @override
+  String get beslemeYonetimVarsayilanBaslik => 'Besleme Yönetimi';
+
+  @override
+  String beslemeDestekBandi(String bant) {
+    return 'Tahmini destek bandı: $bant';
+  }
+
+  @override
+  String get varroaTakvimBaslik => 'Varroa takvimi izlenmeli.';
+
+  @override
+  String get varroaTakvimGerekce =>
+      'Mevsime uygun varroa kaydı ve takip disiplini korunmalı.';
+
+  @override
+  String get varroaKayitYok => 'Varroa kaydı henüz yok.';
+
+  @override
+  String get varroaKayitYokGerekce =>
+      'Takvimsel varroa hatırlatmaları ilk muayene kayıtlarından sonra daha anlamlı hale gelir.';
+
+  @override
+  String get varroaKayitYokOneri =>
+      'Muayenelerde yapılan varroa mücadelesini düzenli kaydet.';
+
+  @override
+  String get varroaIlkbaharKayitVar => 'Erken ilkbahar varroa kaydı var.';
+
+  @override
+  String get varroaIlkbaharKayitVarGerekce =>
+      'Sezon başında yapılan mücadele kaydı görülüyor. Bu, ilkbahar gelişimine daha düşük baskıyla girmeyi destekler.';
+
+  @override
+  String get varroaIlkbaharKayitVarOneri =>
+      'Mücadele etkisini sonraki muayenelerde takip et.';
+
+  @override
+  String get varroaIlkbaharKontrolPlanla =>
+      'İlkbahar varroa kontrolü planlanmalı.';
+
+  @override
+  String get varroaIlkbaharKontrolGerekce =>
+      'Erken ilkbahar dönemi varroa baskısını sezon başında düşürmek için önemli bir penceredir.';
+
+  @override
+  String get varroaIlkbaharKontrolOneri =>
+      'Kolonileri kontrol et; gerekirse erken ilkbahar müdahalesi planla.';
+
+  @override
+  String get varroaBalOncesiKayitVar =>
+      'Bal akımı öncesi varroa kaydı görünüyor.';
+
+  @override
+  String get varroaBalOncesiPlanGozden =>
+      'Bal akımı öncesi varroa planı gözden geçirilmeli.';
+
+  @override
+  String get varroaBalOncesiGerekce =>
+      'Bal akımı dönemine girerken varroa planının tamamlanmış olması daha güvenlidir.';
+
+  @override
+  String get varroaBalOncesiOneri =>
+      'Bal akımı içinde değil, öncesinde planlama yap.';
+
+  @override
+  String get varroaYazTakip => 'Yaz döneminde varroa takibi sürdürülmeli.';
+
+  @override
+  String get varroaYazTakipGerekce =>
+      'Yaz ortasında amaç sürekli ilaçlama değil, düzenli izleme ve hasat sonrası döneme hazırlıktır.';
+
+  @override
+  String get varroaYazTakipOneri =>
+      'Muayenelerde varroa kaydını ve koloni gidişatını düzenli izle.';
+
+  @override
+  String get varroaKritikKayitVar =>
+      'Kritik dönemde varroa mücadelesi kaydı var.';
+
+  @override
+  String get varroaKritikKayitVarGerekce =>
+      'Yaz sonu–erken sonbahar, kış arısının oluştuğu ve varroa baskısının en kritik olduğu dönemdir.';
+
+  @override
+  String get varroaKritikKayitVarOneri =>
+      'Hasat sonrası planı sürdür; etkinliği sonraki muayenede kontrol et.';
+
+  @override
+  String get varroaHasatSonrasiGecikiyor =>
+      'Hasat sonrası varroa mücadelesi gecikiyor.';
+
+  @override
+  String get varroaHasatSonrasiGecikiyorGerekce =>
+      'Yaz sonu–erken sonbaharda kayıt görünmüyor. Bu dönem kış arısının sağlığı açısından en kritik pencere kabul edilir.';
+
+  @override
+  String get varroaHasatSonrasiGecikiyorOneri1 =>
+      'Bal sağımı sonrası mücadeleyi geciktirme.';
+
+  @override
+  String get varroaHasatSonrasiGecikiyorOneri2 =>
+      'Sonraki muayenede uygulamayı mutlaka kaydet.';
+
+  @override
+  String get varroaKisaGirisKayitVar => 'Kışa giriş öncesi varroa kaydı var.';
+
+  @override
+  String get varroaKisaGirisKayitVarGerekce =>
+      'Sonbahar sonunda kayıt görünmesi kışa daha düşük yükle girme açısından olumlu bir sinyaldir.';
+
+  @override
+  String get varroaKisaGirisKayitVarOneri =>
+      'Kışa girişten önce son genel durumu bir kez daha kontrol et.';
+
+  @override
+  String get varroaSonbaharKayitEksik =>
+      'Sonbahar varroa kaydı eksik görünüyor.';
+
+  @override
+  String get varroaSonbaharKayitEksikGerekce =>
+      'Kışa giriş öncesi dönemde mücadele kaydı görünmüyor. Sonbahar sonu kontrolü ihmal edilmemeli.';
+
+  @override
+  String get varroaSonbaharKayitEksikOneri =>
+      'Yavru faaliyeti azaldıysa mücadele gerekliliğini değerlendir.';
+
+  @override
+  String get varroaKisSonbaharKayitVar => 'Sonbahar varroa kaydı görünüyor.';
+
+  @override
+  String get varroaKisSonbaharKayitVarGerekce =>
+      'Kış döneminde esas amaç, sonbaharda düşürülmüş yükü koruyarak koloniyi gereksiz strese sokmamaktır.';
+
+  @override
+  String get varroaKisSonbaharKayitVarOneri =>
+      'Kovanı gereksiz açmadan genel durumu izle.';
+
+  @override
+  String get varroaKisGozden => 'Kış varroa durumu gözden geçirilmeli.';
+
+  @override
+  String get varroaKisGozdenGerekce =>
+      'Kayıt uzun süredir yok. Yavru faaliyeti azaldıysa durum tekrar değerlendirilmelidir.';
+
+  @override
+  String get varroaKisGozdenOneri =>
+      'Yavru durumu ve mevsim koşullarına göre kış kontrolü yap.';
+
+  @override
+  String get varroaBalDonemiDikkat =>
+      'Bal döneminde varroa kararı dikkat ister.';
+
+  @override
+  String get varroaBalDonemiGerekce =>
+      'Bal akımı başladıktan sonra kalıntı riski olan kimyasal mücadele önerilmez.';
+
+  @override
+  String get varroaBalDonemiOneri1 =>
+      'Gerekirse yalnızca bala kalıntı riski taşımayan, etikete ve mevzuata uygun yöntemleri değerlendir.';
+
+  @override
+  String get varroaBalDonemiOneri2 =>
+      'Kimyasal mücadeleyi hasat sonrasına planla.';
+
+  @override
+  String get varroaBalOncesiTamamlandiBaslik =>
+      'Bal akımı öncesi varroa planı tamamlanmış görünüyor.';
+
+  @override
+  String varroaBalOncesiTamamlandiGerekce(
+      String balAkimMetni, String sonGunMetni) {
+    return '$balAkimMetni tarihinde başlaması beklenen bal akımı öncesi en geç $sonGunMetni tarihine kadar mücadele tamamlanmalıydı. Kayıt buna uygun görünüyor.';
+  }
+
+  @override
+  String get varroaBalOncesiTamamlandiOneri =>
+      'Bal akımı içinde yeni mücadele planlama.';
+
+  @override
+  String get varroaBalOncesiKapaniyorBaslik =>
+      'Bal akımı öncesi mücadele penceresi kapanıyor.';
+
+  @override
+  String varroaBalOncesiKapaniyorGerekce(
+      String balAkimMetni, String sonGunMetni) {
+    return '$balAkimMetni tarihinde başlaması beklenen bal akımı öncesi kalıntı riskini azaltmak için mücadele en geç $sonGunMetni tarihine kadar tamamlanmış olmalı.';
+  }
+
+  @override
+  String get varroaBalOncesiKapaniyorOneri1 =>
+      'Bu aşamada bal akımı öncesi kimyasal mücadele planlarken kalıntı riskini dikkate al.';
+
+  @override
+  String get varroaBalOncesiKapaniyorOneri2 =>
+      'Geciktiysen yeni kimyasal uygulamayı bal akımı sonrasına bırakman daha güvenli olabilir.';
+
+  @override
+  String get varroaBalOncesiSonPencereBaslik =>
+      'Bal akımı öncesi son varroa penceresine giriliyor.';
+
+  @override
+  String varroaBalOncesiSonPencereGerekce(
+      String balAkimMetni, String sonGunMetni) {
+    return '$balAkimMetni tarihinde başlaması beklenen bal akımı için mücadele en geç $sonGunMetni tarihine kadar tamamlanmalı. Süre daralıyor.';
+  }
+
+  @override
+  String get varroaBalOncesiSonPencereOneri =>
+      'Mücadele gerekiyorsa son güvenli tarihe bırakmadan planla.';
+
+  @override
+  String varroaBalOncesiSonGunHatirla(String sonGunMetni) {
+    return 'Bal akımı öncesi son güvenli mücadele tarihi: $sonGunMetni.';
+  }
+
+  @override
+  String varroaSonKayit(String tarih, String yontem) {
+    return 'Son kayıt: $tarih / $yontem.';
+  }
 }

@@ -7458,6 +7458,1071 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'{kritikEsik} sonrası 42 günlük biyolojik eşik aşılmış olur. Bu tarihten sonra yapılan bölmeler bal verimini düşürebilir. Üretim hedefi korunacaksa bölme kararını ertele.'**
   String uyariBalBolmeGecMesaj(String kritikEsik);
+
+  /// No description provided for @kararVetoDogrudan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni oğul kökenli olduğu için temiz donör havuzuna alınmadı.'**
+  String get kararVetoDogrudan;
+
+  /// No description provided for @kararVetoKendisiOgulAtti.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni kendi geçmişinde oğul attığı için donör değerlendirmesinde veto aldı.'**
+  String get kararVetoKendisiOgulAtti;
+
+  /// No description provided for @kararVetoAtaHattaRef.
+  ///
+  /// In tr, this message translates to:
+  /// **'{referansNo} hattında oğul izi bulunduğu için temiz donör havuzuna alınmadı.'**
+  String kararVetoAtaHattaRef(String referansNo);
+
+  /// No description provided for @kararVetoAtaHatta.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atasal hatta oğul izi bulunduğu için temiz donör havuzuna alınmadı.'**
+  String get kararVetoAtaHatta;
+
+  /// No description provided for @kararDonorSirasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temiz donör havuzunda {sira}. sırada görünüyor.'**
+  String kararDonorSirasi(int sira);
+
+  /// No description provided for @kararSonCitaMetni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son muayenede koloni {cita} çıta gücünde görünüyor.'**
+  String kararSonCitaMetni(int cita);
+
+  /// No description provided for @kararMaxCitaMetni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu sezon gördüğü en yüksek güç {cita} çıta.'**
+  String kararMaxCitaMetni(int cita);
+
+  /// No description provided for @kararBalCitaMetni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal taşıma sinyali {cita} ballı çıta ile görülüyor.'**
+  String kararBalCitaMetni(int cita);
+
+  /// No description provided for @kararTrendYukselis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son muayenelerde gelişim yönü yukarı.'**
+  String get kararTrendYukselis;
+
+  /// No description provided for @kararTrendDusus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son muayenelerde güç kaybı eğilimi görülüyor.'**
+  String get kararTrendDusus;
+
+  /// No description provided for @kararTrendStabil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gidişat stabil görünüyor.'**
+  String get kararTrendStabil;
+
+  /// No description provided for @kararAnaYasiRisk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana yaşı {yas} yıl olduğu için verim ve düzen düşüşü riski taşıyor.'**
+  String kararAnaYasiRisk(int yas);
+
+  /// No description provided for @kararMizacRisk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mizaç verisi saha yönetimini zorlaştırabilir.'**
+  String get kararMizacRisk;
+
+  /// No description provided for @kararAzVeriUyari.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar az veriyle üretildiği için güven payı düşüktür.'**
+  String get kararAzVeriUyari;
+
+  /// No description provided for @kararBolmePlan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme yapacaksan koloniyi 6 çıtanın altına düşürmeden planla.'**
+  String get kararBolmePlan;
+
+  /// No description provided for @kararDonorOncelik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretiminde bu koloniyi aday havuzunda öncelikli düşün.'**
+  String get kararDonorOncelik;
+
+  /// No description provided for @kararAnaDegisimPlan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana değişimini aktif dönemin sonuna yakın planlamak genelde daha güvenli olur.'**
+  String get kararAnaDegisimPlan;
+
+  /// No description provided for @kararGuclendir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı yavru, besleme ve düzenli muayene ile güçlenme yönünü izle.'**
+  String get kararGuclendir;
+
+  /// No description provided for @kararUretimTut.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretimde tut; bal akımı yaklaşırken alan ve kat yönetimini öne al.'**
+  String get kararUretimTut;
+
+  /// No description provided for @kararPasifKayitOner.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniyi aktif üretimden çok soy ve geçmiş kaydı olarak değerlendir.'**
+  String get kararPasifKayitOner;
+
+  /// No description provided for @kararNeden.
+  ///
+  /// In tr, this message translates to:
+  /// **'Neden'**
+  String get kararNeden;
+
+  /// No description provided for @kararKilitBekle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bekle'**
+  String get kararKilitBekle;
+
+  /// No description provided for @kararKilitGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu pencere kapanmadan çelişen eylem önerilmez.'**
+  String get kararKilitGerekce;
+
+  /// No description provided for @kararBolmeGucluMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni güçlü gelişim gösteriyor ve bal akımına yaklaşık {gun} gün var. Kat seviyesine yaklaşmış olsa da bu süre içinde oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme değerlendirilebilir.'**
+  String kararBolmeGucluMesaj(int gun);
+
+  /// No description provided for @kararBolmeSinirliMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni güçlü; ancak bal akımına yaklaşık {gun} gün kaldığı için bölme kararı sınırlı ve dikkatli düşünülmeli. Ana koloni bala yetişemeyecekse bölme yerine alan/oğul yönetimi öne alınır.'**
+  String kararBolmeSinirliMesaj(int gun);
+
+  /// No description provided for @kararBolmeGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme kararı sadece çıta sayısı değildir: bal akımına kalan süre, gelişim yönü, yavru düzeni, işlevsel çıta ve genetik veto birlikte okundu.'**
+  String get kararBolmeGerekce;
+
+  /// No description provided for @kararKatEsikSurupluklu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk + 9 çıta kapasitesi'**
+  String get kararKatEsikSurupluklu;
+
+  /// No description provided for @kararKatEsikSurupluksuz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluksuz 10 çıta kapasitesi'**
+  String get kararKatEsikSurupluksuz;
+
+  /// No description provided for @kararKatAkimAktif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı aktif görünüyor.'**
+  String get kararKatAkimAktif;
+
+  /// No description provided for @kararKatAkimKontrol.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı penceresi ayrıca kontrol edilmeli.'**
+  String get kararKatAkimKontrol;
+
+  /// No description provided for @kararKatAkimKalan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımına yaklaşık {gun} gün var.'**
+  String kararKatAkimKalan(int gun);
+
+  /// No description provided for @kararKatMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'{esik} dolmuş ve yaklaşık %{yuzde} aktivasyon görülüyor. {akim} Bu eşik artık normal çıta ekleme değil, kat/ballık verme eşiğidir.'**
+  String kararKatMesaj(String esik, int yuzde, String akim);
+
+  /// No description provided for @kararKatGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk varsa kuluçkalık 9 çıta, şurupluk kaldırıldıysa 10 çıta kapasite kabul edilir.'**
+  String get kararKatGerekce;
+
+  /// No description provided for @kararUcuncuKatEsikSurupluklu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk + 19 çıta kapasitesi'**
+  String get kararUcuncuKatEsikSurupluklu;
+
+  /// No description provided for @kararUcuncuKatEsikSurupluksuz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluksuz 20 çıta kapasitesi'**
+  String get kararUcuncuKatEsikSurupluksuz;
+
+  /// No description provided for @kararUcuncuKatMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'{esik} dolmuş ve yaklaşık %{yuzde} aktivasyon görülüyor. Koloni ikinci üst hacmi doldurma eşiğine gelmiş; 3. kat/ikinci ballık değerlendirilmeli.'**
+  String kararUcuncuKatMesaj(String esik, int yuzde);
+
+  /// No description provided for @kararUcuncuKatGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk varsa 19 çıta, şurupluk kaldırıldıysa 20 çıta 3. kat verme eşiğidir. Bir sonraki çıta artışı 3 katlı koloni olarak okunur.'**
+  String get kararUcuncuKatGerekce;
+
+  /// No description provided for @kararAlanMesajKulucluk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut hacim yaklaşık %{yuzde} aktive olmuş. Koloni sıkışmadan ballık/alan yönetimi değerlendirilebilir.'**
+  String kararAlanMesajKulucluk(int yuzde);
+
+  /// No description provided for @kararAlanMesajCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut {cita} çıtanın tamamına yakını işlevsel kullanılıyor. Koloni sıkışmadan 1 çıta eklenmasi değerlendirilebilir.'**
+  String kararAlanMesajCita(int cita);
+
+  /// No description provided for @kararHasatSonrasiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası koloni sıkışabilir; stok, alan ve varroa kontrolü yapılmalıdır.'**
+  String get kararHasatSonrasiMesaj;
+
+  /// No description provided for @kararHasatSonrasiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal alımı sonrası aynı çıta düzeni artık üretim değil bakım kararıdır.'**
+  String get kararHasatSonrasiGerekce;
+
+  /// No description provided for @kararKisHazirlikMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni kışa doğru yeterli stok, doğru hacim, düşük varroa baskısı ve uygun nüfusla hazırlanmalı.'**
+  String get kararKisHazirlikMesaj;
+
+  /// No description provided for @kararKisHazirlikGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış başarısı genetik seçilim ve sürdürülebilir arılık yönetiminin temel ölçütlerinden biridir.'**
+  String get kararKisHazirlikGerekce;
+
+  /// No description provided for @kararSinifiZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get kararSinifiZayif;
+
+  /// No description provided for @kararSinifiGelisim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim'**
+  String get kararSinifiGelisim;
+
+  /// No description provided for @kararSinifiUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim'**
+  String get kararSinifiUretim;
+
+  /// No description provided for @kararSinifiHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat'**
+  String get kararSinifiHasat;
+
+  /// No description provided for @kararSinifiIzleme.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzleme'**
+  String get kararSinifiIzleme;
+
+  /// No description provided for @surecNedeniAnasizlik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana kazanma / anasızlık süreci biyolojik zamanlamaya bağlıdır. Bu pencere açıkken önce süreç yönetilir.'**
+  String get surecNedeniAnasizlik;
+
+  /// No description provided for @surecNedeniOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana memesi veya oğul belirtisi aktif saha riskidir. Önce oğul yönetimi yapılır.'**
+  String get surecNedeniOgul;
+
+  /// No description provided for @surecNedeniOgulSonrasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul sonrası yeni ana ve artçı oğul riski önceliklidir. Süreç kapanmadan genel üretim veya donör dili öne çıkarılmaz.'**
+  String get surecNedeniOgulSonrasi;
+
+  /// No description provided for @surecNedenibolme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme sonrası koloni düzeni ve ana süreci oturmadan genel performans dili ana karar olarak gösterilmez.'**
+  String get surecNedenibolme;
+
+  /// No description provided for @surecNedeniHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal alımı koloni düzenini değiştirir. Önce sıkışık düzen, stres yönetimi, besleme ihtiyacı ve varroa penceresi birlikte değerlendirilir.'**
+  String get surecNedeniHasat;
+
+  /// No description provided for @surecNedeniGelisim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim yavaşlığı açıklanması gereken saha durumudur. Önce neden aranır; sonra üretim veya genetik rol yeniden değerlendirilir.'**
+  String get surecNedeniGelisim;
+
+  /// No description provided for @surecNedeniVarsayilan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif süreç varsa önce süreç yönetimi öne alınır.'**
+  String get surecNedeniVarsayilan;
+
+  /// No description provided for @sezonHedefRiskliAnaBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana/yavru netleşmeli'**
+  String get sezonHedefRiskliAnaBaslik;
+
+  /// No description provided for @sezonHedefRiskliAnaMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana ve yavru düzeni netleşmeden üretim, kat veya çoğaltma kararı öne alınmaz.'**
+  String get sezonHedefRiskliAnaMesaj;
+
+  /// No description provided for @sezonHedefRiskliAnaGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru düzeni netleşmeden yapılan işlem koloni kaybı riskini artırır.'**
+  String get sezonHedefRiskliAnaGerekce;
+
+  /// No description provided for @sezonHedefBolmeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme toparlanıyor'**
+  String get sezonHedefBolmeBaslik;
+
+  /// No description provided for @sezonHedefBolmeMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni için öncelik ana düzeninin oturması ve nüfusun korunmasıdır.'**
+  String get sezonHedefBolmeMesaj;
+
+  /// No description provided for @sezonHedefBolmeGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni bölmelerin bu sezon ana hedefi bal değil, sağlıklı koloni düzenine geçmektir.'**
+  String get sezonHedefBolmeGerekce;
+
+  /// No description provided for @sezonHedefKisBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış kontrolü'**
+  String get sezonHedefKisBaslik;
+
+  /// No description provided for @sezonHedefKisMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan gereksiz açılmadan stok, nem ve dış uçuş durumu izlenmelidir.'**
+  String get sezonHedefKisMesaj;
+
+  /// No description provided for @sezonHedefKisGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kışta gereksiz müdahale salkımı ve ısı düzenini bozar.'**
+  String get sezonHedefKisGerekce;
+
+  /// No description provided for @sezonHedefKisHazirlikBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kışa hazırlık'**
+  String get sezonHedefKisHazirlikBaslik;
+
+  /// No description provided for @sezonHedefKisHazirlikMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stok, hacim ve varroa durumu kışa giriş için kontrol edilmelidir.'**
+  String get sezonHedefKisHazirlikMesaj;
+
+  /// No description provided for @sezonHedefKisHazirlikGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kışa hazırlık vurgusu sonbahar döneminde anlamlıdır.'**
+  String get sezonHedefKisHazirlikGerekce;
+
+  /// No description provided for @sezonHedefHasatSonrasiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası bakım'**
+  String get sezonHedefHasatSonrasiBaslik;
+
+  /// No description provided for @sezonHedefHasatSonrasiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası stok, alan ve varroa durumu kontrol edilmelidir.'**
+  String get sezonHedefHasatSonrasiMesaj;
+
+  /// No description provided for @sezonHedefHasatSonrasiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal alımı sonrası koloni düzeni değişir; bakım kararı üretim kararının önüne geçer.'**
+  String get sezonHedefHasatSonrasiGerekce;
+
+  /// No description provided for @sezonHedefHasatKolonisiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat kolonisi'**
+  String get sezonHedefHasatKolonisiBaslik;
+
+  /// No description provided for @sezonHedefHasatKolonisiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni bal akımı içinde alan ve hasat yönünden izlenebilir.'**
+  String get sezonHedefHasatKolonisiMesaj;
+
+  /// No description provided for @sezonHedefHasatKolonisiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşlevsel güç hasat değerlendirmesi için yeterli görünüyor.'**
+  String get sezonHedefHasatKolonisiGerekce;
+
+  /// No description provided for @sezonHedefGelisimAkimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat hedefi yok. Öncelik güçlenme, stok ve ana düzenidir.'**
+  String get sezonHedefGelisimAkimMesaj;
+
+  /// No description provided for @sezonHedefGelisimAkimGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşlevsel çıta gücü hasat eşiğinin altında.'**
+  String get sezonHedefGelisimAkimGerekce;
+
+  /// No description provided for @sezonHedefGenetikCogaltmaBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kontrollü çoğaltma adayı'**
+  String get sezonHedefGenetikCogaltmaBaslik;
+
+  /// No description provided for @sezonHedefGenetikCogaltmaMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni güçlü ve düzenli ilerliyor; süre uygunsa kontrollü bölme değerlendirilebilir.'**
+  String get sezonHedefGenetikCogaltmaMesaj;
+
+  /// No description provided for @sezonHedefGenetikCogaltmaGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımına kalan süre ana koloninin tekrar toparlanmasına izin verebilir.'**
+  String get sezonHedefGenetikCogaltmaGerekce;
+
+  /// No description provided for @sezonHedefKisaHazirlikBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı hazırlık'**
+  String get sezonHedefKisaHazirlikBaslik;
+
+  /// No description provided for @sezonHedefKisaHazirlikMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımına kısa süre kaldığından koloninin gücünü korumak önemlidir. Hasat kalıntı güvenliği önemsenmelidir. Zaman zaman bal akım döneminde, bal tüketen nüfusu koloniden uzaklaştırmak için teknik bir koloni bölme işlemi yapılabilir. Bu uygulama bilgi olarak verilmiştir. Gerçekleştirebilmek bilgi ve tecrübe gerektirir.'**
+  String get sezonHedefKisaHazirlikMesaj;
+
+  /// No description provided for @sezonHedefZayifDestekBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlendirme'**
+  String get sezonHedefZayifDestekBaslik;
+
+  /// No description provided for @sezonHedefZayifDestekMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öncelik stok, nüfus ve ana düzenini güvenli seviyeye çıkarmaktır.'**
+  String get sezonHedefZayifDestekMesaj;
+
+  /// No description provided for @sezonHedefGelisimKolonisiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim kolonisi'**
+  String get sezonHedefGelisimKolonisiBaslik;
+
+  /// No description provided for @sezonHedefGelisimKolonisiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim aşamasındaki koloni. Hasat süreci dışında kabul edilmelidir.'**
+  String get sezonHedefGelisimKolonisiMesaj;
+
+  /// No description provided for @sezonHedefBalHazirlanBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bala hazırlanıyor'**
+  String get sezonHedefBalHazirlanBaslik;
+
+  /// No description provided for @sezonHedefBalHazirlanMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni üretim gücüne yaklaşıyor; hedef oğul baskısı oluşturmadan bal akımına güçlü girmektir.'**
+  String get sezonHedefBalHazirlanMesaj;
+
+  /// No description provided for @sezonHedefBalHazirlanGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim yönü ve işlevsel çıta gücü üretim hedefini destekliyor.'**
+  String get sezonHedefBalHazirlanGerekce;
+
+  /// No description provided for @kisAclikRiskiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış riski: stok yetersiz görünüyor'**
+  String get kisAclikRiskiBaslik;
+
+  /// No description provided for @kisAclikRiskiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış döneminde kovanı gereksiz açma önerilmez; ancak stok çok düşükse açlık riski önceliklidir. Hava ve saha koşulu uygunsa hızlı, sınırlı stok desteği/kek değerlendirilir.'**
+  String get kisAclikRiskiMesaj;
+
+  /// No description provided for @kisAclikRiskiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış yönetiminde temel kural minimum müdahaledir; fakat açlık riski minimum müdahale kuralından daha yüksek önceliklidir.'**
+  String get kisAclikRiskiGerekce;
+
+  /// No description provided for @kisHacimRiskiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış riski: boş hacim yüksek olabilir'**
+  String get kisHacimRiskiBaslik;
+
+  /// No description provided for @kisHacimRiskiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiziksel hacim yüksek ama işlevsel güç düşük görünüyorsa kış salkımı ısıyı korumakta zorlanabilir. Uygun zamanda hacim daraltma ve nem kontrolü değerlendirilir.'**
+  String get kisHacimRiskiMesaj;
+
+  /// No description provided for @kisHacimRiskiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış başarısı yalnızca stokla değil, koloni hacmi ile arı nüfusunun uyumuyla belirlenir.'**
+  String get kisHacimRiskiGerekce;
+
+  /// No description provided for @kisZayiflamaTakibiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış riski: güç kaybı izlenmeli'**
+  String get kisZayiflamaTakibiBaslik;
+
+  /// No description provided for @kisZayiflamaTakibiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış döneminde güç kaybı görülüyorsa kovanı açmadan dış gözlem, ağırlık, uçuş deliği ve nem kontrolü öne alınır. Uygun havada sınırlı kontrol yapılabilir.'**
+  String get kisZayiflamaTakibiMesaj;
+
+  /// No description provided for @kisZayiflamaTakibiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kışta gereksiz muayene salkımı ve ısı düzenini bozabilir.'**
+  String get kisZayiflamaTakibiGerekce;
+
+  /// No description provided for @kisDisGozlemBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış yönetimi: gereksiz açma yok'**
+  String get kisDisGozlemBaslik;
+
+  /// No description provided for @kisDisGozlemMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni için ana yaklaşım kovanı gereksiz açmadan dış gözlem, ağırlık hissi, uçuş deliği, nem ve su girişi kontrolüdür.'**
+  String get kisDisGozlemMesaj;
+
+  /// No description provided for @kisDisGozlemGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış dönemi algoritması üretim değil yaşatma odaklıdır. İlkbahar çıkışı genetik istikrar skoruna veri sağlar.'**
+  String get kisDisGozlemGerekce;
+
+  /// No description provided for @sapmaAnaSureczyBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana sürecinde zayıflama riski'**
+  String get sapmaAnaSureczyBaslik;
+
+  /// No description provided for @sapmaAnaSureczyMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana/yavru süreci devam ederken koloni gücü düşüyorsa normal bekleme senaryosu zayıflama riskine döner. Bu aşamada üretim değil, ana durumunu netleştirme ve yaşatma hedefi öne çıkar.'**
+  String get sapmaAnaSureczyMesaj;
+
+  /// No description provided for @sapmaAnaSureczyGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beklenen akış: ana kazanma → yavru görülmesi → toparlanma. Sapma: süreç uzar ve nüfus düşerse ana kaybı, çiftleşme başarısızlığı veya dış tehdit olasılığı artar.'**
+  String get sapmaAnaSureczyGerekce;
+
+  /// No description provided for @sapmaBolmeTutmadiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme toparlanmıyor'**
+  String get sapmaBolmeTutmadiBaslik;
+
+  /// No description provided for @sapmaBolmeTutmadiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme sonrası beklenen akış ana düzeninin oturması ve nüfusun korunmasıdır. Yavru düzeni yoksa ve güç düşüyorsa bu koloni için bal hedefi değil, ana tutma/yaşatma süreci öne çıkar.'**
+  String get sapmaBolmeTutmadiMesaj;
+
+  /// No description provided for @sapmaBolmeTutmadiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme süreci sadece gün sayısıyla kapanmaz; yavru düzeni, işlevsel çıta ve yeniden büyüme görülmeden süreç tamamlanmış kabul edilmez.'**
+  String get sapmaBolmeTutmadiGerekce;
+
+  /// No description provided for @sapmaOgulRiskiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erken sıkışma oğul riski'**
+  String get sapmaOgulRiskiBaslik;
+
+  /// No description provided for @sapmaOgulRiskiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni bal akımı başlamadan güçlü büyümeye devam ediyor. Bu güç yalnızca kat ile yönetilirse bal akımına kadar oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme, değilse alan/oğul yönetimi düşünülmelidir.'**
+  String get sapmaOgulRiskiMesaj;
+
+  /// No description provided for @sapmaOgulRiskiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beklenen hedef 11–12 çıtalık güçlü ama yönetilebilir koloniyle bal akımına girmektir. Bu eşiğin erken aşılması üretim değil oğul riski üretebilir.'**
+  String get sapmaOgulRiskiGerekce;
+
+  /// No description provided for @sapmaAkimAlanTakibiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımında alan izle'**
+  String get sapmaAkimAlanTakibiBaslik;
+
+  /// No description provided for @sapmaAkimAlanTakibiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı içinde davranış değişir; koloni yavru büyütmeden çok nektar depolamaya yönelebilir. Düşük görünen stok tek başına zayıflık sayılmaz, alan ve sırlanma birlikte izlenir.'**
+  String get sapmaAkimAlanTakibiMesaj;
+
+  /// No description provided for @sapmaAkimAlanTakibiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı döneminde yavru ve stok verileri normal dönem gibi okunmaz; nektar girişi, ballık alanı ve hasat zamanı birlikte değerlendirilir.'**
+  String get sapmaAkimAlanTakibiGerekce;
+
+  /// No description provided for @sapmaHasatStokRiskiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası stok düşük'**
+  String get sapmaHasatStokRiskiBaslik;
+
+  /// No description provided for @sapmaHasatStokRiskiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası beklenen akış stok, varroa ve hacim düzeninin toparlanmasıdır. Stok düşük görünüyorsa üretim dili kapanır; kışa güvenli giriş için stok ve sıkıştırma birlikte değerlendirilir.'**
+  String get sapmaHasatStokRiskiMesaj;
+
+  /// No description provided for @sapmaHasatStokRiskiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat balı alındıktan sonra aynı çıta gücü üretim başarısı değil, kışa hazırlık riski olarak okunabilir.'**
+  String get sapmaHasatStokRiskiGerekce;
+
+  /// No description provided for @sapmaHasatHacimRiskiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası hacim fazla olabilir'**
+  String get sapmaHasatHacimRiskiBaslik;
+
+  /// No description provided for @sapmaHasatHacimRiskiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiziksel çıta alanı yüksek ama işlevsel güç düşükse koloni gereksiz hacimde kalabilir. Bu durumda alan daraltma, stok ve kış düzeni üretim kararlarının önüne geçer.'**
+  String get sapmaHasatHacimRiskiMesaj;
+
+  /// No description provided for @sapmaHasatHacimRiskiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası dönemde fazla boş hacim yağmacılık, nem ve ısı yönetimi riskini artırabilir.'**
+  String get sapmaHasatHacimRiskiGerekce;
+
+  /// No description provided for @genetikVetoBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik çoğaltma değeri: veto'**
+  String get genetikVetoBaslik;
+
+  /// No description provided for @genetikYuksekBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik çoğaltma değeri yüksek'**
+  String get genetikYuksekBaslik;
+
+  /// No description provided for @genetikIzleBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik çoğaltma değeri izleme bandında'**
+  String get genetikIzleBaslik;
+
+  /// No description provided for @genetikVetoMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni çoğaltma havuzunda öne çıkarılmaz. Üretim değeri ayrı, genetik yayılım değeri ayrıdır.'**
+  String get genetikVetoMesaj;
+
+  /// No description provided for @genetikSkorGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik güç, yavru düzeni, gelişim istikrarı ve riskler birlikte değerlendirilir.'**
+  String get genetikSkorGerekce;
+
+  /// No description provided for @beslemeYonetimVarsayilanBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme Yönetimi'**
+  String get beslemeYonetimVarsayilanBaslik;
+
+  /// No description provided for @beslemeDestekBandi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini destek bandı: {bant}'**
+  String beslemeDestekBandi(String bant);
+
+  /// No description provided for @varroaTakvimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varroa takvimi izlenmeli.'**
+  String get varroaTakvimBaslik;
+
+  /// No description provided for @varroaTakvimGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevsime uygun varroa kaydı ve takip disiplini korunmalı.'**
+  String get varroaTakvimGerekce;
+
+  /// No description provided for @varroaKayitYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varroa kaydı henüz yok.'**
+  String get varroaKayitYok;
+
+  /// No description provided for @varroaKayitYokGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvimsel varroa hatırlatmaları ilk muayene kayıtlarından sonra daha anlamlı hale gelir.'**
+  String get varroaKayitYokGerekce;
+
+  /// No description provided for @varroaKayitYokOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayenelerde yapılan varroa mücadelesini düzenli kaydet.'**
+  String get varroaKayitYokOneri;
+
+  /// No description provided for @varroaIlkbaharKayitVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erken ilkbahar varroa kaydı var.'**
+  String get varroaIlkbaharKayitVar;
+
+  /// No description provided for @varroaIlkbaharKayitVarGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sezon başında yapılan mücadele kaydı görülüyor. Bu, ilkbahar gelişimine daha düşük baskıyla girmeyi destekler.'**
+  String get varroaIlkbaharKayitVarGerekce;
+
+  /// No description provided for @varroaIlkbaharKayitVarOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mücadele etkisini sonraki muayenelerde takip et.'**
+  String get varroaIlkbaharKayitVarOneri;
+
+  /// No description provided for @varroaIlkbaharKontrolPlanla.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlkbahar varroa kontrolü planlanmalı.'**
+  String get varroaIlkbaharKontrolPlanla;
+
+  /// No description provided for @varroaIlkbaharKontrolGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erken ilkbahar dönemi varroa baskısını sezon başında düşürmek için önemli bir penceredir.'**
+  String get varroaIlkbaharKontrolGerekce;
+
+  /// No description provided for @varroaIlkbaharKontrolOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kolonileri kontrol et; gerekirse erken ilkbahar müdahalesi planla.'**
+  String get varroaIlkbaharKontrolOneri;
+
+  /// No description provided for @varroaBalOncesiKayitVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı öncesi varroa kaydı görünüyor.'**
+  String get varroaBalOncesiKayitVar;
+
+  /// No description provided for @varroaBalOncesiPlanGozden.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı öncesi varroa planı gözden geçirilmeli.'**
+  String get varroaBalOncesiPlanGozden;
+
+  /// No description provided for @varroaBalOncesiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı dönemine girerken varroa planının tamamlanmış olması daha güvenlidir.'**
+  String get varroaBalOncesiGerekce;
+
+  /// No description provided for @varroaBalOncesiOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı içinde değil, öncesinde planlama yap.'**
+  String get varroaBalOncesiOneri;
+
+  /// No description provided for @varroaYazTakip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaz döneminde varroa takibi sürdürülmeli.'**
+  String get varroaYazTakip;
+
+  /// No description provided for @varroaYazTakipGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaz ortasında amaç sürekli ilaçlama değil, düzenli izleme ve hasat sonrası döneme hazırlıktır.'**
+  String get varroaYazTakipGerekce;
+
+  /// No description provided for @varroaYazTakipOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayenelerde varroa kaydını ve koloni gidişatını düzenli izle.'**
+  String get varroaYazTakipOneri;
+
+  /// No description provided for @varroaKritikKayitVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kritik dönemde varroa mücadelesi kaydı var.'**
+  String get varroaKritikKayitVar;
+
+  /// No description provided for @varroaKritikKayitVarGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaz sonu–erken sonbahar, kış arısının oluştuğu ve varroa baskısının en kritik olduğu dönemdir.'**
+  String get varroaKritikKayitVarGerekce;
+
+  /// No description provided for @varroaKritikKayitVarOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası planı sürdür; etkinliği sonraki muayenede kontrol et.'**
+  String get varroaKritikKayitVarOneri;
+
+  /// No description provided for @varroaHasatSonrasiGecikiyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası varroa mücadelesi gecikiyor.'**
+  String get varroaHasatSonrasiGecikiyor;
+
+  /// No description provided for @varroaHasatSonrasiGecikiyorGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaz sonu–erken sonbaharda kayıt görünmüyor. Bu dönem kış arısının sağlığı açısından en kritik pencere kabul edilir.'**
+  String get varroaHasatSonrasiGecikiyorGerekce;
+
+  /// No description provided for @varroaHasatSonrasiGecikiyorOneri1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal sağımı sonrası mücadeleyi geciktirme.'**
+  String get varroaHasatSonrasiGecikiyorOneri1;
+
+  /// No description provided for @varroaHasatSonrasiGecikiyorOneri2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonraki muayenede uygulamayı mutlaka kaydet.'**
+  String get varroaHasatSonrasiGecikiyorOneri2;
+
+  /// No description provided for @varroaKisaGirisKayitVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kışa giriş öncesi varroa kaydı var.'**
+  String get varroaKisaGirisKayitVar;
+
+  /// No description provided for @varroaKisaGirisKayitVarGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonbahar sonunda kayıt görünmesi kışa daha düşük yükle girme açısından olumlu bir sinyaldir.'**
+  String get varroaKisaGirisKayitVarGerekce;
+
+  /// No description provided for @varroaKisaGirisKayitVarOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kışa girişten önce son genel durumu bir kez daha kontrol et.'**
+  String get varroaKisaGirisKayitVarOneri;
+
+  /// No description provided for @varroaSonbaharKayitEksik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonbahar varroa kaydı eksik görünüyor.'**
+  String get varroaSonbaharKayitEksik;
+
+  /// No description provided for @varroaSonbaharKayitEksikGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kışa giriş öncesi dönemde mücadele kaydı görünmüyor. Sonbahar sonu kontrolü ihmal edilmemeli.'**
+  String get varroaSonbaharKayitEksikGerekce;
+
+  /// No description provided for @varroaSonbaharKayitEksikOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru faaliyeti azaldıysa mücadele gerekliliğini değerlendir.'**
+  String get varroaSonbaharKayitEksikOneri;
+
+  /// No description provided for @varroaKisSonbaharKayitVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonbahar varroa kaydı görünüyor.'**
+  String get varroaKisSonbaharKayitVar;
+
+  /// No description provided for @varroaKisSonbaharKayitVarGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış döneminde esas amaç, sonbaharda düşürülmüş yükü koruyarak koloniyi gereksiz strese sokmamaktır.'**
+  String get varroaKisSonbaharKayitVarGerekce;
+
+  /// No description provided for @varroaKisSonbaharKayitVarOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovanı gereksiz açmadan genel durumu izle.'**
+  String get varroaKisSonbaharKayitVarOneri;
+
+  /// No description provided for @varroaKisGozden.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış varroa durumu gözden geçirilmeli.'**
+  String get varroaKisGozden;
+
+  /// No description provided for @varroaKisGozdenGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt uzun süredir yok. Yavru faaliyeti azaldıysa durum tekrar değerlendirilmelidir.'**
+  String get varroaKisGozdenGerekce;
+
+  /// No description provided for @varroaKisGozdenOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru durumu ve mevsim koşullarına göre kış kontrolü yap.'**
+  String get varroaKisGozdenOneri;
+
+  /// No description provided for @varroaBalDonemiDikkat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal döneminde varroa kararı dikkat ister.'**
+  String get varroaBalDonemiDikkat;
+
+  /// No description provided for @varroaBalDonemiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı başladıktan sonra kalıntı riski olan kimyasal mücadele önerilmez.'**
+  String get varroaBalDonemiGerekce;
+
+  /// No description provided for @varroaBalDonemiOneri1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerekirse yalnızca bala kalıntı riski taşımayan, etikete ve mevzuata uygun yöntemleri değerlendir.'**
+  String get varroaBalDonemiOneri1;
+
+  /// No description provided for @varroaBalDonemiOneri2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kimyasal mücadeleyi hasat sonrasına planla.'**
+  String get varroaBalDonemiOneri2;
+
+  /// No description provided for @varroaBalOncesiTamamlandiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı öncesi varroa planı tamamlanmış görünüyor.'**
+  String get varroaBalOncesiTamamlandiBaslik;
+
+  /// No description provided for @varroaBalOncesiTamamlandiGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'{balAkimMetni} tarihinde başlaması beklenen bal akımı öncesi en geç {sonGunMetni} tarihine kadar mücadele tamamlanmalıydı. Kayıt buna uygun görünüyor.'**
+  String varroaBalOncesiTamamlandiGerekce(
+      String balAkimMetni, String sonGunMetni);
+
+  /// No description provided for @varroaBalOncesiTamamlandiOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı içinde yeni mücadele planlama.'**
+  String get varroaBalOncesiTamamlandiOneri;
+
+  /// No description provided for @varroaBalOncesiKapaniyorBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı öncesi mücadele penceresi kapanıyor.'**
+  String get varroaBalOncesiKapaniyorBaslik;
+
+  /// No description provided for @varroaBalOncesiKapaniyorGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'{balAkimMetni} tarihinde başlaması beklenen bal akımı öncesi kalıntı riskini azaltmak için mücadele en geç {sonGunMetni} tarihine kadar tamamlanmış olmalı.'**
+  String varroaBalOncesiKapaniyorGerekce(
+      String balAkimMetni, String sonGunMetni);
+
+  /// No description provided for @varroaBalOncesiKapaniyorOneri1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu aşamada bal akımı öncesi kimyasal mücadele planlarken kalıntı riskini dikkate al.'**
+  String get varroaBalOncesiKapaniyorOneri1;
+
+  /// No description provided for @varroaBalOncesiKapaniyorOneri2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geciktiysen yeni kimyasal uygulamayı bal akımı sonrasına bırakman daha güvenli olabilir.'**
+  String get varroaBalOncesiKapaniyorOneri2;
+
+  /// No description provided for @varroaBalOncesiSonPencereBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı öncesi son varroa penceresine giriliyor.'**
+  String get varroaBalOncesiSonPencereBaslik;
+
+  /// No description provided for @varroaBalOncesiSonPencereGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'{balAkimMetni} tarihinde başlaması beklenen bal akımı için mücadele en geç {sonGunMetni} tarihine kadar tamamlanmalı. Süre daralıyor.'**
+  String varroaBalOncesiSonPencereGerekce(
+      String balAkimMetni, String sonGunMetni);
+
+  /// No description provided for @varroaBalOncesiSonPencereOneri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mücadele gerekiyorsa son güvenli tarihe bırakmadan planla.'**
+  String get varroaBalOncesiSonPencereOneri;
+
+  /// No description provided for @varroaBalOncesiSonGunHatirla.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı öncesi son güvenli mücadele tarihi: {sonGunMetni}.'**
+  String varroaBalOncesiSonGunHatirla(String sonGunMetni);
+
+  /// No description provided for @varroaSonKayit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son kayıt: {tarih} / {yontem}.'**
+  String varroaSonKayit(String tarih, String yontem);
 }
 
 class _AppLocalizationsDelegate

@@ -4228,4 +4228,693 @@ class AppLocalizationsEn extends AppLocalizations {
   String uyariBalBolmeGecMesaj(String kritikEsik) {
     return 'After $kritikEsik the 42-day biological threshold will be crossed. Splits made after this date may reduce honey yield. Postpone the split decision if keeping production targets.';
   }
+
+  @override
+  String get kararVetoDogrudan =>
+      'Colony was not added to the clean donor pool because it originated from a swarm.';
+
+  @override
+  String get kararVetoKendisiOgulAtti =>
+      'Colony received a veto in donor evaluation because it has swarmed in its own history.';
+
+  @override
+  String kararVetoAtaHattaRef(String referansNo) {
+    return 'Not added to the clean donor pool because swarm evidence was found in line $referansNo.';
+  }
+
+  @override
+  String get kararVetoAtaHatta =>
+      'Not added to the clean donor pool due to swarm evidence in the ancestral line.';
+
+  @override
+  String kararDonorSirasi(int sira) {
+    return 'Ranked $sira. in the clean donor pool.';
+  }
+
+  @override
+  String kararSonCitaMetni(int cita) {
+    return 'Colony strength at last inspection: $cita frames.';
+  }
+
+  @override
+  String kararMaxCitaMetni(int cita) {
+    return 'Peak strength this season: $cita frames.';
+  }
+
+  @override
+  String kararBalCitaMetni(int cita) {
+    return 'Honey-carrying signal seen with $cita capped-honey frames.';
+  }
+
+  @override
+  String get kararTrendYukselis =>
+      'Development trend is upward in recent inspections.';
+
+  @override
+  String get kararTrendDusus =>
+      'A declining strength trend is observed in recent inspections.';
+
+  @override
+  String get kararTrendStabil => 'Progress appears stable.';
+
+  @override
+  String kararAnaYasiRisk(int yas) {
+    return 'Queen age of $yas year(s) carries a risk of declining productivity and brood pattern.';
+  }
+
+  @override
+  String get kararMizacRisk =>
+      'Temperament data may complicate field management.';
+
+  @override
+  String get kararAzVeriUyari =>
+      'Confidence margin is low as the decision was made with limited data.';
+
+  @override
+  String get kararBolmePlan =>
+      'If splitting, plan so the colony stays above 6 frames.';
+
+  @override
+  String get kararDonorOncelik =>
+      'Prioritise this colony as a top candidate in queen rearing.';
+
+  @override
+  String get kararAnaDegisimPlan =>
+      'Planning queen replacement toward the end of the active season is generally safer.';
+
+  @override
+  String get kararGuclendir =>
+      'Monitor the growth direction with capped brood, feeding and regular inspections.';
+
+  @override
+  String get kararUretimTut =>
+      'Keep in production; prioritise space and super management as the honey flow approaches.';
+
+  @override
+  String get kararPasifKayitOner =>
+      'Consider this colony more as a lineage and history record than active production.';
+
+  @override
+  String get kararNeden => 'Why';
+
+  @override
+  String get kararKilitBekle => 'Wait';
+
+  @override
+  String get kararKilitGerekce =>
+      'Conflicting actions are not recommended until this window closes.';
+
+  @override
+  String kararBolmeGucluMesaj(int gun) {
+    return 'Colony is developing strongly and there are approximately $gun days until the honey flow. Although it is approaching the super threshold, swarming pressure may build in this period; if genetic value is suitable, a controlled split could be considered.';
+  }
+
+  @override
+  String kararBolmeSinirliMesaj(int gun) {
+    return 'Colony is strong; however, with approximately $gun days until the honey flow, the split decision should be considered carefully and with limits. If the mother colony cannot reach the flow, space/swarm management should take priority over splitting.';
+  }
+
+  @override
+  String get kararBolmeGerekce =>
+      'A split decision is not only about frame count: time to honey flow, development trend, brood pattern, functional frames and genetic veto were all considered together.';
+
+  @override
+  String get kararKatEsikSurupluklu => 'Feeder + 9-frame capacity';
+
+  @override
+  String get kararKatEsikSurupluksuz => '10-frame capacity without feeder';
+
+  @override
+  String get kararKatAkimAktif => 'Honey flow appears active.';
+
+  @override
+  String get kararKatAkimKontrol =>
+      'Honey flow window should be checked separately.';
+
+  @override
+  String kararKatAkimKalan(int gun) {
+    return 'Approximately $gun days until the honey flow.';
+  }
+
+  @override
+  String kararKatMesaj(String esik, int yuzde, String akim) {
+    return '$esik is full and approximately $yuzde% activation is seen. $akim This threshold now calls for adding a super/honey box, not a regular frame.';
+  }
+
+  @override
+  String get kararKatGerekce =>
+      'With a feeder: 9-frame brood box capacity; without feeder: 10-frame capacity.';
+
+  @override
+  String get kararUcuncuKatEsikSurupluklu => 'Feeder + 19-frame capacity';
+
+  @override
+  String get kararUcuncuKatEsikSurupluksuz =>
+      '20-frame capacity without feeder';
+
+  @override
+  String kararUcuncuKatMesaj(String esik, int yuzde) {
+    return '$esik is full and approximately $yuzde% activation is seen. Colony has reached the threshold to fill the second upper space; a 3rd super/second honey box should be considered.';
+  }
+
+  @override
+  String get kararUcuncuKatGerekce =>
+      'With feeder: 19 frames; without feeder: 20 frames is the 3rd super threshold. The next frame increase is read as a 3-super colony.';
+
+  @override
+  String kararAlanMesajKulucluk(int yuzde) {
+    return 'Current space is approximately $yuzde% activated. Space/honey box management can be considered before the colony gets cramped.';
+  }
+
+  @override
+  String kararAlanMesajCita(int cita) {
+    return 'Almost all of the current $cita frames are in functional use. Adding 1 frame before the colony gets cramped can be considered.';
+  }
+
+  @override
+  String get kararHasatSonrasiMesaj =>
+      'Colony may become cramped after harvest; stock, space and varroa checks should be carried out.';
+
+  @override
+  String get kararHasatSonrasiGerekce =>
+      'The same frame arrangement after honey extraction is now a maintenance decision, not a production one.';
+
+  @override
+  String get kararKisHazirlikMesaj =>
+      'Colony should be prepared for winter with adequate stores, correct space, low varroa pressure and suitable population.';
+
+  @override
+  String get kararKisHazirlikGerekce =>
+      'Winter success is one of the key measures of genetic selection and sustainable apiary management.';
+
+  @override
+  String get kararSinifiZayif => 'Weak';
+
+  @override
+  String get kararSinifiGelisim => 'Development';
+
+  @override
+  String get kararSinifiUretim => 'Production';
+
+  @override
+  String get kararSinifiHasat => 'Harvest';
+
+  @override
+  String get kararSinifiIzleme => 'Monitoring';
+
+  @override
+  String get surecNedeniAnasizlik =>
+      'Queen-rearing / queenlessness is tied to biological timing. While this window is open, process management comes first.';
+
+  @override
+  String get surecNedeniOgul =>
+      'A queen cell or swarming sign is an active field risk. Swarm management comes first.';
+
+  @override
+  String get surecNedeniOgulSonrasi =>
+      'Post-swarm new queen and afterswarm risk take priority. General production or donor language is not pushed forward until the process closes.';
+
+  @override
+  String get surecNedenibolme =>
+      'General performance language is not shown as the main decision until colony order and queen process have settled after a split.';
+
+  @override
+  String get surecNedeniHasat =>
+      'Honey extraction changes the colony arrangement. Cramped layout, stress management, feeding needs and varroa window are evaluated together first.';
+
+  @override
+  String get surecNedeniGelisim =>
+      'Slow development is a field situation that needs explanation. The reason is sought first; then production or genetic role is re-evaluated.';
+
+  @override
+  String get surecNedeniVarsayilan =>
+      'When an active process is present, process management takes priority.';
+
+  @override
+  String get sezonHedefRiskliAnaBaslik => 'Queen/brood needs clarification';
+
+  @override
+  String get sezonHedefRiskliAnaMesaj =>
+      'Production, super or multiplication decisions are not pushed forward until queen and brood pattern are clarified.';
+
+  @override
+  String get sezonHedefRiskliAnaGerekce =>
+      'Intervention before brood pattern is clarified increases colony loss risk.';
+
+  @override
+  String get sezonHedefBolmeBaslik => 'Split recovering';
+
+  @override
+  String get sezonHedefBolmeMesaj =>
+      'The priority for this colony is for the queen order to settle and the population to be maintained.';
+
+  @override
+  String get sezonHedefBolmeGerekce =>
+      'The target for new splits this season is a healthy colony arrangement, not honey.';
+
+  @override
+  String get sezonHedefKisBaslik => 'Winter check';
+
+  @override
+  String get sezonHedefKisMesaj =>
+      'Stores, moisture and outdoor flight activity should be monitored without unnecessarily opening the hive.';
+
+  @override
+  String get sezonHedefKisGerekce =>
+      'Unnecessary intervention in winter disturbs the cluster and heat regulation.';
+
+  @override
+  String get sezonHedefKisHazirlikBaslik => 'Winter preparation';
+
+  @override
+  String get sezonHedefKisHazirlikMesaj =>
+      'Stores, space and varroa status should be checked for winter entry.';
+
+  @override
+  String get sezonHedefKisHazirlikGerekce =>
+      'Winter preparation emphasis is meaningful in the autumn period.';
+
+  @override
+  String get sezonHedefHasatSonrasiBaslik => 'Post-harvest care';
+
+  @override
+  String get sezonHedefHasatSonrasiMesaj =>
+      'Stores, space and varroa status should be checked after harvest.';
+
+  @override
+  String get sezonHedefHasatSonrasiGerekce =>
+      'Colony arrangement changes after honey extraction; maintenance decisions take precedence over production decisions.';
+
+  @override
+  String get sezonHedefHasatKolonisiBaslik => 'Harvest colony';
+
+  @override
+  String get sezonHedefHasatKolonisiMesaj =>
+      'Colony can be monitored for space and harvest direction during the honey flow.';
+
+  @override
+  String get sezonHedefHasatKolonisiGerekce =>
+      'Functional strength appears sufficient for harvest evaluation.';
+
+  @override
+  String get sezonHedefGelisimAkimMesaj =>
+      'No harvest target. Priority is strengthening, stores and queen order.';
+
+  @override
+  String get sezonHedefGelisimAkimGerekce =>
+      'Functional frame strength is below the harvest threshold.';
+
+  @override
+  String get sezonHedefGenetikCogaltmaBaslik =>
+      'Controlled multiplication candidate';
+
+  @override
+  String get sezonHedefGenetikCogaltmaMesaj =>
+      'Colony is progressing strongly and regularly; a controlled split can be considered if timing is suitable.';
+
+  @override
+  String get sezonHedefGenetikCogaltmaGerekce =>
+      'Time remaining to the honey flow may allow the mother colony to recover.';
+
+  @override
+  String get sezonHedefKisaHazirlikBaslik => 'Honey flow preparation';
+
+  @override
+  String get sezonHedefKisaHazirlikMesaj =>
+      'With little time left to the honey flow, maintaining colony strength is important. Harvest residue safety should be observed. Occasionally during the honey flow, a technical split can be made to remove honey-consuming population from the colony. This information is provided as guidance. Carrying it out requires knowledge and experience.';
+
+  @override
+  String get sezonHedefZayifDestekBaslik => 'Strengthening';
+
+  @override
+  String get sezonHedefZayifDestekMesaj =>
+      'Priority is bringing stores, population and queen order to a safe level.';
+
+  @override
+  String get sezonHedefGelisimKolonisiBaslik => 'Development colony';
+
+  @override
+  String get sezonHedefGelisimKolonisiMesaj =>
+      'Colony in development phase. Should be considered outside the harvest process.';
+
+  @override
+  String get sezonHedefBalHazirlanBaslik => 'Preparing for honey flow';
+
+  @override
+  String get sezonHedefBalHazirlanMesaj =>
+      'Colony is approaching production strength; the goal is to enter the honey flow strong without creating swarming pressure.';
+
+  @override
+  String get sezonHedefBalHazirlanGerekce =>
+      'Development trend and functional frame strength support the production target.';
+
+  @override
+  String get kisAclikRiskiBaslik => 'Winter risk: stores appear insufficient';
+
+  @override
+  String get kisAclikRiskiMesaj =>
+      'Opening the hive unnecessarily in winter is not recommended; however, if stores are very low, starvation risk takes priority. If field and weather conditions are suitable, a quick, limited store supplement/fondant can be considered.';
+
+  @override
+  String get kisAclikRiskiGerekce =>
+      'The fundamental rule in winter management is minimum intervention; however, starvation risk has higher priority than the minimum intervention rule.';
+
+  @override
+  String get kisHacimRiskiBaslik => 'Winter risk: empty space may be too high';
+
+  @override
+  String get kisHacimRiskiMesaj =>
+      'If physical space is high but functional strength is low, the winter cluster may struggle to maintain heat. Space reduction and moisture control can be considered at a suitable time.';
+
+  @override
+  String get kisHacimRiskiGerekce =>
+      'Winter success is determined not only by stores but by the match between colony space and bee population.';
+
+  @override
+  String get kisZayiflamaTakibiBaslik =>
+      'Winter risk: strength loss should be monitored';
+
+  @override
+  String get kisZayiflamaTakibiMesaj =>
+      'If strength loss is observed in winter, external observation, weight, entrance and moisture checks take priority over opening the hive. A limited check can be done in suitable weather.';
+
+  @override
+  String get kisZayiflamaTakibiGerekce =>
+      'Unnecessary inspection in winter can disturb the cluster and heat regulation.';
+
+  @override
+  String get kisDisGozlemBaslik => 'Winter management: no unnecessary opening';
+
+  @override
+  String get kisDisGozlemMesaj =>
+      'The main approach for the colony is external observation, weight feel, entrance, moisture and water ingress checks without unnecessarily opening the hive.';
+
+  @override
+  String get kisDisGozlemGerekce =>
+      'The winter algorithm is survival-focused, not production-focused. Spring exit provides data for the genetic stability score.';
+
+  @override
+  String get sapmaAnaSureczyBaslik => 'Weakening risk during queen process';
+
+  @override
+  String get sapmaAnaSureczyMesaj =>
+      'If colony strength drops while the queen/brood process continues, the normal wait scenario turns into a weakening risk. At this stage, the goal is not production but clarifying queen status and keeping the colony alive.';
+
+  @override
+  String get sapmaAnaSureczyGerekce =>
+      'Expected flow: queen acquisition → brood seen → recovery. Deviation: if the process extends and population drops, queen loss, mating failure or external threat probability increases.';
+
+  @override
+  String get sapmaBolmeTutmadiBaslik => 'Split not recovering';
+
+  @override
+  String get sapmaBolmeTutmadiMesaj =>
+      'The expected flow after a split is for queen order to settle and the population to be maintained. If brood pattern is absent and strength is declining, the goal for this colony is not honey but queen retention/survival.';
+
+  @override
+  String get sapmaBolmeTutmadiGerekce =>
+      'The split process does not close with day count alone; it is not considered complete until brood pattern, functional frames and regrowth are observed.';
+
+  @override
+  String get sapmaOgulRiskiBaslik => 'Early congestion swarming risk';
+
+  @override
+  String get sapmaOgulRiskiMesaj =>
+      'Colony continues strong growth before the honey flow starts. If this strength is managed only with supers, swarming pressure may build before the flow; a controlled split if genetic value is suitable, otherwise space/swarm management should be considered.';
+
+  @override
+  String get sapmaOgulRiskiGerekce =>
+      'The expected target is entering the honey flow with a strong but manageable colony of 11-12 frames. Exceeding this threshold early may produce swarming risk rather than production.';
+
+  @override
+  String get sapmaAkimAlanTakibiBaslik => 'Monitor space during honey flow';
+
+  @override
+  String get sapmaAkimAlanTakibiMesaj =>
+      'Behaviour changes during the honey flow; the colony may shift from raising brood to storing nectar. Low apparent stores alone do not indicate weakness — space and capping should be monitored together.';
+
+  @override
+  String get sapmaAkimAlanTakibiGerekce =>
+      'During the honey flow, brood and store data are not read the same as in normal periods; nectar intake, honey space and harvest timing are evaluated together.';
+
+  @override
+  String get sapmaHasatStokRiskiBaslik => 'Low stores after harvest';
+
+  @override
+  String get sapmaHasatStokRiskiMesaj =>
+      'The expected flow after harvest is recovery of stores, varroa and space arrangement. If stores appear low, production language closes; stores and consolidation are evaluated together for safe winter entry.';
+
+  @override
+  String get sapmaHasatStokRiskiGerekce =>
+      'After harvest honey is taken, the same frame strength can be read as a winter preparation risk rather than production success.';
+
+  @override
+  String get sapmaHasatHacimRiskiBaslik =>
+      'Space may be excessive after harvest';
+
+  @override
+  String get sapmaHasatHacimRiskiMesaj =>
+      'If physical frame area is high but functional strength is low, the colony may be left in unnecessary space. In this case space reduction, stores and winter arrangement take priority over production decisions.';
+
+  @override
+  String get sapmaHasatHacimRiskiGerekce =>
+      'Excessive empty space in the post-harvest period may increase robbing, moisture and heat management risks.';
+
+  @override
+  String get genetikVetoBaslik => 'Genetic multiplication value: veto';
+
+  @override
+  String get genetikYuksekBaslik => 'Genetic multiplication value is high';
+
+  @override
+  String get genetikIzleBaslik =>
+      'Genetic multiplication value in monitoring range';
+
+  @override
+  String get genetikVetoMesaj =>
+      'Colony is not highlighted in the multiplication pool. Production value is separate; genetic propagation value is separate.';
+
+  @override
+  String get genetikSkorGerekce =>
+      'Biological strength, brood pattern, development stability and risks are evaluated together.';
+
+  @override
+  String get beslemeYonetimVarsayilanBaslik => 'Feeding Management';
+
+  @override
+  String beslemeDestekBandi(String bant) {
+    return 'Estimated support range: $bant';
+  }
+
+  @override
+  String get varroaTakvimBaslik => 'Varroa calendar should be monitored.';
+
+  @override
+  String get varroaTakvimGerekce =>
+      'Seasonal varroa record-keeping and monitoring discipline should be maintained.';
+
+  @override
+  String get varroaKayitYok => 'No varroa record yet.';
+
+  @override
+  String get varroaKayitYokGerekce =>
+      'Seasonal varroa reminders become more meaningful after the first inspection records.';
+
+  @override
+  String get varroaKayitYokOneri =>
+      'Regularly record any varroa treatment done during inspections.';
+
+  @override
+  String get varroaIlkbaharKayitVar => 'Early spring varroa record present.';
+
+  @override
+  String get varroaIlkbaharKayitVarGerekce =>
+      'A treatment record from the start of the season is visible. This supports entering spring development with lower mite pressure.';
+
+  @override
+  String get varroaIlkbaharKayitVarOneri =>
+      'Track treatment effectiveness in subsequent inspections.';
+
+  @override
+  String get varroaIlkbaharKontrolPlanla =>
+      'Spring varroa check should be planned.';
+
+  @override
+  String get varroaIlkbaharKontrolGerekce =>
+      'The early spring period is an important window for reducing varroa pressure at the start of the season.';
+
+  @override
+  String get varroaIlkbaharKontrolOneri =>
+      'Check colonies; plan early spring treatment if needed.';
+
+  @override
+  String get varroaBalOncesiKayitVar => 'Pre-flow varroa record visible.';
+
+  @override
+  String get varroaBalOncesiPlanGozden =>
+      'Pre-flow varroa plan should be reviewed.';
+
+  @override
+  String get varroaBalOncesiGerekce =>
+      'It is safer to have the varroa plan completed before entering the honey flow period.';
+
+  @override
+  String get varroaBalOncesiOneri => 'Plan before, not during, the honey flow.';
+
+  @override
+  String get varroaYazTakip =>
+      'Varroa monitoring should continue during summer.';
+
+  @override
+  String get varroaYazTakipGerekce =>
+      'The aim in midsummer is not continuous treatment but regular monitoring and preparation for the post-harvest period.';
+
+  @override
+  String get varroaYazTakipOneri =>
+      'Regularly monitor varroa records and colony progress during inspections.';
+
+  @override
+  String get varroaKritikKayitVar =>
+      'Varroa treatment record present during critical period.';
+
+  @override
+  String get varroaKritikKayitVarGerekce =>
+      'Late summer-early autumn is the period when winter bees form and varroa pressure is most critical.';
+
+  @override
+  String get varroaKritikKayitVarOneri =>
+      'Continue post-harvest plan; check effectiveness at next inspection.';
+
+  @override
+  String get varroaHasatSonrasiGecikiyor =>
+      'Post-harvest varroa treatment is delayed.';
+
+  @override
+  String get varroaHasatSonrasiGecikiyorGerekce =>
+      'No record visible in late summer-early autumn. This period is considered the most critical window for winter bee health.';
+
+  @override
+  String get varroaHasatSonrasiGecikiyorOneri1 =>
+      'Do not delay treatment after honey extraction.';
+
+  @override
+  String get varroaHasatSonrasiGecikiyorOneri2 =>
+      'Be sure to record any application at the next inspection.';
+
+  @override
+  String get varroaKisaGirisKayitVar => 'Pre-winter varroa record present.';
+
+  @override
+  String get varroaKisaGirisKayitVarGerekce =>
+      'A record at the end of autumn is a positive signal for entering winter with a lower mite load.';
+
+  @override
+  String get varroaKisaGirisKayitVarOneri =>
+      'Check the overall situation one more time before entering winter.';
+
+  @override
+  String get varroaSonbaharKayitEksik =>
+      'Autumn varroa record appears incomplete.';
+
+  @override
+  String get varroaSonbaharKayitEksikGerekce =>
+      'No treatment record visible in the pre-winter period. Late autumn check should not be neglected.';
+
+  @override
+  String get varroaSonbaharKayitEksikOneri =>
+      'Evaluate treatment necessity if brood activity has decreased.';
+
+  @override
+  String get varroaKisSonbaharKayitVar => 'Autumn varroa record visible.';
+
+  @override
+  String get varroaKisSonbaharKayitVarGerekce =>
+      'The main aim in winter is to maintain the load reduced in autumn without putting the colony under unnecessary stress.';
+
+  @override
+  String get varroaKisSonbaharKayitVarOneri =>
+      'Monitor general condition without unnecessarily opening the hive.';
+
+  @override
+  String get varroaKisGozden => 'Winter varroa situation should be reviewed.';
+
+  @override
+  String get varroaKisGozdenGerekce =>
+      'No record for a long time. The situation should be re-evaluated if brood activity has decreased.';
+
+  @override
+  String get varroaKisGozdenOneri =>
+      'Carry out a winter check according to brood condition and seasonal circumstances.';
+
+  @override
+  String get varroaBalDonemiDikkat =>
+      'Varroa decision requires care during the honey period.';
+
+  @override
+  String get varroaBalDonemiGerekce =>
+      'Chemical treatments with residue risk are not recommended after the honey flow has started.';
+
+  @override
+  String get varroaBalDonemiOneri1 =>
+      'If necessary, consider only methods that carry no residue risk to honey, compliant with label and regulations.';
+
+  @override
+  String get varroaBalDonemiOneri2 =>
+      'Plan chemical treatment for after harvest.';
+
+  @override
+  String get varroaBalOncesiTamamlandiBaslik =>
+      'Pre-flow varroa plan appears completed.';
+
+  @override
+  String varroaBalOncesiTamamlandiGerekce(
+      String balAkimMetni, String sonGunMetni) {
+    return 'Treatment should have been completed by $sonGunMetni at the latest before the honey flow expected on $balAkimMetni. The record appears to comply with this.';
+  }
+
+  @override
+  String get varroaBalOncesiTamamlandiOneri =>
+      'Do not plan new treatment during the honey flow.';
+
+  @override
+  String get varroaBalOncesiKapaniyorBaslik =>
+      'Pre-flow treatment window is closing.';
+
+  @override
+  String varroaBalOncesiKapaniyorGerekce(
+      String balAkimMetni, String sonGunMetni) {
+    return 'To reduce residue risk before the honey flow expected on $balAkimMetni, treatment should be completed by $sonGunMetni at the latest.';
+  }
+
+  @override
+  String get varroaBalOncesiKapaniyorOneri1 =>
+      'At this stage, consider residue risk when planning pre-flow chemical treatment.';
+
+  @override
+  String get varroaBalOncesiKapaniyorOneri2 =>
+      'If delayed, it may be safer to postpone any new chemical application until after the honey flow.';
+
+  @override
+  String get varroaBalOncesiSonPencereBaslik =>
+      'Entering last pre-flow varroa window.';
+
+  @override
+  String varroaBalOncesiSonPencereGerekce(
+      String balAkimMetni, String sonGunMetni) {
+    return 'Treatment for the honey flow expected on $balAkimMetni should be completed by $sonGunMetni at the latest. Time is running short.';
+  }
+
+  @override
+  String get varroaBalOncesiSonPencereOneri =>
+      'If treatment is needed, plan without leaving it to the last safe date.';
+
+  @override
+  String varroaBalOncesiSonGunHatirla(String sonGunMetni) {
+    return 'Last safe pre-flow treatment date: $sonGunMetni.';
+  }
+
+  @override
+  String varroaSonKayit(String tarih, String yontem) {
+    return 'Last record: $tarih / $yontem.';
+  }
 }

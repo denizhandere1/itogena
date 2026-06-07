@@ -1,3 +1,4 @@
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'koloni_karar_motoru.dart';
 import 'ari_biyoloji_servisi.dart';
 import 'surec_motoru.dart';
@@ -127,10 +128,11 @@ class KararAsistanServisi {
       Map<String, dynamic> koloni, {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
+        AppLocalizations? l,
       }) async {
     final surec = await _dominantSurecGetir(koloniId);
     if (_surecKarariBastirirMi(surec)) {
-      return _surecAksiyonKartlari(surec!);
+      return _surecAksiyonKartlari(surec!, l: l);
     }
 
     final sonuc = await KoloniKararMotoru.kararUret(
@@ -277,6 +279,7 @@ class KararAsistanServisi {
       Map<String, dynamic> koloni, {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
+        AppLocalizations? l,
       }) async {
     final surec = await _dominantSurecGetir(koloniId);
     final bool surecOncelikli = _surecKarariBastirirMi(surec);
@@ -314,42 +317,42 @@ class KararAsistanServisi {
 
     if (sonuc.donorVeto) {
       if (vetoKod == 'DOGRUDAN_OGUL' || vetoKod == 'KAYNAK_TIPI_OGUL') {
-        ekle(gerekceler, 'Koloni oğul kökenli olduğu için temiz donör havuzuna alınmadı.');
+        ekle(gerekceler, l?.kararVetoDogrudan ?? 'Koloni oğul kökenli olduğu için temiz donör havuzuna alınmadı.');
       } else if (vetoKod == 'KENDISI_OGUL_ATTI') {
-        ekle(gerekceler, 'Koloni kendi geçmişinde oğul attığı için donör değerlendirmesinde veto aldı.');
+        ekle(gerekceler, l?.kararVetoKendisiOgulAtti ?? 'Koloni kendi geçmişinde oğul attığı için donör değerlendirmesinde veto aldı.');
       } else if (vetoKod == 'ATA_HATTA_OGUL' && vetoReferansKoloniNo.isNotEmpty) {
-        ekle(gerekceler, '$vetoReferansKoloniNo hattında oğul izi bulunduğu için temiz donör havuzuna alınmadı.');
+        ekle(gerekceler, l?.kararVetoAtaHattaRef(vetoReferansKoloniNo) ?? '$vetoReferansKoloniNo hattında oğul izi bulunduğu için temiz donör havuzuna alınmadı.');
       } else if (vetoKod == 'ATA_HATTA_OGUL') {
-        ekle(gerekceler, 'Atasal hatta oğul izi bulunduğu için temiz donör havuzuna alınmadı.');
+        ekle(gerekceler, l?.kararVetoAtaHatta ?? 'Atasal hatta oğul izi bulunduğu için temiz donör havuzuna alınmadı.');
       }
     } else if (sonuc.donorSirasi > 0) {
-      ekle(gerekceler, 'Temiz donör havuzunda ${sonuc.donorSirasi}. sırada görünüyor.');
+      ekle(gerekceler, l?.kararDonorSirasi(sonuc.donorSirasi) ?? 'Temiz donör havuzunda ${sonuc.donorSirasi}. sırada görünüyor.');
     }
 
     if (sonCita > 0) {
-      ekle(gerekceler, 'Son muayenede koloni $sonCita çıta gücünde görünüyor.');
+      ekle(gerekceler, l?.kararSonCitaMetni(sonCita) ?? 'Son muayenede koloni $sonCita çıta gücünde görünüyor.');
     }
     if (maxCita > 0) {
-      ekle(gerekceler, 'Bu sezon gördüğü en yüksek güç $maxCita çıta.');
+      ekle(gerekceler, l?.kararMaxCitaMetni(maxCita) ?? 'Bu sezon gördüğü en yüksek güç $maxCita çıta.');
     }
     if (balCita > 0) {
-      ekle(gerekceler, 'Bal taşıma sinyali $balCita ballı çıta ile görülüyor.');
+      ekle(gerekceler, l?.kararBalCitaMetni(balCita) ?? 'Bal taşıma sinyali $balCita ballı çıta ile görülüyor.');
     }
 
     if (trend == 'Yükselişte') {
-      ekle(gerekceler, 'Son muayenelerde gelişim yönü yukarı.');
+      ekle(gerekceler, l?.kararTrendYukselis ?? 'Son muayenelerde gelişim yönü yukarı.');
     } else if (trend == 'Düşüşte') {
-      ekle(riskler, 'Son muayenelerde güç kaybı eğilimi görülüyor.');
+      ekle(riskler, l?.kararTrendDusus ?? 'Son muayenelerde güç kaybı eğilimi görülüyor.');
     } else {
-      ekle(gerekceler, 'Gidişat stabil görünüyor.');
+      ekle(gerekceler, l?.kararTrendStabil ?? 'Gidişat stabil görünüyor.');
     }
 
     if (anaYasi >= 2) {
-      ekle(riskler, 'Ana yaşı $anaYasi yıl olduğu için verim ve düzen düşüşü riski taşıyor.');
+      ekle(riskler, l?.kararAnaYasiRisk(anaYasi) ?? 'Ana yaşı $anaYasi yıl olduğu için verim ve düzen düşüşü riski taşıyor.');
     }
 
     if (mizac == 'Saldırgan' || mizac == 'Sinirli') {
-      ekle(riskler, 'Mizaç verisi saha yönetimini zorlaştırabilir.');
+      ekle(riskler, l?.kararMizacRisk ?? 'Mizaç verisi saha yönetimini zorlaştırabilir.');
     }
 
     if (kisCikisYorum.isNotEmpty && !kisCikisYorum.toLowerCase().contains('yetersiz')) {
@@ -370,7 +373,7 @@ class KararAsistanServisi {
     }
 
     if (muayeneSayisi < 3) {
-      ekle(riskler, 'Karar az veriyle üretildiği için güven payı düşüktür.');
+      ekle(riskler, l?.kararAzVeriUyari ?? 'Karar az veriyle üretildiği için güven payı düşüktür.');
     }
 
     for (final kart in sonuc.aksiyonKartlari) {
@@ -387,34 +390,34 @@ class KararAsistanServisi {
     switch (sonuc.kararKodu) {
       case 'BOLME':
       case 'BOLME_ICIN_UYGUN':
-        ekle(oneriler, 'Bölme yapacaksan koloniyi 6 çıtanın altına düşürmeden planla.');
+        ekle(oneriler, l?.kararBolmePlan ?? 'Bölme yapacaksan koloniyi 6 çıtanın altına düşürmeden planla.');
         break;
       case 'DONOR_1':
       case 'DONOR_2':
       case 'DONOR_3':
       case 'SARTLI_DONOR':
-        ekle(oneriler, 'Ana üretiminde bu koloniyi aday havuzunda öncelikli düşün.');
+        ekle(oneriler, l?.kararDonorOncelik ?? 'Ana üretiminde bu koloniyi aday havuzunda öncelikli düşün.');
         break;
       case 'ANA_DEGISIM':
       case 'ANA_DEGISIM_DUSUN':
-        ekle(oneriler, 'Ana değişimini aktif dönemin sonuna yakın planlamak genelde daha güvenli olur.');
+        ekle(oneriler, l?.kararAnaDegisimPlan ?? 'Ana değişimini aktif dönemin sonuna yakın planlamak genelde daha güvenli olur.');
         break;
       case 'GUCLENDIR_VE_IZLE':
       case 'DESTEK_KOLONISI':
-        ekle(oneriler, 'Kapalı yavru, besleme ve düzenli muayene ile güçlenme yönünü izle.');
+        ekle(oneriler, l?.kararGuclendir ?? 'Kapalı yavru, besleme ve düzenli muayene ile güçlenme yönünü izle.');
         break;
       case 'URETIM':
       case 'URETIM_IZLE':
       case 'URETIMDE_DEGERLENDIR':
-        ekle(oneriler, 'Üretimde tut; bal akımı yaklaşırken alan ve kat yönetimini öne al.');
+        ekle(oneriler, l?.kararUretimTut ?? 'Üretimde tut; bal akımı yaklaşırken alan ve kat yönetimini öne al.');
         break;
       case 'PASIF_KAYIT':
-        ekle(oneriler, 'Koloniyi aktif üretimden çok soy ve geçmiş kaydı olarak değerlendir.');
+        ekle(oneriler, l?.kararPasifKayitOner ?? 'Koloniyi aktif üretimden çok soy ve geçmiş kaydı olarak değerlendir.');
         break;
     }
 
     if (surecOncelikli && surec != null) {
-      ekle(gerekceler, _surecNedeni(surec));
+      ekle(gerekceler, _surecNedeni(surec, l: l));
       if (surec.tip == 'kritik' || surec.tip == 'uyari') {
         ekle(riskler, surec.baslik);
       }
@@ -581,10 +584,12 @@ class KararAsistanServisi {
   static Future<Map<String, dynamic>> yonetimDurumOzetiGetir(
       int koloniId, {
         Map<String, dynamic>? hazirKoloni,
+        AppLocalizations? l,
       }) async {
     final kararlar = await yonetimKararlariGetir(
       koloniId,
       hazirKoloni: hazirKoloni,
+      l: l,
     );
     if (kararlar.isEmpty) {
       return const <String, dynamic>{};
@@ -603,6 +608,7 @@ class KararAsistanServisi {
   static Future<List<Map<String, dynamic>>> yonetimKararlariGetir(
       int koloniId, {
         Map<String, dynamic>? hazirKoloni,
+        AppLocalizations? l,
       }) async {
     final koloni = hazirKoloni ?? await VeritabaniServisi.koloniOzetiGetir(koloniId);
     if (koloni.isEmpty) return const <Map<String, dynamic>>[];
@@ -663,10 +669,10 @@ class KararAsistanServisi {
       kararlar.add({
         'kod': kilit.kod,
         'kategori': 'kilit',
-        'kisa': 'Bekle',
+        'kisa': l?.kararKilitBekle ?? 'Bekle',
         'baslik': kilit.baslik,
         'mesaj': kilit.mesaj,
-        'gerekce': 'Bu pencere kapanmadan çelişen eylem önerilmez.',
+        'gerekce': l?.kararKilitGerekce ?? 'Bu pencere kapanmadan çelişen eylem önerilmez.',
         'oncelik': kilit.oncelik,
         'tip': 'uyari',
         'kararTipi': 'BEKLE',
@@ -790,6 +796,7 @@ class KararAsistanServisi {
       stokCita: stokCita,
       gucluTrend: gucluTrend,
       gucDususu: gucDususu,
+      l: l,
     );
 
     if (hedef.isNotEmpty) {
@@ -810,6 +817,7 @@ class KararAsistanServisi {
       bolmeToparlanmaHedefi: bolmeToparlanmaHedefi,
       riskliAnaSureciHedefi: riskliAnaSureciHedefi,
       hasatSonrasi: hasatSonrasiSurec,
+      l: l,
     );
     kararlar.addAll(sapmaKararlari);
 
@@ -827,6 +835,7 @@ class KararAsistanServisi {
       bolmeToparlanmaHedefi: bolmeToparlanmaHedefi,
       riskliAnaSureciHedefi: riskliAnaSureciHedefi,
       hasatSonrasi: hasatSonrasiSurec,
+      l: l,
     );
     if (genetikSkorSinyali.isNotEmpty && (hasatBeklentisiVar || genetikDegerVarsayimi)) {
       kararlar.add(genetikSkorSinyali);
@@ -842,6 +851,7 @@ class KararAsistanServisi {
         hasatBeklentisiVar: hasatBeklentisiVar,
         balAkimiAktif: balAkimiAktif,
         balAkimiKesmePenceresi: balAkimiKesmePenceresi,
+        l: l,
       );
       if (beslemeKarari.isNotEmpty) {
         kararlar.add(beslemeKarari);
@@ -855,6 +865,7 @@ class KararAsistanServisi {
         muayeneler,
         bugun: bugun,
         balAkimBaslangici: balBas,
+        l: l,
       );
       final seviye = _metin(varroa['seviye'], 'bilgi').toLowerCase();
       final baslik = _metin(varroa['baslik'], 'Varroa takibi');
@@ -921,9 +932,9 @@ class KararAsistanServisi {
             ? 'Genetik çoğaltma / kontrollü bölme penceresi'
             : 'Sınırlı bölme değerlendirmesi',
         'mesaj': bolmeAnaPenceresi
-            ? 'Koloni güçlü gelişim gösteriyor ve bal akımına yaklaşık $balAkiminaKalanGun gün var. Kat seviyesine yaklaşmış olsa da bu süre içinde oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme değerlendirilebilir.'
-            : 'Koloni güçlü; ancak bal akımına yaklaşık $balAkiminaKalanGun gün kaldığı için bölme kararı sınırlı ve dikkatli düşünülmeli. Ana koloni bala yetişemeyecekse bölme yerine alan/oğul yönetimi öne alınır.',
-        'gerekce': 'Bölme kararı sadece çıta sayısı değildir: bal akımına kalan süre, gelişim yönü, yavru düzeni, işlevsel çıta ve genetik veto birlikte okundu.',
+            ? (l?.kararBolmeGucluMesaj(balAkiminaKalanGun!) ?? 'Koloni güçlü gelişim gösteriyor ve bal akımına yaklaşık $balAkiminaKalanGun gün var. Kat seviyesine yaklaşmış olsa da bu süre içinde oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme değerlendirilebilir.')
+            : (l?.kararBolmeSinirliMesaj(balAkiminaKalanGun!) ?? 'Koloni güçlü; ancak bal akımına yaklaşık $balAkiminaKalanGun gün kaldığı için bölme kararı sınırlı ve dikkatli düşünülmeli. Ana koloni bala yetişemeyecekse bölme yerine alan/oğul yönetimi öne alınır.'),
+        'gerekce': l?.kararBolmeGerekce ?? 'Bölme kararı sadece çıta sayısı değildir: bal akımına kalan süre, gelişim yönü, yavru düzeni, işlevsel çıta ve genetik veto birlikte okundu.',
         'oncelik': bolmeAnaPenceresi ? 93 : 82,
         'tip': 'uyari',
       });
@@ -940,22 +951,22 @@ class KararAsistanServisi {
 
     if (katDegerlendir) {
       final String esikMetni = suruplukKolonideVar
-          ? 'Şurupluk + 9 çıta kapasitesi'
-          : 'Şurupluksuz 10 çıta kapasitesi';
+          ? (l?.kararKatEsikSurupluklu ?? 'Şurupluk + 9 çıta kapasitesi')
+          : (l?.kararKatEsikSurupluksuz ?? 'Şurupluksuz 10 çıta kapasitesi');
       final int yuzde = (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
       final String akimMetni = balAkimiAktif
-          ? 'Bal akımı aktif görünüyor.'
+          ? (l?.kararKatAkimAktif ?? 'Bal akımı aktif görünüyor.')
           : (balAkiminaKalanGun == null
-          ? 'Bal akımı penceresi ayrıca kontrol edilmeli.'
-          : 'Bal akımına yaklaşık $balAkiminaKalanGun gün var.');
+          ? (l?.kararKatAkimKontrol ?? 'Bal akımı penceresi ayrıca kontrol edilmeli.')
+          : (l?.kararKatAkimKalan(balAkiminaKalanGun) ?? 'Bal akımına yaklaşık $balAkiminaKalanGun gün var.'));
 
       kararlar.add({
         'kod': 'KAT_VER',
         'kategori': 'eylem',
         'kisa': 'Kat ver',
         'baslik': 'Kat / ballık ver',
-        'mesaj': '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. $akimMetni Bu eşik artık normal çıta ekleme değil, kat/ballık verme eşiğidir.',
-        'gerekce': 'Şurupluk varsa kuluçkalık 9 çıta, şurupluk kaldırıldıysa 10 çıta kapasite kabul edilir.',
+        'mesaj': l?.kararKatMesaj(esikMetni, yuzde, akimMetni) ?? '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. $akimMetni Bu eşik artık normal çıta ekleme değil, kat/ballık verme eşiğidir.',
+        'gerekce': l?.kararKatGerekce ?? 'Şurupluk varsa kuluçkalık 9 çıta, şurupluk kaldırıldıysa 10 çıta kapasite kabul edilir.',
         'oncelik': 91,
         'tip': 'uyari',
       });
@@ -972,16 +983,16 @@ class KararAsistanServisi {
 
     if (ucuncuKatDegerlendir) {
       final String esikMetni = suruplukKolonideVar
-          ? 'Şurupluk + 19 çıta kapasitesi'
-          : 'Şurupluksuz 20 çıta kapasitesi';
+          ? (l?.kararUcuncuKatEsikSurupluklu ?? 'Şurupluk + 19 çıta kapasitesi')
+          : (l?.kararUcuncuKatEsikSurupluksuz ?? 'Şurupluksuz 20 çıta kapasitesi');
       final int yuzde = (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
       kararlar.add({
         'kod': 'UCUNCU_KAT_VER',
         'kategori': 'eylem',
         'kisa': '3. kat ver',
         'baslik': '3. kat / ikinci ballık ver',
-        'mesaj': '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. Koloni ikinci üst hacmi doldurma eşiğine gelmiş; 3. kat/ikinci ballık değerlendirilmeli.',
-        'gerekce': 'Şurupluk varsa 19 çıta, şurupluk kaldırıldıysa 20 çıta 3. kat verme eşiğidir. Bir sonraki çıta artışı 3 katlı koloni olarak okunur.',
+        'mesaj': l?.kararUcuncuKatMesaj(esikMetni, yuzde) ?? '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. Koloni ikinci üst hacmi doldurma eşiğine gelmiş; 3. kat/ikinci ballık değerlendirilmeli.',
+        'gerekce': l?.kararUcuncuKatGerekce ?? 'Şurupluk varsa 19 çıta, şurupluk kaldırıldıysa 20 çıta 3. kat verme eşiğidir. Bir sonraki çıta artışı 3 katlı koloni olarak okunur.',
         'oncelik': 92,
         'tip': 'uyari',
       });
@@ -1006,8 +1017,8 @@ class KararAsistanServisi {
           ? 'Alan ihtiyacı / ballık değerlendirme'
           : 'Alan ihtiyacı / çıta ekleme';
       final String mesaj = kuluclukKatBandinda
-          ? 'Mevcut hacim yaklaşık %$yuzde aktive olmuş. Koloni sıkışmadan ballık/alan yönetimi değerlendirilebilir.'
-          : 'Mevcut $fizikselCita çıtanın tamamına yakını işlevsel kullanılıyor. Koloni sıkışmadan 1 çıta eklenmasi değerlendirilebilir.';
+          ? (l?.kararAlanMesajKulucluk(yuzde) ?? 'Mevcut hacim yaklaşık %$yuzde aktive olmuş. Koloni sıkışmadan ballık/alan yönetimi değerlendirilebilir.')
+          : (l?.kararAlanMesajCita(fizikselCita) ?? 'Mevcut $fizikselCita çıtanın tamamına yakını işlevsel kullanılıyor. Koloni sıkışmadan 1 çıta eklenmasi değerlendirilebilir.');
       final String gerekce = sonMuayenedeCitaArtisiVar
           ? ''
           : 'Aktivasyon oranı koloni gücü etiketi değildir; mevcut hacmin dolduğunu ve alan ihtiyacını gösterir.';
@@ -1030,8 +1041,8 @@ class KararAsistanServisi {
         'kategori': 'yonetim',
         'kisa': 'Bakım',
         'baslik': 'Hasat sonrası bakım yönü',
-        'mesaj': 'Hasat sonrası koloni sıkışabilir; stok, alan ve varroa kontrolü yapılmalıdır.',
-        'gerekce': 'Bal alımı sonrası aynı çıta düzeni artık üretim değil bakım kararıdır.',
+        'mesaj': l?.kararHasatSonrasiMesaj ?? 'Hasat sonrası koloni sıkışabilir; stok, alan ve varroa kontrolü yapılmalıdır.',
+        'gerekce': l?.kararHasatSonrasiGerekce ?? 'Bal alımı sonrası aynı çıta düzeni artık üretim değil bakım kararıdır.',
         'oncelik': 58,
         'tip': 'bilgi',
       });
@@ -1043,8 +1054,8 @@ class KararAsistanServisi {
         'kategori': 'yonetim',
         'kisa': 'Kış hazırlık',
         'baslik': 'Kışa hazırlık kontrolü',
-        'mesaj': 'Koloni kışa doğru yeterli stok, doğru hacim, düşük varroa baskısı ve uygun nüfusla hazırlanmalı.',
-        'gerekce': 'Kış başarısı genetik seçilim ve sürdürülebilir arılık yönetiminin temel ölçütlerinden biridir.',
+        'mesaj': l?.kararKisHazirlikMesaj ?? 'Koloni kışa doğru yeterli stok, doğru hacim, düşük varroa baskısı ve uygun nüfusla hazırlanmalı.',
+        'gerekce': l?.kararKisHazirlikGerekce ?? 'Kış başarısı genetik seçilim ve sürdürülebilir arılık yönetiminin temel ölçütlerinden biridir.',
         'oncelik': stokCita <= 1 ? 76 : 54,
         'tip': stokCita <= 1 ? 'uyari' : 'bilgi',
       });
@@ -1057,6 +1068,7 @@ class KararAsistanServisi {
         islevselUretimCita: islevselUretimCita,
         gucDususu: gucDususu,
         yavruDuzeniStabil: yavruDuzeniStabil,
+        l: l,
       ));
     }
 
@@ -1086,7 +1098,7 @@ class KararAsistanServisi {
         'fizikselCita': fizikselCita,
         'islevselUretimCita': islevselUretimCita,
         'koloniSinifi': koloniSinifi,
-        'koloniSinifEtiketi': _koloniSinifEtiketi(koloniSinifi),
+        'koloniSinifEtiketi': _koloniSinifEtiketi(koloniSinifi, l: l),
         // Grid ve kullanıcı arayüzü toplam hacim aktivasyonunu gösterir.
         'aktivasyonYuzde': toplamHacimAktivasyonYuzde,
         'toplamHacimAktivasyonOrani': toplamHacimAktivasyonOrani,
@@ -1105,9 +1117,10 @@ class KararAsistanServisi {
         required bool hasatBeklentisiVar,
         required bool balAkimiAktif,
         required bool balAkimiKesmePenceresi,
+        AppLocalizations? l,
       }) {
     final String tip = besleme.tip.trim().isEmpty
-        ? 'Besleme Yönetimi'
+        ? (l?.beslemeYonetimVarsayilanBaslik ?? 'Besleme Yönetimi')
         : besleme.tip.trim();
     final String tipNorm = tip.toLowerCase();
     final bool beslemeOnerilmez = tipNorm.contains('önerilmez') ||
@@ -1144,7 +1157,7 @@ class KararAsistanServisi {
     if (mesajVar) detaylar.add(besleme.mesaj.trim());
     if (besleme.risk.trim().isNotEmpty) detaylar.add('Risk: ${besleme.risk.trim()}');
     if (dozVar) {
-      detaylar.add('Tahmini destek bandı: ${besleme.dozBandi.trim()}');
+      detaylar.add(l?.beslemeDestekBandi(besleme.dozBandi.trim()) ?? 'Tahmini destek bandı: ${besleme.dozBandi.trim()}');
       if (besleme.tekrarAraligi.trim().isNotEmpty &&
           besleme.tekrarAraligi.trim() != '-') {
         detaylar.add(besleme.tekrarAraligi.trim());
@@ -1191,18 +1204,18 @@ class KararAsistanServisi {
     return 'HASAT';
   }
 
-  static String _koloniSinifEtiketi(String sinif) {
+  static String _koloniSinifEtiketi(String sinif, {AppLocalizations? l}) {
     switch (sinif) {
       case 'ZAYIF':
-        return 'Zayıf';
+        return l?.kararSinifiZayif ?? 'Zayıf';
       case 'GELISIM':
-        return 'Gelişim';
+        return l?.kararSinifiGelisim ?? 'Gelişim';
       case 'URETIM':
-        return 'Üretim';
+        return l?.kararSinifiUretim ?? 'Üretim';
       case 'HASAT':
-        return 'Hasat';
+        return l?.kararSinifiHasat ?? 'Hasat';
       default:
-        return 'İzleme';
+        return l?.kararSinifiIzleme ?? 'İzleme';
     }
   }
 
@@ -1220,6 +1233,7 @@ class KararAsistanServisi {
     required int stokCita,
     required bool gucluTrend,
     required bool gucDususu,
+    AppLocalizations? l,
   }) {
     String kod = '';
     String kisa = '';
@@ -1237,55 +1251,55 @@ class KararAsistanServisi {
     if (riskliAnaSureciHedefi) {
       kod = 'RISKLI_ANA_SURECI';
       kisa = 'Ana süreci';
-      baslik = 'Ana/yavru netleşmeli';
-      mesaj = 'Ana ve yavru düzeni netleşmeden üretim, kat veya çoğaltma kararı öne alınmaz.';
-      gerekce = 'Yavru düzeni netleşmeden yapılan işlem koloni kaybı riskini artırır.';
+      baslik = l?.sezonHedefRiskliAnaBaslik ?? 'Ana/yavru netleşmeli';
+      mesaj = l?.sezonHedefRiskliAnaMesaj ?? 'Ana ve yavru düzeni netleşmeden üretim, kat veya çoğaltma kararı öne alınmaz.';
+      gerekce = l?.sezonHedefRiskliAnaGerekce ?? 'Yavru düzeni netleşmeden yapılan işlem koloni kaybı riskini artırır.';
       oncelik = 83;
       tip = 'uyari';
     } else if (bolmeToparlanmaHedefi) {
       kod = 'BOLME_SONRASI_TOPARLANMA';
       kisa = 'Toparlanma';
-      baslik = 'Bölme toparlanıyor';
-      mesaj = 'Bu koloni için öncelik ana düzeninin oturması ve nüfusun korunmasıdır.';
-      gerekce = 'Yeni bölmelerin bu sezon ana hedefi bal değil, sağlıklı koloni düzenine geçmektir.';
+      baslik = l?.sezonHedefBolmeBaslik ?? 'Bölme toparlanıyor';
+      mesaj = l?.sezonHedefBolmeMesaj ?? 'Bu koloni için öncelik ana düzeninin oturması ve nüfusun korunmasıdır.';
+      gerekce = l?.sezonHedefBolmeGerekce ?? 'Yeni bölmelerin bu sezon ana hedefi bal değil, sağlıklı koloni düzenine geçmektir.';
       oncelik = 79;
       tip = 'uyari';
     } else if (kisDonemi) {
       kod = 'KIS_DONEMI';
       kisa = 'Kış';
-      baslik = 'Kış kontrolü';
-      mesaj = 'Kovan gereksiz açılmadan stok, nem ve dış uçuş durumu izlenmelidir.';
-      gerekce = 'Kışta gereksiz müdahale salkımı ve ısı düzenini bozar.';
+      baslik = l?.sezonHedefKisBaslik ?? 'Kış kontrolü';
+      mesaj = l?.sezonHedefKisMesaj ?? 'Kovan gereksiz açılmadan stok, nem ve dış uçuş durumu izlenmelidir.';
+      gerekce = l?.sezonHedefKisGerekce ?? 'Kışta gereksiz müdahale salkımı ve ısı düzenini bozar.';
       oncelik = 78;
       tip = 'uyari';
     } else if (sonbaharKisHazirlik) {
       kod = 'KIS_HAZIRLIK';
       kisa = 'Kış hazırlık';
-      baslik = 'Kışa hazırlık';
-      mesaj = 'Stok, hacim ve varroa durumu kışa giriş için kontrol edilmelidir.';
-      gerekce = 'Kışa hazırlık vurgusu sonbahar döneminde anlamlıdır.';
+      baslik = l?.sezonHedefKisHazirlikBaslik ?? 'Kışa hazırlık';
+      mesaj = l?.sezonHedefKisHazirlikMesaj ?? 'Stok, hacim ve varroa durumu kışa giriş için kontrol edilmelidir.';
+      gerekce = l?.sezonHedefKisHazirlikGerekce ?? 'Kışa hazırlık vurgusu sonbahar döneminde anlamlıdır.';
       oncelik = 63;
     } else if (hasatSonrasi) {
       kod = 'HASAT_SONRASI_BAKIM';
       kisa = 'Bakım';
-      baslik = 'Hasat sonrası bakım';
-      mesaj = 'Hasat sonrası stok, alan ve varroa durumu kontrol edilmelidir.';
-      gerekce = 'Bal alımı sonrası koloni düzeni değişir; bakım kararı üretim kararının önüne geçer.';
+      baslik = l?.sezonHedefHasatSonrasiBaslik ?? 'Hasat sonrası bakım';
+      mesaj = l?.sezonHedefHasatSonrasiMesaj ?? 'Hasat sonrası stok, alan ve varroa durumu kontrol edilmelidir.';
+      gerekce = l?.sezonHedefHasatSonrasiGerekce ?? 'Bal alımı sonrası koloni düzeni değişir; bakım kararı üretim kararının önüne geçer.';
       oncelik = 62;
     } else if (balAkimiAktif) {
       if (hasatGucuVar) {
         kod = 'HASAT_KOLONISI';
         kisa = 'Hasat';
-        baslik = 'Hasat kolonisi';
-        mesaj = 'Koloni bal akımı içinde alan ve hasat yönünden izlenebilir.';
-        gerekce = 'İşlevsel güç hasat değerlendirmesi için yeterli görünüyor.';
+        baslik = l?.sezonHedefHasatKolonisiBaslik ?? 'Hasat kolonisi';
+        mesaj = l?.sezonHedefHasatKolonisiMesaj ?? 'Koloni bal akımı içinde alan ve hasat yönünden izlenebilir.';
+        gerekce = l?.sezonHedefHasatKolonisiGerekce ?? 'İşlevsel güç hasat değerlendirmesi için yeterli görünüyor.';
         oncelik = 70;
       } else if (zayifKoloni || gelisimKolonisi) {
         kod = 'AKIMDA_GELISTIRME';
         kisa = 'Gelişim';
-        baslik = 'Gelişim kolonisi';
-        mesaj = 'Hasat hedefi yok. Öncelik güçlenme, stok ve ana düzenidir.';
-        gerekce = 'İşlevsel çıta gücü hasat eşiğinin altında.';
+        baslik = l?.sezonHedefGelisimKolonisiBaslik ?? 'Gelişim kolonisi';
+        mesaj = l?.sezonHedefGelisimAkimMesaj ?? 'Hasat hedefi yok. Öncelik güçlenme, stok ve ana düzenidir.';
+        gerekce = l?.sezonHedefGelisimAkimGerekce ?? 'İşlevsel çıta gücü hasat eşiğinin altında.';
         oncelik = 60;
       }
     } else if (genetikCogaltmaHedefi &&
@@ -1294,35 +1308,35 @@ class KararAsistanServisi {
         balAkiminaKalanGun <= 45) {
       kod = 'GENETIK_COGALTMA_ADAYI';
       kisa = 'Çoğaltma';
-      baslik = 'Kontrollü çoğaltma adayı';
-      mesaj = 'Koloni güçlü ve düzenli ilerliyor; süre uygunsa kontrollü bölme değerlendirilebilir.';
-      gerekce = 'Bal akımına kalan süre ana koloninin tekrar toparlanmasına izin verebilir.';
+      baslik = l?.sezonHedefGenetikCogaltmaBaslik ?? 'Kontrollü çoğaltma adayı';
+      mesaj = l?.sezonHedefGenetikCogaltmaMesaj ?? 'Koloni güçlü ve düzenli ilerliyor; süre uygunsa kontrollü bölme değerlendirilebilir.';
+      gerekce = l?.sezonHedefGenetikCogaltmaGerekce ?? 'Bal akımına kalan süre ana koloninin tekrar toparlanmasına izin verebilir.';
       oncelik = 87;
       tip = 'uyari';
     } else if (hasatGucuVar && balAkiminaKalanGun != null && balAkiminaKalanGun >= 0 && balAkiminaKalanGun <= 24) {
       kod = 'KISA_HAZIRLIK';
       kisa = 'Hazırlık';
-      baslik = 'Bal akımı hazırlık';
-      mesaj = 'Bal akımına kısa süre kaldığından koloninin gücünü korumak önemlidir. Hasat kalıntı güvenliği önemsenmelidir. Zaman zaman bal akım döneminde, bal tüketen nüfusu koloniden uzaklaştırmak için teknik bir koloni bölme işlemi yapılabilir. Bu uygulama bilgi olarak verilmiştir. Gerçekleştirebilmek bilgi ve tecrübe gerektirir.';
+      baslik = l?.sezonHedefKisaHazirlikBaslik ?? 'Bal akımı hazırlık';
+      mesaj = l?.sezonHedefKisaHazirlikMesaj ?? 'Bal akımına kısa süre kaldığından koloninin gücünü korumak önemlidir. Hasat kalıntı güvenliği önemsenmelidir. Zaman zaman bal akım döneminde, bal tüketen nüfusu koloniden uzaklaştırmak için teknik bir koloni bölme işlemi yapılabilir. Bu uygulama bilgi olarak verilmiştir. Gerçekleştirebilmek bilgi ve tecrübe gerektirir.';
       gerekce = '';
       oncelik = 80;
       tip = 'uyari';
     } else if (zayifKoloni || gelisimKolonisi || stokCita <= 1 || gucDususu) {
       kod = zayifKoloni ? 'ZAYIF_DESTEK' : 'GELISIM_KOLONISI';
       kisa = zayifKoloni ? 'Destek' : 'Gelişim';
-      baslik = zayifKoloni ? 'Güçlendirme' : 'Gelişim kolonisi';
+      baslik = zayifKoloni ? (l?.sezonHedefZayifDestekBaslik ?? 'Güçlendirme') : (l?.sezonHedefGelisimKolonisiBaslik ?? 'Gelişim kolonisi');
       mesaj = zayifKoloni
-          ? 'Öncelik stok, nüfus ve ana düzenini güvenli seviyeye çıkarmaktır.'
-          : 'Gelişim aşamasındaki koloni. Hasat süreci dışında kabul edilmelidir.';
+          ? (l?.sezonHedefZayifDestekMesaj ?? 'Öncelik stok, nüfus ve ana düzenini güvenli seviyeye çıkarmaktır.')
+          : (l?.sezonHedefGelisimKolonisiMesaj ?? 'Gelişim aşamasındaki koloni. Hasat süreci dışında kabul edilmelidir.');
       gerekce = '';
       oncelik = zayifKoloni ? 72 : 52;
       tip = zayifKoloni ? 'uyari' : 'bilgi';
     } else if (gucluTrend && islevselUretimCita >= 8) {
       kod = 'BAL_ANA_KOLONI';
       kisa = 'Bala hazırla';
-      baslik = 'Bala hazırlanıyor';
-      mesaj = 'Koloni üretim gücüne yaklaşıyor; hedef oğul baskısı oluşturmadan bal akımına güçlü girmektir.';
-      gerekce = 'Gelişim yönü ve işlevsel çıta gücü üretim hedefini destekliyor.';
+      baslik = l?.sezonHedefBalHazirlanBaslik ?? 'Bala hazırlanıyor';
+      mesaj = l?.sezonHedefBalHazirlanMesaj ?? 'Koloni üretim gücüne yaklaşıyor; hedef oğul baskısı oluşturmadan bal akımına güçlü girmektir.';
+      gerekce = l?.sezonHedefBalHazirlanGerekce ?? 'Gelişim yönü ve işlevsel çıta gücü üretim hedefini destekliyor.';
       oncelik = 58;
     }
 
@@ -1356,6 +1370,7 @@ class KararAsistanServisi {
     required bool bolmeToparlanmaHedefi,
     required bool riskliAnaSureciHedefi,
     required bool hasatSonrasi,
+    AppLocalizations? l,
   }) {
     final kararlar = <Map<String, dynamic>>[];
     final bool aktifOgulRiski = surecler.any((s) {
@@ -1369,9 +1384,9 @@ class KararAsistanServisi {
         'kod': 'SAPMA_ANA_SURECI_ZAYIFLAMA',
         'kategori': 'sapma',
         'kisa': 'Sapma',
-        'baslik': 'Ana sürecinde zayıflama riski',
-        'mesaj': 'Ana/yavru süreci devam ederken koloni gücü düşüyorsa normal bekleme senaryosu zayıflama riskine döner. Bu aşamada üretim değil, ana durumunu netleştirme ve yaşatma hedefi öne çıkar.',
-        'gerekce': 'Beklenen akış: ana kazanma → yavru görülmesi → toparlanma. Sapma: süreç uzar ve nüfus düşerse ana kaybı, çiftleşme başarısızlığı veya dış tehdit olasılığı artar.',
+        'baslik': l?.sapmaAnaSureczyBaslik ?? 'Ana sürecinde zayıflama riski',
+        'mesaj': l?.sapmaAnaSureczyMesaj ?? 'Ana/yavru süreci devam ederken koloni gücü düşüyorsa normal bekleme senaryosu zayıflama riskine döner. Bu aşamada üretim değil, ana durumunu netleştirme ve yaşatma hedefi öne çıkar.',
+        'gerekce': l?.sapmaAnaSureczyGerekce ?? 'Beklenen akış: ana kazanma → yavru görülmesi → toparlanma. Sapma: süreç uzar ve nüfus düşerse ana kaybı, çiftleşme başarısızlığı veya dış tehdit olasılığı artar.',
         'oncelik': 89,
         'tip': 'uyari',
       });
@@ -1382,9 +1397,9 @@ class KararAsistanServisi {
         'kod': 'SAPMA_BOLME_TUTMADI',
         'kategori': 'sapma',
         'kisa': 'Bölme riski',
-        'baslik': 'Bölme toparlanmıyor',
-        'mesaj': 'Bölme sonrası beklenen akış ana düzeninin oturması ve nüfusun korunmasıdır. Yavru düzeni yoksa ve güç düşüyorsa bu koloni için bal hedefi değil, ana tutma/yaşatma süreci öne çıkar.',
-        'gerekce': 'Bölme süreci sadece gün sayısıyla kapanmaz; yavru düzeni, işlevsel çıta ve yeniden büyüme görülmeden süreç tamamlanmış kabul edilmez.',
+        'baslik': l?.sapmaBolmeTutmadiBaslik ?? 'Bölme toparlanmıyor',
+        'mesaj': l?.sapmaBolmeTutmadiMesaj ?? 'Bölme sonrası beklenen akış ana düzeninin oturması ve nüfusun korunmasıdır. Yavru düzeni yoksa ve güç düşüyorsa bu koloni için bal hedefi değil, ana tutma/yaşatma süreci öne çıkar.',
+        'gerekce': l?.sapmaBolmeTutmadiGerekce ?? 'Bölme süreci sadece gün sayısıyla kapanmaz; yavru düzeni, işlevsel çıta ve yeniden büyüme görülmeden süreç tamamlanmış kabul edilmez.',
         'oncelik': 88,
         'tip': 'uyari',
       });
@@ -1402,9 +1417,9 @@ class KararAsistanServisi {
         'kod': 'SAPMA_OGUL_RISKI_YUKSELIR',
         'kategori': 'uyari',
         'kisa': 'Oğul riski',
-        'baslik': 'Erken sıkışma oğul riski',
-        'mesaj': 'Koloni bal akımı başlamadan güçlü büyümeye devam ediyor. Bu güç yalnızca kat ile yönetilirse bal akımına kadar oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme, değilse alan/oğul yönetimi düşünülmelidir.',
-        'gerekce': 'Beklenen hedef 11–12 çıtalık güçlü ama yönetilebilir koloniyle bal akımına girmektir. Bu eşiğin erken aşılması üretim değil oğul riski üretebilir.',
+        'baslik': l?.sapmaOgulRiskiBaslik ?? 'Erken sıkışma oğul riski',
+        'mesaj': l?.sapmaOgulRiskiMesaj ?? 'Koloni bal akımı başlamadan güçlü büyümeye devam ediyor. Bu güç yalnızca kat ile yönetilirse bal akımına kadar oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme, değilse alan/oğul yönetimi düşünülmelidir.',
+        'gerekce': l?.sapmaOgulRiskiGerekce ?? 'Beklenen hedef 11–12 çıtalık güçlü ama yönetilebilir koloniyle bal akımına girmektir. Bu eşiğin erken aşılması üretim değil oğul riski üretebilir.',
         'oncelik': 84,
         'tip': 'uyari',
       });
@@ -1415,9 +1430,9 @@ class KararAsistanServisi {
         'kod': 'SAPMA_AKIMDA_ALAN_TAKIBI',
         'kategori': 'yonetim',
         'kisa': 'Alan izle',
-        'baslik': 'Bal akımında alan izle',
-        'mesaj': 'Bal akımı içinde davranış değişir; koloni yavru büyütmeden çok nektar depolamaya yönelebilir. Düşük görünen stok tek başına zayıflık sayılmaz, alan ve sırlanma birlikte izlenir.',
-        'gerekce': 'Bal akımı döneminde yavru ve stok verileri normal dönem gibi okunmaz; nektar girişi, ballık alanı ve hasat zamanı birlikte değerlendirilir.',
+        'baslik': l?.sapmaAkimAlanTakibiBaslik ?? 'Bal akımında alan izle',
+        'mesaj': l?.sapmaAkimAlanTakibiMesaj ?? 'Bal akımı içinde davranış değişir; koloni yavru büyütmeden çok nektar depolamaya yönelebilir. Düşük görünen stok tek başına zayıflık sayılmaz, alan ve sırlanma birlikte izlenir.',
+        'gerekce': l?.sapmaAkimAlanTakibiGerekce ?? 'Bal akımı döneminde yavru ve stok verileri normal dönem gibi okunmaz; nektar girişi, ballık alanı ve hasat zamanı birlikte değerlendirilir.',
         'oncelik': 60,
         'tip': 'bilgi',
         'kararTipi': 'BILGI',
@@ -1429,9 +1444,9 @@ class KararAsistanServisi {
         'kod': 'SAPMA_HASAT_SONRASI_STOK_RISKI',
         'kategori': 'sapma',
         'kisa': 'Stok riski',
-        'baslik': 'Hasat sonrası stok düşük',
-        'mesaj': 'Hasat sonrası beklenen akış stok, varroa ve hacim düzeninin toparlanmasıdır. Stok düşük görünüyorsa üretim dili kapanır; kışa güvenli giriş için stok ve sıkıştırma birlikte değerlendirilir.',
-        'gerekce': 'Hasat balı alındıktan sonra aynı çıta gücü üretim başarısı değil, kışa hazırlık riski olarak okunabilir.',
+        'baslik': l?.sapmaHasatStokRiskiBaslik ?? 'Hasat sonrası stok düşük',
+        'mesaj': l?.sapmaHasatStokRiskiMesaj ?? 'Hasat sonrası beklenen akış stok, varroa ve hacim düzeninin toparlanmasıdır. Stok düşük görünüyorsa üretim dili kapanır; kışa güvenli giriş için stok ve sıkıştırma birlikte değerlendirilir.',
+        'gerekce': l?.sapmaHasatStokRiskiGerekce ?? 'Hasat balı alındıktan sonra aynı çıta gücü üretim başarısı değil, kışa hazırlık riski olarak okunabilir.',
         'oncelik': 86,
         'tip': 'uyari',
         'kararTipi': 'UYARI',
@@ -1443,9 +1458,9 @@ class KararAsistanServisi {
         'kod': 'SAPMA_HASAT_SONRASI_HACIM_RISKI',
         'kategori': 'sapma',
         'kisa': 'Hacim riski',
-        'baslik': 'Hasat sonrası hacim fazla olabilir',
-        'mesaj': 'Fiziksel çıta alanı yüksek ama işlevsel güç düşükse koloni gereksiz hacimde kalabilir. Bu durumda alan daraltma, stok ve kış düzeni üretim kararlarının önüne geçer.',
-        'gerekce': 'Hasat sonrası dönemde fazla boş hacim yağmacılık, nem ve ısı yönetimi riskini artırabilir.',
+        'baslik': l?.sapmaHasatHacimRiskiBaslik ?? 'Hasat sonrası hacim fazla olabilir',
+        'mesaj': l?.sapmaHasatHacimRiskiMesaj ?? 'Fiziksel çıta alanı yüksek ama işlevsel güç düşükse koloni gereksiz hacimde kalabilir. Bu durumda alan daraltma, stok ve kış düzeni üretim kararlarının önüne geçer.',
+        'gerekce': l?.sapmaHasatHacimRiskiGerekce ?? 'Hasat sonrası dönemde fazla boş hacim yağmacılık, nem ve ısı yönetimi riskini artırabilir.',
         'oncelik': 78,
         'tip': 'uyari',
         'kararTipi': 'UYARI',
@@ -1469,6 +1484,7 @@ class KararAsistanServisi {
     required bool bolmeToparlanmaHedefi,
     required bool riskliAnaSureciHedefi,
     required bool hasatSonrasi,
+    AppLocalizations? l,
   }) {
     final skor = KoloniKararMotoru.genetikCogaltmaSkoruHesapla(
       yavruDuzeniStabil: yavruDuzeniStabil,
@@ -1501,8 +1517,8 @@ class KararAsistanServisi {
         'kod': 'GENETIK_COGALTMA_VETO',
         'kategori': 'genetik',
         'kisa': 'Veto',
-        'baslik': 'Genetik çoğaltma değeri: veto',
-        'mesaj': 'Koloni çoğaltma havuzunda öne çıkarılmaz. Üretim değeri ayrı, genetik yayılım değeri ayrıdır.',
+        'baslik': l?.genetikVetoBaslik ?? 'Genetik çoğaltma değeri: veto',
+        'mesaj': l?.genetikVetoMesaj ?? 'Koloni çoğaltma havuzunda öne çıkarılmaz. Üretim değeri ayrı, genetik yayılım değeri ayrıdır.',
         'gerekce': ozet,
         'risk': riskler.join(' '),
         'oncelik': 66,
@@ -1523,10 +1539,10 @@ class KararAsistanServisi {
       'kategori': 'genetik',
       'kisa': yuksek ? 'Genetik iyi' : 'Genetik izle',
       'baslik': yuksek
-          ? 'Genetik çoğaltma değeri yüksek'
-          : 'Genetik çoğaltma değeri izleme bandında',
+          ? (l?.genetikYuksekBaslik ?? 'Genetik çoğaltma değeri yüksek')
+          : (l?.genetikIzleBaslik ?? 'Genetik çoğaltma değeri izleme bandında'),
       'mesaj': ozet,
-      'gerekce': 'Biyolojik güç, yavru düzeni, gelişim istikrarı ve riskler birlikte değerlendirilir.',
+      'gerekce': l?.genetikSkorGerekce ?? 'Biyolojik güç, yavru düzeni, gelişim istikrarı ve riskler birlikte değerlendirilir.',
       'risk': riskler.join(' '),
       'oncelik': yuksek ? 70 : 50,
       'tip': yuksek ? 'bilgi' : 'notr',
@@ -1543,15 +1559,16 @@ class KararAsistanServisi {
     required int islevselUretimCita,
     required bool gucDususu,
     required bool yavruDuzeniStabil,
+    AppLocalizations? l,
   }) {
     if (stokCita <= 1) {
       return {
         'kod': 'KIS_ACLIK_RISKI',
         'kategori': 'yonetim',
         'kisa': 'Açlık riski',
-        'baslik': 'Kış riski: stok yetersiz görünüyor',
-        'mesaj': 'Kış döneminde kovanı gereksiz açma önerilmez; ancak stok çok düşükse açlık riski önceliklidir. Hava ve saha koşulu uygunsa hızlı, sınırlı stok desteği/kek değerlendirilir.',
-        'gerekce': 'Kış yönetiminde temel kural minimum müdahaledir; fakat açlık riski minimum müdahale kuralından daha yüksek önceliklidir.',
+        'baslik': l?.kisAclikRiskiBaslik ?? 'Kış riski: stok yetersiz görünüyor',
+        'mesaj': l?.kisAclikRiskiMesaj ?? 'Kış döneminde kovanı gereksiz açma önerilmez; ancak stok çok düşükse açlık riski önceliklidir. Hava ve saha koşulu uygunsa hızlı, sınırlı stok desteği/kek değerlendirilir.',
+        'gerekce': l?.kisAclikRiskiGerekce ?? 'Kış yönetiminde temel kural minimum müdahaledir; fakat açlık riski minimum müdahale kuralından daha yüksek önceliklidir.',
         'oncelik': 91,
         'tip': 'uyari',
       };
@@ -1562,9 +1579,9 @@ class KararAsistanServisi {
         'kod': 'KIS_HACIM_RISKI',
         'kategori': 'yonetim',
         'kisa': 'Hacim',
-        'baslik': 'Kış riski: boş hacim yüksek olabilir',
-        'mesaj': 'Fiziksel hacim yüksek ama işlevsel güç düşük görünüyorsa kış salkımı ısıyı korumakta zorlanabilir. Uygun zamanda hacim daraltma ve nem kontrolü değerlendirilir.',
-        'gerekce': 'Kış başarısı yalnızca stokla değil, koloni hacmi ile arı nüfusunun uyumuyla belirlenir.',
+        'baslik': l?.kisHacimRiskiBaslik ?? 'Kış riski: boş hacim yüksek olabilir',
+        'mesaj': l?.kisHacimRiskiMesaj ?? 'Fiziksel hacim yüksek ama işlevsel güç düşük görünüyorsa kış salkımı ısıyı korumakta zorlanabilir. Uygun zamanda hacim daraltma ve nem kontrolü değerlendirilir.',
+        'gerekce': l?.kisHacimRiskiGerekce ?? 'Kış başarısı yalnızca stokla değil, koloni hacmi ile arı nüfusunun uyumuyla belirlenir.',
         'oncelik': 82,
         'tip': 'uyari',
       };
@@ -1575,9 +1592,9 @@ class KararAsistanServisi {
         'kod': 'KIS_ZAYIFLAMA_TAKIBI',
         'kategori': 'yonetim',
         'kisa': 'Zayıflama',
-        'baslik': 'Kış riski: güç kaybı izlenmeli',
-        'mesaj': 'Kış döneminde güç kaybı görülüyorsa kovanı açmadan dış gözlem, ağırlık, uçuş deliği ve nem kontrolü öne alınır. Uygun havada sınırlı kontrol yapılabilir.',
-        'gerekce': 'Kışta gereksiz muayene salkımı ve ısı düzenini bozabilir.',
+        'baslik': l?.kisZayiflamaTakibiBaslik ?? 'Kış riski: güç kaybı izlenmeli',
+        'mesaj': l?.kisZayiflamaTakibiMesaj ?? 'Kış döneminde güç kaybı görülüyorsa kovanı açmadan dış gözlem, ağırlık, uçuş deliği ve nem kontrolü öne alınır. Uygun havada sınırlı kontrol yapılabilir.',
+        'gerekce': l?.kisZayiflamaTakibiGerekce ?? 'Kışta gereksiz muayene salkımı ve ısı düzenini bozabilir.',
         'oncelik': 80,
         'tip': 'uyari',
       };
@@ -1587,9 +1604,9 @@ class KararAsistanServisi {
       'kod': 'KIS_DIS_GOZLEM',
       'kategori': 'yonetim',
       'kisa': 'Dış gözlem',
-      'baslik': 'Kış yönetimi: gereksiz açma yok',
-      'mesaj': 'Koloni için ana yaklaşım kovanı gereksiz açmadan dış gözlem, ağırlık hissi, uçuş deliği, nem ve su girişi kontrolüdür.',
-      'gerekce': 'Kış dönemi algoritması üretim değil yaşatma odaklıdır. İlkbahar çıkışı genetik istikrar skoruna veri sağlar.',
+      'baslik': l?.kisDisGozlemBaslik ?? 'Kış yönetimi: gereksiz açma yok',
+      'mesaj': l?.kisDisGozlemMesaj ?? 'Koloni için ana yaklaşım kovanı gereksiz açmadan dış gözlem, ağırlık hissi, uçuş deliği, nem ve su girişi kontrolüdür.',
+      'gerekce': l?.kisDisGozlemGerekce ?? 'Kış dönemi algoritması üretim değil yaşatma odaklıdır. İlkbahar çıkışı genetik istikrar skoruna veri sağlar.',
       'oncelik': 66,
       'tip': 'bilgi',
     };
@@ -1604,17 +1621,17 @@ class KararAsistanServisi {
     return BaglamMotoru.surecAnaKarariBastirirMi(surec);
   }
 
-  static Map<String, String> _surecAnaKararMap(SurecUyarisi surec) {
+  static Map<String, String> _surecAnaKararMap(SurecUyarisi surec, {AppLocalizations? l}) {
     return {
       'kod': 'SUREC_${surec.kod}',
       'baslik': surec.baslik,
       'mesaj': surec.mesaj,
-      'neden': _surecNedeni(surec),
+      'neden': _surecNedeni(surec, l: l),
       'tip': _surecTipiNormalizeEt(surec.tip),
     };
   }
 
-  static List<Map<String, String>> _surecAksiyonKartlari(SurecUyarisi surec) {
+  static List<Map<String, String>> _surecAksiyonKartlari(SurecUyarisi surec, {AppLocalizations? l}) {
     return [
       {
         'baslik': surec.baslik,
@@ -1622,31 +1639,31 @@ class KararAsistanServisi {
         'tip': _surecTipiNormalizeEt(surec.tip),
       },
       {
-        'baslik': 'Neden',
-        'mesaj': _surecNedeni(surec),
+        'baslik': l?.kararNeden ?? 'Neden',
+        'mesaj': _surecNedeni(surec, l: l),
         'tip': 'notr',
       },
     ];
   }
 
-  static String _surecNedeni(SurecUyarisi surec) {
+  static String _surecNedeni(SurecUyarisi surec, {AppLocalizations? l}) {
     final grup = surec.grup.trim().toUpperCase();
 
     switch (grup) {
       case 'ANASIZLIK':
-        return 'Ana kazanma / anasızlık süreci biyolojik zamanlamaya bağlıdır. Bu pencere açıkken önce süreç yönetilir.';
+        return l?.surecNedeniAnasizlik ?? 'Ana kazanma / anasızlık süreci biyolojik zamanlamaya bağlıdır. Bu pencere açıkken önce süreç yönetilir.';
       case 'OGUL':
-        return 'Ana memesi veya oğul belirtisi aktif saha riskidir. Önce oğul yönetimi yapılır.';
+        return l?.surecNedeniOgul ?? 'Ana memesi veya oğul belirtisi aktif saha riskidir. Önce oğul yönetimi yapılır.';
       case 'OGUL_SONRASI':
-        return 'Oğul sonrası yeni ana ve artçı oğul riski önceliklidir. Süreç kapanmadan genel üretim veya donör dili öne çıkarılmaz.';
+        return l?.surecNedeniOgulSonrasi ?? 'Oğul sonrası yeni ana ve artçı oğul riski önceliklidir. Süreç kapanmadan genel üretim veya donör dili öne çıkarılmaz.';
       case 'BOLME':
-        return 'Bölme sonrası koloni düzeni ve ana süreci oturmadan genel performans dili ana karar olarak gösterilmez.';
+        return l?.surecNedenibolme ?? 'Bölme sonrası koloni düzeni ve ana süreci oturmadan genel performans dili ana karar olarak gösterilmez.';
       case 'HASAT':
-        return 'Bal alımı koloni düzenini değiştirir. Önce sıkışık düzen, stres yönetimi, besleme ihtiyacı ve varroa penceresi birlikte değerlendirilir.';
+        return l?.surecNedeniHasat ?? 'Bal alımı koloni düzenini değiştirir. Önce sıkışık düzen, stres yönetimi, besleme ihtiyacı ve varroa penceresi birlikte değerlendirilir.';
       case 'GELISIM':
-        return 'Gelişim yavaşlığı açıklanması gereken saha durumudur. Önce neden aranır; sonra üretim veya genetik rol yeniden değerlendirilir.';
+        return l?.surecNedeniGelisim ?? 'Gelişim yavaşlığı açıklanması gereken saha durumudur. Önce neden aranır; sonra üretim veya genetik rol yeniden değerlendirilir.';
       default:
-        return 'Aktif süreç varsa önce süreç yönetimi öne alınır.';
+        return l?.surecNedeniVarsayilan ?? 'Aktif süreç varsa önce süreç yönetimi öne alınır.';
     }
   }
 
@@ -1662,17 +1679,17 @@ class KararAsistanServisi {
       List<Map<String, dynamic>> muayeneler, {
         DateTime? bugun,
         DateTime? balAkimBaslangici,
+        AppLocalizations? l,
       }) {
     final bugunTarih = _sadeceGun(bugun ?? DateTime.now());
 
     if (muayeneler.isEmpty) {
       return {
         'seviye': 'bilgi',
-        'baslik': 'Varroa kaydı henüz yok.',
-        'gerekce':
-        'Takvimsel varroa hatırlatmaları ilk muayene kayıtlarından sonra daha anlamlı hale gelir.',
+        'baslik': l?.varroaKayitYok ?? 'Varroa kaydı henüz yok.',
+        'gerekce': l?.varroaKayitYokGerekce ?? 'Takvimsel varroa hatırlatmaları ilk muayene kayıtlarından sonra daha anlamlı hale gelir.',
         'oneriler': <String>[
-          'Muayenelerde yapılan varroa mücadelesini düzenli kaydet.',
+          l?.varroaKayitYokOneri ?? 'Muayenelerde yapılan varroa mücadelesini düzenli kaydet.',
         ],
         'sonKayitTarihi': '',
         'sonYontem': '',
@@ -1715,8 +1732,8 @@ class KararAsistanServisi {
 
     final ay = bugunTarih.month;
     String seviye = 'bilgi';
-    String baslik = 'Varroa takvimi izlenmeli.';
-    String gerekce = 'Mevsime uygun varroa kaydı ve takip disiplini korunmalı.';
+    String baslik = l?.varroaTakvimBaslik ?? 'Varroa takvimi izlenmeli.';
+    String gerekce = l?.varroaTakvimGerekce ?? 'Mevsime uygun varroa kaydı ve takip disiplini korunmalı.';
     final oneriler = <String>[];
 
     final temizBalAkimBaslangici = balAkimBaslangici == null
@@ -1736,73 +1753,63 @@ class KararAsistanServisi {
     if (ay == 2 || ay == 3) {
       if (sonKayitVarMi(45)) {
         seviye = 'iyi';
-        baslik = 'Erken ilkbahar varroa kaydı var.';
-        gerekce =
-        'Sezon başında yapılan mücadele kaydı görülüyor. Bu, ilkbahar gelişimine daha düşük baskıyla girmeyi destekler.';
-        oneriler.add('Mücadele etkisini sonraki muayenelerde takip et.');
+        baslik = l?.varroaIlkbaharKayitVar ?? 'Erken ilkbahar varroa kaydı var.';
+        gerekce = l?.varroaIlkbaharKayitVarGerekce ?? 'Sezon başında yapılan mücadele kaydı görülüyor. Bu, ilkbahar gelişimine daha düşük baskıyla girmeyi destekler.';
+        oneriler.add(l?.varroaIlkbaharKayitVarOneri ?? 'Mücadele etkisini sonraki muayenelerde takip et.');
       } else {
         seviye = 'risk';
-        baslik = 'İlkbahar varroa kontrolü planlanmalı.';
-        gerekce =
-        'Erken ilkbahar dönemi varroa baskısını sezon başında düşürmek için önemli bir penceredir.';
-        oneriler.add('Kolonileri kontrol et; gerekirse erken ilkbahar müdahalesi planla.');
+        baslik = l?.varroaIlkbaharKontrolPlanla ?? 'İlkbahar varroa kontrolü planlanmalı.';
+        gerekce = l?.varroaIlkbaharKontrolGerekce ?? 'Erken ilkbahar dönemi varroa baskısını sezon başında düşürmek için önemli bir penceredir.';
+        oneriler.add(l?.varroaIlkbaharKontrolOneri ?? 'Kolonileri kontrol et; gerekirse erken ilkbahar müdahalesi planla.');
       }
     } else if (ay == 4 || ay == 5) {
       seviye = sonKayitVarMi(60) ? 'iyi' : 'bilgi';
       baslik = sonKayitVarMi(60)
-          ? 'Bal akımı öncesi varroa kaydı görünüyor.'
-          : 'Bal akımı öncesi varroa planı gözden geçirilmeli.';
-      gerekce =
-      'Bal akımı dönemine girerken varroa planının tamamlanmış olması daha güvenlidir.';
-      oneriler.add('Bal akımı içinde değil, öncesinde planlama yap.');
+          ? (l?.varroaBalOncesiKayitVar ?? 'Bal akımı öncesi varroa kaydı görünüyor.')
+          : (l?.varroaBalOncesiPlanGozden ?? 'Bal akımı öncesi varroa planı gözden geçirilmeli.');
+      gerekce = l?.varroaBalOncesiGerekce ?? 'Bal akımı dönemine girerken varroa planının tamamlanmış olması daha güvenlidir.';
+      oneriler.add(l?.varroaBalOncesiOneri ?? 'Bal akımı içinde değil, öncesinde planlama yap.');
     } else if (ay == 6 || ay == 7) {
       seviye = 'bilgi';
-      baslik = 'Yaz döneminde varroa takibi sürdürülmeli.';
-      gerekce =
-      'Yaz ortasında amaç sürekli ilaçlama değil, düzenli izleme ve hasat sonrası döneme hazırlıktır.';
-      oneriler.add('Muayenelerde varroa kaydını ve koloni gidişatını düzenli izle.');
+      baslik = l?.varroaYazTakip ?? 'Yaz döneminde varroa takibi sürdürülmeli.';
+      gerekce = l?.varroaYazTakipGerekce ?? 'Yaz ortasında amaç sürekli ilaçlama değil, düzenli izleme ve hasat sonrası döneme hazırlıktır.';
+      oneriler.add(l?.varroaYazTakipOneri ?? 'Muayenelerde varroa kaydını ve koloni gidişatını düzenli izle.');
     } else if (ay == 8 || ay == 9) {
       if (sonKayitVarMi(45)) {
         seviye = 'iyi';
-        baslik = 'Kritik dönemde varroa mücadelesi kaydı var.';
-        gerekce =
-        'Yaz sonu–erken sonbahar, kış arısının oluştuğu ve varroa baskısının en kritik olduğu dönemdir.';
-        oneriler.add('Hasat sonrası planı sürdür; etkinliği sonraki muayenede kontrol et.');
+        baslik = l?.varroaKritikKayitVar ?? 'Kritik dönemde varroa mücadelesi kaydı var.';
+        gerekce = l?.varroaKritikKayitVarGerekce ?? 'Yaz sonu–erken sonbahar, kış arısının oluştuğu ve varroa baskısının en kritik olduğu dönemdir.';
+        oneriler.add(l?.varroaKritikKayitVarOneri ?? 'Hasat sonrası planı sürdür; etkinliği sonraki muayenede kontrol et.');
       } else {
         seviye = 'kritik';
-        baslik = 'Hasat sonrası varroa mücadelesi gecikiyor.';
-        gerekce =
-        'Yaz sonu–erken sonbaharda kayıt görünmüyor. Bu dönem kış arısının sağlığı açısından en kritik pencere kabul edilir.';
-        oneriler.add('Bal sağımı sonrası mücadeleyi geciktirme.');
-        oneriler.add('Sonraki muayenede uygulamayı mutlaka kaydet.');
+        baslik = l?.varroaHasatSonrasiGecikiyor ?? 'Hasat sonrası varroa mücadelesi gecikiyor.';
+        gerekce = l?.varroaHasatSonrasiGecikiyorGerekce ?? 'Yaz sonu–erken sonbaharda kayıt görünmüyor. Bu dönem kış arısının sağlığı açısından en kritik pencere kabul edilir.';
+        oneriler.add(l?.varroaHasatSonrasiGecikiyorOneri1 ?? 'Bal sağımı sonrası mücadeleyi geciktirme.');
+        oneriler.add(l?.varroaHasatSonrasiGecikiyorOneri2 ?? 'Sonraki muayenede uygulamayı mutlaka kaydet.');
       }
     } else if (ay == 10 || ay == 11) {
       if (sonKayitVarMi(60)) {
         seviye = 'iyi';
-        baslik = 'Kışa giriş öncesi varroa kaydı var.';
-        gerekce =
-        'Sonbahar sonunda kayıt görünmesi kışa daha düşük yükle girme açısından olumlu bir sinyaldir.';
-        oneriler.add('Kışa girişten önce son genel durumu bir kez daha kontrol et.');
+        baslik = l?.varroaKisaGirisKayitVar ?? 'Kışa giriş öncesi varroa kaydı var.';
+        gerekce = l?.varroaKisaGirisKayitVarGerekce ?? 'Sonbahar sonunda kayıt görünmesi kışa daha düşük yükle girme açısından olumlu bir sinyaldir.';
+        oneriler.add(l?.varroaKisaGirisKayitVarOneri ?? 'Kışa girişten önce son genel durumu bir kez daha kontrol et.');
       } else {
         seviye = 'risk';
-        baslik = 'Sonbahar varroa kaydı eksik görünüyor.';
-        gerekce =
-        'Kışa giriş öncesi dönemde mücadele kaydı görünmüyor. Sonbahar sonu kontrolü ihmal edilmemeli.';
-        oneriler.add('Yavru faaliyeti azaldıysa mücadele gerekliliğini değerlendir.');
+        baslik = l?.varroaSonbaharKayitEksik ?? 'Sonbahar varroa kaydı eksik görünüyor.';
+        gerekce = l?.varroaSonbaharKayitEksikGerekce ?? 'Kışa giriş öncesi dönemde mücadele kaydı görünmüyor. Sonbahar sonu kontrolü ihmal edilmemeli.';
+        oneriler.add(l?.varroaSonbaharKayitEksikOneri ?? 'Yavru faaliyeti azaldıysa mücadele gerekliliğini değerlendir.');
       }
     } else {
       if (sonKayitVarMi(90)) {
         seviye = 'bilgi';
-        baslik = 'Sonbahar varroa kaydı görünüyor.';
-        gerekce =
-        'Kış döneminde esas amaç, sonbaharda düşürülmüş yükü koruyarak koloniyi gereksiz strese sokmamaktır.';
-        oneriler.add('Kovanı gereksiz açmadan genel durumu izle.');
+        baslik = l?.varroaKisSonbaharKayitVar ?? 'Sonbahar varroa kaydı görünüyor.';
+        gerekce = l?.varroaKisSonbaharKayitVarGerekce ?? 'Kış döneminde esas amaç, sonbaharda düşürülmüş yükü koruyarak koloniyi gereksiz strese sokmamaktır.';
+        oneriler.add(l?.varroaKisSonbaharKayitVarOneri ?? 'Kovanı gereksiz açmadan genel durumu izle.');
       } else {
         seviye = 'risk';
-        baslik = 'Kış varroa durumu gözden geçirilmeli.';
-        gerekce =
-        'Kayıt uzun süredir yok. Yavru faaliyeti azaldıysa durum tekrar değerlendirilmelidir.';
-        oneriler.add('Yavru durumu ve mevsim koşullarına göre kış kontrolü yap.');
+        baslik = l?.varroaKisGozden ?? 'Kış varroa durumu gözden geçirilmeli.';
+        gerekce = l?.varroaKisGozdenGerekce ?? 'Kayıt uzun süredir yok. Yavru faaliyeti azaldıysa durum tekrar değerlendirilmelidir.';
+        oneriler.add(l?.varroaKisGozdenOneri ?? 'Yavru durumu ve mevsim koşullarına göre kış kontrolü yap.');
       }
     }
 
@@ -1812,12 +1819,12 @@ class KararAsistanServisi {
       if (seviye != 'kritik') {
         seviye = 'risk';
       }
-      baslik = 'Bal döneminde varroa kararı dikkat ister.';
-      gerekce = 'Bal akımı başladıktan sonra kalıntı riski olan kimyasal mücadele önerilmez.';
+      baslik = l?.varroaBalDonemiDikkat ?? 'Bal döneminde varroa kararı dikkat ister.';
+      gerekce = l?.varroaBalDonemiGerekce ?? 'Bal akımı başladıktan sonra kalıntı riski olan kimyasal mücadele önerilmez.';
       oneriler
         ..clear()
-        ..add('Gerekirse yalnızca bala kalıntı riski taşımayan, etikete ve mevzuata uygun yöntemleri değerlendir.')
-        ..add('Kimyasal mücadeleyi hasat sonrasına planla.');
+        ..add(l?.varroaBalDonemiOneri1 ?? 'Gerekirse yalnızca bala kalıntı riski taşımayan, etikete ve mevzuata uygun yöntemleri değerlendir.')
+        ..add(l?.varroaBalDonemiOneri2 ?? 'Kimyasal mücadeleyi hasat sonrasına planla.');
     } else if (temizBalAkimBaslangici != null && balAkiminaKalanGun != null && balAkiminaKalanGun >= 0) {
       final sonGunMetni = tarihMetni(sonGuvenliMudahaleTarihi);
       final balAkimMetni = tarihMetni(temizBalAkimBaslangici);
@@ -1827,35 +1834,42 @@ class KararAsistanServisi {
           if (seviye != 'kritik') {
             seviye = 'iyi';
           }
-          baslik = 'Bal akımı öncesi varroa planı tamamlanmış görünüyor.';
-          gerekce =
-          '$balAkimMetni tarihinde başlaması beklenen bal akımı öncesi en geç $sonGunMetni tarihine kadar mücadele tamamlanmalıydı. Kayıt buna uygun görünüyor.';
-          ekOneri(oneriler, 'Bal akımı içinde yeni mücadele planlama.');
+          baslik = l?.varroaBalOncesiTamamlandiBaslik ?? 'Bal akımı öncesi varroa planı tamamlanmış görünüyor.';
+          gerekce = l != null
+              ? l.varroaBalOncesiTamamlandiGerekce(balAkimMetni, sonGunMetni)
+              : '$balAkimMetni tarihinde başlaması beklenen bal akımı öncesi en geç $sonGunMetni tarihine kadar mücadele tamamlanmalıydı. Kayıt buna uygun görünüyor.';
+          ekOneri(oneriler, l?.varroaBalOncesiTamamlandiOneri ?? 'Bal akımı içinde yeni mücadele planlama.');
         } else {
           seviye = 'kritik';
-          baslik = 'Bal akımı öncesi mücadele penceresi kapanıyor.';
-          gerekce =
-          '$balAkimMetni tarihinde başlaması beklenen bal akımı öncesi kalıntı riskini azaltmak için mücadele en geç $sonGunMetni tarihine kadar tamamlanmış olmalı.';
-          oneriler.insert(0, 'Bu aşamada bal akımı öncesi kimyasal mücadele planlarken kalıntı riskini dikkate al.');
-          ekOneri(oneriler, 'Geciktiysen yeni kimyasal uygulamayı bal akımı sonrasına bırakman daha güvenli olabilir.');
+          baslik = l?.varroaBalOncesiKapaniyorBaslik ?? 'Bal akımı öncesi mücadele penceresi kapanıyor.';
+          gerekce = l != null
+              ? l.varroaBalOncesiKapaniyorGerekce(balAkimMetni, sonGunMetni)
+              : '$balAkimMetni tarihinde başlaması beklenen bal akımı öncesi kalıntı riskini azaltmak için mücadele en geç $sonGunMetni tarihine kadar tamamlanmış olmalı.';
+          oneriler.insert(0, l?.varroaBalOncesiKapaniyorOneri1 ?? 'Bu aşamada bal akımı öncesi kimyasal mücadele planlarken kalıntı riskini dikkate al.');
+          ekOneri(oneriler, l?.varroaBalOncesiKapaniyorOneri2 ?? 'Geciktiysen yeni kimyasal uygulamayı bal akımı sonrasına bırakman daha güvenli olabilir.');
         }
       } else if (balAkiminaKalanGun <= 45) {
         if (!sonMudahaleBalAkimOncesiZamanindaMi) {
           if (seviye != 'kritik') {
             seviye = 'risk';
           }
-          baslik = 'Bal akımı öncesi son varroa penceresine giriliyor.';
-          gerekce =
-          '$balAkimMetni tarihinde başlaması beklenen bal akımı için mücadele en geç $sonGunMetni tarihine kadar tamamlanmalı. Süre daralıyor.';
-          oneriler.insert(0, 'Mücadele gerekiyorsa son güvenli tarihe bırakmadan planla.');
+          baslik = l?.varroaBalOncesiSonPencereBaslik ?? 'Bal akımı öncesi son varroa penceresine giriliyor.';
+          gerekce = l != null
+              ? l.varroaBalOncesiSonPencereGerekce(balAkimMetni, sonGunMetni)
+              : '$balAkimMetni tarihinde başlaması beklenen bal akımı için mücadele en geç $sonGunMetni tarihine kadar tamamlanmalı. Süre daralıyor.';
+          oneriler.insert(0, l?.varroaBalOncesiSonPencereOneri ?? 'Mücadele gerekiyorsa son güvenli tarihe bırakmadan planla.');
         }
       } else if (!sonMudahaleBalAkimOncesiZamanindaMi) {
-        ekOneri(oneriler, 'Bal akımı öncesi son güvenli mücadele tarihi: $sonGunMetni.');
+        ekOneri(oneriler, l != null
+            ? l.varroaBalOncesiSonGunHatirla(sonGunMetni)
+            : 'Bal akımı öncesi son güvenli mücadele tarihi: $sonGunMetni.');
       }
     }
 
     if (sonTarih != null && sonYontem.isNotEmpty) {
-      ekOneri(oneriler, 'Son kayıt: ${tarihMetni(sonTarih)} / $sonYontem.');
+      ekOneri(oneriler, l != null
+          ? l.varroaSonKayit(tarihMetni(sonTarih), sonYontem)
+          : 'Son kayıt: ${tarihMetni(sonTarih)} / $sonYontem.');
     }
 
     return {

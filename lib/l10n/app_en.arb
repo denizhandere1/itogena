@@ -1388,5 +1388,266 @@
   "uyariBalBolmeGecMesaj": "After {kritikEsik} the 42-day biological threshold will be crossed. Splits made after this date may reduce honey yield. Postpone the split decision if keeping production targets.",
   "@uyariBalBolmeGecMesaj": {
     "placeholders": { "kritikEsik": { "type": "String" } }
+  },
+
+  "kararVetoDogrudan": "Colony was not added to the clean donor pool because it originated from a swarm.",
+  "kararVetoKendisiOgulAtti": "Colony received a veto in donor evaluation because it has swarmed in its own history.",
+  "kararVetoAtaHattaRef": "Not added to the clean donor pool because swarm evidence was found in line {referansNo}.",
+  "@kararVetoAtaHattaRef": {
+    "placeholders": { "referansNo": { "type": "String" } }
+  },
+  "kararVetoAtaHatta": "Not added to the clean donor pool due to swarm evidence in the ancestral line.",
+  "kararDonorSirasi": "Ranked {sira}. in the clean donor pool.",
+  "@kararDonorSirasi": {
+    "placeholders": { "sira": { "type": "int" } }
+  },
+  "kararSonCitaMetni": "Colony strength at last inspection: {cita} frames.",
+  "@kararSonCitaMetni": {
+    "placeholders": { "cita": { "type": "int" } }
+  },
+  "kararMaxCitaMetni": "Peak strength this season: {cita} frames.",
+  "@kararMaxCitaMetni": {
+    "placeholders": { "cita": { "type": "int" } }
+  },
+  "kararBalCitaMetni": "Honey-carrying signal seen with {cita} capped-honey frames.",
+  "@kararBalCitaMetni": {
+    "placeholders": { "cita": { "type": "int" } }
+  },
+  "kararTrendYukselis": "Development trend is upward in recent inspections.",
+  "kararTrendDusus": "A declining strength trend is observed in recent inspections.",
+  "kararTrendStabil": "Progress appears stable.",
+  "kararAnaYasiRisk": "Queen age of {yas} year(s) carries a risk of declining productivity and brood pattern.",
+  "@kararAnaYasiRisk": {
+    "placeholders": { "yas": { "type": "int" } }
+  },
+  "kararMizacRisk": "Temperament data may complicate field management.",
+  "kararAzVeriUyari": "Confidence margin is low as the decision was made with limited data.",
+  "kararBolmePlan": "If splitting, plan so the colony stays above 6 frames.",
+  "kararDonorOncelik": "Prioritise this colony as a top candidate in queen rearing.",
+  "kararAnaDegisimPlan": "Planning queen replacement toward the end of the active season is generally safer.",
+  "kararGuclendir": "Monitor the growth direction with capped brood, feeding and regular inspections.",
+  "kararUretimTut": "Keep in production; prioritise space and super management as the honey flow approaches.",
+  "kararPasifKayitOner": "Consider this colony more as a lineage and history record than active production.",
+  "kararNeden": "Why",
+  "kararKilitBekle": "Wait",
+  "kararKilitGerekce": "Conflicting actions are not recommended until this window closes.",
+  "kararBolmeGucluMesaj": "Colony is developing strongly and there are approximately {gun} days until the honey flow. Although it is approaching the super threshold, swarming pressure may build in this period; if genetic value is suitable, a controlled split could be considered.",
+  "@kararBolmeGucluMesaj": {
+    "placeholders": { "gun": { "type": "int" } }
+  },
+  "kararBolmeSinirliMesaj": "Colony is strong; however, with approximately {gun} days until the honey flow, the split decision should be considered carefully and with limits. If the mother colony cannot reach the flow, space/swarm management should take priority over splitting.",
+  "@kararBolmeSinirliMesaj": {
+    "placeholders": { "gun": { "type": "int" } }
+  },
+  "kararBolmeGerekce": "A split decision is not only about frame count: time to honey flow, development trend, brood pattern, functional frames and genetic veto were all considered together.",
+  "kararKatEsikSurupluklu": "Feeder + 9-frame capacity",
+  "kararKatEsikSurupluksuz": "10-frame capacity without feeder",
+  "kararKatAkimAktif": "Honey flow appears active.",
+  "kararKatAkimKontrol": "Honey flow window should be checked separately.",
+  "kararKatAkimKalan": "Approximately {gun} days until the honey flow.",
+  "@kararKatAkimKalan": {
+    "placeholders": { "gun": { "type": "int" } }
+  },
+  "kararKatMesaj": "{esik} is full and approximately {yuzde}% activation is seen. {akim} This threshold now calls for adding a super/honey box, not a regular frame.",
+  "@kararKatMesaj": {
+    "placeholders": {
+      "esik": { "type": "String" },
+      "yuzde": { "type": "int" },
+      "akim": { "type": "String" }
+    }
+  },
+  "kararKatGerekce": "With a feeder: 9-frame brood box capacity; without feeder: 10-frame capacity.",
+  "kararUcuncuKatEsikSurupluklu": "Feeder + 19-frame capacity",
+  "kararUcuncuKatEsikSurupluksuz": "20-frame capacity without feeder",
+  "kararUcuncuKatMesaj": "{esik} is full and approximately {yuzde}% activation is seen. Colony has reached the threshold to fill the second upper space; a 3rd super/second honey box should be considered.",
+  "@kararUcuncuKatMesaj": {
+    "placeholders": {
+      "esik": { "type": "String" },
+      "yuzde": { "type": "int" }
+    }
+  },
+  "kararUcuncuKatGerekce": "With feeder: 19 frames; without feeder: 20 frames is the 3rd super threshold. The next frame increase is read as a 3-super colony.",
+  "kararAlanMesajKulucluk": "Current space is approximately {yuzde}% activated. Space/honey box management can be considered before the colony gets cramped.",
+  "@kararAlanMesajKulucluk": {
+    "placeholders": { "yuzde": { "type": "int" } }
+  },
+  "kararAlanMesajCita": "Almost all of the current {cita} frames are in functional use. Adding 1 frame before the colony gets cramped can be considered.",
+  "@kararAlanMesajCita": {
+    "placeholders": { "cita": { "type": "int" } }
+  },
+  "kararHasatSonrasiMesaj": "Colony may become cramped after harvest; stock, space and varroa checks should be carried out.",
+  "kararHasatSonrasiGerekce": "The same frame arrangement after honey extraction is now a maintenance decision, not a production one.",
+  "kararKisHazirlikMesaj": "Colony should be prepared for winter with adequate stores, correct space, low varroa pressure and suitable population.",
+  "kararKisHazirlikGerekce": "Winter success is one of the key measures of genetic selection and sustainable apiary management.",
+  "kararSinifiZayif": "Weak",
+  "kararSinifiGelisim": "Development",
+  "kararSinifiUretim": "Production",
+  "kararSinifiHasat": "Harvest",
+  "kararSinifiIzleme": "Monitoring",
+
+  "surecNedeniAnasizlik": "Queen-rearing / queenlessness is tied to biological timing. While this window is open, process management comes first.",
+  "surecNedeniOgul": "A queen cell or swarming sign is an active field risk. Swarm management comes first.",
+  "surecNedeniOgulSonrasi": "Post-swarm new queen and afterswarm risk take priority. General production or donor language is not pushed forward until the process closes.",
+  "surecNedenibolme": "General performance language is not shown as the main decision until colony order and queen process have settled after a split.",
+  "surecNedeniHasat": "Honey extraction changes the colony arrangement. Cramped layout, stress management, feeding needs and varroa window are evaluated together first.",
+  "surecNedeniGelisim": "Slow development is a field situation that needs explanation. The reason is sought first; then production or genetic role is re-evaluated.",
+  "surecNedeniVarsayilan": "When an active process is present, process management takes priority.",
+
+  "sezonHedefRiskliAnaBaslik": "Queen/brood needs clarification",
+  "sezonHedefRiskliAnaMesaj": "Production, super or multiplication decisions are not pushed forward until queen and brood pattern are clarified.",
+  "sezonHedefRiskliAnaGerekce": "Intervention before brood pattern is clarified increases colony loss risk.",
+  "sezonHedefBolmeBaslik": "Split recovering",
+  "sezonHedefBolmeMesaj": "The priority for this colony is for the queen order to settle and the population to be maintained.",
+  "sezonHedefBolmeGerekce": "The target for new splits this season is a healthy colony arrangement, not honey.",
+  "sezonHedefKisBaslik": "Winter check",
+  "sezonHedefKisMesaj": "Stores, moisture and outdoor flight activity should be monitored without unnecessarily opening the hive.",
+  "sezonHedefKisGerekce": "Unnecessary intervention in winter disturbs the cluster and heat regulation.",
+  "sezonHedefKisHazirlikBaslik": "Winter preparation",
+  "sezonHedefKisHazirlikMesaj": "Stores, space and varroa status should be checked for winter entry.",
+  "sezonHedefKisHazirlikGerekce": "Winter preparation emphasis is meaningful in the autumn period.",
+  "sezonHedefHasatSonrasiBaslik": "Post-harvest care",
+  "sezonHedefHasatSonrasiMesaj": "Stores, space and varroa status should be checked after harvest.",
+  "sezonHedefHasatSonrasiGerekce": "Colony arrangement changes after honey extraction; maintenance decisions take precedence over production decisions.",
+  "sezonHedefHasatKolonisiBaslik": "Harvest colony",
+  "sezonHedefHasatKolonisiMesaj": "Colony can be monitored for space and harvest direction during the honey flow.",
+  "sezonHedefHasatKolonisiGerekce": "Functional strength appears sufficient for harvest evaluation.",
+  "sezonHedefGelisimAkimMesaj": "No harvest target. Priority is strengthening, stores and queen order.",
+  "sezonHedefGelisimAkimGerekce": "Functional frame strength is below the harvest threshold.",
+  "sezonHedefGenetikCogaltmaBaslik": "Controlled multiplication candidate",
+  "sezonHedefGenetikCogaltmaMesaj": "Colony is progressing strongly and regularly; a controlled split can be considered if timing is suitable.",
+  "sezonHedefGenetikCogaltmaGerekce": "Time remaining to the honey flow may allow the mother colony to recover.",
+  "sezonHedefKisaHazirlikBaslik": "Honey flow preparation",
+  "sezonHedefKisaHazirlikMesaj": "With little time left to the honey flow, maintaining colony strength is important. Harvest residue safety should be observed. Occasionally during the honey flow, a technical split can be made to remove honey-consuming population from the colony. This information is provided as guidance. Carrying it out requires knowledge and experience.",
+  "sezonHedefZayifDestekBaslik": "Strengthening",
+  "sezonHedefZayifDestekMesaj": "Priority is bringing stores, population and queen order to a safe level.",
+  "sezonHedefGelisimKolonisiBaslik": "Development colony",
+  "sezonHedefGelisimKolonisiMesaj": "Colony in development phase. Should be considered outside the harvest process.",
+  "sezonHedefBalHazirlanBaslik": "Preparing for honey flow",
+  "sezonHedefBalHazirlanMesaj": "Colony is approaching production strength; the goal is to enter the honey flow strong without creating swarming pressure.",
+  "sezonHedefBalHazirlanGerekce": "Development trend and functional frame strength support the production target.",
+
+  "kisAclikRiskiBaslik": "Winter risk: stores appear insufficient",
+  "kisAclikRiskiMesaj": "Opening the hive unnecessarily in winter is not recommended; however, if stores are very low, starvation risk takes priority. If field and weather conditions are suitable, a quick, limited store supplement/fondant can be considered.",
+  "kisAclikRiskiGerekce": "The fundamental rule in winter management is minimum intervention; however, starvation risk has higher priority than the minimum intervention rule.",
+  "kisHacimRiskiBaslik": "Winter risk: empty space may be too high",
+  "kisHacimRiskiMesaj": "If physical space is high but functional strength is low, the winter cluster may struggle to maintain heat. Space reduction and moisture control can be considered at a suitable time.",
+  "kisHacimRiskiGerekce": "Winter success is determined not only by stores but by the match between colony space and bee population.",
+  "kisZayiflamaTakibiBaslik": "Winter risk: strength loss should be monitored",
+  "kisZayiflamaTakibiMesaj": "If strength loss is observed in winter, external observation, weight, entrance and moisture checks take priority over opening the hive. A limited check can be done in suitable weather.",
+  "kisZayiflamaTakibiGerekce": "Unnecessary inspection in winter can disturb the cluster and heat regulation.",
+  "kisDisGozlemBaslik": "Winter management: no unnecessary opening",
+  "kisDisGozlemMesaj": "The main approach for the colony is external observation, weight feel, entrance, moisture and water ingress checks without unnecessarily opening the hive.",
+  "kisDisGozlemGerekce": "The winter algorithm is survival-focused, not production-focused. Spring exit provides data for the genetic stability score.",
+
+  "sapmaAnaSureczyBaslik": "Weakening risk during queen process",
+  "sapmaAnaSureczyMesaj": "If colony strength drops while the queen/brood process continues, the normal wait scenario turns into a weakening risk. At this stage, the goal is not production but clarifying queen status and keeping the colony alive.",
+  "sapmaAnaSureczyGerekce": "Expected flow: queen acquisition → brood seen → recovery. Deviation: if the process extends and population drops, queen loss, mating failure or external threat probability increases.",
+  "sapmaBolmeTutmadiBaslik": "Split not recovering",
+  "sapmaBolmeTutmadiMesaj": "The expected flow after a split is for queen order to settle and the population to be maintained. If brood pattern is absent and strength is declining, the goal for this colony is not honey but queen retention/survival.",
+  "sapmaBolmeTutmadiGerekce": "The split process does not close with day count alone; it is not considered complete until brood pattern, functional frames and regrowth are observed.",
+  "sapmaOgulRiskiBaslik": "Early congestion swarming risk",
+  "sapmaOgulRiskiMesaj": "Colony continues strong growth before the honey flow starts. If this strength is managed only with supers, swarming pressure may build before the flow; a controlled split if genetic value is suitable, otherwise space/swarm management should be considered.",
+  "sapmaOgulRiskiGerekce": "The expected target is entering the honey flow with a strong but manageable colony of 11-12 frames. Exceeding this threshold early may produce swarming risk rather than production.",
+  "sapmaAkimAlanTakibiBaslik": "Monitor space during honey flow",
+  "sapmaAkimAlanTakibiMesaj": "Behaviour changes during the honey flow; the colony may shift from raising brood to storing nectar. Low apparent stores alone do not indicate weakness — space and capping should be monitored together.",
+  "sapmaAkimAlanTakibiGerekce": "During the honey flow, brood and store data are not read the same as in normal periods; nectar intake, honey space and harvest timing are evaluated together.",
+  "sapmaHasatStokRiskiBaslik": "Low stores after harvest",
+  "sapmaHasatStokRiskiMesaj": "The expected flow after harvest is recovery of stores, varroa and space arrangement. If stores appear low, production language closes; stores and consolidation are evaluated together for safe winter entry.",
+  "sapmaHasatStokRiskiGerekce": "After harvest honey is taken, the same frame strength can be read as a winter preparation risk rather than production success.",
+  "sapmaHasatHacimRiskiBaslik": "Space may be excessive after harvest",
+  "sapmaHasatHacimRiskiMesaj": "If physical frame area is high but functional strength is low, the colony may be left in unnecessary space. In this case space reduction, stores and winter arrangement take priority over production decisions.",
+  "sapmaHasatHacimRiskiGerekce": "Excessive empty space in the post-harvest period may increase robbing, moisture and heat management risks.",
+
+  "genetikVetoBaslik": "Genetic multiplication value: veto",
+  "genetikYuksekBaslik": "Genetic multiplication value is high",
+  "genetikIzleBaslik": "Genetic multiplication value in monitoring range",
+  "genetikVetoMesaj": "Colony is not highlighted in the multiplication pool. Production value is separate; genetic propagation value is separate.",
+  "genetikSkorGerekce": "Biological strength, brood pattern, development stability and risks are evaluated together.",
+
+  "beslemeYonetimVarsayilanBaslik": "Feeding Management",
+  "beslemeDestekBandi": "Estimated support range: {bant}",
+  "@beslemeDestekBandi": {
+    "placeholders": { "bant": { "type": "String" } }
+  },
+
+  "varroaTakvimBaslik": "Varroa calendar should be monitored.",
+  "varroaTakvimGerekce": "Seasonal varroa record-keeping and monitoring discipline should be maintained.",
+  "varroaKayitYok": "No varroa record yet.",
+  "varroaKayitYokGerekce": "Seasonal varroa reminders become more meaningful after the first inspection records.",
+  "varroaKayitYokOneri": "Regularly record any varroa treatment done during inspections.",
+  "varroaIlkbaharKayitVar": "Early spring varroa record present.",
+  "varroaIlkbaharKayitVarGerekce": "A treatment record from the start of the season is visible. This supports entering spring development with lower mite pressure.",
+  "varroaIlkbaharKayitVarOneri": "Track treatment effectiveness in subsequent inspections.",
+  "varroaIlkbaharKontrolPlanla": "Spring varroa check should be planned.",
+  "varroaIlkbaharKontrolGerekce": "The early spring period is an important window for reducing varroa pressure at the start of the season.",
+  "varroaIlkbaharKontrolOneri": "Check colonies; plan early spring treatment if needed.",
+  "varroaBalOncesiKayitVar": "Pre-flow varroa record visible.",
+  "varroaBalOncesiPlanGozden": "Pre-flow varroa plan should be reviewed.",
+  "varroaBalOncesiGerekce": "It is safer to have the varroa plan completed before entering the honey flow period.",
+  "varroaBalOncesiOneri": "Plan before, not during, the honey flow.",
+  "varroaYazTakip": "Varroa monitoring should continue during summer.",
+  "varroaYazTakipGerekce": "The aim in midsummer is not continuous treatment but regular monitoring and preparation for the post-harvest period.",
+  "varroaYazTakipOneri": "Regularly monitor varroa records and colony progress during inspections.",
+  "varroaKritikKayitVar": "Varroa treatment record present during critical period.",
+  "varroaKritikKayitVarGerekce": "Late summer-early autumn is the period when winter bees form and varroa pressure is most critical.",
+  "varroaKritikKayitVarOneri": "Continue post-harvest plan; check effectiveness at next inspection.",
+  "varroaHasatSonrasiGecikiyor": "Post-harvest varroa treatment is delayed.",
+  "varroaHasatSonrasiGecikiyorGerekce": "No record visible in late summer-early autumn. This period is considered the most critical window for winter bee health.",
+  "varroaHasatSonrasiGecikiyorOneri1": "Do not delay treatment after honey extraction.",
+  "varroaHasatSonrasiGecikiyorOneri2": "Be sure to record any application at the next inspection.",
+  "varroaKisaGirisKayitVar": "Pre-winter varroa record present.",
+  "varroaKisaGirisKayitVarGerekce": "A record at the end of autumn is a positive signal for entering winter with a lower mite load.",
+  "varroaKisaGirisKayitVarOneri": "Check the overall situation one more time before entering winter.",
+  "varroaSonbaharKayitEksik": "Autumn varroa record appears incomplete.",
+  "varroaSonbaharKayitEksikGerekce": "No treatment record visible in the pre-winter period. Late autumn check should not be neglected.",
+  "varroaSonbaharKayitEksikOneri": "Evaluate treatment necessity if brood activity has decreased.",
+  "varroaKisSonbaharKayitVar": "Autumn varroa record visible.",
+  "varroaKisSonbaharKayitVarGerekce": "The main aim in winter is to maintain the load reduced in autumn without putting the colony under unnecessary stress.",
+  "varroaKisSonbaharKayitVarOneri": "Monitor general condition without unnecessarily opening the hive.",
+  "varroaKisGozden": "Winter varroa situation should be reviewed.",
+  "varroaKisGozdenGerekce": "No record for a long time. The situation should be re-evaluated if brood activity has decreased.",
+  "varroaKisGozdenOneri": "Carry out a winter check according to brood condition and seasonal circumstances.",
+  "varroaBalDonemiDikkat": "Varroa decision requires care during the honey period.",
+  "varroaBalDonemiGerekce": "Chemical treatments with residue risk are not recommended after the honey flow has started.",
+  "varroaBalDonemiOneri1": "If necessary, consider only methods that carry no residue risk to honey, compliant with label and regulations.",
+  "varroaBalDonemiOneri2": "Plan chemical treatment for after harvest.",
+  "varroaBalOncesiTamamlandiBaslik": "Pre-flow varroa plan appears completed.",
+  "varroaBalOncesiTamamlandiGerekce": "Treatment should have been completed by {sonGunMetni} at the latest before the honey flow expected on {balAkimMetni}. The record appears to comply with this.",
+  "@varroaBalOncesiTamamlandiGerekce": {
+    "placeholders": {
+      "balAkimMetni": { "type": "String" },
+      "sonGunMetni": { "type": "String" }
+    }
+  },
+  "varroaBalOncesiTamamlandiOneri": "Do not plan new treatment during the honey flow.",
+  "varroaBalOncesiKapaniyorBaslik": "Pre-flow treatment window is closing.",
+  "varroaBalOncesiKapaniyorGerekce": "To reduce residue risk before the honey flow expected on {balAkimMetni}, treatment should be completed by {sonGunMetni} at the latest.",
+  "@varroaBalOncesiKapaniyorGerekce": {
+    "placeholders": {
+      "balAkimMetni": { "type": "String" },
+      "sonGunMetni": { "type": "String" }
+    }
+  },
+  "varroaBalOncesiKapaniyorOneri1": "At this stage, consider residue risk when planning pre-flow chemical treatment.",
+  "varroaBalOncesiKapaniyorOneri2": "If delayed, it may be safer to postpone any new chemical application until after the honey flow.",
+  "varroaBalOncesiSonPencereBaslik": "Entering last pre-flow varroa window.",
+  "varroaBalOncesiSonPencereGerekce": "Treatment for the honey flow expected on {balAkimMetni} should be completed by {sonGunMetni} at the latest. Time is running short.",
+  "@varroaBalOncesiSonPencereGerekce": {
+    "placeholders": {
+      "balAkimMetni": { "type": "String" },
+      "sonGunMetni": { "type": "String" }
+    }
+  },
+  "varroaBalOncesiSonPencereOneri": "If treatment is needed, plan without leaving it to the last safe date.",
+  "varroaBalOncesiSonGunHatirla": "Last safe pre-flow treatment date: {sonGunMetni}.",
+  "@varroaBalOncesiSonGunHatirla": {
+    "placeholders": { "sonGunMetni": { "type": "String" } }
+  },
+  "varroaSonKayit": "Last record: {tarih} / {yontem}.",
+  "@varroaSonKayit": {
+    "placeholders": {
+      "tarih": { "type": "String" },
+      "yontem": { "type": "String" }
+    }
   }
 }
