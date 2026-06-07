@@ -4907,4 +4907,500 @@ class AppLocalizationsTr extends AppLocalizations {
   String varroaSonKayit(String tarih, String yontem) {
     return 'Son kayıt: $tarih / $yontem.';
   }
+
+  @override
+  String get kararPasifBaslik => 'Bu koloni aktif değil';
+
+  @override
+  String get kararPasifMesaj =>
+      'Aktif üretimde değerlendirme. Kayıt olarak tut, gerekiyorsa birleştirme planında düşün.';
+
+  @override
+  String get kararPasifNedenAktifGorunmuyor => 'Koloni aktif görünmüyor.';
+
+  @override
+  String get kararPasifNedenSonmugGorunuyor =>
+      'Son muayene verisinde koloni sönmüş görünüyor.';
+
+  @override
+  String get kararPasifNedenIsaretli => 'Koloni durumu pasif olarak işaretli.';
+
+  @override
+  String get kararPasifSecilimBaslik => 'Pasif kayıt';
+
+  @override
+  String get kararPasifSecilimMesaj =>
+      'Bu koloni aktif üretimde değildir. Soy ve geçmiş takibi için tutulur.';
+
+  @override
+  String get kararVetoNedenDogrudanOgul =>
+      'Kökeni oğul olduğu için temiz donör havuzuna alınmadı.';
+
+  @override
+  String get kararVetoNedenKendisiOgul =>
+      'Kendi geçmişinde oğul attığı için temiz donör havuzuna alınmadı.';
+
+  @override
+  String get kararVetoNedenAtaHatta =>
+      'Atasal hatta oğul izi taşıdığı için temiz donör havuzuna alınmadı.';
+
+  @override
+  String get kararVetoNedenGenel => 'Temiz donör havuzuna alınmadı.';
+
+  @override
+  String get kararVetoBolmeBaslik =>
+      'Genetik veto var; güvenli bölme veya üretim için kullan';
+
+  @override
+  String get kararVetoBolmeMesaj =>
+      'Ana üretme. 9 çıta ve üstü güçte olduğu için bölme, kapalı yavru desteği veya üretim için değerlendirilebilir.';
+
+  @override
+  String get kararVetoBolmeSecilimBaslik =>
+      'Genetik veto / güçlü operasyonel kullanım';
+
+  @override
+  String get kararVetoBolmeSecilimMesaj =>
+      'Donör havuzunda değil. 9 çıta güvenli saha eşiğini geçtiği için yalnızca operasyonel bölme, destek ve üretim rolünde değerlendirilebilir.';
+
+  @override
+  String get kararVetoUretimBaslik => 'Genetik veto var; üretimde değerlendir';
+
+  @override
+  String get kararVetoUretimMesajRiskliBand =>
+      'Ana üretme. 6–8 çıta arası bölme için riskli kabul edilir; sistem bölme önermiyor. Önce güçlendir, üretim ve destek rolünde değerlendir.';
+
+  @override
+  String get kararVetoUretimMesajGecGuclu =>
+      'Ana üretme. Koloni güçlü üreme gelişimi gösteriyor; ancak bal akımına yakın dönemde standart bölme üretim gücünü düşürebilir. Saha baskısı oluşursa kontrollü bölme ayrıca değerlendirilebilir.';
+
+  @override
+  String get kararVetoUretimMesajGec =>
+      'Ana üretme. Koloni güçlü olabilir; ancak standart bölme için zaman geç kalmış görünüyor. Üretim gücünü koru.';
+
+  @override
+  String get kararVetoUretimMesajOzelStrateji =>
+      'Ana üretme. Bal akımı içinde standart bölme önerilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.';
+
+  @override
+  String get kararVetoUretimMesajGenel =>
+      'Ana üretme. Bal ve genel üretim odağında kullan. Donör değil ama çalışkan üretim kolonisi olarak değerlendirilebilir.';
+
+  @override
+  String get kararVetoUretimSecilimBaslik => 'Genetik veto / üretim kolonisi';
+
+  @override
+  String get kararVetoUretimSecilimMesaj =>
+      'Temiz donör havuzunda değil. Buna rağmen üretim ve saha sürekliliği açısından kullanılabilir.';
+
+  @override
+  String get kararVetoDestekBaslik => 'Genetik veto var; destekleyerek kullan';
+
+  @override
+  String get kararVetoDestekMesaj =>
+      'Oğul izi olduğundan ana üretiminde kullanma. Gelişimine göre destek kolonisi veya üretim kolonisi olarak kullanılabilir.';
+
+  @override
+  String get kararVetoDestekSecilimBaslik => 'Genetik veto / destek kullanımı';
+
+  @override
+  String get kararVetoDestekSecilimMesaj =>
+      'Donör havuzunda değil. Güç durumuna göre destek veya üretim kolonisi olarak değerlendirilebilir.';
+
+  @override
+  String get kararVetoGuclenirBaslik =>
+      'Genetik veto var; önce toparla ve izle';
+
+  @override
+  String get kararVetoGuclenirMesaj =>
+      'Ana üretme. Önce gücünü toparla. Besleme, destek ve yakın muayene ile gelişimine bak; sonra saha rolünü netleştir.';
+
+  @override
+  String get kararVetoGuclenirSecilimBaslik =>
+      'Genetik veto / önce toparlanmalı';
+
+  @override
+  String get kararVetoGuclenirSecilimMesaj =>
+      'Donör havuzunda değil. Önce güç kazanmalı; sonra yalnızca operasyonel rolü yeniden okunmalıdır.';
+
+  @override
+  String get kararDonor1Baslik => 'Bu koloni 1. donör adayı';
+
+  @override
+  String get kararDonor1MesajBase =>
+      'Ana üretiminde öncelikli. Gücünü koru. Bölme veya başka kullanım kararını donör değerini bozmayacak şekilde düşün.';
+
+  @override
+  String kararDonor1NedeniBase(int donorSkoru) {
+    return 'Donör havuzundaki en güçlü koloni olarak öne çıkıyor. Donör skoru: $donorSkoru / 100.';
+  }
+
+  @override
+  String get kararDonor1SecilimBaslik => 'Bu koloni 1. donör adayı';
+
+  @override
+  String get kararDonor1SecilimMesaj =>
+      'Bu koloni donör havuzunda ilk sırada yer alıyor ve ana üretimi için en güçlü aday kabul ediliyor.';
+
+  @override
+  String get kararDonor2Baslik => 'Bu koloni 2. donör adayı';
+
+  @override
+  String get kararDonor2MesajBase =>
+      'Ana üretiminde güçlü bir alternatif olarak değerlendir. İlk tercihin uygun değilse buna yönel.';
+
+  @override
+  String kararDonor2NedeniBase(int donorSkoru) {
+    return 'Donör havuzunda üst sırada yer alıyor. Donör skoru: $donorSkoru / 100.';
+  }
+
+  @override
+  String get kararDonor2SecilimBaslik => 'Bu koloni 2. donör adayı';
+
+  @override
+  String get kararDonor2SecilimMesaj =>
+      'Bu koloni donör havuzunda üst sırada yer alıyor ve ana üretimi için güçlü alternatif kabul ediliyor.';
+
+  @override
+  String get kararDonor3Baslik => 'Bu koloni 3. donör adayı';
+
+  @override
+  String get kararDonor3MesajBase =>
+      'Ana üretiminde yedek güçlü aday olarak değerlendir. Üretimde de değerli kalabilir.';
+
+  @override
+  String kararDonor3NedeniBase(int donorSkoru) {
+    return 'Donör havuzunda ilk üç içinde yer alıyor. Donör skoru: $donorSkoru / 100.';
+  }
+
+  @override
+  String get kararDonor3SecilimBaslik => 'Bu koloni 3. donör adayı';
+
+  @override
+  String get kararDonor3SecilimMesaj =>
+      'Bu koloni donör havuzunda ilk üç içinde yer alıyor ve ana üretimi için değerlendirilebilir.';
+
+  @override
+  String get kararSartliDonorBaslik =>
+      'Bu koloni donör havuzunda, ama ilk sıralarda değil';
+
+  @override
+  String get kararSartliDonorMesajBase =>
+      'Üretimde değerlendir. Gelişimi sürerse ileride donör alternatifi olarak yeniden bak.';
+
+  @override
+  String kararSartliDonorNedeniBase(int donorSkoru) {
+    return 'Donör havuzuna girmiş olsa da şu an ilk üçte değil. Donör skoru: $donorSkoru / 100.';
+  }
+
+  @override
+  String get kararSartliDonorSecilimBaslik => 'Donör havuzunda';
+
+  @override
+  String get kararSartliDonorSecilimMesaj =>
+      'Bu koloni donör havuzuna girmiş durumda; ancak şu an ilk sıradaki adaylardan biri değil.';
+
+  @override
+  String get kararAnaDegisimZamanBaslik =>
+      'Bu koloni için ana değişimi zamanı uygun';
+
+  @override
+  String get kararAnaDegisimPlanlaBaslik => 'Ana değişimini sezon planına al';
+
+  @override
+  String get kararAnaDegisimZamanMesaj =>
+      'Hasat sonrası pencere ana değişimi için uygundur. Üretimde kalacaksa genç ve güvenilir bir ana ile yenilemek doğru olabilir.';
+
+  @override
+  String get kararAnaDegisimPlanMesajBase =>
+      'Ana yaşı izlenmeli; ancak planlı ana değişimi için en güçlü pencere hasat sonrasıdır. Zorunlu sorun yoksa takvime al.';
+
+  @override
+  String kararAnaDegisimNedeni(int anaYasi) {
+    return 'Ana yaşı $anaYasi yıl görünüyor. Ürün standardında 2 yaş ana değişimi için dikkat eşiğidir.';
+  }
+
+  @override
+  String get kararAnaDegisimZamanSecilimBaslik =>
+      'Ana değişimi için uygun pencere';
+
+  @override
+  String get kararAnaDegisimPlanSecilimBaslik => 'Ana değişimi planlanmalı';
+
+  @override
+  String get kararAnaDegisimSecilimMesajVarsayilan =>
+      'Koloni tamamen olumsuz değildir; ancak daha iyi verim için ana yenileme düşünülebilir.';
+
+  @override
+  String get kararBolmeUygunBaslik => 'Bu koloni bölme için uygun görünüyor';
+
+  @override
+  String get kararBolmeUygunMesaj =>
+      '9 çıta ve üstü güçte. Donör önceliğinde değilse güvenli bölme için değerlendirilebilir. Ana koloni en az 5 çıta kalmalı, yeni bölme en az 4 çıta başlamalı.';
+
+  @override
+  String get kararBolmeUygunNedeni =>
+      'Koloni 9 çıta güvenli saha eşiğini karşılıyor, üretim sezonunda ve trend düşüşte değil.';
+
+  @override
+  String get kararBolmeUygunSecilimBaslik => 'Bölme için uygun';
+
+  @override
+  String get kararBolmeUygunSecilimMesaj =>
+      '9 çıta güvenli saha eşiği karşılandığı için donör önceliğinde değilse bölme için değerlendirilebilir.';
+
+  @override
+  String get kararBolmeRiskliBaslik => 'Bölme için güç sınırında';
+
+  @override
+  String get kararBolmeRiskliMesaj =>
+      '6–8 çıta arası biyolojik olarak mümkün görünse de ITOGENA bölme önermiyor. Önce güçlendir, 9 çıta ve üstünde yeniden değerlendir.';
+
+  @override
+  String get kararBolmeRiskliNedeni =>
+      'Güvenli saha bölme eşiği 9 çıtadır. Daha düşük güçte hem ana koloni hem yeni bölme kaybedilebilir.';
+
+  @override
+  String get kararBolmeRiskliSecilimBaslik => 'Bölme önerilmez';
+
+  @override
+  String get kararBolmeRiskliSecilimMesaj =>
+      'Koloni güçlenene kadar üretim, destek veya takip rolünde tutulmalıdır.';
+
+  @override
+  String get kararBolmeZamaniGecBaslik =>
+      'Güç var; standart bölme zamanı zayıf';
+
+  @override
+  String get kararBolmeZamaniGecMesaj =>
+      'Koloni 9 çıta eşiğini karşılıyor; ancak bal akımına 57 günden az kaldığı için standart bölme üretim gücünü düşürebilir. Bu dönemde koloni gücünü koru.';
+
+  @override
+  String get kararBolmeZamaniGecSecilimBaslik => 'Bölme yerine üretimde tut';
+
+  @override
+  String get kararBolmeZamaniGecSecilimMesaj =>
+      'Zaman penceresi nedeniyle bölme kararı güçlü görünmüyor; üretim gücü korunmalıdır.';
+
+  @override
+  String get kararBalAkimiOzelBolmeBaslik =>
+      'Bal akımında standart bölme önerilmez';
+
+  @override
+  String get kararBalAkimiOzelBolmeMesaj =>
+      'Koloni güçlü; fakat bal akımı içinde standart bölme önerisi verilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.';
+
+  @override
+  String get kararBalAkimiOzelBolmeSecilimBaslik => 'Özel üretim stratejisi';
+
+  @override
+  String get kararBalAkimiOzelBolmeSecilimMesaj =>
+      'Bu karar otomatik bölme önerisi değildir; arıcının hedeflediği üretim tekniğine bağlıdır.';
+
+  @override
+  String get kararGucluKoloniBaslik => 'Güçlü koloni; bölme zamanı değil';
+
+  @override
+  String get kararGucluKoloniMesaj =>
+      'Koloni güçlü görünüyor; ancak bu tarih aralığında standart bölme kararı ciddi görünmez. Gücü üretim, bakım veya sezon planında değerlendir.';
+
+  @override
+  String get kararGucluKoloniSecilimBaslik => 'Üretimde değerlendir';
+
+  @override
+  String get kararGucluKoloniSecilimMesaj =>
+      'Koloni gücü değerli; zaman penceresi uygun olduğunda bölme yeniden okunabilir.';
+
+  @override
+  String get kararUretimdeBaslik => 'Bu koloni üretimde değerlendirilebilir';
+
+  @override
+  String get kararUretimMesaj =>
+      'Bal ve genel üretim odağında kullan. Sezona göre destek veya üretim rolünde değerlendir.';
+
+  @override
+  String get kararUretimNedeni => 'Performansı üretim için yeterli görünüyor.';
+
+  @override
+  String get kararUretimSecilimBaslik => 'Üretimde değerlendir';
+
+  @override
+  String get kararUretimSecilimMesaj =>
+      'Bu koloni üretim ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.';
+
+  @override
+  String get kararVeriGuveniDusukBaslik => 'Karar var; veri güveni düşük';
+
+  @override
+  String get kararVeriGuveniDusukMesaj =>
+      'Mevcut kayda göre rolü izleme ve güçlendirme tarafında. Tek muayene kesin hüküm için zayıftır; ikinci ve üçüncü kayıtla karar netleşir.';
+
+  @override
+  String get kararVeriGuveniDusukNedeni =>
+      'Sistem karar üretir, ancak muayene verisi etkili değerlendirme için henüz sınırlıdır.';
+
+  @override
+  String get kararVeriGuveniDusukSecilimBaslik => 'Veri güveni düşük';
+
+  @override
+  String get kararVeriGuveniDusukSecilimMesaj =>
+      'Donör ya da üretim rolü tamamen kapatılmaz; ancak kararın güven düzeyi düşük olduğu açıkça izlenmelidir.';
+
+  @override
+  String get kararYakinTakipBaslik => 'Bu koloniye yakından bakmak gerekir';
+
+  @override
+  String get kararYakinTakipMesaj =>
+      'Destek, besleme ve sık muayene ile gelişimi yeniden değerlendir.';
+
+  @override
+  String get kararYakinTakipNedeni =>
+      'Güç veya gidişat istenen seviyede görünmüyor.';
+
+  @override
+  String get kararYakinTakipSecilimBaslik => 'İzleyerek karar ver';
+
+  @override
+  String get kararYakinTakipSecilimMesaj =>
+      'Bu koloni için hüküm vermeden önce biraz daha veri ve gözlem gerekir.';
+
+  @override
+  String get kararDestekRolBaslik => 'Bu koloniyi destek rolünde değerlendir';
+
+  @override
+  String get kararDestekRolMesaj =>
+      'Şu an için en doğru rol destek ve düzenli takip görünüyor. Güçlenirse sonraki değerlendirmede üretimde daha öne çıkabilir.';
+
+  @override
+  String get kararDestekRolNedeni =>
+      'Donör havuzunda üst sırada değil, ama tamamen olumsuz da görünmüyor.';
+
+  @override
+  String get kararDestekRolSecilimBaslik => 'Destek / üretim rolü';
+
+  @override
+  String get kararDestekRolSecilimMesaj =>
+      'Bu koloni destek ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.';
+
+  @override
+  String get kararKartDurum => 'Durum';
+
+  @override
+  String get kararKartNeYap => 'Ne yap';
+
+  @override
+  String get kararKartVeriGuveni => 'Veri Güveni';
+
+  @override
+  String get kararKartZamanBaglami => 'Zaman Bağlamı';
+
+  @override
+  String get kararKartBiyolojikDurum => 'Biyolojik Durum';
+
+  @override
+  String get kararKartBiyolojikNot => 'Biyolojik Not';
+
+  @override
+  String get kararKartSahadaOncelik => 'Sahada Öncelik';
+
+  @override
+  String get kararKartZamanBaglamiVarsayilan =>
+      'Karar mevcut sezon ve bal akımı takvimine göre okunur.';
+
+  @override
+  String get kararKartBiyolojikOncelik =>
+      'Bu koloni biyolojik zamanlama açısından öncelikli kontrol istemektedir.';
+
+  @override
+  String get veriGuveniYok => 'Veri yok';
+
+  @override
+  String get veriGuveniCokSinirli => 'Veri çok sınırlı';
+
+  @override
+  String get veriGuveniIzlenmeli => 'Veri izlenmeli';
+
+  @override
+  String get veriGuveniYeterli => 'Veri güveni yeterli';
+
+  @override
+  String get veriGuveniNotYok =>
+      'Kayıt yoksa sistem yalnızca kimlik ve kaynak bilgisine göre sınırlı yorum yapabilir.';
+
+  @override
+  String get veriGuveniNotTek =>
+      'Tek muayene karar üretir ama güven zayıftır; donör ve ana değişim kararlarında temkinli okunmalıdır.';
+
+  @override
+  String get veriGuveniNotAz =>
+      '2–4 muayene izleme bandıdır; karar var ama sonraki kayıtlarla güçlenmelidir.';
+
+  @override
+  String get veriGuveniNotYeterli =>
+      '5 ve üzeri muayene ile değerlendirme güvenilir banda girmiştir.';
+
+  @override
+  String get davranisNotuSaldirganEsnek =>
+      ' Davranış açısından not düşülmüş durumda; ancak kullanıcı ayarı esnek olduğu için veto uygulanmadı.';
+
+  @override
+  String get davranisNotuSaldirgan =>
+      ' Davranış açısından dikkat notu bulunuyor.';
+
+  @override
+  String get davranisNotuSinirli =>
+      ' Davranış açısından hafif bir dikkat notu bulunuyor.';
+
+  @override
+  String get kisYorumCokGuclu => 'Çok güçlü çıkış';
+
+  @override
+  String get kisYorumGuclu => 'Güçlü çıkış';
+
+  @override
+  String get kisYorumOrta => 'Orta çıkış';
+
+  @override
+  String get kisYorumZayif => 'Zayıf çıkış';
+
+  @override
+  String get kisYorumRiskli => 'Riskli çıkış';
+
+  @override
+  String get biyoKabiliyetPetekOrmeBaslik => 'Biyolojik Kabiliyet';
+
+  @override
+  String get biyoKabiliyetPetekOrmeMesaj =>
+      'Petek örme kapasitesi güçlü görünüyor. Ham petek verilecekse yavru bloğu kesilmeden dıştan genişletme daha güvenlidir.';
+
+  @override
+  String get biyoGenisletmeRiskiBaslik => 'Genişletme Riski';
+
+  @override
+  String get biyoGenisletmeRiskiMesaj =>
+      'Petek örme kapasitesi sınırlı görünüyor. Ham petek yerine kabarmış petek veya sıkı düzen daha güvenlidir.';
+
+  @override
+  String get biyoBalAkimiKapasitesiBaslik => 'Bal Akımı Kapasitesi';
+
+  @override
+  String get biyoBalAkimiKapasitesiMesaj =>
+      'Tarlacı ve bal işleme kapasitesi güçlü görünüyor. Bal akımı döneminde alan, kat ve sırlanma takibi öne alınmalı.';
+
+  @override
+  String get biyoBakiciDengesiBaslik => 'Bakıcı Dengesi';
+
+  @override
+  String get biyoBakiciDengesiMesaj =>
+      'Yavru bakım kapasitesi iyi fakat petek örme sınırlı. Yavru alanını bozmayacak kabarmış petek, ham petekten daha güvenli olur.';
+
+  @override
+  String get biyoKisGuvenligi => 'Kış Güvenliği';
+
+  @override
+  String get biyoKisGuvenligiMesaj =>
+      'Kış dayanımı sınırlı görünüyor. Öncelik hasat veya genişletme değil stok güvenliği ve sıkı düzendir.';
+
+  @override
+  String get biyoSahaNotu => 'Biyolojik Saha Notu';
 }

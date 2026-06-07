@@ -4917,4 +4917,510 @@ class AppLocalizationsEn extends AppLocalizations {
   String varroaSonKayit(String tarih, String yontem) {
     return 'Last record: $tarih / $yontem.';
   }
+
+  @override
+  String get kararPasifBaslik => 'This colony is inactive';
+
+  @override
+  String get kararPasifMesaj =>
+      'Not for active production. Keep as record; consider merging if needed.';
+
+  @override
+  String get kararPasifNedenAktifGorunmuyor => 'Colony does not appear active.';
+
+  @override
+  String get kararPasifNedenSonmugGorunuyor =>
+      'Colony appears to have collapsed based on last inspection data.';
+
+  @override
+  String get kararPasifNedenIsaretli => 'Colony status is marked as passive.';
+
+  @override
+  String get kararPasifSecilimBaslik => 'Passive record';
+
+  @override
+  String get kararPasifSecilimMesaj =>
+      'This colony is not in active production. Retained for lineage and history tracking.';
+
+  @override
+  String get kararVetoNedenDogrudanOgul =>
+      'Not added to clean donor pool due to swarm origin.';
+
+  @override
+  String get kararVetoNedenKendisiOgul =>
+      'Not added to clean donor pool due to swarm history.';
+
+  @override
+  String get kararVetoNedenAtaHatta =>
+      'Not added to clean donor pool due to swarm trace in ancestral line.';
+
+  @override
+  String get kararVetoNedenGenel => 'Not added to the clean donor pool.';
+
+  @override
+  String get kararVetoBolmeBaslik =>
+      'Genetic veto; use for safe split or production';
+
+  @override
+  String get kararVetoBolmeMesaj =>
+      'Do not use for queen rearing. Strong enough (9+ frames) to be considered for splits, capped brood support, or production.';
+
+  @override
+  String get kararVetoBolmeSecilimBaslik =>
+      'Genetic veto / strong operational use';
+
+  @override
+  String get kararVetoBolmeSecilimMesaj =>
+      'Not in donor pool. Exceeds the 9-frame safe field threshold, so may be used operationally for splits, support, and production.';
+
+  @override
+  String get kararVetoUretimBaslik => 'Genetic veto; consider for production';
+
+  @override
+  String get kararVetoUretimMesajRiskliBand =>
+      'Do not use for queen rearing. 6–8 frames is considered risky for splitting; system does not recommend it. Strengthen first, then consider for production and support.';
+
+  @override
+  String get kararVetoUretimMesajGecGuclu =>
+      'Do not use for queen rearing. Colony shows strong brood development; however, a standard split near the nectar flow may reduce production strength. If field pressure builds, a controlled split can be reconsidered.';
+
+  @override
+  String get kararVetoUretimMesajGec =>
+      'Do not use for queen rearing. Colony may be strong, but timing for a standard split seems late. Preserve production strength.';
+
+  @override
+  String get kararVetoUretimMesajOzelStrateji =>
+      'Do not use for queen rearing. Standard splitting is not recommended during nectar flow. A brood-reduction split as a deliberate production strategy may be separately considered.';
+
+  @override
+  String get kararVetoUretimMesajGenel =>
+      'Do not use for queen rearing. Use for honey and general production. Not a donor, but can be evaluated as a productive field colony.';
+
+  @override
+  String get kararVetoUretimSecilimBaslik => 'Genetic veto / production colony';
+
+  @override
+  String get kararVetoUretimSecilimMesaj =>
+      'Not in the clean donor pool. Can still be used for production and field continuity.';
+
+  @override
+  String get kararVetoDestekBaslik => 'Genetic veto; use as support';
+
+  @override
+  String get kararVetoDestekMesaj =>
+      'Do not use for queen rearing due to swarm trace. Can be used as support colony or production colony depending on development.';
+
+  @override
+  String get kararVetoDestekSecilimBaslik => 'Genetic veto / support use';
+
+  @override
+  String get kararVetoDestekSecilimMesaj =>
+      'Not in donor pool. Can be evaluated as support or production colony depending on strength.';
+
+  @override
+  String get kararVetoGuclenirBaslik =>
+      'Genetic veto; recover first, then observe';
+
+  @override
+  String get kararVetoGuclenirMesaj =>
+      'Do not use for queen rearing. Recover strength first. Monitor development with feeding, support, and close inspection; then clarify field role.';
+
+  @override
+  String get kararVetoGuclenirSecilimBaslik =>
+      'Genetic veto / needs recovery first';
+
+  @override
+  String get kararVetoGuclenirSecilimMesaj =>
+      'Not in donor pool. Must gain strength first; then operational role can be re-evaluated.';
+
+  @override
+  String get kararDonor1Baslik => 'This colony is the 1st donor candidate';
+
+  @override
+  String get kararDonor1MesajBase =>
+      'Priority for queen rearing. Preserve its strength. Consider any split or other use so it does not compromise donor value.';
+
+  @override
+  String kararDonor1NedeniBase(int donorSkoru) {
+    return 'Stands out as the strongest colony in the donor pool. Donor score: $donorSkoru / 100.';
+  }
+
+  @override
+  String get kararDonor1SecilimBaslik =>
+      'This colony is the 1st donor candidate';
+
+  @override
+  String get kararDonor1SecilimMesaj =>
+      'This colony ranks first in the donor pool and is considered the strongest candidate for queen rearing.';
+
+  @override
+  String get kararDonor2Baslik => 'This colony is the 2nd donor candidate';
+
+  @override
+  String get kararDonor2MesajBase =>
+      'Consider as a strong alternative for queen rearing. Turn to this if the first choice is not suitable.';
+
+  @override
+  String kararDonor2NedeniBase(int donorSkoru) {
+    return 'Ranks high in the donor pool. Donor score: $donorSkoru / 100.';
+  }
+
+  @override
+  String get kararDonor2SecilimBaslik =>
+      'This colony is the 2nd donor candidate';
+
+  @override
+  String get kararDonor2SecilimMesaj =>
+      'This colony ranks high in the donor pool and is considered a strong alternative for queen rearing.';
+
+  @override
+  String get kararDonor3Baslik => 'This colony is the 3rd donor candidate';
+
+  @override
+  String get kararDonor3MesajBase =>
+      'Consider as a backup strong candidate for queen rearing. Can also remain valuable in production.';
+
+  @override
+  String kararDonor3NedeniBase(int donorSkoru) {
+    return 'Ranks in the top three of the donor pool. Donor score: $donorSkoru / 100.';
+  }
+
+  @override
+  String get kararDonor3SecilimBaslik =>
+      'This colony is the 3rd donor candidate';
+
+  @override
+  String get kararDonor3SecilimMesaj =>
+      'This colony ranks in the top three of the donor pool and can be considered for queen rearing.';
+
+  @override
+  String get kararSartliDonorBaslik =>
+      'This colony is in the donor pool, but not in the top ranks';
+
+  @override
+  String get kararSartliDonorMesajBase =>
+      'Evaluate for production. If development continues, reconsider as a donor alternative later.';
+
+  @override
+  String kararSartliDonorNedeniBase(int donorSkoru) {
+    return 'Entered the donor pool but not currently in the top three. Donor score: $donorSkoru / 100.';
+  }
+
+  @override
+  String get kararSartliDonorSecilimBaslik => 'In donor pool';
+
+  @override
+  String get kararSartliDonorSecilimMesaj =>
+      'This colony has entered the donor pool, but is not currently among the top candidates.';
+
+  @override
+  String get kararAnaDegisimZamanBaslik =>
+      'Queen replacement timing is suitable for this colony';
+
+  @override
+  String get kararAnaDegisimPlanlaBaslik =>
+      'Schedule queen replacement in season plan';
+
+  @override
+  String get kararAnaDegisimZamanMesaj =>
+      'Post-harvest window is suitable for queen replacement. If staying in production, replacing with a young reliable queen may be the right move.';
+
+  @override
+  String get kararAnaDegisimPlanMesajBase =>
+      'Queen age should be monitored; however, the strongest window for planned replacement is post-harvest. Schedule it unless there is an urgent issue.';
+
+  @override
+  String kararAnaDegisimNedeni(int anaYasi) {
+    return 'Queen age appears to be $anaYasi years. In production standards, 2 years is the attention threshold for queen replacement.';
+  }
+
+  @override
+  String get kararAnaDegisimZamanSecilimBaslik =>
+      'Suitable window for queen replacement';
+
+  @override
+  String get kararAnaDegisimPlanSecilimBaslik =>
+      'Queen replacement should be planned';
+
+  @override
+  String get kararAnaDegisimSecilimMesajVarsayilan =>
+      'Colony is not entirely negative; however, queen renewal can be considered for better yield.';
+
+  @override
+  String get kararBolmeUygunBaslik =>
+      'This colony appears suitable for splitting';
+
+  @override
+  String get kararBolmeUygunMesaj =>
+      'Strong at 9+ frames. Can be considered for a safe split if not prioritized as a donor. Main colony should retain at least 5 frames; new split should start with at least 4.';
+
+  @override
+  String get kararBolmeUygunNedeni =>
+      'Colony meets the 9-frame safe field threshold, is in production season, and trend is not declining.';
+
+  @override
+  String get kararBolmeUygunSecilimBaslik => 'Suitable for splitting';
+
+  @override
+  String get kararBolmeUygunSecilimMesaj =>
+      'Meets the 9-frame safe field threshold; can be considered for splitting if not prioritized as a donor.';
+
+  @override
+  String get kararBolmeRiskliBaslik => 'At the strength limit for splitting';
+
+  @override
+  String get kararBolmeRiskliMesaj =>
+      '6–8 frames may be biologically possible, but ITOGENA does not recommend splitting. Strengthen first, then re-evaluate at 9+ frames.';
+
+  @override
+  String get kararBolmeRiskliNedeni =>
+      'The safe field splitting threshold is 9 frames. At lower strength, both the main colony and new split can be lost.';
+
+  @override
+  String get kararBolmeRiskliSecilimBaslik => 'Split not recommended';
+
+  @override
+  String get kararBolmeRiskliSecilimMesaj =>
+      'Colony should be kept in production, support, or monitoring role until it strengthens.';
+
+  @override
+  String get kararBolmeZamaniGecBaslik =>
+      'Has strength; standard split timing is weak';
+
+  @override
+  String get kararBolmeZamaniGecMesaj =>
+      'Colony meets the 9-frame threshold; however, with less than 57 days until nectar flow, a standard split may reduce production strength. Preserve colony strength during this period.';
+
+  @override
+  String get kararBolmeZamaniGecSecilimBaslik =>
+      'Keep in production instead of splitting';
+
+  @override
+  String get kararBolmeZamaniGecSecilimMesaj =>
+      'Split decision looks weak due to timing window; production strength should be preserved.';
+
+  @override
+  String get kararBalAkimiOzelBolmeBaslik =>
+      'Standard split not recommended during nectar flow';
+
+  @override
+  String get kararBalAkimiOzelBolmeMesaj =>
+      'Colony is strong; however, a standard split recommendation is not given during nectar flow. A brood-reduction split as a deliberate production strategy may be separately considered.';
+
+  @override
+  String get kararBalAkimiOzelBolmeSecilimBaslik =>
+      'Special production strategy';
+
+  @override
+  String get kararBalAkimiOzelBolmeSecilimMesaj =>
+      'This decision is not an automatic split recommendation; it depends on the beekeeper\'s intended production technique.';
+
+  @override
+  String get kararGucluKoloniBaslik => 'Strong colony; not splitting time';
+
+  @override
+  String get kararGucluKoloniMesaj =>
+      'Colony appears strong; however, a standard split decision does not seem serious in this date range. Use its strength in production, maintenance, or season planning.';
+
+  @override
+  String get kararGucluKoloniSecilimBaslik => 'Evaluate for production';
+
+  @override
+  String get kararGucluKoloniSecilimMesaj =>
+      'Colony strength is valuable; splitting can be re-read when the timing window is suitable.';
+
+  @override
+  String get kararUretimdeBaslik =>
+      'This colony can be evaluated for production';
+
+  @override
+  String get kararUretimMesaj =>
+      'Use for honey and general production. Evaluate in support or production role depending on season.';
+
+  @override
+  String get kararUretimNedeni =>
+      'Performance appears sufficient for production.';
+
+  @override
+  String get kararUretimSecilimBaslik => 'Evaluate for production';
+
+  @override
+  String get kararUretimSecilimMesaj =>
+      'This colony is valuable for production and continuity; does not appear prioritized as a donor.';
+
+  @override
+  String get kararVeriGuveniDusukBaslik =>
+      'Decision exists; data confidence is low';
+
+  @override
+  String get kararVeriGuveniDusukMesaj =>
+      'Based on current record, role leans toward monitoring and strengthening. One inspection is weak for a definitive judgment; decision clarifies with second and third records.';
+
+  @override
+  String get kararVeriGuveniDusukNedeni =>
+      'System produces a decision, but inspection data is still limited for effective evaluation.';
+
+  @override
+  String get kararVeriGuveniDusukSecilimBaslik => 'Data confidence low';
+
+  @override
+  String get kararVeriGuveniDusukSecilimMesaj =>
+      'Donor or production role is not fully closed; however, the low confidence level should be clearly monitored.';
+
+  @override
+  String get kararYakinTakipBaslik => 'This colony needs close attention';
+
+  @override
+  String get kararYakinTakipMesaj =>
+      'Re-evaluate development with support, feeding, and frequent inspection.';
+
+  @override
+  String get kararYakinTakipNedeni =>
+      'Strength or trajectory does not appear to be at the desired level.';
+
+  @override
+  String get kararYakinTakipSecilimBaslik => 'Decide while monitoring';
+
+  @override
+  String get kararYakinTakipSecilimMesaj =>
+      'More data and observation are needed before making a judgment for this colony.';
+
+  @override
+  String get kararDestekRolBaslik => 'Evaluate this colony in a support role';
+
+  @override
+  String get kararDestekRolMesaj =>
+      'The most appropriate role for now appears to be support and regular monitoring. If it strengthens, it may come to the fore in production at the next evaluation.';
+
+  @override
+  String get kararDestekRolNedeni =>
+      'Not at the top of the donor pool, but not entirely negative either.';
+
+  @override
+  String get kararDestekRolSecilimBaslik => 'Support / production role';
+
+  @override
+  String get kararDestekRolSecilimMesaj =>
+      'This colony is valuable for support and continuity; does not appear prioritized as a donor.';
+
+  @override
+  String get kararKartDurum => 'Status';
+
+  @override
+  String get kararKartNeYap => 'Action';
+
+  @override
+  String get kararKartVeriGuveni => 'Data Confidence';
+
+  @override
+  String get kararKartZamanBaglami => 'Time Context';
+
+  @override
+  String get kararKartBiyolojikDurum => 'Biological Status';
+
+  @override
+  String get kararKartBiyolojikNot => 'Biological Note';
+
+  @override
+  String get kararKartSahadaOncelik => 'Field Priority';
+
+  @override
+  String get kararKartZamanBaglamiVarsayilan =>
+      'Decision is read according to current season and nectar flow calendar.';
+
+  @override
+  String get kararKartBiyolojikOncelik =>
+      'This colony requires priority inspection from a biological timing perspective.';
+
+  @override
+  String get veriGuveniYok => 'No data';
+
+  @override
+  String get veriGuveniCokSinirli => 'Data very limited';
+
+  @override
+  String get veriGuveniIzlenmeli => 'Data should be monitored';
+
+  @override
+  String get veriGuveniYeterli => 'Data confidence sufficient';
+
+  @override
+  String get veriGuveniNotYok =>
+      'Without records, system can only make limited interpretation based on identity and source information.';
+
+  @override
+  String get veriGuveniNotTek =>
+      'One inspection produces a decision but confidence is weak; should be read cautiously for donor and queen replacement decisions.';
+
+  @override
+  String get veriGuveniNotAz =>
+      '2–4 inspections is the monitoring band; decision exists but should be strengthened with subsequent records.';
+
+  @override
+  String get veriGuveniNotYeterli =>
+      'With 5 or more inspections, evaluation has entered the reliable band.';
+
+  @override
+  String get davranisNotuSaldirganEsnek =>
+      ' Behavior note has been recorded; however, no veto was applied as user setting is flexible.';
+
+  @override
+  String get davranisNotuSaldirgan => ' A behavior attention note is present.';
+
+  @override
+  String get davranisNotuSinirli =>
+      ' A mild behavior attention note is present.';
+
+  @override
+  String get kisYorumCokGuclu => 'Very strong exit';
+
+  @override
+  String get kisYorumGuclu => 'Strong exit';
+
+  @override
+  String get kisYorumOrta => 'Moderate exit';
+
+  @override
+  String get kisYorumZayif => 'Weak exit';
+
+  @override
+  String get kisYorumRiskli => 'Risky exit';
+
+  @override
+  String get biyoKabiliyetPetekOrmeBaslik => 'Biological Capability';
+
+  @override
+  String get biyoKabiliyetPetekOrmeMesaj =>
+      'Comb-building capacity appears strong. If giving raw comb, outward expansion without cutting the brood block is safer.';
+
+  @override
+  String get biyoGenisletmeRiskiBaslik => 'Expansion Risk';
+
+  @override
+  String get biyoGenisletmeRiskiMesaj =>
+      'Comb-building capacity appears limited. Drawn comb or tight arrangement is safer than raw comb.';
+
+  @override
+  String get biyoBalAkimiKapasitesiBaslik => 'Nectar Flow Capacity';
+
+  @override
+  String get biyoBalAkimiKapasitesiMesaj =>
+      'Forager and honey processing capacity appears strong. During nectar flow, area, super, and capping monitoring should be prioritized.';
+
+  @override
+  String get biyoBakiciDengesiBaslik => 'Nurse Balance';
+
+  @override
+  String get biyoBakiciDengesiMesaj =>
+      'Brood care capacity is good but comb building is limited. Drawn comb without disturbing brood area is safer than raw comb.';
+
+  @override
+  String get biyoKisGuvenligi => 'Winter Safety';
+
+  @override
+  String get biyoKisGuvenligiMesaj =>
+      'Winter resilience appears limited. Priority is stock safety and tight arrangement, not harvest or expansion.';
+
+  @override
+  String get biyoSahaNotu => 'Biological Field Note';
 }

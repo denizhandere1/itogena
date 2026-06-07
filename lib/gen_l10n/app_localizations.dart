@@ -8523,6 +8523,828 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Son kayıt: {tarih} / {yontem}.'**
   String varroaSonKayit(String tarih, String yontem);
+
+  /// No description provided for @kararPasifBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni aktif değil'**
+  String get kararPasifBaslik;
+
+  /// No description provided for @kararPasifMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif üretimde değerlendirme. Kayıt olarak tut, gerekiyorsa birleştirme planında düşün.'**
+  String get kararPasifMesaj;
+
+  /// No description provided for @kararPasifNedenAktifGorunmuyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni aktif görünmüyor.'**
+  String get kararPasifNedenAktifGorunmuyor;
+
+  /// No description provided for @kararPasifNedenSonmugGorunuyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son muayene verisinde koloni sönmüş görünüyor.'**
+  String get kararPasifNedenSonmugGorunuyor;
+
+  /// No description provided for @kararPasifNedenIsaretli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni durumu pasif olarak işaretli.'**
+  String get kararPasifNedenIsaretli;
+
+  /// No description provided for @kararPasifSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pasif kayıt'**
+  String get kararPasifSecilimBaslik;
+
+  /// No description provided for @kararPasifSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni aktif üretimde değildir. Soy ve geçmiş takibi için tutulur.'**
+  String get kararPasifSecilimMesaj;
+
+  /// No description provided for @kararVetoNedenDogrudanOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kökeni oğul olduğu için temiz donör havuzuna alınmadı.'**
+  String get kararVetoNedenDogrudanOgul;
+
+  /// No description provided for @kararVetoNedenKendisiOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kendi geçmişinde oğul attığı için temiz donör havuzuna alınmadı.'**
+  String get kararVetoNedenKendisiOgul;
+
+  /// No description provided for @kararVetoNedenAtaHatta.
+  ///
+  /// In tr, this message translates to:
+  /// **'Atasal hatta oğul izi taşıdığı için temiz donör havuzuna alınmadı.'**
+  String get kararVetoNedenAtaHatta;
+
+  /// No description provided for @kararVetoNedenGenel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temiz donör havuzuna alınmadı.'**
+  String get kararVetoNedenGenel;
+
+  /// No description provided for @kararVetoBolmeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik veto var; güvenli bölme veya üretim için kullan'**
+  String get kararVetoBolmeBaslik;
+
+  /// No description provided for @kararVetoBolmeMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretme. 9 çıta ve üstü güçte olduğu için bölme, kapalı yavru desteği veya üretim için değerlendirilebilir.'**
+  String get kararVetoBolmeMesaj;
+
+  /// No description provided for @kararVetoBolmeSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik veto / güçlü operasyonel kullanım'**
+  String get kararVetoBolmeSecilimBaslik;
+
+  /// No description provided for @kararVetoBolmeSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzunda değil. 9 çıta güvenli saha eşiğini geçtiği için yalnızca operasyonel bölme, destek ve üretim rolünde değerlendirilebilir.'**
+  String get kararVetoBolmeSecilimMesaj;
+
+  /// No description provided for @kararVetoUretimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik veto var; üretimde değerlendir'**
+  String get kararVetoUretimBaslik;
+
+  /// No description provided for @kararVetoUretimMesajRiskliBand.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretme. 6–8 çıta arası bölme için riskli kabul edilir; sistem bölme önermiyor. Önce güçlendir, üretim ve destek rolünde değerlendir.'**
+  String get kararVetoUretimMesajRiskliBand;
+
+  /// No description provided for @kararVetoUretimMesajGecGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretme. Koloni güçlü üreme gelişimi gösteriyor; ancak bal akımına yakın dönemde standart bölme üretim gücünü düşürebilir. Saha baskısı oluşursa kontrollü bölme ayrıca değerlendirilebilir.'**
+  String get kararVetoUretimMesajGecGuclu;
+
+  /// No description provided for @kararVetoUretimMesajGec.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretme. Koloni güçlü olabilir; ancak standart bölme için zaman geç kalmış görünüyor. Üretim gücünü koru.'**
+  String get kararVetoUretimMesajGec;
+
+  /// No description provided for @kararVetoUretimMesajOzelStrateji.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretme. Bal akımı içinde standart bölme önerilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.'**
+  String get kararVetoUretimMesajOzelStrateji;
+
+  /// No description provided for @kararVetoUretimMesajGenel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretme. Bal ve genel üretim odağında kullan. Donör değil ama çalışkan üretim kolonisi olarak değerlendirilebilir.'**
+  String get kararVetoUretimMesajGenel;
+
+  /// No description provided for @kararVetoUretimSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik veto / üretim kolonisi'**
+  String get kararVetoUretimSecilimBaslik;
+
+  /// No description provided for @kararVetoUretimSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temiz donör havuzunda değil. Buna rağmen üretim ve saha sürekliliği açısından kullanılabilir.'**
+  String get kararVetoUretimSecilimMesaj;
+
+  /// No description provided for @kararVetoDestekBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik veto var; destekleyerek kullan'**
+  String get kararVetoDestekBaslik;
+
+  /// No description provided for @kararVetoDestekMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul izi olduğundan ana üretiminde kullanma. Gelişimine göre destek kolonisi veya üretim kolonisi olarak kullanılabilir.'**
+  String get kararVetoDestekMesaj;
+
+  /// No description provided for @kararVetoDestekSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik veto / destek kullanımı'**
+  String get kararVetoDestekSecilimBaslik;
+
+  /// No description provided for @kararVetoDestekSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzunda değil. Güç durumuna göre destek veya üretim kolonisi olarak değerlendirilebilir.'**
+  String get kararVetoDestekSecilimMesaj;
+
+  /// No description provided for @kararVetoGuclenirBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik veto var; önce toparla ve izle'**
+  String get kararVetoGuclenirBaslik;
+
+  /// No description provided for @kararVetoGuclenirMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretme. Önce gücünü toparla. Besleme, destek ve yakın muayene ile gelişimine bak; sonra saha rolünü netleştir.'**
+  String get kararVetoGuclenirMesaj;
+
+  /// No description provided for @kararVetoGuclenirSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik veto / önce toparlanmalı'**
+  String get kararVetoGuclenirSecilimBaslik;
+
+  /// No description provided for @kararVetoGuclenirSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzunda değil. Önce güç kazanmalı; sonra yalnızca operasyonel rolü yeniden okunmalıdır.'**
+  String get kararVetoGuclenirSecilimMesaj;
+
+  /// No description provided for @kararDonor1Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni 1. donör adayı'**
+  String get kararDonor1Baslik;
+
+  /// No description provided for @kararDonor1MesajBase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretiminde öncelikli. Gücünü koru. Bölme veya başka kullanım kararını donör değerini bozmayacak şekilde düşün.'**
+  String get kararDonor1MesajBase;
+
+  /// No description provided for @kararDonor1NedeniBase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzundaki en güçlü koloni olarak öne çıkıyor. Donör skoru: {donorSkoru} / 100.'**
+  String kararDonor1NedeniBase(int donorSkoru);
+
+  /// No description provided for @kararDonor1SecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni 1. donör adayı'**
+  String get kararDonor1SecilimBaslik;
+
+  /// No description provided for @kararDonor1SecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni donör havuzunda ilk sırada yer alıyor ve ana üretimi için en güçlü aday kabul ediliyor.'**
+  String get kararDonor1SecilimMesaj;
+
+  /// No description provided for @kararDonor2Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni 2. donör adayı'**
+  String get kararDonor2Baslik;
+
+  /// No description provided for @kararDonor2MesajBase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretiminde güçlü bir alternatif olarak değerlendir. İlk tercihin uygun değilse buna yönel.'**
+  String get kararDonor2MesajBase;
+
+  /// No description provided for @kararDonor2NedeniBase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzunda üst sırada yer alıyor. Donör skoru: {donorSkoru} / 100.'**
+  String kararDonor2NedeniBase(int donorSkoru);
+
+  /// No description provided for @kararDonor2SecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni 2. donör adayı'**
+  String get kararDonor2SecilimBaslik;
+
+  /// No description provided for @kararDonor2SecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni donör havuzunda üst sırada yer alıyor ve ana üretimi için güçlü alternatif kabul ediliyor.'**
+  String get kararDonor2SecilimMesaj;
+
+  /// No description provided for @kararDonor3Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni 3. donör adayı'**
+  String get kararDonor3Baslik;
+
+  /// No description provided for @kararDonor3MesajBase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana üretiminde yedek güçlü aday olarak değerlendir. Üretimde de değerli kalabilir.'**
+  String get kararDonor3MesajBase;
+
+  /// No description provided for @kararDonor3NedeniBase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzunda ilk üç içinde yer alıyor. Donör skoru: {donorSkoru} / 100.'**
+  String kararDonor3NedeniBase(int donorSkoru);
+
+  /// No description provided for @kararDonor3SecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni 3. donör adayı'**
+  String get kararDonor3SecilimBaslik;
+
+  /// No description provided for @kararDonor3SecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni donör havuzunda ilk üç içinde yer alıyor ve ana üretimi için değerlendirilebilir.'**
+  String get kararDonor3SecilimMesaj;
+
+  /// No description provided for @kararSartliDonorBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni donör havuzunda, ama ilk sıralarda değil'**
+  String get kararSartliDonorBaslik;
+
+  /// No description provided for @kararSartliDonorMesajBase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretimde değerlendir. Gelişimi sürerse ileride donör alternatifi olarak yeniden bak.'**
+  String get kararSartliDonorMesajBase;
+
+  /// No description provided for @kararSartliDonorNedeniBase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzuna girmiş olsa da şu an ilk üçte değil. Donör skoru: {donorSkoru} / 100.'**
+  String kararSartliDonorNedeniBase(int donorSkoru);
+
+  /// No description provided for @kararSartliDonorSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzunda'**
+  String get kararSartliDonorSecilimBaslik;
+
+  /// No description provided for @kararSartliDonorSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni donör havuzuna girmiş durumda; ancak şu an ilk sıradaki adaylardan biri değil.'**
+  String get kararSartliDonorSecilimMesaj;
+
+  /// No description provided for @kararAnaDegisimZamanBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni için ana değişimi zamanı uygun'**
+  String get kararAnaDegisimZamanBaslik;
+
+  /// No description provided for @kararAnaDegisimPlanlaBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana değişimini sezon planına al'**
+  String get kararAnaDegisimPlanlaBaslik;
+
+  /// No description provided for @kararAnaDegisimZamanMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası pencere ana değişimi için uygundur. Üretimde kalacaksa genç ve güvenilir bir ana ile yenilemek doğru olabilir.'**
+  String get kararAnaDegisimZamanMesaj;
+
+  /// No description provided for @kararAnaDegisimPlanMesajBase.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana yaşı izlenmeli; ancak planlı ana değişimi için en güçlü pencere hasat sonrasıdır. Zorunlu sorun yoksa takvime al.'**
+  String get kararAnaDegisimPlanMesajBase;
+
+  /// No description provided for @kararAnaDegisimNedeni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana yaşı {anaYasi} yıl görünüyor. Ürün standardında 2 yaş ana değişimi için dikkat eşiğidir.'**
+  String kararAnaDegisimNedeni(int anaYasi);
+
+  /// No description provided for @kararAnaDegisimZamanSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana değişimi için uygun pencere'**
+  String get kararAnaDegisimZamanSecilimBaslik;
+
+  /// No description provided for @kararAnaDegisimPlanSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana değişimi planlanmalı'**
+  String get kararAnaDegisimPlanSecilimBaslik;
+
+  /// No description provided for @kararAnaDegisimSecilimMesajVarsayilan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni tamamen olumsuz değildir; ancak daha iyi verim için ana yenileme düşünülebilir.'**
+  String get kararAnaDegisimSecilimMesajVarsayilan;
+
+  /// No description provided for @kararBolmeUygunBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni bölme için uygun görünüyor'**
+  String get kararBolmeUygunBaslik;
+
+  /// No description provided for @kararBolmeUygunMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'9 çıta ve üstü güçte. Donör önceliğinde değilse güvenli bölme için değerlendirilebilir. Ana koloni en az 5 çıta kalmalı, yeni bölme en az 4 çıta başlamalı.'**
+  String get kararBolmeUygunMesaj;
+
+  /// No description provided for @kararBolmeUygunNedeni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni 9 çıta güvenli saha eşiğini karşılıyor, üretim sezonunda ve trend düşüşte değil.'**
+  String get kararBolmeUygunNedeni;
+
+  /// No description provided for @kararBolmeUygunSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme için uygun'**
+  String get kararBolmeUygunSecilimBaslik;
+
+  /// No description provided for @kararBolmeUygunSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'9 çıta güvenli saha eşiği karşılandığı için donör önceliğinde değilse bölme için değerlendirilebilir.'**
+  String get kararBolmeUygunSecilimMesaj;
+
+  /// No description provided for @kararBolmeRiskliBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme için güç sınırında'**
+  String get kararBolmeRiskliBaslik;
+
+  /// No description provided for @kararBolmeRiskliMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'6–8 çıta arası biyolojik olarak mümkün görünse de ITOGENA bölme önermiyor. Önce güçlendir, 9 çıta ve üstünde yeniden değerlendir.'**
+  String get kararBolmeRiskliMesaj;
+
+  /// No description provided for @kararBolmeRiskliNedeni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenli saha bölme eşiği 9 çıtadır. Daha düşük güçte hem ana koloni hem yeni bölme kaybedilebilir.'**
+  String get kararBolmeRiskliNedeni;
+
+  /// No description provided for @kararBolmeRiskliSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme önerilmez'**
+  String get kararBolmeRiskliSecilimBaslik;
+
+  /// No description provided for @kararBolmeRiskliSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni güçlenene kadar üretim, destek veya takip rolünde tutulmalıdır.'**
+  String get kararBolmeRiskliSecilimMesaj;
+
+  /// No description provided for @kararBolmeZamaniGecBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güç var; standart bölme zamanı zayıf'**
+  String get kararBolmeZamaniGecBaslik;
+
+  /// No description provided for @kararBolmeZamaniGecMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni 9 çıta eşiğini karşılıyor; ancak bal akımına 57 günden az kaldığı için standart bölme üretim gücünü düşürebilir. Bu dönemde koloni gücünü koru.'**
+  String get kararBolmeZamaniGecMesaj;
+
+  /// No description provided for @kararBolmeZamaniGecSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme yerine üretimde tut'**
+  String get kararBolmeZamaniGecSecilimBaslik;
+
+  /// No description provided for @kararBolmeZamaniGecSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaman penceresi nedeniyle bölme kararı güçlü görünmüyor; üretim gücü korunmalıdır.'**
+  String get kararBolmeZamaniGecSecilimMesaj;
+
+  /// No description provided for @kararBalAkimiOzelBolmeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımında standart bölme önerilmez'**
+  String get kararBalAkimiOzelBolmeBaslik;
+
+  /// No description provided for @kararBalAkimiOzelBolmeMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni güçlü; fakat bal akımı içinde standart bölme önerisi verilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.'**
+  String get kararBalAkimiOzelBolmeMesaj;
+
+  /// No description provided for @kararBalAkimiOzelBolmeSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Özel üretim stratejisi'**
+  String get kararBalAkimiOzelBolmeSecilimBaslik;
+
+  /// No description provided for @kararBalAkimiOzelBolmeSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu karar otomatik bölme önerisi değildir; arıcının hedeflediği üretim tekniğine bağlıdır.'**
+  String get kararBalAkimiOzelBolmeSecilimMesaj;
+
+  /// No description provided for @kararGucluKoloniBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü koloni; bölme zamanı değil'**
+  String get kararGucluKoloniBaslik;
+
+  /// No description provided for @kararGucluKoloniMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni güçlü görünüyor; ancak bu tarih aralığında standart bölme kararı ciddi görünmez. Gücü üretim, bakım veya sezon planında değerlendir.'**
+  String get kararGucluKoloniMesaj;
+
+  /// No description provided for @kararGucluKoloniSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretimde değerlendir'**
+  String get kararGucluKoloniSecilimBaslik;
+
+  /// No description provided for @kararGucluKoloniSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni gücü değerli; zaman penceresi uygun olduğunda bölme yeniden okunabilir.'**
+  String get kararGucluKoloniSecilimMesaj;
+
+  /// No description provided for @kararUretimdeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni üretimde değerlendirilebilir'**
+  String get kararUretimdeBaslik;
+
+  /// No description provided for @kararUretimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal ve genel üretim odağında kullan. Sezona göre destek veya üretim rolünde değerlendir.'**
+  String get kararUretimMesaj;
+
+  /// No description provided for @kararUretimNedeni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Performansı üretim için yeterli görünüyor.'**
+  String get kararUretimNedeni;
+
+  /// No description provided for @kararUretimSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretimde değerlendir'**
+  String get kararUretimSecilimBaslik;
+
+  /// No description provided for @kararUretimSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni üretim ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.'**
+  String get kararUretimSecilimMesaj;
+
+  /// No description provided for @kararVeriGuveniDusukBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar var; veri güveni düşük'**
+  String get kararVeriGuveniDusukBaslik;
+
+  /// No description provided for @kararVeriGuveniDusukMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut kayda göre rolü izleme ve güçlendirme tarafında. Tek muayene kesin hüküm için zayıftır; ikinci ve üçüncü kayıtla karar netleşir.'**
+  String get kararVeriGuveniDusukMesaj;
+
+  /// No description provided for @kararVeriGuveniDusukNedeni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem karar üretir, ancak muayene verisi etkili değerlendirme için henüz sınırlıdır.'**
+  String get kararVeriGuveniDusukNedeni;
+
+  /// No description provided for @kararVeriGuveniDusukSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri güveni düşük'**
+  String get kararVeriGuveniDusukSecilimBaslik;
+
+  /// No description provided for @kararVeriGuveniDusukSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör ya da üretim rolü tamamen kapatılmaz; ancak kararın güven düzeyi düşük olduğu açıkça izlenmelidir.'**
+  String get kararVeriGuveniDusukSecilimMesaj;
+
+  /// No description provided for @kararYakinTakipBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloniye yakından bakmak gerekir'**
+  String get kararYakinTakipBaslik;
+
+  /// No description provided for @kararYakinTakipMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Destek, besleme ve sık muayene ile gelişimi yeniden değerlendir.'**
+  String get kararYakinTakipMesaj;
+
+  /// No description provided for @kararYakinTakipNedeni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güç veya gidişat istenen seviyede görünmüyor.'**
+  String get kararYakinTakipNedeni;
+
+  /// No description provided for @kararYakinTakipSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'İzleyerek karar ver'**
+  String get kararYakinTakipSecilimBaslik;
+
+  /// No description provided for @kararYakinTakipSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni için hüküm vermeden önce biraz daha veri ve gözlem gerekir.'**
+  String get kararYakinTakipSecilimMesaj;
+
+  /// No description provided for @kararDestekRolBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloniyi destek rolünde değerlendir'**
+  String get kararDestekRolBaslik;
+
+  /// No description provided for @kararDestekRolMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şu an için en doğru rol destek ve düzenli takip görünüyor. Güçlenirse sonraki değerlendirmede üretimde daha öne çıkabilir.'**
+  String get kararDestekRolMesaj;
+
+  /// No description provided for @kararDestekRolNedeni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör havuzunda üst sırada değil, ama tamamen olumsuz da görünmüyor.'**
+  String get kararDestekRolNedeni;
+
+  /// No description provided for @kararDestekRolSecilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Destek / üretim rolü'**
+  String get kararDestekRolSecilimBaslik;
+
+  /// No description provided for @kararDestekRolSecilimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni destek ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.'**
+  String get kararDestekRolSecilimMesaj;
+
+  /// No description provided for @kararKartDurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Durum'**
+  String get kararKartDurum;
+
+  /// No description provided for @kararKartNeYap.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ne yap'**
+  String get kararKartNeYap;
+
+  /// No description provided for @kararKartVeriGuveni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri Güveni'**
+  String get kararKartVeriGuveni;
+
+  /// No description provided for @kararKartZamanBaglami.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaman Bağlamı'**
+  String get kararKartZamanBaglami;
+
+  /// No description provided for @kararKartBiyolojikDurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik Durum'**
+  String get kararKartBiyolojikDurum;
+
+  /// No description provided for @kararKartBiyolojikNot.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik Not'**
+  String get kararKartBiyolojikNot;
+
+  /// No description provided for @kararKartSahadaOncelik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sahada Öncelik'**
+  String get kararKartSahadaOncelik;
+
+  /// No description provided for @kararKartZamanBaglamiVarsayilan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar mevcut sezon ve bal akımı takvimine göre okunur.'**
+  String get kararKartZamanBaglamiVarsayilan;
+
+  /// No description provided for @kararKartBiyolojikOncelik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu koloni biyolojik zamanlama açısından öncelikli kontrol istemektedir.'**
+  String get kararKartBiyolojikOncelik;
+
+  /// No description provided for @veriGuveniYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri yok'**
+  String get veriGuveniYok;
+
+  /// No description provided for @veriGuveniCokSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri çok sınırlı'**
+  String get veriGuveniCokSinirli;
+
+  /// No description provided for @veriGuveniIzlenmeli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri izlenmeli'**
+  String get veriGuveniIzlenmeli;
+
+  /// No description provided for @veriGuveniYeterli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri güveni yeterli'**
+  String get veriGuveniYeterli;
+
+  /// No description provided for @veriGuveniNotYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt yoksa sistem yalnızca kimlik ve kaynak bilgisine göre sınırlı yorum yapabilir.'**
+  String get veriGuveniNotYok;
+
+  /// No description provided for @veriGuveniNotTek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tek muayene karar üretir ama güven zayıftır; donör ve ana değişim kararlarında temkinli okunmalıdır.'**
+  String get veriGuveniNotTek;
+
+  /// No description provided for @veriGuveniNotAz.
+  ///
+  /// In tr, this message translates to:
+  /// **'2–4 muayene izleme bandıdır; karar var ama sonraki kayıtlarla güçlenmelidir.'**
+  String get veriGuveniNotAz;
+
+  /// No description provided for @veriGuveniNotYeterli.
+  ///
+  /// In tr, this message translates to:
+  /// **'5 ve üzeri muayene ile değerlendirme güvenilir banda girmiştir.'**
+  String get veriGuveniNotYeterli;
+
+  /// No description provided for @davranisNotuSaldirganEsnek.
+  ///
+  /// In tr, this message translates to:
+  /// **' Davranış açısından not düşülmüş durumda; ancak kullanıcı ayarı esnek olduğu için veto uygulanmadı.'**
+  String get davranisNotuSaldirganEsnek;
+
+  /// No description provided for @davranisNotuSaldirgan.
+  ///
+  /// In tr, this message translates to:
+  /// **' Davranış açısından dikkat notu bulunuyor.'**
+  String get davranisNotuSaldirgan;
+
+  /// No description provided for @davranisNotuSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **' Davranış açısından hafif bir dikkat notu bulunuyor.'**
+  String get davranisNotuSinirli;
+
+  /// No description provided for @kisYorumCokGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok güçlü çıkış'**
+  String get kisYorumCokGuclu;
+
+  /// No description provided for @kisYorumGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü çıkış'**
+  String get kisYorumGuclu;
+
+  /// No description provided for @kisYorumOrta.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta çıkış'**
+  String get kisYorumOrta;
+
+  /// No description provided for @kisYorumZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf çıkış'**
+  String get kisYorumZayif;
+
+  /// No description provided for @kisYorumRiskli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Riskli çıkış'**
+  String get kisYorumRiskli;
+
+  /// No description provided for @biyoKabiliyetPetekOrmeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik Kabiliyet'**
+  String get biyoKabiliyetPetekOrmeBaslik;
+
+  /// No description provided for @biyoKabiliyetPetekOrmeMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Petek örme kapasitesi güçlü görünüyor. Ham petek verilecekse yavru bloğu kesilmeden dıştan genişletme daha güvenlidir.'**
+  String get biyoKabiliyetPetekOrmeMesaj;
+
+  /// No description provided for @biyoGenisletmeRiskiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genişletme Riski'**
+  String get biyoGenisletmeRiskiBaslik;
+
+  /// No description provided for @biyoGenisletmeRiskiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Petek örme kapasitesi sınırlı görünüyor. Ham petek yerine kabarmış petek veya sıkı düzen daha güvenlidir.'**
+  String get biyoGenisletmeRiskiMesaj;
+
+  /// No description provided for @biyoBalAkimiKapasitesiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal Akımı Kapasitesi'**
+  String get biyoBalAkimiKapasitesiBaslik;
+
+  /// No description provided for @biyoBalAkimiKapasitesiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarlacı ve bal işleme kapasitesi güçlü görünüyor. Bal akımı döneminde alan, kat ve sırlanma takibi öne alınmalı.'**
+  String get biyoBalAkimiKapasitesiMesaj;
+
+  /// No description provided for @biyoBakiciDengesiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bakıcı Dengesi'**
+  String get biyoBakiciDengesiBaslik;
+
+  /// No description provided for @biyoBakiciDengesiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru bakım kapasitesi iyi fakat petek örme sınırlı. Yavru alanını bozmayacak kabarmış petek, ham petekten daha güvenli olur.'**
+  String get biyoBakiciDengesiMesaj;
+
+  /// No description provided for @biyoKisGuvenligi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış Güvenliği'**
+  String get biyoKisGuvenligi;
+
+  /// No description provided for @biyoKisGuvenligiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış dayanımı sınırlı görünüyor. Öncelik hasat veya genişletme değil stok güvenliği ve sıkı düzendir.'**
+  String get biyoKisGuvenligiMesaj;
+
+  /// No description provided for @biyoSahaNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik Saha Notu'**
+  String get biyoSahaNotu;
 }
 
 class _AppLocalizationsDelegate

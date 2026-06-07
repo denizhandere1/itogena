@@ -1842,4 +1842,182 @@
       "yontem": { "type": "String" }
     }
   }
+,
+
+  "kararPasifBaslik": "Bu koloni aktif değil",
+  "kararPasifMesaj": "Aktif üretimde değerlendirme. Kayıt olarak tut, gerekiyorsa birleştirme planında düşün.",
+  "kararPasifNedenAktifGorunmuyor": "Koloni aktif görünmüyor.",
+  "kararPasifNedenSonmugGorunuyor": "Son muayene verisinde koloni sönmüş görünüyor.",
+  "kararPasifNedenIsaretli": "Koloni durumu pasif olarak işaretli.",
+  "kararPasifSecilimBaslik": "Pasif kayıt",
+  "kararPasifSecilimMesaj": "Bu koloni aktif üretimde değildir. Soy ve geçmiş takibi için tutulur.",
+
+  "kararVetoNedenDogrudanOgul": "Kökeni oğul olduğu için temiz donör havuzuna alınmadı.",
+  "kararVetoNedenKendisiOgul": "Kendi geçmişinde oğul attığı için temiz donör havuzuna alınmadı.",
+  "kararVetoNedenAtaHatta": "Atasal hatta oğul izi taşıdığı için temiz donör havuzuna alınmadı.",
+  "kararVetoNedenGenel": "Temiz donör havuzuna alınmadı.",
+
+  "kararVetoBolmeBaslik": "Genetik veto var; güvenli bölme veya üretim için kullan",
+  "kararVetoBolmeMesaj": "Ana üretme. 9 çıta ve üstü güçte olduğu için bölme, kapalı yavru desteği veya üretim için değerlendirilebilir.",
+  "kararVetoBolmeSecilimBaslik": "Genetik veto / güçlü operasyonel kullanım",
+  "kararVetoBolmeSecilimMesaj": "Donör havuzunda değil. 9 çıta güvenli saha eşiğini geçtiği için yalnızca operasyonel bölme, destek ve üretim rolünde değerlendirilebilir.",
+
+  "kararVetoUretimBaslik": "Genetik veto var; üretimde değerlendir",
+  "kararVetoUretimMesajRiskliBand": "Ana üretme. 6–8 çıta arası bölme için riskli kabul edilir; sistem bölme önermiyor. Önce güçlendir, üretim ve destek rolünde değerlendir.",
+  "kararVetoUretimMesajGecGuclu": "Ana üretme. Koloni güçlü üreme gelişimi gösteriyor; ancak bal akımına yakın dönemde standart bölme üretim gücünü düşürebilir. Saha baskısı oluşursa kontrollü bölme ayrıca değerlendirilebilir.",
+  "kararVetoUretimMesajGec": "Ana üretme. Koloni güçlü olabilir; ancak standart bölme için zaman geç kalmış görünüyor. Üretim gücünü koru.",
+  "kararVetoUretimMesajOzelStrateji": "Ana üretme. Bal akımı içinde standart bölme önerilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.",
+  "kararVetoUretimMesajGenel": "Ana üretme. Bal ve genel üretim odağında kullan. Donör değil ama çalışkan üretim kolonisi olarak değerlendirilebilir.",
+  "kararVetoUretimSecilimBaslik": "Genetik veto / üretim kolonisi",
+  "kararVetoUretimSecilimMesaj": "Temiz donör havuzunda değil. Buna rağmen üretim ve saha sürekliliği açısından kullanılabilir.",
+
+  "kararVetoDestekBaslik": "Genetik veto var; destekleyerek kullan",
+  "kararVetoDestekMesaj": "Oğul izi olduğundan ana üretiminde kullanma. Gelişimine göre destek kolonisi veya üretim kolonisi olarak kullanılabilir.",
+  "kararVetoDestekSecilimBaslik": "Genetik veto / destek kullanımı",
+  "kararVetoDestekSecilimMesaj": "Donör havuzunda değil. Güç durumuna göre destek veya üretim kolonisi olarak değerlendirilebilir.",
+
+  "kararVetoGuclenirBaslik": "Genetik veto var; önce toparla ve izle",
+  "kararVetoGuclenirMesaj": "Ana üretme. Önce gücünü toparla. Besleme, destek ve yakın muayene ile gelişimine bak; sonra saha rolünü netleştir.",
+  "kararVetoGuclenirSecilimBaslik": "Genetik veto / önce toparlanmalı",
+  "kararVetoGuclenirSecilimMesaj": "Donör havuzunda değil. Önce güç kazanmalı; sonra yalnızca operasyonel rolü yeniden okunmalıdır.",
+
+  "kararDonor1Baslik": "Bu koloni 1. donör adayı",
+  "kararDonor1MesajBase": "Ana üretiminde öncelikli. Gücünü koru. Bölme veya başka kullanım kararını donör değerini bozmayacak şekilde düşün.",
+  "kararDonor1NedeniBase": "Donör havuzundaki en güçlü koloni olarak öne çıkıyor. Donör skoru: {donorSkoru} / 100.",
+  "@kararDonor1NedeniBase": {
+    "placeholders": { "donorSkoru": { "type": "int" } }
+  },
+  "kararDonor1SecilimBaslik": "Bu koloni 1. donör adayı",
+  "kararDonor1SecilimMesaj": "Bu koloni donör havuzunda ilk sırada yer alıyor ve ana üretimi için en güçlü aday kabul ediliyor.",
+
+  "kararDonor2Baslik": "Bu koloni 2. donör adayı",
+  "kararDonor2MesajBase": "Ana üretiminde güçlü bir alternatif olarak değerlendir. İlk tercihin uygun değilse buna yönel.",
+  "kararDonor2NedeniBase": "Donör havuzunda üst sırada yer alıyor. Donör skoru: {donorSkoru} / 100.",
+  "@kararDonor2NedeniBase": {
+    "placeholders": { "donorSkoru": { "type": "int" } }
+  },
+  "kararDonor2SecilimBaslik": "Bu koloni 2. donör adayı",
+  "kararDonor2SecilimMesaj": "Bu koloni donör havuzunda üst sırada yer alıyor ve ana üretimi için güçlü alternatif kabul ediliyor.",
+
+  "kararDonor3Baslik": "Bu koloni 3. donör adayı",
+  "kararDonor3MesajBase": "Ana üretiminde yedek güçlü aday olarak değerlendir. Üretimde de değerli kalabilir.",
+  "kararDonor3NedeniBase": "Donör havuzunda ilk üç içinde yer alıyor. Donör skoru: {donorSkoru} / 100.",
+  "@kararDonor3NedeniBase": {
+    "placeholders": { "donorSkoru": { "type": "int" } }
+  },
+  "kararDonor3SecilimBaslik": "Bu koloni 3. donör adayı",
+  "kararDonor3SecilimMesaj": "Bu koloni donör havuzunda ilk üç içinde yer alıyor ve ana üretimi için değerlendirilebilir.",
+
+  "kararSartliDonorBaslik": "Bu koloni donör havuzunda, ama ilk sıralarda değil",
+  "kararSartliDonorMesajBase": "Üretimde değerlendir. Gelişimi sürerse ileride donör alternatifi olarak yeniden bak.",
+  "kararSartliDonorNedeniBase": "Donör havuzuna girmiş olsa da şu an ilk üçte değil. Donör skoru: {donorSkoru} / 100.",
+  "@kararSartliDonorNedeniBase": {
+    "placeholders": { "donorSkoru": { "type": "int" } }
+  },
+  "kararSartliDonorSecilimBaslik": "Donör havuzunda",
+  "kararSartliDonorSecilimMesaj": "Bu koloni donör havuzuna girmiş durumda; ancak şu an ilk sıradaki adaylardan biri değil.",
+
+  "kararAnaDegisimZamanBaslik": "Bu koloni için ana değişimi zamanı uygun",
+  "kararAnaDegisimPlanlaBaslik": "Ana değişimini sezon planına al",
+  "kararAnaDegisimZamanMesaj": "Hasat sonrası pencere ana değişimi için uygundur. Üretimde kalacaksa genç ve güvenilir bir ana ile yenilemek doğru olabilir.",
+  "kararAnaDegisimPlanMesajBase": "Ana yaşı izlenmeli; ancak planlı ana değişimi için en güçlü pencere hasat sonrasıdır. Zorunlu sorun yoksa takvime al.",
+  "kararAnaDegisimNedeni": "Ana yaşı {anaYasi} yıl görünüyor. Ürün standardında 2 yaş ana değişimi için dikkat eşiğidir.",
+  "@kararAnaDegisimNedeni": {
+    "placeholders": { "anaYasi": { "type": "int" } }
+  },
+  "kararAnaDegisimZamanSecilimBaslik": "Ana değişimi için uygun pencere",
+  "kararAnaDegisimPlanSecilimBaslik": "Ana değişimi planlanmalı",
+  "kararAnaDegisimSecilimMesajVarsayilan": "Koloni tamamen olumsuz değildir; ancak daha iyi verim için ana yenileme düşünülebilir.",
+
+  "kararBolmeUygunBaslik": "Bu koloni bölme için uygun görünüyor",
+  "kararBolmeUygunMesaj": "9 çıta ve üstü güçte. Donör önceliğinde değilse güvenli bölme için değerlendirilebilir. Ana koloni en az 5 çıta kalmalı, yeni bölme en az 4 çıta başlamalı.",
+  "kararBolmeUygunNedeni": "Koloni 9 çıta güvenli saha eşiğini karşılıyor, üretim sezonunda ve trend düşüşte değil.",
+  "kararBolmeUygunSecilimBaslik": "Bölme için uygun",
+  "kararBolmeUygunSecilimMesaj": "9 çıta güvenli saha eşiği karşılandığı için donör önceliğinde değilse bölme için değerlendirilebilir.",
+
+  "kararBolmeRiskliBaslik": "Bölme için güç sınırında",
+  "kararBolmeRiskliMesaj": "6–8 çıta arası biyolojik olarak mümkün görünse de ITOGENA bölme önermiyor. Önce güçlendir, 9 çıta ve üstünde yeniden değerlendir.",
+  "kararBolmeRiskliNedeni": "Güvenli saha bölme eşiği 9 çıtadır. Daha düşük güçte hem ana koloni hem yeni bölme kaybedilebilir.",
+  "kararBolmeRiskliSecilimBaslik": "Bölme önerilmez",
+  "kararBolmeRiskliSecilimMesaj": "Koloni güçlenene kadar üretim, destek veya takip rolünde tutulmalıdır.",
+
+  "kararBolmeZamaniGecBaslik": "Güç var; standart bölme zamanı zayıf",
+  "kararBolmeZamaniGecMesaj": "Koloni 9 çıta eşiğini karşılıyor; ancak bal akımına 57 günden az kaldığı için standart bölme üretim gücünü düşürebilir. Bu dönemde koloni gücünü koru.",
+  "kararBolmeZamaniGecSecilimBaslik": "Bölme yerine üretimde tut",
+  "kararBolmeZamaniGecSecilimMesaj": "Zaman penceresi nedeniyle bölme kararı güçlü görünmüyor; üretim gücü korunmalıdır.",
+
+  "kararBalAkimiOzelBolmeBaslik": "Bal akımında standart bölme önerilmez",
+  "kararBalAkimiOzelBolmeMesaj": "Koloni güçlü; fakat bal akımı içinde standart bölme önerisi verilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.",
+  "kararBalAkimiOzelBolmeSecilimBaslik": "Özel üretim stratejisi",
+  "kararBalAkimiOzelBolmeSecilimMesaj": "Bu karar otomatik bölme önerisi değildir; arıcının hedeflediği üretim tekniğine bağlıdır.",
+
+  "kararGucluKoloniBaslik": "Güçlü koloni; bölme zamanı değil",
+  "kararGucluKoloniMesaj": "Koloni güçlü görünüyor; ancak bu tarih aralığında standart bölme kararı ciddi görünmez. Gücü üretim, bakım veya sezon planında değerlendir.",
+  "kararGucluKoloniSecilimBaslik": "Üretimde değerlendir",
+  "kararGucluKoloniSecilimMesaj": "Koloni gücü değerli; zaman penceresi uygun olduğunda bölme yeniden okunabilir.",
+
+  "kararUretimdeBaslik": "Bu koloni üretimde değerlendirilebilir",
+  "kararUretimMesaj": "Bal ve genel üretim odağında kullan. Sezona göre destek veya üretim rolünde değerlendir.",
+  "kararUretimNedeni": "Performansı üretim için yeterli görünüyor.",
+  "kararUretimSecilimBaslik": "Üretimde değerlendir",
+  "kararUretimSecilimMesaj": "Bu koloni üretim ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.",
+
+  "kararVeriGuveniDusukBaslik": "Karar var; veri güveni düşük",
+  "kararVeriGuveniDusukMesaj": "Mevcut kayda göre rolü izleme ve güçlendirme tarafında. Tek muayene kesin hüküm için zayıftır; ikinci ve üçüncü kayıtla karar netleşir.",
+  "kararVeriGuveniDusukNedeni": "Sistem karar üretir, ancak muayene verisi etkili değerlendirme için henüz sınırlıdır.",
+  "kararVeriGuveniDusukSecilimBaslik": "Veri güveni düşük",
+  "kararVeriGuveniDusukSecilimMesaj": "Donör ya da üretim rolü tamamen kapatılmaz; ancak kararın güven düzeyi düşük olduğu açıkça izlenmelidir.",
+
+  "kararYakinTakipBaslik": "Bu koloniye yakından bakmak gerekir",
+  "kararYakinTakipMesaj": "Destek, besleme ve sık muayene ile gelişimi yeniden değerlendir.",
+  "kararYakinTakipNedeni": "Güç veya gidişat istenen seviyede görünmüyor.",
+  "kararYakinTakipSecilimBaslik": "İzleyerek karar ver",
+  "kararYakinTakipSecilimMesaj": "Bu koloni için hüküm vermeden önce biraz daha veri ve gözlem gerekir.",
+
+  "kararDestekRolBaslik": "Bu koloniyi destek rolünde değerlendir",
+  "kararDestekRolMesaj": "Şu an için en doğru rol destek ve düzenli takip görünüyor. Güçlenirse sonraki değerlendirmede üretimde daha öne çıkabilir.",
+  "kararDestekRolNedeni": "Donör havuzunda üst sırada değil, ama tamamen olumsuz da görünmüyor.",
+  "kararDestekRolSecilimBaslik": "Destek / üretim rolü",
+  "kararDestekRolSecilimMesaj": "Bu koloni destek ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.",
+
+  "kararKartDurum": "Durum",
+  "kararKartNeYap": "Ne yap",
+  "kararKartVeriGuveni": "Veri Güveni",
+  "kararKartZamanBaglami": "Zaman Bağlamı",
+  "kararKartBiyolojikDurum": "Biyolojik Durum",
+  "kararKartBiyolojikNot": "Biyolojik Not",
+  "kararKartSahadaOncelik": "Sahada Öncelik",
+  "kararKartZamanBaglamiVarsayilan": "Karar mevcut sezon ve bal akımı takvimine göre okunur.",
+  "kararKartBiyolojikOncelik": "Bu koloni biyolojik zamanlama açısından öncelikli kontrol istemektedir.",
+
+  "veriGuveniYok": "Veri yok",
+  "veriGuveniCokSinirli": "Veri çok sınırlı",
+  "veriGuveniIzlenmeli": "Veri izlenmeli",
+  "veriGuveniYeterli": "Veri güveni yeterli",
+  "veriGuveniNotYok": "Kayıt yoksa sistem yalnızca kimlik ve kaynak bilgisine göre sınırlı yorum yapabilir.",
+  "veriGuveniNotTek": "Tek muayene karar üretir ama güven zayıftır; donör ve ana değişim kararlarında temkinli okunmalıdır.",
+  "veriGuveniNotAz": "2–4 muayene izleme bandıdır; karar var ama sonraki kayıtlarla güçlenmelidir.",
+  "veriGuveniNotYeterli": "5 ve üzeri muayene ile değerlendirme güvenilir banda girmiştir.",
+
+  "davranisNotuSaldirganEsnek": " Davranış açısından not düşülmüş durumda; ancak kullanıcı ayarı esnek olduğu için veto uygulanmadı.",
+  "davranisNotuSaldirgan": " Davranış açısından dikkat notu bulunuyor.",
+  "davranisNotuSinirli": " Davranış açısından hafif bir dikkat notu bulunuyor.",
+
+  "kisYorumCokGuclu": "Çok güçlü çıkış",
+  "kisYorumGuclu": "Güçlü çıkış",
+  "kisYorumOrta": "Orta çıkış",
+  "kisYorumZayif": "Zayıf çıkış",
+  "kisYorumRiskli": "Riskli çıkış",
+
+  "biyoKabiliyetPetekOrmeBaslik": "Biyolojik Kabiliyet",
+  "biyoKabiliyetPetekOrmeMesaj": "Petek örme kapasitesi güçlü görünüyor. Ham petek verilecekse yavru bloğu kesilmeden dıştan genişletme daha güvenlidir.",
+  "biyoGenisletmeRiskiBaslik": "Genişletme Riski",
+  "biyoGenisletmeRiskiMesaj": "Petek örme kapasitesi sınırlı görünüyor. Ham petek yerine kabarmış petek veya sıkı düzen daha güvenlidir.",
+  "biyoBalAkimiKapasitesiBaslik": "Bal Akımı Kapasitesi",
+  "biyoBalAkimiKapasitesiMesaj": "Tarlacı ve bal işleme kapasitesi güçlü görünüyor. Bal akımı döneminde alan, kat ve sırlanma takibi öne alınmalı.",
+  "biyoBakiciDengesiBaslik": "Bakıcı Dengesi",
+  "biyoBakiciDengesiMesaj": "Yavru bakım kapasitesi iyi fakat petek örme sınırlı. Yavru alanını bozmayacak kabarmış petek, ham petekten daha güvenli olur.",
+  "biyoKisGuvenligi": "Kış Güvenliği",
+  "biyoKisGuvenligiMesaj": "Kış dayanımı sınırlı görünüyor. Öncelik hasat veya genişletme değil stok güvenliği ve sıkı düzendir.",
+  "biyoSahaNotu": "Biyolojik Saha Notu"
 }

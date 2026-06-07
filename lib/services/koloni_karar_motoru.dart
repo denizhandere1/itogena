@@ -1,3 +1,4 @@
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'trend_servisi.dart';
 import 'esik_servisi.dart';
 import 'veritabani_servisi.dart';
@@ -215,6 +216,7 @@ class KoloniKararMotoru {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
         bool donorAnaliziBekle = true,
+        AppLocalizations? l,
       }) async {
     final int? arilikId = _nullableInt(koloni['arilikId']);
     final List<Map<String, dynamic>> donorListesi = donorAnaliziBekle
@@ -255,6 +257,7 @@ class KoloniKararMotoru {
       profil: profil,
       donorListesi: donorListesi,
       donorSirasi: donorSirasi,
+      l: l,
     );
 
     _koloniKararCache[cacheKey] = sonuc;
@@ -267,6 +270,7 @@ class KoloniKararMotoru {
     required Map<String, dynamic> profil,
     required List<Map<String, dynamic>> donorListesi,
     required int donorSirasi,
+    AppLocalizations? l,
   }) async {
     final String kovanNo = (koloni['kovanNo'] ?? '-').toString();
 
@@ -349,8 +353,8 @@ class KoloniKararMotoru {
         uretimSezonu && bolmeZamaniBalAkiminda && sonCita >= bolmeCita;
     final bool anaDegisimZamaniUygun = anaDegisimPenceresi == 'uygun';
 
-    final String veriGuveniEtiketi = _veriGuveniEtiketi(muayeneSayisi);
-    final String veriGuveniNotu = _veriGuveniNotu(muayeneSayisi);
+    final String veriGuveniEtiketi = _veriGuveniEtiketi(muayeneSayisi, l: l);
+    final String veriGuveniNotu = _veriGuveniNotu(muayeneSayisi, l: l);
 
     late final String kararKodu;
     late final String kararBaslik;
@@ -364,325 +368,295 @@ class KoloniKararMotoru {
 
     if (!aktifMi) {
       kararKodu = 'PASIF_KAYIT';
-      kararBaslik = 'Bu koloni aktif değil';
-      kararMesaji =
-      'Aktif üretimde değerlendirme. Kayıt olarak tut, gerekiyorsa birleştirme planında düşün.';
+      kararBaslik = l?.kararPasifBaslik ?? 'Bu koloni aktif değil';
+      kararMesaji = l?.kararPasifMesaj ?? 'Aktif üretimde değerlendirme. Kayıt olarak tut, gerekiyorsa birleştirme planında düşün.';
       kararNedeni = aktifMi
-          ? 'Koloni aktif görünmüyor.'
+          ? (l?.kararPasifNedenAktifGorunmuyor ?? 'Koloni aktif görünmüyor.')
           : (kovanSondu
-          ? 'Son muayene verisinde koloni sönmüş görünüyor.'
-          : 'Koloni durumu pasif olarak işaretli.');
+          ? (l?.kararPasifNedenSonmugGorunuyor ?? 'Son muayene verisinde koloni sönmüş görünüyor.')
+          : (l?.kararPasifNedenIsaretli ?? 'Koloni durumu pasif olarak işaretli.'));
       kararTipi = 'negatif';
 
       secilimKodu = 'PASIF_KAYIT';
-      secilimBaslik = 'Pasif kayıt';
-      secilimMesaji =
-      'Bu koloni aktif üretimde değildir. Soy ve geçmiş takibi için tutulur.';
+      secilimBaslik = l?.kararPasifSecilimBaslik ?? 'Pasif kayıt';
+      secilimMesaji = l?.kararPasifSecilimMesaj ?? 'Bu koloni aktif üretimde değildir. Soy ve geçmiş takibi için tutulur.';
     } else if (donorVeto) {
       final String vetoNedeni;
       if (dogrudanOgulKokenli || kaynakTipiOgul) {
-        vetoNedeni = 'Kökeni oğul olduğu için temiz donör havuzuna alınmadı.';
+        vetoNedeni = l?.kararVetoNedenDogrudanOgul ?? 'Kökeni oğul olduğu için temiz donör havuzuna alınmadı.';
       } else if (kendisiOgulAtti) {
-        vetoNedeni =
-        'Kendi geçmişinde oğul attığı için temiz donör havuzuna alınmadı.';
+        vetoNedeni = l?.kararVetoNedenKendisiOgul ?? 'Kendi geçmişinde oğul attığı için temiz donör havuzuna alınmadı.';
       } else if (ataHattaOgulAtti) {
-        vetoNedeni =
-        'Atasal hatta oğul izi taşıdığı için temiz donör havuzuna alınmadı.';
+        vetoNedeni = l?.kararVetoNedenAtaHatta ?? 'Atasal hatta oğul izi taşıdığı için temiz donör havuzuna alınmadı.';
       } else {
-        vetoNedeni = 'Temiz donör havuzuna alınmadı.';
+        vetoNedeni = l?.kararVetoNedenGenel ?? 'Temiz donör havuzuna alınmadı.';
       }
 
       if (bolmeIcinUygun) {
         kararKodu = 'BOLME_ICIN_UYGUN';
-        kararBaslik = 'Genetik veto var; güvenli bölme veya üretim için kullan';
-        kararMesaji =
-        'Ana üretme. 9 çıta ve üstü güçte olduğu için bölme, kapalı yavru desteği veya üretim için değerlendirilebilir.';
+        kararBaslik = l?.kararVetoBolmeBaslik ?? 'Genetik veto var; güvenli bölme veya üretim için kullan';
+        kararMesaji = l?.kararVetoBolmeMesaj ?? 'Ana üretme. 9 çıta ve üstü güçte olduğu için bölme, kapalı yavru desteği veya üretim için değerlendirilebilir.';
         kararNedeni = vetoNedeni;
         kararTipi = 'uyari';
 
         secilimKodu = 'OPERASYONEL_KULLAN';
-        secilimBaslik = 'Genetik veto / güçlü operasyonel kullanım';
-        secilimMesaji =
-        'Donör havuzunda değil. 9 çıta güvenli saha eşiğini geçtiği için yalnızca operasyonel bölme, destek ve üretim rolünde değerlendirilebilir.';
+        secilimBaslik = l?.kararVetoBolmeSecilimBaslik ?? 'Genetik veto / güçlü operasyonel kullanım';
+        secilimMesaji = l?.kararVetoBolmeSecilimMesaj ?? 'Donör havuzunda değil. 9 çıta güvenli saha eşiğini geçtiği için yalnızca operasyonel bölme, destek ve üretim rolünde değerlendirilebilir.';
       } else if (skor >= uretimMinSkor ||
           balCita > 0 ||
           bolmeRiskliBand ||
           bolmeGecKaldi ||
           bolmeOzelStratejiNotu) {
         kararKodu = 'URETIMDE_DEGERLENDIR';
-        kararBaslik = 'Genetik veto var; üretimde değerlendir';
-        kararMesaji = bolmeRiskliBand
-            ? 'Ana üretme. 6–8 çıta arası bölme için riskli kabul edilir; sistem bölme önermiyor. Önce güçlendir, üretim ve destek rolünde değerlendir.'
+        kararBaslik = l?.kararVetoUretimBaslik ?? 'Genetik veto var; üretimde değerlendir';
+        final String mesajBase = bolmeRiskliBand
+            ? (l?.kararVetoUretimMesajRiskliBand ?? 'Ana üretme. 6–8 çıta arası bölme için riskli kabul edilir; sistem bölme önermiyor. Önce güçlendir, üretim ve destek rolünde değerlendir.')
             : (bolmeGecKaldi
             ? (gucluMomentum
-                ? 'Ana üretme. Koloni güçlü üreme gelişimi gösteriyor; ancak bal akımına yakın dönemde standart bölme üretim gücünü düşürebilir. Saha baskısı oluşursa kontrollü bölme ayrıca değerlendirilebilir. $bolmePencereMesaji'
-                : 'Ana üretme. Koloni güçlü olabilir; ancak standart bölme için zaman geç kalmış görünüyor. Üretim gücünü koru. $bolmePencereMesaji')
+                ? (l?.kararVetoUretimMesajGecGuclu ?? 'Ana üretme. Koloni güçlü üreme gelişimi gösteriyor; ancak bal akımına yakın dönemde standart bölme üretim gücünü düşürebilir. Saha baskısı oluşursa kontrollü bölme ayrıca değerlendirilebilir.')
+                : (l?.kararVetoUretimMesajGec ?? 'Ana üretme. Koloni güçlü olabilir; ancak standart bölme için zaman geç kalmış görünüyor. Üretim gücünü koru.'))
             : (bolmeOzelStratejiNotu
-            ? 'Ana üretme. Bal akımı içinde standart bölme önerilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.'
-            : 'Ana üretme. Bal ve genel üretim odağında kullan. Donör değil ama çalışkan üretim kolonisi olarak değerlendirilebilir.'));
+            ? (l?.kararVetoUretimMesajOzelStrateji ?? 'Ana üretme. Bal akımı içinde standart bölme önerilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.')
+            : (l?.kararVetoUretimMesajGenel ?? 'Ana üretme. Bal ve genel üretim odağında kullan. Donör değil ama çalışkan üretim kolonisi olarak değerlendirilebilir.')));
+        kararMesaji = (bolmeGecKaldi && bolmePencereMesaji.isNotEmpty) ? '$mesajBase $bolmePencereMesaji' : mesajBase;
         kararNedeni = vetoNedeni;
         kararTipi = 'uyari';
 
         secilimKodu = 'OPERASYONEL_KULLAN';
-        secilimBaslik = 'Genetik veto / üretim kolonisi';
-        secilimMesaji =
-        'Temiz donör havuzunda değil. Buna rağmen üretim ve saha sürekliliği açısından kullanılabilir.';
+        secilimBaslik = l?.kararVetoUretimSecilimBaslik ?? 'Genetik veto / üretim kolonisi';
+        secilimMesaji = l?.kararVetoUretimSecilimMesaj ?? 'Temiz donör havuzunda değil. Buna rağmen üretim ve saha sürekliliği açısından kullanılabilir.';
       } else if (skor >= mudahaleMinSkor) {
         kararKodu = 'DESTEK_KOLONISI';
-        kararBaslik = 'Genetik veto var; destekleyerek kullan';
-        kararMesaji =
-        'Oğul izi olduğundan ana üretiminde kullanma. Gelişimine göre destek kolonisi veya üretim kolonisi olarak kullanılabilir.';
+        kararBaslik = l?.kararVetoDestekBaslik ?? 'Genetik veto var; destekleyerek kullan';
+        kararMesaji = l?.kararVetoDestekMesaj ?? 'Oğul izi olduğundan ana üretiminde kullanma. Gelişimine göre destek kolonisi veya üretim kolonisi olarak kullanılabilir.';
         kararNedeni = vetoNedeni;
         kararTipi = 'uyari';
 
         secilimKodu = 'OPERASYONEL_KULLAN';
-        secilimBaslik = 'Genetik veto / destek kullanımı';
-        secilimMesaji =
-        'Donör havuzunda değil. Güç durumuna göre destek veya üretim kolonisi olarak değerlendirilebilir.';
+        secilimBaslik = l?.kararVetoDestekSecilimBaslik ?? 'Genetik veto / destek kullanımı';
+        secilimMesaji = l?.kararVetoDestekSecilimMesaj ?? 'Donör havuzunda değil. Güç durumuna göre destek veya üretim kolonisi olarak değerlendirilebilir.';
       } else {
         kararKodu = 'GUCLENDIR_VE_IZLE';
-        kararBaslik = 'Genetik veto var; önce toparla ve izle';
-        kararMesaji =
-        'Ana üretme. Önce gücünü toparla. Besleme, destek ve yakın muayene ile gelişimine bak; sonra saha rolünü netleştir.';
+        kararBaslik = l?.kararVetoGuclenirBaslik ?? 'Genetik veto var; önce toparla ve izle';
+        kararMesaji = l?.kararVetoGuclenirMesaj ?? 'Ana üretme. Önce gücünü toparla. Besleme, destek ve yakın muayene ile gelişimine bak; sonra saha rolünü netleştir.';
         kararNedeni = vetoNedeni;
         kararTipi = 'negatif';
 
         secilimKodu = 'OPERASYONEL_KULLAN';
-        secilimBaslik = 'Genetik veto / önce toparlanmalı';
-        secilimMesaji =
-        'Donör havuzunda değil. Önce güç kazanmalı; sonra yalnızca operasyonel rolü yeniden okunmalıdır.';
+        secilimBaslik = l?.kararVetoGuclenirSecilimBaslik ?? 'Genetik veto / önce toparlanmalı';
+        secilimMesaji = l?.kararVetoGuclenirSecilimMesaj ?? 'Donör havuzunda değil. Önce güç kazanmalı; sonra yalnızca operasyonel rolü yeniden okunmalıdır.';
       }
     } else if (donorSirasi == 1) {
       final String davranisNotu = _davranisNotuMetni(
         mizac: mizac,
         davranisToleransi: davranisToleransi,
+        l: l,
       );
 
       kararKodu = 'DONOR_1';
-      kararBaslik = 'Bu koloni 1. donör adayı';
-      kararMesaji =
-      'Ana üretiminde öncelikli. Gücünü koru. Bölme veya başka kullanım kararını donör değerini bozmayacak şekilde düşün. $veriGuveniNotu';
-      kararNedeni =
-      'Donör havuzundaki en güçlü koloni olarak öne çıkıyor. Donör skoru: $donorSkoru / 100.$davranisNotu';
+      kararBaslik = l?.kararDonor1Baslik ?? 'Bu koloni 1. donör adayı';
+      kararMesaji = '${l?.kararDonor1MesajBase ?? 'Ana üretiminde öncelikli. Gücünü koru. Bölme veya başka kullanım kararını donör değerini bozmayacak şekilde düşün.'} $veriGuveniNotu';
+      kararNedeni = '${l != null ? l.kararDonor1NedeniBase(donorSkoru) : 'Donör havuzundaki en güçlü koloni olarak öne çıkıyor. Donör skoru: $donorSkoru / 100.'}$davranisNotu';
       kararTipi = 'pozitif';
 
       secilimKodu = 'DAMIZLIK_ADAYI';
-      secilimBaslik = 'Bu koloni 1. donör adayı';
-      secilimMesaji =
-      'Bu koloni donör havuzunda ilk sırada yer alıyor ve ana üretimi için en güçlü aday kabul ediliyor.';
+      secilimBaslik = l?.kararDonor1SecilimBaslik ?? 'Bu koloni 1. donör adayı';
+      secilimMesaji = l?.kararDonor1SecilimMesaj ?? 'Bu koloni donör havuzunda ilk sırada yer alıyor ve ana üretimi için en güçlü aday kabul ediliyor.';
     } else if (donorSirasi == 2) {
       final String davranisNotu = _davranisNotuMetni(
         mizac: mizac,
         davranisToleransi: davranisToleransi,
+        l: l,
       );
 
       kararKodu = 'DONOR_2';
-      kararBaslik = 'Bu koloni 2. donör adayı';
-      kararMesaji =
-      'Ana üretiminde güçlü bir alternatif olarak değerlendir. İlk tercihin uygun değilse buna yönel. $veriGuveniNotu';
-      kararNedeni =
-      'Donör havuzunda üst sırada yer alıyor. Donör skoru: $donorSkoru / 100.$davranisNotu';
+      kararBaslik = l?.kararDonor2Baslik ?? 'Bu koloni 2. donör adayı';
+      kararMesaji = '${l?.kararDonor2MesajBase ?? 'Ana üretiminde güçlü bir alternatif olarak değerlendir. İlk tercihin uygun değilse buna yönel.'} $veriGuveniNotu';
+      kararNedeni = '${l != null ? l.kararDonor2NedeniBase(donorSkoru) : 'Donör havuzunda üst sırada yer alıyor. Donör skoru: $donorSkoru / 100.'}$davranisNotu';
       kararTipi = 'pozitif';
 
       secilimKodu = 'DAMIZLIK_ADAYI';
-      secilimBaslik = 'Bu koloni 2. donör adayı';
-      secilimMesaji =
-      'Bu koloni donör havuzunda üst sırada yer alıyor ve ana üretimi için güçlü alternatif kabul ediliyor.';
+      secilimBaslik = l?.kararDonor2SecilimBaslik ?? 'Bu koloni 2. donör adayı';
+      secilimMesaji = l?.kararDonor2SecilimMesaj ?? 'Bu koloni donör havuzunda üst sırada yer alıyor ve ana üretimi için güçlü alternatif kabul ediliyor.';
     } else if (donorSirasi == 3) {
       final String davranisNotu = _davranisNotuMetni(
         mizac: mizac,
         davranisToleransi: davranisToleransi,
+        l: l,
       );
 
       kararKodu = 'DONOR_3';
-      kararBaslik = 'Bu koloni 3. donör adayı';
-      kararMesaji =
-      'Ana üretiminde yedek güçlü aday olarak değerlendir. Üretimde de değerli kalabilir. $veriGuveniNotu';
-      kararNedeni =
-      'Donör havuzunda ilk üç içinde yer alıyor. Donör skoru: $donorSkoru / 100.$davranisNotu';
+      kararBaslik = l?.kararDonor3Baslik ?? 'Bu koloni 3. donör adayı';
+      kararMesaji = '${l?.kararDonor3MesajBase ?? 'Ana üretiminde yedek güçlü aday olarak değerlendir. Üretimde de değerli kalabilir.'} $veriGuveniNotu';
+      kararNedeni = '${l != null ? l.kararDonor3NedeniBase(donorSkoru) : 'Donör havuzunda ilk üç içinde yer alıyor. Donör skoru: $donorSkoru / 100.'}$davranisNotu';
       kararTipi = 'pozitif';
 
       secilimKodu = 'DAMIZLIK_ADAYI';
-      secilimBaslik = 'Bu koloni 3. donör adayı';
-      secilimMesaji =
-      'Bu koloni donör havuzunda ilk üç içinde yer alıyor ve ana üretimi için değerlendirilebilir.';
+      secilimBaslik = l?.kararDonor3SecilimBaslik ?? 'Bu koloni 3. donör adayı';
+      secilimMesaji = l?.kararDonor3SecilimMesaj ?? 'Bu koloni donör havuzunda ilk üç içinde yer alıyor ve ana üretimi için değerlendirilebilir.';
     } else if (donorHavuzuBoyutu > 0 && donorSkoru >= 60) {
       final String davranisNotu = _davranisNotuMetni(
         mizac: mizac,
         davranisToleransi: davranisToleransi,
+        l: l,
       );
 
       kararKodu = 'SARTLI_DONOR';
-      kararBaslik = 'Bu koloni donör havuzunda, ama ilk sıralarda değil';
-      kararMesaji =
-      'Üretimde değerlendir. Gelişimi sürerse ileride donör alternatifi olarak yeniden bak. $veriGuveniNotu';
-      kararNedeni =
-      'Donör havuzuna girmiş olsa da şu an ilk üçte değil. Donör skoru: $donorSkoru / 100.$davranisNotu';
+      kararBaslik = l?.kararSartliDonorBaslik ?? 'Bu koloni donör havuzunda, ama ilk sıralarda değil';
+      kararMesaji = '${l?.kararSartliDonorMesajBase ?? 'Üretimde değerlendir. Gelişimi sürerse ileride donör alternatifi olarak yeniden bak.'} $veriGuveniNotu';
+      kararNedeni = '${l != null ? l.kararSartliDonorNedeniBase(donorSkoru) : 'Donör havuzuna girmiş olsa da şu an ilk üçte değil. Donör skoru: $donorSkoru / 100.'}$davranisNotu';
       kararTipi = 'notr';
 
       secilimKodu = 'SARTLI_DAMIZLIK';
-      secilimBaslik = 'Donör havuzunda';
-      secilimMesaji =
-      'Bu koloni donör havuzuna girmiş durumda; ancak şu an ilk sıradaki adaylardan biri değil.';
+      secilimBaslik = l?.kararSartliDonorSecilimBaslik ?? 'Donör havuzunda';
+      secilimMesaji = l?.kararSartliDonorSecilimMesaj ?? 'Bu koloni donör havuzuna girmiş durumda; ancak şu an ilk sıradaki adaylardan biri değil.';
     } else if (anaYasi >= anaDegisimYasi &&
         (skor < uretimMinSkor || anaDegisimZamaniUygun)) {
       kararKodu = 'ANA_DEGISIM_DUSUN';
       kararBaslik = anaDegisimZamaniUygun
-          ? 'Bu koloni için ana değişimi zamanı uygun'
-          : 'Ana değişimini sezon planına al';
-      kararMesaji = anaDegisimZamaniUygun
-          ? 'Hasat sonrası pencere ana değişimi için uygundur. Üretimde kalacaksa genç ve güvenilir bir ana ile yenilemek doğru olabilir.'
-          : 'Ana yaşı izlenmeli; ancak planlı ana değişimi için en güçlü pencere hasat sonrasıdır. Zorunlu sorun yoksa takvime al. $anaDegisimPencereMesaji';
-      kararNedeni =
-      'Ana yaşı $anaYasi yıl görünüyor. Ürün standardında 2 yaş ana değişimi için dikkat eşiğidir.';
+          ? (l?.kararAnaDegisimZamanBaslik ?? 'Bu koloni için ana değişimi zamanı uygun')
+          : (l?.kararAnaDegisimPlanlaBaslik ?? 'Ana değişimini sezon planına al');
+      final String anaDegisimMesajBase = anaDegisimZamaniUygun
+          ? (l?.kararAnaDegisimZamanMesaj ?? 'Hasat sonrası pencere ana değişimi için uygundur. Üretimde kalacaksa genç ve güvenilir bir ana ile yenilemek doğru olabilir.')
+          : (l?.kararAnaDegisimPlanMesajBase ?? 'Ana yaşı izlenmeli; ancak planlı ana değişimi için en güçlü pencere hasat sonrasıdır. Zorunlu sorun yoksa takvime al.');
+      kararMesaji = (!anaDegisimZamaniUygun && anaDegisimPencereMesaji.isNotEmpty)
+          ? '$anaDegisimMesajBase $anaDegisimPencereMesaji'
+          : anaDegisimMesajBase;
+      kararNedeni = l != null ? l.kararAnaDegisimNedeni(anaYasi) : 'Ana yaşı $anaYasi yıl görünüyor. Ürün standardında 2 yaş ana değişimi için dikkat eşiğidir.';
       kararTipi = 'uyari';
 
       secilimKodu = 'ANA_DEGISIM';
       secilimBaslik = anaDegisimZamaniUygun
-          ? 'Ana değişimi için uygun pencere'
-          : 'Ana değişimi planlanmalı';
+          ? (l?.kararAnaDegisimZamanSecilimBaslik ?? 'Ana değişimi için uygun pencere')
+          : (l?.kararAnaDegisimPlanSecilimBaslik ?? 'Ana değişimi planlanmalı');
       secilimMesaji = anaDegisimPencereMesaji.isNotEmpty
           ? anaDegisimPencereMesaji
-          : 'Koloni tamamen olumsuz değildir; ancak daha iyi verim için ana yenileme düşünülebilir.';
+          : (l?.kararAnaDegisimSecilimMesajVarsayilan ?? 'Koloni tamamen olumsuz değildir; ancak daha iyi verim için ana yenileme düşünülebilir.');
     } else if (bolmeIcinUygun) {
       kararKodu = 'BOLME_ICIN_UYGUN';
-      kararBaslik = 'Bu koloni bölme için uygun görünüyor';
-      kararMesaji =
-      '9 çıta ve üstü güçte. Donör önceliğinde değilse güvenli bölme için değerlendirilebilir. Ana koloni en az 5 çıta kalmalı, yeni bölme en az 4 çıta başlamalı.';
-      kararNedeni = 'Koloni 9 çıta güvenli saha eşiğini karşılıyor, üretim sezonunda ve trend düşüşte değil.';
+      kararBaslik = l?.kararBolmeUygunBaslik ?? 'Bu koloni bölme için uygun görünüyor';
+      kararMesaji = l?.kararBolmeUygunMesaj ?? '9 çıta ve üstü güçte. Donör önceliğinde değilse güvenli bölme için değerlendirilebilir. Ana koloni en az 5 çıta kalmalı, yeni bölme en az 4 çıta başlamalı.';
+      kararNedeni = l?.kararBolmeUygunNedeni ?? 'Koloni 9 çıta güvenli saha eşiğini karşılıyor, üretim sezonunda ve trend düşüşte değil.';
       kararTipi = 'pozitif';
 
       secilimKodu = 'BOLME_ADAYI';
-      secilimBaslik = 'Bölme için uygun';
-      secilimMesaji =
-      '9 çıta güvenli saha eşiği karşılandığı için donör önceliğinde değilse bölme için değerlendirilebilir.';
+      secilimBaslik = l?.kararBolmeUygunSecilimBaslik ?? 'Bölme için uygun';
+      secilimMesaji = l?.kararBolmeUygunSecilimMesaj ?? '9 çıta güvenli saha eşiği karşılandığı için donör önceliğinde değilse bölme için değerlendirilebilir.';
     } else if (bolmeRiskliBand) {
       kararKodu = 'BOLME_RISKLI';
-      kararBaslik = 'Bölme için güç sınırında';
-      kararMesaji =
-      '6–8 çıta arası biyolojik olarak mümkün görünse de ITOGENA bölme önermiyor. Önce güçlendir, 9 çıta ve üstünde yeniden değerlendir.';
-      kararNedeni = 'Güvenli saha bölme eşiği 9 çıtadır. Daha düşük güçte hem ana koloni hem yeni bölme kaybedilebilir.';
+      kararBaslik = l?.kararBolmeRiskliBaslik ?? 'Bölme için güç sınırında';
+      kararMesaji = l?.kararBolmeRiskliMesaj ?? '6–8 çıta arası biyolojik olarak mümkün görünse de ITOGENA bölme önermiyor. Önce güçlendir, 9 çıta ve üstünde yeniden değerlendir.';
+      kararNedeni = l?.kararBolmeRiskliNedeni ?? 'Güvenli saha bölme eşiği 9 çıtadır. Daha düşük güçte hem ana koloni hem yeni bölme kaybedilebilir.';
       kararTipi = 'uyari';
 
       secilimKodu = 'BOLME_ONERILMEZ';
-      secilimBaslik = 'Bölme önerilmez';
-      secilimMesaji =
-      'Koloni güçlenene kadar üretim, destek veya takip rolünde tutulmalıdır.';
+      secilimBaslik = l?.kararBolmeRiskliSecilimBaslik ?? 'Bölme önerilmez';
+      secilimMesaji = l?.kararBolmeRiskliSecilimMesaj ?? 'Koloni güçlenene kadar üretim, destek veya takip rolünde tutulmalıdır.';
     } else if (bolmeGecKaldi && sonCita >= bolmeCita) {
       kararKodu = 'BOLME_ZAMANI_GECTI';
-      kararBaslik = 'Güç var; standart bölme zamanı zayıf';
-      kararMesaji =
-      'Koloni 9 çıta eşiğini karşılıyor; ancak bal akımına 57 günden az kaldığı için standart bölme üretim gücünü düşürebilir. Bu dönemde koloni gücünü koru.';
+      kararBaslik = l?.kararBolmeZamaniGecBaslik ?? 'Güç var; standart bölme zamanı zayıf';
+      kararMesaji = l?.kararBolmeZamaniGecMesaj ?? 'Koloni 9 çıta eşiğini karşılıyor; ancak bal akımına 57 günden az kaldığı için standart bölme üretim gücünü düşürebilir. Bu dönemde koloni gücünü koru.';
       kararNedeni = bolmePencereMesaji;
       kararTipi = 'uyari';
 
       secilimKodu = 'URETIMDE_TUT';
-      secilimBaslik = 'Bölme yerine üretimde tut';
-      secilimMesaji =
-      'Zaman penceresi nedeniyle bölme kararı güçlü görünmüyor; üretim gücü korunmalıdır.';
+      secilimBaslik = l?.kararBolmeZamaniGecSecilimBaslik ?? 'Bölme yerine üretimde tut';
+      secilimMesaji = l?.kararBolmeZamaniGecSecilimMesaj ?? 'Zaman penceresi nedeniyle bölme kararı güçlü görünmüyor; üretim gücü korunmalıdır.';
     } else if (bolmeOzelStratejiNotu) {
       kararKodu = 'BAL_AKIMI_OZEL_BOLME';
-      kararBaslik = 'Bal akımında standart bölme önerilmez';
-      kararMesaji =
-      'Koloni güçlü; fakat bal akımı içinde standart bölme önerisi verilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.';
+      kararBaslik = l?.kararBalAkimiOzelBolmeBaslik ?? 'Bal akımında standart bölme önerilmez';
+      kararMesaji = l?.kararBalAkimiOzelBolmeMesaj ?? 'Koloni güçlü; fakat bal akımı içinde standart bölme önerisi verilmez. Yalnızca bilinçli üretim stratejisi olarak yavru azaltma bölmesi ayrıca değerlendirilebilir.';
       kararNedeni = bolmePencereMesaji;
       kararTipi = 'notr';
 
       secilimKodu = 'URETIM_STRATEJISI';
-      secilimBaslik = 'Özel üretim stratejisi';
-      secilimMesaji =
-      'Bu karar otomatik bölme önerisi değildir; arıcının hedeflediği üretim tekniğine bağlıdır.';
+      secilimBaslik = l?.kararBalAkimiOzelBolmeSecilimBaslik ?? 'Özel üretim stratejisi';
+      secilimMesaji = l?.kararBalAkimiOzelBolmeSecilimMesaj ?? 'Bu karar otomatik bölme önerisi değildir; arıcının hedeflediği üretim tekniğine bağlıdır.';
     } else if (bolmeZamaniKapali && sonCita >= bolmeCita) {
       kararKodu = 'URETIMDE_DEGERLENDIR';
-      kararBaslik = 'Güçlü koloni; bölme zamanı değil';
-      kararMesaji =
-      'Koloni güçlü görünüyor; ancak bu tarih aralığında standart bölme kararı ciddi görünmez. Gücü üretim, bakım veya sezon planında değerlendir.';
+      kararBaslik = l?.kararGucluKoloniBaslik ?? 'Güçlü koloni; bölme zamanı değil';
+      kararMesaji = l?.kararGucluKoloniMesaj ?? 'Koloni güçlü görünüyor; ancak bu tarih aralığında standart bölme kararı ciddi görünmez. Gücü üretim, bakım veya sezon planında değerlendir.';
       kararNedeni = bolmePencereMesaji;
       kararTipi = 'notr';
 
       secilimKodu = 'SADIK_URETICI';
-      secilimBaslik = 'Üretimde değerlendir';
-      secilimMesaji =
-      'Koloni gücü değerli; zaman penceresi uygun olduğunda bölme yeniden okunabilir.';
+      secilimBaslik = l?.kararGucluKoloniSecilimBaslik ?? 'Üretimde değerlendir';
+      secilimMesaji = l?.kararGucluKoloniSecilimMesaj ?? 'Koloni gücü değerli; zaman penceresi uygun olduğunda bölme yeniden okunabilir.';
     } else if (skor >= uretimMinSkor || balCita > 0) {
       kararKodu = 'URETIMDE_DEGERLENDIR';
-      kararBaslik = 'Bu koloni üretimde değerlendirilebilir';
-      kararMesaji =
-      'Bal ve genel üretim odağında kullan. Sezona göre destek veya üretim rolünde değerlendir.';
-      kararNedeni = 'Performansı üretim için yeterli görünüyor.';
+      kararBaslik = l?.kararUretimdeBaslik ?? 'Bu koloni üretimde değerlendirilebilir';
+      kararMesaji = l?.kararUretimMesaj ?? 'Bal ve genel üretim odağında kullan. Sezona göre destek veya üretim rolünde değerlendir.';
+      kararNedeni = l?.kararUretimNedeni ?? 'Performansı üretim için yeterli görünüyor.';
       kararTipi = 'notr';
 
       secilimKodu = 'SADIK_URETICI';
-      secilimBaslik = 'Üretimde değerlendir';
-      secilimMesaji =
-      'Bu koloni üretim ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.';
+      secilimBaslik = l?.kararUretimSecilimBaslik ?? 'Üretimde değerlendir';
+      secilimMesaji = l?.kararUretimSecilimMesaj ?? 'Bu koloni üretim ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.';
     } else if (muayeneSayisi <= 1) {
       kararKodu = 'VERI_GUVENI_DUSUK';
-      kararBaslik = 'Karar var; veri güveni düşük';
-      kararMesaji =
-      'Mevcut kayda göre rolü izleme ve güçlendirme tarafında. Tek muayene kesin hüküm için zayıftır; ikinci ve üçüncü kayıtla karar netleşir.';
-      kararNedeni = 'Sistem karar üretir, ancak muayene verisi etkili değerlendirme için henüz sınırlıdır.';
+      kararBaslik = l?.kararVeriGuveniDusukBaslik ?? 'Karar var; veri güveni düşük';
+      kararMesaji = l?.kararVeriGuveniDusukMesaj ?? 'Mevcut kayda göre rolü izleme ve güçlendirme tarafında. Tek muayene kesin hüküm için zayıftır; ikinci ve üçüncü kayıtla karar netleşir.';
+      kararNedeni = l?.kararVeriGuveniDusukNedeni ?? 'Sistem karar üretir, ancak muayene verisi etkili değerlendirme için henüz sınırlıdır.';
       kararTipi = 'notr';
 
       secilimKodu = 'VERI_GUVENI_DUSUK';
-      secilimBaslik = 'Veri güveni düşük';
-      secilimMesaji =
-      'Donör ya da üretim rolü tamamen kapatılmaz; ancak kararın güven düzeyi düşük olduğu açıkça izlenmelidir.';
+      secilimBaslik = l?.kararVeriGuveniDusukSecilimBaslik ?? 'Veri güveni düşük';
+      secilimMesaji = l?.kararVeriGuveniDusukSecilimMesaj ?? 'Donör ya da üretim rolü tamamen kapatılmaz; ancak kararın güven düzeyi düşük olduğu açıkça izlenmelidir.';
     } else if (skor < mudahaleMinSkor ||
         sonCita <= destekCita ||
         trend == 'Düşüş') {
       kararKodu = 'GUCLENDIR_VE_IZLE';
-      kararBaslik = 'Bu koloniye yakından bakmak gerekir';
-      kararMesaji =
-      'Destek, besleme ve sık muayene ile gelişimi yeniden değerlendir.';
-      kararNedeni = 'Güç veya gidişat istenen seviyede görünmüyor.';
+      kararBaslik = l?.kararYakinTakipBaslik ?? 'Bu koloniye yakından bakmak gerekir';
+      kararMesaji = l?.kararYakinTakipMesaj ?? 'Destek, besleme ve sık muayene ile gelişimi yeniden değerlendir.';
+      kararNedeni = l?.kararYakinTakipNedeni ?? 'Güç veya gidişat istenen seviyede görünmüyor.';
       kararTipi = 'uyari';
 
       secilimKodu = 'IZLE';
-      secilimBaslik = 'İzleyerek karar ver';
-      secilimMesaji =
-      'Bu koloni için hüküm vermeden önce biraz daha veri ve gözlem gerekir.';
+      secilimBaslik = l?.kararYakinTakipSecilimBaslik ?? 'İzleyerek karar ver';
+      secilimMesaji = l?.kararYakinTakipSecilimMesaj ?? 'Bu koloni için hüküm vermeden önce biraz daha veri ve gözlem gerekir.';
     } else {
       kararKodu = 'DESTEK_KOLONISI';
-      kararBaslik = 'Bu koloniyi destek rolünde değerlendir';
-      kararMesaji =
-      'Şu an için en doğru rol destek ve düzenli takip görünüyor. Güçlenirse sonraki değerlendirmede üretimde daha öne çıkabilir.';
-      kararNedeni =
-      'Donör havuzunda üst sırada değil, ama tamamen olumsuz da görünmüyor.';
+      kararBaslik = l?.kararDestekRolBaslik ?? 'Bu koloniyi destek rolünde değerlendir';
+      kararMesaji = l?.kararDestekRolMesaj ?? 'Şu an için en doğru rol destek ve düzenli takip görünüyor. Güçlenirse sonraki değerlendirmede üretimde daha öne çıkabilir.';
+      kararNedeni = l?.kararDestekRolNedeni ?? 'Donör havuzunda üst sırada değil, ama tamamen olumsuz da görünmüyor.';
       kararTipi = 'notr';
 
       secilimKodu = 'SADIK_URETICI';
-      secilimBaslik = 'Destek / üretim rolü';
-      secilimMesaji =
-      'Bu koloni destek ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.';
+      secilimBaslik = l?.kararDestekRolSecilimBaslik ?? 'Destek / üretim rolü';
+      secilimMesaji = l?.kararDestekRolSecilimMesaj ?? 'Bu koloni destek ve süreklilik açısından değerlidir; donör önceliğinde görünmüyor.';
     }
 
     final List<Map<String, String>> aksiyonKartlari = [
       {
-        'baslik': 'Durum',
+        'baslik': l?.kararKartDurum ?? 'Durum',
+        'rol': 'durum',
         'mesaj': secilimBaslik,
         'tip': kararTipi,
       },
       {
-        'baslik': 'Ne yap',
+        'baslik': l?.kararKartNeYap ?? 'Ne yap',
+        'rol': 'ne_yap',
         'mesaj': kararMesaji,
         'tip': 'notr',
       },
       {
-        'baslik': 'Neden',
+        'baslik': l?.kararNeden ?? 'Neden',
+        'rol': 'neden',
         'mesaj': kararNedeni,
         'tip': 'notr',
       },
       {
-        'baslik': 'Veri Güveni',
+        'baslik': l?.kararKartVeriGuveni ?? 'Veri Güveni',
+        'rol': 'veri_guveni',
         'mesaj': '$veriGuveniEtiketi. $veriGuveniNotu',
         'tip': muayeneSayisi >= 5 ? 'pozitif' : 'uyari',
       },
       {
-        'baslik': 'Zaman Bağlamı',
+        'baslik': l?.kararKartZamanBaglami ?? 'Zaman Bağlamı',
+        'rol': 'zaman_baglami',
         'mesaj': bolmePencereMesaji.isNotEmpty
             ? bolmePencereMesaji
-            : 'Karar mevcut sezon ve bal akımı takvimine göre okunur.',
+            : (l?.kararKartZamanBaglamiVarsayilan ?? 'Karar mevcut sezon ve bal akımı takvimine göre okunur.'),
         'tip': bolmeZamaniUygun ? 'pozitif' : 'notr',
       },
     ];
@@ -696,20 +670,23 @@ class KoloniKararMotoru {
       }
 
       aksiyonKartlari.add({
-        'baslik': 'Biyolojik Durum',
+        'baslik': l?.kararKartBiyolojikDurum ?? 'Biyolojik Durum',
+        'rol': 'biyolojik_durum',
         'mesaj': biyoloji.baslik,
         'tip': biyolojiTip,
       });
       aksiyonKartlari.add({
-        'baslik': 'Biyolojik Not',
+        'baslik': l?.kararKartBiyolojikNot ?? 'Biyolojik Not',
+        'rol': 'biyolojik_not',
         'mesaj': biyoloji.mesaj,
         'tip': 'notr',
       });
 
       if (biyoloji.zamanKritik || biyoloji.mudahaleGerekli) {
         aksiyonKartlari.add({
-          'baslik': 'Sahada Öncelik',
-          'mesaj': 'Bu koloni biyolojik zamanlama açısından öncelikli kontrol istemektedir.',
+          'baslik': l?.kararKartSahadaOncelik ?? 'Sahada Öncelik',
+          'rol': 'sahada_oncelik',
+          'mesaj': l?.kararKartBiyolojikOncelik ?? 'Bu koloni biyolojik zamanlama açısından öncelikli kontrol istemektedir.',
           'tip': 'uyari',
         });
       }
@@ -725,6 +702,7 @@ class KoloniKararMotoru {
       balIslemePuani: balIslemePuani,
       kisDayanimPuani: kisDayanimPuani,
       temelSahaOnerisi: temelSahaOnerisi,
+      l: l,
     ));
 
     return KoloniKararSonucu(
@@ -772,6 +750,7 @@ class KoloniKararMotoru {
     required int balIslemePuani,
     required int kisDayanimPuani,
     required String temelSahaOnerisi,
+    AppLocalizations? l,
   }) {
     if (kritikBiyolojiAktif) return const <Map<String, String>>[];
 
@@ -794,45 +773,45 @@ class KoloniKararMotoru {
 
     if (uretimSezonu && sonCita >= 5 && petekOrmePuani >= 75) {
       ekle(
-        baslik: 'Biyolojik Kabiliyet',
-        mesaj: 'Petek örme kapasitesi güçlü görünüyor. Ham petek verilecekse yavru bloğu kesilmeden dıştan genişletme daha güvenlidir.',
+        baslik: l?.biyoKabiliyetPetekOrmeBaslik ?? 'Biyolojik Kabiliyet',
+        mesaj: l?.biyoKabiliyetPetekOrmeMesaj ?? 'Petek örme kapasitesi güçlü görünüyor. Ham petek verilecekse yavru bloğu kesilmeden dıştan genişletme daha güvenlidir.',
         tip: 'pozitif',
       );
     } else if (sonCita >= 6 && petekOrmePuani > 0 && petekOrmePuani < 55) {
       ekle(
-        baslik: 'Genişletme Riski',
-        mesaj: 'Petek örme kapasitesi sınırlı görünüyor. Ham petek yerine kabarmış petek veya sıkı düzen daha güvenlidir.',
+        baslik: l?.biyoGenisletmeRiskiBaslik ?? 'Genişletme Riski',
+        mesaj: l?.biyoGenisletmeRiskiMesaj ?? 'Petek örme kapasitesi sınırlı görünüyor. Ham petek yerine kabarmış petek veya sıkı düzen daha güvenlidir.',
         tip: 'uyari',
       );
     }
 
     if (uretimSezonu && nektarToplamaPuani >= 75 && balIslemePuani >= 65) {
       ekle(
-        baslik: 'Bal Akımı Kapasitesi',
-        mesaj: 'Tarlacı ve bal işleme kapasitesi güçlü görünüyor. Bal akımı döneminde alan, kat ve sırlanma takibi öne alınmalı.',
+        baslik: l?.biyoBalAkimiKapasitesiBaslik ?? 'Bal Akımı Kapasitesi',
+        mesaj: l?.biyoBalAkimiKapasitesiMesaj ?? 'Tarlacı ve bal işleme kapasitesi güçlü görünüyor. Bal akımı döneminde alan, kat ve sırlanma takibi öne alınmalı.',
         tip: 'pozitif',
       );
     }
 
     if (yavruBakimPuani >= 70 && petekOrmePuani > 0 && petekOrmePuani < 55) {
       ekle(
-        baslik: 'Bakıcı Dengesi',
-        mesaj: 'Yavru bakım kapasitesi iyi fakat petek örme sınırlı. Yavru alanını bozmayacak kabarmış petek, ham petekten daha güvenli olur.',
+        baslik: l?.biyoBakiciDengesiBaslik ?? 'Bakıcı Dengesi',
+        mesaj: l?.biyoBakiciDengesiMesaj ?? 'Yavru bakım kapasitesi iyi fakat petek örme sınırlı. Yavru alanını bozmayacak kabarmış petek, ham petekten daha güvenli olur.',
         tip: 'uyari',
       );
     }
 
     if (sezonKodu != 'uretim' && kisDayanimPuani > 0 && kisDayanimPuani < 50) {
       ekle(
-        baslik: 'Kış Güvenliği',
-        mesaj: 'Kış dayanımı sınırlı görünüyor. Öncelik hasat veya genişletme değil stok güvenliği ve sıkı düzendir.',
+        baslik: l?.biyoKisGuvenligi ?? 'Kış Güvenliği',
+        mesaj: l?.biyoKisGuvenligiMesaj ?? 'Kış dayanımı sınırlı görünüyor. Öncelik hasat veya genişletme değil stok güvenliği ve sıkı düzendir.',
         tip: 'uyari',
       );
     }
 
     if (kartlar.isEmpty && temelSahaOnerisi.isNotEmpty) {
       ekle(
-        baslik: 'Biyolojik Saha Notu',
+        baslik: l?.biyoSahaNotu ?? 'Biyolojik Saha Notu',
         mesaj: temelSahaOnerisi,
         tip: 'notr',
       );
@@ -1160,14 +1139,16 @@ class KoloniKararMotoru {
   }
 
   static Future<Map<String, dynamic>> _kisCikisBilgisiHesapla(
-      List<Map<String, dynamic>> muayeneler,
-      ) async {
+      List<Map<String, dynamic>> muayeneler, {
+      AppLocalizations? l,
+      }) async {
+    final String veriYetersizMesaj = l?.perfKisCikisVeriYetersiz ?? 'Kış çıkış verisi yetersiz.';
     if (muayeneler.isEmpty) {
       return {
         'kisCikisPuani': null,
         'kisCikisOrani': null,
         'kisCikisVeriYeterliMi': false,
-        'kisCikisYorum': 'Kış çıkış verisi yetersiz.',
+        'kisCikisYorum': veriYetersizMesaj,
         'kisGirisReferansTarih': null,
         'kisGirisReferansCita': null,
         'kisSonuReferansTarih': null,
@@ -1207,7 +1188,7 @@ class KoloniKararMotoru {
         'kisCikisPuani': null,
         'kisCikisOrani': null,
         'kisCikisVeriYeterliMi': false,
-        'kisCikisYorum': 'Kış çıkış verisi yetersiz.',
+        'kisCikisYorum': veriYetersizMesaj,
         'kisGirisReferansTarih': null,
         'kisGirisReferansCita': null,
         'kisSonuReferansTarih': null,
@@ -1247,7 +1228,7 @@ class KoloniKararMotoru {
 
       final double oran = cikisCita / girisCita;
       final int puan = _kisCikisPuaniVer(oran);
-      final String yorum = _kisCikisYorumuVer(oran);
+      final String yorum = _kisCikisYorumuVer(oran, l: l);
 
       return {
         'kisCikisPuani': puan,
@@ -1265,7 +1246,7 @@ class KoloniKararMotoru {
       'kisCikisPuani': null,
       'kisCikisOrani': null,
       'kisCikisVeriYeterliMi': false,
-      'kisCikisYorum': 'Kış çıkış verisi yetersiz.',
+      'kisCikisYorum': veriYetersizMesaj,
       'kisGirisReferansTarih': null,
       'kisGirisReferansCita': null,
       'kisSonuReferansTarih': null,
@@ -1330,12 +1311,12 @@ class KoloniKararMotoru {
     return 0;
   }
 
-  static String _kisCikisYorumuVer(double oran) {
-    if (oran >= 0.85) return 'Çok güçlü çıkış';
-    if (oran >= 0.70) return 'Güçlü çıkış';
-    if (oran >= 0.55) return 'Orta çıkış';
-    if (oran >= 0.40) return 'Zayıf çıkış';
-    return 'Riskli çıkış';
+  static String _kisCikisYorumuVer(double oran, {AppLocalizations? l}) {
+    if (oran >= 0.85) return l?.kisYorumCokGuclu ?? 'Çok güçlü çıkış';
+    if (oran >= 0.70) return l?.kisYorumGuclu ?? 'Güçlü çıkış';
+    if (oran >= 0.55) return l?.kisYorumOrta ?? 'Orta çıkış';
+    if (oran >= 0.40) return l?.kisYorumZayif ?? 'Zayıf çıkış';
+    return l?.kisYorumRiskli ?? 'Riskli çıkış';
   }
 
   static int _mmDdSirasi(String mmDd) {
@@ -1510,40 +1491,41 @@ class KoloniKararMotoru {
     return 0;
   }
 
-  static String _veriGuveniEtiketi(int muayeneSayisi) {
-    if (muayeneSayisi <= 0) return 'Veri yok';
-    if (muayeneSayisi == 1) return 'Veri çok sınırlı';
-    if (muayeneSayisi <= 4) return 'Veri izlenmeli';
-    return 'Veri güveni yeterli';
+  static String _veriGuveniEtiketi(int muayeneSayisi, {AppLocalizations? l}) {
+    if (muayeneSayisi <= 0) return l?.veriGuveniYok ?? 'Veri yok';
+    if (muayeneSayisi == 1) return l?.veriGuveniCokSinirli ?? 'Veri çok sınırlı';
+    if (muayeneSayisi <= 4) return l?.veriGuveniIzlenmeli ?? 'Veri izlenmeli';
+    return l?.veriGuveniYeterli ?? 'Veri güveni yeterli';
   }
 
-  static String _veriGuveniNotu(int muayeneSayisi) {
+  static String _veriGuveniNotu(int muayeneSayisi, {AppLocalizations? l}) {
     if (muayeneSayisi <= 0) {
-      return 'Kayıt yoksa sistem yalnızca kimlik ve kaynak bilgisine göre sınırlı yorum yapabilir.';
+      return l?.veriGuveniNotYok ?? 'Kayıt yoksa sistem yalnızca kimlik ve kaynak bilgisine göre sınırlı yorum yapabilir.';
     }
     if (muayeneSayisi == 1) {
-      return 'Tek muayene karar üretir ama güven zayıftır; donör ve ana değişim kararlarında temkinli okunmalıdır.';
+      return l?.veriGuveniNotTek ?? 'Tek muayene karar üretir ama güven zayıftır; donör ve ana değişim kararlarında temkinli okunmalıdır.';
     }
     if (muayeneSayisi <= 4) {
-      return '2–4 muayene izleme bandıdır; karar var ama sonraki kayıtlarla güçlenmelidir.';
+      return l?.veriGuveniNotAz ?? '2–4 muayene izleme bandıdır; karar var ama sonraki kayıtlarla güçlenmelidir.';
     }
-    return '5 ve üzeri muayene ile değerlendirme güvenilir banda girmiştir.';
+    return l?.veriGuveniNotYeterli ?? '5 ve üzeri muayene ile değerlendirme güvenilir banda girmiştir.';
   }
 
   static String _davranisNotuMetni({
     required String mizac,
     required String davranisToleransi,
+    AppLocalizations? l,
   }) {
     final m = mizac.toLowerCase().trim();
 
     if (m.contains('saldırgan') || m.contains('saldirgan')) {
       return davranisToleransi == 'esnek'
-          ? ' Davranış açısından not düşülmüş durumda; ancak kullanıcı ayarı esnek olduğu için veto uygulanmadı.'
-          : ' Davranış açısından dikkat notu bulunuyor.';
+          ? (l?.davranisNotuSaldirganEsnek ?? ' Davranış açısından not düşülmüş durumda; ancak kullanıcı ayarı esnek olduğu için veto uygulanmadı.')
+          : (l?.davranisNotuSaldirgan ?? ' Davranış açısından dikkat notu bulunuyor.');
     }
 
     if (m.contains('sinirli')) {
-      return ' Davranış açısından hafif bir dikkat notu bulunuyor.';
+      return l?.davranisNotuSinirli ?? ' Davranış açısından hafif bir dikkat notu bulunuyor.';
     }
 
     return '';

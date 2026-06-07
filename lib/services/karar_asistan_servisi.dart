@@ -377,12 +377,12 @@ class KararAsistanServisi {
     }
 
     for (final kart in sonuc.aksiyonKartlari) {
-      final baslik = _metin(kart['baslik'], '');
+      final rol = _metin(kart['rol'], '');
       final mesaj = _metin(kart['mesaj'], '');
       if (mesaj.isEmpty) continue;
-      if (baslik == 'Ne yap') {
+      if (rol == 'ne_yap') {
         ekle(oneriler, mesaj);
-      } else if (baslik == 'Sahada Öncelik' || baslik == 'Biyolojik Not') {
+      } else if (rol == 'sahada_oncelik' || rol == 'biyolojik_not') {
         ekle(oneriler, mesaj);
       }
     }
