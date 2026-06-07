@@ -102,6 +102,7 @@ class _FormullerHesaplamalarSayfasiState
   }
 
   Widget _surupSekmesi() {
+    final l = AppLocalizations.of(context);
     final hedefSurup = _parseDouble(_toplamKgController, 10);
 
     final bool birBir = _surupOrani == '1:1';
@@ -117,15 +118,14 @@ class _FormullerHesaplamalarSayfasiState
         children: [
           _ustBilgiKarti(
             icon: Icons.water_drop_outlined,
-            baslik: 'Şurup Formülü',
-            aciklama:
-            'Hedef şerbet miktarını kg olarak girersen sistem kg su ve kg şeker verir. Sahada aynı ölçü kabını kullanıyorsan 1:1 veya 2:1 oranı aynı mantıkla korunur.',
+            baslik: l.fHesapSurupFormulBaslik,
+            aciklama: l.fHesapSurupFormulAciklama,
           ),
           const SizedBox(height: 14),
-          _bolumBaslik('Şurup Oranı'),
-          const Text(
-            '1:1 genelde teşvik şurubu, 2:1 genelde stok / kış hazırlığı için kullanılır. Bu ekran zorunlu uygulama emri değil, oran hesabı yardımcısıdır.',
-            style: TextStyle(
+          _bolumBaslik(l.fHesapSurupOraniBolum),
+          Text(
+            l.fHesapSurupOraniAciklama,
+            style: const TextStyle(
               fontSize: 12,
               color: Colors.black54,
               height: 1.4,
@@ -141,25 +141,23 @@ class _FormullerHesaplamalarSayfasiState
             ],
           ),
           const SizedBox(height: 18),
-          _bolumBaslik('Hedef Şerbet'),
+          _bolumBaslik(l.fHesapSurupHedefBolum),
           _sayiAlani(
             controller: _toplamKgController,
-            etiket: 'Hedef şerbet miktarı',
-            yardim:
-            'Örnek: 10 kg hedef şerbet için gerekli kg su ve kg şeker hesaplanır.',
+            etiket: l.fHesapSurupHedefEtiket,
+            yardim: l.fHesapSurupHedefYardim,
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 18),
           _sonucKarti(
-            baslik: '$_surupOrani Şurup Sonucu',
+            baslik: '$_surupOrani ${l.fHesapSurupSonucSuffix}',
             satirlar: [
-              _SonucSatiri('Hedef Şerbet', '${hedefSurup.toStringAsFixed(2)} kg'),
-              _SonucSatiri('Şeker', '${sekerMiktari.toStringAsFixed(2)} kg'),
-              _SonucSatiri('Su', '${suMiktari.toStringAsFixed(2)} kg'),
-              _SonucSatiri('Saha Katsayısı', katsayi.toStringAsFixed(2)),
+              _SonucSatiri(l.fHesapSurupHedefBolum, '${hedefSurup.toStringAsFixed(2)} kg'),
+              _SonucSatiri(l.fHesapSurupSekerSatir, '${sekerMiktari.toStringAsFixed(2)} kg'),
+              _SonucSatiri(l.fHesapSurupSuSatir, '${suMiktari.toStringAsFixed(2)} kg'),
+              _SonucSatiri(l.fHesapSurupKatsayiSatir, katsayi.toStringAsFixed(2)),
             ],
-            notMetni:
-            'Kg hesabı hedef şerbet ağırlığı içindir. Hacimsel kapla çalışıyorsan aynı kapla oran kur; 1:1 için eşit kap, 2:1 için iki kap şeker bir kap su mantığı korunur.',
+            notMetni: l.fHesapSurupNot,
             renk: Colors.indigo,
           ),
         ],
@@ -168,6 +166,7 @@ class _FormullerHesaplamalarSayfasiState
   }
 
   Widget _oksalikSekmesi() {
+    final l = AppLocalizations.of(context);
     return SafeArea(
       top: false,
       child: ListView(
@@ -175,33 +174,30 @@ class _FormullerHesaplamalarSayfasiState
         children: [
           _ustBilgiKarti(
             icon: Icons.science_outlined,
-            baslik: 'Oksalik Asit Yardımcı Hesabı',
-            aciklama:
-            'Bu ekran yalnızca hesaplama yardımcısıdır. Uygulama kararı için ruhsatlı ürün etiketi, yerel mevzuat ve veteriner/teknik danışman talimatı esas alınır.',
+            baslik: l.fHesapOksalikBaslik,
+            aciklama: l.fHesapOksalikAciklama,
           ),
           const SizedBox(height: 18),
           _standartFormulKarti(
-            baslik: '10–15 Kovan İçin Standart Formül',
-            satirlar: const [
-              _SonucSatiri('Şeker', '100 g'),
-              _SonucSatiri('Su', '500 g'),
-              _SonucSatiri('Toz oksalik asit', '20 g'),
-              _SonucSatiri('Uygulama şekli', 'Damlatma'),
+            baslik: l.fHesapOksalikFormulBaslik,
+            satirlar: [
+              _SonucSatiri(l.fHesapSurupSekerSatir, '100 g'),
+              _SonucSatiri(l.fHesapSurupSuSatir, '500 g'),
+              _SonucSatiri(l.fHesapOksalikTozAsitSatir, '20 g'),
+              _SonucSatiri(l.fHesapOksalikUygulamaSatir, l.fHesapOksalikUygulamaDegeri),
             ],
           ),
           const SizedBox(height: 16),
           _uyariKutusu(
             renk: Colors.brown,
-            baslik: 'Uygulama Notu',
-            metin:
-            'Oksalik uygulaması genelde yavrusuz / yavru çok az dönemde daha anlamlıdır. Sıcaklık, doz, uygulama yöntemi ve tekrar sayısı için ürün etiketi esas alınmalıdır.',
+            baslik: l.fHesapOksalikUygulamaNotu,
+            metin: l.fHesapOksalikUygulamaNotMetni,
           ),
           const SizedBox(height: 12),
           _uyariKutusu(
             renk: Colors.red,
-            baslik: 'Güvenlik Uyarısı',
-            metin:
-            'Koruyucu gözlük, eldiven ve maske kullan. Asit buharını soluma, cilt ve göz temasından kaçın. Ruhsatsız ürün, belirsiz doz veya etiketsiz karışım kullanma. Bu ekran tedavi talimatı değil, yardımcı hesaplama ekranıdır.',
+            baslik: l.fHesapOksalikGuvenlikBaslik,
+            metin: l.fHesapOksalikGuvenlikMetni,
           ),
         ],
       ),
@@ -209,6 +205,7 @@ class _FormullerHesaplamalarSayfasiState
   }
 
   Widget _biyolojiSekmesi() {
+    final l = AppLocalizations.of(context);
     final String anaKazanmaYontemi = _formulBiyolojiYontemi();
     final BiyolojiTakvimBilgisi? takvim = _biyolojiBaslangicTarihi == null
         ? null
@@ -232,6 +229,13 @@ class _FormullerHesaplamalarSayfasiState
         ? null
         : _erkekKapaliYavruTakvimi(_erkekKapaliYavruTarihi!);
 
+    final Map<String, String> baslangicTipleriGoster = {
+      'Anasız Bırakıldı': l.fHesapBiyolojiAnasizBirakildi,
+      'Bölme Yapıldı': l.fHesapBiyolojiBolmeYapildi,
+      'Hazır Kapalı Ana Memesi': l.fHesapBiyolojiKapaliMeme,
+      'Hazır Çiftleşmiş Ana': l.fHesapBiyolojiHazirAna,
+    };
+
     return SafeArea(
       top: false,
       child: ListView(
@@ -239,26 +243,26 @@ class _FormullerHesaplamalarSayfasiState
         children: [
           _ustBilgiKarti(
             icon: Icons.timeline_outlined,
-            baslik: 'Biyolojik Takvim',
-            aciklama:
-            'Bu ekran ana kazanma biyoloji takvimini merkezi AriBiyolojiServisi üzerinden okur. Koloni detay, süreç uyarıları ve formüller aynı tarih mantığını kullanır.',
+            baslik: l.fHesapBiyolojiBaslik,
+            aciklama: l.fHesapBiyolojiAciklama,
           ),
           const SizedBox(height: 14),
-          _bolumBaslik('Ana Kazanma Süreci'),
-          _secimKarti(
-            baslik: 'Başlangıç tipi',
+          _bolumBaslik(l.fHesapBiyolojiAnaKazanmaBolum),
+          _secimKartiLocalize(
+            baslik: l.fHesapBiyolojiBaslangicTipi,
             secenekler: const [
               'Anasız Bırakıldı',
               'Bölme Yapıldı',
               'Hazır Kapalı Ana Memesi',
               'Hazır Çiftleşmiş Ana',
             ],
+            displayLabels: baslangicTipleriGoster,
             seciliDeger: _biyolojiBaslangicTipi,
             onChanged: (v) => setState(() => _biyolojiBaslangicTipi = v),
           ),
           const SizedBox(height: 12),
           _tarihSecimKarti(
-            baslik: 'Başlangıç tarihi',
+            baslik: l.fHesapBiyolojiBaslangicTarihi,
             controller: _biyolojiTarihController,
             onTap: () async {
               final secilen = await _tarihSec(context, _biyolojiBaslangicTarihi);
@@ -273,8 +277,8 @@ class _FormullerHesaplamalarSayfasiState
           const SizedBox(height: 12),
           if (takvim != null) ...[
             _sonucKarti(
-              baslik: '$_biyolojiBaslangicTipi Takvimi',
-              satirlar: _biyolojiTakvimSatirlari(takvim),
+              baslik: '${baslangicTipleriGoster[_biyolojiBaslangicTipi] ?? _biyolojiBaslangicTipi} ${l.fHesapBiyolojiTakvimSuffix}',
+              satirlar: _biyolojiTakvimSatirlari(takvim, l),
               renk: Colors.deepOrange,
             ),
             const SizedBox(height: 12),
@@ -287,15 +291,14 @@ class _FormullerHesaplamalarSayfasiState
             const SizedBox(height: 12),
             _uyariKutusu(
               renk: Colors.deepOrange,
-              baslik: 'Saha Notu',
-              metin:
-              'Gün sayımı başlangıç günü dahil edilerek yapılır. Günlük / kapalı yavru görülürse muayene ekranındaki ilgili kutucuk işaretlenir ve ana kazanma süreci kapanır.',
+              baslik: l.fHesapBiyolojiSahaNotu,
+              metin: l.fHesapBiyolojiSahaNotMetni,
             ),
           ],
           const SizedBox(height: 18),
-          _bolumBaslik('Kapalı İşçi Yavrusu Çıkışı'),
+          _bolumBaslik(l.fHesapBiyolojiIsciYavruBolum),
           _tarihSecimKarti(
-            baslik: 'Kapalı işçi yavrusu görülen tarih',
+            baslik: l.fHesapBiyolojiIsciYavruTarihi,
             controller: _isciKapaliYavruTarihController,
             onTap: () async {
               final secilen = await _tarihSec(context, _isciKapaliYavruTarihi);
@@ -310,26 +313,25 @@ class _FormullerHesaplamalarSayfasiState
           const SizedBox(height: 12),
           if (isciTakvim != null) ...[
             _sonucKarti(
-              baslik: 'Kapalı İşçi Yavrusu Çıkış Penceresi',
+              baslik: l.fHesapBiyolojiIsciYavruPencere,
               satirlar: [
-                _SonucSatiri('Başlangıç', isciTakvim['baslangic'] as String),
-                _SonucSatiri('Tahmini çıkış', isciTakvim['cikis'] as String),
+                _SonucSatiri(l.fHesapBiyolojiBaslangicSatir, isciTakvim['baslangic'] as String),
+                _SonucSatiri(l.fHesapBiyolojiTahminiCikis, isciTakvim['cikis'] as String),
               ],
               renk: Colors.green,
             ),
           ],
           const SizedBox(height: 18),
-          _bolumBaslik('Kapalı Erkek Yavrusu Çıkışı'),
+          _bolumBaslik(l.fHesapBiyolojiErkekYavruBolum),
           _tarihSecimKarti(
-            baslik: 'Kapalı erkek yavrusu görülen tarih',
+            baslik: l.fHesapBiyolojiErkekYavruTarihi,
             controller: _erkekKapaliYavruTarihController,
             onTap: () async {
               final secilen = await _tarihSec(context, _erkekKapaliYavruTarihi);
               if (secilen != null) {
                 setState(() {
                   _erkekKapaliYavruTarihi = secilen;
-                  _erkekKapaliYavruTarihController.text =
-                      _tarihFormatla(secilen);
+                  _erkekKapaliYavruTarihController.text = _tarihFormatla(secilen);
                 });
               }
             },
@@ -337,10 +339,10 @@ class _FormullerHesaplamalarSayfasiState
           const SizedBox(height: 12),
           if (erkekTakvim != null) ...[
             _sonucKarti(
-              baslik: 'Kapalı Erkek Yavrusu Çıkış Penceresi',
+              baslik: l.fHesapBiyolojiErkekYavruPencere,
               satirlar: [
-                _SonucSatiri('Başlangıç', erkekTakvim['baslangic'] as String),
-                _SonucSatiri('Tahmini çıkış', erkekTakvim['cikis'] as String),
+                _SonucSatiri(l.fHesapBiyolojiBaslangicSatir, erkekTakvim['baslangic'] as String),
+                _SonucSatiri(l.fHesapBiyolojiTahminiCikis, erkekTakvim['cikis'] as String),
               ],
               renk: Colors.blueGrey,
             ),
@@ -351,6 +353,7 @@ class _FormullerHesaplamalarSayfasiState
   }
 
   Widget _balAkimiSekmesi() {
+    final l = AppLocalizations.of(context);
     final int cita = int.tryParse(_citaController.text) ?? 0;
 
     return SafeArea(
@@ -360,13 +363,12 @@ class _FormullerHesaplamalarSayfasiState
         children: [
           _ustBilgiKarti(
             icon: Icons.hive_outlined,
-            baslik: 'Bal Akımı Kararı',
-            aciklama:
-            'Sistem, bal akımına zayıf girmemek için 57 günlük saha planlama eşiğini kullanır. 42 gün ise yumurtadan tarlacıya biyolojik süredir; bu ikisi aynı şey değildir.',
+            baslik: l.fHesapBalAkimiBaslik,
+            aciklama: l.fHesapBalAkimiAciklama,
           ),
           const SizedBox(height: 14),
           _tarihSecimKarti(
-            baslik: 'Bal akım başlangıç tarihi',
+            baslik: l.fHesapBalAkimTarihi,
             controller: TextEditingController(
               text: _balAkimTarihi == null ? '' : _tarihFormatla(_balAkimTarihi!),
             ),
@@ -382,22 +384,21 @@ class _FormullerHesaplamalarSayfasiState
           const SizedBox(height: 12),
           _sayiAlani(
             controller: _citaController,
-            etiket: 'Mevcut çıta sayısı',
-            yardim: 'Örnek: 9',
+            etiket: l.fHesapBalAkimCitaSayisi,
+            yardim: l.fHesapBalAkimCitaYardim,
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 18),
           if (_balAkimTarihi == null)
             _uyariKutusu(
               renk: Colors.blueGrey,
-              baslik: 'Tarih Bekleniyor',
-              metin:
-              'Karar üretilebilmesi için önce bal akım başlangıç tarihini seç.',
+              baslik: l.fHesapBalAkimTarihBekleniyor,
+              metin: l.fHesapBalAkimTarihBekleniyorMetni,
             ),
           if (_balAkimTarihi != null && cita > 0)
             _sonucKarti(
-              baslik: 'Karar',
-              satirlar: _balAkimiSonucSatirlari(cita),
+              baslik: l.fHesapBalAkimKararBaslik,
+              satirlar: _balAkimiSonucSatirlari(cita, l),
               renk: Colors.deepOrange,
             ),
         ],
@@ -405,24 +406,24 @@ class _FormullerHesaplamalarSayfasiState
     );
   }
 
-  List<_SonucSatiri> _balAkimiSonucSatirlari(int cita) {
+  List<_SonucSatiri> _balAkimiSonucSatirlari(int cita, AppLocalizations l) {
     final sonuc = _hesaplaBalAkimi(cita);
     final DateTime sonTarih = sonuc['sonTarih'] as DateTime;
     final int maxCita = sonuc['maxCita'] as int;
     final int hedefMin = sonuc['hedefMin'] as int;
 
     final String durum = maxCita <= 0
-        ? 'Bu güçte güvenli bölme penceresi açılmamış görünüyor.'
-        : '$maxCita çıtadan fazla alınırsa koloni bal dönemine zayıf girebilir.';
+        ? l.fHesapBalAkimGucYetersiz
+        : l.fHesapBalAkimMaxCitaUyari(maxCita.toString());
 
     return [
-      _SonucSatiri('Son güvenli bölme tarihi', _tarihFormatla(sonTarih)),
-      _SonucSatiri('Planlama eşiği', '57 gün'),
-      _SonucSatiri('Biyolojik süre', '42 gün: yumurtadan tarlacıya'),
-      _SonucSatiri('Mevcut güç', '$cita çıta'),
-      _SonucSatiri('Hedef alt sınır', '$hedefMin çıta'),
-      _SonucSatiri('En fazla alınabilir', '$maxCita çıta'),
-      _SonucSatiri('Karar', durum),
+      _SonucSatiri(l.fHesapBalAkimSonTarih, _tarihFormatla(sonTarih)),
+      _SonucSatiri(l.fHesapBalAkimPlanlamaEsigi, l.fHesapBalAkimPlanlamaEsigiDeger),
+      _SonucSatiri(l.fHesapBalAkimBiyolojikSure, l.fHesapBalAkimBiyolojikSureDeger),
+      _SonucSatiri(l.fHesapBalAkimMevcutGuc, '$cita çıta'),
+      _SonucSatiri(l.fHesapBalAkimHedefAltSinir, '$hedefMin çıta'),
+      _SonucSatiri(l.fHesapBalAkimEnFazla, '$maxCita çıta'),
+      _SonucSatiri(l.fHesapBalAkimKarar, durum),
     ];
   }
 
@@ -455,15 +456,15 @@ class _FormullerHesaplamalarSayfasiState
     }
   }
 
-  List<_SonucSatiri> _biyolojiTakvimSatirlari(BiyolojiTakvimBilgisi takvim) {
+  List<_SonucSatiri> _biyolojiTakvimSatirlari(BiyolojiTakvimBilgisi takvim, AppLocalizations l) {
     final List<_SonucSatiri> satirlar = [
-      _SonucSatiri('Başlangıç', AriBiyolojiServisi.tarihMetni(takvim.baslangic)),
+      _SonucSatiri(l.fHesapBiyolojiBaslangicSatir, AriBiyolojiServisi.tarihMetni(takvim.baslangic)),
     ];
 
     if (takvim.kabulKontrolBaslangic != null) {
       satirlar.add(
         _SonucSatiri(
-          'Kabul kontrol penceresi',
+          l.fHesapBiyolojiKabulPencere,
           AriBiyolojiServisi.tarihAraligiMetni(
             takvim.kabulKontrolBaslangic,
             takvim.kabulKontrolBitis,
@@ -475,7 +476,7 @@ class _FormullerHesaplamalarSayfasiState
     if (takvim.memeKapanmaBaslangic != null) {
       satirlar.add(
         _SonucSatiri(
-          'Tahmini meme kapanma',
+          l.fHesapBiyolojiMemePencere,
           AriBiyolojiServisi.tarihAraligiMetni(
             takvim.memeKapanmaBaslangic,
             takvim.memeKapanmaBitis,
@@ -487,7 +488,7 @@ class _FormullerHesaplamalarSayfasiState
     if (takvim.anaCikisiBaslangic != null) {
       satirlar.add(
         _SonucSatiri(
-          'Tahmini ana çıkışı',
+          l.fHesapBiyolojiAnaCikisi,
           AriBiyolojiServisi.tarihAraligiMetni(
             takvim.anaCikisiBaslangic,
             takvim.anaCikisiBitis,
@@ -499,7 +500,7 @@ class _FormullerHesaplamalarSayfasiState
     if (takvim.ciftlesmeBaslangic != null) {
       satirlar.add(
         _SonucSatiri(
-          'Çiftleşme uçuş penceresi',
+          l.fHesapBiyolojiCiftlesmePencere,
           AriBiyolojiServisi.tarihAraligiMetni(
             takvim.ciftlesmeBaslangic,
             takvim.ciftlesmeBitis,
@@ -511,7 +512,7 @@ class _FormullerHesaplamalarSayfasiState
     if (takvim.yumurtlamaKontrolBaslangic != null) {
       satirlar.add(
         _SonucSatiri(
-          'Yumurtlama kontrol penceresi',
+          l.fHesapBiyolojiYumurtlamaPencere,
           AriBiyolojiServisi.tarihAraligiMetni(
             takvim.yumurtlamaKontrolBaslangic,
             takvim.yumurtlamaKontrolBitis,
@@ -523,7 +524,7 @@ class _FormullerHesaplamalarSayfasiState
     if (takvim.kovanaDokunmaBaslangic != null) {
       satirlar.add(
         _SonucSatiri(
-          'Kovana dokunma penceresi',
+          l.fHesapBiyolojiDokunmaPencere,
           AriBiyolojiServisi.tarihAraligiMetni(
             takvim.kovanaDokunmaBaslangic,
             takvim.kovanaDokunmaBitis,
@@ -689,9 +690,10 @@ class _FormullerHesaplamalarSayfasiState
     );
   }
 
-  Widget _secimKarti({
+  Widget _secimKartiLocalize({
     required String baslik,
     required List<String> secenekler,
+    required Map<String, String> displayLabels,
     required String seciliDeger,
     required ValueChanged<String> onChanged,
   }) {
@@ -716,7 +718,7 @@ class _FormullerHesaplamalarSayfasiState
               .map(
                 (e) => DropdownMenuItem<String>(
               value: e,
-              child: Text(e),
+              child: Text(displayLabels[e] ?? e),
             ),
           )
               .toList(),

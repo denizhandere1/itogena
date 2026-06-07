@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/karsilastirma_ozeti_servisi.dart';
+import '../utils/servis_metin_lokalizer.dart';
 import '../services/premium_servisi.dart';
 import '../widgets/pro_kapit.dart';
 
@@ -271,7 +272,7 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
                       SizedBox(
                         width: 150,
                         child: Text(
-                          satir.baslik,
+                          ServisMetinLokalizer.cevir(satir.baslik, AppLocalizations.of(context)),
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w900,
@@ -310,7 +311,7 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  hucre.yorum,
+                                  ServisMetinLokalizer.cevir(hucre.yorum, AppLocalizations.of(context)),
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     fontSize: 10,

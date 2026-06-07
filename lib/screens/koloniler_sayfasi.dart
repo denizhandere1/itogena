@@ -306,7 +306,14 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
   String _citaAktivasyonGridMetni(BuildContext context, Map<String, dynamic> k) {
     final koloniId = _toInt(k['id']);
-    return _gridContextMap[koloniId]?.citaGridMetni ?? AppLocalizations.of(context).kolonilerSonCita(_toInt(k['sonCita']));
+    final ctx = _gridContextMap[koloniId];
+    final l = AppLocalizations.of(context);
+    if (ctx == null) return l.kolonilerSonCita(_toInt(k['sonCita']));
+    final fiziksel = ctx.fizikselCita > 0 ? ctx.fizikselCita : ctx.sonCita;
+    if (fiziksel <= 0) return l.kolonilerCitaYok;
+    if (ctx.islevselUretimCita > 0) return '${l.kolonilerSonCita(fiziksel)} • ${l.kolonilerIslevselCita(ctx.islevselUretimCita)}';
+    if (ctx.aktivasyonYuzde > 0) return '${l.kolonilerSonCita(fiziksel)} • %${ctx.aktivasyonYuzde}';
+    return l.kolonilerSonCita(fiziksel);
   }
 
   Color _skorRengi(int skor) {

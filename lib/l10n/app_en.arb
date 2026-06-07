@@ -1049,5 +1049,344 @@
   "raporDurumCokZayif": "Very Weak",
   "raporDurumGelismekte": "Developing",
   "raporDurumGuclu": "Strong",
-  "raporDurumCokGuclu": "Very Strong"
+  "raporDurumCokGuclu": "Very Strong",
+
+  "trendMomPatlaYici": "Explosive growth",
+  "trendMomGucluBuyume": "Strong growth",
+  "trendMomSaglikliGelisim": "Healthy development",
+  "trendMomYavasGelisim": "Slow development",
+  "trendMomDuraklama": "Stagnation",
+
+  "trendAciklamaStabil": "Colony appears generally stable.",
+  "trendAciklamaSonmus": "Colony was marked as extinct in the last inspection.",
+  "trendAciklamaBolme": "Frame change was not read as weakening because a split was recorded.",
+  "trendAciklamaGucluYon": "Colony shows a strong biological development trajectory over time.",
+  "trendAciklamaYukselis": "Colony is on a healthy biological development trajectory over time.",
+  "trendAciklamaHasatStabil": "Honey signal present; small declines are read in the context of production / harvest.",
+  "trendAciklamaDusus": "Colony shows a strength decline tendency over time.",
+  "trendAciklamaYavasGelisim": "Colony is developing but momentum is low.",
+
+  "trendNormBiyolojikDusus": "A distinct frame decline without a harvest/split record was read with biological weakening suspicion.",
+  "trendNormKucukDusus": "Small frame decline was read cautiously, not counted as a full collapse.",
+
+  "biyoSinifZayif": "Weak",
+  "biyoSinifGelisim": "Development",
+  "biyoSinifHasat": "Harvest",
+  "biyoSinifAciklamaZayif": "Priority is survival, consolidation and measured support.",
+  "biyoSinifAciklamaGelisim": "Priority is steady development and maintaining the queen/brood balance.",
+  "biyoSinifAciklamaUretim": "Colony has entered production strength; space, swarm risk and honey flow are monitored together.",
+  "biyoSinifAciklamaHasat": "Colony is in the strong band for honey flow and harvest/space management.",
+
+  "biyoYerlesimYavruStok": "Brood/stock",
+  "biyoYerlesimBalliPolenli": "Honey/pollen",
+  "biyoYerlesimBalStogu": "Honey store",
+  "biyoYerlesimYavruPolenli": "Brood/pollen",
+  "biyoYerlesimYavru": "Brood",
+  "biyoYerlesimYavruluPolenli": "Brooding/pollen",
+  "biyoYerlesimBalliPolenliGecis": "Honey/pollen transition zone",
+  "biyoYerlesimBallikBalAlani": "Super / honey area",
+  "biyoYerlesimYavruStokGecis": "Brood/stock transition zone",
+
+  "biyoYavrusuzSahaNormal": "Brood data present; biological recovery capacity is supported by brood production.",
+  "biyoYavrusuzOneriNormal": "Monitor through normal biological model flow.",
+  "biyoYavrusuzSahaBolme": "Absence of brood at this stage may be normal. The colony may be in a queen-rearing or mating period; unnecessary opening increases risk.",
+  "biyoYavrusuzOneriBolme": "Do not open the hive unnecessarily; wait for the egg-laying control window.",
+  "biyoYavrusuzSahaBalBaskisi": "Absence of brood alone does not mean queenlessness. Honey flow and honey-comb pressure may have restricted the egg-laying area.",
+  "biyoYavrusuzOneriBalBaskisi": "Assess space and honey pressure first; do not intervene with the queen prematurely.",
+  "biyoYavrusuzSahaDusukKap": "The colony has not been producing new workers for a long time. At this strength level, the current population may be ageing; intensive labour and resource expenditure may not be worthwhile.",
+  "biyoYavrusuzOneriDusukKap": "Merger with a strong colony or limited intervention should be considered as the priority.",
+  "biyoYavrusuzSahaGecikme": "The expected egg-laying period has been entered. If brood is still absent, late mating, queen loss, honey pressure or a weak colony possibilities should be read together.",
+  "biyoYavrusuzOneriGecikme": "Re-check within 5–7 days; if the colony is weakening, do not prolong the wait.",
+  "biyoYavrusuzSahaIzlenmeli": "Brood absence should be monitored; a definitive queenlessness decision should not be made based on this day range alone.",
+  "biyoYavrusuzOneriIzlenmeli": "Evaluate together with colony behaviour, pollen arrival and the next inspection.",
+
+  "perfBiyolojiVeriYetersiz": "Insufficient biological data",
+  "perfBiyolojiZamanKritik": "Time critical",
+  "perfBiyolojiMudahaleGerekli": "Intervention required",
+  "perfBiyolojiUygun": "Suitable",
+  "perfBiyolojiDikkat": "Caution",
+
+  "perfKabiliyetYeterli": "Adequate",
+  "perfKabiliyetSinirli": "Limited",
+  "perfKabiliyetVeriYok": "No data",
+
+  "perfDurum1DonorAdayi": "1st Donor Candidate",
+  "perfDurum2DonorAdayi": "2nd Donor Candidate",
+  "perfDurum3DonorAdayi": "3rd Donor Candidate",
+
+  "perfVeriGuveniGuvenilir": "Reliable",
+  "perfVeriGuveniCokSinirli": "Very limited data",
+
+  "perfKisCikisVeriYetersiz": "Insufficient winter exit data.",
+
+  "aksiyonDurum": "Status",
+  "aksiyonNeYap": "Action",
+  "aksiyonNeden": "Why",
+  "aksiyonZamanBaglami": "Time Context",
+
+  "perfYorumOrta": "Moderate",
+
+  "karsilastirmaGenetikSecilim": "Genetic Selection",
+  "karsilastirmaKistanCikis": "Winter Exit",
+  "karsilastirmaBiyolojiDurumu": "Biology Status",
+  "karsilastirmaMemeTakibi": "Queen Cell Tracking",
+  "karsilastirmaAnasizlikGun": "Queenlessness (days)",
+  "karsilastirmaHavuzaGiremez": "Cannot enter clean donor pool",
+  "karsilastirmaMemeTakipYorum": "Timing and queen cell development",
+
+  "fHesapSurupFormulBaslik": "Syrup Formula",
+  "fHesapSurupFormulAciklama": "Enter the target syrup amount in kg; the system returns the required kg of water and kg of sugar. If you use the same measuring container in the field, the 1:1 or 2:1 ratio is maintained by the same logic.",
+  "fHesapSurupOraniBolum": "Syrup Ratio",
+  "fHesapSurupOraniAciklama": "1:1 is generally used as stimulation syrup, 2:1 generally for stock / winter preparation. This screen is a ratio calculation aid, not a mandatory application order.",
+  "fHesapSurupHedefBolum": "Target Syrup",
+  "fHesapSurupHedefEtiket": "Target syrup amount",
+  "fHesapSurupHedefYardim": "Example: calculates the kg of water and kg of sugar needed for 10 kg target syrup.",
+  "fHesapSurupSonucSuffix": "Syrup Result",
+  "fHesapSurupSekerSatir": "Sugar",
+  "fHesapSurupSuSatir": "Water",
+  "fHesapSurupKatsayiSatir": "Field Factor",
+  "fHesapSurupNot": "The kg calculation is for the target syrup weight. If using volumetric containers, set the ratio with the same container; equal containers for 1:1, two containers sugar to one water for 2:1.",
+
+  "fHesapOksalikBaslik": "Oxalic Acid Calculation Aid",
+  "fHesapOksalikAciklama": "This screen is a calculation aid only. For treatment decisions, the licensed product label, local regulations and veterinarian/technical advisor instructions are authoritative.",
+  "fHesapOksalikFormulBaslik": "Standard Formula for 10–15 Hives",
+  "fHesapOksalikTozAsitSatir": "Powdered oxalic acid",
+  "fHesapOksalikUygulamaSatir": "Application method",
+  "fHesapOksalikUygulamaDegeri": "Drizzling",
+  "fHesapOksalikUygulamaNotu": "Application Note",
+  "fHesapOksalikUygulamaNotMetni": "Oxalic acid application is generally more effective during broodless / very low brood periods. The product label is authoritative for temperature, dose, application method and number of treatments.",
+  "fHesapOksalikGuvenlikBaslik": "Safety Warning",
+  "fHesapOksalikGuvenlikMetni": "Use protective goggles, gloves and a mask. Avoid inhaling acid fumes, skin and eye contact. Do not use unlicensed products, uncertain doses or unlabelled mixtures. This screen is a calculation aid, not a treatment instruction.",
+
+  "fHesapBiyolojiBaslik": "Biological Calendar",
+  "fHesapBiyolojiAciklama": "This screen reads the queen-rearing biology calendar from the central AriBiyolojiServisi. Colony detail, process alerts and formulas all use the same date logic.",
+  "fHesapBiyolojiAnaKazanmaBolum": "Queen Rearing Process",
+  "fHesapBiyolojiBaslangicTipi": "Start type",
+  "fHesapBiyolojiAnasizBirakildi": "Left Queenless",
+  "fHesapBiyolojiBolmeYapildi": "Split Made",
+  "fHesapBiyolojiKapaliMeme": "Ready Capped Queen Cell",
+  "fHesapBiyolojiHazirAna": "Ready Mated Queen",
+  "fHesapBiyolojiBaslangicTarihi": "Start date",
+  "fHesapBiyolojiTakvimSuffix": "Calendar",
+  "fHesapBiyolojiSahaNotu": "Field Note",
+  "fHesapBiyolojiSahaNotMetni": "Day counting includes the start day. If daily/capped brood is observed, tick the relevant checkbox in the inspection screen and the queen rearing process closes.",
+  "fHesapBiyolojiIsciYavruBolum": "Capped Worker Brood Emergence",
+  "fHesapBiyolojiIsciYavruTarihi": "Date capped worker brood observed",
+  "fHesapBiyolojiIsciYavruPencere": "Capped Worker Brood Emergence Window",
+  "fHesapBiyolojiErkekYavruBolum": "Capped Drone Brood Emergence",
+  "fHesapBiyolojiErkekYavruTarihi": "Date capped drone brood observed",
+  "fHesapBiyolojiErkekYavruPencere": "Capped Drone Brood Emergence Window",
+  "fHesapBiyolojiBaslangicSatir": "Start",
+  "fHesapBiyolojiTahminiCikis": "Estimated emergence",
+  "fHesapBiyolojiKabulPencere": "Acceptance check window",
+  "fHesapBiyolojiMemePencere": "Estimated queen cell capping",
+  "fHesapBiyolojiAnaCikisi": "Estimated queen emergence",
+  "fHesapBiyolojiCiftlesmePencere": "Mating flight window",
+  "fHesapBiyolojiYumurtlamaPencere": "Egg-laying check window",
+  "fHesapBiyolojiDokunmaPencere": "Hive touching window",
+
+  "fHesapBalAkimiBaslik": "Honey Flow Decision",
+  "fHesapBalAkimiAciklama": "The system uses a 57-day field planning threshold to avoid entering the honey flow weakly. 42 days is the biological period from egg to forager; these two are not the same.",
+  "fHesapBalAkimTarihi": "Honey flow start date",
+  "fHesapBalAkimCitaSayisi": "Current frame count",
+  "fHesapBalAkimCitaYardim": "Example: 9",
+  "fHesapBalAkimTarihBekleniyor": "Date Required",
+  "fHesapBalAkimTarihBekleniyorMetni": "Select the honey flow start date first to generate a decision.",
+  "fHesapBalAkimKararBaslik": "Decision",
+  "fHesapBalAkimSonTarih": "Last safe split date",
+  "fHesapBalAkimPlanlamaEsigi": "Planning threshold",
+  "fHesapBalAkimPlanlamaEsigiDeger": "57 days",
+  "fHesapBalAkimBiyolojikSure": "Biological period",
+  "fHesapBalAkimBiyolojikSureDeger": "42 days: egg to forager",
+  "fHesapBalAkimMevcutGuc": "Current strength",
+  "fHesapBalAkimHedefAltSinir": "Target lower limit",
+  "fHesapBalAkimEnFazla": "Maximum removable",
+  "fHesapBalAkimKarar": "Decision",
+  "fHesapBalAkimGucYetersiz": "At this strength, no safe split window appears to have opened.",
+  "fHesapBalAkimMaxCitaUyari": "Taking more than {maxCita} frames may cause the colony to enter the honey flow weakly.",
+  "@fHesapBalAkimMaxCitaUyari": {
+    "placeholders": {
+      "maxCita": { "type": "String" }
+    }
+  },
+
+  "kolonilerCitaYok": "- frames",
+  "kolonilerIslevselCita": "{islevsel} eff.",
+  "@kolonilerIslevselCita": {
+    "placeholders": { "islevsel": { "type": "int" } }
+  },
+
+  "kaynakAnaHat": "Founder Line",
+  "kaynakBolme": "Split",
+  "kaynakBolmeDen": "Split from {koloni}",
+  "@kaynakBolmeDen": {
+    "placeholders": { "koloni": { "type": "String" } }
+  },
+  "kaynakOgul": "Swarm",
+  "kaynakOgulDen": "Swarm from {koloni}",
+  "@kaynakOgulDen": {
+    "placeholders": { "koloni": { "type": "String" } }
+  },
+  "kaynakDisKaynak": "External source",
+
+  "kararDonorDegil": "Not suitable for genetic selection.",
+  "kararYakinTakip": "Monitor closely.",
+
+  "yonetimKararUretilemediBaslik": "Management decisions could not be generated",
+  "yonetimKararUretilemediOzet": "The field management decision pipeline could not produce results for this colony.",
+  "yonetimKararYokBaslik": "No outstanding management decision",
+  "yonetimKararYokOzet": "Process, biological class, and season were evaluated together; no separate field intervention is currently needed.",
+  "yonetimKararYokDetay": "This card no longer reads the feeding engine as a separate reality. Feeding, super, field, varroa, feeder, winter, and post-harvest decisions are all evaluated in the same management list.",
+
+  "biyolojikModelUretilemedi": "Biological model could not be generated:\n{hata}",
+  "@biyolojikModelUretilemedi": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "biyolojikModelVeriGerekli": "Inspection and frame data is needed to generate the biological model.",
+  "biyolojikDizilimBaslik": "BIOLOGICAL LAYOUT PROJECTION",
+  "biyolojikTahminiAriEtiket": "Estimated bees",
+  "biyolojikMerkezYavruBloku": "Core brood block: {blok}. This block must be protected.",
+  "@biyolojikMerkezYavruBloku": {
+    "placeholders": { "blok": { "type": "String" } }
+  },
+  "biyolojikBalPotansiyeli": "Honey potential",
+  "biyolojikBirakilacakStok": "Stock to leave",
+  "biyolojikHacimAktivasyonuEtiket": "Volume activation",
+  "biyolojikTarlaciEtiket": "Forager",
+  "biyolojikBakiciEtiket": "Nurse bee",
+  "biyolojikGencIsciEtiket": "Young worker",
+  "biyolojikPetekOrme": "Comb building",
+  "biyolojikYavruBakim": "Brood care",
+  "biyolojikNektarToplama": "Nectar collection",
+  "biyolojikBalIsleme": "Honey processing",
+
+  "hasatProjeksiyonBaslik": "HARVEST PROJECTION",
+  "hasatAdayYok": "No harvestable frames available. Monitor based on colony strength and external stock.",
+  "hasatTahminiMiktarEtiket": "Estimated amount",
+  "hasatTahminiDegerEtiket": "Estimated value",
+  "hasatKuluckalikGuvenlik": "Only consider capped and broodless frames. Brood chamber integrity must be maintained.",
+  "hasatSuruplukKisit": "Feeding restriction started as honey flow approaches. If the feeder is still in the hive, it stays in the layout view; it is removed only when marked as removed in an inspection.",
+
+  "katUcuncuBallik": "3RD SUPER / HONEY SUPER",
+  "katUstBallik": "UPPER SUPER / HONEY SUPER",
+  "katAltKuluckalik": "LOWER BODY / BROOD CHAMBER",
+  "lejantBalStok": "Honey/stock",
+  "lejantBalliPolenli": "Honey-pollen",
+  "lejantYavru": "Brood",
+  "lejantBosCerceve": "Empty frame",
+  "lejantGunlukDolum": "Daily fill",
+  "lejantSurupluk": "Feeder",
+
+  "hacimTipiKatGecisi": "Super transition; new volume is being gradually activated.",
+  "hacimTipiBallikUretim": "Production expansion during honey flow is accepted.",
+  "hacimTipiRiskliGenisleme": "Rapid expansion outside honey flow; read with caution.",
+  "hacimTipiHasatDusus": "Harvest-related decrease; not counted as biological decline.",
+  "hacimTipiBiyolojikZayiflama": "Volume decrease should be monitored for biological decline.",
+  "hacimTipiKuluckalikGenisleme": "Brood chamber expansion is read as controlled.",
+  "hacimTipiNormal": "Volume change is within normal range.",
+
+  "hacimOkunamadi": "Biological status could not be read",
+  "hacimUretilemedi": "Volume activation calculation could not be generated.",
+  "hacimHazirlaniyor": "Biological status is being prepared",
+  "hacimBirlikte": "Physical frames, functional production frames, and total volume activation will be read together.",
+  "hacimArkaplan": "This calculation loads after the first screen open to avoid blocking the UI.",
+  "hacimToplamBaslik": "Total volume activation: {yuzde}%",
+  "@hacimToplamBaslik": {
+    "placeholders": { "yuzde": { "type": "int" } }
+  },
+  "hacimBuyukBolumAktif": "The system reads most of the current volume as active production capacity.",
+  "hacimFizikselIslevselOzet": "{fiziksel} physical frames → approx. {islevsel} functional production frames. {yorum}",
+  "@hacimFizikselIslevselOzet": {
+    "placeholders": {
+      "fiziksel": { "type": "int" },
+      "islevsel": { "type": "String" },
+      "yorum": { "type": "String" }
+    }
+  },
+  "hacimFizikselIslevselBirlikte": "Physical volume and functional production capacity are being read together.",
+  "miniFiziksel": "Physical",
+  "miniIslevsel": "Functional",
+  "miniToplamHacim": "Total volume",
+  "miniEklenen": "Added",
+  "miniOnceki": "Previous",
+  "miniTemel": "Foundation",
+  "miniKabarmis": "Drawn",
+  "miniPetek": "Comb",
+  "miniKalan": "Remaining",
+
+  "genetikDetayAyri": "Genetic evaluation tracked separately",
+  "genetikSurecBilgisi": "Active process information is shown in the Process card. This field is only used for donor status, veto, production/support role, and lineage evaluation.",
+  "genetikHazirlaniyor": "Process-independent selection data is being prepared for genetic evaluation.",
+
+  "soyBirinciSatir": "Source: {kaynak} • Queen: {anaYili} • Last: {sonCita} • Max: {maxCita}",
+  "@soyBirinciSatir": {
+    "placeholders": {
+      "kaynak": { "type": "String" },
+      "anaYili": { "type": "String" },
+      "sonCita": { "type": "String" },
+      "maxCita": { "type": "String" }
+    }
+  },
+  "soyIkinciSatirSkor": "Honey: {balCita} • Inspections: {muayeneSayisi} • Offspring: {tureyenSayisi} • Score: {skor}",
+  "@soyIkinciSatirSkor": {
+    "placeholders": {
+      "balCita": { "type": "String" },
+      "muayeneSayisi": { "type": "String" },
+      "tureyenSayisi": { "type": "String" },
+      "skor": { "type": "String" }
+    }
+  },
+  "soyIkinciSatir": "Honey: {balCita} • Inspections: {muayeneSayisi} • Offspring: {tureyenSayisi}",
+  "@soyIkinciSatir": {
+    "placeholders": {
+      "balCita": { "type": "String" },
+      "muayeneSayisi": { "type": "String" },
+      "tureyenSayisi": { "type": "String" }
+    }
+  },
+
+  "tetikOgulBelirtisi": "Swarm Sign",
+  "tetikBolmeYapildi": "Split Done",
+  "tetikAnasizBirakildi": "Left Queenless",
+  "tetikOgulAtti": "Swarmed",
+  "tetikKovanSondu": "Colony Died",
+  "tetikHasat": "Harvest",
+  "tetikHazirAnaVerildi": "Mated Queen Added",
+  "tetikGunlukKapaliYavru": "Daily/Capped Brood",
+  "tetikKapaliYavruluCita": "Capped Brood Frame",
+
+  "uyariAriKusuBaslik": "Bird predation pressure may occur",
+  "uyariAriKusuMesaj": "Monitor the flight line. If heavy traffic, use deterrents or visual scarers.",
+  "uyariEsekArisiBaslik": "Wasp pressure may increase",
+  "uyariEsekArisiMesaj": "Narrow hive entrances, protect weak colonies. Consider setting traps if pressure is heavy.",
+  "uyariYagmacilikBaslik": "Robbing risk may increase",
+  "uyariYagmacilikMesaj": "Keep inspection time short. Narrow entrances, protect weak colonies.",
+  "uyariMumGuvesiBaslik": "Wax moth risk may increase",
+  "uyariMumGuvesiMesaj": "Do not leave excess combs in weak colonies. Store empty combs in protected conditions.",
+  "uariFareBaslik": "Mouse risk may begin",
+  "uariFareMesaj": "Narrow hive entrances. Take measures to prevent mice from entering.",
+  "uyariVarroaPlanBaslik": "Plan varroa treatment before {etiket}",
+  "@uyariVarroaPlanBaslik": {
+    "placeholders": { "etiket": { "type": "String" } }
+  },
+  "uyariVarroaPlanMesaj": "Assess varroa status before honey flow begins. If chemical treatment is needed, plan early to account for residue risk.",
+  "uyariVarroaSonBaslik": "Last period for pre-flow varroa treatment",
+  "uyariVarroaSonMesaj": "To reduce residue risk before {etiket} expected on {baslangicTarih}, varroa treatment should ideally be completed by {kalintiTarih}. If delayed, it may be safer to postpone any new chemical application until after the honey flow.",
+  "@uyariVarroaSonMesaj": {
+    "placeholders": {
+      "baslangicTarih": { "type": "String" },
+      "etiket": { "type": "String" },
+      "kalintiTarih": { "type": "String" }
+    }
+  },
+  "uyariBalBolmeErkenBaslik": "Watch split decision as {etiket} approaches",
+  "@uyariBalBolmeErkenBaslik": {
+    "placeholders": { "etiket": { "type": "String" } }
+  },
+  "uyariBalBolmeErkenMesaj": "If keeping production targets, make split decisions carefully. Time is running short for strong forager bees to develop before honey flow.",
+  "uyariBalBolmeGecBaslik": "Caution if planning to split",
+  "uyariBalBolmeGecMesaj": "After {kritikEsik} the 42-day biological threshold will be crossed. Splits made after this date may reduce honey yield. Postpone the split decision if keeping production targets.",
+  "@uyariBalBolmeGecMesaj": {
+    "placeholders": { "kritikEsik": { "type": "String" } }
+  }
 }

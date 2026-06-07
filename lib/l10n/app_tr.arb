@@ -1241,5 +1241,344 @@
   "raporDurumCokZayif": "Çok zayıf",
   "raporDurumGelismekte": "Gelişmekte",
   "raporDurumGuclu": "Güçlü",
-  "raporDurumCokGuclu": "Çok güçlü"
+  "raporDurumCokGuclu": "Çok güçlü",
+
+  "trendMomPatlaYici": "Patlayıcı büyüme",
+  "trendMomGucluBuyume": "Güçlü büyüme",
+  "trendMomSaglikliGelisim": "Sağlıklı gelişim",
+  "trendMomYavasGelisim": "Yavaş gelişim",
+  "trendMomDuraklama": "Duraklama",
+
+  "trendAciklamaStabil": "Koloni genel olarak stabil görünüyor.",
+  "trendAciklamaSonmus": "Son muayenede kovanın söndüğü işaretlenmiş.",
+  "trendAciklamaBolme": "Bölme işaretli olduğu için çıta değişimi doğrudan zayıflama olarak okunmadı.",
+  "trendAciklamaGucluYon": "Koloni zamana göre güçlü biyolojik gelişim yönü gösteriyor.",
+  "trendAciklamaYukselis": "Koloni zamana göre sağlıklı biyolojik gelişim yönünde.",
+  "trendAciklamaHasatStabil": "Bal sinyali mevcut; küçük düşüşler üretim / hasat bağlamında okunuyor.",
+  "trendAciklamaDusus": "Koloni zamana göre güç kaybı eğilimi gösteriyor.",
+  "trendAciklamaYavasGelisim": "Koloni gelişiyor ancak momentum düşük.",
+
+  "trendNormBiyolojikDusus": "Hasat/bölme kaydı olmadan belirgin çıta düşüşü biyolojik zayıflama şüphesiyle okundu.",
+  "trendNormKucukDusus": "Küçük çıta düşüşü tam çöküş sayılmadan temkinli okundu.",
+
+  "biyoSinifZayif": "Zayıf",
+  "biyoSinifGelisim": "Gelişim",
+  "biyoSinifHasat": "Hasat",
+  "biyoSinifAciklamaZayif": "Öncelik yaşatma, sıkıştırma ve ölçülü destek.",
+  "biyoSinifAciklamaGelisim": "Öncelik düzenli gelişim ve ana/yavru dengesinin korunması.",
+  "biyoSinifAciklamaUretim": "Koloni üretim gücüne girmiştir; alan, oğul riski ve bal akımı birlikte izlenir.",
+  "biyoSinifAciklamaHasat": "Koloni bal akımı ve hasat/alan yönetimi açısından güçlü banttadır.",
+
+  "biyoYerlesimYavruStok": "Yavru/stok",
+  "biyoYerlesimBalliPolenli": "Ballı/polenli",
+  "biyoYerlesimBalStogu": "Bal stoğu",
+  "biyoYerlesimYavruPolenli": "Yavru/polenli",
+  "biyoYerlesimYavru": "Yavru",
+  "biyoYerlesimYavruluPolenli": "Yavrulu/polenli",
+  "biyoYerlesimBalliPolenliGecis": "Ballı/polenli geçiş alanı",
+  "biyoYerlesimBallikBalAlani": "Ballık / bal alanı",
+  "biyoYerlesimYavruStokGecis": "Yavru/stok geçiş alanı",
+
+  "biyoYavrusuzSahaNormal": "Yavru verisi mevcut; biyolojik geri dönüş kapasitesi yavru üretimiyle destekleniyor.",
+  "biyoYavrusuzOneriNormal": "Normal biyolojik model akışıyla izle.",
+  "biyoYavrusuzSahaBolme": "Bu aşamada yavru görülmemesi normal olabilir. Koloni ana kazanma veya çiftleşme döneminde olabilir; gereksiz açma riski artırır.",
+  "biyoYavrusuzOneriBolme": "Kovanı gereksiz açma; yumurtlama kontrol penceresini bekle.",
+  "biyoYavrusuzSahaBalBaskisi": "Yavru yokluğu tek başına anasızlık anlamına gelmez. Bal akımı ve ballı çıta baskısı yumurtlama alanını daraltmış olabilir.",
+  "biyoYavrusuzOneriBalBaskisi": "Önce alan ve bal baskısını değerlendir; erken ana müdahalesi yapma.",
+  "biyoYavrusuzSahaDusukKap": "Koloni uzun süredir yeni işçi üretmiyor. Bu güç seviyesinde mevcut nüfus yaşlanıyor olabilir; yoğun emek ve kaynak harcamak verimli olmayabilir.",
+  "biyoYavrusuzOneriDusukKap": "Güçlü koloniyle birleştirme veya sınırlı müdahale öncelikli değerlendirilmelidir.",
+  "biyoYavrusuzSahaGecikme": "Yumurtlama beklenen döneme girilmiş. Yavru hâlâ yoksa geç çiftleşme, ana kaybı, bal baskısı veya zayıf koloni olasılıkları birlikte okunmalı.",
+  "biyoYavrusuzOneriGecikme": "5–7 gün içinde tekrar kontrol et; koloni zayıflıyorsa beklemeyi uzatma.",
+  "biyoYavrusuzSahaIzlenmeli": "Yavru yokluğu izlenmeli; mevcut gün aralığında tek başına kesin anasızlık kararı verilmemelidir.",
+  "biyoYavrusuzOneriIzlenmeli": "Koloni davranışı, polen gelişi ve bir sonraki muayene ile birlikte değerlendir.",
+
+  "perfBiyolojiVeriYetersiz": "Biyolojik veri yetersiz",
+  "perfBiyolojiZamanKritik": "Zaman kritik",
+  "perfBiyolojiMudahaleGerekli": "Müdahale gerekli",
+  "perfBiyolojiUygun": "Uygun",
+  "perfBiyolojiDikkat": "Dikkat",
+
+  "perfKabiliyetYeterli": "Yeterli",
+  "perfKabiliyetSinirli": "Sınırlı",
+  "perfKabiliyetVeriYok": "Veri yok",
+
+  "perfDurum1DonorAdayi": "1. Donör Adayı",
+  "perfDurum2DonorAdayi": "2. Donör Adayı",
+  "perfDurum3DonorAdayi": "3. Donör Adayı",
+
+  "perfVeriGuveniGuvenilir": "Güvenilir",
+  "perfVeriGuveniCokSinirli": "Veri çok sınırlı",
+
+  "perfKisCikisVeriYetersiz": "Kış çıkış verisi yetersiz.",
+
+  "aksiyonDurum": "Durum",
+  "aksiyonNeYap": "Ne yap",
+  "aksiyonNeden": "Neden",
+  "aksiyonZamanBaglami": "Zaman Bağlamı",
+
+  "perfYorumOrta": "Orta",
+
+  "karsilastirmaGenetikSecilim": "Genetik Seçilim",
+  "karsilastirmaKistanCikis": "Kıştan Çıkış",
+  "karsilastirmaBiyolojiDurumu": "Biyoloji Durumu",
+  "karsilastirmaMemeTakibi": "Meme Takibi",
+  "karsilastirmaAnasizlikGun": "Anasızlık (gün)",
+  "karsilastirmaHavuzaGiremez": "Temiz donör havuzuna giremez",
+  "karsilastirmaMemeTakipYorum": "Zamanlama ve meme gelişimi",
+
+  "fHesapSurupFormulBaslik": "Şurup Formülü",
+  "fHesapSurupFormulAciklama": "Hedef şerbet miktarını kg olarak girersen sistem kg su ve kg şeker verir. Sahada aynı ölçü kabını kullanıyorsan 1:1 veya 2:1 oranı aynı mantıkla korunur.",
+  "fHesapSurupOraniBolum": "Şurup Oranı",
+  "fHesapSurupOraniAciklama": "1:1 genelde teşvik şurubu, 2:1 genelde stok / kış hazırlığı için kullanılır. Bu ekran zorunlu uygulama emri değil, oran hesabı yardımcısıdır.",
+  "fHesapSurupHedefBolum": "Hedef Şerbet",
+  "fHesapSurupHedefEtiket": "Hedef şerbet miktarı",
+  "fHesapSurupHedefYardim": "Örnek: 10 kg hedef şerbet için gerekli kg su ve kg şeker hesaplanır.",
+  "fHesapSurupSonucSuffix": "Şurup Sonucu",
+  "fHesapSurupSekerSatir": "Şeker",
+  "fHesapSurupSuSatir": "Su",
+  "fHesapSurupKatsayiSatir": "Saha Katsayısı",
+  "fHesapSurupNot": "Kg hesabı hedef şerbet ağırlığı içindir. Hacimsel kapla çalışıyorsan aynı kapla oran kur; 1:1 için eşit kap, 2:1 için iki kap şeker bir kap su mantığı korunur.",
+
+  "fHesapOksalikBaslik": "Oksalik Asit Yardımcı Hesabı",
+  "fHesapOksalikAciklama": "Bu ekran yalnızca hesaplama yardımcısıdır. Uygulama kararı için ruhsatlı ürün etiketi, yerel mevzuat ve veteriner/teknik danışman talimatı esas alınır.",
+  "fHesapOksalikFormulBaslik": "10–15 Kovan İçin Standart Formül",
+  "fHesapOksalikTozAsitSatir": "Toz oksalik asit",
+  "fHesapOksalikUygulamaSatir": "Uygulama şekli",
+  "fHesapOksalikUygulamaDegeri": "Damlatma",
+  "fHesapOksalikUygulamaNotu": "Uygulama Notu",
+  "fHesapOksalikUygulamaNotMetni": "Oksalik uygulaması genelde yavrusuz / yavru çok az dönemde daha anlamlıdır. Sıcaklık, doz, uygulama yöntemi ve tekrar sayısı için ürün etiketi esas alınmalıdır.",
+  "fHesapOksalikGuvenlikBaslik": "Güvenlik Uyarısı",
+  "fHesapOksalikGuvenlikMetni": "Koruyucu gözlük, eldiven ve maske kullan. Asit buharını soluma, cilt ve göz temasından kaçın. Ruhsatsız ürün, belirsiz doz veya etiketsiz karışım kullanma. Bu ekran tedavi talimatı değil, yardımcı hesaplama ekranıdır.",
+
+  "fHesapBiyolojiBaslik": "Biyolojik Takvim",
+  "fHesapBiyolojiAciklama": "Bu ekran ana kazanma biyoloji takvimini merkezi AriBiyolojiServisi üzerinden okur. Koloni detay, süreç uyarıları ve formüller aynı tarih mantığını kullanır.",
+  "fHesapBiyolojiAnaKazanmaBolum": "Ana Kazanma Süreci",
+  "fHesapBiyolojiBaslangicTipi": "Başlangıç tipi",
+  "fHesapBiyolojiAnasizBirakildi": "Anasız Bırakıldı",
+  "fHesapBiyolojiBolmeYapildi": "Bölme Yapıldı",
+  "fHesapBiyolojiKapaliMeme": "Hazır Kapalı Ana Memesi",
+  "fHesapBiyolojiHazirAna": "Hazır Çiftleşmiş Ana",
+  "fHesapBiyolojiBaslangicTarihi": "Başlangıç tarihi",
+  "fHesapBiyolojiTakvimSuffix": "Takvimi",
+  "fHesapBiyolojiSahaNotu": "Saha Notu",
+  "fHesapBiyolojiSahaNotMetni": "Gün sayımı başlangıç günü dahil edilerek yapılır. Günlük / kapalı yavru görülürse muayene ekranındaki ilgili kutucuk işaretlenir ve ana kazanma süreci kapanır.",
+  "fHesapBiyolojiIsciYavruBolum": "Kapalı İşçi Yavrusu Çıkışı",
+  "fHesapBiyolojiIsciYavruTarihi": "Kapalı işçi yavrusu görülen tarih",
+  "fHesapBiyolojiIsciYavruPencere": "Kapalı İşçi Yavrusu Çıkış Penceresi",
+  "fHesapBiyolojiErkekYavruBolum": "Kapalı Erkek Yavrusu Çıkışı",
+  "fHesapBiyolojiErkekYavruTarihi": "Kapalı erkek yavrusu görülen tarih",
+  "fHesapBiyolojiErkekYavruPencere": "Kapalı Erkek Yavrusu Çıkış Penceresi",
+  "fHesapBiyolojiBaslangicSatir": "Başlangıç",
+  "fHesapBiyolojiTahminiCikis": "Tahmini çıkış",
+  "fHesapBiyolojiKabulPencere": "Kabul kontrol penceresi",
+  "fHesapBiyolojiMemePencere": "Tahmini meme kapanma",
+  "fHesapBiyolojiAnaCikisi": "Tahmini ana çıkışı",
+  "fHesapBiyolojiCiftlesmePencere": "Çiftleşme uçuş penceresi",
+  "fHesapBiyolojiYumurtlamaPencere": "Yumurtlama kontrol penceresi",
+  "fHesapBiyolojiDokunmaPencere": "Kovana dokunma penceresi",
+
+  "fHesapBalAkimiBaslik": "Bal Akımı Kararı",
+  "fHesapBalAkimiAciklama": "Sistem, bal akımına zayıf girmemek için 57 günlük saha planlama eşiğini kullanır. 42 gün ise yumurtadan tarlacıya biyolojik süredir; bu ikisi aynı şey değildir.",
+  "fHesapBalAkimTarihi": "Bal akım başlangıç tarihi",
+  "fHesapBalAkimCitaSayisi": "Mevcut çıta sayısı",
+  "fHesapBalAkimCitaYardim": "Örnek: 9",
+  "fHesapBalAkimTarihBekleniyor": "Tarih Bekleniyor",
+  "fHesapBalAkimTarihBekleniyorMetni": "Karar üretilebilmesi için önce bal akım başlangıç tarihini seç.",
+  "fHesapBalAkimKararBaslik": "Karar",
+  "fHesapBalAkimSonTarih": "Son güvenli bölme tarihi",
+  "fHesapBalAkimPlanlamaEsigi": "Planlama eşiği",
+  "fHesapBalAkimPlanlamaEsigiDeger": "57 gün",
+  "fHesapBalAkimBiyolojikSure": "Biyolojik süre",
+  "fHesapBalAkimBiyolojikSureDeger": "42 gün: yumurtadan tarlacıya",
+  "fHesapBalAkimMevcutGuc": "Mevcut güç",
+  "fHesapBalAkimHedefAltSinir": "Hedef alt sınır",
+  "fHesapBalAkimEnFazla": "En fazla alınabilir",
+  "fHesapBalAkimKarar": "Karar",
+  "fHesapBalAkimGucYetersiz": "Bu güçte güvenli bölme penceresi açılmamış görünüyor.",
+  "fHesapBalAkimMaxCitaUyari": "{maxCita} çıtadan fazla alınırsa koloni bal dönemine zayıf girebilir.",
+  "@fHesapBalAkimMaxCitaUyari": {
+    "placeholders": {
+      "maxCita": { "type": "String" }
+    }
+  },
+
+  "kolonilerCitaYok": "- çıta",
+  "kolonilerIslevselCita": "{islevsel} işl.",
+  "@kolonilerIslevselCita": {
+    "placeholders": { "islevsel": { "type": "int" } }
+  },
+
+  "kaynakAnaHat": "Ana Hat",
+  "kaynakBolme": "Bölme",
+  "kaynakBolmeDen": "{koloni} koloniden bölme",
+  "@kaynakBolmeDen": {
+    "placeholders": { "koloni": { "type": "String" } }
+  },
+  "kaynakOgul": "Oğul",
+  "kaynakOgulDen": "{koloni} koloniden oğul",
+  "@kaynakOgulDen": {
+    "placeholders": { "koloni": { "type": "String" } }
+  },
+  "kaynakDisKaynak": "Dış kaynak",
+
+  "kararDonorDegil": "Genetik seçilimde uygun değil.",
+  "kararYakinTakip": "Yakın takip et.",
+
+  "yonetimKararUretilemediBaslik": "Yönetim kararları üretilemedi",
+  "yonetimKararUretilemediOzet": "Saha yönetimi karar hattı bu koloni için sonuç veremedi.",
+  "yonetimKararYokBaslik": "Öne çıkan yönetim kararı yok",
+  "yonetimKararYokOzet": "Süreç, biyolojik sınıf ve sezon birlikte okundu; şu an ayrı bir saha müdahalesi öne çıkmıyor.",
+  "yonetimKararYokDetay": "Bu kart artık besleme motorunu ayrı bir gerçeklik olarak okumaz. Besleme, kat, alan, varroa, şurupluk, kış ve hasat sonrası kararları aynı yönetim listesinde değerlendirilir.",
+
+  "biyolojikModelUretilemedi": "Biyolojik model üretilemedi:\n{hata}",
+  "@biyolojikModelUretilemedi": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "biyolojikModelVeriGerekli": "Biyolojik model için önce muayene ve çıta verisi gerekir.",
+  "biyolojikDizilimBaslik": "BİYOLOJİK DİZİLİM PROJEKSİYONU",
+  "biyolojikTahminiAriEtiket": "Tahmini arı",
+  "biyolojikMerkezYavruBloku": "Merkez yavru bloğu: {blok}. Bu blok korunmalı.",
+  "@biyolojikMerkezYavruBloku": {
+    "placeholders": { "blok": { "type": "String" } }
+  },
+  "biyolojikBalPotansiyeli": "Bal potansiyeli",
+  "biyolojikBirakilacakStok": "Bırakılacak stok",
+  "biyolojikHacimAktivasyonuEtiket": "Hacim aktivasyonu",
+  "biyolojikTarlaciEtiket": "Tarlacı",
+  "biyolojikBakiciEtiket": "Bakıcı",
+  "biyolojikGencIsciEtiket": "Genç işçi",
+  "biyolojikPetekOrme": "Petek örme",
+  "biyolojikYavruBakim": "Yavru bakımı",
+  "biyolojikNektarToplama": "Nektar toplama",
+  "biyolojikBalIsleme": "Bal işleme",
+
+  "hasatProjeksiyonBaslik": "HASAT PROJEKSİYONU",
+  "hasatAdayYok": "Hasat adayı çıta oluşmadı. Koloni gücü ve dış stok durumuna göre takip et.",
+  "hasatTahminiMiktarEtiket": "Tahmini miktar",
+  "hasatTahminiDegerEtiket": "Tahmini değer",
+  "hasatKuluckalikGuvenlik": "Yalnızca yavrusuz ve sırlıysa değerlendir. Kuluçkalık güvenliği bozulmamalı.",
+  "hasatSuruplukKisit": "Bal akımı yaklaştığı için besleme kısıtı başladı. Şurupluk kovandaysa görselde kalır; yalnızca muayenede kaldırıldı olarak işaretlenirse dizilimden çıkar.",
+
+  "katUcuncuBallik": "3. KAT / BALLIK",
+  "katUstBallik": "ÜST KAT / BALLIK",
+  "katAltKuluckalik": "ALT KAT / KULUÇKALIK",
+  "lejantBalStok": "Bal/stok",
+  "lejantBalliPolenli": "Ballı-polenli",
+  "lejantYavru": "Yavru",
+  "lejantBosCerceve": "Boş çerçeve",
+  "lejantGunlukDolum": "Günlük dolum",
+  "lejantSurupluk": "Şurupluk",
+
+  "hacimTipiKatGecisi": "Kat geçişi; yeni hacim kademeli aktive ediliyor.",
+  "hacimTipiBallikUretim": "Bal akımı içinde üretim genişlemesi kabul ediliyor.",
+  "hacimTipiRiskliGenisleme": "Bal akımı dışında hızlı genişleme; temkinli okunmalı.",
+  "hacimTipiHasatDusus": "Hasat kaynaklı düşüş; biyolojik zayıflama sayılmaz.",
+  "hacimTipiBiyolojikZayiflama": "Hacim düşüşü biyolojik zayıflama açısından izlenmeli.",
+  "hacimTipiKuluckalikGenisleme": "Kuluçkalık genişlemesi kontrollü okunuyor.",
+  "hacimTipiNormal": "Hacim değişimi normal bantta.",
+
+  "hacimOkunamadi": "Biyolojik durum okunamadı",
+  "hacimUretilemedi": "Hacim aktivasyon hesabı üretilemedi.",
+  "hacimHazirlaniyor": "Biyolojik durum hazırlanıyor",
+  "hacimBirlikte": "Fiziksel çıta, işlevsel üretim çıtası ve toplam hacim aktivasyonu birlikte okunacak.",
+  "hacimArkaplan": "Bu hesap ekranı bloke etmemek için ilk açılıştan sonra yüklenir.",
+  "hacimToplamBaslik": "Toplam hacim aktivasyonu: %{yuzde}",
+  "@hacimToplamBaslik": {
+    "placeholders": { "yuzde": { "type": "int" } }
+  },
+  "hacimBuyukBolumAktif": "Sistem mevcut hacmin büyük bölümünü aktif üretim kapasitesi olarak okuyor.",
+  "hacimFizikselIslevselOzet": "{fiziksel} fiziksel çıta → yaklaşık {islevsel} işlevsel üretim çıtası. {yorum}",
+  "@hacimFizikselIslevselOzet": {
+    "placeholders": {
+      "fiziksel": { "type": "int" },
+      "islevsel": { "type": "String" },
+      "yorum": { "type": "String" }
+    }
+  },
+  "hacimFizikselIslevselBirlikte": "Fiziksel hacim ve işlevsel üretim kapasitesi birlikte okunuyor.",
+  "miniFiziksel": "Fiziksel",
+  "miniIslevsel": "İşlevsel",
+  "miniToplamHacim": "Toplam hacim",
+  "miniEklenen": "Eklenen",
+  "miniOnceki": "Önceki",
+  "miniTemel": "Temel",
+  "miniKabarmis": "Kabarmış",
+  "miniPetek": "Petek",
+  "miniKalan": "Kalan",
+
+  "genetikDetayAyri": "Genetik değerlendirme ayrı izleniyor",
+  "genetikSurecBilgisi": "Aktif süreç bilgisi Süreç kartında gösterilir. Bu alan yalnızca donör, veto, üretim/destek rolü ve soy değerlendirmesi için kullanılır.",
+  "genetikHazirlaniyor": "Genetik değerlendirme için süreçten bağımsız seçilim bilgisi hazırlanıyor.",
+
+  "soyBirinciSatir": "Kaynak: {kaynak} • Ana: {anaYili} • Son: {sonCita} • Max: {maxCita}",
+  "@soyBirinciSatir": {
+    "placeholders": {
+      "kaynak": { "type": "String" },
+      "anaYili": { "type": "String" },
+      "sonCita": { "type": "String" },
+      "maxCita": { "type": "String" }
+    }
+  },
+  "soyIkinciSatirSkor": "Bal: {balCita} • Muayene: {muayeneSayisi} • Türeyen: {tureyenSayisi} • Skor: {skor}",
+  "@soyIkinciSatirSkor": {
+    "placeholders": {
+      "balCita": { "type": "String" },
+      "muayeneSayisi": { "type": "String" },
+      "tureyenSayisi": { "type": "String" },
+      "skor": { "type": "String" }
+    }
+  },
+  "soyIkinciSatir": "Bal: {balCita} • Muayene: {muayeneSayisi} • Türeyen: {tureyenSayisi}",
+  "@soyIkinciSatir": {
+    "placeholders": {
+      "balCita": { "type": "String" },
+      "muayeneSayisi": { "type": "String" },
+      "tureyenSayisi": { "type": "String" }
+    }
+  },
+
+  "tetikOgulBelirtisi": "Oğul Belirtisi",
+  "tetikBolmeYapildi": "Bölme Yapıldı",
+  "tetikAnasizBirakildi": "Anasız Bırakıldı",
+  "tetikOgulAtti": "Oğul Attı",
+  "tetikKovanSondu": "Kovan Söndü",
+  "tetikHasat": "Hasat",
+  "tetikHazirAnaVerildi": "Hazır Ana Verildi",
+  "tetikGunlukKapaliYavru": "Günlük/Kapalı Yavru",
+  "tetikKapaliYavruluCita": "Kapalı Yavrulu Çıta",
+
+  "uyariAriKusuBaslik": "Arı kuşu baskısı görülebilir",
+  "uyariAriKusuMesaj": "Uçuş hattını gözle. Yoğun geçiş varsa korkuluk veya görsel caydırıcı önlemler kullan.",
+  "uyariEsekArisiBaslik": "Eşek arısı baskısı artabilir",
+  "uyariEsekArisiMesaj": "Kovan girişlerini daralt, zayıf kolonileri koru. Yoğun baskıda tuzak kurulması değerlendirilebilir.",
+  "uyariYagmacilikBaslik": "Yağmacılık riski artabilir",
+  "uyariYagmacilikMesaj": "Kovan açma süresini kısa tut. Girişleri daralt, zayıf kolonileri koru.",
+  "uyariMumGuvesiBaslik": "Mum güvesi riski artabilir",
+  "uyariMumGuvesiMesaj": "Zayıf kolonide fazla petek bırakma. Boş petekleri korumalı sakla.",
+  "uariFareBaslik": "Fare riski başlayabilir",
+  "uariFareMesaj": "Kovan girişlerini daralt. Fare girişini engellemek için önlem al.",
+  "uyariVarroaPlanBaslik": "{etiket} öncesi varroa mücadelesini planla",
+  "@uyariVarroaPlanBaslik": {
+    "placeholders": { "etiket": { "type": "String" } }
+  },
+  "uyariVarroaPlanMesaj": "Bal akımı yaklaşmadan önce varroa durumunu değerlendir. Kimyasal uygulama yapılacaksa kalıntı riskini hesaba katarak erken planla.",
+  "uyariVarroaSonBaslik": "Bal akımı öncesi varroa mücadelesi için son dönem",
+  "uyariVarroaSonMesaj": "{baslangicTarih} tarihinde başlaması beklenen {etiket} öncesi kalıntı riskini azaltmak için varroa mücadelesi mümkünse {kalintiTarih} tarihine kadar tamamlanmış olmalı. Geciktiysen yeni kimyasal uygulamayı bal akımı sonrasına bırakman daha güvenli olabilir.",
+  "@uyariVarroaSonMesaj": {
+    "placeholders": {
+      "baslangicTarih": { "type": "String" },
+      "etiket": { "type": "String" },
+      "kalintiTarih": { "type": "String" }
+    }
+  },
+  "uyariBalBolmeErkenBaslik": "{etiket} yaklaşırken bölme kararına dikkat",
+  "@uyariBalBolmeErkenBaslik": {
+    "placeholders": { "etiket": { "type": "String" } }
+  },
+  "uyariBalBolmeErkenMesaj": "Üretim hedefi korunacaksa bölme kararını dikkatli ver. Bal akımına güçlü işçi arı yetişmesi için zaman daralıyor.",
+  "uyariBalBolmeGecBaslik": "Bölme yapılacaksa dikkat",
+  "uyariBalBolmeGecMesaj": "{kritikEsik} sonrası 42 günlük biyolojik eşik aşılmış olur. Bu tarihten sonra yapılan bölmeler bal verimini düşürebilir. Üretim hedefi korunacaksa bölme kararını ertele.",
+  "@uyariBalBolmeGecMesaj": {
+    "placeholders": { "kritikEsik": { "type": "String" } }
+  }
 }

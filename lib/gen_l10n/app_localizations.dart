@@ -6020,6 +6020,1444 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Çok güçlü'**
   String get raporDurumCokGuclu;
+
+  /// No description provided for @trendMomPatlaYici.
+  ///
+  /// In tr, this message translates to:
+  /// **'Patlayıcı büyüme'**
+  String get trendMomPatlaYici;
+
+  /// No description provided for @trendMomGucluBuyume.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü büyüme'**
+  String get trendMomGucluBuyume;
+
+  /// No description provided for @trendMomSaglikliGelisim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sağlıklı gelişim'**
+  String get trendMomSaglikliGelisim;
+
+  /// No description provided for @trendMomYavasGelisim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavaş gelişim'**
+  String get trendMomYavasGelisim;
+
+  /// No description provided for @trendMomDuraklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Duraklama'**
+  String get trendMomDuraklama;
+
+  /// No description provided for @trendAciklamaStabil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni genel olarak stabil görünüyor.'**
+  String get trendAciklamaStabil;
+
+  /// No description provided for @trendAciklamaSonmus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son muayenede kovanın söndüğü işaretlenmiş.'**
+  String get trendAciklamaSonmus;
+
+  /// No description provided for @trendAciklamaBolme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme işaretli olduğu için çıta değişimi doğrudan zayıflama olarak okunmadı.'**
+  String get trendAciklamaBolme;
+
+  /// No description provided for @trendAciklamaGucluYon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni zamana göre güçlü biyolojik gelişim yönü gösteriyor.'**
+  String get trendAciklamaGucluYon;
+
+  /// No description provided for @trendAciklamaYukselis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni zamana göre sağlıklı biyolojik gelişim yönünde.'**
+  String get trendAciklamaYukselis;
+
+  /// No description provided for @trendAciklamaHasatStabil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal sinyali mevcut; küçük düşüşler üretim / hasat bağlamında okunuyor.'**
+  String get trendAciklamaHasatStabil;
+
+  /// No description provided for @trendAciklamaDusus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni zamana göre güç kaybı eğilimi gösteriyor.'**
+  String get trendAciklamaDusus;
+
+  /// No description provided for @trendAciklamaYavasGelisim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni gelişiyor ancak momentum düşük.'**
+  String get trendAciklamaYavasGelisim;
+
+  /// No description provided for @trendNormBiyolojikDusus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat/bölme kaydı olmadan belirgin çıta düşüşü biyolojik zayıflama şüphesiyle okundu.'**
+  String get trendNormBiyolojikDusus;
+
+  /// No description provided for @trendNormKucukDusus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Küçük çıta düşüşü tam çöküş sayılmadan temkinli okundu.'**
+  String get trendNormKucukDusus;
+
+  /// No description provided for @biyoSinifZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get biyoSinifZayif;
+
+  /// No description provided for @biyoSinifGelisim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim'**
+  String get biyoSinifGelisim;
+
+  /// No description provided for @biyoSinifHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat'**
+  String get biyoSinifHasat;
+
+  /// No description provided for @biyoSinifAciklamaZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öncelik yaşatma, sıkıştırma ve ölçülü destek.'**
+  String get biyoSinifAciklamaZayif;
+
+  /// No description provided for @biyoSinifAciklamaGelisim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öncelik düzenli gelişim ve ana/yavru dengesinin korunması.'**
+  String get biyoSinifAciklamaGelisim;
+
+  /// No description provided for @biyoSinifAciklamaUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni üretim gücüne girmiştir; alan, oğul riski ve bal akımı birlikte izlenir.'**
+  String get biyoSinifAciklamaUretim;
+
+  /// No description provided for @biyoSinifAciklamaHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni bal akımı ve hasat/alan yönetimi açısından güçlü banttadır.'**
+  String get biyoSinifAciklamaHasat;
+
+  /// No description provided for @biyoYerlesimYavruStok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru/stok'**
+  String get biyoYerlesimYavruStok;
+
+  /// No description provided for @biyoYerlesimBalliPolenli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballı/polenli'**
+  String get biyoYerlesimBalliPolenli;
+
+  /// No description provided for @biyoYerlesimBalStogu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal stoğu'**
+  String get biyoYerlesimBalStogu;
+
+  /// No description provided for @biyoYerlesimYavruPolenli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru/polenli'**
+  String get biyoYerlesimYavruPolenli;
+
+  /// No description provided for @biyoYerlesimYavru.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru'**
+  String get biyoYerlesimYavru;
+
+  /// No description provided for @biyoYerlesimYavruluPolenli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavrulu/polenli'**
+  String get biyoYerlesimYavruluPolenli;
+
+  /// No description provided for @biyoYerlesimBalliPolenliGecis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballı/polenli geçiş alanı'**
+  String get biyoYerlesimBalliPolenliGecis;
+
+  /// No description provided for @biyoYerlesimBallikBalAlani.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballık / bal alanı'**
+  String get biyoYerlesimBallikBalAlani;
+
+  /// No description provided for @biyoYerlesimYavruStokGecis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru/stok geçiş alanı'**
+  String get biyoYerlesimYavruStokGecis;
+
+  /// No description provided for @biyoYavrusuzSahaNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru verisi mevcut; biyolojik geri dönüş kapasitesi yavru üretimiyle destekleniyor.'**
+  String get biyoYavrusuzSahaNormal;
+
+  /// No description provided for @biyoYavrusuzOneriNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal biyolojik model akışıyla izle.'**
+  String get biyoYavrusuzOneriNormal;
+
+  /// No description provided for @biyoYavrusuzSahaBolme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu aşamada yavru görülmemesi normal olabilir. Koloni ana kazanma veya çiftleşme döneminde olabilir; gereksiz açma riski artırır.'**
+  String get biyoYavrusuzSahaBolme;
+
+  /// No description provided for @biyoYavrusuzOneriBolme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovanı gereksiz açma; yumurtlama kontrol penceresini bekle.'**
+  String get biyoYavrusuzOneriBolme;
+
+  /// No description provided for @biyoYavrusuzSahaBalBaskisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yokluğu tek başına anasızlık anlamına gelmez. Bal akımı ve ballı çıta baskısı yumurtlama alanını daraltmış olabilir.'**
+  String get biyoYavrusuzSahaBalBaskisi;
+
+  /// No description provided for @biyoYavrusuzOneriBalBaskisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce alan ve bal baskısını değerlendir; erken ana müdahalesi yapma.'**
+  String get biyoYavrusuzOneriBalBaskisi;
+
+  /// No description provided for @biyoYavrusuzSahaDusukKap.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni uzun süredir yeni işçi üretmiyor. Bu güç seviyesinde mevcut nüfus yaşlanıyor olabilir; yoğun emek ve kaynak harcamak verimli olmayabilir.'**
+  String get biyoYavrusuzSahaDusukKap;
+
+  /// No description provided for @biyoYavrusuzOneriDusukKap.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü koloniyle birleştirme veya sınırlı müdahale öncelikli değerlendirilmelidir.'**
+  String get biyoYavrusuzOneriDusukKap;
+
+  /// No description provided for @biyoYavrusuzSahaGecikme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yumurtlama beklenen döneme girilmiş. Yavru hâlâ yoksa geç çiftleşme, ana kaybı, bal baskısı veya zayıf koloni olasılıkları birlikte okunmalı.'**
+  String get biyoYavrusuzSahaGecikme;
+
+  /// No description provided for @biyoYavrusuzOneriGecikme.
+  ///
+  /// In tr, this message translates to:
+  /// **'5–7 gün içinde tekrar kontrol et; koloni zayıflıyorsa beklemeyi uzatma.'**
+  String get biyoYavrusuzOneriGecikme;
+
+  /// No description provided for @biyoYavrusuzSahaIzlenmeli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yokluğu izlenmeli; mevcut gün aralığında tek başına kesin anasızlık kararı verilmemelidir.'**
+  String get biyoYavrusuzSahaIzlenmeli;
+
+  /// No description provided for @biyoYavrusuzOneriIzlenmeli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni davranışı, polen gelişi ve bir sonraki muayene ile birlikte değerlendir.'**
+  String get biyoYavrusuzOneriIzlenmeli;
+
+  /// No description provided for @perfBiyolojiVeriYetersiz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik veri yetersiz'**
+  String get perfBiyolojiVeriYetersiz;
+
+  /// No description provided for @perfBiyolojiZamanKritik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaman kritik'**
+  String get perfBiyolojiZamanKritik;
+
+  /// No description provided for @perfBiyolojiMudahaleGerekli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Müdahale gerekli'**
+  String get perfBiyolojiMudahaleGerekli;
+
+  /// No description provided for @perfBiyolojiUygun.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygun'**
+  String get perfBiyolojiUygun;
+
+  /// No description provided for @perfBiyolojiDikkat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dikkat'**
+  String get perfBiyolojiDikkat;
+
+  /// No description provided for @perfKabiliyetYeterli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeterli'**
+  String get perfKabiliyetYeterli;
+
+  /// No description provided for @perfKabiliyetSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sınırlı'**
+  String get perfKabiliyetSinirli;
+
+  /// No description provided for @perfKabiliyetVeriYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri yok'**
+  String get perfKabiliyetVeriYok;
+
+  /// No description provided for @perfDurum1DonorAdayi.
+  ///
+  /// In tr, this message translates to:
+  /// **'1. Donör Adayı'**
+  String get perfDurum1DonorAdayi;
+
+  /// No description provided for @perfDurum2DonorAdayi.
+  ///
+  /// In tr, this message translates to:
+  /// **'2. Donör Adayı'**
+  String get perfDurum2DonorAdayi;
+
+  /// No description provided for @perfDurum3DonorAdayi.
+  ///
+  /// In tr, this message translates to:
+  /// **'3. Donör Adayı'**
+  String get perfDurum3DonorAdayi;
+
+  /// No description provided for @perfVeriGuveniGuvenilir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenilir'**
+  String get perfVeriGuveniGuvenilir;
+
+  /// No description provided for @perfVeriGuveniCokSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri çok sınırlı'**
+  String get perfVeriGuveniCokSinirli;
+
+  /// No description provided for @perfKisCikisVeriYetersiz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış çıkış verisi yetersiz.'**
+  String get perfKisCikisVeriYetersiz;
+
+  /// No description provided for @aksiyonDurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Durum'**
+  String get aksiyonDurum;
+
+  /// No description provided for @aksiyonNeYap.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ne yap'**
+  String get aksiyonNeYap;
+
+  /// No description provided for @aksiyonNeden.
+  ///
+  /// In tr, this message translates to:
+  /// **'Neden'**
+  String get aksiyonNeden;
+
+  /// No description provided for @aksiyonZamanBaglami.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaman Bağlamı'**
+  String get aksiyonZamanBaglami;
+
+  /// No description provided for @perfYorumOrta.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta'**
+  String get perfYorumOrta;
+
+  /// No description provided for @karsilastirmaGenetikSecilim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik Seçilim'**
+  String get karsilastirmaGenetikSecilim;
+
+  /// No description provided for @karsilastirmaKistanCikis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kıştan Çıkış'**
+  String get karsilastirmaKistanCikis;
+
+  /// No description provided for @karsilastirmaBiyolojiDurumu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyoloji Durumu'**
+  String get karsilastirmaBiyolojiDurumu;
+
+  /// No description provided for @karsilastirmaMemeTakibi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Meme Takibi'**
+  String get karsilastirmaMemeTakibi;
+
+  /// No description provided for @karsilastirmaAnasizlikGun.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anasızlık (gün)'**
+  String get karsilastirmaAnasizlikGun;
+
+  /// No description provided for @karsilastirmaHavuzaGiremez.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temiz donör havuzuna giremez'**
+  String get karsilastirmaHavuzaGiremez;
+
+  /// No description provided for @karsilastirmaMemeTakipYorum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zamanlama ve meme gelişimi'**
+  String get karsilastirmaMemeTakipYorum;
+
+  /// No description provided for @fHesapSurupFormulBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurup Formülü'**
+  String get fHesapSurupFormulBaslik;
+
+  /// No description provided for @fHesapSurupFormulAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef şerbet miktarını kg olarak girersen sistem kg su ve kg şeker verir. Sahada aynı ölçü kabını kullanıyorsan 1:1 veya 2:1 oranı aynı mantıkla korunur.'**
+  String get fHesapSurupFormulAciklama;
+
+  /// No description provided for @fHesapSurupOraniBolum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurup Oranı'**
+  String get fHesapSurupOraniBolum;
+
+  /// No description provided for @fHesapSurupOraniAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'1:1 genelde teşvik şurubu, 2:1 genelde stok / kış hazırlığı için kullanılır. Bu ekran zorunlu uygulama emri değil, oran hesabı yardımcısıdır.'**
+  String get fHesapSurupOraniAciklama;
+
+  /// No description provided for @fHesapSurupHedefBolum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef Şerbet'**
+  String get fHesapSurupHedefBolum;
+
+  /// No description provided for @fHesapSurupHedefEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef şerbet miktarı'**
+  String get fHesapSurupHedefEtiket;
+
+  /// No description provided for @fHesapSurupHedefYardim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Örnek: 10 kg hedef şerbet için gerekli kg su ve kg şeker hesaplanır.'**
+  String get fHesapSurupHedefYardim;
+
+  /// No description provided for @fHesapSurupSonucSuffix.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurup Sonucu'**
+  String get fHesapSurupSonucSuffix;
+
+  /// No description provided for @fHesapSurupSekerSatir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şeker'**
+  String get fHesapSurupSekerSatir;
+
+  /// No description provided for @fHesapSurupSuSatir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Su'**
+  String get fHesapSurupSuSatir;
+
+  /// No description provided for @fHesapSurupKatsayiSatir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saha Katsayısı'**
+  String get fHesapSurupKatsayiSatir;
+
+  /// No description provided for @fHesapSurupNot.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kg hesabı hedef şerbet ağırlığı içindir. Hacimsel kapla çalışıyorsan aynı kapla oran kur; 1:1 için eşit kap, 2:1 için iki kap şeker bir kap su mantığı korunur.'**
+  String get fHesapSurupNot;
+
+  /// No description provided for @fHesapOksalikBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oksalik Asit Yardımcı Hesabı'**
+  String get fHesapOksalikBaslik;
+
+  /// No description provided for @fHesapOksalikAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu ekran yalnızca hesaplama yardımcısıdır. Uygulama kararı için ruhsatlı ürün etiketi, yerel mevzuat ve veteriner/teknik danışman talimatı esas alınır.'**
+  String get fHesapOksalikAciklama;
+
+  /// No description provided for @fHesapOksalikFormulBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'10–15 Kovan İçin Standart Formül'**
+  String get fHesapOksalikFormulBaslik;
+
+  /// No description provided for @fHesapOksalikTozAsitSatir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toz oksalik asit'**
+  String get fHesapOksalikTozAsitSatir;
+
+  /// No description provided for @fHesapOksalikUygulamaSatir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama şekli'**
+  String get fHesapOksalikUygulamaSatir;
+
+  /// No description provided for @fHesapOksalikUygulamaDegeri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Damlatma'**
+  String get fHesapOksalikUygulamaDegeri;
+
+  /// No description provided for @fHesapOksalikUygulamaNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama Notu'**
+  String get fHesapOksalikUygulamaNotu;
+
+  /// No description provided for @fHesapOksalikUygulamaNotMetni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oksalik uygulaması genelde yavrusuz / yavru çok az dönemde daha anlamlıdır. Sıcaklık, doz, uygulama yöntemi ve tekrar sayısı için ürün etiketi esas alınmalıdır.'**
+  String get fHesapOksalikUygulamaNotMetni;
+
+  /// No description provided for @fHesapOksalikGuvenlikBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenlik Uyarısı'**
+  String get fHesapOksalikGuvenlikBaslik;
+
+  /// No description provided for @fHesapOksalikGuvenlikMetni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koruyucu gözlük, eldiven ve maske kullan. Asit buharını soluma, cilt ve göz temasından kaçın. Ruhsatsız ürün, belirsiz doz veya etiketsiz karışım kullanma. Bu ekran tedavi talimatı değil, yardımcı hesaplama ekranıdır.'**
+  String get fHesapOksalikGuvenlikMetni;
+
+  /// No description provided for @fHesapBiyolojiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik Takvim'**
+  String get fHesapBiyolojiBaslik;
+
+  /// No description provided for @fHesapBiyolojiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu ekran ana kazanma biyoloji takvimini merkezi AriBiyolojiServisi üzerinden okur. Koloni detay, süreç uyarıları ve formüller aynı tarih mantığını kullanır.'**
+  String get fHesapBiyolojiAciklama;
+
+  /// No description provided for @fHesapBiyolojiAnaKazanmaBolum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Kazanma Süreci'**
+  String get fHesapBiyolojiAnaKazanmaBolum;
+
+  /// No description provided for @fHesapBiyolojiBaslangicTipi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlangıç tipi'**
+  String get fHesapBiyolojiBaslangicTipi;
+
+  /// No description provided for @fHesapBiyolojiAnasizBirakildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anasız Bırakıldı'**
+  String get fHesapBiyolojiAnasizBirakildi;
+
+  /// No description provided for @fHesapBiyolojiBolmeYapildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme Yapıldı'**
+  String get fHesapBiyolojiBolmeYapildi;
+
+  /// No description provided for @fHesapBiyolojiKapaliMeme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hazır Kapalı Ana Memesi'**
+  String get fHesapBiyolojiKapaliMeme;
+
+  /// No description provided for @fHesapBiyolojiHazirAna.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hazır Çiftleşmiş Ana'**
+  String get fHesapBiyolojiHazirAna;
+
+  /// No description provided for @fHesapBiyolojiBaslangicTarihi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlangıç tarihi'**
+  String get fHesapBiyolojiBaslangicTarihi;
+
+  /// No description provided for @fHesapBiyolojiTakvimSuffix.
+  ///
+  /// In tr, this message translates to:
+  /// **'Takvimi'**
+  String get fHesapBiyolojiTakvimSuffix;
+
+  /// No description provided for @fHesapBiyolojiSahaNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saha Notu'**
+  String get fHesapBiyolojiSahaNotu;
+
+  /// No description provided for @fHesapBiyolojiSahaNotMetni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gün sayımı başlangıç günü dahil edilerek yapılır. Günlük / kapalı yavru görülürse muayene ekranındaki ilgili kutucuk işaretlenir ve ana kazanma süreci kapanır.'**
+  String get fHesapBiyolojiSahaNotMetni;
+
+  /// No description provided for @fHesapBiyolojiIsciYavruBolum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı İşçi Yavrusu Çıkışı'**
+  String get fHesapBiyolojiIsciYavruBolum;
+
+  /// No description provided for @fHesapBiyolojiIsciYavruTarihi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı işçi yavrusu görülen tarih'**
+  String get fHesapBiyolojiIsciYavruTarihi;
+
+  /// No description provided for @fHesapBiyolojiIsciYavruPencere.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı İşçi Yavrusu Çıkış Penceresi'**
+  String get fHesapBiyolojiIsciYavruPencere;
+
+  /// No description provided for @fHesapBiyolojiErkekYavruBolum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı Erkek Yavrusu Çıkışı'**
+  String get fHesapBiyolojiErkekYavruBolum;
+
+  /// No description provided for @fHesapBiyolojiErkekYavruTarihi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı erkek yavrusu görülen tarih'**
+  String get fHesapBiyolojiErkekYavruTarihi;
+
+  /// No description provided for @fHesapBiyolojiErkekYavruPencere.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı Erkek Yavrusu Çıkış Penceresi'**
+  String get fHesapBiyolojiErkekYavruPencere;
+
+  /// No description provided for @fHesapBiyolojiBaslangicSatir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlangıç'**
+  String get fHesapBiyolojiBaslangicSatir;
+
+  /// No description provided for @fHesapBiyolojiTahminiCikis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini çıkış'**
+  String get fHesapBiyolojiTahminiCikis;
+
+  /// No description provided for @fHesapBiyolojiKabulPencere.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kabul kontrol penceresi'**
+  String get fHesapBiyolojiKabulPencere;
+
+  /// No description provided for @fHesapBiyolojiMemePencere.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini meme kapanma'**
+  String get fHesapBiyolojiMemePencere;
+
+  /// No description provided for @fHesapBiyolojiAnaCikisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini ana çıkışı'**
+  String get fHesapBiyolojiAnaCikisi;
+
+  /// No description provided for @fHesapBiyolojiCiftlesmePencere.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çiftleşme uçuş penceresi'**
+  String get fHesapBiyolojiCiftlesmePencere;
+
+  /// No description provided for @fHesapBiyolojiYumurtlamaPencere.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yumurtlama kontrol penceresi'**
+  String get fHesapBiyolojiYumurtlamaPencere;
+
+  /// No description provided for @fHesapBiyolojiDokunmaPencere.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovana dokunma penceresi'**
+  String get fHesapBiyolojiDokunmaPencere;
+
+  /// No description provided for @fHesapBalAkimiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal Akımı Kararı'**
+  String get fHesapBalAkimiBaslik;
+
+  /// No description provided for @fHesapBalAkimiAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem, bal akımına zayıf girmemek için 57 günlük saha planlama eşiğini kullanır. 42 gün ise yumurtadan tarlacıya biyolojik süredir; bu ikisi aynı şey değildir.'**
+  String get fHesapBalAkimiAciklama;
+
+  /// No description provided for @fHesapBalAkimTarihi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akım başlangıç tarihi'**
+  String get fHesapBalAkimTarihi;
+
+  /// No description provided for @fHesapBalAkimCitaSayisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut çıta sayısı'**
+  String get fHesapBalAkimCitaSayisi;
+
+  /// No description provided for @fHesapBalAkimCitaYardim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Örnek: 9'**
+  String get fHesapBalAkimCitaYardim;
+
+  /// No description provided for @fHesapBalAkimTarihBekleniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarih Bekleniyor'**
+  String get fHesapBalAkimTarihBekleniyor;
+
+  /// No description provided for @fHesapBalAkimTarihBekleniyorMetni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar üretilebilmesi için önce bal akım başlangıç tarihini seç.'**
+  String get fHesapBalAkimTarihBekleniyorMetni;
+
+  /// No description provided for @fHesapBalAkimKararBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar'**
+  String get fHesapBalAkimKararBaslik;
+
+  /// No description provided for @fHesapBalAkimSonTarih.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son güvenli bölme tarihi'**
+  String get fHesapBalAkimSonTarih;
+
+  /// No description provided for @fHesapBalAkimPlanlamaEsigi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Planlama eşiği'**
+  String get fHesapBalAkimPlanlamaEsigi;
+
+  /// No description provided for @fHesapBalAkimPlanlamaEsigiDeger.
+  ///
+  /// In tr, this message translates to:
+  /// **'57 gün'**
+  String get fHesapBalAkimPlanlamaEsigiDeger;
+
+  /// No description provided for @fHesapBalAkimBiyolojikSure.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik süre'**
+  String get fHesapBalAkimBiyolojikSure;
+
+  /// No description provided for @fHesapBalAkimBiyolojikSureDeger.
+  ///
+  /// In tr, this message translates to:
+  /// **'42 gün: yumurtadan tarlacıya'**
+  String get fHesapBalAkimBiyolojikSureDeger;
+
+  /// No description provided for @fHesapBalAkimMevcutGuc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut güç'**
+  String get fHesapBalAkimMevcutGuc;
+
+  /// No description provided for @fHesapBalAkimHedefAltSinir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef alt sınır'**
+  String get fHesapBalAkimHedefAltSinir;
+
+  /// No description provided for @fHesapBalAkimEnFazla.
+  ///
+  /// In tr, this message translates to:
+  /// **'En fazla alınabilir'**
+  String get fHesapBalAkimEnFazla;
+
+  /// No description provided for @fHesapBalAkimKarar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar'**
+  String get fHesapBalAkimKarar;
+
+  /// No description provided for @fHesapBalAkimGucYetersiz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu güçte güvenli bölme penceresi açılmamış görünüyor.'**
+  String get fHesapBalAkimGucYetersiz;
+
+  /// No description provided for @fHesapBalAkimMaxCitaUyari.
+  ///
+  /// In tr, this message translates to:
+  /// **'{maxCita} çıtadan fazla alınırsa koloni bal dönemine zayıf girebilir.'**
+  String fHesapBalAkimMaxCitaUyari(String maxCita);
+
+  /// No description provided for @kolonilerCitaYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'- çıta'**
+  String get kolonilerCitaYok;
+
+  /// No description provided for @kolonilerIslevselCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'{islevsel} işl.'**
+  String kolonilerIslevselCita(int islevsel);
+
+  /// No description provided for @kaynakAnaHat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Hat'**
+  String get kaynakAnaHat;
+
+  /// No description provided for @kaynakBolme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme'**
+  String get kaynakBolme;
+
+  /// No description provided for @kaynakBolmeDen.
+  ///
+  /// In tr, this message translates to:
+  /// **'{koloni} koloniden bölme'**
+  String kaynakBolmeDen(String koloni);
+
+  /// No description provided for @kaynakOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul'**
+  String get kaynakOgul;
+
+  /// No description provided for @kaynakOgulDen.
+  ///
+  /// In tr, this message translates to:
+  /// **'{koloni} koloniden oğul'**
+  String kaynakOgulDen(String koloni);
+
+  /// No description provided for @kaynakDisKaynak.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dış kaynak'**
+  String get kaynakDisKaynak;
+
+  /// No description provided for @kararDonorDegil.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik seçilimde uygun değil.'**
+  String get kararDonorDegil;
+
+  /// No description provided for @kararYakinTakip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakın takip et.'**
+  String get kararYakinTakip;
+
+  /// No description provided for @yonetimKararUretilemediBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yönetim kararları üretilemedi'**
+  String get yonetimKararUretilemediBaslik;
+
+  /// No description provided for @yonetimKararUretilemediOzet.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saha yönetimi karar hattı bu koloni için sonuç veremedi.'**
+  String get yonetimKararUretilemediOzet;
+
+  /// No description provided for @yonetimKararYokBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öne çıkan yönetim kararı yok'**
+  String get yonetimKararYokBaslik;
+
+  /// No description provided for @yonetimKararYokOzet.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süreç, biyolojik sınıf ve sezon birlikte okundu; şu an ayrı bir saha müdahalesi öne çıkmıyor.'**
+  String get yonetimKararYokOzet;
+
+  /// No description provided for @yonetimKararYokDetay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kart artık besleme motorunu ayrı bir gerçeklik olarak okumaz. Besleme, kat, alan, varroa, şurupluk, kış ve hasat sonrası kararları aynı yönetim listesinde değerlendirilir.'**
+  String get yonetimKararYokDetay;
+
+  /// No description provided for @biyolojikModelUretilemedi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik model üretilemedi:\n{hata}'**
+  String biyolojikModelUretilemedi(String hata);
+
+  /// No description provided for @biyolojikModelVeriGerekli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik model için önce muayene ve çıta verisi gerekir.'**
+  String get biyolojikModelVeriGerekli;
+
+  /// No description provided for @biyolojikDizilimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'BİYOLOJİK DİZİLİM PROJEKSİYONU'**
+  String get biyolojikDizilimBaslik;
+
+  /// No description provided for @biyolojikTahminiAriEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini arı'**
+  String get biyolojikTahminiAriEtiket;
+
+  /// No description provided for @biyolojikMerkezYavruBloku.
+  ///
+  /// In tr, this message translates to:
+  /// **'Merkez yavru bloğu: {blok}. Bu blok korunmalı.'**
+  String biyolojikMerkezYavruBloku(String blok);
+
+  /// No description provided for @biyolojikBalPotansiyeli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal potansiyeli'**
+  String get biyolojikBalPotansiyeli;
+
+  /// No description provided for @biyolojikBirakilacakStok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bırakılacak stok'**
+  String get biyolojikBirakilacakStok;
+
+  /// No description provided for @biyolojikHacimAktivasyonuEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hacim aktivasyonu'**
+  String get biyolojikHacimAktivasyonuEtiket;
+
+  /// No description provided for @biyolojikTarlaciEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarlacı'**
+  String get biyolojikTarlaciEtiket;
+
+  /// No description provided for @biyolojikBakiciEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bakıcı'**
+  String get biyolojikBakiciEtiket;
+
+  /// No description provided for @biyolojikGencIsciEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genç işçi'**
+  String get biyolojikGencIsciEtiket;
+
+  /// No description provided for @biyolojikPetekOrme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Petek örme'**
+  String get biyolojikPetekOrme;
+
+  /// No description provided for @biyolojikYavruBakim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru bakımı'**
+  String get biyolojikYavruBakim;
+
+  /// No description provided for @biyolojikNektarToplama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nektar toplama'**
+  String get biyolojikNektarToplama;
+
+  /// No description provided for @biyolojikBalIsleme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal işleme'**
+  String get biyolojikBalIsleme;
+
+  /// No description provided for @hasatProjeksiyonBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'HASAT PROJEKSİYONU'**
+  String get hasatProjeksiyonBaslik;
+
+  /// No description provided for @hasatAdayYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat adayı çıta oluşmadı. Koloni gücü ve dış stok durumuna göre takip et.'**
+  String get hasatAdayYok;
+
+  /// No description provided for @hasatTahminiMiktarEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini miktar'**
+  String get hasatTahminiMiktarEtiket;
+
+  /// No description provided for @hasatTahminiDegerEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini değer'**
+  String get hasatTahminiDegerEtiket;
+
+  /// No description provided for @hasatKuluckalikGuvenlik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalnızca yavrusuz ve sırlıysa değerlendir. Kuluçkalık güvenliği bozulmamalı.'**
+  String get hasatKuluckalikGuvenlik;
+
+  /// No description provided for @hasatSuruplukKisit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı yaklaştığı için besleme kısıtı başladı. Şurupluk kovandaysa görselde kalır; yalnızca muayenede kaldırıldı olarak işaretlenirse dizilimden çıkar.'**
+  String get hasatSuruplukKisit;
+
+  /// No description provided for @katUcuncuBallik.
+  ///
+  /// In tr, this message translates to:
+  /// **'3. KAT / BALLIK'**
+  String get katUcuncuBallik;
+
+  /// No description provided for @katUstBallik.
+  ///
+  /// In tr, this message translates to:
+  /// **'ÜST KAT / BALLIK'**
+  String get katUstBallik;
+
+  /// No description provided for @katAltKuluckalik.
+  ///
+  /// In tr, this message translates to:
+  /// **'ALT KAT / KULUÇKALIK'**
+  String get katAltKuluckalik;
+
+  /// No description provided for @lejantBalStok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal/stok'**
+  String get lejantBalStok;
+
+  /// No description provided for @lejantBalliPolenli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballı-polenli'**
+  String get lejantBalliPolenli;
+
+  /// No description provided for @lejantYavru.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru'**
+  String get lejantYavru;
+
+  /// No description provided for @lejantBosCerceve.
+  ///
+  /// In tr, this message translates to:
+  /// **'Boş çerçeve'**
+  String get lejantBosCerceve;
+
+  /// No description provided for @lejantGunlukDolum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük dolum'**
+  String get lejantGunlukDolum;
+
+  /// No description provided for @lejantSurupluk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk'**
+  String get lejantSurupluk;
+
+  /// No description provided for @hacimTipiKatGecisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kat geçişi; yeni hacim kademeli aktive ediliyor.'**
+  String get hacimTipiKatGecisi;
+
+  /// No description provided for @hacimTipiBallikUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı içinde üretim genişlemesi kabul ediliyor.'**
+  String get hacimTipiBallikUretim;
+
+  /// No description provided for @hacimTipiRiskliGenisleme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı dışında hızlı genişleme; temkinli okunmalı.'**
+  String get hacimTipiRiskliGenisleme;
+
+  /// No description provided for @hacimTipiHasatDusus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat kaynaklı düşüş; biyolojik zayıflama sayılmaz.'**
+  String get hacimTipiHasatDusus;
+
+  /// No description provided for @hacimTipiBiyolojikZayiflama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hacim düşüşü biyolojik zayıflama açısından izlenmeli.'**
+  String get hacimTipiBiyolojikZayiflama;
+
+  /// No description provided for @hacimTipiKuluckalikGenisleme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kuluçkalık genişlemesi kontrollü okunuyor.'**
+  String get hacimTipiKuluckalikGenisleme;
+
+  /// No description provided for @hacimTipiNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hacim değişimi normal bantta.'**
+  String get hacimTipiNormal;
+
+  /// No description provided for @hacimOkunamadi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik durum okunamadı'**
+  String get hacimOkunamadi;
+
+  /// No description provided for @hacimUretilemedi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hacim aktivasyon hesabı üretilemedi.'**
+  String get hacimUretilemedi;
+
+  /// No description provided for @hacimHazirlaniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik durum hazırlanıyor'**
+  String get hacimHazirlaniyor;
+
+  /// No description provided for @hacimBirlikte.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiziksel çıta, işlevsel üretim çıtası ve toplam hacim aktivasyonu birlikte okunacak.'**
+  String get hacimBirlikte;
+
+  /// No description provided for @hacimArkaplan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hesap ekranı bloke etmemek için ilk açılıştan sonra yüklenir.'**
+  String get hacimArkaplan;
+
+  /// No description provided for @hacimToplamBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam hacim aktivasyonu: %{yuzde}'**
+  String hacimToplamBaslik(int yuzde);
+
+  /// No description provided for @hacimBuyukBolumAktif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem mevcut hacmin büyük bölümünü aktif üretim kapasitesi olarak okuyor.'**
+  String get hacimBuyukBolumAktif;
+
+  /// No description provided for @hacimFizikselIslevselOzet.
+  ///
+  /// In tr, this message translates to:
+  /// **'{fiziksel} fiziksel çıta → yaklaşık {islevsel} işlevsel üretim çıtası. {yorum}'**
+  String hacimFizikselIslevselOzet(int fiziksel, String islevsel, String yorum);
+
+  /// No description provided for @hacimFizikselIslevselBirlikte.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiziksel hacim ve işlevsel üretim kapasitesi birlikte okunuyor.'**
+  String get hacimFizikselIslevselBirlikte;
+
+  /// No description provided for @miniFiziksel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiziksel'**
+  String get miniFiziksel;
+
+  /// No description provided for @miniIslevsel.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşlevsel'**
+  String get miniIslevsel;
+
+  /// No description provided for @miniToplamHacim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam hacim'**
+  String get miniToplamHacim;
+
+  /// No description provided for @miniEklenen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eklenen'**
+  String get miniEklenen;
+
+  /// No description provided for @miniOnceki.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önceki'**
+  String get miniOnceki;
+
+  /// No description provided for @miniTemel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temel'**
+  String get miniTemel;
+
+  /// No description provided for @miniKabarmis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kabarmış'**
+  String get miniKabarmis;
+
+  /// No description provided for @miniPetek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Petek'**
+  String get miniPetek;
+
+  /// No description provided for @miniKalan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kalan'**
+  String get miniKalan;
+
+  /// No description provided for @genetikDetayAyri.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik değerlendirme ayrı izleniyor'**
+  String get genetikDetayAyri;
+
+  /// No description provided for @genetikSurecBilgisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif süreç bilgisi Süreç kartında gösterilir. Bu alan yalnızca donör, veto, üretim/destek rolü ve soy değerlendirmesi için kullanılır.'**
+  String get genetikSurecBilgisi;
+
+  /// No description provided for @genetikHazirlaniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik değerlendirme için süreçten bağımsız seçilim bilgisi hazırlanıyor.'**
+  String get genetikHazirlaniyor;
+
+  /// No description provided for @soyBirinciSatir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaynak: {kaynak} • Ana: {anaYili} • Son: {sonCita} • Max: {maxCita}'**
+  String soyBirinciSatir(
+      String kaynak, String anaYili, String sonCita, String maxCita);
+
+  /// No description provided for @soyIkinciSatirSkor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal: {balCita} • Muayene: {muayeneSayisi} • Türeyen: {tureyenSayisi} • Skor: {skor}'**
+  String soyIkinciSatirSkor(
+      String balCita, String muayeneSayisi, String tureyenSayisi, String skor);
+
+  /// No description provided for @soyIkinciSatir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal: {balCita} • Muayene: {muayeneSayisi} • Türeyen: {tureyenSayisi}'**
+  String soyIkinciSatir(
+      String balCita, String muayeneSayisi, String tureyenSayisi);
+
+  /// No description provided for @tetikOgulBelirtisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul Belirtisi'**
+  String get tetikOgulBelirtisi;
+
+  /// No description provided for @tetikBolmeYapildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme Yapıldı'**
+  String get tetikBolmeYapildi;
+
+  /// No description provided for @tetikAnasizBirakildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anasız Bırakıldı'**
+  String get tetikAnasizBirakildi;
+
+  /// No description provided for @tetikOgulAtti.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul Attı'**
+  String get tetikOgulAtti;
+
+  /// No description provided for @tetikKovanSondu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan Söndü'**
+  String get tetikKovanSondu;
+
+  /// No description provided for @tetikHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat'**
+  String get tetikHasat;
+
+  /// No description provided for @tetikHazirAnaVerildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hazır Ana Verildi'**
+  String get tetikHazirAnaVerildi;
+
+  /// No description provided for @tetikGunlukKapaliYavru.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük/Kapalı Yavru'**
+  String get tetikGunlukKapaliYavru;
+
+  /// No description provided for @tetikKapaliYavruluCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı Yavrulu Çıta'**
+  String get tetikKapaliYavruluCita;
+
+  /// No description provided for @uyariAriKusuBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arı kuşu baskısı görülebilir'**
+  String get uyariAriKusuBaslik;
+
+  /// No description provided for @uyariAriKusuMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uçuş hattını gözle. Yoğun geçiş varsa korkuluk veya görsel caydırıcı önlemler kullan.'**
+  String get uyariAriKusuMesaj;
+
+  /// No description provided for @uyariEsekArisiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eşek arısı baskısı artabilir'**
+  String get uyariEsekArisiBaslik;
+
+  /// No description provided for @uyariEsekArisiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan girişlerini daralt, zayıf kolonileri koru. Yoğun baskıda tuzak kurulması değerlendirilebilir.'**
+  String get uyariEsekArisiMesaj;
+
+  /// No description provided for @uyariYagmacilikBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yağmacılık riski artabilir'**
+  String get uyariYagmacilikBaslik;
+
+  /// No description provided for @uyariYagmacilikMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan açma süresini kısa tut. Girişleri daralt, zayıf kolonileri koru.'**
+  String get uyariYagmacilikMesaj;
+
+  /// No description provided for @uyariMumGuvesiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mum güvesi riski artabilir'**
+  String get uyariMumGuvesiBaslik;
+
+  /// No description provided for @uyariMumGuvesiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf kolonide fazla petek bırakma. Boş petekleri korumalı sakla.'**
+  String get uyariMumGuvesiMesaj;
+
+  /// No description provided for @uariFareBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fare riski başlayabilir'**
+  String get uariFareBaslik;
+
+  /// No description provided for @uariFareMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan girişlerini daralt. Fare girişini engellemek için önlem al.'**
+  String get uariFareMesaj;
+
+  /// No description provided for @uyariVarroaPlanBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'{etiket} öncesi varroa mücadelesini planla'**
+  String uyariVarroaPlanBaslik(String etiket);
+
+  /// No description provided for @uyariVarroaPlanMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı yaklaşmadan önce varroa durumunu değerlendir. Kimyasal uygulama yapılacaksa kalıntı riskini hesaba katarak erken planla.'**
+  String get uyariVarroaPlanMesaj;
+
+  /// No description provided for @uyariVarroaSonBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı öncesi varroa mücadelesi için son dönem'**
+  String get uyariVarroaSonBaslik;
+
+  /// No description provided for @uyariVarroaSonMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'{baslangicTarih} tarihinde başlaması beklenen {etiket} öncesi kalıntı riskini azaltmak için varroa mücadelesi mümkünse {kalintiTarih} tarihine kadar tamamlanmış olmalı. Geciktiysen yeni kimyasal uygulamayı bal akımı sonrasına bırakman daha güvenli olabilir.'**
+  String uyariVarroaSonMesaj(
+      String baslangicTarih, String etiket, String kalintiTarih);
+
+  /// No description provided for @uyariBalBolmeErkenBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'{etiket} yaklaşırken bölme kararına dikkat'**
+  String uyariBalBolmeErkenBaslik(String etiket);
+
+  /// No description provided for @uyariBalBolmeErkenMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim hedefi korunacaksa bölme kararını dikkatli ver. Bal akımına güçlü işçi arı yetişmesi için zaman daralıyor.'**
+  String get uyariBalBolmeErkenMesaj;
+
+  /// No description provided for @uyariBalBolmeGecBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme yapılacaksa dikkat'**
+  String get uyariBalBolmeGecBaslik;
+
+  /// No description provided for @uyariBalBolmeGecMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'{kritikEsik} sonrası 42 günlük biyolojik eşik aşılmış olur. Bu tarihten sonra yapılan bölmeler bal verimini düşürebilir. Üretim hedefi korunacaksa bölme kararını ertele.'**
+  String uyariBalBolmeGecMesaj(String kritikEsik);
 }
 
 class _AppLocalizationsDelegate

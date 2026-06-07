@@ -218,6 +218,118 @@ class ServisMetinLokalizer {
     'Güçlü':         l.raporDurumGuclu,
     'Çok güçlü':     l.raporDurumCokGuclu,
 
+    // ── trend_servisi — momentum etiketi ─────────────────────────────────
+    'Patlayıcı büyüme':   l.trendMomPatlaYici,
+    'Güçlü büyüme':       l.trendMomGucluBuyume,
+    'Sağlıklı gelişim':   l.trendMomSaglikliGelisim,
+    'Yavaş gelişim':      l.trendMomYavasGelisim,
+    'Duraklama':          l.trendMomDuraklama,
+
+    // ── trend_servisi — trend açıklamaları ────────────────────────────────
+    'Koloni genel olarak stabil görünüyor.':                        l.trendAciklamaStabil,
+    'Son muayenede kovanın söndüğü işaretlenmiş.':                  l.trendAciklamaSonmus,
+    'Bölme işaretli olduğu için çıta değişimi doğrudan zayıflama olarak okunmadı.':
+        l.trendAciklamaBolme,
+    'Koloni zamana göre güçlü biyolojik gelişim yönü gösteriyor.': l.trendAciklamaGucluYon,
+    'Koloni zamana göre sağlıklı biyolojik gelişim yönünde.':      l.trendAciklamaYukselis,
+    'Bal sinyali mevcut; küçük düşüşler üretim / hasat bağlamında okunuyor.':
+        l.trendAciklamaHasatStabil,
+    'Koloni zamana göre güç kaybı eğilimi gösteriyor.':            l.trendAciklamaDusus,
+    'Koloni gelişiyor ancak momentum düşük.':                      l.trendAciklamaYavasGelisim,
+
+    // ── trend_servisi — normalize açıklamaları (yeni) ──────────────────────
+    'Hasat/bölme kaydı olmadan belirgin çıta düşüşü biyolojik zayıflama şüphesiyle okundu.':
+        l.trendNormBiyolojikDusus,
+    'Küçük çıta düşüşü tam çöküş sayılmadan temkinli okundu.':    l.trendNormKucukDusus,
+
+    // ── koloni_biyolojik_model — koloni sınıfı etiket + açıklama ──────────
+    'Zayıf':    l.biyoSinifZayif,
+    'Gelişim':  l.biyoSinifGelisim,
+    'Hasat':    l.biyoSinifHasat,
+    'Öncelik yaşatma, sıkıştırma ve ölçülü destek.':                       l.biyoSinifAciklamaZayif,
+    'Öncelik düzenli gelişim ve ana/yavru dengesinin korunması.':           l.biyoSinifAciklamaGelisim,
+    'Koloni üretim gücüne girmiştir; alan, oğul riski ve bal akımı birlikte izlenir.':
+        l.biyoSinifAciklamaUretim,
+    'Koloni bal akımı ve hasat/alan yönetimi açısından güçlü banttadır.':  l.biyoSinifAciklamaHasat,
+
+    // ── koloni_biyolojik_model — kovan yerleşim etiketleri ────────────────
+    'Yavru/stok':                  l.biyoYerlesimYavruStok,
+    'Ballı/polenli':               l.biyoYerlesimBalliPolenli,
+    'Bal stoğu':                   l.biyoYerlesimBalStogu,
+    'Yavru/polenli':               l.biyoYerlesimYavruPolenli,
+    'Yavru':                       l.biyoYerlesimYavru,
+    'Yavrulu/polenli':             l.biyoYerlesimYavruluPolenli,
+    'Ballı/polenli geçiş alanı':  l.biyoYerlesimBalliPolenliGecis,
+    'Ballık / bal alanı':          l.biyoYerlesimBallikBalAlani,
+    'Yavru/stok geçiş alanı':     l.biyoYerlesimYavruStokGecis,
+
+    // ── koloni_biyolojik_model — yavrusuzluk analizi ──────────────────────
+    'Yavru verisi mevcut; biyolojik geri dönüş kapasitesi yavru üretimiyle destekleniyor.':
+        l.biyoYavrusuzSahaNormal,
+    'Normal biyolojik model akışıyla izle.':                        l.biyoYavrusuzOneriNormal,
+    'Bu aşamada yavru görülmemesi normal olabilir. Koloni ana kazanma veya çiftleşme döneminde olabilir; gereksiz açma riski artırır.':
+        l.biyoYavrusuzSahaBolme,
+    'Kovanı gereksiz açma; yumurtlama kontrol penceresini bekle.':  l.biyoYavrusuzOneriBolme,
+    'Yavru yokluğu tek başına anasızlık anlamına gelmez. Bal akımı ve ballı çıta baskısı yumurtlama alanını daraltmış olabilir.':
+        l.biyoYavrusuzSahaBalBaskisi,
+    'Önce alan ve bal baskısını değerlendir; erken ana müdahalesi yapma.':
+        l.biyoYavrusuzOneriBalBaskisi,
+    'Koloni uzun süredir yeni işçi üretmiyor. Bu güç seviyesinde mevcut nüfus yaşlanıyor olabilir; yoğun emek ve kaynak harcamak verimli olmayabilir.':
+        l.biyoYavrusuzSahaDusukKap,
+    'Güçlü koloniyle birleştirme veya sınırlı müdahale öncelikli değerlendirilmelidir.':
+        l.biyoYavrusuzOneriDusukKap,
+    'Yumurtlama beklenen döneme girilmiş. Yavru hâlâ yoksa geç çiftleşme, ana kaybı, bal baskısı veya zayıf koloni olasılıkları birlikte okunmalı.':
+        l.biyoYavrusuzSahaGecikme,
+    '5–7 gün içinde tekrar kontrol et; koloni zayıflıyorsa beklemeyi uzatma.':
+        l.biyoYavrusuzOneriGecikme,
+    'Yavru yokluğu izlenmeli; mevcut gün aralığında tek başına kesin anasızlık kararı verilmemelidir.':
+        l.biyoYavrusuzSahaIzlenmeli,
+    'Koloni davranışı, polen gelişi ve bir sonraki muayene ile birlikte değerlendir.':
+        l.biyoYavrusuzOneriIzlenmeli,
+
+    // ── performans_ozeti_servisi — biyoloji yorumu ────────────────────────
+    'Biyolojik veri yetersiz':  l.perfBiyolojiVeriYetersiz,
+    'Zaman kritik':             l.perfBiyolojiZamanKritik,
+    'Müdahale gerekli':         l.perfBiyolojiMudahaleGerekli,
+    'Uygun':                    l.perfBiyolojiUygun,
+    'Dikkat':                   l.perfBiyolojiDikkat,
+
+    // ── performans_ozeti_servisi — kabiliyet yorumu ───────────────────────
+    'Yeterli':   l.perfKabiliyetYeterli,
+    'Sınırlı':   l.perfKabiliyetSinirli,
+    'Veri yok':  l.perfKabiliyetVeriYok,
+
+    // ── performans_ozeti_servisi — donör sıralaması ───────────────────────
+    '1. Donör Adayı':   l.perfDurum1DonorAdayi,
+    '2. Donör Adayı':   l.perfDurum2DonorAdayi,
+    '3. Donör Adayı':   l.perfDurum3DonorAdayi,
+
+    // ── performans_ozeti_servisi — veri güveni etiketi ────────────────────
+    'Güvenilir':         l.perfVeriGuveniGuvenilir,
+    'Veri çok sınırlı':  l.perfVeriGuveniCokSinirli,
+
+    // ── performans_ozeti_servisi — kış çıkış ─────────────────────────────
+    'Kış çıkış verisi yetersiz.':  l.perfKisCikisVeriYetersiz,
+
+    // ── aksiyon kartı başlıkları ──────────────────────────────────────────
+    'Durum':          l.aksiyonDurum,
+    'Ne yap':         l.aksiyonNeYap,
+    'Neden':          l.aksiyonNeden,
+    'Zaman Bağlamı':  l.aksiyonZamanBaglami,
+
+    // ── performans_ozeti_servisi — skor yorumu ────────────────────────────
+    'Orta':  l.perfYorumOrta,
+
+    // ── karsilastirma_ozeti_servisi — satır başlıkları ─────────────────────
+    'Genetik Seçilim':               l.karsilastirmaGenetikSecilim,
+    'Kıştan Çıkış':                  l.karsilastirmaKistanCikis,
+    'Biyoloji Durumu':               l.karsilastirmaBiyolojiDurumu,
+    'Meme Takibi':                   l.karsilastirmaMemeTakibi,
+    'Anasızlık (gün)':               l.karsilastirmaAnasizlikGun,
+    'Genetik Veto':                  l.karsilastirmaGenetikVeto,
+    'Temiz donör havuzuna giremez':  l.karsilastirmaHavuzaGiremez,
+    'Zamanlama ve meme gelişimi':    l.karsilastirmaMemeTakipYorum,
+
     // ── hat_analiz_servisi — karar / gerekçe string'leri ─────────────────
     'Donör Hat':           l.hatKararDonor,
     'Güçlü Üretim Hattı':  l.hatKararGucluUretim,

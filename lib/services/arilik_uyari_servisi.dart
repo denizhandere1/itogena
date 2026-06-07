@@ -1,3 +1,4 @@
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'veritabani_servisi.dart';
 
 class ArilikUyari {
@@ -63,29 +64,25 @@ class ArilikUyariServisi {
 
   static Future<List<ArilikUyari>> uyarilariGetir(
     DateTime bugun, {
+    AppLocalizations? l,
     int? arilikId,
   }) async {
     final gun = _gun(bugun);
-    final cacheKey = '${arilikId != null && arilikId > 0 ? 'arilik_$arilikId' : 'global'}_${gun.year}_${gun.month}_${gun.day}';
+    final locale = l?.localeName ?? 'tr';
+    final cacheKey = '${arilikId != null && arilikId > 0 ? 'arilik_$arilikId' : 'global'}_${gun.year}_${gun.month}_${gun.day}_$locale';
 
     final cacheli = _uyariCache[cacheKey];
     if (cacheli != null) return cacheli;
 
     final List<ArilikUyari> liste = [];
 
-    final varroaUyarisi = await _varroaAkimiOncesiUyarisiGetir(
-      bugun,
-      arilikId: arilikId,
-    );
+    final varroaUyarisi = await _varroaAkimiOncesiUyarisiGetir(bugun, arilikId: arilikId, l: l);
     if (varroaUyarisi != null &&
         !await sezonlukGizliMi(varroaUyarisi.kod, bugun, arilikId: arilikId)) {
       liste.add(varroaUyarisi);
     }
 
-    final balAkimiUyarisi = await _balAkimiBolmeUyarisiGetir(
-      bugun,
-      arilikId: arilikId,
-    );
+    final balAkimiUyarisi = await _balAkimiBolmeUyarisiGetir(bugun, arilikId: arilikId, l: l);
     if (balAkimiUyarisi != null &&
         !await sezonlukGizliMi(balAkimiUyarisi.kod, bugun, arilikId: arilikId)) {
       liste.add(balAkimiUyarisi);
@@ -106,7 +103,7 @@ class ArilikUyariServisi {
       if (!_tarihAraliktaMi(bugun, baslangic, bitis)) continue;
       if (await sezonlukGizliMi(risk.kod, bugun, arilikId: arilikId)) continue;
 
-      final uyari = _uyariUret(risk.kod);
+      final uyari = _uyariUret(risk.kod, l: l);
       if (uyari != null) liste.add(uyari);
     }
 
@@ -147,6 +144,7 @@ class ArilikUyariServisi {
   static Future<ArilikUyari?> _varroaAkimiOncesiUyarisiGetir(
     DateTime bugun, {
     int? arilikId,
+    AppLocalizations? l,
   }) async {
     final bugunGun = _gun(bugun);
 
@@ -173,18 +171,18 @@ class ArilikUyariServisi {
     if (bugunGun.isBefore(kalintiGuvenlikEsigi)) {
       return ArilikUyari(
         kod: 'VARROA_AKIM_ONCESI_PLAN_$kod',
-        baslik: '$etiket öncesi varroa mücadelesini planla',
-        mesaj:
-            'Bal akımı yaklaşmadan önce varroa durumunu değerlendir. Kimyasal uygulama yapılacaksa kalıntı riskini hesaba katarak erken planla.',
+        baslik: l != null ? l.uyariVarroaPlanBaslik(etiket) : '$etiket öncesi varroa mücadelesini planla',
+        mesaj: l?.uyariVarroaPlanMesaj ?? 'Bal akımı yaklaşmadan önce varroa durumunu değerlendir. Kimyasal uygulama yapılacaksa kalıntı riskini hesaba katarak erken planla.',
         oncelik: 88,
       );
     }
 
     return ArilikUyari(
       kod: 'VARROA_AKIM_ONCESI_SON_$kod',
-      baslik: 'Bal akımı öncesi varroa mücadelesi için son dönem',
-      mesaj:
-          '${_formatTarih(baslangic)} tarihinde başlaması beklenen $etiket öncesi kalıntı riskini azaltmak için varroa mücadelesi mümkünse ${_formatTarih(kalintiGuvenlikEsigi)} tarihine kadar tamamlanmış olmalı. Geciktiysen yeni kimyasal uygulamayı bal akımı sonrasına bırakman daha güvenli olabilir.',
+      baslik: l?.uyariVarroaSonBaslik ?? 'Bal akımı öncesi varroa mücadelesi için son dönem',
+      mesaj: l != null
+          ? l.uyariVarroaSonMesaj(_formatTarih(baslangic), etiket, _formatTarih(kalintiGuvenlikEsigi))
+          : '${_formatTarih(baslangic)} tarihinde başlaması beklenen $etiket öncesi kalıntı riskini azaltmak için varroa mücadelesi mümkünse ${_formatTarih(kalintiGuvenlikEsigi)} tarihine kadar tamamlanmış olmalı.',
       oncelik: 92,
     );
   }
@@ -192,6 +190,7 @@ class ArilikUyariServisi {
   static Future<ArilikUyari?> _balAkimiBolmeUyarisiGetir(
     DateTime bugun, {
     int? arilikId,
+    AppLocalizations? l,
   }) async {
     final bugunGun = _gun(bugun);
 
@@ -217,62 +216,55 @@ class ArilikUyariServisi {
     if (bugunGun.isBefore(kritikEsik)) {
       return ArilikUyari(
         kod: 'BAL_AKIMI_BOLME_ERKEN_$kod',
-        baslik: '$etiket yaklaşırken bölme kararına dikkat',
-        mesaj:
-            'Üretim hedefi korunacaksa bölme kararını dikkatli ver. Bal akımına güçlü işçi arı yetişmesi için zaman daralıyor.',
+        baslik: l != null ? l.uyariBalBolmeErkenBaslik(etiket) : '$etiket yaklaşırken bölme kararına dikkat',
+        mesaj: l?.uyariBalBolmeErkenMesaj ?? 'Üretim hedefi korunacaksa bölme kararını dikkatli ver. Bal akımına güçlü işçi arı yetişmesi için zaman daralıyor.',
         oncelik: 90,
       );
     }
 
     return ArilikUyari(
       kod: 'BAL_AKIMI_BOLME_GEC_$kod',
-      baslik: 'Bölme yapılacaksa dikkat',
-      mesaj:
-          '${_formatTarih(kritikEsik)} sonrası 42 günlük biyolojik eşik aşılmış olur. Bu tarihten sonra yapılan bölmeler bal verimini düşürebilir. Üretim hedefi korunacaksa bölme kararını ertele.',
+      baslik: l?.uyariBalBolmeGecBaslik ?? 'Bölme yapılacaksa dikkat',
+      mesaj: l != null ? l.uyariBalBolmeGecMesaj(_formatTarih(kritikEsik)) : '${_formatTarih(kritikEsik)} sonrası 42 günlük biyolojik eşik aşılmış olur. Bu tarihten sonra yapılan bölmeler bal verimini düşürebilir.',
       oncelik: 95,
     );
   }
 
-  static ArilikUyari? _uyariUret(String kod) {
+  static ArilikUyari? _uyariUret(String kod, {AppLocalizations? l}) {
     switch (kod) {
       case 'ARI_KUSU':
-        return const ArilikUyari(
+        return ArilikUyari(
           kod: 'ARI_KUSU',
-          baslik: 'Arı kuşu baskısı görülebilir',
-          mesaj:
-              'Uçuş hattını gözle. Yoğun geçiş varsa korkuluk veya görsel caydırıcı önlemler kullan.',
+          baslik: l?.uyariAriKusuBaslik ?? 'Arı kuşu baskısı görülebilir',
+          mesaj: l?.uyariAriKusuMesaj ?? 'Uçuş hattını gözle. Yoğun geçiş varsa korkuluk veya görsel caydırıcı önlemler kullan.',
           oncelik: 70,
         );
       case 'ESEK_ARISI':
-        return const ArilikUyari(
+        return ArilikUyari(
           kod: 'ESEK_ARISI',
-          baslik: 'Eşek arısı baskısı artabilir',
-          mesaj:
-              'Kovan girişlerini daralt, zayıf kolonileri koru. Yoğun baskıda tuzak kurulması değerlendirilebilir.',
+          baslik: l?.uyariEsekArisiBaslik ?? 'Eşek arısı baskısı artabilir',
+          mesaj: l?.uyariEsekArisiMesaj ?? 'Kovan girişlerini daralt, zayıf kolonileri koru. Yoğun baskıda tuzak kurulması değerlendirilebilir.',
           oncelik: 80,
         );
       case 'YAGMACILIK':
-        return const ArilikUyari(
+        return ArilikUyari(
           kod: 'YAGMACILIK',
-          baslik: 'Yağmacılık riski artabilir',
-          mesaj:
-              'Kovan açma süresini kısa tut. Girişleri daralt, zayıf kolonileri koru.',
+          baslik: l?.uyariYagmacilikBaslik ?? 'Yağmacılık riski artabilir',
+          mesaj: l?.uyariYagmacilikMesaj ?? 'Kovan açma süresini kısa tut. Girişleri daralt, zayıf kolonileri koru.',
           oncelik: 75,
         );
       case 'MUM_GUVESI':
-        return const ArilikUyari(
+        return ArilikUyari(
           kod: 'MUM_GUVESI',
-          baslik: 'Mum güvesi riski artabilir',
-          mesaj:
-              'Zayıf kolonide fazla petek bırakma. Boş petekleri korumalı sakla.',
+          baslik: l?.uyariMumGuvesiBaslik ?? 'Mum güvesi riski artabilir',
+          mesaj: l?.uyariMumGuvesiMesaj ?? 'Zayıf kolonide fazla petek bırakma. Boş petekleri korumalı sakla.',
           oncelik: 60,
         );
       case 'FARE':
-        return const ArilikUyari(
+        return ArilikUyari(
           kod: 'FARE',
-          baslik: 'Fare riski başlayabilir',
-          mesaj:
-              'Kovan girişlerini daralt. Fare girişini engellemek için önlem al.',
+          baslik: l?.uariFareBaslik ?? 'Fare riski başlayabilir',
+          mesaj: l?.uariFareMesaj ?? 'Kovan girişlerini daralt. Fare girişini engellemek için önlem al.',
           oncelik: 65,
         );
       default:

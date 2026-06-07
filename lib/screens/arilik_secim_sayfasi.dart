@@ -43,6 +43,8 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
 
     final Map<int, List<ArilikUyari>> uyariMap = {};
     final bugun = DateTime.now();
+    if (!mounted) return;
+    final l = AppLocalizations.of(context);
     final uyariSonuclari = await Future.wait<MapEntry<int, List<ArilikUyari>>>(
       ariliklar.map((arilik) async {
         final arilikId = _toInt(arilik['id']);
@@ -55,6 +57,7 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
 
         final uyarilar = await ArilikUyariServisi.uyarilariGetir(
           bugun,
+          l: l,
           arilikId: arilikId,
         );
         return MapEntry<int, List<ArilikUyari>>(arilikId, uyarilar);

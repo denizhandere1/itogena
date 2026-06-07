@@ -3406,4 +3406,823 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get raporDurumCokGuclu => 'Çok güçlü';
+
+  @override
+  String get trendMomPatlaYici => 'Patlayıcı büyüme';
+
+  @override
+  String get trendMomGucluBuyume => 'Güçlü büyüme';
+
+  @override
+  String get trendMomSaglikliGelisim => 'Sağlıklı gelişim';
+
+  @override
+  String get trendMomYavasGelisim => 'Yavaş gelişim';
+
+  @override
+  String get trendMomDuraklama => 'Duraklama';
+
+  @override
+  String get trendAciklamaStabil => 'Koloni genel olarak stabil görünüyor.';
+
+  @override
+  String get trendAciklamaSonmus =>
+      'Son muayenede kovanın söndüğü işaretlenmiş.';
+
+  @override
+  String get trendAciklamaBolme =>
+      'Bölme işaretli olduğu için çıta değişimi doğrudan zayıflama olarak okunmadı.';
+
+  @override
+  String get trendAciklamaGucluYon =>
+      'Koloni zamana göre güçlü biyolojik gelişim yönü gösteriyor.';
+
+  @override
+  String get trendAciklamaYukselis =>
+      'Koloni zamana göre sağlıklı biyolojik gelişim yönünde.';
+
+  @override
+  String get trendAciklamaHasatStabil =>
+      'Bal sinyali mevcut; küçük düşüşler üretim / hasat bağlamında okunuyor.';
+
+  @override
+  String get trendAciklamaDusus =>
+      'Koloni zamana göre güç kaybı eğilimi gösteriyor.';
+
+  @override
+  String get trendAciklamaYavasGelisim =>
+      'Koloni gelişiyor ancak momentum düşük.';
+
+  @override
+  String get trendNormBiyolojikDusus =>
+      'Hasat/bölme kaydı olmadan belirgin çıta düşüşü biyolojik zayıflama şüphesiyle okundu.';
+
+  @override
+  String get trendNormKucukDusus =>
+      'Küçük çıta düşüşü tam çöküş sayılmadan temkinli okundu.';
+
+  @override
+  String get biyoSinifZayif => 'Zayıf';
+
+  @override
+  String get biyoSinifGelisim => 'Gelişim';
+
+  @override
+  String get biyoSinifHasat => 'Hasat';
+
+  @override
+  String get biyoSinifAciklamaZayif =>
+      'Öncelik yaşatma, sıkıştırma ve ölçülü destek.';
+
+  @override
+  String get biyoSinifAciklamaGelisim =>
+      'Öncelik düzenli gelişim ve ana/yavru dengesinin korunması.';
+
+  @override
+  String get biyoSinifAciklamaUretim =>
+      'Koloni üretim gücüne girmiştir; alan, oğul riski ve bal akımı birlikte izlenir.';
+
+  @override
+  String get biyoSinifAciklamaHasat =>
+      'Koloni bal akımı ve hasat/alan yönetimi açısından güçlü banttadır.';
+
+  @override
+  String get biyoYerlesimYavruStok => 'Yavru/stok';
+
+  @override
+  String get biyoYerlesimBalliPolenli => 'Ballı/polenli';
+
+  @override
+  String get biyoYerlesimBalStogu => 'Bal stoğu';
+
+  @override
+  String get biyoYerlesimYavruPolenli => 'Yavru/polenli';
+
+  @override
+  String get biyoYerlesimYavru => 'Yavru';
+
+  @override
+  String get biyoYerlesimYavruluPolenli => 'Yavrulu/polenli';
+
+  @override
+  String get biyoYerlesimBalliPolenliGecis => 'Ballı/polenli geçiş alanı';
+
+  @override
+  String get biyoYerlesimBallikBalAlani => 'Ballık / bal alanı';
+
+  @override
+  String get biyoYerlesimYavruStokGecis => 'Yavru/stok geçiş alanı';
+
+  @override
+  String get biyoYavrusuzSahaNormal =>
+      'Yavru verisi mevcut; biyolojik geri dönüş kapasitesi yavru üretimiyle destekleniyor.';
+
+  @override
+  String get biyoYavrusuzOneriNormal => 'Normal biyolojik model akışıyla izle.';
+
+  @override
+  String get biyoYavrusuzSahaBolme =>
+      'Bu aşamada yavru görülmemesi normal olabilir. Koloni ana kazanma veya çiftleşme döneminde olabilir; gereksiz açma riski artırır.';
+
+  @override
+  String get biyoYavrusuzOneriBolme =>
+      'Kovanı gereksiz açma; yumurtlama kontrol penceresini bekle.';
+
+  @override
+  String get biyoYavrusuzSahaBalBaskisi =>
+      'Yavru yokluğu tek başına anasızlık anlamına gelmez. Bal akımı ve ballı çıta baskısı yumurtlama alanını daraltmış olabilir.';
+
+  @override
+  String get biyoYavrusuzOneriBalBaskisi =>
+      'Önce alan ve bal baskısını değerlendir; erken ana müdahalesi yapma.';
+
+  @override
+  String get biyoYavrusuzSahaDusukKap =>
+      'Koloni uzun süredir yeni işçi üretmiyor. Bu güç seviyesinde mevcut nüfus yaşlanıyor olabilir; yoğun emek ve kaynak harcamak verimli olmayabilir.';
+
+  @override
+  String get biyoYavrusuzOneriDusukKap =>
+      'Güçlü koloniyle birleştirme veya sınırlı müdahale öncelikli değerlendirilmelidir.';
+
+  @override
+  String get biyoYavrusuzSahaGecikme =>
+      'Yumurtlama beklenen döneme girilmiş. Yavru hâlâ yoksa geç çiftleşme, ana kaybı, bal baskısı veya zayıf koloni olasılıkları birlikte okunmalı.';
+
+  @override
+  String get biyoYavrusuzOneriGecikme =>
+      '5–7 gün içinde tekrar kontrol et; koloni zayıflıyorsa beklemeyi uzatma.';
+
+  @override
+  String get biyoYavrusuzSahaIzlenmeli =>
+      'Yavru yokluğu izlenmeli; mevcut gün aralığında tek başına kesin anasızlık kararı verilmemelidir.';
+
+  @override
+  String get biyoYavrusuzOneriIzlenmeli =>
+      'Koloni davranışı, polen gelişi ve bir sonraki muayene ile birlikte değerlendir.';
+
+  @override
+  String get perfBiyolojiVeriYetersiz => 'Biyolojik veri yetersiz';
+
+  @override
+  String get perfBiyolojiZamanKritik => 'Zaman kritik';
+
+  @override
+  String get perfBiyolojiMudahaleGerekli => 'Müdahale gerekli';
+
+  @override
+  String get perfBiyolojiUygun => 'Uygun';
+
+  @override
+  String get perfBiyolojiDikkat => 'Dikkat';
+
+  @override
+  String get perfKabiliyetYeterli => 'Yeterli';
+
+  @override
+  String get perfKabiliyetSinirli => 'Sınırlı';
+
+  @override
+  String get perfKabiliyetVeriYok => 'Veri yok';
+
+  @override
+  String get perfDurum1DonorAdayi => '1. Donör Adayı';
+
+  @override
+  String get perfDurum2DonorAdayi => '2. Donör Adayı';
+
+  @override
+  String get perfDurum3DonorAdayi => '3. Donör Adayı';
+
+  @override
+  String get perfVeriGuveniGuvenilir => 'Güvenilir';
+
+  @override
+  String get perfVeriGuveniCokSinirli => 'Veri çok sınırlı';
+
+  @override
+  String get perfKisCikisVeriYetersiz => 'Kış çıkış verisi yetersiz.';
+
+  @override
+  String get aksiyonDurum => 'Durum';
+
+  @override
+  String get aksiyonNeYap => 'Ne yap';
+
+  @override
+  String get aksiyonNeden => 'Neden';
+
+  @override
+  String get aksiyonZamanBaglami => 'Zaman Bağlamı';
+
+  @override
+  String get perfYorumOrta => 'Orta';
+
+  @override
+  String get karsilastirmaGenetikSecilim => 'Genetik Seçilim';
+
+  @override
+  String get karsilastirmaKistanCikis => 'Kıştan Çıkış';
+
+  @override
+  String get karsilastirmaBiyolojiDurumu => 'Biyoloji Durumu';
+
+  @override
+  String get karsilastirmaMemeTakibi => 'Meme Takibi';
+
+  @override
+  String get karsilastirmaAnasizlikGun => 'Anasızlık (gün)';
+
+  @override
+  String get karsilastirmaHavuzaGiremez => 'Temiz donör havuzuna giremez';
+
+  @override
+  String get karsilastirmaMemeTakipYorum => 'Zamanlama ve meme gelişimi';
+
+  @override
+  String get fHesapSurupFormulBaslik => 'Şurup Formülü';
+
+  @override
+  String get fHesapSurupFormulAciklama =>
+      'Hedef şerbet miktarını kg olarak girersen sistem kg su ve kg şeker verir. Sahada aynı ölçü kabını kullanıyorsan 1:1 veya 2:1 oranı aynı mantıkla korunur.';
+
+  @override
+  String get fHesapSurupOraniBolum => 'Şurup Oranı';
+
+  @override
+  String get fHesapSurupOraniAciklama =>
+      '1:1 genelde teşvik şurubu, 2:1 genelde stok / kış hazırlığı için kullanılır. Bu ekran zorunlu uygulama emri değil, oran hesabı yardımcısıdır.';
+
+  @override
+  String get fHesapSurupHedefBolum => 'Hedef Şerbet';
+
+  @override
+  String get fHesapSurupHedefEtiket => 'Hedef şerbet miktarı';
+
+  @override
+  String get fHesapSurupHedefYardim =>
+      'Örnek: 10 kg hedef şerbet için gerekli kg su ve kg şeker hesaplanır.';
+
+  @override
+  String get fHesapSurupSonucSuffix => 'Şurup Sonucu';
+
+  @override
+  String get fHesapSurupSekerSatir => 'Şeker';
+
+  @override
+  String get fHesapSurupSuSatir => 'Su';
+
+  @override
+  String get fHesapSurupKatsayiSatir => 'Saha Katsayısı';
+
+  @override
+  String get fHesapSurupNot =>
+      'Kg hesabı hedef şerbet ağırlığı içindir. Hacimsel kapla çalışıyorsan aynı kapla oran kur; 1:1 için eşit kap, 2:1 için iki kap şeker bir kap su mantığı korunur.';
+
+  @override
+  String get fHesapOksalikBaslik => 'Oksalik Asit Yardımcı Hesabı';
+
+  @override
+  String get fHesapOksalikAciklama =>
+      'Bu ekran yalnızca hesaplama yardımcısıdır. Uygulama kararı için ruhsatlı ürün etiketi, yerel mevzuat ve veteriner/teknik danışman talimatı esas alınır.';
+
+  @override
+  String get fHesapOksalikFormulBaslik => '10–15 Kovan İçin Standart Formül';
+
+  @override
+  String get fHesapOksalikTozAsitSatir => 'Toz oksalik asit';
+
+  @override
+  String get fHesapOksalikUygulamaSatir => 'Uygulama şekli';
+
+  @override
+  String get fHesapOksalikUygulamaDegeri => 'Damlatma';
+
+  @override
+  String get fHesapOksalikUygulamaNotu => 'Uygulama Notu';
+
+  @override
+  String get fHesapOksalikUygulamaNotMetni =>
+      'Oksalik uygulaması genelde yavrusuz / yavru çok az dönemde daha anlamlıdır. Sıcaklık, doz, uygulama yöntemi ve tekrar sayısı için ürün etiketi esas alınmalıdır.';
+
+  @override
+  String get fHesapOksalikGuvenlikBaslik => 'Güvenlik Uyarısı';
+
+  @override
+  String get fHesapOksalikGuvenlikMetni =>
+      'Koruyucu gözlük, eldiven ve maske kullan. Asit buharını soluma, cilt ve göz temasından kaçın. Ruhsatsız ürün, belirsiz doz veya etiketsiz karışım kullanma. Bu ekran tedavi talimatı değil, yardımcı hesaplama ekranıdır.';
+
+  @override
+  String get fHesapBiyolojiBaslik => 'Biyolojik Takvim';
+
+  @override
+  String get fHesapBiyolojiAciklama =>
+      'Bu ekran ana kazanma biyoloji takvimini merkezi AriBiyolojiServisi üzerinden okur. Koloni detay, süreç uyarıları ve formüller aynı tarih mantığını kullanır.';
+
+  @override
+  String get fHesapBiyolojiAnaKazanmaBolum => 'Ana Kazanma Süreci';
+
+  @override
+  String get fHesapBiyolojiBaslangicTipi => 'Başlangıç tipi';
+
+  @override
+  String get fHesapBiyolojiAnasizBirakildi => 'Anasız Bırakıldı';
+
+  @override
+  String get fHesapBiyolojiBolmeYapildi => 'Bölme Yapıldı';
+
+  @override
+  String get fHesapBiyolojiKapaliMeme => 'Hazır Kapalı Ana Memesi';
+
+  @override
+  String get fHesapBiyolojiHazirAna => 'Hazır Çiftleşmiş Ana';
+
+  @override
+  String get fHesapBiyolojiBaslangicTarihi => 'Başlangıç tarihi';
+
+  @override
+  String get fHesapBiyolojiTakvimSuffix => 'Takvimi';
+
+  @override
+  String get fHesapBiyolojiSahaNotu => 'Saha Notu';
+
+  @override
+  String get fHesapBiyolojiSahaNotMetni =>
+      'Gün sayımı başlangıç günü dahil edilerek yapılır. Günlük / kapalı yavru görülürse muayene ekranındaki ilgili kutucuk işaretlenir ve ana kazanma süreci kapanır.';
+
+  @override
+  String get fHesapBiyolojiIsciYavruBolum => 'Kapalı İşçi Yavrusu Çıkışı';
+
+  @override
+  String get fHesapBiyolojiIsciYavruTarihi =>
+      'Kapalı işçi yavrusu görülen tarih';
+
+  @override
+  String get fHesapBiyolojiIsciYavruPencere =>
+      'Kapalı İşçi Yavrusu Çıkış Penceresi';
+
+  @override
+  String get fHesapBiyolojiErkekYavruBolum => 'Kapalı Erkek Yavrusu Çıkışı';
+
+  @override
+  String get fHesapBiyolojiErkekYavruTarihi =>
+      'Kapalı erkek yavrusu görülen tarih';
+
+  @override
+  String get fHesapBiyolojiErkekYavruPencere =>
+      'Kapalı Erkek Yavrusu Çıkış Penceresi';
+
+  @override
+  String get fHesapBiyolojiBaslangicSatir => 'Başlangıç';
+
+  @override
+  String get fHesapBiyolojiTahminiCikis => 'Tahmini çıkış';
+
+  @override
+  String get fHesapBiyolojiKabulPencere => 'Kabul kontrol penceresi';
+
+  @override
+  String get fHesapBiyolojiMemePencere => 'Tahmini meme kapanma';
+
+  @override
+  String get fHesapBiyolojiAnaCikisi => 'Tahmini ana çıkışı';
+
+  @override
+  String get fHesapBiyolojiCiftlesmePencere => 'Çiftleşme uçuş penceresi';
+
+  @override
+  String get fHesapBiyolojiYumurtlamaPencere => 'Yumurtlama kontrol penceresi';
+
+  @override
+  String get fHesapBiyolojiDokunmaPencere => 'Kovana dokunma penceresi';
+
+  @override
+  String get fHesapBalAkimiBaslik => 'Bal Akımı Kararı';
+
+  @override
+  String get fHesapBalAkimiAciklama =>
+      'Sistem, bal akımına zayıf girmemek için 57 günlük saha planlama eşiğini kullanır. 42 gün ise yumurtadan tarlacıya biyolojik süredir; bu ikisi aynı şey değildir.';
+
+  @override
+  String get fHesapBalAkimTarihi => 'Bal akım başlangıç tarihi';
+
+  @override
+  String get fHesapBalAkimCitaSayisi => 'Mevcut çıta sayısı';
+
+  @override
+  String get fHesapBalAkimCitaYardim => 'Örnek: 9';
+
+  @override
+  String get fHesapBalAkimTarihBekleniyor => 'Tarih Bekleniyor';
+
+  @override
+  String get fHesapBalAkimTarihBekleniyorMetni =>
+      'Karar üretilebilmesi için önce bal akım başlangıç tarihini seç.';
+
+  @override
+  String get fHesapBalAkimKararBaslik => 'Karar';
+
+  @override
+  String get fHesapBalAkimSonTarih => 'Son güvenli bölme tarihi';
+
+  @override
+  String get fHesapBalAkimPlanlamaEsigi => 'Planlama eşiği';
+
+  @override
+  String get fHesapBalAkimPlanlamaEsigiDeger => '57 gün';
+
+  @override
+  String get fHesapBalAkimBiyolojikSure => 'Biyolojik süre';
+
+  @override
+  String get fHesapBalAkimBiyolojikSureDeger => '42 gün: yumurtadan tarlacıya';
+
+  @override
+  String get fHesapBalAkimMevcutGuc => 'Mevcut güç';
+
+  @override
+  String get fHesapBalAkimHedefAltSinir => 'Hedef alt sınır';
+
+  @override
+  String get fHesapBalAkimEnFazla => 'En fazla alınabilir';
+
+  @override
+  String get fHesapBalAkimKarar => 'Karar';
+
+  @override
+  String get fHesapBalAkimGucYetersiz =>
+      'Bu güçte güvenli bölme penceresi açılmamış görünüyor.';
+
+  @override
+  String fHesapBalAkimMaxCitaUyari(String maxCita) {
+    return '$maxCita çıtadan fazla alınırsa koloni bal dönemine zayıf girebilir.';
+  }
+
+  @override
+  String get kolonilerCitaYok => '- çıta';
+
+  @override
+  String kolonilerIslevselCita(int islevsel) {
+    return '$islevsel işl.';
+  }
+
+  @override
+  String get kaynakAnaHat => 'Ana Hat';
+
+  @override
+  String get kaynakBolme => 'Bölme';
+
+  @override
+  String kaynakBolmeDen(String koloni) {
+    return '$koloni koloniden bölme';
+  }
+
+  @override
+  String get kaynakOgul => 'Oğul';
+
+  @override
+  String kaynakOgulDen(String koloni) {
+    return '$koloni koloniden oğul';
+  }
+
+  @override
+  String get kaynakDisKaynak => 'Dış kaynak';
+
+  @override
+  String get kararDonorDegil => 'Genetik seçilimde uygun değil.';
+
+  @override
+  String get kararYakinTakip => 'Yakın takip et.';
+
+  @override
+  String get yonetimKararUretilemediBaslik => 'Yönetim kararları üretilemedi';
+
+  @override
+  String get yonetimKararUretilemediOzet =>
+      'Saha yönetimi karar hattı bu koloni için sonuç veremedi.';
+
+  @override
+  String get yonetimKararYokBaslik => 'Öne çıkan yönetim kararı yok';
+
+  @override
+  String get yonetimKararYokOzet =>
+      'Süreç, biyolojik sınıf ve sezon birlikte okundu; şu an ayrı bir saha müdahalesi öne çıkmıyor.';
+
+  @override
+  String get yonetimKararYokDetay =>
+      'Bu kart artık besleme motorunu ayrı bir gerçeklik olarak okumaz. Besleme, kat, alan, varroa, şurupluk, kış ve hasat sonrası kararları aynı yönetim listesinde değerlendirilir.';
+
+  @override
+  String biyolojikModelUretilemedi(String hata) {
+    return 'Biyolojik model üretilemedi:\n$hata';
+  }
+
+  @override
+  String get biyolojikModelVeriGerekli =>
+      'Biyolojik model için önce muayene ve çıta verisi gerekir.';
+
+  @override
+  String get biyolojikDizilimBaslik => 'BİYOLOJİK DİZİLİM PROJEKSİYONU';
+
+  @override
+  String get biyolojikTahminiAriEtiket => 'Tahmini arı';
+
+  @override
+  String biyolojikMerkezYavruBloku(String blok) {
+    return 'Merkez yavru bloğu: $blok. Bu blok korunmalı.';
+  }
+
+  @override
+  String get biyolojikBalPotansiyeli => 'Bal potansiyeli';
+
+  @override
+  String get biyolojikBirakilacakStok => 'Bırakılacak stok';
+
+  @override
+  String get biyolojikHacimAktivasyonuEtiket => 'Hacim aktivasyonu';
+
+  @override
+  String get biyolojikTarlaciEtiket => 'Tarlacı';
+
+  @override
+  String get biyolojikBakiciEtiket => 'Bakıcı';
+
+  @override
+  String get biyolojikGencIsciEtiket => 'Genç işçi';
+
+  @override
+  String get biyolojikPetekOrme => 'Petek örme';
+
+  @override
+  String get biyolojikYavruBakim => 'Yavru bakımı';
+
+  @override
+  String get biyolojikNektarToplama => 'Nektar toplama';
+
+  @override
+  String get biyolojikBalIsleme => 'Bal işleme';
+
+  @override
+  String get hasatProjeksiyonBaslik => 'HASAT PROJEKSİYONU';
+
+  @override
+  String get hasatAdayYok =>
+      'Hasat adayı çıta oluşmadı. Koloni gücü ve dış stok durumuna göre takip et.';
+
+  @override
+  String get hasatTahminiMiktarEtiket => 'Tahmini miktar';
+
+  @override
+  String get hasatTahminiDegerEtiket => 'Tahmini değer';
+
+  @override
+  String get hasatKuluckalikGuvenlik =>
+      'Yalnızca yavrusuz ve sırlıysa değerlendir. Kuluçkalık güvenliği bozulmamalı.';
+
+  @override
+  String get hasatSuruplukKisit =>
+      'Bal akımı yaklaştığı için besleme kısıtı başladı. Şurupluk kovandaysa görselde kalır; yalnızca muayenede kaldırıldı olarak işaretlenirse dizilimden çıkar.';
+
+  @override
+  String get katUcuncuBallik => '3. KAT / BALLIK';
+
+  @override
+  String get katUstBallik => 'ÜST KAT / BALLIK';
+
+  @override
+  String get katAltKuluckalik => 'ALT KAT / KULUÇKALIK';
+
+  @override
+  String get lejantBalStok => 'Bal/stok';
+
+  @override
+  String get lejantBalliPolenli => 'Ballı-polenli';
+
+  @override
+  String get lejantYavru => 'Yavru';
+
+  @override
+  String get lejantBosCerceve => 'Boş çerçeve';
+
+  @override
+  String get lejantGunlukDolum => 'Günlük dolum';
+
+  @override
+  String get lejantSurupluk => 'Şurupluk';
+
+  @override
+  String get hacimTipiKatGecisi =>
+      'Kat geçişi; yeni hacim kademeli aktive ediliyor.';
+
+  @override
+  String get hacimTipiBallikUretim =>
+      'Bal akımı içinde üretim genişlemesi kabul ediliyor.';
+
+  @override
+  String get hacimTipiRiskliGenisleme =>
+      'Bal akımı dışında hızlı genişleme; temkinli okunmalı.';
+
+  @override
+  String get hacimTipiHasatDusus =>
+      'Hasat kaynaklı düşüş; biyolojik zayıflama sayılmaz.';
+
+  @override
+  String get hacimTipiBiyolojikZayiflama =>
+      'Hacim düşüşü biyolojik zayıflama açısından izlenmeli.';
+
+  @override
+  String get hacimTipiKuluckalikGenisleme =>
+      'Kuluçkalık genişlemesi kontrollü okunuyor.';
+
+  @override
+  String get hacimTipiNormal => 'Hacim değişimi normal bantta.';
+
+  @override
+  String get hacimOkunamadi => 'Biyolojik durum okunamadı';
+
+  @override
+  String get hacimUretilemedi => 'Hacim aktivasyon hesabı üretilemedi.';
+
+  @override
+  String get hacimHazirlaniyor => 'Biyolojik durum hazırlanıyor';
+
+  @override
+  String get hacimBirlikte =>
+      'Fiziksel çıta, işlevsel üretim çıtası ve toplam hacim aktivasyonu birlikte okunacak.';
+
+  @override
+  String get hacimArkaplan =>
+      'Bu hesap ekranı bloke etmemek için ilk açılıştan sonra yüklenir.';
+
+  @override
+  String hacimToplamBaslik(int yuzde) {
+    return 'Toplam hacim aktivasyonu: %$yuzde';
+  }
+
+  @override
+  String get hacimBuyukBolumAktif =>
+      'Sistem mevcut hacmin büyük bölümünü aktif üretim kapasitesi olarak okuyor.';
+
+  @override
+  String hacimFizikselIslevselOzet(
+      int fiziksel, String islevsel, String yorum) {
+    return '$fiziksel fiziksel çıta → yaklaşık $islevsel işlevsel üretim çıtası. $yorum';
+  }
+
+  @override
+  String get hacimFizikselIslevselBirlikte =>
+      'Fiziksel hacim ve işlevsel üretim kapasitesi birlikte okunuyor.';
+
+  @override
+  String get miniFiziksel => 'Fiziksel';
+
+  @override
+  String get miniIslevsel => 'İşlevsel';
+
+  @override
+  String get miniToplamHacim => 'Toplam hacim';
+
+  @override
+  String get miniEklenen => 'Eklenen';
+
+  @override
+  String get miniOnceki => 'Önceki';
+
+  @override
+  String get miniTemel => 'Temel';
+
+  @override
+  String get miniKabarmis => 'Kabarmış';
+
+  @override
+  String get miniPetek => 'Petek';
+
+  @override
+  String get miniKalan => 'Kalan';
+
+  @override
+  String get genetikDetayAyri => 'Genetik değerlendirme ayrı izleniyor';
+
+  @override
+  String get genetikSurecBilgisi =>
+      'Aktif süreç bilgisi Süreç kartında gösterilir. Bu alan yalnızca donör, veto, üretim/destek rolü ve soy değerlendirmesi için kullanılır.';
+
+  @override
+  String get genetikHazirlaniyor =>
+      'Genetik değerlendirme için süreçten bağımsız seçilim bilgisi hazırlanıyor.';
+
+  @override
+  String soyBirinciSatir(
+      String kaynak, String anaYili, String sonCita, String maxCita) {
+    return 'Kaynak: $kaynak • Ana: $anaYili • Son: $sonCita • Max: $maxCita';
+  }
+
+  @override
+  String soyIkinciSatirSkor(
+      String balCita, String muayeneSayisi, String tureyenSayisi, String skor) {
+    return 'Bal: $balCita • Muayene: $muayeneSayisi • Türeyen: $tureyenSayisi • Skor: $skor';
+  }
+
+  @override
+  String soyIkinciSatir(
+      String balCita, String muayeneSayisi, String tureyenSayisi) {
+    return 'Bal: $balCita • Muayene: $muayeneSayisi • Türeyen: $tureyenSayisi';
+  }
+
+  @override
+  String get tetikOgulBelirtisi => 'Oğul Belirtisi';
+
+  @override
+  String get tetikBolmeYapildi => 'Bölme Yapıldı';
+
+  @override
+  String get tetikAnasizBirakildi => 'Anasız Bırakıldı';
+
+  @override
+  String get tetikOgulAtti => 'Oğul Attı';
+
+  @override
+  String get tetikKovanSondu => 'Kovan Söndü';
+
+  @override
+  String get tetikHasat => 'Hasat';
+
+  @override
+  String get tetikHazirAnaVerildi => 'Hazır Ana Verildi';
+
+  @override
+  String get tetikGunlukKapaliYavru => 'Günlük/Kapalı Yavru';
+
+  @override
+  String get tetikKapaliYavruluCita => 'Kapalı Yavrulu Çıta';
+
+  @override
+  String get uyariAriKusuBaslik => 'Arı kuşu baskısı görülebilir';
+
+  @override
+  String get uyariAriKusuMesaj =>
+      'Uçuş hattını gözle. Yoğun geçiş varsa korkuluk veya görsel caydırıcı önlemler kullan.';
+
+  @override
+  String get uyariEsekArisiBaslik => 'Eşek arısı baskısı artabilir';
+
+  @override
+  String get uyariEsekArisiMesaj =>
+      'Kovan girişlerini daralt, zayıf kolonileri koru. Yoğun baskıda tuzak kurulması değerlendirilebilir.';
+
+  @override
+  String get uyariYagmacilikBaslik => 'Yağmacılık riski artabilir';
+
+  @override
+  String get uyariYagmacilikMesaj =>
+      'Kovan açma süresini kısa tut. Girişleri daralt, zayıf kolonileri koru.';
+
+  @override
+  String get uyariMumGuvesiBaslik => 'Mum güvesi riski artabilir';
+
+  @override
+  String get uyariMumGuvesiMesaj =>
+      'Zayıf kolonide fazla petek bırakma. Boş petekleri korumalı sakla.';
+
+  @override
+  String get uariFareBaslik => 'Fare riski başlayabilir';
+
+  @override
+  String get uariFareMesaj =>
+      'Kovan girişlerini daralt. Fare girişini engellemek için önlem al.';
+
+  @override
+  String uyariVarroaPlanBaslik(String etiket) {
+    return '$etiket öncesi varroa mücadelesini planla';
+  }
+
+  @override
+  String get uyariVarroaPlanMesaj =>
+      'Bal akımı yaklaşmadan önce varroa durumunu değerlendir. Kimyasal uygulama yapılacaksa kalıntı riskini hesaba katarak erken planla.';
+
+  @override
+  String get uyariVarroaSonBaslik =>
+      'Bal akımı öncesi varroa mücadelesi için son dönem';
+
+  @override
+  String uyariVarroaSonMesaj(
+      String baslangicTarih, String etiket, String kalintiTarih) {
+    return '$baslangicTarih tarihinde başlaması beklenen $etiket öncesi kalıntı riskini azaltmak için varroa mücadelesi mümkünse $kalintiTarih tarihine kadar tamamlanmış olmalı. Geciktiysen yeni kimyasal uygulamayı bal akımı sonrasına bırakman daha güvenli olabilir.';
+  }
+
+  @override
+  String uyariBalBolmeErkenBaslik(String etiket) {
+    return '$etiket yaklaşırken bölme kararına dikkat';
+  }
+
+  @override
+  String get uyariBalBolmeErkenMesaj =>
+      'Üretim hedefi korunacaksa bölme kararını dikkatli ver. Bal akımına güçlü işçi arı yetişmesi için zaman daralıyor.';
+
+  @override
+  String get uyariBalBolmeGecBaslik => 'Bölme yapılacaksa dikkat';
+
+  @override
+  String uyariBalBolmeGecMesaj(String kritikEsik) {
+    return '$kritikEsik sonrası 42 günlük biyolojik eşik aşılmış olur. Bu tarihten sonra yapılan bölmeler bal verimini düşürebilir. Üretim hedefi korunacaksa bölme kararını ertele.';
+  }
 }
