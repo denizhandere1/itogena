@@ -1499,6 +1499,7 @@ class KararAsistanServisi {
       islevselUretimCita: islevselUretimCita,
       aktivasyonOrani: aktivasyonOrani,
       stokCita: stokCita,
+      l: l,
     );
 
     final int puan = _toInt(skor['puan']);

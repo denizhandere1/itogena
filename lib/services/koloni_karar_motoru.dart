@@ -1563,6 +1563,7 @@ class KoloniKararMotoru {
     required int islevselUretimCita,
     required double aktivasyonOrani,
     required int stokCita,
+    AppLocalizations? l,
   }) {
     final kalemler = <String, int>{};
     final riskler = <String>[];
@@ -1573,8 +1574,8 @@ class KoloniKararMotoru {
         'bant': 'veto',
         'veto': true,
         'kalemler': kalemler,
-        'riskler': ['Oğul kökeni/izi genetik yayılım için veto kabul edildi.'],
-        'ozet': 'Üretim değeri ayrı tutulur; genetik çoğaltma kararı veto edilir.',
+        'riskler': [l?.genetikRiskVetoOgul ?? 'Oğul kökeni/izi genetik yayılım için veto kabul edildi.'],
+        'ozet': l?.genetikVetoOzet ?? 'Üretim değeri ayrı tutulur; genetik çoğaltma kararı veto edilir.',
       };
     }
 
@@ -1586,14 +1587,14 @@ class KoloniKararMotoru {
       kalemler['biyolojikKapasite'] = 10;
     } else {
       kalemler['biyolojikKapasite'] = 0;
-      riskler.add('İşlevsel çıta kapasitesi çoğaltma için düşük.');
+      riskler.add(l?.genetikRiskKapasiteDusuk ?? 'İşlevsel çıta kapasitesi çoğaltma için düşük.');
     }
 
     if (yavruDuzeniStabil) {
       kalemler['yavruIstikrari'] = 22;
     } else {
       kalemler['yavruIstikrari'] = 0;
-      riskler.add('Yavru düzeni netleşmeden genetik yayılım öne çıkarılmaz.');
+      riskler.add(l?.genetikRiskYavruNetlesme ?? 'Yavru düzeni netleşmeden genetik yayılım öne çıkarılmaz.');
     }
 
     if (gucluTrend && !gucDususu) {
@@ -1602,7 +1603,7 @@ class KoloniKararMotoru {
       kalemler['gelisimIstikrari'] = 10;
     } else {
       kalemler['gelisimIstikrari'] = 0;
-      riskler.add('Son kayıtta güç düşüşü var; çoğaltma yerine neden analizi gerekir.');
+      riskler.add(l?.genetikRiskGucDususu ?? 'Son kayıtta güç düşüşü var; çoğaltma yerine neden analizi gerekir.');
     }
 
     if (aktivasyonOrani >= 0.90) {
@@ -1613,7 +1614,7 @@ class KoloniKararMotoru {
       kalemler['aktivasyonKalitesi'] = 5;
     } else {
       kalemler['aktivasyonKalitesi'] = 0;
-      riskler.add('Aktivasyon düşük; fiziksel çıta genetik kapasite gibi okunmamalı.');
+      riskler.add(l?.genetikRiskAktivasyonDusuk ?? 'Aktivasyon düşük; fiziksel çıta genetik kapasite gibi okunmamalı.');
     }
 
     if (kisDonemi || hasatSonrasi) {
@@ -1623,7 +1624,7 @@ class KoloniKararMotoru {
         kalemler['kisStokGuvenligi'] = 7;
       } else {
         kalemler['kisStokGuvenligi'] = 0;
-        riskler.add('Kış/hasat sonrası stok güvenliği zayıf.');
+        riskler.add(l?.genetikRiskKisStok ?? 'Kış/hasat sonrası stok güvenliği zayıf.');
       }
     } else {
       kalemler['kisStokGuvenligi'] = stokCita >= 2 ? 8 : 4;
@@ -1632,15 +1633,15 @@ class KoloniKararMotoru {
     int surecGuvenligi = 10;
     if (riskliAnaSureciHedefi) {
       surecGuvenligi -= 8;
-      riskler.add('Ana/yavru süreci açık; genetik karar izleme bandına çekilir.');
+      riskler.add(l?.genetikRiskAnaSureci ?? 'Ana/yavru süreci açık; genetik karar izleme bandına çekilir.');
     }
     if (bolmeToparlanmaHedefi && !yavruDuzeniStabil) {
       surecGuvenligi -= 5;
-      riskler.add('Bölme toparlanması tamamlanmadan yeni çoğaltma hedefi açılmaz.');
+      riskler.add(l?.genetikRiskBolmeToparlanma ?? 'Bölme toparlanması tamamlanmadan yeni çoğaltma hedefi açılmaz.');
     }
     if (riskliSisirme) {
       surecGuvenligi -= 6;
-      riskler.add('Riskli şişirme var; fiziksel genişleme genetik başarı sayılmaz.');
+      riskler.add(l?.genetikRiskSisirme ?? 'Riskli şişirme var; fiziksel genişleme genetik başarı sayılmaz.');
     }
     kalemler['surecGuvenligi'] = surecGuvenligi.clamp(0, 10).toInt();
 
@@ -1660,25 +1661,26 @@ class KoloniKararMotoru {
       'veto': false,
       'kalemler': kalemler,
       'riskler': riskler,
-      'ozet': _genetikCogaltmaSkoruOzetUret(bant, puan, riskler),
+      'ozet': _genetikCogaltmaSkoruOzetUret(bant, puan, riskler, l: l),
     };
   }
 
   static String _genetikCogaltmaSkoruOzetUret(
     String bant,
     int puan,
-    List<String> riskler,
-  ) {
+    List<String> riskler, {
+    AppLocalizations? l,
+  }) {
     if (bant == 'yüksek') {
-      return 'Biyolojik kapasite, yavru düzeni, istikrar ve süreç güvenliği çoğaltma için güçlü sinyal veriyor.';
+      return l?.genetikOzetYuksek ?? 'Biyolojik kapasite, yavru düzeni, istikrar ve süreç güvenliği çoğaltma için güçlü sinyal veriyor.';
     }
     if (bant == 'izle') {
-      return 'Olumlu genetik sinyaller var; karar için istikrar, süreç kapanışı ve sezon penceresi birlikte izlenmeli.';
+      return l?.genetikOzetIzle ?? 'Olumlu genetik sinyaller var; karar için istikrar, süreç kapanışı ve sezon penceresi birlikte izlenmeli.';
     }
     if (riskler.isNotEmpty) {
-      return 'Çoğaltma değeri düşük/temkinli: ${riskler.first}';
+      return l != null ? l.genetikOzetDusuk(riskler.first) : 'Çoğaltma değeri düşük/temkinli: ${riskler.first}';
     }
-    return 'Çoğaltma değeri şu aşamada öncelikli değil.';
+    return l?.genetikOzetVarsayilan ?? 'Çoğaltma değeri şu aşamada öncelikli değil.';
   }
 
   static int _toInt(dynamic deger) {

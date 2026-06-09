@@ -2019,5 +2019,23 @@
   "biyoBakiciDengesiMesaj": "Yavru bakım kapasitesi iyi fakat petek örme sınırlı. Yavru alanını bozmayacak kabarmış petek, ham petekten daha güvenli olur.",
   "biyoKisGuvenligi": "Kış Güvenliği",
   "biyoKisGuvenligiMesaj": "Kış dayanımı sınırlı görünüyor. Öncelik hasat veya genişletme değil stok güvenliği ve sıkı düzendir.",
-  "biyoSahaNotu": "Biyolojik Saha Notu"
+  "biyoSahaNotu": "Biyolojik Saha Notu",
+
+  "genetikRiskVetoOgul": "Oğul kökeni/izi genetik yayılım için veto kabul edildi.",
+  "genetikVetoOzet": "Üretim değeri ayrı tutulur; genetik çoğaltma kararı veto edilir.",
+  "genetikRiskKapasiteDusuk": "İşlevsel çıta kapasitesi çoğaltma için düşük.",
+  "genetikRiskYavruNetlesme": "Yavru düzeni netleşmeden genetik yayılım öne çıkarılmaz.",
+  "genetikRiskGucDususu": "Son kayıtta güç düşüşü var; çoğaltma yerine neden analizi gerekir.",
+  "genetikRiskAktivasyonDusuk": "Aktivasyon düşük; fiziksel çıta genetik kapasite gibi okunmamalı.",
+  "genetikRiskKisStok": "Kış/hasat sonrası stok güvenliği zayıf.",
+  "genetikRiskAnaSureci": "Ana/yavru süreci açık; genetik karar izleme bandına çekilir.",
+  "genetikRiskBolmeToparlanma": "Bölme toparlanması tamamlanmadan yeni çoğaltma hedefi açılmaz.",
+  "genetikRiskSisirme": "Riskli şişirme var; fiziksel genişleme genetik başarı sayılmaz.",
+  "genetikOzetYuksek": "Biyolojik kapasite, yavru düzeni, istikrar ve süreç güvenliği çoğaltma için güçlü sinyal veriyor.",
+  "genetikOzetIzle": "Olumlu genetik sinyaller var; karar için istikrar, süreç kapanışı ve sezon penceresi birlikte izlenmeli.",
+  "genetikOzetDusuk": "Çoğaltma değeri düşük/temkinli: {risk}",
+  "@genetikOzetDusuk": {
+    "placeholders": { "risk": { "type": "String" } }
+  },
+  "genetikOzetVarsayilan": "Çoğaltma değeri şu aşamada öncelikli değil."
 }

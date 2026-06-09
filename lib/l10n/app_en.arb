@@ -1827,5 +1827,23 @@
   "biyoBakiciDengesiMesaj": "Brood care capacity is good but comb building is limited. Drawn comb without disturbing brood area is safer than raw comb.",
   "biyoKisGuvenligi": "Winter Safety",
   "biyoKisGuvenligiMesaj": "Winter resilience appears limited. Priority is stock safety and tight arrangement, not harvest or expansion.",
-  "biyoSahaNotu": "Biological Field Note"
+  "biyoSahaNotu": "Biological Field Note",
+
+  "genetikRiskVetoOgul": "Swarm origin/trace accepted as veto for genetic propagation.",
+  "genetikVetoOzet": "Production value is tracked separately; genetic propagation decision is vetoed.",
+  "genetikRiskKapasiteDusuk": "Functional frame capacity is low for propagation.",
+  "genetikRiskYavruNetlesme": "Genetic propagation is not prioritized until brood pattern stabilizes.",
+  "genetikRiskGucDususu": "Strength decline noted in last inspection; cause analysis needed before propagation.",
+  "genetikRiskAktivasyonDusuk": "Low activation; physical frames should not be read as genetic capacity.",
+  "genetikRiskKisStok": "Winter/post-harvest stock safety is weak.",
+  "genetikRiskAnaSureci": "Queen/brood process open; genetic decision shifted to monitoring band.",
+  "genetikRiskBolmeToparlanma": "New propagation target not opened until split recovery is complete.",
+  "genetikRiskSisirme": "Risky over-expansion present; physical growth does not count as genetic success.",
+  "genetikOzetYuksek": "Biological capacity, brood pattern, stability, and process safety give a strong signal for propagation.",
+  "genetikOzetIzle": "Positive genetic signals present; stability, process closure, and season window should be monitored together for a decision.",
+  "genetikOzetDusuk": "Propagation value low/cautious: {risk}",
+  "@genetikOzetDusuk": {
+    "placeholders": { "risk": { "type": "String" } }
+  },
+  "genetikOzetVarsayilan": "Propagation value is not a priority at this stage."
 }
