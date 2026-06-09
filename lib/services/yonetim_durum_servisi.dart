@@ -1,3 +1,4 @@
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'karar_asistan_servisi.dart';
 
 /// ITOGENA yönetim durumu geçiş servisi.
@@ -28,10 +29,12 @@ class YonetimDurumServisi {
   static Future<List<Map<String, dynamic>>> kararlarGetir(
     int koloniId, {
     Map<String, dynamic>? hazirKoloni,
+    AppLocalizations? l,
   }) async {
     final kararlar = await KararAsistanServisi.yonetimKararlariGetir(
       koloniId,
       hazirKoloni: hazirKoloni,
+      l: l,
     );
     return kararlar
         .where((k) => !_suruplukYonetimKarariMi(k))

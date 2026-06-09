@@ -143,6 +143,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   Future<void> _verileriYukle() async {
     final int token = ++_detayYuklemeToken;
+    final l = AppLocalizations.of(context);
 
     // Faz 10.1: Ekran açılışında ağır servis cache'leri temizlenmez.
     // Cache temizliği yalnızca muayene ekleme/düzenleme/silme gibi veri değişikliklerinde yapılır.
@@ -171,7 +172,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
     final contextVerisi = await PerformansIzlemeServisi.olc(
       'KoloniDetay.context(koloniId: $_koloniId)',
-          () => KoloniContextServisi.getir(_koloniId),
+          () => KoloniContextServisi.getir(_koloniId, l: l),
       yavasEsikMs: 300,
     );
 
@@ -222,9 +223,11 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   Future<void> _hacimAktivasyonunuYukle(int token) async {
+    final l = mounted ? AppLocalizations.of(context) : null;
     try {
       final contextVerisi = await KoloniContextServisi.getirBiyolojikModelIle(
         _koloniId,
+        l: l,
       );
       final biyolojikModel = contextVerisi.biyolojikModel ?? const <String, dynamic>{};
       final aktivasyon = Map<String, dynamic>.from(
@@ -253,6 +256,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     if (_biyolojikModelYuklendi && !forceRefresh) return;
 
     final int token = _detayYuklemeToken;
+    final l = mounted ? AppLocalizations.of(context) : null;
 
     if (mounted) {
       setState(() {
@@ -265,6 +269,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
       final contextVerisi = await KoloniContextServisi.getirBiyolojikModelIle(
         _koloniId,
         forceRefresh: forceRefresh,
+        l: l,
       );
       final model = contextVerisi.biyolojikModel ?? const <String, dynamic>{};
       if (!mounted || token != _detayYuklemeToken) return;

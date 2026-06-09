@@ -238,12 +238,14 @@ class KararAsistanServisi {
       Map<String, dynamic> koloni, {
         List<Map<String, dynamic>>? siraliDonorler,
         bool forceRefresh = false,
+        AppLocalizations? l,
       }) async {
     final karar = await KoloniKararMotoru.kararUret(
       koloniId,
       koloni,
       siraliDonorler: siraliDonorler,
       forceRefresh: forceRefresh,
+      l: l,
     );
     final biyoloji = await AriBiyolojiServisi.analizYap(koloniId);
     final surec = await _dominantSurecGetir(koloniId);
@@ -887,9 +889,9 @@ class KararAsistanServisi {
           kararlar.add({
             'kod': kalintiVeto ? 'VARROA_AKIM_DONEMI_VETO' : 'VARROA_RISK',
             'kategori': kalintiVeto ? 'veto' : 'yonetim',
-            'kisa': kalintiVeto ? 'Varroa dikkat' : 'Varroa',
-            'baslik': kalintiVeto ? 'Bal döneminde varroa mücadelesinde kalıntı riskine dikkat' : baslik,
-            'mesaj': kalintiVeto ? 'Bal akımı/hasat döneminde kalıntı riski olan kimyasal mücadele önerilmez. Gerekiyorsa organik yöntemler değerlendirilir.' : (oneriler.isEmpty ? gerekce : '$gerekce $oneriler'),
+            'kisa': kalintiVeto ? (l?.varroaKisaVetoDikkat ?? 'Varroa dikkat') : (l?.varroaKisaVarroa ?? 'Varroa'),
+            'baslik': kalintiVeto ? (l?.varroaVetoBaslik ?? 'Bal döneminde varroa mücadelesinde kalıntı riskine dikkat') : baslik,
+            'mesaj': kalintiVeto ? (l?.varroaVetoMesaj ?? 'Bal akımı/hasat döneminde kalıntı riski olan kimyasal mücadele önerilmez. Gerekiyorsa organik yöntemler değerlendirilir.') : (oneriler.isEmpty ? gerekce : '$gerekce $oneriler'),
             'gerekce': kalintiVeto ? '' : '',
             'oncelik': seviye == 'kritik' ? 87 : 73,
             'tip': seviye == 'kritik' ? 'uyari' : 'bilgi',
@@ -927,10 +929,10 @@ class KararAsistanServisi {
       kararlar.add({
         'kod': bolmeAnaPenceresi ? 'KONTROLLU_BOLME_ADAYI' : 'SINIRLI_BOLME_DEGERLENDIR',
         'kategori': 'eylem',
-        'kisa': bolmeAnaPenceresi ? 'Bölme adayı' : 'Bölme dikkat',
+        'kisa': bolmeAnaPenceresi ? (l?.yonetimBolmeAdayi ?? 'Bölme adayı') : (l?.yonetimBolmeDikkat ?? 'Bölme dikkat'),
         'baslik': bolmeAnaPenceresi
-            ? 'Genetik çoğaltma / kontrollü bölme penceresi'
-            : 'Sınırlı bölme değerlendirmesi',
+            ? (l?.yonetimKontrolluBolmeBaslik ?? 'Genetik çoğaltma / kontrollü bölme penceresi')
+            : (l?.yonetimSinirliiBolmeBaslik ?? 'Sınırlı bölme değerlendirmesi'),
         'mesaj': bolmeAnaPenceresi
             ? (l?.kararBolmeGucluMesaj(balAkiminaKalanGun!) ?? 'Koloni güçlü gelişim gösteriyor ve bal akımına yaklaşık $balAkiminaKalanGun gün var. Kat seviyesine yaklaşmış olsa da bu süre içinde oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme değerlendirilebilir.')
             : (l?.kararBolmeSinirliMesaj(balAkiminaKalanGun!) ?? 'Koloni güçlü; ancak bal akımına yaklaşık $balAkiminaKalanGun gün kaldığı için bölme kararı sınırlı ve dikkatli düşünülmeli. Ana koloni bala yetişemeyecekse bölme yerine alan/oğul yönetimi öne alınır.'),
@@ -963,8 +965,8 @@ class KararAsistanServisi {
       kararlar.add({
         'kod': 'KAT_VER',
         'kategori': 'eylem',
-        'kisa': 'Kat ver',
-        'baslik': 'Kat / ballık ver',
+        'kisa': l?.yonetimKatVerKisa ?? 'Kat ver',
+        'baslik': l?.yonetimKatVerBaslik ?? 'Kat / ballık ver',
         'mesaj': l?.kararKatMesaj(esikMetni, yuzde, akimMetni) ?? '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. $akimMetni Bu eşik artık normal çıta ekleme değil, kat/ballık verme eşiğidir.',
         'gerekce': l?.kararKatGerekce ?? 'Şurupluk varsa kuluçkalık 9 çıta, şurupluk kaldırıldıysa 10 çıta kapasite kabul edilir.',
         'oncelik': 91,
@@ -989,8 +991,8 @@ class KararAsistanServisi {
       kararlar.add({
         'kod': 'UCUNCU_KAT_VER',
         'kategori': 'eylem',
-        'kisa': '3. kat ver',
-        'baslik': '3. kat / ikinci ballık ver',
+        'kisa': l?.yonetimUcuncuKatKisa ?? '3. kat ver',
+        'baslik': l?.yonetimUcuncuKatBaslik ?? '3. kat / ikinci ballık ver',
         'mesaj': l?.kararUcuncuKatMesaj(esikMetni, yuzde) ?? '$esikMetni dolmuş ve yaklaşık %$yuzde aktivasyon görülüyor. Koloni ikinci üst hacmi doldurma eşiğine gelmiş; 3. kat/ikinci ballık değerlendirilmeli.',
         'gerekce': l?.kararUcuncuKatGerekce ?? 'Şurupluk varsa 19 çıta, şurupluk kaldırıldıysa 20 çıta 3. kat verme eşiğidir. Bir sonraki çıta artışı 3 katlı koloni olarak okunur.',
         'oncelik': 92,
@@ -1014,19 +1016,19 @@ class KararAsistanServisi {
       final int yuzde = (aktivasyonOrani * 100).round().clamp(0, 100).toInt();
       final bool kuluclukKatBandinda = hasatBeklentisiVar && fizikselCita >= katliEsik;
       final String baslik = kuluclukKatBandinda
-          ? 'Alan ihtiyacı / ballık değerlendirme'
-          : 'Alan ihtiyacı / çıta ekleme';
+          ? (l?.yonetimAlanBallikBaslik ?? 'Alan ihtiyacı / ballık değerlendirme')
+          : (l?.yonetimAlanCitaBaslik ?? 'Alan ihtiyacı / çıta ekleme');
       final String mesaj = kuluclukKatBandinda
           ? (l?.kararAlanMesajKulucluk(yuzde) ?? 'Mevcut hacim yaklaşık %$yuzde aktive olmuş. Koloni sıkışmadan ballık/alan yönetimi değerlendirilebilir.')
           : (l?.kararAlanMesajCita(fizikselCita) ?? 'Mevcut $fizikselCita çıtanın tamamına yakını işlevsel kullanılıyor. Koloni sıkışmadan 1 çıta eklenmasi değerlendirilebilir.');
       final String gerekce = sonMuayenedeCitaArtisiVar
           ? ''
-          : 'Aktivasyon oranı koloni gücü etiketi değildir; mevcut hacmin dolduğunu ve alan ihtiyacını gösterir.';
+          : (l?.yonetimAlanGerekce ?? 'Aktivasyon oranı koloni gücü etiketi değildir; mevcut hacmin dolduğunu ve alan ihtiyacını gösterir.');
 
       kararlar.add({
         'kod': 'ALAN_CITA_EKLE',
         'kategori': 'eylem',
-        'kisa': 'Alan aç',
+        'kisa': l?.yonetimAlanAcKisa ?? 'Alan aç',
         'baslik': baslik,
         'mesaj': mesaj,
         'gerekce': gerekce,
@@ -1039,8 +1041,8 @@ class KararAsistanServisi {
       kararlar.add({
         'kod': 'HASAT_SONRASI_BAKIM',
         'kategori': 'yonetim',
-        'kisa': 'Bakım',
-        'baslik': 'Hasat sonrası bakım yönü',
+        'kisa': l?.yonetimHasatBakimKisa ?? 'Bakım',
+        'baslik': l?.yonetimHasatBakimBaslik ?? 'Hasat sonrası bakım yönü',
         'mesaj': l?.kararHasatSonrasiMesaj ?? 'Hasat sonrası koloni sıkışabilir; stok, alan ve varroa kontrolü yapılmalıdır.',
         'gerekce': l?.kararHasatSonrasiGerekce ?? 'Bal alımı sonrası aynı çıta düzeni artık üretim değil bakım kararıdır.',
         'oncelik': 58,
@@ -1052,8 +1054,8 @@ class KararAsistanServisi {
       kararlar.add({
         'kod': 'KIS_HAZIRLIK',
         'kategori': 'yonetim',
-        'kisa': 'Kış hazırlık',
-        'baslik': 'Kışa hazırlık kontrolü',
+        'kisa': l?.yonetimKisHazirlikKisa ?? 'Kış hazırlık',
+        'baslik': l?.yonetimKisHazirlikBaslik ?? 'Kışa hazırlık kontrolü',
         'mesaj': l?.kararKisHazirlikMesaj ?? 'Koloni kışa doğru yeterli stok, doğru hacim, düşük varroa baskısı ve uygun nüfusla hazırlanmalı.',
         'gerekce': l?.kararKisHazirlikGerekce ?? 'Kış başarısı genetik seçilim ve sürdürülebilir arılık yönetiminin temel ölçütlerinden biridir.',
         'oncelik': stokCita <= 1 ? 76 : 54,
@@ -1155,7 +1157,7 @@ class KararAsistanServisi {
 
     final List<String> detaylar = <String>[];
     if (mesajVar) detaylar.add(besleme.mesaj.trim());
-    if (besleme.risk.trim().isNotEmpty) detaylar.add('Risk: ${besleme.risk.trim()}');
+    if (besleme.risk.trim().isNotEmpty) detaylar.add(l != null ? l.beslemeRiskEtiketi(besleme.risk.trim()) : 'Risk: ${besleme.risk.trim()}');
     if (dozVar) {
       detaylar.add(l?.beslemeDestekBandi(besleme.dozBandi.trim()) ?? 'Tahmini destek bandı: ${besleme.dozBandi.trim()}');
       if (besleme.tekrarAraligi.trim().isNotEmpty &&
@@ -1173,8 +1175,8 @@ class KararAsistanServisi {
           : (dozVar ? 'BESLEME_YONETIM_DESTEGI' : 'BESLEME_YONETIM_TAKIP'),
       'kategori': hasatVeto ? 'veto' : 'yonetim',
       'katman': 'yonetim',
-      'kisa': hasatVeto ? 'Besleme yok' : (dozVar ? 'Besleme' : 'Besleme izle'),
-      'baslik': hasatVeto ? 'Besleme önerilmez' : tip,
+      'kisa': hasatVeto ? (l?.beslemeFeedingNone ?? 'Besleme yok') : (dozVar ? (l?.beslemeFeedingShort ?? 'Besleme') : (l?.beslemeFeedingWatch ?? 'Besleme izle')),
+      'baslik': hasatVeto ? (l?.beslemeFeedingNotRecommended ?? 'Besleme önerilmez') : tip,
       'mesaj': detaylar.isEmpty ? besleme.mesaj : detaylar.join(' '),
       'gerekce': besleme.gerekceler.join(' '),
       'risk': besleme.risk,

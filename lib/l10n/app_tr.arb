@@ -2037,5 +2037,40 @@
   "@genetikOzetDusuk": {
     "placeholders": { "risk": { "type": "String" } }
   },
-  "genetikOzetVarsayilan": "Çoğaltma değeri şu aşamada öncelikli değil."
+  "genetikOzetVarsayilan": "Çoğaltma değeri şu aşamada öncelikli değil.",
+
+  "varroaKisaVetoDikkat": "Varroa dikkat",
+  "varroaKisaVarroa": "Varroa",
+  "varroaVetoBaslik": "Bal döneminde varroa mücadelesinde kalıntı riskine dikkat",
+  "varroaVetoMesaj": "Bal akımı/hasat döneminde kalıntı riski olan kimyasal mücadele önerilmez. Gerekiyorsa organik yöntemler değerlendirilir.",
+
+  "yonetimBolmeAdayi": "Bölme adayı",
+  "yonetimBolmeDikkat": "Bölme dikkat",
+  "yonetimKontrolluBolmeBaslik": "Genetik çoğaltma / kontrollü bölme penceresi",
+  "yonetimSinirliiBolmeBaslik": "Sınırlı bölme değerlendirmesi",
+
+  "yonetimKatVerKisa": "Kat ver",
+  "yonetimKatVerBaslik": "Kat / ballık ver",
+  "yonetimUcuncuKatKisa": "3. kat ver",
+  "yonetimUcuncuKatBaslik": "3. kat / ikinci ballık ver",
+
+  "yonetimAlanBallikBaslik": "Alan ihtiyacı / ballık değerlendirme",
+  "yonetimAlanCitaBaslik": "Alan ihtiyacı / çıta ekleme",
+  "yonetimAlanGerekce": "Aktivasyon oranı koloni gücü etiketi değildir; mevcut hacmin dolduğunu ve alan ihtiyacını gösterir.",
+  "yonetimAlanAcKisa": "Alan aç",
+
+  "yonetimHasatBakimKisa": "Bakım",
+  "yonetimHasatBakimBaslik": "Hasat sonrası bakım yönü",
+
+  "yonetimKisHazirlikKisa": "Kış hazırlık",
+  "yonetimKisHazirlikBaslik": "Kışa hazırlık kontrolü",
+
+  "beslemeFeedingNone": "Besleme yok",
+  "beslemeFeedingShort": "Besleme",
+  "beslemeFeedingWatch": "Besleme izle",
+  "beslemeFeedingNotRecommended": "Besleme önerilmez",
+  "beslemeRiskEtiketi": "Risk: {risk}",
+  "@beslemeRiskEtiketi": {
+    "placeholders": { "risk": { "type": "String" } }
+  }
 }

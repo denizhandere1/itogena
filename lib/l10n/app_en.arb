@@ -1845,5 +1845,40 @@
   "@genetikOzetDusuk": {
     "placeholders": { "risk": { "type": "String" } }
   },
-  "genetikOzetVarsayilan": "Propagation value is not a priority at this stage."
+  "genetikOzetVarsayilan": "Propagation value is not a priority at this stage.",
+
+  "varroaKisaVetoDikkat": "Varroa caution",
+  "varroaKisaVarroa": "Varroa",
+  "varroaVetoBaslik": "Residue risk caution during honey season varroa treatment",
+  "varroaVetoMesaj": "Chemical treatment with residue risk is not recommended during nectar flow/harvest. Organic methods may be considered if necessary.",
+
+  "yonetimBolmeAdayi": "Split candidate",
+  "yonetimBolmeDikkat": "Split caution",
+  "yonetimKontrolluBolmeBaslik": "Genetic propagation / controlled split window",
+  "yonetimSinirliiBolmeBaslik": "Limited split evaluation",
+
+  "yonetimKatVerKisa": "Add super",
+  "yonetimKatVerBaslik": "Add super / honey box",
+  "yonetimUcuncuKatKisa": "3rd super",
+  "yonetimUcuncuKatBaslik": "3rd super / second honey box",
+
+  "yonetimAlanBallikBaslik": "Space needed / honey box evaluation",
+  "yonetimAlanCitaBaslik": "Space needed / add frame",
+  "yonetimAlanGerekce": "Activation ratio is not a colony strength label; it indicates the current space is full and space is needed.",
+  "yonetimAlanAcKisa": "Add space",
+
+  "yonetimHasatBakimKisa": "Maintenance",
+  "yonetimHasatBakimBaslik": "Post-harvest maintenance direction",
+
+  "yonetimKisHazirlikKisa": "Winter prep",
+  "yonetimKisHazirlikBaslik": "Winter preparation check",
+
+  "beslemeFeedingNone": "No feeding",
+  "beslemeFeedingShort": "Feeding",
+  "beslemeFeedingWatch": "Monitor feeding",
+  "beslemeFeedingNotRecommended": "Feeding not recommended",
+  "beslemeRiskEtiketi": "Risk: {risk}",
+  "@beslemeRiskEtiketi": {
+    "placeholders": { "risk": { "type": "String" } }
+  }
 }

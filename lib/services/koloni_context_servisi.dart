@@ -1,3 +1,4 @@
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'koloni_context.dart';
 import 'karar_asistan_servisi.dart';
 import 'yonetim_durum_servisi.dart';
@@ -11,8 +12,12 @@ import 'veritabani_servisi.dart';
 /// KoloniDetaySayfasi gibi ağır ekranlarda aynı koloni verisinin farklı
 /// Future zincirleriyle tekrar tekrar okunmasını azaltmaktır.
 class KoloniContextServisi {
-  static final Map<int, Future<KoloniContext>> _hafifContextCache = {};
-  static final Map<int, Future<KoloniContext>> _biyolojikContextCache = {};
+  // Cache key: "$koloniId:$localeName" — locale-aware caching.
+  static final Map<String, Future<KoloniContext>> _hafifContextCache = {};
+  static final Map<String, Future<KoloniContext>> _biyolojikContextCache = {};
+
+  static String _cacheKey(int koloniId, AppLocalizations? l) =>
+      '$koloniId:${l?.localeName ?? 'tr'}';
 
   /// İlk ekran için hafif context üretir.
   ///
@@ -22,18 +27,21 @@ class KoloniContextServisi {
   static Future<KoloniContext> getir(
     int koloniId, {
     bool forceRefresh = false,
+    AppLocalizations? l,
   }) {
+    final key = _cacheKey(koloniId, l);
     if (forceRefresh) {
-      _hafifContextCache.remove(koloniId);
+      _hafifContextCache.remove(key);
     }
 
-    final future = _hafifContextCache[koloniId] ??= _olustur(
+    final future = _hafifContextCache[key] ??= _olustur(
       koloniId,
       biyolojikModelYukle: false,
+      l: l,
     );
 
     return _guvenliFutureDon(
-      koloniId: koloniId,
+      cacheKey: key,
       future: future,
       biyolojikModelYuklu: false,
     );
@@ -46,18 +54,21 @@ class KoloniContextServisi {
   static Future<KoloniContext> getirBiyolojikModelIle(
     int koloniId, {
     bool forceRefresh = false,
+    AppLocalizations? l,
   }) {
+    final key = _cacheKey(koloniId, l);
     if (forceRefresh) {
-      _biyolojikContextCache.remove(koloniId);
+      _biyolojikContextCache.remove(key);
     }
 
-    final future = _biyolojikContextCache[koloniId] ??= _olustur(
+    final future = _biyolojikContextCache[key] ??= _olustur(
       koloniId,
       biyolojikModelYukle: true,
+      l: l,
     );
 
     return _guvenliFutureDon(
-      koloniId: koloniId,
+      cacheKey: key,
       future: future,
       biyolojikModelYuklu: true,
     );
@@ -70,14 +81,14 @@ class KoloniContextServisi {
       return;
     }
 
-    _hafifContextCache.remove(koloniId);
-    _biyolojikContextCache.remove(koloniId);
+    _hafifContextCache.removeWhere((k, _) => k.startsWith('$koloniId:'));
+    _biyolojikContextCache.removeWhere((k, _) => k.startsWith('$koloniId:'));
   }
 
   static void tumCacheTemizle() => cacheTemizle();
 
   static Future<KoloniContext> _guvenliFutureDon({
-    required int koloniId,
+    required String cacheKey,
     required Future<KoloniContext> future,
     required bool biyolojikModelYuklu,
   }) async {
@@ -85,8 +96,8 @@ class KoloniContextServisi {
       return await future;
     } catch (_) {
       final cache = biyolojikModelYuklu ? _biyolojikContextCache : _hafifContextCache;
-      if (identical(cache[koloniId], future)) {
-        cache.remove(koloniId);
+      if (identical(cache[cacheKey], future)) {
+        cache.remove(cacheKey);
       }
       rethrow;
     }
@@ -95,6 +106,7 @@ class KoloniContextServisi {
   static Future<KoloniContext> _olustur(
     int koloniId, {
     required bool biyolojikModelYukle,
+    AppLocalizations? l,
   }) async {
     final temel = await Future.wait<dynamic>([
       VeritabaniServisi.koloniOzetiGetir(koloniId),
@@ -134,10 +146,12 @@ class KoloniContextServisi {
         koloni,
         siraliDonorler: const <Map<String, dynamic>>[],
         forceRefresh: false,
+        l: l,
       ),
       YonetimDurumServisi.kararlarGetir(
         koloniId,
         hazirKoloni: koloni,
+        l: l,
       ),
       VeritabaniServisi.aktifBalAkimGetir(
         arilikId: arilikId != null && arilikId > 0 ? arilikId : null,
