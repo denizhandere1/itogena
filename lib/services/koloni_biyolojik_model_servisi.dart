@@ -236,6 +236,7 @@ class KoloniBiyolojikModelServisi {
       kuluclukKapasitesi: kuluclukKapasitesi,
       ballikCita: ballikCita,
       balliCita: balliCita,
+      katReorganizasyonModu: _toBool(citaAktivasyon['katGecisiVar']),
     );
     final hasatGuvenligi = _hasatGuvenligi(
       kuluclukCita: kuluclukCita,
@@ -1309,13 +1310,17 @@ class KoloniBiyolojikModelServisi {
     required int kuluclukKapasitesi,
     required int ballikCita,
     required int balliCita,
+    bool katReorganizasyonModu = false,
   }) {
     if (balliCita <= 0 && ballikCita <= 0) return <int>[];
 
     // Katlı sistemde hasat önceliği ballıktır. Kuluçkalık koruma alanı kabul edilir.
     if (ballikCita > 0) {
       final int bas = kuluclukKapasitesi + 1;
-      return List<int>.generate(ballikCita, (i) => bas + i);
+      // Kat geçişi projeksiyonunda ilk 2 çıta çekim grubundadır (yavrulu/polenli) — hasat dışı.
+      final int atla = katReorganizasyonModu ? math.min(2, ballikCita) : 0;
+      if (ballikCita <= atla) return <int>[];
+      return List<int>.generate(ballikCita - atla, (i) => bas + atla + i);
     }
 
     // Kuluçkalıkta hasat: 1. ve son çıta dış stok bölgesidir (her iki taraf şartlı hasat).
