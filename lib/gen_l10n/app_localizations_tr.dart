@@ -6076,15 +6076,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get biyolHasat8CitaMesaj =>
-      '8 çıtalı kolonide yalnızca dış stok çıtası sırlı ve yavrusuzsa sınırlı hasat düşünülebilir.';
+      '8 çıtalı kolonide 1. ve 8. çıtalar dış stok bölgesidir; sırlı ve yavrusuzsa şartlı hasat düşünülebilir.';
 
   @override
   String get biyolHasat8CitaKural =>
-      '8. çıta dış stok bölgesi değilse alınmaz.';
+      '1. veya 8. çıta dış stok bölgesi değilse alınmaz.';
 
   @override
   String get biyolHasat9CitaMesaj =>
-      '9 çıtalı kolonide 8–9. çıtalar dış stok bölgesi olarak kontrol edilebilir.';
+      '9 çıtalı kolonide 1. ve 9. çıtalar dış stok bölgesi olarak kontrol edilebilir.';
 
   @override
   String get biyolHasat9CitaKural =>
@@ -6092,7 +6092,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get biyolHasat10CitaMesaj =>
-      '10 çıtalı kuluçkalıkta 9–10. çıtalar dış stok bölgesi olarak kontrol edilebilir.';
+      '10 çıtalı kuluçkalıkta 1. ve 10. çıtalar dış stok bölgesi olarak kontrol edilebilir.';
 
   @override
   String get biyolHasat10CitaKural =>

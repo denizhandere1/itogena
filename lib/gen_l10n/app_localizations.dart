@@ -10429,19 +10429,19 @@ abstract class AppLocalizations {
   /// No description provided for @biyolHasat8CitaMesaj.
   ///
   /// In tr, this message translates to:
-  /// **'8 çıtalı kolonide yalnızca dış stok çıtası sırlı ve yavrusuzsa sınırlı hasat düşünülebilir.'**
+  /// **'8 çıtalı kolonide 1. ve 8. çıtalar dış stok bölgesidir; sırlı ve yavrusuzsa şartlı hasat düşünülebilir.'**
   String get biyolHasat8CitaMesaj;
 
   /// No description provided for @biyolHasat8CitaKural.
   ///
   /// In tr, this message translates to:
-  /// **'8. çıta dış stok bölgesi değilse alınmaz.'**
+  /// **'1. veya 8. çıta dış stok bölgesi değilse alınmaz.'**
   String get biyolHasat8CitaKural;
 
   /// No description provided for @biyolHasat9CitaMesaj.
   ///
   /// In tr, this message translates to:
-  /// **'9 çıtalı kolonide 8–9. çıtalar dış stok bölgesi olarak kontrol edilebilir.'**
+  /// **'9 çıtalı kolonide 1. ve 9. çıtalar dış stok bölgesi olarak kontrol edilebilir.'**
   String get biyolHasat9CitaMesaj;
 
   /// No description provided for @biyolHasat9CitaKural.
@@ -10453,7 +10453,7 @@ abstract class AppLocalizations {
   /// No description provided for @biyolHasat10CitaMesaj.
   ///
   /// In tr, this message translates to:
-  /// **'10 çıtalı kuluçkalıkta 9–10. çıtalar dış stok bölgesi olarak kontrol edilebilir.'**
+  /// **'10 çıtalı kuluçkalıkta 1. ve 10. çıtalar dış stok bölgesi olarak kontrol edilebilir.'**
   String get biyolHasat10CitaMesaj;
 
   /// No description provided for @biyolHasat10CitaKural.

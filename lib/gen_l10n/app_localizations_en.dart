@@ -6098,15 +6098,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get biyolHasat8CitaMesaj =>
-      'For an 8-comb colony, limited harvest may be considered only if the outer store comb is capped and broodless.';
+      'For an 8-comb colony, combs 1 and 8 are the outer store zone; conditional harvest may be considered if capped and broodless.';
 
   @override
   String get biyolHasat8CitaKural =>
-      'Comb 8 is not taken unless it is the outer store zone.';
+      'Combs 1 or 8 are not taken unless they are in the outer store zone.';
 
   @override
   String get biyolHasat9CitaMesaj =>
-      'For a 9-comb colony, combs 8–9 can be checked as the outer store zone.';
+      'For a 9-comb colony, combs 1 and 9 can be checked as the outer store zone.';
 
   @override
   String get biyolHasat9CitaKural =>
@@ -6114,7 +6114,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get biyolHasat10CitaMesaj =>
-      'For a 10-comb brood box, combs 9–10 can be checked as the outer store zone.';
+      'For a 10-comb brood box, combs 1 and 10 can be checked as the outer store zone.';
 
   @override
   String get biyolHasat10CitaKural =>

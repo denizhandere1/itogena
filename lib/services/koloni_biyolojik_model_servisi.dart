@@ -892,39 +892,39 @@ class KoloniBiyolojikModelServisi {
         ];
       case 8:
         return const [
-          'Bal stoğu',
-          'Ballı/polenli',
-          'Yavru',
-          'Yavru',
-          'Yavru',
-          'Yavrulu/polenli',
-          'Ballı/polenli',
-          'Bal stoğu'
+          'Bal stoğu',      // 1 - dış stok
+          'Ballı/polenli',  // 2
+          'Yavrulu/polenli',// 3 - geçiş
+          'Yavru',          // 4
+          'Yavru',          // 5
+          'Yavrulu/polenli',// 6 - geçiş
+          'Ballı/polenli',  // 7
+          'Bal stoğu'       // 8 - dış stok
         ];
       case 9:
         return const [
-          'Bal stoğu',
-          'Ballı/polenli',
-          'Yavru',
-          'Yavru',
-          'Yavru',
-          'Yavru',
-          'Yavrulu/polenli',
-          'Ballı/polenli',
-          'Bal stoğu'
+          'Bal stoğu',      // 1 - dış stok
+          'Ballı/polenli',  // 2
+          'Yavrulu/polenli',// 3 - geçiş
+          'Yavru',          // 4
+          'Yavru',          // 5
+          'Yavru',          // 6
+          'Yavrulu/polenli',// 7 - geçiş
+          'Ballı/polenli',  // 8
+          'Bal stoğu'       // 9 - dış stok
         ];
       default:
         return const [
-          'Bal stoğu',
-          'Ballı/polenli',
-          'Yavru',
-          'Yavru',
-          'Yavru',
-          'Yavru',
-          'Yavrulu/polenli',
-          'Yavrulu/polenli',
-          'Ballı/polenli',
-          'Bal stoğu'
+          'Bal stoğu',      // 1  - dış stok
+          'Ballı/polenli',  // 2
+          'Yavrulu/polenli',// 3  - geçiş
+          'Yavru',          // 4
+          'Yavru',          // 5  - ana merkez
+          'Yavru',          // 6  - ana merkez
+          'Yavru',          // 7
+          'Yavrulu/polenli',// 8  - geçiş
+          'Ballı/polenli',  // 9
+          'Bal stoğu'       // 10 - dış stok
         ];
     }
   }
@@ -1236,20 +1236,22 @@ class KoloniBiyolojikModelServisi {
   static List<int> _tacPozisyonlari(String yavruBlok) {
     final sayilar = RegExp(r'\d+')
         .allMatches(yavruBlok)
-        .map((e) {
-      return int.tryParse(e.group(0) ?? '') ?? 0;
-    })
+        .map((e) => int.tryParse(e.group(0) ?? '') ?? 0)
         .where((e) => e > 0)
         .toList(growable: false);
 
     if (sayilar.isEmpty) return const <int>[];
     final int bas = sayilar.first;
     final int bit = sayilar.length >= 2 ? sayilar.last : sayilar.first;
-    final int merkez = ((bas + bit) / 2).round();
-    final sonuc = <int>{merkez};
+    // Merkez çift olarak al: floor ve ceil → belgedeki 5-6 önceliği
+    final double orta = (bas + bit) / 2;
+    final int m1 = orta.floor();
+    final int m2 = orta.ceil();
+    final sonuc = <int>{m1, m2};
+    // Aralık >= 3 ise ikincil pozisyonları da ekle (belgedeki 4 ve 7 önceliği)
     if (bit - bas >= 3) {
-      sonuc.add((merkez - 1).clamp(bas, bit).toInt());
-      sonuc.add((merkez + 1).clamp(bas, bit).toInt());
+      sonuc.add((m1 - 1).clamp(bas, bit).toInt());
+      sonuc.add((m2 + 1).clamp(bas, bit).toInt());
     }
     return sonuc.toList()..sort();
   }
@@ -1316,11 +1318,11 @@ class KoloniBiyolojikModelServisi {
       return List<int>.generate(ballikCita, (i) => bas + i);
     }
 
-    // Kuluçkalıkta hasat ancak dış stok güvenliği varsa düşünülür.
+    // Kuluçkalıkta hasat: 1. ve son çıta dış stok bölgesidir (her iki taraf şartlı hasat).
     if (kuluclukCita <= 7) return <int>[];
-    if (kuluclukCita == 8) return balliCita >= 1 ? <int>[8] : <int>[];
-    if (kuluclukCita == 9) return balliCita >= 1 ? <int>[8, 9] : <int>[];
-    return balliCita >= 1 ? <int>[9, 10] : <int>[];
+    if (kuluclukCita == 8) return balliCita >= 1 ? <int>[1, 8] : <int>[];
+    if (kuluclukCita == 9) return balliCita >= 1 ? <int>[1, 9] : <int>[];
+    return balliCita >= 1 ? <int>[1, 10] : <int>[];
   }
 
   static Map<String, String> _hasatGuvenligi({
@@ -1358,22 +1360,22 @@ class KoloniBiyolojikModelServisi {
     if (kuluclukCita == 8) {
       return {
         'seviye': 'sinirli',
-        'mesaj': l?.biyolHasat8CitaMesaj ?? '8 çıtalı kolonide yalnızca dış stok çıtası sırlı ve yavrusuzsa sınırlı hasat düşünülebilir.',
-        'kural': l?.biyolHasat8CitaKural ?? '8. çıta dış stok bölgesi değilse alınmaz.',
+        'mesaj': l?.biyolHasat8CitaMesaj ?? '8 çıtalı kolonide 1. ve 8. çıtalar dış stok bölgesidir; sırlı ve yavrusuzsa şartlı hasat düşünülebilir.',
+        'kural': l?.biyolHasat8CitaKural ?? '1. veya 8. çıta dış stok bölgesi değilse alınmaz.',
       };
     }
 
     if (kuluclukCita == 9) {
       return {
         'seviye': 'kontrollu',
-        'mesaj': l?.biyolHasat9CitaMesaj ?? '9 çıtalı kolonide 8–9. çıtalar dış stok bölgesi olarak kontrol edilebilir.',
+        'mesaj': l?.biyolHasat9CitaMesaj ?? '9 çıtalı kolonide 1. ve 9. çıtalar dış stok bölgesi olarak kontrol edilebilir.',
         'kural': l?.biyolHasat9CitaKural ?? 'Yavru/polen alanı bozulmaz; yalnızca sırlı dış bal alınır.',
       };
     }
 
     return {
       'seviye': 'uygun_kontrol',
-      'mesaj': l?.biyolHasat10CitaMesaj ?? '10 çıtalı kuluçkalıkta 9–10. çıtalar dış stok bölgesi olarak kontrol edilebilir.',
+      'mesaj': l?.biyolHasat10CitaMesaj ?? '10 çıtalı kuluçkalıkta 1. ve 10. çıtalar dış stok bölgesi olarak kontrol edilebilir.',
       'kural': l?.biyolHasat10CitaKural ?? 'Kuluçkalık stok güvenliği ve yavru bloğu korunmadan hasat yapılmaz.',
     };
   }
