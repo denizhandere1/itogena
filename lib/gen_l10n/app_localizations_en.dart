@@ -5423,4 +5423,1091 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get biyoSahaNotu => 'Biological Field Note';
+
+  @override
+  String get genetikRiskVetoOgul =>
+      'Swarm origin/trace accepted as veto for genetic propagation.';
+
+  @override
+  String get genetikVetoOzet =>
+      'Production value is tracked separately; genetic propagation decision is vetoed.';
+
+  @override
+  String get genetikRiskKapasiteDusuk =>
+      'Functional frame capacity is low for propagation.';
+
+  @override
+  String get genetikRiskYavruNetlesme =>
+      'Genetic propagation is not prioritized until brood pattern stabilizes.';
+
+  @override
+  String get genetikRiskGucDususu =>
+      'Strength decline noted in last inspection; cause analysis needed before propagation.';
+
+  @override
+  String get genetikRiskAktivasyonDusuk =>
+      'Low activation; physical frames should not be read as genetic capacity.';
+
+  @override
+  String get genetikRiskKisStok => 'Winter/post-harvest stock safety is weak.';
+
+  @override
+  String get genetikRiskAnaSureci =>
+      'Queen/brood process open; genetic decision shifted to monitoring band.';
+
+  @override
+  String get genetikRiskBolmeToparlanma =>
+      'New propagation target not opened until split recovery is complete.';
+
+  @override
+  String get genetikRiskSisirme =>
+      'Risky over-expansion present; physical growth does not count as genetic success.';
+
+  @override
+  String get genetikOzetYuksek =>
+      'Biological capacity, brood pattern, stability, and process safety give a strong signal for propagation.';
+
+  @override
+  String get genetikOzetIzle =>
+      'Positive genetic signals present; stability, process closure, and season window should be monitored together for a decision.';
+
+  @override
+  String genetikOzetDusuk(String risk) {
+    return 'Propagation value low/cautious: $risk';
+  }
+
+  @override
+  String get genetikOzetVarsayilan =>
+      'Propagation value is not a priority at this stage.';
+
+  @override
+  String get varroaKisaVetoDikkat => 'Varroa caution';
+
+  @override
+  String get varroaKisaVarroa => 'Varroa';
+
+  @override
+  String get varroaVetoBaslik =>
+      'Residue risk caution during honey season varroa treatment';
+
+  @override
+  String get varroaVetoMesaj =>
+      'Chemical treatment with residue risk is not recommended during nectar flow/harvest. Organic methods may be considered if necessary.';
+
+  @override
+  String get yonetimBolmeAdayi => 'Split candidate';
+
+  @override
+  String get yonetimBolmeDikkat => 'Split caution';
+
+  @override
+  String get yonetimKontrolluBolmeBaslik =>
+      'Genetic propagation / controlled split window';
+
+  @override
+  String get yonetimSinirliiBolmeBaslik => 'Limited split evaluation';
+
+  @override
+  String get yonetimKatVerKisa => 'Add super';
+
+  @override
+  String get yonetimKatVerBaslik => 'Add super / honey box';
+
+  @override
+  String get yonetimUcuncuKatKisa => '3rd super';
+
+  @override
+  String get yonetimUcuncuKatBaslik => '3rd super / second honey box';
+
+  @override
+  String get yonetimAlanBallikBaslik => 'Space needed / honey box evaluation';
+
+  @override
+  String get yonetimAlanCitaBaslik => 'Space needed / add frame';
+
+  @override
+  String get yonetimAlanGerekce =>
+      'Activation ratio is not a colony strength label; it indicates the current space is full and space is needed.';
+
+  @override
+  String get yonetimAlanAcKisa => 'Add space';
+
+  @override
+  String get yonetimHasatBakimKisa => 'Maintenance';
+
+  @override
+  String get yonetimHasatBakimBaslik => 'Post-harvest maintenance direction';
+
+  @override
+  String get yonetimKisHazirlikKisa => 'Winter prep';
+
+  @override
+  String get yonetimKisHazirlikBaslik => 'Winter preparation check';
+
+  @override
+  String get beslemeFeedingNone => 'No feeding';
+
+  @override
+  String get beslemeFeedingShort => 'Feeding';
+
+  @override
+  String get beslemeFeedingWatch => 'Monitor feeding';
+
+  @override
+  String get beslemeFeedingNotRecommended => 'Feeding not recommended';
+
+  @override
+  String beslemeRiskEtiketi(String risk) {
+    return 'Risk: $risk';
+  }
+
+  @override
+  String get surecOgulRiskiBaslik => 'Swarm Risk';
+
+  @override
+  String get surecOgulBelirtisi3GunMesaj =>
+      'Queen cell observed. This is not a health issue but a sign of swarming behavior and colony congestion. Inspect calmly; if needed, split or leave 1–2 quality cells and reduce the rest.';
+
+  @override
+  String get surecOgulBelirtisi7GunMesaj =>
+      'High afterswarm risk in the first week. Check cell count; leaving multiple strong cells may trigger another split. Decide whether to split or reduce extra cells.';
+
+  @override
+  String get surecOgulRiskiTakibiBaslik => 'Swarm Risk Follow-up';
+
+  @override
+  String get surecOgulBelirtisiTakipMesaj =>
+      'Swarm sign under observation. If no new cells, congestion, or restlessness, the process resolves on its own without further alerts.';
+
+  @override
+  String get surecOgulSonrasiTekrarBaslik =>
+      'Repeated Swarming / Population Loss Risk';
+
+  @override
+  String get surecOgulSonrasiTekrarMesaj =>
+      'Swarming recorded again. This is no longer normal afterswarm monitoring; the colony may rapidly lose population. Cell count, remaining bee strength, stores, and queen signs must be read together. If severely weakened, merging or limited support may be more appropriate than intensive effort.';
+
+  @override
+  String get surecOgulSonrasiArtciRiskBaslik =>
+      'High Post-Swarm Afterswarm Risk';
+
+  @override
+  String get surecOgulSonrasiArtciRiskMesaj =>
+      'Afterswarm risk is high in the first week post-swarm. The goal is to prevent another split. If inspection is needed, keep it brief and calm; leaving extra cells may cause further population loss. Production/super/harvest decisions are on hold.';
+
+  @override
+  String get surecArtciOgulTakipBaslik => 'Afterswarm Risk Being Monitored';
+
+  @override
+  String get surecArtciOgulTakipMesaj =>
+      'Afterswarm risk continues but decreases compared to the first week. If no new cells, restlessness, or signs of re-emergence, waiting without disrupting the queen process is better. If daily or capped brood is observed, the process closes.';
+
+  @override
+  String get surecOgulSonrasiAnaCiftlesmeBaslik =>
+      'Post-Swarm Queen / Mating Process';
+
+  @override
+  String get surecOgulSonrasiAnaCiftlesmeMesaj =>
+      'Afterswarm risk largely closes. This period is the window for new queen emergence, maturation, and mating. Brood may still not be visible; this alone does not indicate collapse. Monitor outdoor flight, pollen intake, and calmness. If daily or capped brood is observed, mark it in the inspection — the process closes.';
+
+  @override
+  String get surecOgulSonrasiYumurtlamaBaslik => 'Post-Swarm Laying Check';
+
+  @override
+  String get surecOgulSonrasiYumurtlamaMesaj =>
+      'Between days 31–45 post-swarm, laying should now be clear. If daily or capped brood is observed, the process closes. If still no brood, this is no longer normal waiting; queen failure, mating loss, or laying worker risk is elevated in the brood-absent diagnosis.';
+
+  @override
+  String get surecBolmeSonrasiBaslik => 'Post-Split Recovery';
+
+  @override
+  String get surecBolmeSonrasi30GunMesaj =>
+      'Keep the colony compact and feed. Support is needed until a new order is established.';
+
+  @override
+  String get surecBolmeSonrasiGecMesaj =>
+      'Check queen status. Recovery may be delayed.';
+
+  @override
+  String get surecBaglamAnaKazanma => 'queen acquisition';
+
+  @override
+  String get surecBaglamOgulSonrasi => 'post-swarm';
+
+  @override
+  String get surecBaglamBolmeSonrasi => 'post-split';
+
+  @override
+  String get surecYavruYokNormalBaslik =>
+      'Brood absence may be normal at this stage';
+
+  @override
+  String surecYavruYokNormalMesaj(String baglam, int gun) {
+    return 'Brood pattern recorded as \"None\"; however you are on day $gun in the $baglam process. Not seeing brood during this period alone is not a problem. Opening the hive may not be necessary at this date; unnecessary opening can disrupt virgin queen acceptance.';
+  }
+
+  @override
+  String get surecYavruYokErkenTakipBaslik => 'Still too early for laying';
+
+  @override
+  String surecYavruYokErkenTakipMesaj(String baglam, int gun) {
+    return 'Brood pattern recorded as \"None\". $gun days have passed since the $baglam process. If the colony is calm and working, immediate harsh intervention is not recommended; checking for fresh eggs/young larvae in 5–7 days is more appropriate.';
+  }
+
+  @override
+  String get surecYavruYokBalBaskisiBaslik =>
+      'Brood absence may be related to honey pressure';
+
+  @override
+  String get surecYavruYokBalBaskisiMesaj =>
+      'Brood absence may not directly indicate queenlessness. Honey flow is active and honey frame ratio appears high; the queen may not have empty space to lay. First assess space and honey pressure — do not intervene with the queen prematurely.';
+
+  @override
+  String get surecYavruYokAnaProblemiBaslik =>
+      'Queen quality / laying worker risk';
+
+  @override
+  String get surecYavruYokAnaProblemiMesaj =>
+      'Brood absence is being read together with drone brood pressure or irregular egg signs. This may indicate an unmated queen, sperm failure, or onset of laying workers. Do not extend waiting; evaluate requeening or merging based on colony strength.';
+
+  @override
+  String get surecYavruYokBiyolojikCokusBaslik =>
+      'Low biological recovery capacity';
+
+  @override
+  String surecYavruYokBiyolojikCokusMesaj(int cita) {
+    return 'The colony may not have produced new workers for a long time. If broodlessness continues at $cita frames, the existing population ages and the colony may naturally decline. Before investing heavy effort, consider merging with a strong colony or providing limited support.';
+  }
+
+  @override
+  String get surecYavruYokGecikmisTaniBaslik =>
+      'Brood absence entered risky delay';
+
+  @override
+  String get surecYavruYokGecikmisTaniTemel =>
+      'The expected laying window is being exceeded. Late mating, bee-eater-related queen loss, queen failure, or weakened colony possibilities must be evaluated together.';
+
+  @override
+  String get surecYavruYokGecikmisTaniAriKusu =>
+      'Bee-eater risk is active, raising the probability of mating loss.';
+
+  @override
+  String get surecYavruYokGecikmisTaniSakinPolen =>
+      'Colony calmness and pollen intake do not completely rule out a queen being present.';
+
+  @override
+  String get surecYavruYokGecikmisTaniHuzursuzPolenYok =>
+      'Restlessness or absence of pollen increases suspicion of queenlessness/weakening.';
+
+  @override
+  String get surecYavruYokGecikmisTaniSonuc =>
+      'Perform a clear inspection within 5–7 days; if still no brood, do not extend waiting.';
+
+  @override
+  String get surecYavruYokTaniAdayiBaslik => 'Laying may be delayed';
+
+  @override
+  String surecYavruYokTaniAdayiMesaj(String baglam, int gun) {
+    return 'Brood pattern recorded as \"None\" and $gun days have passed since the $baglam process. This should no longer be left as normal waiting; colony behavior, pollen intake, residual queen cells, honey pressure, and drone brood pressure must all be read together.';
+  }
+
+  @override
+  String get surecYavruYokNormalKoloniBaslik =>
+      'Brood absence in normal colony';
+
+  @override
+  String get surecYavruYokNormalKoloniMesaj =>
+      'Brood pattern recorded as \"None\" without an active split/swarm/queen acquisition process. This should be checked for queen status, honey pressure, colony weakening, or laying worker risk.';
+
+  @override
+  String surecSistemGerekce(String gerekce, int yasam) {
+    return ' System rationale: $gerekce. Vitality reading: $yasam/100.';
+  }
+
+  @override
+  String get surecHasatSonrasiBaslik => 'Post-harvest care needed';
+
+  @override
+  String get surecHasatSonrasiMesaj =>
+      'If honey was taken, the colony may be stressed. Remove any empty frames or supers, reorganize to a compact layout. If stores are weak, short-term 1:1 syrup support may help; if winter stores are low, consider 2:1 syrup or appropriate prepared feed. Do not delay varroa counting or treatment window.';
+
+  @override
+  String get surecGelisimYavasBaslik => 'Development appears slow';
+
+  @override
+  String get surecGelisimYavasMesaj =>
+      'Not normal for this period. Check: is the queen present, is there a daily pattern? Is the brood area sufficient? Is there pollen flow? (if not, give pollen patty) Is there varroa pressure?';
+
+  @override
+  String get surecAnaKazanmaSureci => 'Queen acquisition process';
+
+  @override
+  String surecGerekceAktifBaglam(String baglam, int gun) {
+    return '$gun days since $baglam process';
+  }
+
+  @override
+  String get surecGerekceAktifBaglamYok =>
+      'no active queen acquisition process detected';
+
+  @override
+  String surecGerekceToplamCita(int cita) {
+    return '$cita frame strength level';
+  }
+
+  @override
+  String surecGerekceArdisikYavrusuz(int sayi) {
+    return '$sayi consecutive broodless records';
+  }
+
+  @override
+  String get surecGerekceTrendZayif => 'development trend weakening';
+
+  @override
+  String get surecGerekceKoloniSakin => 'colony marked as calm';
+
+  @override
+  String get surecGerekceKoloniHuzursuz => 'colony marked as restless';
+
+  @override
+  String get surecGerekcePolenVar => 'pollen intake present';
+
+  @override
+  String get surecGerekcePolenYok => 'no pollen intake';
+
+  @override
+  String get surecGerekceBalGelisiGuclu => 'honey/nectar intake strong';
+
+  @override
+  String get surecGerekceBalGelisiZayif => 'honey/nectar intake not strong';
+
+  @override
+  String get surecGerekceBalBaskisi =>
+      'honey flow and honey frame pressure present';
+
+  @override
+  String get surecGerekceAriKusu => 'bee-eater risk active';
+
+  @override
+  String get surecGerekceErkekYavru => 'drone brood dominance marked';
+
+  @override
+  String get surecGerekceYalaanciAna =>
+      'laying worker / irregular egg pattern suspected';
+
+  @override
+  String get beslemeBalAkimiBasladi => 'Honey flow has started.';
+
+  @override
+  String beslemeBalAkimiGunKaldi(int gunKaldi, int kesmeGun) {
+    return '$gunKaldi days until honey flow; feeding should stop $kesmeGun days before honey flow.';
+  }
+
+  @override
+  String beslemeOnerilmezMesaj(String zamanMetni) {
+    return '$zamanMetni Sugar-based feeding should not be done in harvest-targeted colonies.';
+  }
+
+  @override
+  String get beslemeOnerilmezRisk =>
+      'Syrup or sugary feed can be carried into honey along with nectar flow. This poses a risk to harvest quality.';
+
+  @override
+  String get beslemeOnerilmezTekrarAraligi =>
+      'Not applicable during honey flow and harvest window';
+
+  @override
+  String get beslemeOnerilmezDozNotu =>
+      'This decision is solely for honey quality safety in harvest-targeted colonies.';
+
+  @override
+  String get beslemeOlculuDestekTip => 'Measured Support';
+
+  @override
+  String get beslemeGelisimTakibiTip => 'Development Monitoring';
+
+  @override
+  String get beslemeHacimOturgaMesajStok =>
+      'New space is in the settling phase. Measured support may be considered based on store and brood status.';
+
+  @override
+  String get beslemeHacimOturgaMesajTakip =>
+      'New space is in the settling phase. Stores, brood, and activation should be monitored together.';
+
+  @override
+  String get beslemeHacimRiskliSisirme =>
+      'If space was expanded quickly, excessive feeding may disrupt colony order; support should be measured.';
+
+  @override
+  String get beslemeHacimGerekceStok =>
+      'Support may be considered based on store status';
+
+  @override
+  String get beslemeHacimGerekceTakip =>
+      'New space activation is being monitored';
+
+  @override
+  String beslemeHacimGerekceIslevselCita(int cita) {
+    return 'Functional production frames approximately $cita frames';
+  }
+
+  @override
+  String beslemeHacimGerekceAktivasyon(int yuzde) {
+    return 'Activation approximately $yuzde%';
+  }
+
+  @override
+  String get beslemeHacimDozNotu =>
+      'The goal is not to bloat the colony but to provide measured energy support until the new space settles.';
+
+  @override
+  String get beslemeKontrolluDestekTip => 'Controlled Support';
+
+  @override
+  String get beslemeKontrolluDestekMesaj =>
+      'If support is needed during queen acquisition or queenlessness, it should be minimal and controlled.';
+
+  @override
+  String get beslemeKontrolluDestekRisk =>
+      'Unnecessarily opening the hive can disrupt queen acceptance and mating process.';
+
+  @override
+  String get beslemeKontrolluDestekGerekce1 =>
+      'Active queen acquisition / queenlessness process present';
+
+  @override
+  String get beslemeKontrolluDestekGerekce2 =>
+      'Stress reduction is the priority';
+
+  @override
+  String get beslemeKontrolluDestekDozNotu =>
+      'The goal is not to bloat the colony but to provide light energy support without stressing the process.';
+
+  @override
+  String get beslemeStokTamamlamaTip => 'Store Completion';
+
+  @override
+  String get beslemeStokTamamlamaMesaj =>
+      'During post-harvest period, store completion with 2:1 syrup may be considered based on store status.';
+
+  @override
+  String get beslemeStokTamamlamaRisk =>
+      'Excessive space, outdoor feeding, and robbing risk should be monitored.';
+
+  @override
+  String get beslemeStokTamamlamaGerekce1 => 'Post-harvest care process active';
+
+  @override
+  String get beslemeStokTamamlamaGerekce2 =>
+      'Store space appears under pressure';
+
+  @override
+  String get beslemeStokTamamlamaDozNotu =>
+      'Store completion purpose differs from growth stimulation; the colony should be kept in compact order.';
+
+  @override
+  String get beslemePolenliDestekTip => 'Pollen Support';
+
+  @override
+  String get beslemePolenliDestekMesaj =>
+      'Brood development is ongoing. If pollen stores appear low in the field, protein support may be considered.';
+
+  @override
+  String get beslemePolenliDestekRisk =>
+      'Unnecessary protein support can create spoilage and hygiene risk if not consumed.';
+
+  @override
+  String get beslemePolenliDestekGerekce1 => 'Brood area is large';
+
+  @override
+  String get beslemePolenliDestekGerekce2 => 'Store/pollen pressure building';
+
+  @override
+  String get beslemePolenliDestekDozNotu =>
+      'Protein support is only meaningful if pollen deficiency is confirmed in the field.';
+
+  @override
+  String get beslemeGelisimDestegiTip => 'Growth Support';
+
+  @override
+  String get beslemeGelisimDestegiMesaj =>
+      'Colony is in development order. Measured 1:1 syrup support may be considered based on store status.';
+
+  @override
+  String get beslemeGelisimDestegiRisk =>
+      'Excessive feeding can create robbing and colony imbalance risk.';
+
+  @override
+  String get beslemeGelisimDestegiGerekce1 =>
+      'Development colony at low frame level';
+
+  @override
+  String get beslemeGelisimDestegiGerekce2 =>
+      'Decision should be based on in-hive store observation';
+
+  @override
+  String get beslemeGelisimDestegiDozNotu =>
+      'The goal is to support brood development; avoid giving excess syrup and disrupting hive balance.';
+
+  @override
+  String get beslemeOlculuDestekOrta7Mesaj =>
+      'Colony is moderately strong. Measured growth support may be considered based on store status.';
+
+  @override
+  String get beslemeOlculuDestekOrta7Risk =>
+      'Excessive stimulation may increase swarm pressure or robbing risk.';
+
+  @override
+  String get beslemeOlculuDestekOrta7Gerekce1 => 'Moderately strong colony';
+
+  @override
+  String get beslemeOlculuDestekOrta7DozNotu =>
+      'If pollen and nectar intake is adequate in the field observation, feeding can be reduced.';
+
+  @override
+  String get beslemeYonetimMesaj =>
+      'Feeding decision should be made based on in-hive stores, brood load, and field nectar/pollen intake.';
+
+  @override
+  String get beslemeYonetimGerekce =>
+      'System does not precisely measure store status; field observation is decisive';
+
+  @override
+  String get beslemeYonetimDozNotu =>
+      'If stores appear weak, measured support may be considered; if sufficient, monitoring only may suffice.';
+
+  @override
+  String get beslemeGunArayla => 'Every 2–3 days, based on field store status';
+
+  @override
+  String get beslemeGunAralykKisaKontrol => 'Every 2–3 days, short-term';
+
+  @override
+  String get beslemeGunAralykStokKontrol => 'Every 2–3 days, with store check';
+
+  @override
+  String get beslemeGunAralykTamamlanana =>
+      'Every 2–3 days, until stores are replenished';
+
+  @override
+  String get beslemeKekTuketim => 'In small portions based on consumption';
+
+  @override
+  String get beslemeKekBozulmaRisk =>
+      'Based on consumption; monitoring for spoilage risk';
+
+  @override
+  String get biyolSinifEtiketZayif => 'Weak';
+
+  @override
+  String get biyolSinifEtiketGelisim => 'Developing';
+
+  @override
+  String get biyolSinifEtiketUretim => 'Production';
+
+  @override
+  String get biyolSinifEtiketHasat => 'Harvest';
+
+  @override
+  String get biyolSinifAciklamaZayif =>
+      'Priority: survival, consolidation, and measured support.';
+
+  @override
+  String get biyolSinifAciklamaGelisim =>
+      'Priority: steady development and maintaining queen/brood balance.';
+
+  @override
+  String get biyolSinifAciklamaUretim =>
+      'Colony has entered production strength; space, swarm risk, and honey flow are monitored together.';
+
+  @override
+  String get biyolSinifAciklamaHasat =>
+      'Colony is in the strong band for honey flow and harvest/space management.';
+
+  @override
+  String get biyolYavrusuzlukMesajNormal =>
+      'Brood data present; biological recovery capacity is supported by brood production.';
+
+  @override
+  String get biyolYavrusuzlukOneriNormal =>
+      'Monitor with normal biological model flow.';
+
+  @override
+  String get biyolYavrusuzlukMesajBolmeOgul =>
+      'No brood at this stage may be normal. Colony may be in queen acceptance or mating phase; unnecessary opening increases risk.';
+
+  @override
+  String get biyolYavrusuzlukOneriBolmeOgul =>
+      'Avoid unnecessary hive opening; wait for the egg-laying inspection window.';
+
+  @override
+  String get biyolYavrusuzlukMesajBalBaskisi =>
+      'Absence of brood alone does not mean queenlessness. Honey flow and honey-laden comb pressure may have restricted the laying area.';
+
+  @override
+  String get biyolYavrusuzlukOneriBalBaskisi =>
+      'First assess space and honey pressure; do not intervene with queen management prematurely.';
+
+  @override
+  String get biyolYavrusuzlukMesajDusukKapasite =>
+      'Colony has not produced new workers for a long time. At this strength, the existing population may be ageing; intensive labor and resource spending may not be efficient.';
+
+  @override
+  String get biyolYavrusuzlukOneriDusukKapasite =>
+      'Merging with a strong colony or limited intervention should be prioritized.';
+
+  @override
+  String get biyolYavrusuzlukMesajGecYumurtlama =>
+      'Expected laying period has started. If brood is still absent, late mating, queen loss, honey pressure, or weak colony possibilities should be read together.';
+
+  @override
+  String get biyolYavrusuzlukOneriGecYumurtlama =>
+      'Re-inspect within 5–7 days; if colony is weakening, do not wait longer.';
+
+  @override
+  String get biyolYavrusuzlukMesajGenel =>
+      'Brood absence should be monitored; a definitive queenlessness decision should not be made in isolation within the current day range.';
+
+  @override
+  String get biyolYavrusuzlukOneriGenel =>
+      'Evaluate together with colony behavior, pollen intake, and the next inspection.';
+
+  @override
+  String get biyolHasatVeriYokMesaj =>
+      'Comb and honey data are required for harvest assessment.';
+
+  @override
+  String get biyolHasatVeriYokKural =>
+      'Do not make harvest decisions without measurements.';
+
+  @override
+  String get biyolHasatBallikMesaj =>
+      'In tiered systems, harvest priority is the super; brood box is treated as a protected area.';
+
+  @override
+  String get biyolHasatBallikKural =>
+      'Super harvest is only considered for capped, broodless, and mature combs.';
+
+  @override
+  String get biyolHasatOnerilmezMesaj =>
+      'Harvest is not recommended for colonies at 7 combs or fewer; brood box safety must be maintained.';
+
+  @override
+  String get biyolHasatOnerilmezKural =>
+      'Colony must not be reduced below 7 combs by harvesting.';
+
+  @override
+  String get biyolHasat8CitaMesaj =>
+      'For an 8-comb colony, limited harvest may be considered only if the outer store comb is capped and broodless.';
+
+  @override
+  String get biyolHasat8CitaKural =>
+      'Comb 8 is not taken unless it is the outer store zone.';
+
+  @override
+  String get biyolHasat9CitaMesaj =>
+      'For a 9-comb colony, combs 8–9 can be checked as the outer store zone.';
+
+  @override
+  String get biyolHasat9CitaKural =>
+      'Brood/pollen area must not be disrupted; only capped outer honey is taken.';
+
+  @override
+  String get biyolHasat10CitaMesaj =>
+      'For a 10-comb brood box, combs 9–10 can be checked as the outer store zone.';
+
+  @override
+  String get biyolHasat10CitaKural =>
+      'Harvesting is not done without protecting brood box store safety and the brood cluster.';
+
+  @override
+  String biyolHasatAdayMetni(String metin) {
+    return 'Combs numbered $metin may be evaluated for harvest if broodless and capped.';
+  }
+
+  @override
+  String biyolIlgincGozKapasitesi(int gozMin, int gozMax) {
+    return 'This colony has an estimated $gozMin–$gozMax cell capacity.';
+  }
+
+  @override
+  String biyolIlgincAriNufusu(int ariMin, int ariMax) {
+    return 'Estimated bee population is in the range of $ariMin–$ariMax.';
+  }
+
+  @override
+  String biyolIlgincYavruAlani(int yavruMin, int yavruMax) {
+    return 'Estimated brood area capacity is $yavruMin–$yavruMax cells.';
+  }
+
+  @override
+  String biyolIlgincHasatPotansiyeli(String hasatMin, String hasatMax) {
+    return 'If capped and broodless combs are suitable, estimated harvest potential is in the $hasatMin–$hasatMax kg band.';
+  }
+
+  @override
+  String get biyolIlgincUyari =>
+      'These are not exact counts; they are field projections produced with a standard biological colony model.';
+
+  @override
+  String get biyolYorumVeriYok =>
+      'No comb data for model. Estimated biological layout can be read after the first inspection.';
+
+  @override
+  String biyolYorumBallikAlan(int kapasite, int cita, String blok) {
+    return 'Lower brood box accepted as $kapasite combs. The upper $cita combs were interpreted as super/tier area. Central brood cluster ($blok) must be protected.';
+  }
+
+  @override
+  String get biyolYorumKucukKoloni =>
+      'Small colony. Central brood cluster and heat regulation must be maintained; unnecessary space should not be left.';
+
+  @override
+  String biyolYorumGelisimSuffix(String blok) {
+    return 'Central brood cluster ($blok) must be protected.';
+  }
+
+  @override
+  String get biyolYorumDoluPrefix =>
+      'Brood box is considered full. Tier, congestion, and swarm pressure should be monitored together.';
+
+  @override
+  String get biyolSeviyeYuksek => 'high';
+
+  @override
+  String get biyolSeviyeOrta => 'medium';
+
+  @override
+  String get biyolSeviyeSinirli => 'limited';
+
+  @override
+  String get biyolSeviyeDusuk => 'low';
+
+  @override
+  String get biyolRiskKritik => 'critical';
+
+  @override
+  String get biyolRiskYuksek => 'high';
+
+  @override
+  String get biyolRiskOrta => 'medium';
+
+  @override
+  String get biyolRiskDusuk => 'low';
+
+  @override
+  String get biyolGelisimGuclu => 'development trajectory strong';
+
+  @override
+  String get biyolGelisimDengeli => 'development trajectory balanced';
+
+  @override
+  String get biyolGelisimBaskili => 'development under pressure';
+
+  @override
+  String get biyolGelisimSinirli => 'development limited';
+
+  @override
+  String get biyolUretimBalaYoneliyor => 'trending toward honey';
+
+  @override
+  String get biyolUretimYavruDuzeni => 'strengthening brood pattern';
+
+  @override
+  String get biyolUretimStokIhtiyac => 'may need store support';
+
+  @override
+  String get biyolUretimDengeli => 'balanced field arrangement';
+
+  @override
+  String get biyolMomentumIvmeleniyor => 'accelerating';
+
+  @override
+  String get biyolMomentumDengede => 'stable';
+
+  @override
+  String get biyolMomentumYavasliyor => 'slowing';
+
+  @override
+  String get biyolMomentumKiriliyor => 'declining';
+
+  @override
+  String get biyolAlanBaskisiYuksek => 'space pressure high';
+
+  @override
+  String get biyolAlanKullanimDengeli => 'space usage balanced';
+
+  @override
+  String get biyolAlanBosHacim => 'carrying empty space';
+
+  @override
+  String get biyolYonOlumlu => 'positive strengthening expected';
+
+  @override
+  String get biyolYonKontrollu => 'controlled development expected';
+
+  @override
+  String get biyolYonTemkinli => 'cautious monitoring required';
+
+  @override
+  String get biyolYonZayiflama => 'weakening risk should be watched';
+
+  @override
+  String get biyolOncelikliRiskCokus => 'biological collapse risk';
+
+  @override
+  String get biyolOncelikliRiskHacim => 'volume activation incomplete';
+
+  @override
+  String get biyolOncelikliRiskYavru => 'brood pattern unclear';
+
+  @override
+  String get biyolOncelikliRiskBalAkim =>
+      'production capacity limited for honey flow';
+
+  @override
+  String get biyolOncelikliRiskStok => 'store security limited';
+
+  @override
+  String biyolSahaOzetiRiskle(String gelisimYonu, String oncelikliRisk) {
+    return '$gelisimYonu; priority risk: $oncelikliRisk.';
+  }
+
+  @override
+  String biyolSahaOzetiNormal(String gelisimYonu, String uretimYonu) {
+    return '$gelisimYonu; $uretimYonu.';
+  }
+
+  @override
+  String get biyolKapasiteGuclu => 'strong';
+
+  @override
+  String get biyolKapasiteOrta => 'medium';
+
+  @override
+  String get biyolKapasiteSinirli => 'limited';
+
+  @override
+  String get biyolKapasiteZayif => 'weak';
+
+  @override
+  String get biyolGenisletmeErken =>
+      'expansion premature; tight arrangement and brood warmth must be maintained first';
+
+  @override
+  String get biyolGenisletmeGucluBallik =>
+      'super management sustainable; space can be added without cutting brood cluster';
+
+  @override
+  String get biyolGenisletmeGuclu => 'controlled expansion appears safe';
+
+  @override
+  String get biyolGenisletmeSinirli =>
+      'limited expansion possible; drawn comb may be safer than foundation';
+
+  @override
+  String get biyolGenisletmeYavruBaski =>
+      'brood care pressure present; drawn comb preferred over foundation';
+
+  @override
+  String get biyolGenisletmeRiskli =>
+      'excessive expansion risky; workforce and store balance should be monitored first';
+
+  @override
+  String get biyolBalAkimiGucluBallik =>
+      'honey flow can be evaluated as strong; capping tracking in super should be prioritized';
+
+  @override
+  String get biyolBalAkimiGuclu =>
+      'nectar capacity strong; monitor for tier readiness before congestion begins';
+
+  @override
+  String get biyolBalAkimiSinirli =>
+      'honey flow can be evaluated as limited; space and capping should be monitored together';
+
+  @override
+  String get biyolBalAkimiZayif =>
+      'honey flow capacity limited; colony organization must strengthen before production';
+
+  @override
+  String get biyolBakiciGuclu =>
+      'nurse bee balance strong; colony can be expanded while protecting brood area';
+
+  @override
+  String get biyolBakiciPetekSinirli =>
+      'nurse capacity present but comb-building limited; drawn comb is safer';
+
+  @override
+  String get biyolBakiciSinirli =>
+      'nurse capacity limited; excessive brood load or aggressive expansion is risky';
+
+  @override
+  String get biyolBakiciOrta =>
+      'nurse balance in mid-range; expansion should be done cautiously';
+
+  @override
+  String get biyolHamPetekGuclu =>
+      'Sufficient young bee capacity visible; if foundation is to be given, it can go outside the brood cluster.';
+
+  @override
+  String get biyolHamPetekSinirli =>
+      'Foundation can be given in limited amounts; drawn comb is safer.';
+
+  @override
+  String get biyolHamPetekDusuk =>
+      'Young bee capacity limited for foundation; drawn comb or tight arrangement is safer first.';
+
+  @override
+  String get biyolBeslemeNektarIyi =>
+      'Nectar foraging capacity is good; avoid unnecessary syrup during honey flow.';
+
+  @override
+  String get biyolBeslemeYavruIyi =>
+      'Brood care capacity is good; supplemental feeding may be considered if pollen/stores are weak.';
+
+  @override
+  String get biyolBeslemePetekVar =>
+      'Comb-building capacity present; light support may sustain growth if no flow.';
+
+  @override
+  String get biyolBeslemeKontrollu =>
+      'Feeding decision should be made carefully based on stores, weather, and process status.';
+
+  @override
+  String get biyolSahaStokOnceligi =>
+      'Priority is store security and winter endurance, not harvest.';
+
+  @override
+  String get biyolSahaYavruOnceligi =>
+      'Priority is maintaining brood area and heat regulation, not expansion.';
+
+  @override
+  String get biyolSahaHamPetek =>
+      'Foundation can be given; expand from outside without cutting brood cluster.';
+
+  @override
+  String get biyolSahaBalAkimiBallik =>
+      'Honey flow can be evaluated; track capping in the super.';
+
+  @override
+  String get biyolSahaBalAkimiKat =>
+      'Nectar capacity strong; evaluate tier readiness if congestion increases.';
+
+  @override
+  String get biyolSahaYavruPetekSinirli =>
+      'Brood care strong but comb-building limited; drawn comb is safer than foundation.';
+
+  @override
+  String get biyolSahaKontrolluBuyut =>
+      'Expand colony cautiously; read last inspection, stores, and process status together before deciding.';
+
+  @override
+  String get biyolKabiliyetPetekGuclu => 'comb-building strong';
+
+  @override
+  String get biyolKabiliyetYavruGuclu => 'brood care strong';
+
+  @override
+  String get biyolKabiliyetNektarGuclu => 'nectar foraging strong';
+
+  @override
+  String get biyolKabiliyetBalIslemeGuclu => 'honey processing strong';
+
+  @override
+  String get biyolKabiliyetKisDikkat =>
+      'winter stores/endurance needs attention';
+
+  @override
+  String get biyolKabiliyetOrta =>
+      'Capabilities in mid-range; proceed cautiously rather than over-expanding or heavy intervention.';
+
+  @override
+  String get biyolCitaYavruStok => 'Brood/stock';
+
+  @override
+  String get biyolCitaBalliPolenli => 'Honey/pollen';
+
+  @override
+  String get biyolCitaBalStogu => 'Honey store';
+
+  @override
+  String get biyolCitaYavruPolenli => 'Brood/pollen';
+
+  @override
+  String get biyolCitaYavru => 'Brood';
+
+  @override
+  String get biyolCitaYavruluPolenli => 'Brood-pollen';
+
+  @override
+  String get biyolCitaYavruStokGecis => 'Brood/stock transition zone';
+
+  @override
+  String get biyolCitaBalliPolenliGecis => 'Honey/pollen transition zone';
+
+  @override
+  String get biyolCitaBallikBal => 'Super / honey area';
+
+  @override
+  String get biyolCitaBallikAktivasyon => 'Super / activation in progress';
+
+  @override
+  String get biyolCitaKapaliYavruluCekim => 'Capped brood draw comb';
+
+  @override
+  String get biyolCitaBalliPolenliCekim => 'Honey/pollen draw comb';
+
+  @override
+  String get biyolCitaSurupluk => 'Feeder';
+
+  @override
+  String get biyolCitaYeniPetekAktivasyon => 'new comb activation';
+
+  @override
+  String get biyolYavruBlokBelirsiz => 'Unclear';
+
+  @override
+  String biyolYavruBlok1Cita(int no) {
+    return 'Comb $no';
+  }
+
+  @override
+  String biyolYavruBlokAralik(int bas, int son) {
+    return 'Combs $bas–$son';
+  }
+
+  @override
+  String get biyolAnaBolgeMerkez => 'Central brood comb';
+
+  @override
+  String biyolAnaBolgeAralik(int sol, int sag) {
+    return 'Around combs $sol–$sag';
+  }
+
+  @override
+  String biyolAnaBolgeYavruBlok(String blok) {
+    return 'Around $blok';
+  }
+
+  @override
+  String get biyolGelisimAlaniAcik =>
+      'Development area should be opened with empty/drawn combs outside the center.';
+
+  @override
+  String biyolGelisimAlaniMetin(String adaylar) {
+    return 'Controlled expansion can be done from outside combs $adaylar.';
+  }
+
+  @override
+  String biyolYerlesimSatiriFormat(int no, String tip) {
+    return 'Comb $no: $tip';
+  }
+
+  @override
+  String get biyolKovanNotuKatGecisi =>
+      'This is a biological layout projection: at tier transition, an active draw group is modelled in the upper tier, and the activation process of newly added combs is modelled in the lower brood box.';
+
+  @override
+  String get biyolKovanNotuGenel =>
+      'Solid colours represent functional combs; empty frames with bottom-up daily fill represent new space present in the hive but still undergoing biological activation.';
 }

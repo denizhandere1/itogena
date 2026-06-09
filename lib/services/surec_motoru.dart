@@ -1,3 +1,4 @@
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'veritabani_servisi.dart';
 import 'ari_biyoloji_servisi.dart';
 import 'trend_servisi.dart';
@@ -56,7 +57,10 @@ class SurecDurumu {
 }
 
 class SurecMotoru {
-  static final Map<int, Future<SurecDurumu>> _durumFutureCache = {};
+  static final Map<String, Future<SurecDurumu>> _durumFutureCache = {};
+
+  static String _cacheKey(int koloniId, AppLocalizations? l) =>
+      '$koloniId:${l?.localeName ?? 'tr'}';
 
   static const int _ogulBelirtisiMaxGun = 14;
   static const int _bolmeSonrasiMaxGun = 45;
@@ -72,19 +76,22 @@ class SurecMotoru {
     Map<String, dynamic>? hazirKoloni,
     List<Map<String, dynamic>>? hazirMuayeneler,
     bool forceRefresh = false,
+    AppLocalizations? l,
   }) async {
+    final key = _cacheKey(koloniId, l);
     if (forceRefresh || hazirKoloni != null || hazirMuayeneler != null) {
       final future = _durumHesapla(
         koloniId,
         hazirKoloni: hazirKoloni,
         hazirMuayeneler: hazirMuayeneler,
+        l: l,
       );
-      _durumFutureCache[koloniId] = future;
-      return _guvenliFutureDon(koloniId, future);
+      _durumFutureCache[key] = future;
+      return _guvenliFutureDon(key, future);
     }
 
-    final future = _durumFutureCache[koloniId] ??= _durumHesapla(koloniId);
-    return _guvenliFutureDon(koloniId, future);
+    final future = _durumFutureCache[key] ??= _durumHesapla(koloniId, l: l);
+    return _guvenliFutureDon(key, future);
   }
 
   static void cacheTemizle([int? koloniId]) {
@@ -92,20 +99,20 @@ class SurecMotoru {
       _durumFutureCache.clear();
       return;
     }
-    _durumFutureCache.remove(koloniId);
+    _durumFutureCache.removeWhere((k, _) => k.startsWith('$koloniId:'));
   }
 
   static void tumCacheTemizle() => cacheTemizle();
 
   static Future<SurecDurumu> _guvenliFutureDon(
-    int koloniId,
+    String cacheKey,
     Future<SurecDurumu> future,
   ) async {
     try {
       return await future;
     } catch (_) {
-      if (identical(_durumFutureCache[koloniId], future)) {
-        _durumFutureCache.remove(koloniId);
+      if (identical(_durumFutureCache[cacheKey], future)) {
+        _durumFutureCache.remove(cacheKey);
       }
       rethrow;
     }
@@ -125,6 +132,7 @@ class SurecMotoru {
     int koloniId, {
     Map<String, dynamic>? hazirKoloni,
     List<Map<String, dynamic>>? hazirMuayeneler,
+    AppLocalizations? l,
   }) async {
     final koloni = hazirKoloni ?? await VeritabaniServisi.koloniOzetiGetir(koloniId);
     final muayeneler =
@@ -154,18 +162,21 @@ class SurecMotoru {
       koloni: koloni,
       muayeneler: muayeneler,
       bugun: bugun,
+      l: l,
     );
     if (anasizlik != null) surecler.add(anasizlik);
 
     final ogulBelirtisi = _ogulBelirtisiSureci(
       muayeneler: muayeneler,
       bugun: bugun,
+      l: l,
     );
     if (ogulBelirtisi != null) surecler.add(ogulBelirtisi);
 
     final ogulSonrasi = _ogulSonrasiSureci(
       muayeneler: muayeneler,
       bugun: bugun,
+      l: l,
     );
     if (ogulSonrasi != null) surecler.add(ogulSonrasi);
 
@@ -176,6 +187,7 @@ class SurecMotoru {
       final bolmeSonrasi = _bolmeSonrasiSureci(
         muayeneler: muayeneler,
         bugun: bugun,
+        l: l,
       );
       if (bolmeSonrasi != null) surecler.add(bolmeSonrasi);
     }
@@ -184,12 +196,14 @@ class SurecMotoru {
       koloni: koloni,
       muayeneler: muayeneler,
       bugun: bugun,
+      l: l,
     );
     if (yavruYokTani != null) surecler.add(yavruYokTani);
 
     final hasatSonrasi = _hasatSonrasiSureci(
       muayeneler: muayeneler,
       bugun: bugun,
+      l: l,
     );
     if (hasatSonrasi != null) surecler.add(hasatSonrasi);
 
@@ -200,6 +214,7 @@ class SurecMotoru {
       final gelisimYavas = await _gelisimYavasSureci(
         muayeneler: muayeneler,
         bugun: bugun,
+        l: l,
       );
       if (gelisimYavas != null) surecler.add(gelisimYavas);
     }
@@ -249,6 +264,7 @@ class SurecMotoru {
     required Map<String, dynamic> koloni,
     required List<Map<String, dynamic>> muayeneler,
     required DateTime bugun,
+    AppLocalizations? l,
   }) {
     final DateTime? baslangic = _anasizlikBaslangiciBul(
       koloni: koloni,
@@ -280,7 +296,7 @@ class SurecMotoru {
     );
 
     final String baslik =
-    (sahaUyarisi['baslik'] ?? 'Ana kazanma süreci').toString();
+    (sahaUyarisi['baslik'] ?? l?.surecAnaKazanmaSureci ?? 'Ana kazanma süreci').toString();
     final String mesaj = (sahaUyarisi['mesaj'] ?? '').toString();
     final String neYap = (sahaUyarisi['neYap'] ?? '').toString();
     final String neYapma = (sahaUyarisi['neYapma'] ?? '').toString();
@@ -323,6 +339,7 @@ class SurecMotoru {
   static SurecUyarisi? _ogulBelirtisiSureci({
     required List<Map<String, dynamic>> muayeneler,
     required DateTime bugun,
+    AppLocalizations? l,
   }) {
     if (muayeneler.isEmpty) return null;
     final son = muayeneler.first;
@@ -342,9 +359,9 @@ class SurecMotoru {
       return SurecUyarisi(
         kod: 'OGUL_BELIRTISI',
         grup: 'OGUL',
-        baslik: 'Oğul riski',
-        mesaj:
-        'Ana memesi görüldü. Bu sağlık sorunu değil, oğul davranışı ve koloni sıkışıklığı işaretidir. Koloniyi sakin biçimde kontrol et; gerekiyorsa bölme yap veya 1–2 kaliteli meme bırakıp fazlasını azalt.',
+        baslik: l?.surecOgulRiskiBaslik ?? 'Oğul riski',
+        mesaj: l?.surecOgulBelirtisi3GunMesaj ??
+            'Ana memesi görüldü. Bu sağlık sorunu değil, oğul davranışı ve koloni sıkışıklığı işaretidir. Koloniyi sakin biçimde kontrol et; gerekiyorsa bölme yap veya 1–2 kaliteli meme bırakıp fazlasını azalt.',
         tip: 'kritik',
         oncelik: 97,
         referansTarihMetni: _format(tarih),
@@ -355,9 +372,9 @@ class SurecMotoru {
       return SurecUyarisi(
         kod: 'OGUL_BELIRTISI',
         grup: 'OGUL',
-        baslik: 'Oğul riski',
-        mesaj:
-        'İlk hafta artçı oğul riski yüksektir. Meme sayısını kontrol et; birden fazla güçlü meme bırakmak koloniyi tekrar bölebilir. Gerekiyorsa bölme veya fazla memeleri azaltma kararı ver.',
+        baslik: l?.surecOgulRiskiBaslik ?? 'Oğul riski',
+        mesaj: l?.surecOgulBelirtisi7GunMesaj ??
+            'İlk hafta artçı oğul riski yüksektir. Meme sayısını kontrol et; birden fazla güçlü meme bırakmak koloniyi tekrar bölebilir. Gerekiyorsa bölme veya fazla memeleri azaltma kararı ver.',
         tip: 'kritik',
         oncelik: 96,
         referansTarihMetni: _format(tarih),
@@ -367,9 +384,9 @@ class SurecMotoru {
     return SurecUyarisi(
       kod: 'OGUL_BELIRTISI',
       grup: 'OGUL',
-      baslik: 'Oğul riski takibi',
-      mesaj:
-      'Oğul belirtisi takip döneminde. Yeni meme, sıkışıklık veya huzursuzluk yoksa süreç kendiliğinden sönümlenir; gereksiz tekrar uyarı üretmez.',
+      baslik: l?.surecOgulRiskiTakibiBaslik ?? 'Oğul riski takibi',
+      mesaj: l?.surecOgulBelirtisiTakipMesaj ??
+          'Oğul belirtisi takip döneminde. Yeni meme, sıkışıklık veya huzursuzluk yoksa süreç kendiliğinden sönümlenir; gereksiz tekrar uyarı üretmez.',
       tip: 'takip',
       oncelik: 88,
       referansTarihMetni: _format(tarih),
@@ -379,6 +396,7 @@ class SurecMotoru {
   static SurecUyarisi? _ogulSonrasiSureci({
     required List<Map<String, dynamic>> muayeneler,
     required DateTime bugun,
+    AppLocalizations? l,
   }) {
     final DateTime? tetik = _sonTetikTarihi(muayeneler, 'ogulAtti');
     if (tetik == null) return null;
@@ -400,8 +418,8 @@ class SurecMotoru {
       return SurecUyarisi(
         kod: 'OGUL_SONRASI_TEKRAR',
         grup: 'OGUL_SONRASI',
-        baslik: 'Tekrarlayan oğul / nüfus kaybı riski',
-        mesaj:
+        baslik: l?.surecOgulSonrasiTekrarBaslik ?? 'Tekrarlayan oğul / nüfus kaybı riski',
+        mesaj: l?.surecOgulSonrasiTekrarMesaj ??
             'Oğul kaydı tekrar ediyor. Bu artık normal artçı takibi değil; koloni hızla nüfus kaybedebilir. Meme sayısı, kalan arı gücü, stok ve ana belirtisi birlikte okunmalı. Çok zayıfladıysa yoğun emek yerine birleştirme veya sınırlı destek daha doğru olabilir.',
         tip: 'kritik',
         oncelik: 99,
@@ -413,8 +431,8 @@ class SurecMotoru {
       return SurecUyarisi(
         kod: 'OGUL_SONRASI_ARTCI_RISK',
         grup: 'OGUL_SONRASI',
-        baslik: 'Oğul sonrası artçı riski yüksek',
-        mesaj:
+        baslik: l?.surecOgulSonrasiArtciRiskBaslik ?? 'Oğul sonrası artçı riski yüksek',
+        mesaj: l?.surecOgulSonrasiArtciRiskMesaj ??
             'Oğul sonrası ilk hafta artçı oğul riski yüksektir. Amaç koloniyi tekrar böldürmemektir. Kontrol gerekiyorsa kısa ve sakin yapılmalı; fazla meme bırakmak tekrar nüfus kaybı doğurabilir. Üretim/kat/hasat kararı geri plandadır.',
         tip: 'kritik',
         oncelik: 97,
@@ -426,8 +444,8 @@ class SurecMotoru {
       return SurecUyarisi(
         kod: 'OGUL_SONRASI_ARTCI_TAKIP',
         grup: 'OGUL_SONRASI',
-        baslik: 'Artçı oğul riski izleniyor',
-        mesaj:
+        baslik: l?.surecArtciOgulTakipBaslik ?? 'Artçı oğul riski izleniyor',
+        mesaj: l?.surecArtciOgulTakipMesaj ??
             'Artçı oğul riski devam eder ama ilk haftaya göre azalır. Yeni meme, huzursuzluk veya tekrar çıkış belirtisi yoksa ana sürecini bozmadan beklemek daha doğrudur. Günlük veya kapalı yavru görülürse süreç kapanır.',
         tip: 'uyari',
         oncelik: 93,
@@ -439,8 +457,8 @@ class SurecMotoru {
       return SurecUyarisi(
         kod: 'OGUL_SONRASI_ANA_CIFTLESME',
         grup: 'OGUL_SONRASI',
-        baslik: 'Oğul sonrası ana / çiftleşme süreci',
-        mesaj:
+        baslik: l?.surecOgulSonrasiAnaCiftlesmeBaslik ?? 'Oğul sonrası ana / çiftleşme süreci',
+        mesaj: l?.surecOgulSonrasiAnaCiftlesmeMesaj ??
             'Artçı riski büyük ölçüde kapanır. Bu dönem yeni ana çıkışı, olgunlaşma ve çiftleşme penceresidir. Yavru hâlâ görülmeyebilir; bu tek başına çöküş sayılmaz. Dış uçuş, polen gelişi ve sakinlik izlenir. Günlük veya kapalı yavru görülürse muayenede işaretle, süreç kapanır.',
         tip: 'takip',
         oncelik: 91,
@@ -451,8 +469,8 @@ class SurecMotoru {
     return SurecUyarisi(
       kod: 'OGUL_SONRASI_YUMURTLAMA_KONTROL',
       grup: 'OGUL_SONRASI',
-      baslik: 'Oğul sonrası yumurtlama kontrolü',
-      mesaj:
+      baslik: l?.surecOgulSonrasiYumurtlamaBaslik ?? 'Oğul sonrası yumurtlama kontrolü',
+      mesaj: l?.surecOgulSonrasiYumurtlamaMesaj ??
           'Oğul sonrası 31–45. gün arası artık yumurtlama netleşmelidir. Günlük veya kapalı yavru görülürse süreç kapanır. Hâlâ yavru yoksa bu süreç normal bekleme olmaktan çıkar; ana başarısızlığı, çiftleşme kaybı veya yalancı ana riski yavru-yok tanısı ile öne alınır.',
       tip: 'kritik',
       oncelik: 98,
@@ -463,6 +481,7 @@ class SurecMotoru {
   static SurecUyarisi? _bolmeSonrasiSureci({
     required List<Map<String, dynamic>> muayeneler,
     required DateTime bugun,
+    AppLocalizations? l,
   }) {
     final DateTime? tetik = _sonTetikTarihi(muayeneler, 'bolmeYapildi');
     if (tetik == null) return null;
@@ -488,9 +507,9 @@ class SurecMotoru {
       return SurecUyarisi(
         kod: 'BOLME_SONRASI',
         grup: 'BOLME',
-        baslik: 'Bölme sonrası toparlanma',
-        mesaj:
-        'Koloniyi sıkışık tut ve besleme yap. Yeni düzen kurulana kadar destek gerekir.',
+        baslik: l?.surecBolmeSonrasiBaslik ?? 'Bölme sonrası toparlanma',
+        mesaj: l?.surecBolmeSonrasi30GunMesaj ??
+            'Koloniyi sıkışık tut ve besleme yap. Yeni düzen kurulana kadar destek gerekir.',
         tip: 'takip',
         oncelik: 89,
         referansTarihMetni: _format(tetik),
@@ -500,8 +519,8 @@ class SurecMotoru {
     return SurecUyarisi(
       kod: 'BOLME_SONRASI',
       grup: 'BOLME',
-      baslik: 'Bölme sonrası toparlanma',
-      mesaj: 'Ana durumunu kontrol et. Toparlanma gecikmiş olabilir.',
+      baslik: l?.surecBolmeSonrasiBaslik ?? 'Bölme sonrası toparlanma',
+      mesaj: l?.surecBolmeSonrasiGecMesaj ?? 'Ana durumunu kontrol et. Toparlanma gecikmiş olabilir.',
       tip: 'uyari',
       oncelik: 90,
       referansTarihMetni: _format(tetik),
@@ -540,6 +559,7 @@ class SurecMotoru {
     required Map<String, dynamic> koloni,
     required List<Map<String, dynamic>> muayeneler,
     required DateTime bugun,
+    AppLocalizations? l,
   }) async {
     if (muayeneler.isEmpty) return null;
 
@@ -562,13 +582,13 @@ class SurecMotoru {
     String grup = 'YAVRU_YOK';
 
     if (anasizlikBaslangic != null) {
-      aktifBaglam = 'ana kazanma';
+      aktifBaglam = l?.surecBaglamAnaKazanma ?? 'ana kazanma';
       grup = 'ANASIZLIK';
     } else if (ogulTetik != null) {
-      aktifBaglam = 'oğul sonrası';
+      aktifBaglam = l?.surecBaglamOgulSonrasi ?? 'oğul sonrası';
       grup = 'OGUL_SONRASI';
     } else if (bolmeTetik != null) {
-      aktifBaglam = 'bölme sonrası';
+      aktifBaglam = l?.surecBaglamBolmeSonrasi ?? 'bölme sonrası';
       grup = 'BOLME';
     }
 
@@ -675,21 +695,21 @@ class SurecMotoru {
     yasamGucu = yasamGucu.clamp(0, 100).toInt();
 
     final List<String> gerekceler = <String>[
-      if (aktifAnaBaglamiVar) '$aktifBaglam sürecinden $gun gün geçmiş',
-      if (!aktifAnaBaglamiVar) 'aktif ana kazanma süreci görünmüyor',
-      if (toplamCita > 0) '$toplamCita çıta güç seviyesi',
-      if (ardisikYavrusuz >= 2) '$ardisikYavrusuz ardışık yavrusuz kayıt',
-      if (trendZayif) 'gelişim yönü zayıflıyor',
-      if (koloniSakin) 'koloni sakin işaretlenmiş',
-      if (koloniHuzursuz) 'koloni huzursuz işaretlenmiş',
-      if (polenGelisiVar == true) 'polen gelişi var',
-      if (polenGelisiVar == false) 'polen gelişi yok',
-      if (balGelisiGuclu == true) 'bal/nektar gelişi güçlü',
-      if (balGelisiGuclu == false) 'bal/nektar gelişi güçlü değil',
-      if (balBaskisiOlabilir) 'bal akımı ve ballı çıta baskısı var',
-      if (ariKusuRiski) 'arı kuşu riski aktif',
-      if (erkekYavruBaskin) 'erkek yavru baskısı işaretlenmiş',
-      if (yalanciAnaSuphesi) 'yalancı ana / düzensiz yumurta şüphesi var',
+      if (aktifAnaBaglamiVar) (l != null ? l.surecGerekceAktifBaglam(aktifBaglam, gun) : '$aktifBaglam sürecinden $gun gün geçmiş'),
+      if (!aktifAnaBaglamiVar) (l?.surecGerekceAktifBaglamYok ?? 'aktif ana kazanma süreci görünmüyor'),
+      if (toplamCita > 0) (l != null ? l.surecGerekceToplamCita(toplamCita) : '$toplamCita çıta güç seviyesi'),
+      if (ardisikYavrusuz >= 2) (l != null ? l.surecGerekceArdisikYavrusuz(ardisikYavrusuz) : '$ardisikYavrusuz ardışık yavrusuz kayıt'),
+      if (trendZayif) (l?.surecGerekceTrendZayif ?? 'gelişim yönü zayıflıyor'),
+      if (koloniSakin) (l?.surecGerekceKoloniSakin ?? 'koloni sakin işaretlenmiş'),
+      if (koloniHuzursuz) (l?.surecGerekceKoloniHuzursuz ?? 'koloni huzursuz işaretlenmiş'),
+      if (polenGelisiVar == true) (l?.surecGerekcePolenVar ?? 'polen gelişi var'),
+      if (polenGelisiVar == false) (l?.surecGerekcePolenYok ?? 'polen gelişi yok'),
+      if (balGelisiGuclu == true) (l?.surecGerekceBalGelisiGuclu ?? 'bal/nektar gelişi güçlü'),
+      if (balGelisiGuclu == false) (l?.surecGerekceBalGelisiZayif ?? 'bal/nektar gelişi güçlü değil'),
+      if (balBaskisiOlabilir) (l?.surecGerekceBalBaskisi ?? 'bal akımı ve ballı çıta baskısı var'),
+      if (ariKusuRiski) (l?.surecGerekceAriKusu ?? 'arı kuşu riski aktif'),
+      if (erkekYavruBaskin) (l?.surecGerekceErkekYavru ?? 'erkek yavru baskısı işaretlenmiş'),
+      if (yalanciAnaSuphesi) (l?.surecGerekceYalaanciAna ?? 'yalancı ana / düzensiz yumurta şüphesi var'),
     ];
 
     String baslik;
@@ -700,57 +720,72 @@ class SurecMotoru {
 
     if (aktifAnaBaglamiVar && gun <= 20) {
       kod = 'YAVRU_YOK_NORMAL_BEKLEME';
-      baslik = 'Yavru yokluğu bu aşamada normal olabilir';
-      mesaj =
-          'Yavru düzeni “Yok” kaydedildi; ancak $aktifBaglam sürecinde $gun. gündesin. Bu dönemde yavru görülmemesi tek başına sorun değildir. Kovanı bu tarihte açmak gerekli olmayabilir; gereksiz açma bakire ana ve kabul sürecini bozabilir.';
+      baslik = l?.surecYavruYokNormalBaslik ?? 'Yavru yokluğu bu aşamada normal olabilir';
+      mesaj = l != null
+          ? l.surecYavruYokNormalMesaj(aktifBaglam, gun)
+          : 'Yavru düzeni “Yok” kaydedildi; ancak $aktifBaglam sürecinde $gun. gündesin. Bu dönemde yavru görülmemesi tek başına sorun değildir. Kovanı bu tarihte açmak gerekli olmayabilir; gereksiz açma bakire ana ve kabul sürecini bozabilir.';
       tip = 'takip';
       oncelik = 93;
     } else if (aktifAnaBaglamiVar && gun <= 30) {
       kod = 'YAVRU_YOK_ERKEN_TAKIP';
-      baslik = 'Yumurtlama için hâlâ erken olabilir';
-      mesaj =
-          'Yavru düzeni “Yok” kaydedildi. $aktifBaglam sürecinden $gun gün geçmiş. Koloni sakin ve çalışıyorsa hemen sert müdahale önerilmez; 5–7 gün sonra günlük yumurta / genç larva kontrolü daha doğru olur.';
+      baslik = l?.surecYavruYokErkenTakipBaslik ?? 'Yumurtlama için hâlâ erken olabilir';
+      mesaj = l != null
+          ? l.surecYavruYokErkenTakipMesaj(aktifBaglam, gun)
+          : 'Yavru düzeni “Yok” kaydedildi. $aktifBaglam sürecinden $gun gün geçmiş. Koloni sakin ve çalışıyorsa hemen sert müdahale önerilmez; 5–7 gün sonra günlük yumurta / genç larva kontrolü daha doğru olur.';
       tip = 'takip';
       oncelik = 94;
     } else if (balBaskisiOlabilir) {
       kod = 'YAVRU_YOK_BAL_BASKISI';
-      baslik = 'Yavru yokluğu bal baskısıyla ilişkili olabilir';
-      mesaj =
+      baslik = l?.surecYavruYokBalBaskisiBaslik ?? 'Yavru yokluğu bal baskısıyla ilişkili olabilir';
+      mesaj = l?.surecYavruYokBalBaskisiMesaj ??
           'Yavru görünmemesi doğrudan anasızlık anlamına gelmeyebilir. Bal akımı aktif ve ballı çıta oranı yüksek görünüyor; ana yumurtlayacak boş alan bulamıyor olabilir. Önce alan ve bal baskısını değerlendir, erken ana müdahalesi yapma.';
       tip = 'uyari';
       oncelik = 97;
     } else if (erkekYavruBaskin || yalanciAnaSuphesi) {
       kod = 'YAVRU_YOK_ANA_PROBLEMI';
-      baslik = 'Ana kalitesi / yalancı ana riski';
-      mesaj =
+      baslik = l?.surecYavruYokAnaProblemiBaslik ?? 'Ana kalitesi / yalancı ana riski';
+      mesaj = l?.surecYavruYokAnaProblemiMesaj ??
           'Yavru yokluğu erkek yavru baskısı veya düzensiz yumurta belirtisiyle birlikte okunuyor. Bu durum çiftleşememiş ana, sperm problemi veya yalancı ana başlangıcı anlamına gelebilir. Beklemeyi uzatma; koloni gücüne göre ana değiştirme veya birleştirme değerlendir.';
       tip = 'kritik';
       oncelik = 100;
     } else if (yasamGucu < 50 || (kucukKoloni && (gun >= 35 || yavrusuzGun >= 35))) {
       kod = 'YAVRU_YOK_BIYOLOJIK_COKUS';
-      baslik = 'Biyolojik geri dönüş kapasitesi düşük';
-      mesaj =
-          'Koloni uzun süredir yeni işçi üretmiyor olabilir. $toplamCita çıta seviyesinde yavrusuzluk uzarsa mevcut nüfus yaşlanır ve koloni doğal küçülmeye gidebilir. Yoğun emek harcamadan önce güçlü koloniyle birleştirme veya sınırlı destek seçeneğini değerlendir.';
+      baslik = l?.surecYavruYokBiyolojikCokusBaslik ?? 'Biyolojik geri dönüş kapasitesi düşük';
+      mesaj = l != null
+          ? l.surecYavruYokBiyolojikCokusMesaj(toplamCita)
+          : 'Koloni uzun süredir yeni işçi üretmiyor olabilir. $toplamCita çıta seviyesinde yavrusuzluk uzarsa mevcut nüfus yaşlanır ve koloni doğal küçülmeye gidebilir. Yoğun emek harcamadan önce güçlü koloniyle birleştirme veya sınırlı destek seçeneğini değerlendir.';
       tip = 'kritik';
       oncelik = 99;
     } else if (aktifAnaBaglamiVar && gun >= 36) {
       kod = 'YAVRU_YOK_GECIKMIS_TANI';
-      baslik = 'Yavru yokluğu riskli gecikmeye girdi';
-      mesaj =
-          'Beklenen yumurtlama penceresi aşılmaya başladı. Geç çiftleşme, arı kuşu kaynaklı ana kaybı, ana başarısızlığı veya zayıf koloni olasılıkları birlikte değerlendirilmeli. ${ariKusuRiski ? 'Arı kuşu riski aktif olduğu için çiftleşme kaybı ihtimali yükselir. ' : ''}${koloniSakin && polenGelisiVar == true ? 'Koloni sakinliği ve polen gelişi içeride ana olma ihtimalini tamamen dışlamaz. ' : ''}${koloniHuzursuz || polenGelisiVar == false ? 'Huzursuzluk veya polen yokluğu anasızlık/zayıflama şüphesini artırır. ' : ''}5–7 gün içinde net kontrol yap; hâlâ yavru yoksa beklemeyi uzatma.';
+      baslik = l?.surecYavruYokGecikmisTaniBaslik ?? 'Yavru yokluğu riskli gecikmeye girdi';
+      if (l != null) {
+        final parcalar = <String>[
+          l.surecYavruYokGecikmisTaniTemel,
+          if (ariKusuRiski) l.surecYavruYokGecikmisTaniAriKusu,
+          if (koloniSakin && polenGelisiVar == true) l.surecYavruYokGecikmisTaniSakinPolen,
+          if (koloniHuzursuz || polenGelisiVar == false) l.surecYavruYokGecikmisTaniHuzursuzPolenYok,
+          l.surecYavruYokGecikmisTaniSonuc,
+        ];
+        mesaj = parcalar.join(' ');
+      } else {
+        mesaj =
+            'Beklenen yumurtlama penceresi aşılmaya başladı. Geç çiftleşme, arı kuşu kaynaklı ana kaybı, ana başarısızlığı veya zayıf koloni olasılıkları birlikte değerlendirilmeli. ${ariKusuRiski ? 'Arı kuşu riski aktif olduğu için çiftleşme kaybı ihtimali yükselir. ' : ''}${koloniSakin && polenGelisiVar == true ? 'Koloni sakinliği ve polen gelişi içeride ana olma ihtimalini tamamen dışlamaz. ' : ''}${koloniHuzursuz || polenGelisiVar == false ? 'Huzursuzluk veya polen yokluğu anasızlık/zayıflama şüphesini artırır. ' : ''}5–7 gün içinde net kontrol yap; hâlâ yavru yoksa beklemeyi uzatma.';
+      }
       tip = 'kritik';
       oncelik = 100;
     } else if (aktifAnaBaglamiVar && gun >= 31) {
       kod = 'YAVRU_YOK_TANI_ADAYI';
-      baslik = 'Yumurtlama gecikiyor olabilir';
-      mesaj =
-          'Yavru düzeni “Yok” kaydedildi ve $aktifBaglam sürecinden $gun gün geçmiş. Bu artık yalnızca normal bekleme olarak bırakılmamalı; koloni davranışı, polen gelişi, ana memesi kalıntısı, bal baskısı ve erkek yavru baskısı birlikte okunmalı.';
+      baslik = l?.surecYavruYokTaniAdayiBaslik ?? 'Yumurtlama gecikiyor olabilir';
+      mesaj = l != null
+          ? l.surecYavruYokTaniAdayiMesaj(aktifBaglam, gun)
+          : 'Yavru düzeni “Yok” kaydedildi ve $aktifBaglam sürecinden $gun gün geçmiş. Bu artık yalnızca normal bekleme olarak bırakılmamalı; koloni davranışı, polen gelişi, ana memesi kalıntısı, bal baskısı ve erkek yavru baskısı birlikte okunmalı.';
       tip = 'uyari';
       oncelik = 99;
     } else {
       kod = 'YAVRU_YOK_NORMAL_KOLONI_TANI';
-      baslik = 'Normal kolonide yavru yokluğu';
-      mesaj =
+      baslik = l?.surecYavruYokNormalKoloniBaslik ?? 'Normal kolonide yavru yokluğu';
+      mesaj = l?.surecYavruYokNormalKoloniMesaj ??
           'Aktif bölme/oğul/ana kazanma süreci görünmeden yavru düzeni “Yok” kaydedildi. Bu durum ana durumu, bal baskısı, koloni zayıflaması veya yalancı ana riski açısından kontrol edilmelidir.';
       tip = 'uyari';
       oncelik = 100;
@@ -758,7 +793,9 @@ class SurecMotoru {
 
     final String gerekceMetni = gerekceler.isEmpty
         ? ''
-        : ' Sistem gerekçesi: ${gerekceler.join(', ')}. Yaşam gücü okuması: $yasamGucu/100.';
+        : (l != null
+            ? l.surecSistemGerekce(gerekceler.join(', '), yasamGucu)
+            : ' Sistem gerekçesi: ${gerekceler.join(', ')}. Yaşam gücü okuması: $yasamGucu/100.');
 
     return SurecUyarisi(
       kod: kod,
@@ -878,6 +915,7 @@ class SurecMotoru {
   static SurecUyarisi? _hasatSonrasiSureci({
     required List<Map<String, dynamic>> muayeneler,
     required DateTime bugun,
+    AppLocalizations? l,
   }) {
     DateTime? tetik;
     for (final m in muayeneler) {
@@ -905,9 +943,9 @@ class SurecMotoru {
     return SurecUyarisi(
       kod: anaKartDonemi ? 'HASAT_SONRASI' : 'HASAT_SONRASI_ARKA_PLAN',
       grup: 'HASAT',
-      baslik: 'Hasat sonrası bakım gerekli',
-      mesaj:
-      'Bal alındıysa koloni strese girebilir. Arı basmayan petek veya kat varsa kaldır, koloniyi sıkışık düzene al. Stok zayıfsa kısa süreli 1:1 şurup destek olabilir; kış stoğu eksikse 2:1 şurup veya uygun hazır yem düşün. Varroa sayımı ya da mücadele penceresini geciktirme.',
+      baslik: l?.surecHasatSonrasiBaslik ?? 'Hasat sonrası bakım gerekli',
+      mesaj: l?.surecHasatSonrasiMesaj ??
+          'Bal alındıysa koloni strese girebilir. Arı basmayan petek veya kat varsa kaldır, koloniyi sıkışık düzene al. Stok zayıfsa kısa süreli 1:1 şurup destek olabilir; kış stoğu eksikse 2:1 şurup veya uygun hazır yem düşün. Varroa sayımı ya da mücadele penceresini geciktirme.',
       tip: 'takip',
       oncelik: anaKartDonemi ? 70 : 24,
       referansTarihMetni: _format(tetik),
@@ -918,6 +956,7 @@ class SurecMotoru {
   static Future<SurecUyarisi?> _gelisimYavasSureci({
     required List<Map<String, dynamic>> muayeneler,
     required DateTime bugun,
+    AppLocalizations? l,
   }) async {
     if (muayeneler.length < 3) return null;
 
@@ -982,12 +1021,12 @@ class SurecMotoru {
     final bool artisVar = c2 > c1 || c3 > c2;
     if (artisVar) return null;
 
-    return const SurecUyarisi(
+    return SurecUyarisi(
       kod: 'GELISIM_YAVAS',
       grup: 'GELISIM',
-      baslik: 'Gelişim yavaş görünüyor',
-      mesaj:
-      'Bu dönem için normal değil. Kontrol et. Ana var mı, günlük düzen var mı? Yavru alanı yeterli mi? Polen akışı var mı? (yoksa polenli kek ver) Varroa baskısı var mı?',
+      baslik: l?.surecGelisimYavasBaslik ?? 'Gelişim yavaş görünüyor',
+      mesaj: l?.surecGelisimYavasMesaj ??
+          'Bu dönem için normal değil. Kontrol et. Ana var mı, günlük düzen var mı? Yavru alanı yeterli mi? Polen akışı var mı? (yoksa polenli kek ver) Varroa baskısı var mı?',
       tip: 'uyari',
       oncelik: 72,
     );

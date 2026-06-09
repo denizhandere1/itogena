@@ -2362,15 +2362,15 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   Color _citaHedefRengi(String tip, int no, String kat) {
     final t = tip.toLowerCase();
-    final bool aktivasyon = t.contains('aktivasyon');
-    final bool biyolojikRolVar = t.contains('yavru') ||
-        t.contains('polen') ||
-        t.contains('bal') ||
-        t.contains('stok');
+    final bool aktivasyon = t.contains('aktivasyon') || t.contains('activation');
+    final bool biyolojikRolVar = t.contains('yavru') || t.contains('brood') ||
+        t.contains('polen') || t.contains('pollen') ||
+        t.contains('bal') || t.contains('honey') ||
+        t.contains('stok') || t.contains('stock') || t.contains('store');
 
     if (!aktivasyon || biyolojikRolVar) return _citaRengi(tip);
 
-    if (kat == 'ust' || kat == 'ucuncu' || t.contains('ballık')) return const Color(0xFFFFD54F);
+    if (kat == 'ust' || kat == 'ucuncu' || t.contains('ballık') || t.contains('super')) return const Color(0xFFFFD54F);
     if (no == 1 || no == 10) return const Color(0xFFFFD54F);
     if (no == 2 || no == 9) return const Color(0xFFFFA726);
     if (no >= 3 && no <= 8) return const Color(0xFF8D6E63);
@@ -2379,9 +2379,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   Color _citaRengi(String tip) {
     final t = tip.toLowerCase();
-    if (t.contains('yavru')) return const Color(0xFF8D6E63);
-    if (t.contains('polen')) return const Color(0xFFFFA726);
-    if (t.contains('bal') || t.contains('stok')) return const Color(0xFFFFD54F);
+    if (t.contains('yavru') || t.contains('brood')) return const Color(0xFF8D6E63);
+    if (t.contains('polen') || t.contains('pollen')) return const Color(0xFFFFA726);
+    if (t.contains('bal') || t.contains('stok') ||
+        t.contains('honey') || t.contains('stock') || t.contains('store')) return const Color(0xFFFFD54F);
     return const Color(0xFFFFFFFF);
   }
 

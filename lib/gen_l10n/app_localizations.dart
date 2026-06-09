@@ -9345,6 +9345,1770 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Biyolojik Saha Notu'**
   String get biyoSahaNotu;
+
+  /// No description provided for @genetikRiskVetoOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul kökeni/izi genetik yayılım için veto kabul edildi.'**
+  String get genetikRiskVetoOgul;
+
+  /// No description provided for @genetikVetoOzet.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim değeri ayrı tutulur; genetik çoğaltma kararı veto edilir.'**
+  String get genetikVetoOzet;
+
+  /// No description provided for @genetikRiskKapasiteDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşlevsel çıta kapasitesi çoğaltma için düşük.'**
+  String get genetikRiskKapasiteDusuk;
+
+  /// No description provided for @genetikRiskYavruNetlesme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru düzeni netleşmeden genetik yayılım öne çıkarılmaz.'**
+  String get genetikRiskYavruNetlesme;
+
+  /// No description provided for @genetikRiskGucDususu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son kayıtta güç düşüşü var; çoğaltma yerine neden analizi gerekir.'**
+  String get genetikRiskGucDususu;
+
+  /// No description provided for @genetikRiskAktivasyonDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivasyon düşük; fiziksel çıta genetik kapasite gibi okunmamalı.'**
+  String get genetikRiskAktivasyonDusuk;
+
+  /// No description provided for @genetikRiskKisStok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış/hasat sonrası stok güvenliği zayıf.'**
+  String get genetikRiskKisStok;
+
+  /// No description provided for @genetikRiskAnaSureci.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana/yavru süreci açık; genetik karar izleme bandına çekilir.'**
+  String get genetikRiskAnaSureci;
+
+  /// No description provided for @genetikRiskBolmeToparlanma.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme toparlanması tamamlanmadan yeni çoğaltma hedefi açılmaz.'**
+  String get genetikRiskBolmeToparlanma;
+
+  /// No description provided for @genetikRiskSisirme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Riskli şişirme var; fiziksel genişleme genetik başarı sayılmaz.'**
+  String get genetikRiskSisirme;
+
+  /// No description provided for @genetikOzetYuksek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik kapasite, yavru düzeni, istikrar ve süreç güvenliği çoğaltma için güçlü sinyal veriyor.'**
+  String get genetikOzetYuksek;
+
+  /// No description provided for @genetikOzetIzle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Olumlu genetik sinyaller var; karar için istikrar, süreç kapanışı ve sezon penceresi birlikte izlenmeli.'**
+  String get genetikOzetIzle;
+
+  /// No description provided for @genetikOzetDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çoğaltma değeri düşük/temkinli: {risk}'**
+  String genetikOzetDusuk(String risk);
+
+  /// No description provided for @genetikOzetVarsayilan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çoğaltma değeri şu aşamada öncelikli değil.'**
+  String get genetikOzetVarsayilan;
+
+  /// No description provided for @varroaKisaVetoDikkat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varroa dikkat'**
+  String get varroaKisaVetoDikkat;
+
+  /// No description provided for @varroaKisaVarroa.
+  ///
+  /// In tr, this message translates to:
+  /// **'Varroa'**
+  String get varroaKisaVarroa;
+
+  /// No description provided for @varroaVetoBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal döneminde varroa mücadelesinde kalıntı riskine dikkat'**
+  String get varroaVetoBaslik;
+
+  /// No description provided for @varroaVetoMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı/hasat döneminde kalıntı riski olan kimyasal mücadele önerilmez. Gerekiyorsa organik yöntemler değerlendirilir.'**
+  String get varroaVetoMesaj;
+
+  /// No description provided for @yonetimBolmeAdayi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme adayı'**
+  String get yonetimBolmeAdayi;
+
+  /// No description provided for @yonetimBolmeDikkat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme dikkat'**
+  String get yonetimBolmeDikkat;
+
+  /// No description provided for @yonetimKontrolluBolmeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Genetik çoğaltma / kontrollü bölme penceresi'**
+  String get yonetimKontrolluBolmeBaslik;
+
+  /// No description provided for @yonetimSinirliiBolmeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sınırlı bölme değerlendirmesi'**
+  String get yonetimSinirliiBolmeBaslik;
+
+  /// No description provided for @yonetimKatVerKisa.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kat ver'**
+  String get yonetimKatVerKisa;
+
+  /// No description provided for @yonetimKatVerBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kat / ballık ver'**
+  String get yonetimKatVerBaslik;
+
+  /// No description provided for @yonetimUcuncuKatKisa.
+  ///
+  /// In tr, this message translates to:
+  /// **'3. kat ver'**
+  String get yonetimUcuncuKatKisa;
+
+  /// No description provided for @yonetimUcuncuKatBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'3. kat / ikinci ballık ver'**
+  String get yonetimUcuncuKatBaslik;
+
+  /// No description provided for @yonetimAlanBallikBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alan ihtiyacı / ballık değerlendirme'**
+  String get yonetimAlanBallikBaslik;
+
+  /// No description provided for @yonetimAlanCitaBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alan ihtiyacı / çıta ekleme'**
+  String get yonetimAlanCitaBaslik;
+
+  /// No description provided for @yonetimAlanGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivasyon oranı koloni gücü etiketi değildir; mevcut hacmin dolduğunu ve alan ihtiyacını gösterir.'**
+  String get yonetimAlanGerekce;
+
+  /// No description provided for @yonetimAlanAcKisa.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alan aç'**
+  String get yonetimAlanAcKisa;
+
+  /// No description provided for @yonetimHasatBakimKisa.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bakım'**
+  String get yonetimHasatBakimKisa;
+
+  /// No description provided for @yonetimHasatBakimBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası bakım yönü'**
+  String get yonetimHasatBakimBaslik;
+
+  /// No description provided for @yonetimKisHazirlikKisa.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kış hazırlık'**
+  String get yonetimKisHazirlikKisa;
+
+  /// No description provided for @yonetimKisHazirlikBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kışa hazırlık kontrolü'**
+  String get yonetimKisHazirlikBaslik;
+
+  /// No description provided for @beslemeFeedingNone.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme yok'**
+  String get beslemeFeedingNone;
+
+  /// No description provided for @beslemeFeedingShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme'**
+  String get beslemeFeedingShort;
+
+  /// No description provided for @beslemeFeedingWatch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme izle'**
+  String get beslemeFeedingWatch;
+
+  /// No description provided for @beslemeFeedingNotRecommended.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme önerilmez'**
+  String get beslemeFeedingNotRecommended;
+
+  /// No description provided for @beslemeRiskEtiketi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Risk: {risk}'**
+  String beslemeRiskEtiketi(String risk);
+
+  /// No description provided for @surecOgulRiskiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul riski'**
+  String get surecOgulRiskiBaslik;
+
+  /// No description provided for @surecOgulBelirtisi3GunMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana memesi görüldü. Bu sağlık sorunu değil, oğul davranışı ve koloni sıkışıklığı işaretidir. Koloniyi sakin biçimde kontrol et; gerekiyorsa bölme yap veya 1–2 kaliteli meme bırakıp fazlasını azalt.'**
+  String get surecOgulBelirtisi3GunMesaj;
+
+  /// No description provided for @surecOgulBelirtisi7GunMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk hafta artçı oğul riski yüksektir. Meme sayısını kontrol et; birden fazla güçlü meme bırakmak koloniyi tekrar bölebilir. Gerekiyorsa bölme veya fazla memeleri azaltma kararı ver.'**
+  String get surecOgulBelirtisi7GunMesaj;
+
+  /// No description provided for @surecOgulRiskiTakibiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul riski takibi'**
+  String get surecOgulRiskiTakibiBaslik;
+
+  /// No description provided for @surecOgulBelirtisiTakipMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul belirtisi takip döneminde. Yeni meme, sıkışıklık veya huzursuzluk yoksa süreç kendiliğinden sönümlenir; gereksiz tekrar uyarı üretmez.'**
+  String get surecOgulBelirtisiTakipMesaj;
+
+  /// No description provided for @surecOgulSonrasiTekrarBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrarlayan oğul / nüfus kaybı riski'**
+  String get surecOgulSonrasiTekrarBaslik;
+
+  /// No description provided for @surecOgulSonrasiTekrarMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul kaydı tekrar ediyor. Bu artık normal artçı takibi değil; koloni hızla nüfus kaybedebilir. Meme sayısı, kalan arı gücü, stok ve ana belirtisi birlikte okunmalı. Çok zayıfladıysa yoğun emek yerine birleştirme veya sınırlı destek daha doğru olabilir.'**
+  String get surecOgulSonrasiTekrarMesaj;
+
+  /// No description provided for @surecOgulSonrasiArtciRiskBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul sonrası artçı riski yüksek'**
+  String get surecOgulSonrasiArtciRiskBaslik;
+
+  /// No description provided for @surecOgulSonrasiArtciRiskMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul sonrası ilk hafta artçı oğul riski yüksektir. Amaç koloniyi tekrar böldürmemektir. Kontrol gerekiyorsa kısa ve sakin yapılmalı; fazla meme bırakmak tekrar nüfus kaybı doğurabilir. Üretim/kat/hasat kararı geri plandadır.'**
+  String get surecOgulSonrasiArtciRiskMesaj;
+
+  /// No description provided for @surecArtciOgulTakipBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Artçı oğul riski izleniyor'**
+  String get surecArtciOgulTakipBaslik;
+
+  /// No description provided for @surecArtciOgulTakipMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Artçı oğul riski devam eder ama ilk haftaya göre azalır. Yeni meme, huzursuzluk veya tekrar çıkış belirtisi yoksa ana sürecini bozmadan beklemek daha doğrudur. Günlük veya kapalı yavru görülürse süreç kapanır.'**
+  String get surecArtciOgulTakipMesaj;
+
+  /// No description provided for @surecOgulSonrasiAnaCiftlesmeBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul sonrası ana / çiftleşme süreci'**
+  String get surecOgulSonrasiAnaCiftlesmeBaslik;
+
+  /// No description provided for @surecOgulSonrasiAnaCiftlesmeMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Artçı riski büyük ölçüde kapanır. Bu dönem yeni ana çıkışı, olgunlaşma ve çiftleşme penceresidir. Yavru hâlâ görülmeyebilir; bu tek başına çöküş sayılmaz. Dış uçuş, polen gelişi ve sakinlik izlenir. Günlük veya kapalı yavru görülürse muayenede işaretle, süreç kapanır.'**
+  String get surecOgulSonrasiAnaCiftlesmeMesaj;
+
+  /// No description provided for @surecOgulSonrasiYumurtlamaBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul sonrası yumurtlama kontrolü'**
+  String get surecOgulSonrasiYumurtlamaBaslik;
+
+  /// No description provided for @surecOgulSonrasiYumurtlamaMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oğul sonrası 31–45. gün arası artık yumurtlama netleşmelidir. Günlük veya kapalı yavru görülürse süreç kapanır. Hâlâ yavru yoksa bu süreç normal bekleme olmaktan çıkar; ana başarısızlığı, çiftleşme kaybı veya yalancı ana riski yavru-yok tanısı ile öne alınır.'**
+  String get surecOgulSonrasiYumurtlamaMesaj;
+
+  /// No description provided for @surecBolmeSonrasiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bölme sonrası toparlanma'**
+  String get surecBolmeSonrasiBaslik;
+
+  /// No description provided for @surecBolmeSonrasi30GunMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniyi sıkışık tut ve besleme yap. Yeni düzen kurulana kadar destek gerekir.'**
+  String get surecBolmeSonrasi30GunMesaj;
+
+  /// No description provided for @surecBolmeSonrasiGecMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana durumunu kontrol et. Toparlanma gecikmiş olabilir.'**
+  String get surecBolmeSonrasiGecMesaj;
+
+  /// No description provided for @surecBaglamAnaKazanma.
+  ///
+  /// In tr, this message translates to:
+  /// **'ana kazanma'**
+  String get surecBaglamAnaKazanma;
+
+  /// No description provided for @surecBaglamOgulSonrasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'oğul sonrası'**
+  String get surecBaglamOgulSonrasi;
+
+  /// No description provided for @surecBaglamBolmeSonrasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'bölme sonrası'**
+  String get surecBaglamBolmeSonrasi;
+
+  /// No description provided for @surecYavruYokNormalBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yokluğu bu aşamada normal olabilir'**
+  String get surecYavruYokNormalBaslik;
+
+  /// No description provided for @surecYavruYokNormalMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru düzeni \"Yok\" kaydedildi; ancak {baglam} sürecinde {gun}. gündesin. Bu dönemde yavru görülmemesi tek başına sorun değildir. Kovanı bu tarihte açmak gerekli olmayabilir; gereksiz açma bakire ana ve kabul sürecini bozabilir.'**
+  String surecYavruYokNormalMesaj(String baglam, int gun);
+
+  /// No description provided for @surecYavruYokErkenTakipBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yumurtlama için hâlâ erken olabilir'**
+  String get surecYavruYokErkenTakipBaslik;
+
+  /// No description provided for @surecYavruYokErkenTakipMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru düzeni \"Yok\" kaydedildi. {baglam} sürecinden {gun} gün geçmiş. Koloni sakin ve çalışıyorsa hemen sert müdahale önerilmez; 5–7 gün sonra günlük yumurta / genç larva kontrolü daha doğru olur.'**
+  String surecYavruYokErkenTakipMesaj(String baglam, int gun);
+
+  /// No description provided for @surecYavruYokBalBaskisiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yokluğu bal baskısıyla ilişkili olabilir'**
+  String get surecYavruYokBalBaskisiBaslik;
+
+  /// No description provided for @surecYavruYokBalBaskisiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru görünmemesi doğrudan anasızlık anlamına gelmeyebilir. Bal akımı aktif ve ballı çıta oranı yüksek görünüyor; ana yumurtlayacak boş alan bulamıyor olabilir. Önce alan ve bal baskısını değerlendir, erken ana müdahalesi yapma.'**
+  String get surecYavruYokBalBaskisiMesaj;
+
+  /// No description provided for @surecYavruYokAnaProblemiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana kalitesi / yalancı ana riski'**
+  String get surecYavruYokAnaProblemiBaslik;
+
+  /// No description provided for @surecYavruYokAnaProblemiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yokluğu erkek yavru baskısı veya düzensiz yumurta belirtisiyle birlikte okunuyor. Bu durum çiftleşememiş ana, sperm problemi veya yalancı ana başlangıcı anlamına gelebilir. Beklemeyi uzatma; koloni gücüne göre ana değiştirme veya birleştirme değerlendir.'**
+  String get surecYavruYokAnaProblemiMesaj;
+
+  /// No description provided for @surecYavruYokBiyolojikCokusBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik geri dönüş kapasitesi düşük'**
+  String get surecYavruYokBiyolojikCokusBaslik;
+
+  /// No description provided for @surecYavruYokBiyolojikCokusMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni uzun süredir yeni işçi üretmiyor olabilir. {cita} çıta seviyesinde yavrusuzluk uzarsa mevcut nüfus yaşlanır ve koloni doğal küçülmeye gidebilir. Yoğun emek harcamadan önce güçlü koloniyle birleştirme veya sınırlı destek seçeneğini değerlendir.'**
+  String surecYavruYokBiyolojikCokusMesaj(int cita);
+
+  /// No description provided for @surecYavruYokGecikmisTaniBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yokluğu riskli gecikmeye girdi'**
+  String get surecYavruYokGecikmisTaniBaslik;
+
+  /// No description provided for @surecYavruYokGecikmisTaniTemel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beklenen yumurtlama penceresi aşılmaya başladı. Geç çiftleşme, arı kuşu kaynaklı ana kaybı, ana başarısızlığı veya zayıf koloni olasılıkları birlikte değerlendirilmeli.'**
+  String get surecYavruYokGecikmisTaniTemel;
+
+  /// No description provided for @surecYavruYokGecikmisTaniAriKusu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arı kuşu riski aktif olduğu için çiftleşme kaybı ihtimali yükselir.'**
+  String get surecYavruYokGecikmisTaniAriKusu;
+
+  /// No description provided for @surecYavruYokGecikmisTaniSakinPolen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni sakinliği ve polen gelişi içeride ana olma ihtimalini tamamen dışlamaz.'**
+  String get surecYavruYokGecikmisTaniSakinPolen;
+
+  /// No description provided for @surecYavruYokGecikmisTaniHuzursuzPolenYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Huzursuzluk veya polen yokluğu anasızlık/zayıflama şüphesini artırır.'**
+  String get surecYavruYokGecikmisTaniHuzursuzPolenYok;
+
+  /// No description provided for @surecYavruYokGecikmisTaniSonuc.
+  ///
+  /// In tr, this message translates to:
+  /// **'5–7 gün içinde net kontrol yap; hâlâ yavru yoksa beklemeyi uzatma.'**
+  String get surecYavruYokGecikmisTaniSonuc;
+
+  /// No description provided for @surecYavruYokTaniAdayiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yumurtlama gecikiyor olabilir'**
+  String get surecYavruYokTaniAdayiBaslik;
+
+  /// No description provided for @surecYavruYokTaniAdayiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru düzeni \"Yok\" kaydedildi ve {baglam} sürecinden {gun} gün geçmiş. Bu artık yalnızca normal bekleme olarak bırakılmamalı; koloni davranışı, polen gelişi, ana memesi kalıntısı, bal baskısı ve erkek yavru baskısı birlikte okunmalı.'**
+  String surecYavruYokTaniAdayiMesaj(String baglam, int gun);
+
+  /// No description provided for @surecYavruYokNormalKoloniBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal kolonide yavru yokluğu'**
+  String get surecYavruYokNormalKoloniBaslik;
+
+  /// No description provided for @surecYavruYokNormalKoloniMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif bölme/oğul/ana kazanma süreci görünmeden yavru düzeni \"Yok\" kaydedildi. Bu durum ana durumu, bal baskısı, koloni zayıflaması veya yalancı ana riski açısından kontrol edilmelidir.'**
+  String get surecYavruYokNormalKoloniMesaj;
+
+  /// No description provided for @surecSistemGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **' Sistem gerekçesi: {gerekce}. Yaşam gücü okuması: {yasam}/100.'**
+  String surecSistemGerekce(String gerekce, int yasam);
+
+  /// No description provided for @surecHasatSonrasiBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası bakım gerekli'**
+  String get surecHasatSonrasiBaslik;
+
+  /// No description provided for @surecHasatSonrasiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal alındıysa koloni strese girebilir. Arı basmayan petek veya kat varsa kaldır, koloniyi sıkışık düzene al. Stok zayıfsa kısa süreli 1:1 şurup destek olabilir; kış stoğu eksikse 2:1 şurup veya uygun hazır yem düşün. Varroa sayımı ya da mücadele penceresini geciktirme.'**
+  String get surecHasatSonrasiMesaj;
+
+  /// No description provided for @surecGelisimYavasBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim yavaş görünüyor'**
+  String get surecGelisimYavasBaslik;
+
+  /// No description provided for @surecGelisimYavasMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu dönem için normal değil. Kontrol et. Ana var mı, günlük düzen var mı? Yavru alanı yeterli mi? Polen akışı var mı? (yoksa polenli kek ver) Varroa baskısı var mı?'**
+  String get surecGelisimYavasMesaj;
+
+  /// No description provided for @surecAnaKazanmaSureci.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana kazanma süreci'**
+  String get surecAnaKazanmaSureci;
+
+  /// No description provided for @surecGerekceAktifBaglam.
+  ///
+  /// In tr, this message translates to:
+  /// **'{baglam} sürecinden {gun} gün geçmiş'**
+  String surecGerekceAktifBaglam(String baglam, int gun);
+
+  /// No description provided for @surecGerekceAktifBaglamYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'aktif ana kazanma süreci görünmüyor'**
+  String get surecGerekceAktifBaglamYok;
+
+  /// No description provided for @surecGerekceToplamCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'{cita} çıta güç seviyesi'**
+  String surecGerekceToplamCita(int cita);
+
+  /// No description provided for @surecGerekceArdisikYavrusuz.
+  ///
+  /// In tr, this message translates to:
+  /// **'{sayi} ardışık yavrusuz kayıt'**
+  String surecGerekceArdisikYavrusuz(int sayi);
+
+  /// No description provided for @surecGerekceTrendZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'gelişim yönü zayıflıyor'**
+  String get surecGerekceTrendZayif;
+
+  /// No description provided for @surecGerekceKoloniSakin.
+  ///
+  /// In tr, this message translates to:
+  /// **'koloni sakin işaretlenmiş'**
+  String get surecGerekceKoloniSakin;
+
+  /// No description provided for @surecGerekceKoloniHuzursuz.
+  ///
+  /// In tr, this message translates to:
+  /// **'koloni huzursuz işaretlenmiş'**
+  String get surecGerekceKoloniHuzursuz;
+
+  /// No description provided for @surecGerekcePolenVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'polen gelişi var'**
+  String get surecGerekcePolenVar;
+
+  /// No description provided for @surecGerekcePolenYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'polen gelişi yok'**
+  String get surecGerekcePolenYok;
+
+  /// No description provided for @surecGerekceBalGelisiGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'bal/nektar gelişi güçlü'**
+  String get surecGerekceBalGelisiGuclu;
+
+  /// No description provided for @surecGerekceBalGelisiZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'bal/nektar gelişi güçlü değil'**
+  String get surecGerekceBalGelisiZayif;
+
+  /// No description provided for @surecGerekceBalBaskisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'bal akımı ve ballı çıta baskısı var'**
+  String get surecGerekceBalBaskisi;
+
+  /// No description provided for @surecGerekceAriKusu.
+  ///
+  /// In tr, this message translates to:
+  /// **'arı kuşu riski aktif'**
+  String get surecGerekceAriKusu;
+
+  /// No description provided for @surecGerekceErkekYavru.
+  ///
+  /// In tr, this message translates to:
+  /// **'erkek yavru baskısı işaretlenmiş'**
+  String get surecGerekceErkekYavru;
+
+  /// No description provided for @surecGerekceYalaanciAna.
+  ///
+  /// In tr, this message translates to:
+  /// **'yalancı ana / düzensiz yumurta şüphesi var'**
+  String get surecGerekceYalaanciAna;
+
+  /// No description provided for @beslemeBalAkimiBasladi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı başladı.'**
+  String get beslemeBalAkimiBasladi;
+
+  /// No description provided for @beslemeBalAkimiGunKaldi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımına {gunKaldi} gün kaldı; bal akımından {kesmeGun} gün önce besleme kesilmeli.'**
+  String beslemeBalAkimiGunKaldi(int gunKaldi, int kesmeGun);
+
+  /// No description provided for @beslemeOnerilmezMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'{zamanMetni} Hasat hedeflenen kolonide şeker bazlı besleme yapılmamalı.'**
+  String beslemeOnerilmezMesaj(String zamanMetni);
+
+  /// No description provided for @beslemeOnerilmezRisk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurup veya şekerli yem, nektar akımıyla birlikte bala taşınabilir. Hasat kalitesi açısından risk oluşturur.'**
+  String get beslemeOnerilmezRisk;
+
+  /// No description provided for @beslemeOnerilmezTekrarAraligi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı ve hasat penceresinde uygulanmaz'**
+  String get beslemeOnerilmezTekrarAraligi;
+
+  /// No description provided for @beslemeOnerilmezDozNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu karar yalnızca hasat hedefli kolonide bal kalitesi güvenliği içindir.'**
+  String get beslemeOnerilmezDozNotu;
+
+  /// No description provided for @beslemeOlculuDestekTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçülü Destek'**
+  String get beslemeOlculuDestekTip;
+
+  /// No description provided for @beslemeGelisimTakibiTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim Takibi'**
+  String get beslemeGelisimTakibiTip;
+
+  /// No description provided for @beslemeHacimOturgaMesajStok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni verilen hacim oturma aşamasında. Stok ve yavru durumuna göre ölçülü destek değerlendirilebilir.'**
+  String get beslemeHacimOturgaMesajStok;
+
+  /// No description provided for @beslemeHacimOturgaMesajTakip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni verilen hacim oturma aşamasında. Stok, yavru ve aktivasyon birlikte takip edilmeli.'**
+  String get beslemeHacimOturgaMesajTakip;
+
+  /// No description provided for @beslemeHacimRiskliSisirme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hacim hızlı açıldıysa fazla besleme koloni düzenini bozabilir; destek ölçülü tutulmalıdır.'**
+  String get beslemeHacimRiskliSisirme;
+
+  /// No description provided for @beslemeHacimGerekceStok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stok durumuna göre destek değerlendirilebilir'**
+  String get beslemeHacimGerekceStok;
+
+  /// No description provided for @beslemeHacimGerekceTakip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni hacim aktivasyonu takip edilir'**
+  String get beslemeHacimGerekceTakip;
+
+  /// No description provided for @beslemeHacimGerekceIslevselCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşlevsel üretim çıtası yaklaşık {cita} çıta'**
+  String beslemeHacimGerekceIslevselCita(int cita);
+
+  /// No description provided for @beslemeHacimGerekceAktivasyon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktivasyon yaklaşık %{yuzde}'**
+  String beslemeHacimGerekceAktivasyon(int yuzde);
+
+  /// No description provided for @beslemeHacimDozNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Amaç koloniyi şişirmek değil, yeni hacim oturana kadar ölçülü enerji desteği sağlamaktır.'**
+  String get beslemeHacimDozNotu;
+
+  /// No description provided for @beslemeKontrolluDestekTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kontrollü Destek'**
+  String get beslemeKontrolluDestekTip;
+
+  /// No description provided for @beslemeKontrolluDestekMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana kazanma veya anasızlık sürecinde destek gerekiyorsa az ve kontrollü düşünülmeli.'**
+  String get beslemeKontrolluDestekMesaj;
+
+  /// No description provided for @beslemeKontrolluDestekRisk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovanı gereksiz açmak ana kabulü ve çiftleşme sürecini bozabilir.'**
+  String get beslemeKontrolluDestekRisk;
+
+  /// No description provided for @beslemeKontrolluDestekGerekce1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif ana kazanma / anasızlık süreci var'**
+  String get beslemeKontrolluDestekGerekce1;
+
+  /// No description provided for @beslemeKontrolluDestekGerekce2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stres azaltma öncelikli olmalı'**
+  String get beslemeKontrolluDestekGerekce2;
+
+  /// No description provided for @beslemeKontrolluDestekDozNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Amaç koloniyi şişirmek değil, süreci strese sokmadan hafif enerji desteği sağlamaktır.'**
+  String get beslemeKontrolluDestekDozNotu;
+
+  /// No description provided for @beslemeStokTamamlamaTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stok Tamamlama'**
+  String get beslemeStokTamamlamaTip;
+
+  /// No description provided for @beslemeStokTamamlamaMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası dönemde stok durumuna göre 2:1 şurup ile stok tamamlama değerlendirilebilir.'**
+  String get beslemeStokTamamlamaMesaj;
+
+  /// No description provided for @beslemeStokTamamlamaRisk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aşırı hacim, açıkta yem ve yağmacılık riski kontrol edilmeli.'**
+  String get beslemeStokTamamlamaRisk;
+
+  /// No description provided for @beslemeStokTamamlamaGerekce1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat sonrası bakım süreci aktif'**
+  String get beslemeStokTamamlamaGerekce1;
+
+  /// No description provided for @beslemeStokTamamlamaGerekce2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stok alanı baskı altında görünüyor'**
+  String get beslemeStokTamamlamaGerekce2;
+
+  /// No description provided for @beslemeStokTamamlamaDozNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stok tamamlama amacı gelişim teşvikinden farklıdır; koloni sıkışık düzende tutulmalıdır.'**
+  String get beslemeStokTamamlamaDozNotu;
+
+  /// No description provided for @beslemePolenliDestekTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Polenli Destek'**
+  String get beslemePolenliDestekTip;
+
+  /// No description provided for @beslemePolenliDestekMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru gelişimi sürüyor. Polen stoğu sahada zayıf görülürse protein desteği değerlendirilebilir.'**
+  String get beslemePolenliDestekMesaj;
+
+  /// No description provided for @beslemePolenliDestekRisk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gereksiz protein desteği tüketilmezse bozulma ve hijyen riski oluşturabilir.'**
+  String get beslemePolenliDestekRisk;
+
+  /// No description provided for @beslemePolenliDestekGerekce1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru alanı geniş'**
+  String get beslemePolenliDestekGerekce1;
+
+  /// No description provided for @beslemePolenliDestekGerekce2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stok/polen baskısı oluşuyor'**
+  String get beslemePolenliDestekGerekce2;
+
+  /// No description provided for @beslemePolenliDestekDozNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Protein desteği yalnızca polen eksikliği sahada doğrulanırsa anlamlıdır.'**
+  String get beslemePolenliDestekDozNotu;
+
+  /// No description provided for @beslemeGelisimDestegiTip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim Desteği'**
+  String get beslemeGelisimDestegiTip;
+
+  /// No description provided for @beslemeGelisimDestegiMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni gelişim düzeninde. Stok durumuna göre ölçülü 1:1 şurup desteği değerlendirilebilir.'**
+  String get beslemeGelisimDestegiMesaj;
+
+  /// No description provided for @beslemeGelisimDestegiRisk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aşırı besleme yağmacılık ve kovan içi denge bozulması riski yaratabilir.'**
+  String get beslemeGelisimDestegiRisk;
+
+  /// No description provided for @beslemeGelisimDestegiGerekce1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük çıta seviyesinde gelişim kolonisi'**
+  String get beslemeGelisimDestegiGerekce1;
+
+  /// No description provided for @beslemeGelisimDestegiGerekce2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar kovan içi stok gözlemine göre verilmeli'**
+  String get beslemeGelisimDestegiGerekce2;
+
+  /// No description provided for @beslemeGelisimDestegiDozNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Amaç yavru gelişimini desteklemek; fazla şurup verip kovan içi dengeyi bozmamak olmalıdır.'**
+  String get beslemeGelisimDestegiDozNotu;
+
+  /// No description provided for @beslemeOlculuDestekOrta7Mesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni orta güçte. Stok durumuna göre ölçülü gelişim desteği değerlendirilebilir.'**
+  String get beslemeOlculuDestekOrta7Mesaj;
+
+  /// No description provided for @beslemeOlculuDestekOrta7Risk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aşırı teşvik oğul baskısı veya yağmacılık riskini artırabilir.'**
+  String get beslemeOlculuDestekOrta7Risk;
+
+  /// No description provided for @beslemeOlculuDestekOrta7Gerekce1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta güçte koloni'**
+  String get beslemeOlculuDestekOrta7Gerekce1;
+
+  /// No description provided for @beslemeOlculuDestekOrta7DozNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saha gözleminde polen ve nektar gelişi yeterliyse besleme azaltılabilir.'**
+  String get beslemeOlculuDestekOrta7DozNotu;
+
+  /// No description provided for @beslemeYonetimMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme kararı kovan içi stok, yavru yükü ve saha nektar/polen gelişine göre verilmelidir.'**
+  String get beslemeYonetimMesaj;
+
+  /// No description provided for @beslemeYonetimGerekce.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem stok durumunu kesin ölçmez; saha gözlemi belirleyicidir'**
+  String get beslemeYonetimGerekce;
+
+  /// No description provided for @beslemeYonetimDozNotu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Stok zayıf görülürse ölçülü destek değerlendirilebilir; yeterli görülürse yalnızca takip edilebilir.'**
+  String get beslemeYonetimDozNotu;
+
+  /// No description provided for @beslemeGunArayla.
+  ///
+  /// In tr, this message translates to:
+  /// **'2–3 gün arayla, saha stok durumuna göre'**
+  String get beslemeGunArayla;
+
+  /// No description provided for @beslemeGunAralykKisaKontrol.
+  ///
+  /// In tr, this message translates to:
+  /// **'2–3 gün arayla, kısa süreli'**
+  String get beslemeGunAralykKisaKontrol;
+
+  /// No description provided for @beslemeGunAralykStokKontrol.
+  ///
+  /// In tr, this message translates to:
+  /// **'2–3 gün arayla, stok kontrolüyle'**
+  String get beslemeGunAralykStokKontrol;
+
+  /// No description provided for @beslemeGunAralykTamamlanana.
+  ///
+  /// In tr, this message translates to:
+  /// **'2–3 gün arayla, stok tamamlanana kadar'**
+  String get beslemeGunAralykTamamlanana;
+
+  /// No description provided for @beslemeKekTuketim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüketim durumuna göre küçük parçalar halinde'**
+  String get beslemeKekTuketim;
+
+  /// No description provided for @beslemeKekBozulmaRisk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüketim durumuna göre; bozulma riski izlenerek'**
+  String get beslemeKekBozulmaRisk;
+
+  /// No description provided for @biyolSinifEtiketZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zayıf'**
+  String get biyolSinifEtiketZayif;
+
+  /// No description provided for @biyolSinifEtiketGelisim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim'**
+  String get biyolSinifEtiketGelisim;
+
+  /// No description provided for @biyolSinifEtiketUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim'**
+  String get biyolSinifEtiketUretim;
+
+  /// No description provided for @biyolSinifEtiketHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat'**
+  String get biyolSinifEtiketHasat;
+
+  /// No description provided for @biyolSinifAciklamaZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öncelik yaşatma, sıkıştırma ve ölçülü destek.'**
+  String get biyolSinifAciklamaZayif;
+
+  /// No description provided for @biyolSinifAciklamaGelisim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öncelik düzenli gelişim ve ana/yavru dengesinin korunması.'**
+  String get biyolSinifAciklamaGelisim;
+
+  /// No description provided for @biyolSinifAciklamaUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni üretim gücüne girmiştir; alan, oğul riski ve bal akımı birlikte izlenir.'**
+  String get biyolSinifAciklamaUretim;
+
+  /// No description provided for @biyolSinifAciklamaHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni bal akımı ve hasat/alan yönetimi açısından güçlü banttadır.'**
+  String get biyolSinifAciklamaHasat;
+
+  /// No description provided for @biyolYavrusuzlukMesajNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru verisi mevcut; biyolojik geri dönüş kapasitesi yavru üretimiyle destekleniyor.'**
+  String get biyolYavrusuzlukMesajNormal;
+
+  /// No description provided for @biyolYavrusuzlukOneriNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal biyolojik model akışıyla izle.'**
+  String get biyolYavrusuzlukOneriNormal;
+
+  /// No description provided for @biyolYavrusuzlukMesajBolmeOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu aşamada yavru görülmemesi normal olabilir. Koloni ana kazanma veya çiftleşme döneminde olabilir; gereksiz açma riski artırır.'**
+  String get biyolYavrusuzlukMesajBolmeOgul;
+
+  /// No description provided for @biyolYavrusuzlukOneriBolmeOgul.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovanı gereksiz açma; yumurtlama kontrol penceresini bekle.'**
+  String get biyolYavrusuzlukOneriBolmeOgul;
+
+  /// No description provided for @biyolYavrusuzlukMesajBalBaskisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yokluğu tek başına anasızlık anlamına gelmez. Bal akımı ve ballı çıta baskısı yumurtlama alanını daraltmış olabilir.'**
+  String get biyolYavrusuzlukMesajBalBaskisi;
+
+  /// No description provided for @biyolYavrusuzlukOneriBalBaskisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önce alan ve bal baskısını değerlendir; erken ana müdahalesi yapma.'**
+  String get biyolYavrusuzlukOneriBalBaskisi;
+
+  /// No description provided for @biyolYavrusuzlukMesajDusukKapasite.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni uzun süredir yeni işçi üretmiyor. Bu güç seviyesinde mevcut nüfus yaşlanıyor olabilir; yoğun emek ve kaynak harcamak verimli olmayabilir.'**
+  String get biyolYavrusuzlukMesajDusukKapasite;
+
+  /// No description provided for @biyolYavrusuzlukOneriDusukKapasite.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü koloniyle birleştirme veya sınırlı müdahale öncelikli değerlendirilmelidir.'**
+  String get biyolYavrusuzlukOneriDusukKapasite;
+
+  /// No description provided for @biyolYavrusuzlukMesajGecYumurtlama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yumurtlama beklenen döneme girilmiş. Yavru hâlâ yoksa geç çiftleşme, ana kaybı, bal baskısı veya zayıf koloni olasılıkları birlikte okunmalı.'**
+  String get biyolYavrusuzlukMesajGecYumurtlama;
+
+  /// No description provided for @biyolYavrusuzlukOneriGecYumurtlama.
+  ///
+  /// In tr, this message translates to:
+  /// **'5–7 gün içinde tekrar kontrol et; koloni zayıflıyorsa beklemeyi uzatma.'**
+  String get biyolYavrusuzlukOneriGecYumurtlama;
+
+  /// No description provided for @biyolYavrusuzlukMesajGenel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yokluğu izlenmeli; mevcut gün aralığında tek başına kesin anasızlık kararı verilmemelidir.'**
+  String get biyolYavrusuzlukMesajGenel;
+
+  /// No description provided for @biyolYavrusuzlukOneriGenel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni davranışı, polen gelişi ve bir sonraki muayene ile birlikte değerlendir.'**
+  String get biyolYavrusuzlukOneriGenel;
+
+  /// No description provided for @biyolHasatVeriYokMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat yorumu için çıta ve bal verisi gerekir.'**
+  String get biyolHasatVeriYokMesaj;
+
+  /// No description provided for @biyolHasatVeriYokKural.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ölçüm yoksa hasat kararı üretme.'**
+  String get biyolHasatVeriYokKural;
+
+  /// No description provided for @biyolHasatBallikMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katlı sistemde hasat önceliği ballıktadır; kuluçkalık koruma alanı kabul edilir.'**
+  String get biyolHasatBallikMesaj;
+
+  /// No description provided for @biyolHasatBallikKural.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballık hasadı yalnızca sırlı, yavrusuz ve olgun çıtalarda düşünülür.'**
+  String get biyolHasatBallikKural;
+
+  /// No description provided for @biyolHasatOnerilmezMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'7 çıta ve altındaki kolonide hasat önerilmez; kuluçkalık güvenliği korunmalıdır.'**
+  String get biyolHasatOnerilmezMesaj;
+
+  /// No description provided for @biyolHasatOnerilmezKural.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni hasatla 7 çıta altına düşürülmez.'**
+  String get biyolHasatOnerilmezKural;
+
+  /// No description provided for @biyolHasat8CitaMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'8 çıtalı kolonide yalnızca dış stok çıtası sırlı ve yavrusuzsa sınırlı hasat düşünülebilir.'**
+  String get biyolHasat8CitaMesaj;
+
+  /// No description provided for @biyolHasat8CitaKural.
+  ///
+  /// In tr, this message translates to:
+  /// **'8. çıta dış stok bölgesi değilse alınmaz.'**
+  String get biyolHasat8CitaKural;
+
+  /// No description provided for @biyolHasat9CitaMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'9 çıtalı kolonide 8–9. çıtalar dış stok bölgesi olarak kontrol edilebilir.'**
+  String get biyolHasat9CitaMesaj;
+
+  /// No description provided for @biyolHasat9CitaKural.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru/polen alanı bozulmaz; yalnızca sırlı dış bal alınır.'**
+  String get biyolHasat9CitaKural;
+
+  /// No description provided for @biyolHasat10CitaMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'10 çıtalı kuluçkalıkta 9–10. çıtalar dış stok bölgesi olarak kontrol edilebilir.'**
+  String get biyolHasat10CitaMesaj;
+
+  /// No description provided for @biyolHasat10CitaKural.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kuluçkalık stok güvenliği ve yavru bloğu korunmadan hasat yapılmaz.'**
+  String get biyolHasat10CitaKural;
+
+  /// No description provided for @biyolHasatAdayMetni.
+  ///
+  /// In tr, this message translates to:
+  /// **'{metin} sayılı çıtalar yavrusuz ve sırlıysa hasat için değerlendirilebilir.'**
+  String biyolHasatAdayMetni(String metin);
+
+  /// No description provided for @biyolIlgincGozKapasitesi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kolonide tahmini {gozMin}–{gozMax} petek gözü kapasitesi bulunur.'**
+  String biyolIlgincGozKapasitesi(int gozMin, int gozMax);
+
+  /// No description provided for @biyolIlgincAriNufusu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmini arı nüfusu {ariMin}–{ariMax} aralığındadır.'**
+  String biyolIlgincAriNufusu(int ariMin, int ariMax);
+
+  /// No description provided for @biyolIlgincYavruAlani.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru alanı tahmini {yavruMin}–{yavruMax} göz kapasitesindedir.'**
+  String biyolIlgincYavruAlani(int yavruMin, int yavruMax);
+
+  /// No description provided for @biyolIlgincHasatPotansiyeli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sırlı ve yavrusuz çıtalar uygunsa tahmini hasat potansiyeli {hasatMin}–{hasatMax} kg bandındadır.'**
+  String biyolIlgincHasatPotansiyeli(String hasatMin, String hasatMax);
+
+  /// No description provided for @biyolIlgincUyari.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu veriler kesin sayım değil; standart biyolojik koloni modeliyle üretilen saha projeksiyonudur.'**
+  String get biyolIlgincUyari;
+
+  /// No description provided for @biyolYorumVeriYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Model için çıta verisi yok. İlk muayene sonrası tahmini biyolojik düzen okunabilir.'**
+  String get biyolYorumVeriYok;
+
+  /// No description provided for @biyolYorumBallikAlan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alt kuluçkalık {kapasite} çıta kabul edildi. Üstteki {cita} çıta ballık/kat alanı olarak yorumlandı. Merkez yavru bloğu ({blok}) korunmalı.'**
+  String biyolYorumBallikAlan(int kapasite, int cita, String blok);
+
+  /// No description provided for @biyolYorumKucukKoloni.
+  ///
+  /// In tr, this message translates to:
+  /// **'Küçük koloni. Merkez yavru bloğu ve ısı düzeni korunmalı; gereksiz hacim bırakılmamalı.'**
+  String get biyolYorumKucukKoloni;
+
+  /// No description provided for @biyolYorumGelisimSuffix.
+  ///
+  /// In tr, this message translates to:
+  /// **'Merkez yavru bloğu ({blok}) korunmalı.'**
+  String biyolYorumGelisimSuffix(String blok);
+
+  /// No description provided for @biyolYorumDoluPrefix.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kuluçkalık dolu kabul edilir. Kat, sıkışıklık ve oğul baskısı birlikte izlenmeli.'**
+  String get biyolYorumDoluPrefix;
+
+  /// No description provided for @biyolSeviyeYuksek.
+  ///
+  /// In tr, this message translates to:
+  /// **'yüksek'**
+  String get biyolSeviyeYuksek;
+
+  /// No description provided for @biyolSeviyeOrta.
+  ///
+  /// In tr, this message translates to:
+  /// **'orta'**
+  String get biyolSeviyeOrta;
+
+  /// No description provided for @biyolSeviyeSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'sınırlı'**
+  String get biyolSeviyeSinirli;
+
+  /// No description provided for @biyolSeviyeDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'düşük'**
+  String get biyolSeviyeDusuk;
+
+  /// No description provided for @biyolRiskKritik.
+  ///
+  /// In tr, this message translates to:
+  /// **'kritik'**
+  String get biyolRiskKritik;
+
+  /// No description provided for @biyolRiskYuksek.
+  ///
+  /// In tr, this message translates to:
+  /// **'yüksek'**
+  String get biyolRiskYuksek;
+
+  /// No description provided for @biyolRiskOrta.
+  ///
+  /// In tr, this message translates to:
+  /// **'orta'**
+  String get biyolRiskOrta;
+
+  /// No description provided for @biyolRiskDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'düşük'**
+  String get biyolRiskDusuk;
+
+  /// No description provided for @biyolGelisimGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'gelişim yönü güçlü'**
+  String get biyolGelisimGuclu;
+
+  /// No description provided for @biyolGelisimDengeli.
+  ///
+  /// In tr, this message translates to:
+  /// **'gelişim yönü dengeli'**
+  String get biyolGelisimDengeli;
+
+  /// No description provided for @biyolGelisimBaskili.
+  ///
+  /// In tr, this message translates to:
+  /// **'gelişim baskılanıyor'**
+  String get biyolGelisimBaskili;
+
+  /// No description provided for @biyolGelisimSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'gelişim sınırlı'**
+  String get biyolGelisimSinirli;
+
+  /// No description provided for @biyolUretimBalaYoneliyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'bala yöneliyor'**
+  String get biyolUretimBalaYoneliyor;
+
+  /// No description provided for @biyolUretimYavruDuzeni.
+  ///
+  /// In tr, this message translates to:
+  /// **'yavru düzenini güçlendiriyor'**
+  String get biyolUretimYavruDuzeni;
+
+  /// No description provided for @biyolUretimStokIhtiyac.
+  ///
+  /// In tr, this message translates to:
+  /// **'stok desteğine ihtiyaç duyabilir'**
+  String get biyolUretimStokIhtiyac;
+
+  /// No description provided for @biyolUretimDengeli.
+  ///
+  /// In tr, this message translates to:
+  /// **'dengeli saha düzeninde'**
+  String get biyolUretimDengeli;
+
+  /// No description provided for @biyolMomentumIvmeleniyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'ivmeleniyor'**
+  String get biyolMomentumIvmeleniyor;
+
+  /// No description provided for @biyolMomentumDengede.
+  ///
+  /// In tr, this message translates to:
+  /// **'dengede'**
+  String get biyolMomentumDengede;
+
+  /// No description provided for @biyolMomentumYavasliyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'yavaşlıyor'**
+  String get biyolMomentumYavasliyor;
+
+  /// No description provided for @biyolMomentumKiriliyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'kırılıyor'**
+  String get biyolMomentumKiriliyor;
+
+  /// No description provided for @biyolAlanBaskisiYuksek.
+  ///
+  /// In tr, this message translates to:
+  /// **'alan baskısı yüksek'**
+  String get biyolAlanBaskisiYuksek;
+
+  /// No description provided for @biyolAlanKullanimDengeli.
+  ///
+  /// In tr, this message translates to:
+  /// **'alan kullanımı dengeli'**
+  String get biyolAlanKullanimDengeli;
+
+  /// No description provided for @biyolAlanBosHacim.
+  ///
+  /// In tr, this message translates to:
+  /// **'boş hacim taşıyor'**
+  String get biyolAlanBosHacim;
+
+  /// No description provided for @biyolYonOlumlu.
+  ///
+  /// In tr, this message translates to:
+  /// **'olumlu güçlenme beklenir'**
+  String get biyolYonOlumlu;
+
+  /// No description provided for @biyolYonKontrollu.
+  ///
+  /// In tr, this message translates to:
+  /// **'kontrollü gelişim beklenir'**
+  String get biyolYonKontrollu;
+
+  /// No description provided for @biyolYonTemkinli.
+  ///
+  /// In tr, this message translates to:
+  /// **'temkinli izleme gerekir'**
+  String get biyolYonTemkinli;
+
+  /// No description provided for @biyolYonZayiflama.
+  ///
+  /// In tr, this message translates to:
+  /// **'zayıflama riski izlenmeli'**
+  String get biyolYonZayiflama;
+
+  /// No description provided for @biyolOncelikliRiskCokus.
+  ///
+  /// In tr, this message translates to:
+  /// **'biyolojik çöküş riski'**
+  String get biyolOncelikliRiskCokus;
+
+  /// No description provided for @biyolOncelikliRiskHacim.
+  ///
+  /// In tr, this message translates to:
+  /// **'hacim aktivasyonu tamamlanmamış'**
+  String get biyolOncelikliRiskHacim;
+
+  /// No description provided for @biyolOncelikliRiskYavru.
+  ///
+  /// In tr, this message translates to:
+  /// **'yavru düzeni belirsiz'**
+  String get biyolOncelikliRiskYavru;
+
+  /// No description provided for @biyolOncelikliRiskBalAkim.
+  ///
+  /// In tr, this message translates to:
+  /// **'bal akımına üretim kapasitesi sınırlı'**
+  String get biyolOncelikliRiskBalAkim;
+
+  /// No description provided for @biyolOncelikliRiskStok.
+  ///
+  /// In tr, this message translates to:
+  /// **'stok güvenliği sınırlı'**
+  String get biyolOncelikliRiskStok;
+
+  /// No description provided for @biyolSahaOzetiRiskle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{gelisimYonu}; öncelikli risk: {oncelikliRisk}.'**
+  String biyolSahaOzetiRiskle(String gelisimYonu, String oncelikliRisk);
+
+  /// No description provided for @biyolSahaOzetiNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'{gelisimYonu}; {uretimYonu}.'**
+  String biyolSahaOzetiNormal(String gelisimYonu, String uretimYonu);
+
+  /// No description provided for @biyolKapasiteGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'güçlü'**
+  String get biyolKapasiteGuclu;
+
+  /// No description provided for @biyolKapasiteOrta.
+  ///
+  /// In tr, this message translates to:
+  /// **'orta'**
+  String get biyolKapasiteOrta;
+
+  /// No description provided for @biyolKapasiteSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'sınırlı'**
+  String get biyolKapasiteSinirli;
+
+  /// No description provided for @biyolKapasiteZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'zayıf'**
+  String get biyolKapasiteZayif;
+
+  /// No description provided for @biyolGenisletmeErken.
+  ///
+  /// In tr, this message translates to:
+  /// **'genişletme erken; önce sıkı düzen ve yavru ısısı korunmalı'**
+  String get biyolGenisletmeErken;
+
+  /// No description provided for @biyolGenisletmeGucluBallik.
+  ///
+  /// In tr, this message translates to:
+  /// **'ballık yönetimi sürdürülebilir; yavru bloğu kesilmeden alan verilebilir'**
+  String get biyolGenisletmeGucluBallik;
+
+  /// No description provided for @biyolGenisletmeGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'kontrollü genişletme güvenli görünüyor'**
+  String get biyolGenisletmeGuclu;
+
+  /// No description provided for @biyolGenisletmeSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'sınırlı genişletme yapılabilir; kabarmış petek ham petekten daha güvenli olabilir'**
+  String get biyolGenisletmeSinirli;
+
+  /// No description provided for @biyolGenisletmeYavruBaski.
+  ///
+  /// In tr, this message translates to:
+  /// **'yavru bakım baskısı var; ham petek yerine kabarmış petek tercih edilmeli'**
+  String get biyolGenisletmeYavruBaski;
+
+  /// No description provided for @biyolGenisletmeRiskli.
+  ///
+  /// In tr, this message translates to:
+  /// **'aşırı genişletme riskli; önce iş gücü ve stok dengesi izlenmeli'**
+  String get biyolGenisletmeRiskli;
+
+  /// No description provided for @biyolBalAkimiGucluBallik.
+  ///
+  /// In tr, this message translates to:
+  /// **'bal akımı güçlü değerlendirilebilir; ballıkta sırlanma takibi öne alınmalı'**
+  String get biyolBalAkimiGucluBallik;
+
+  /// No description provided for @biyolBalAkimiGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'nektar kapasitesi güçlü; sıkışma başlamadan kat hazırlığı izlenmeli'**
+  String get biyolBalAkimiGuclu;
+
+  /// No description provided for @biyolBalAkimiSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'bal akımı sınırlı değerlendirilebilir; alan ve sırlanma birlikte izlenmeli'**
+  String get biyolBalAkimiSinirli;
+
+  /// No description provided for @biyolBalAkimiZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'bal akımı kapasitesi sınırlı; üretimden önce koloni organizasyonu güçlenmeli'**
+  String get biyolBalAkimiZayif;
+
+  /// No description provided for @biyolBakiciGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'bakıcı arı dengesi güçlü; yavru alanı korunarak büyütme yapılabilir'**
+  String get biyolBakiciGuclu;
+
+  /// No description provided for @biyolBakiciPetekSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'bakıcı kapasitesi var fakat petek örme sınırlı; kabarmış petek daha güvenli'**
+  String get biyolBakiciPetekSinirli;
+
+  /// No description provided for @biyolBakiciSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'bakıcı kapasitesi sınırlı; aşırı yavru yükü veya sert genişletme risklidir'**
+  String get biyolBakiciSinirli;
+
+  /// No description provided for @biyolBakiciOrta.
+  ///
+  /// In tr, this message translates to:
+  /// **'bakıcı dengesi orta bantta; genişletme kontrollü yapılmalı'**
+  String get biyolBakiciOrta;
+
+  /// No description provided for @biyolHamPetekGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeterli genç işçi kapasitesi görünüyor; ham petek verilecekse yavru bloğunun dışına verilebilir.'**
+  String get biyolHamPetekGuclu;
+
+  /// No description provided for @biyolHamPetekSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ham petek sınırlı verilebilir; kabarmış petek daha güvenli olur.'**
+  String get biyolHamPetekSinirli;
+
+  /// No description provided for @biyolHamPetekDusuk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ham petek için genç işçi kapasitesi sınırlı; önce kabarmış petek veya sıkı düzen daha güvenli.'**
+  String get biyolHamPetekDusuk;
+
+  /// No description provided for @biyolBeslemeNektarIyi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nektar toplama kapasitesi iyi; bal akımında gereksiz şurup vermekten kaçın.'**
+  String get biyolBeslemeNektarIyi;
+
+  /// No description provided for @biyolBeslemeYavruIyi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru bakım kapasitesi iyi; polen/stok zayıfsa destek besleme düşünülebilir.'**
+  String get biyolBeslemeYavruIyi;
+
+  /// No description provided for @biyolBeslemePetekVar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Petek örme kapasitesi var; akım yoksa hafif destek büyümeyi koruyabilir.'**
+  String get biyolBeslemePetekVar;
+
+  /// No description provided for @biyolBeslemeKontrollu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Besleme kararı stok, hava ve süreç durumuna göre kontrollü verilmelidir.'**
+  String get biyolBeslemeKontrollu;
+
+  /// No description provided for @biyolSahaStokOnceligi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öncelik hasat değil stok güvenliği ve kış dayanımıdır.'**
+  String get biyolSahaStokOnceligi;
+
+  /// No description provided for @biyolSahaYavruOnceligi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öncelik genişletme değil yavru alanını ve ısı düzenini korumaktır.'**
+  String get biyolSahaYavruOnceligi;
+
+  /// No description provided for @biyolSahaHamPetek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ham petek verilebilir; yavru bloğu kesilmeden dıştan genişlet.'**
+  String get biyolSahaHamPetek;
+
+  /// No description provided for @biyolSahaBalAkimiBallik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal akımı değerlendirilebilir; ballıkta sırlanma takibi yap.'**
+  String get biyolSahaBalAkimiBallik;
+
+  /// No description provided for @biyolSahaBalAkimiKat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nektar kapasitesi güçlü; sıkışma artarsa kat hazırlığını değerlendir.'**
+  String get biyolSahaBalAkimiKat;
+
+  /// No description provided for @biyolSahaYavruPetekSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru bakım güçlü ama petek örme sınırlı; kabarmış petek ham petekten daha güvenli.'**
+  String get biyolSahaYavruPetekSinirli;
+
+  /// No description provided for @biyolSahaKontrolluBuyut.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniyi kontrollü büyüt; karar için son muayene, stok ve süreç durumunu birlikte oku.'**
+  String get biyolSahaKontrolluBuyut;
+
+  /// No description provided for @biyolKabiliyetPetekGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'petek örme güçlü'**
+  String get biyolKabiliyetPetekGuclu;
+
+  /// No description provided for @biyolKabiliyetYavruGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'yavru bakımı güçlü'**
+  String get biyolKabiliyetYavruGuclu;
+
+  /// No description provided for @biyolKabiliyetNektarGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'nektar toplama güçlü'**
+  String get biyolKabiliyetNektarGuclu;
+
+  /// No description provided for @biyolKabiliyetBalIslemeGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'bal işleme güçlü'**
+  String get biyolKabiliyetBalIslemeGuclu;
+
+  /// No description provided for @biyolKabiliyetKisDikkat.
+  ///
+  /// In tr, this message translates to:
+  /// **'kış stok/dayanım dikkat ister'**
+  String get biyolKabiliyetKisDikkat;
+
+  /// No description provided for @biyolKabiliyetOrta.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kabiliyetler orta bantta; aşırı genişletme veya ağır işlem yerine kontrollü ilerle.'**
+  String get biyolKabiliyetOrta;
+
+  /// No description provided for @biyolCitaYavruStok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru/stok'**
+  String get biyolCitaYavruStok;
+
+  /// No description provided for @biyolCitaBalliPolenli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballı/polenli'**
+  String get biyolCitaBalliPolenli;
+
+  /// No description provided for @biyolCitaBalStogu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal stoğu'**
+  String get biyolCitaBalStogu;
+
+  /// No description provided for @biyolCitaYavruPolenli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru/polenli'**
+  String get biyolCitaYavruPolenli;
+
+  /// No description provided for @biyolCitaYavru.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru'**
+  String get biyolCitaYavru;
+
+  /// No description provided for @biyolCitaYavruluPolenli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavrulu/polenli'**
+  String get biyolCitaYavruluPolenli;
+
+  /// No description provided for @biyolCitaYavruStokGecis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru/stok geçiş alanı'**
+  String get biyolCitaYavruStokGecis;
+
+  /// No description provided for @biyolCitaBalliPolenliGecis.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballı/polenli geçiş alanı'**
+  String get biyolCitaBalliPolenliGecis;
+
+  /// No description provided for @biyolCitaBallikBal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballık / bal alanı'**
+  String get biyolCitaBallikBal;
+
+  /// No description provided for @biyolCitaBallikAktivasyon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballık / aktivasyon sürecinde'**
+  String get biyolCitaBallikAktivasyon;
+
+  /// No description provided for @biyolCitaKapaliYavruluCekim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalı yavrulu çekim çıtası'**
+  String get biyolCitaKapaliYavruluCekim;
+
+  /// No description provided for @biyolCitaBalliPolenliCekim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ballı/polenli çekim çıtası'**
+  String get biyolCitaBalliPolenliCekim;
+
+  /// No description provided for @biyolCitaSurupluk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şurupluk'**
+  String get biyolCitaSurupluk;
+
+  /// No description provided for @biyolCitaYeniPetekAktivasyon.
+  ///
+  /// In tr, this message translates to:
+  /// **'yeni petek aktivasyonu'**
+  String get biyolCitaYeniPetekAktivasyon;
+
+  /// No description provided for @biyolYavruBlokBelirsiz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Belirsiz'**
+  String get biyolYavruBlokBelirsiz;
+
+  /// No description provided for @biyolYavruBlok1Cita.
+  ///
+  /// In tr, this message translates to:
+  /// **'{no}. çıta'**
+  String biyolYavruBlok1Cita(int no);
+
+  /// No description provided for @biyolYavruBlokAralik.
+  ///
+  /// In tr, this message translates to:
+  /// **'{bas}–{son}. çıtalar'**
+  String biyolYavruBlokAralik(int bas, int son);
+
+  /// No description provided for @biyolAnaBolgeMerkez.
+  ///
+  /// In tr, this message translates to:
+  /// **'Merkez yavru çıtası'**
+  String get biyolAnaBolgeMerkez;
+
+  /// No description provided for @biyolAnaBolgeAralik.
+  ///
+  /// In tr, this message translates to:
+  /// **'{sol}–{sag}. çıtalar çevresi'**
+  String biyolAnaBolgeAralik(int sol, int sag);
+
+  /// No description provided for @biyolAnaBolgeYavruBlok.
+  ///
+  /// In tr, this message translates to:
+  /// **'{blok} çevresi'**
+  String biyolAnaBolgeYavruBlok(String blok);
+
+  /// No description provided for @biyolGelisimAlaniAcik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelişim alanı merkez dışındaki boş/kabarmış petekle açılmalı.'**
+  String get biyolGelisimAlaniAcik;
+
+  /// No description provided for @biyolGelisimAlaniMetin.
+  ///
+  /// In tr, this message translates to:
+  /// **'{adaylar}. çıtaların dışından kontrollü genişletme yapılabilir.'**
+  String biyolGelisimAlaniMetin(String adaylar);
+
+  /// No description provided for @biyolYerlesimSatiriFormat.
+  ///
+  /// In tr, this message translates to:
+  /// **'{no}. çıta: {tip}'**
+  String biyolYerlesimSatiriFormat(int no, String tip);
+
+  /// No description provided for @biyolKovanNotuKatGecisi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu bir biyolojik dizilim projeksiyonudur: kat geçişinde üst kata işlevli çekim grubu, alt kuluçkalığa ise yeni verilen peteklerin aktivasyon süreci modellenir.'**
+  String get biyolKovanNotuKatGecisi;
+
+  /// No description provided for @biyolKovanNotuGenel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dolu renkler işlevsel çıtayı; boş çerçeve ve alttan yukarı günlük dolum ise kovanda bulunan fakat biyolojik aktivasyonu süren yeni hacmi gösterir.'**
+  String get biyolKovanNotuGenel;
 }
 
 class _AppLocalizationsDelegate

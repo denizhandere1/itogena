@@ -5403,4 +5403,1088 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get biyoSahaNotu => 'Biyolojik Saha Notu';
+
+  @override
+  String get genetikRiskVetoOgul =>
+      'Oğul kökeni/izi genetik yayılım için veto kabul edildi.';
+
+  @override
+  String get genetikVetoOzet =>
+      'Üretim değeri ayrı tutulur; genetik çoğaltma kararı veto edilir.';
+
+  @override
+  String get genetikRiskKapasiteDusuk =>
+      'İşlevsel çıta kapasitesi çoğaltma için düşük.';
+
+  @override
+  String get genetikRiskYavruNetlesme =>
+      'Yavru düzeni netleşmeden genetik yayılım öne çıkarılmaz.';
+
+  @override
+  String get genetikRiskGucDususu =>
+      'Son kayıtta güç düşüşü var; çoğaltma yerine neden analizi gerekir.';
+
+  @override
+  String get genetikRiskAktivasyonDusuk =>
+      'Aktivasyon düşük; fiziksel çıta genetik kapasite gibi okunmamalı.';
+
+  @override
+  String get genetikRiskKisStok => 'Kış/hasat sonrası stok güvenliği zayıf.';
+
+  @override
+  String get genetikRiskAnaSureci =>
+      'Ana/yavru süreci açık; genetik karar izleme bandına çekilir.';
+
+  @override
+  String get genetikRiskBolmeToparlanma =>
+      'Bölme toparlanması tamamlanmadan yeni çoğaltma hedefi açılmaz.';
+
+  @override
+  String get genetikRiskSisirme =>
+      'Riskli şişirme var; fiziksel genişleme genetik başarı sayılmaz.';
+
+  @override
+  String get genetikOzetYuksek =>
+      'Biyolojik kapasite, yavru düzeni, istikrar ve süreç güvenliği çoğaltma için güçlü sinyal veriyor.';
+
+  @override
+  String get genetikOzetIzle =>
+      'Olumlu genetik sinyaller var; karar için istikrar, süreç kapanışı ve sezon penceresi birlikte izlenmeli.';
+
+  @override
+  String genetikOzetDusuk(String risk) {
+    return 'Çoğaltma değeri düşük/temkinli: $risk';
+  }
+
+  @override
+  String get genetikOzetVarsayilan =>
+      'Çoğaltma değeri şu aşamada öncelikli değil.';
+
+  @override
+  String get varroaKisaVetoDikkat => 'Varroa dikkat';
+
+  @override
+  String get varroaKisaVarroa => 'Varroa';
+
+  @override
+  String get varroaVetoBaslik =>
+      'Bal döneminde varroa mücadelesinde kalıntı riskine dikkat';
+
+  @override
+  String get varroaVetoMesaj =>
+      'Bal akımı/hasat döneminde kalıntı riski olan kimyasal mücadele önerilmez. Gerekiyorsa organik yöntemler değerlendirilir.';
+
+  @override
+  String get yonetimBolmeAdayi => 'Bölme adayı';
+
+  @override
+  String get yonetimBolmeDikkat => 'Bölme dikkat';
+
+  @override
+  String get yonetimKontrolluBolmeBaslik =>
+      'Genetik çoğaltma / kontrollü bölme penceresi';
+
+  @override
+  String get yonetimSinirliiBolmeBaslik => 'Sınırlı bölme değerlendirmesi';
+
+  @override
+  String get yonetimKatVerKisa => 'Kat ver';
+
+  @override
+  String get yonetimKatVerBaslik => 'Kat / ballık ver';
+
+  @override
+  String get yonetimUcuncuKatKisa => '3. kat ver';
+
+  @override
+  String get yonetimUcuncuKatBaslik => '3. kat / ikinci ballık ver';
+
+  @override
+  String get yonetimAlanBallikBaslik => 'Alan ihtiyacı / ballık değerlendirme';
+
+  @override
+  String get yonetimAlanCitaBaslik => 'Alan ihtiyacı / çıta ekleme';
+
+  @override
+  String get yonetimAlanGerekce =>
+      'Aktivasyon oranı koloni gücü etiketi değildir; mevcut hacmin dolduğunu ve alan ihtiyacını gösterir.';
+
+  @override
+  String get yonetimAlanAcKisa => 'Alan aç';
+
+  @override
+  String get yonetimHasatBakimKisa => 'Bakım';
+
+  @override
+  String get yonetimHasatBakimBaslik => 'Hasat sonrası bakım yönü';
+
+  @override
+  String get yonetimKisHazirlikKisa => 'Kış hazırlık';
+
+  @override
+  String get yonetimKisHazirlikBaslik => 'Kışa hazırlık kontrolü';
+
+  @override
+  String get beslemeFeedingNone => 'Besleme yok';
+
+  @override
+  String get beslemeFeedingShort => 'Besleme';
+
+  @override
+  String get beslemeFeedingWatch => 'Besleme izle';
+
+  @override
+  String get beslemeFeedingNotRecommended => 'Besleme önerilmez';
+
+  @override
+  String beslemeRiskEtiketi(String risk) {
+    return 'Risk: $risk';
+  }
+
+  @override
+  String get surecOgulRiskiBaslik => 'Oğul riski';
+
+  @override
+  String get surecOgulBelirtisi3GunMesaj =>
+      'Ana memesi görüldü. Bu sağlık sorunu değil, oğul davranışı ve koloni sıkışıklığı işaretidir. Koloniyi sakin biçimde kontrol et; gerekiyorsa bölme yap veya 1–2 kaliteli meme bırakıp fazlasını azalt.';
+
+  @override
+  String get surecOgulBelirtisi7GunMesaj =>
+      'İlk hafta artçı oğul riski yüksektir. Meme sayısını kontrol et; birden fazla güçlü meme bırakmak koloniyi tekrar bölebilir. Gerekiyorsa bölme veya fazla memeleri azaltma kararı ver.';
+
+  @override
+  String get surecOgulRiskiTakibiBaslik => 'Oğul riski takibi';
+
+  @override
+  String get surecOgulBelirtisiTakipMesaj =>
+      'Oğul belirtisi takip döneminde. Yeni meme, sıkışıklık veya huzursuzluk yoksa süreç kendiliğinden sönümlenir; gereksiz tekrar uyarı üretmez.';
+
+  @override
+  String get surecOgulSonrasiTekrarBaslik =>
+      'Tekrarlayan oğul / nüfus kaybı riski';
+
+  @override
+  String get surecOgulSonrasiTekrarMesaj =>
+      'Oğul kaydı tekrar ediyor. Bu artık normal artçı takibi değil; koloni hızla nüfus kaybedebilir. Meme sayısı, kalan arı gücü, stok ve ana belirtisi birlikte okunmalı. Çok zayıfladıysa yoğun emek yerine birleştirme veya sınırlı destek daha doğru olabilir.';
+
+  @override
+  String get surecOgulSonrasiArtciRiskBaslik =>
+      'Oğul sonrası artçı riski yüksek';
+
+  @override
+  String get surecOgulSonrasiArtciRiskMesaj =>
+      'Oğul sonrası ilk hafta artçı oğul riski yüksektir. Amaç koloniyi tekrar böldürmemektir. Kontrol gerekiyorsa kısa ve sakin yapılmalı; fazla meme bırakmak tekrar nüfus kaybı doğurabilir. Üretim/kat/hasat kararı geri plandadır.';
+
+  @override
+  String get surecArtciOgulTakipBaslik => 'Artçı oğul riski izleniyor';
+
+  @override
+  String get surecArtciOgulTakipMesaj =>
+      'Artçı oğul riski devam eder ama ilk haftaya göre azalır. Yeni meme, huzursuzluk veya tekrar çıkış belirtisi yoksa ana sürecini bozmadan beklemek daha doğrudur. Günlük veya kapalı yavru görülürse süreç kapanır.';
+
+  @override
+  String get surecOgulSonrasiAnaCiftlesmeBaslik =>
+      'Oğul sonrası ana / çiftleşme süreci';
+
+  @override
+  String get surecOgulSonrasiAnaCiftlesmeMesaj =>
+      'Artçı riski büyük ölçüde kapanır. Bu dönem yeni ana çıkışı, olgunlaşma ve çiftleşme penceresidir. Yavru hâlâ görülmeyebilir; bu tek başına çöküş sayılmaz. Dış uçuş, polen gelişi ve sakinlik izlenir. Günlük veya kapalı yavru görülürse muayenede işaretle, süreç kapanır.';
+
+  @override
+  String get surecOgulSonrasiYumurtlamaBaslik =>
+      'Oğul sonrası yumurtlama kontrolü';
+
+  @override
+  String get surecOgulSonrasiYumurtlamaMesaj =>
+      'Oğul sonrası 31–45. gün arası artık yumurtlama netleşmelidir. Günlük veya kapalı yavru görülürse süreç kapanır. Hâlâ yavru yoksa bu süreç normal bekleme olmaktan çıkar; ana başarısızlığı, çiftleşme kaybı veya yalancı ana riski yavru-yok tanısı ile öne alınır.';
+
+  @override
+  String get surecBolmeSonrasiBaslik => 'Bölme sonrası toparlanma';
+
+  @override
+  String get surecBolmeSonrasi30GunMesaj =>
+      'Koloniyi sıkışık tut ve besleme yap. Yeni düzen kurulana kadar destek gerekir.';
+
+  @override
+  String get surecBolmeSonrasiGecMesaj =>
+      'Ana durumunu kontrol et. Toparlanma gecikmiş olabilir.';
+
+  @override
+  String get surecBaglamAnaKazanma => 'ana kazanma';
+
+  @override
+  String get surecBaglamOgulSonrasi => 'oğul sonrası';
+
+  @override
+  String get surecBaglamBolmeSonrasi => 'bölme sonrası';
+
+  @override
+  String get surecYavruYokNormalBaslik =>
+      'Yavru yokluğu bu aşamada normal olabilir';
+
+  @override
+  String surecYavruYokNormalMesaj(String baglam, int gun) {
+    return 'Yavru düzeni \"Yok\" kaydedildi; ancak $baglam sürecinde $gun. gündesin. Bu dönemde yavru görülmemesi tek başına sorun değildir. Kovanı bu tarihte açmak gerekli olmayabilir; gereksiz açma bakire ana ve kabul sürecini bozabilir.';
+  }
+
+  @override
+  String get surecYavruYokErkenTakipBaslik =>
+      'Yumurtlama için hâlâ erken olabilir';
+
+  @override
+  String surecYavruYokErkenTakipMesaj(String baglam, int gun) {
+    return 'Yavru düzeni \"Yok\" kaydedildi. $baglam sürecinden $gun gün geçmiş. Koloni sakin ve çalışıyorsa hemen sert müdahale önerilmez; 5–7 gün sonra günlük yumurta / genç larva kontrolü daha doğru olur.';
+  }
+
+  @override
+  String get surecYavruYokBalBaskisiBaslik =>
+      'Yavru yokluğu bal baskısıyla ilişkili olabilir';
+
+  @override
+  String get surecYavruYokBalBaskisiMesaj =>
+      'Yavru görünmemesi doğrudan anasızlık anlamına gelmeyebilir. Bal akımı aktif ve ballı çıta oranı yüksek görünüyor; ana yumurtlayacak boş alan bulamıyor olabilir. Önce alan ve bal baskısını değerlendir, erken ana müdahalesi yapma.';
+
+  @override
+  String get surecYavruYokAnaProblemiBaslik =>
+      'Ana kalitesi / yalancı ana riski';
+
+  @override
+  String get surecYavruYokAnaProblemiMesaj =>
+      'Yavru yokluğu erkek yavru baskısı veya düzensiz yumurta belirtisiyle birlikte okunuyor. Bu durum çiftleşememiş ana, sperm problemi veya yalancı ana başlangıcı anlamına gelebilir. Beklemeyi uzatma; koloni gücüne göre ana değiştirme veya birleştirme değerlendir.';
+
+  @override
+  String get surecYavruYokBiyolojikCokusBaslik =>
+      'Biyolojik geri dönüş kapasitesi düşük';
+
+  @override
+  String surecYavruYokBiyolojikCokusMesaj(int cita) {
+    return 'Koloni uzun süredir yeni işçi üretmiyor olabilir. $cita çıta seviyesinde yavrusuzluk uzarsa mevcut nüfus yaşlanır ve koloni doğal küçülmeye gidebilir. Yoğun emek harcamadan önce güçlü koloniyle birleştirme veya sınırlı destek seçeneğini değerlendir.';
+  }
+
+  @override
+  String get surecYavruYokGecikmisTaniBaslik =>
+      'Yavru yokluğu riskli gecikmeye girdi';
+
+  @override
+  String get surecYavruYokGecikmisTaniTemel =>
+      'Beklenen yumurtlama penceresi aşılmaya başladı. Geç çiftleşme, arı kuşu kaynaklı ana kaybı, ana başarısızlığı veya zayıf koloni olasılıkları birlikte değerlendirilmeli.';
+
+  @override
+  String get surecYavruYokGecikmisTaniAriKusu =>
+      'Arı kuşu riski aktif olduğu için çiftleşme kaybı ihtimali yükselir.';
+
+  @override
+  String get surecYavruYokGecikmisTaniSakinPolen =>
+      'Koloni sakinliği ve polen gelişi içeride ana olma ihtimalini tamamen dışlamaz.';
+
+  @override
+  String get surecYavruYokGecikmisTaniHuzursuzPolenYok =>
+      'Huzursuzluk veya polen yokluğu anasızlık/zayıflama şüphesini artırır.';
+
+  @override
+  String get surecYavruYokGecikmisTaniSonuc =>
+      '5–7 gün içinde net kontrol yap; hâlâ yavru yoksa beklemeyi uzatma.';
+
+  @override
+  String get surecYavruYokTaniAdayiBaslik => 'Yumurtlama gecikiyor olabilir';
+
+  @override
+  String surecYavruYokTaniAdayiMesaj(String baglam, int gun) {
+    return 'Yavru düzeni \"Yok\" kaydedildi ve $baglam sürecinden $gun gün geçmiş. Bu artık yalnızca normal bekleme olarak bırakılmamalı; koloni davranışı, polen gelişi, ana memesi kalıntısı, bal baskısı ve erkek yavru baskısı birlikte okunmalı.';
+  }
+
+  @override
+  String get surecYavruYokNormalKoloniBaslik => 'Normal kolonide yavru yokluğu';
+
+  @override
+  String get surecYavruYokNormalKoloniMesaj =>
+      'Aktif bölme/oğul/ana kazanma süreci görünmeden yavru düzeni \"Yok\" kaydedildi. Bu durum ana durumu, bal baskısı, koloni zayıflaması veya yalancı ana riski açısından kontrol edilmelidir.';
+
+  @override
+  String surecSistemGerekce(String gerekce, int yasam) {
+    return ' Sistem gerekçesi: $gerekce. Yaşam gücü okuması: $yasam/100.';
+  }
+
+  @override
+  String get surecHasatSonrasiBaslik => 'Hasat sonrası bakım gerekli';
+
+  @override
+  String get surecHasatSonrasiMesaj =>
+      'Bal alındıysa koloni strese girebilir. Arı basmayan petek veya kat varsa kaldır, koloniyi sıkışık düzene al. Stok zayıfsa kısa süreli 1:1 şurup destek olabilir; kış stoğu eksikse 2:1 şurup veya uygun hazır yem düşün. Varroa sayımı ya da mücadele penceresini geciktirme.';
+
+  @override
+  String get surecGelisimYavasBaslik => 'Gelişim yavaş görünüyor';
+
+  @override
+  String get surecGelisimYavasMesaj =>
+      'Bu dönem için normal değil. Kontrol et. Ana var mı, günlük düzen var mı? Yavru alanı yeterli mi? Polen akışı var mı? (yoksa polenli kek ver) Varroa baskısı var mı?';
+
+  @override
+  String get surecAnaKazanmaSureci => 'Ana kazanma süreci';
+
+  @override
+  String surecGerekceAktifBaglam(String baglam, int gun) {
+    return '$baglam sürecinden $gun gün geçmiş';
+  }
+
+  @override
+  String get surecGerekceAktifBaglamYok =>
+      'aktif ana kazanma süreci görünmüyor';
+
+  @override
+  String surecGerekceToplamCita(int cita) {
+    return '$cita çıta güç seviyesi';
+  }
+
+  @override
+  String surecGerekceArdisikYavrusuz(int sayi) {
+    return '$sayi ardışık yavrusuz kayıt';
+  }
+
+  @override
+  String get surecGerekceTrendZayif => 'gelişim yönü zayıflıyor';
+
+  @override
+  String get surecGerekceKoloniSakin => 'koloni sakin işaretlenmiş';
+
+  @override
+  String get surecGerekceKoloniHuzursuz => 'koloni huzursuz işaretlenmiş';
+
+  @override
+  String get surecGerekcePolenVar => 'polen gelişi var';
+
+  @override
+  String get surecGerekcePolenYok => 'polen gelişi yok';
+
+  @override
+  String get surecGerekceBalGelisiGuclu => 'bal/nektar gelişi güçlü';
+
+  @override
+  String get surecGerekceBalGelisiZayif => 'bal/nektar gelişi güçlü değil';
+
+  @override
+  String get surecGerekceBalBaskisi => 'bal akımı ve ballı çıta baskısı var';
+
+  @override
+  String get surecGerekceAriKusu => 'arı kuşu riski aktif';
+
+  @override
+  String get surecGerekceErkekYavru => 'erkek yavru baskısı işaretlenmiş';
+
+  @override
+  String get surecGerekceYalaanciAna =>
+      'yalancı ana / düzensiz yumurta şüphesi var';
+
+  @override
+  String get beslemeBalAkimiBasladi => 'Bal akımı başladı.';
+
+  @override
+  String beslemeBalAkimiGunKaldi(int gunKaldi, int kesmeGun) {
+    return 'Bal akımına $gunKaldi gün kaldı; bal akımından $kesmeGun gün önce besleme kesilmeli.';
+  }
+
+  @override
+  String beslemeOnerilmezMesaj(String zamanMetni) {
+    return '$zamanMetni Hasat hedeflenen kolonide şeker bazlı besleme yapılmamalı.';
+  }
+
+  @override
+  String get beslemeOnerilmezRisk =>
+      'Şurup veya şekerli yem, nektar akımıyla birlikte bala taşınabilir. Hasat kalitesi açısından risk oluşturur.';
+
+  @override
+  String get beslemeOnerilmezTekrarAraligi =>
+      'Bal akımı ve hasat penceresinde uygulanmaz';
+
+  @override
+  String get beslemeOnerilmezDozNotu =>
+      'Bu karar yalnızca hasat hedefli kolonide bal kalitesi güvenliği içindir.';
+
+  @override
+  String get beslemeOlculuDestekTip => 'Ölçülü Destek';
+
+  @override
+  String get beslemeGelisimTakibiTip => 'Gelişim Takibi';
+
+  @override
+  String get beslemeHacimOturgaMesajStok =>
+      'Yeni verilen hacim oturma aşamasında. Stok ve yavru durumuna göre ölçülü destek değerlendirilebilir.';
+
+  @override
+  String get beslemeHacimOturgaMesajTakip =>
+      'Yeni verilen hacim oturma aşamasında. Stok, yavru ve aktivasyon birlikte takip edilmeli.';
+
+  @override
+  String get beslemeHacimRiskliSisirme =>
+      'Hacim hızlı açıldıysa fazla besleme koloni düzenini bozabilir; destek ölçülü tutulmalıdır.';
+
+  @override
+  String get beslemeHacimGerekceStok =>
+      'Stok durumuna göre destek değerlendirilebilir';
+
+  @override
+  String get beslemeHacimGerekceTakip => 'Yeni hacim aktivasyonu takip edilir';
+
+  @override
+  String beslemeHacimGerekceIslevselCita(int cita) {
+    return 'İşlevsel üretim çıtası yaklaşık $cita çıta';
+  }
+
+  @override
+  String beslemeHacimGerekceAktivasyon(int yuzde) {
+    return 'Aktivasyon yaklaşık %$yuzde';
+  }
+
+  @override
+  String get beslemeHacimDozNotu =>
+      'Amaç koloniyi şişirmek değil, yeni hacim oturana kadar ölçülü enerji desteği sağlamaktır.';
+
+  @override
+  String get beslemeKontrolluDestekTip => 'Kontrollü Destek';
+
+  @override
+  String get beslemeKontrolluDestekMesaj =>
+      'Ana kazanma veya anasızlık sürecinde destek gerekiyorsa az ve kontrollü düşünülmeli.';
+
+  @override
+  String get beslemeKontrolluDestekRisk =>
+      'Kovanı gereksiz açmak ana kabulü ve çiftleşme sürecini bozabilir.';
+
+  @override
+  String get beslemeKontrolluDestekGerekce1 =>
+      'Aktif ana kazanma / anasızlık süreci var';
+
+  @override
+  String get beslemeKontrolluDestekGerekce2 => 'Stres azaltma öncelikli olmalı';
+
+  @override
+  String get beslemeKontrolluDestekDozNotu =>
+      'Amaç koloniyi şişirmek değil, süreci strese sokmadan hafif enerji desteği sağlamaktır.';
+
+  @override
+  String get beslemeStokTamamlamaTip => 'Stok Tamamlama';
+
+  @override
+  String get beslemeStokTamamlamaMesaj =>
+      'Hasat sonrası dönemde stok durumuna göre 2:1 şurup ile stok tamamlama değerlendirilebilir.';
+
+  @override
+  String get beslemeStokTamamlamaRisk =>
+      'Aşırı hacim, açıkta yem ve yağmacılık riski kontrol edilmeli.';
+
+  @override
+  String get beslemeStokTamamlamaGerekce1 => 'Hasat sonrası bakım süreci aktif';
+
+  @override
+  String get beslemeStokTamamlamaGerekce2 =>
+      'Stok alanı baskı altında görünüyor';
+
+  @override
+  String get beslemeStokTamamlamaDozNotu =>
+      'Stok tamamlama amacı gelişim teşvikinden farklıdır; koloni sıkışık düzende tutulmalıdır.';
+
+  @override
+  String get beslemePolenliDestekTip => 'Polenli Destek';
+
+  @override
+  String get beslemePolenliDestekMesaj =>
+      'Yavru gelişimi sürüyor. Polen stoğu sahada zayıf görülürse protein desteği değerlendirilebilir.';
+
+  @override
+  String get beslemePolenliDestekRisk =>
+      'Gereksiz protein desteği tüketilmezse bozulma ve hijyen riski oluşturabilir.';
+
+  @override
+  String get beslemePolenliDestekGerekce1 => 'Yavru alanı geniş';
+
+  @override
+  String get beslemePolenliDestekGerekce2 => 'Stok/polen baskısı oluşuyor';
+
+  @override
+  String get beslemePolenliDestekDozNotu =>
+      'Protein desteği yalnızca polen eksikliği sahada doğrulanırsa anlamlıdır.';
+
+  @override
+  String get beslemeGelisimDestegiTip => 'Gelişim Desteği';
+
+  @override
+  String get beslemeGelisimDestegiMesaj =>
+      'Koloni gelişim düzeninde. Stok durumuna göre ölçülü 1:1 şurup desteği değerlendirilebilir.';
+
+  @override
+  String get beslemeGelisimDestegiRisk =>
+      'Aşırı besleme yağmacılık ve kovan içi denge bozulması riski yaratabilir.';
+
+  @override
+  String get beslemeGelisimDestegiGerekce1 =>
+      'Düşük çıta seviyesinde gelişim kolonisi';
+
+  @override
+  String get beslemeGelisimDestegiGerekce2 =>
+      'Karar kovan içi stok gözlemine göre verilmeli';
+
+  @override
+  String get beslemeGelisimDestegiDozNotu =>
+      'Amaç yavru gelişimini desteklemek; fazla şurup verip kovan içi dengeyi bozmamak olmalıdır.';
+
+  @override
+  String get beslemeOlculuDestekOrta7Mesaj =>
+      'Koloni orta güçte. Stok durumuna göre ölçülü gelişim desteği değerlendirilebilir.';
+
+  @override
+  String get beslemeOlculuDestekOrta7Risk =>
+      'Aşırı teşvik oğul baskısı veya yağmacılık riskini artırabilir.';
+
+  @override
+  String get beslemeOlculuDestekOrta7Gerekce1 => 'Orta güçte koloni';
+
+  @override
+  String get beslemeOlculuDestekOrta7DozNotu =>
+      'Saha gözleminde polen ve nektar gelişi yeterliyse besleme azaltılabilir.';
+
+  @override
+  String get beslemeYonetimMesaj =>
+      'Besleme kararı kovan içi stok, yavru yükü ve saha nektar/polen gelişine göre verilmelidir.';
+
+  @override
+  String get beslemeYonetimGerekce =>
+      'Sistem stok durumunu kesin ölçmez; saha gözlemi belirleyicidir';
+
+  @override
+  String get beslemeYonetimDozNotu =>
+      'Stok zayıf görülürse ölçülü destek değerlendirilebilir; yeterli görülürse yalnızca takip edilebilir.';
+
+  @override
+  String get beslemeGunArayla => '2–3 gün arayla, saha stok durumuna göre';
+
+  @override
+  String get beslemeGunAralykKisaKontrol => '2–3 gün arayla, kısa süreli';
+
+  @override
+  String get beslemeGunAralykStokKontrol => '2–3 gün arayla, stok kontrolüyle';
+
+  @override
+  String get beslemeGunAralykTamamlanana =>
+      '2–3 gün arayla, stok tamamlanana kadar';
+
+  @override
+  String get beslemeKekTuketim =>
+      'Tüketim durumuna göre küçük parçalar halinde';
+
+  @override
+  String get beslemeKekBozulmaRisk =>
+      'Tüketim durumuna göre; bozulma riski izlenerek';
+
+  @override
+  String get biyolSinifEtiketZayif => 'Zayıf';
+
+  @override
+  String get biyolSinifEtiketGelisim => 'Gelişim';
+
+  @override
+  String get biyolSinifEtiketUretim => 'Üretim';
+
+  @override
+  String get biyolSinifEtiketHasat => 'Hasat';
+
+  @override
+  String get biyolSinifAciklamaZayif =>
+      'Öncelik yaşatma, sıkıştırma ve ölçülü destek.';
+
+  @override
+  String get biyolSinifAciklamaGelisim =>
+      'Öncelik düzenli gelişim ve ana/yavru dengesinin korunması.';
+
+  @override
+  String get biyolSinifAciklamaUretim =>
+      'Koloni üretim gücüne girmiştir; alan, oğul riski ve bal akımı birlikte izlenir.';
+
+  @override
+  String get biyolSinifAciklamaHasat =>
+      'Koloni bal akımı ve hasat/alan yönetimi açısından güçlü banttadır.';
+
+  @override
+  String get biyolYavrusuzlukMesajNormal =>
+      'Yavru verisi mevcut; biyolojik geri dönüş kapasitesi yavru üretimiyle destekleniyor.';
+
+  @override
+  String get biyolYavrusuzlukOneriNormal =>
+      'Normal biyolojik model akışıyla izle.';
+
+  @override
+  String get biyolYavrusuzlukMesajBolmeOgul =>
+      'Bu aşamada yavru görülmemesi normal olabilir. Koloni ana kazanma veya çiftleşme döneminde olabilir; gereksiz açma riski artırır.';
+
+  @override
+  String get biyolYavrusuzlukOneriBolmeOgul =>
+      'Kovanı gereksiz açma; yumurtlama kontrol penceresini bekle.';
+
+  @override
+  String get biyolYavrusuzlukMesajBalBaskisi =>
+      'Yavru yokluğu tek başına anasızlık anlamına gelmez. Bal akımı ve ballı çıta baskısı yumurtlama alanını daraltmış olabilir.';
+
+  @override
+  String get biyolYavrusuzlukOneriBalBaskisi =>
+      'Önce alan ve bal baskısını değerlendir; erken ana müdahalesi yapma.';
+
+  @override
+  String get biyolYavrusuzlukMesajDusukKapasite =>
+      'Koloni uzun süredir yeni işçi üretmiyor. Bu güç seviyesinde mevcut nüfus yaşlanıyor olabilir; yoğun emek ve kaynak harcamak verimli olmayabilir.';
+
+  @override
+  String get biyolYavrusuzlukOneriDusukKapasite =>
+      'Güçlü koloniyle birleştirme veya sınırlı müdahale öncelikli değerlendirilmelidir.';
+
+  @override
+  String get biyolYavrusuzlukMesajGecYumurtlama =>
+      'Yumurtlama beklenen döneme girilmiş. Yavru hâlâ yoksa geç çiftleşme, ana kaybı, bal baskısı veya zayıf koloni olasılıkları birlikte okunmalı.';
+
+  @override
+  String get biyolYavrusuzlukOneriGecYumurtlama =>
+      '5–7 gün içinde tekrar kontrol et; koloni zayıflıyorsa beklemeyi uzatma.';
+
+  @override
+  String get biyolYavrusuzlukMesajGenel =>
+      'Yavru yokluğu izlenmeli; mevcut gün aralığında tek başına kesin anasızlık kararı verilmemelidir.';
+
+  @override
+  String get biyolYavrusuzlukOneriGenel =>
+      'Koloni davranışı, polen gelişi ve bir sonraki muayene ile birlikte değerlendir.';
+
+  @override
+  String get biyolHasatVeriYokMesaj =>
+      'Hasat yorumu için çıta ve bal verisi gerekir.';
+
+  @override
+  String get biyolHasatVeriYokKural => 'Ölçüm yoksa hasat kararı üretme.';
+
+  @override
+  String get biyolHasatBallikMesaj =>
+      'Katlı sistemde hasat önceliği ballıktadır; kuluçkalık koruma alanı kabul edilir.';
+
+  @override
+  String get biyolHasatBallikKural =>
+      'Ballık hasadı yalnızca sırlı, yavrusuz ve olgun çıtalarda düşünülür.';
+
+  @override
+  String get biyolHasatOnerilmezMesaj =>
+      '7 çıta ve altındaki kolonide hasat önerilmez; kuluçkalık güvenliği korunmalıdır.';
+
+  @override
+  String get biyolHasatOnerilmezKural =>
+      'Koloni hasatla 7 çıta altına düşürülmez.';
+
+  @override
+  String get biyolHasat8CitaMesaj =>
+      '8 çıtalı kolonide yalnızca dış stok çıtası sırlı ve yavrusuzsa sınırlı hasat düşünülebilir.';
+
+  @override
+  String get biyolHasat8CitaKural =>
+      '8. çıta dış stok bölgesi değilse alınmaz.';
+
+  @override
+  String get biyolHasat9CitaMesaj =>
+      '9 çıtalı kolonide 8–9. çıtalar dış stok bölgesi olarak kontrol edilebilir.';
+
+  @override
+  String get biyolHasat9CitaKural =>
+      'Yavru/polen alanı bozulmaz; yalnızca sırlı dış bal alınır.';
+
+  @override
+  String get biyolHasat10CitaMesaj =>
+      '10 çıtalı kuluçkalıkta 9–10. çıtalar dış stok bölgesi olarak kontrol edilebilir.';
+
+  @override
+  String get biyolHasat10CitaKural =>
+      'Kuluçkalık stok güvenliği ve yavru bloğu korunmadan hasat yapılmaz.';
+
+  @override
+  String biyolHasatAdayMetni(String metin) {
+    return '$metin sayılı çıtalar yavrusuz ve sırlıysa hasat için değerlendirilebilir.';
+  }
+
+  @override
+  String biyolIlgincGozKapasitesi(int gozMin, int gozMax) {
+    return 'Bu kolonide tahmini $gozMin–$gozMax petek gözü kapasitesi bulunur.';
+  }
+
+  @override
+  String biyolIlgincAriNufusu(int ariMin, int ariMax) {
+    return 'Tahmini arı nüfusu $ariMin–$ariMax aralığındadır.';
+  }
+
+  @override
+  String biyolIlgincYavruAlani(int yavruMin, int yavruMax) {
+    return 'Yavru alanı tahmini $yavruMin–$yavruMax göz kapasitesindedir.';
+  }
+
+  @override
+  String biyolIlgincHasatPotansiyeli(String hasatMin, String hasatMax) {
+    return 'Sırlı ve yavrusuz çıtalar uygunsa tahmini hasat potansiyeli $hasatMin–$hasatMax kg bandındadır.';
+  }
+
+  @override
+  String get biyolIlgincUyari =>
+      'Bu veriler kesin sayım değil; standart biyolojik koloni modeliyle üretilen saha projeksiyonudur.';
+
+  @override
+  String get biyolYorumVeriYok =>
+      'Model için çıta verisi yok. İlk muayene sonrası tahmini biyolojik düzen okunabilir.';
+
+  @override
+  String biyolYorumBallikAlan(int kapasite, int cita, String blok) {
+    return 'Alt kuluçkalık $kapasite çıta kabul edildi. Üstteki $cita çıta ballık/kat alanı olarak yorumlandı. Merkez yavru bloğu ($blok) korunmalı.';
+  }
+
+  @override
+  String get biyolYorumKucukKoloni =>
+      'Küçük koloni. Merkez yavru bloğu ve ısı düzeni korunmalı; gereksiz hacim bırakılmamalı.';
+
+  @override
+  String biyolYorumGelisimSuffix(String blok) {
+    return 'Merkez yavru bloğu ($blok) korunmalı.';
+  }
+
+  @override
+  String get biyolYorumDoluPrefix =>
+      'Kuluçkalık dolu kabul edilir. Kat, sıkışıklık ve oğul baskısı birlikte izlenmeli.';
+
+  @override
+  String get biyolSeviyeYuksek => 'yüksek';
+
+  @override
+  String get biyolSeviyeOrta => 'orta';
+
+  @override
+  String get biyolSeviyeSinirli => 'sınırlı';
+
+  @override
+  String get biyolSeviyeDusuk => 'düşük';
+
+  @override
+  String get biyolRiskKritik => 'kritik';
+
+  @override
+  String get biyolRiskYuksek => 'yüksek';
+
+  @override
+  String get biyolRiskOrta => 'orta';
+
+  @override
+  String get biyolRiskDusuk => 'düşük';
+
+  @override
+  String get biyolGelisimGuclu => 'gelişim yönü güçlü';
+
+  @override
+  String get biyolGelisimDengeli => 'gelişim yönü dengeli';
+
+  @override
+  String get biyolGelisimBaskili => 'gelişim baskılanıyor';
+
+  @override
+  String get biyolGelisimSinirli => 'gelişim sınırlı';
+
+  @override
+  String get biyolUretimBalaYoneliyor => 'bala yöneliyor';
+
+  @override
+  String get biyolUretimYavruDuzeni => 'yavru düzenini güçlendiriyor';
+
+  @override
+  String get biyolUretimStokIhtiyac => 'stok desteğine ihtiyaç duyabilir';
+
+  @override
+  String get biyolUretimDengeli => 'dengeli saha düzeninde';
+
+  @override
+  String get biyolMomentumIvmeleniyor => 'ivmeleniyor';
+
+  @override
+  String get biyolMomentumDengede => 'dengede';
+
+  @override
+  String get biyolMomentumYavasliyor => 'yavaşlıyor';
+
+  @override
+  String get biyolMomentumKiriliyor => 'kırılıyor';
+
+  @override
+  String get biyolAlanBaskisiYuksek => 'alan baskısı yüksek';
+
+  @override
+  String get biyolAlanKullanimDengeli => 'alan kullanımı dengeli';
+
+  @override
+  String get biyolAlanBosHacim => 'boş hacim taşıyor';
+
+  @override
+  String get biyolYonOlumlu => 'olumlu güçlenme beklenir';
+
+  @override
+  String get biyolYonKontrollu => 'kontrollü gelişim beklenir';
+
+  @override
+  String get biyolYonTemkinli => 'temkinli izleme gerekir';
+
+  @override
+  String get biyolYonZayiflama => 'zayıflama riski izlenmeli';
+
+  @override
+  String get biyolOncelikliRiskCokus => 'biyolojik çöküş riski';
+
+  @override
+  String get biyolOncelikliRiskHacim => 'hacim aktivasyonu tamamlanmamış';
+
+  @override
+  String get biyolOncelikliRiskYavru => 'yavru düzeni belirsiz';
+
+  @override
+  String get biyolOncelikliRiskBalAkim =>
+      'bal akımına üretim kapasitesi sınırlı';
+
+  @override
+  String get biyolOncelikliRiskStok => 'stok güvenliği sınırlı';
+
+  @override
+  String biyolSahaOzetiRiskle(String gelisimYonu, String oncelikliRisk) {
+    return '$gelisimYonu; öncelikli risk: $oncelikliRisk.';
+  }
+
+  @override
+  String biyolSahaOzetiNormal(String gelisimYonu, String uretimYonu) {
+    return '$gelisimYonu; $uretimYonu.';
+  }
+
+  @override
+  String get biyolKapasiteGuclu => 'güçlü';
+
+  @override
+  String get biyolKapasiteOrta => 'orta';
+
+  @override
+  String get biyolKapasiteSinirli => 'sınırlı';
+
+  @override
+  String get biyolKapasiteZayif => 'zayıf';
+
+  @override
+  String get biyolGenisletmeErken =>
+      'genişletme erken; önce sıkı düzen ve yavru ısısı korunmalı';
+
+  @override
+  String get biyolGenisletmeGucluBallik =>
+      'ballık yönetimi sürdürülebilir; yavru bloğu kesilmeden alan verilebilir';
+
+  @override
+  String get biyolGenisletmeGuclu => 'kontrollü genişletme güvenli görünüyor';
+
+  @override
+  String get biyolGenisletmeSinirli =>
+      'sınırlı genişletme yapılabilir; kabarmış petek ham petekten daha güvenli olabilir';
+
+  @override
+  String get biyolGenisletmeYavruBaski =>
+      'yavru bakım baskısı var; ham petek yerine kabarmış petek tercih edilmeli';
+
+  @override
+  String get biyolGenisletmeRiskli =>
+      'aşırı genişletme riskli; önce iş gücü ve stok dengesi izlenmeli';
+
+  @override
+  String get biyolBalAkimiGucluBallik =>
+      'bal akımı güçlü değerlendirilebilir; ballıkta sırlanma takibi öne alınmalı';
+
+  @override
+  String get biyolBalAkimiGuclu =>
+      'nektar kapasitesi güçlü; sıkışma başlamadan kat hazırlığı izlenmeli';
+
+  @override
+  String get biyolBalAkimiSinirli =>
+      'bal akımı sınırlı değerlendirilebilir; alan ve sırlanma birlikte izlenmeli';
+
+  @override
+  String get biyolBalAkimiZayif =>
+      'bal akımı kapasitesi sınırlı; üretimden önce koloni organizasyonu güçlenmeli';
+
+  @override
+  String get biyolBakiciGuclu =>
+      'bakıcı arı dengesi güçlü; yavru alanı korunarak büyütme yapılabilir';
+
+  @override
+  String get biyolBakiciPetekSinirli =>
+      'bakıcı kapasitesi var fakat petek örme sınırlı; kabarmış petek daha güvenli';
+
+  @override
+  String get biyolBakiciSinirli =>
+      'bakıcı kapasitesi sınırlı; aşırı yavru yükü veya sert genişletme risklidir';
+
+  @override
+  String get biyolBakiciOrta =>
+      'bakıcı dengesi orta bantta; genişletme kontrollü yapılmalı';
+
+  @override
+  String get biyolHamPetekGuclu =>
+      'Yeterli genç işçi kapasitesi görünüyor; ham petek verilecekse yavru bloğunun dışına verilebilir.';
+
+  @override
+  String get biyolHamPetekSinirli =>
+      'Ham petek sınırlı verilebilir; kabarmış petek daha güvenli olur.';
+
+  @override
+  String get biyolHamPetekDusuk =>
+      'Ham petek için genç işçi kapasitesi sınırlı; önce kabarmış petek veya sıkı düzen daha güvenli.';
+
+  @override
+  String get biyolBeslemeNektarIyi =>
+      'Nektar toplama kapasitesi iyi; bal akımında gereksiz şurup vermekten kaçın.';
+
+  @override
+  String get biyolBeslemeYavruIyi =>
+      'Yavru bakım kapasitesi iyi; polen/stok zayıfsa destek besleme düşünülebilir.';
+
+  @override
+  String get biyolBeslemePetekVar =>
+      'Petek örme kapasitesi var; akım yoksa hafif destek büyümeyi koruyabilir.';
+
+  @override
+  String get biyolBeslemeKontrollu =>
+      'Besleme kararı stok, hava ve süreç durumuna göre kontrollü verilmelidir.';
+
+  @override
+  String get biyolSahaStokOnceligi =>
+      'Öncelik hasat değil stok güvenliği ve kış dayanımıdır.';
+
+  @override
+  String get biyolSahaYavruOnceligi =>
+      'Öncelik genişletme değil yavru alanını ve ısı düzenini korumaktır.';
+
+  @override
+  String get biyolSahaHamPetek =>
+      'Ham petek verilebilir; yavru bloğu kesilmeden dıştan genişlet.';
+
+  @override
+  String get biyolSahaBalAkimiBallik =>
+      'Bal akımı değerlendirilebilir; ballıkta sırlanma takibi yap.';
+
+  @override
+  String get biyolSahaBalAkimiKat =>
+      'Nektar kapasitesi güçlü; sıkışma artarsa kat hazırlığını değerlendir.';
+
+  @override
+  String get biyolSahaYavruPetekSinirli =>
+      'Yavru bakım güçlü ama petek örme sınırlı; kabarmış petek ham petekten daha güvenli.';
+
+  @override
+  String get biyolSahaKontrolluBuyut =>
+      'Koloniyi kontrollü büyüt; karar için son muayene, stok ve süreç durumunu birlikte oku.';
+
+  @override
+  String get biyolKabiliyetPetekGuclu => 'petek örme güçlü';
+
+  @override
+  String get biyolKabiliyetYavruGuclu => 'yavru bakımı güçlü';
+
+  @override
+  String get biyolKabiliyetNektarGuclu => 'nektar toplama güçlü';
+
+  @override
+  String get biyolKabiliyetBalIslemeGuclu => 'bal işleme güçlü';
+
+  @override
+  String get biyolKabiliyetKisDikkat => 'kış stok/dayanım dikkat ister';
+
+  @override
+  String get biyolKabiliyetOrta =>
+      'Kabiliyetler orta bantta; aşırı genişletme veya ağır işlem yerine kontrollü ilerle.';
+
+  @override
+  String get biyolCitaYavruStok => 'Yavru/stok';
+
+  @override
+  String get biyolCitaBalliPolenli => 'Ballı/polenli';
+
+  @override
+  String get biyolCitaBalStogu => 'Bal stoğu';
+
+  @override
+  String get biyolCitaYavruPolenli => 'Yavru/polenli';
+
+  @override
+  String get biyolCitaYavru => 'Yavru';
+
+  @override
+  String get biyolCitaYavruluPolenli => 'Yavrulu/polenli';
+
+  @override
+  String get biyolCitaYavruStokGecis => 'Yavru/stok geçiş alanı';
+
+  @override
+  String get biyolCitaBalliPolenliGecis => 'Ballı/polenli geçiş alanı';
+
+  @override
+  String get biyolCitaBallikBal => 'Ballık / bal alanı';
+
+  @override
+  String get biyolCitaBallikAktivasyon => 'Ballık / aktivasyon sürecinde';
+
+  @override
+  String get biyolCitaKapaliYavruluCekim => 'Kapalı yavrulu çekim çıtası';
+
+  @override
+  String get biyolCitaBalliPolenliCekim => 'Ballı/polenli çekim çıtası';
+
+  @override
+  String get biyolCitaSurupluk => 'Şurupluk';
+
+  @override
+  String get biyolCitaYeniPetekAktivasyon => 'yeni petek aktivasyonu';
+
+  @override
+  String get biyolYavruBlokBelirsiz => 'Belirsiz';
+
+  @override
+  String biyolYavruBlok1Cita(int no) {
+    return '$no. çıta';
+  }
+
+  @override
+  String biyolYavruBlokAralik(int bas, int son) {
+    return '$bas–$son. çıtalar';
+  }
+
+  @override
+  String get biyolAnaBolgeMerkez => 'Merkez yavru çıtası';
+
+  @override
+  String biyolAnaBolgeAralik(int sol, int sag) {
+    return '$sol–$sag. çıtalar çevresi';
+  }
+
+  @override
+  String biyolAnaBolgeYavruBlok(String blok) {
+    return '$blok çevresi';
+  }
+
+  @override
+  String get biyolGelisimAlaniAcik =>
+      'Gelişim alanı merkez dışındaki boş/kabarmış petekle açılmalı.';
+
+  @override
+  String biyolGelisimAlaniMetin(String adaylar) {
+    return '$adaylar. çıtaların dışından kontrollü genişletme yapılabilir.';
+  }
+
+  @override
+  String biyolYerlesimSatiriFormat(int no, String tip) {
+    return '$no. çıta: $tip';
+  }
+
+  @override
+  String get biyolKovanNotuKatGecisi =>
+      'Bu bir biyolojik dizilim projeksiyonudur: kat geçişinde üst kata işlevli çekim grubu, alt kuluçkalığa ise yeni verilen peteklerin aktivasyon süreci modellenir.';
+
+  @override
+  String get biyolKovanNotuGenel =>
+      'Dolu renkler işlevsel çıtayı; boş çerçeve ve alttan yukarı günlük dolum ise kovanda bulunan fakat biyolojik aktivasyonu süren yeni hacmi gösterir.';
 }

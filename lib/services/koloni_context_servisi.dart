@@ -140,6 +140,7 @@ class KoloniContextServisi {
         hazirKoloni: koloni,
         hazirMuayeneler: muayeneler,
         forceRefresh: false,
+        l: l,
       ),
       KararAsistanServisi.kararVeBiyolojiBirlesikGetir(
         koloniId,
@@ -156,7 +157,7 @@ class KoloniContextServisi {
       VeritabaniServisi.aktifBalAkimGetir(
         arilikId: arilikId != null && arilikId > 0 ? arilikId : null,
       ),
-      if (biyolojikModelYukle) KoloniBiyolojikModelServisi.modelGetir(koloniId),
+      if (biyolojikModelYukle) KoloniBiyolojikModelServisi.modelGetir(koloniId, l: l),
     ]);
 
     final surecDurumu = Map<String, dynamic>.from(

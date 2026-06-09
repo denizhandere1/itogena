@@ -160,12 +160,14 @@ class KararAsistanServisi {
         Map<String, dynamic>? hazirKoloni,
         List<Map<String, dynamic>>? hazirMuayeneler,
         bool forceRefresh = false,
+        AppLocalizations? l,
       }) async {
     final sonuc = await SurecMotoru.durumGetir(
       koloniId,
       hazirKoloni: hazirKoloni,
       hazirMuayeneler: hazirMuayeneler,
       forceRefresh: forceRefresh,
+      l: l,
     );
     return sonuc.toMap();
   }
@@ -847,7 +849,7 @@ class KararAsistanServisi {
     // standart sinyali olarak üretilir. Böylece grid, özet kartı ve detay aynı
     // karar hattını okur; besleme ayrı bir ikinci gerçeklik oluşturmaz.
     try {
-      final besleme = await BeslemeKararMotoru.kararGetir(koloniId);
+      final besleme = await BeslemeKararMotoru.kararGetir(koloniId, l: l);
       final beslemeKarari = _beslemeYonetimKarariUret(
         besleme,
         hasatBeklentisiVar: hasatBeklentisiVar,
@@ -1176,7 +1178,7 @@ class KararAsistanServisi {
       'kategori': hasatVeto ? 'veto' : 'yonetim',
       'katman': 'yonetim',
       'kisa': hasatVeto ? (l?.beslemeFeedingNone ?? 'Besleme yok') : (dozVar ? (l?.beslemeFeedingShort ?? 'Besleme') : (l?.beslemeFeedingWatch ?? 'Besleme izle')),
-      'baslik': hasatVeto ? (l?.beslemeFeedingNotRecommended ?? 'Besleme önerilmez') : tip,
+      'baslik': hasatVeto ? (l?.beslemeFeedingNotRecommended ?? 'Besleme önerilmez') : _beslemeLocalizedTip(tip, l),
       'mesaj': detaylar.isEmpty ? besleme.mesaj : detaylar.join(' '),
       'gerekce': besleme.gerekceler.join(' '),
       'risk': besleme.risk,
@@ -1189,6 +1191,20 @@ class KararAsistanServisi {
       'tekrarAraligi': besleme.tekrarAraligi,
       'dozNotu': besleme.dozNotu,
     };
+  }
+
+  static String _beslemeLocalizedTip(String tip, AppLocalizations? l) {
+    if (l == null) return tip;
+    switch (tip.trim()) {
+      case 'Ölçülü Destek': return l.beslemeOlculuDestekTip;
+      case 'Gelişim Takibi': return l.beslemeGelisimTakibiTip;
+      case 'Kontrollü Destek': return l.beslemeKontrolluDestekTip;
+      case 'Stok Tamamlama': return l.beslemeStokTamamlamaTip;
+      case 'Polenli Destek': return l.beslemePolenliDestekTip;
+      case 'Gelişim Desteği': return l.beslemeGelisimDestegiTip;
+      case 'Besleme Yönetimi': return l.beslemeYonetimVarsayilanBaslik;
+      default: return tip;
+    }
   }
 
 

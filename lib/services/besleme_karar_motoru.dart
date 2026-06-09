@@ -1,3 +1,4 @@
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'surec_motoru.dart';
 import 'veritabani_servisi.dart';
 import 'koloni_biyolojik_model_servisi.dart';
@@ -46,25 +47,30 @@ class BeslemeKararSonucu {
 class BeslemeKararMotoru {
   static const int balAkimiOncesiBeslemeKesmeGun = 20;
 
-  static final Map<int, Future<BeslemeKararSonucu>> _kararFutureCache = {};
+  static final Map<String, Future<BeslemeKararSonucu>> _kararFutureCache = {};
+
+  static String _cacheKey(int koloniId, AppLocalizations? l) =>
+      '$koloniId:${l?.localeName ?? 'tr'}';
 
   /// Besleme kartı aynı koloni açılışında tekrar tekrar hesaplanmasın.
   /// Muayene/koloni değişikliklerinde KararAsistanServisi üzerinden temizlenir.
   static Future<BeslemeKararSonucu> kararGetir(
     int koloniId, {
     bool forceRefresh = false,
+    AppLocalizations? l,
   }) async {
+    final key = _cacheKey(koloniId, l);
     if (forceRefresh) {
-      _kararFutureCache.remove(koloniId);
+      _kararFutureCache.remove(key);
     }
 
-    final future = _kararFutureCache[koloniId] ??= _kararHesapla(koloniId);
+    final future = _kararFutureCache[key] ??= _kararHesapla(koloniId, l: l);
 
     try {
       return await future;
     } catch (_) {
-      if (identical(_kararFutureCache[koloniId], future)) {
-        _kararFutureCache.remove(koloniId);
+      if (identical(_kararFutureCache[key], future)) {
+        _kararFutureCache.remove(key);
       }
       rethrow;
     }
@@ -75,12 +81,12 @@ class BeslemeKararMotoru {
       _kararFutureCache.clear();
       return;
     }
-    _kararFutureCache.remove(koloniId);
+    _kararFutureCache.removeWhere((k, _) => k.startsWith('$koloniId:'));
   }
 
   static void tumCacheTemizle() => cacheTemizle();
 
-  static Future<BeslemeKararSonucu> _kararHesapla(int koloniId) async {
+  static Future<BeslemeKararSonucu> _kararHesapla(int koloniId, {AppLocalizations? l}) async {
     final sonuclar = await Future.wait<dynamic>([
       VeritabaniServisi.koloniOzetiGetir(koloniId),
       VeritabaniServisi.muayeneleriGetir(koloniId),
@@ -197,186 +203,163 @@ class BeslemeKararMotoru {
 
       if (kesmePenceresi || akimIcinde) {
         final String zamanMetni = akimIcinde
-            ? 'Bal akımı başladı.'
-            : 'Bal akımına $gunKaldi gün kaldı; bal akımından $balAkimiOncesiBeslemeKesmeGun gün önce besleme kesilmeli.';
+            ? (l?.beslemeBalAkimiBasladi ?? 'Bal akımı başladı.')
+            : (l != null
+                ? l.beslemeBalAkimiGunKaldi(gunKaldi!, balAkimiOncesiBeslemeKesmeGun)
+                : 'Bal akımına $gunKaldi gün kaldı; bal akımından $balAkimiOncesiBeslemeKesmeGun gün önce besleme kesilmeli.');
 
         return BeslemeKararSonucu(
           gerekliMi: false,
           tip: 'Besleme Önerilmez',
           oncelik: 'kritik',
-          mesaj:
-              '$zamanMetni Hasat hedeflenen kolonide şeker bazlı besleme yapılmamalı.',
-          risk:
-              'Şurup veya şekerli yem, nektar akımıyla birlikte bala taşınabilir. Hasat kalitesi açısından risk oluşturur.',
-          gerekceler: const [
-            '',
-
-          ],
+          mesaj: l != null ? l.beslemeOnerilmezMesaj(zamanMetni) : '$zamanMetni Hasat hedeflenen kolonide şeker bazlı besleme yapılmamalı.',
+          risk: l?.beslemeOnerilmezRisk ?? 'Şurup veya şekerli yem, nektar akımıyla birlikte bala taşınabilir. Hasat kalitesi açısından risk oluşturur.',
+          gerekceler: const [''],
           dozBandi: '0 ml',
-          tekrarAraligi: 'Bal akımı ve hasat penceresinde uygulanmaz',
-          dozNotu:
-              'Bu karar yalnızca hasat hedefli kolonide bal kalitesi güvenliği içindir.',
+          tekrarAraligi: l?.beslemeOnerilmezTekrarAraligi ?? 'Bal akımı ve hasat penceresinde uygulanmaz',
+          dozNotu: l?.beslemeOnerilmezDozNotu ?? 'Bu karar yalnızca hasat hedefli kolonide bal kalitesi güvenliği içindir.',
         );
       }
     }
 
     if (hacimAktivasyonuTamDegil && !hasatKolonisi) {
-      final doz = _gelisimDestegiDozu(kararCita, yavruluCita, stokCita);
+      final doz = _gelisimDestegiDozu(kararCita, yavruluCita, stokCita, l: l);
       return BeslemeKararSonucu(
         gerekliMi: false,
         tip: stokCita <= 1 ? 'Ölçülü Destek' : 'Gelişim Takibi',
         oncelik: riskliSisirme ? 'orta' : 'dusuk',
-        mesaj:
-            stokCita <= 1
-                ? 'Yeni verilen hacim oturma aşamasında. Stok ve yavru durumuna göre ölçülü destek değerlendirilebilir.'
-                : 'Yeni verilen hacim oturma aşamasında. Stok, yavru ve aktivasyon birlikte takip edilmeli.',
-        risk:
-            riskliSisirme
-                ? 'Hacim hızlı açıldıysa fazla besleme koloni düzenini bozabilir; destek ölçülü tutulmalıdır.'
-                : '',
+        mesaj: stokCita <= 1
+            ? (l?.beslemeHacimOturgaMesajStok ?? 'Yeni verilen hacim oturma aşamasında. Stok ve yavru durumuna göre ölçülü destek değerlendirilebilir.')
+            : (l?.beslemeHacimOturgaMesajTakip ?? 'Yeni verilen hacim oturma aşamasında. Stok, yavru ve aktivasyon birlikte takip edilmeli.'),
+        risk: riskliSisirme
+            ? (l?.beslemeHacimRiskliSisirme ?? 'Hacim hızlı açıldıysa fazla besleme koloni düzenini bozabilir; destek ölçülü tutulmalıdır.')
+            : '',
         gerekceler: [
           stokCita <= 1
-              ? 'Stok durumuna göre destek değerlendirilebilir'
-              : 'Yeni hacim aktivasyonu takip edilir',
-          'İşlevsel üretim çıtası yaklaşık $islevselUretimCita çıta',
-          'Aktivasyon yaklaşık %${(aktivasyonOrani * 100).round()}',
+              ? (l?.beslemeHacimGerekceStok ?? 'Stok durumuna göre destek değerlendirilebilir')
+              : (l?.beslemeHacimGerekceTakip ?? 'Yeni hacim aktivasyonu takip edilir'),
+          l != null ? l.beslemeHacimGerekceIslevselCita(islevselUretimCita) : 'İşlevsel üretim çıtası yaklaşık $islevselUretimCita çıta',
+          l != null ? l.beslemeHacimGerekceAktivasyon((aktivasyonOrani * 100).round()) : 'Aktivasyon yaklaşık %${(aktivasyonOrani * 100).round()}',
         ],
         dozBandi: stokCita <= 1 ? doz['band']! : '',
         tekrarAraligi: stokCita <= 1 ? doz['aralik']! : '',
-        dozNotu:
-            stokCita <= 1
-                ? 'Amaç koloniyi şişirmek değil, yeni hacim oturana kadar ölçülü enerji desteği sağlamaktır.'
-                : '',
+        dozNotu: stokCita <= 1
+            ? (l?.beslemeHacimDozNotu ?? 'Amaç koloniyi şişirmek değil, yeni hacim oturana kadar ölçülü enerji desteği sağlamaktır.')
+            : '',
       );
     }
 
     if (anaSureciVar) {
-      final doz = _hafifDestekDozu(kararCita);
+      final doz = _hafifDestekDozu(kararCita, l: l);
       return BeslemeKararSonucu(
         gerekliMi: false,
         tip: 'Kontrollü Destek',
         oncelik: 'orta',
-        mesaj:
-            'Ana kazanma veya anasızlık sürecinde destek gerekiyorsa az ve kontrollü düşünülmeli.',
-        risk:
-            'Kovanı gereksiz açmak ana kabulü ve çiftleşme sürecini bozabilir.',
-        gerekceler: const [
-          'Aktif ana kazanma / anasızlık süreci var',
-          'Stres azaltma öncelikli olmalı',
+        mesaj: l?.beslemeKontrolluDestekMesaj ?? 'Ana kazanma veya anasızlık sürecinde destek gerekiyorsa az ve kontrollü düşünülmeli.',
+        risk: l?.beslemeKontrolluDestekRisk ?? 'Kovanı gereksiz açmak ana kabulü ve çiftleşme sürecini bozabilir.',
+        gerekceler: [
+          l?.beslemeKontrolluDestekGerekce1 ?? 'Aktif ana kazanma / anasızlık süreci var',
+          l?.beslemeKontrolluDestekGerekce2 ?? 'Stres azaltma öncelikli olmalı',
         ],
         dozBandi: doz['band']!,
         tekrarAraligi: doz['aralik']!,
-        dozNotu:
-            'Amaç koloniyi şişirmek değil, süreci strese sokmadan hafif enerji desteği sağlamaktır.',
+        dozNotu: l?.beslemeKontrolluDestekDozNotu ?? 'Amaç koloniyi şişirmek değil, süreci strese sokmadan hafif enerji desteği sağlamaktır.',
       );
     }
 
     if (hasatSonrasiSurec && stokCita < 2) {
-      final doz = _stokTamamlamaDozu(kararCita);
+      final doz = _stokTamamlamaDozu(kararCita, l: l);
       return BeslemeKararSonucu(
         gerekliMi: false,
         tip: 'Stok Tamamlama',
         oncelik: 'orta',
-        mesaj:
-            'Hasat sonrası dönemde stok durumuna göre 2:1 şurup ile stok tamamlama değerlendirilebilir.',
-        risk:
-            'Aşırı hacim, açıkta yem ve yağmacılık riski kontrol edilmeli.',
-        gerekceler: const [
-          'Hasat sonrası bakım süreci aktif',
-          'Stok alanı baskı altında görünüyor',
+        mesaj: l?.beslemeStokTamamlamaMesaj ?? 'Hasat sonrası dönemde stok durumuna göre 2:1 şurup ile stok tamamlama değerlendirilebilir.',
+        risk: l?.beslemeStokTamamlamaRisk ?? 'Aşırı hacim, açıkta yem ve yağmacılık riski kontrol edilmeli.',
+        gerekceler: [
+          l?.beslemeStokTamamlamaGerekce1 ?? 'Hasat sonrası bakım süreci aktif',
+          l?.beslemeStokTamamlamaGerekce2 ?? 'Stok alanı baskı altında görünüyor',
         ],
         dozBandi: doz['band']!,
         tekrarAraligi: doz['aralik']!,
-        dozNotu:
-            'Stok tamamlama amacı gelişim teşvikinden farklıdır; koloni sıkışık düzende tutulmalıdır.',
+        dozNotu: l?.beslemeStokTamamlamaDozNotu ?? 'Stok tamamlama amacı gelişim teşvikinden farklıdır; koloni sıkışık düzende tutulmalıdır.',
       );
     }
 
     if (yavruluCita >= 5 && stokCita <= 1) {
-      final doz = _proteinDestekDozu(kararCita);
+      final doz = _proteinDestekDozu(kararCita, l: l);
       return BeslemeKararSonucu(
         gerekliMi: false,
         tip: 'Polenli Destek',
         oncelik: 'orta',
-        mesaj:
-            'Yavru gelişimi sürüyor. Polen stoğu sahada zayıf görülürse protein desteği değerlendirilebilir.',
-        risk:
-            'Gereksiz protein desteği tüketilmezse bozulma ve hijyen riski oluşturabilir.',
-        gerekceler: const [
-          'Yavru alanı geniş',
-          'Stok/polen baskısı oluşuyor',
+        mesaj: l?.beslemePolenliDestekMesaj ?? 'Yavru gelişimi sürüyor. Polen stoğu sahada zayıf görülürse protein desteği değerlendirilebilir.',
+        risk: l?.beslemePolenliDestekRisk ?? 'Gereksiz protein desteği tüketilmezse bozulma ve hijyen riski oluşturabilir.',
+        gerekceler: [
+          l?.beslemePolenliDestekGerekce1 ?? 'Yavru alanı geniş',
+          l?.beslemePolenliDestekGerekce2 ?? 'Stok/polen baskısı oluşuyor',
         ],
         dozBandi: doz['band']!,
         tekrarAraligi: doz['aralik']!,
-        dozNotu:
-            'Protein desteği yalnızca polen eksikliği sahada doğrulanırsa anlamlıdır.',
+        dozNotu: l?.beslemePolenliDestekDozNotu ?? 'Protein desteği yalnızca polen eksikliği sahada doğrulanırsa anlamlıdır.',
       );
     }
 
     if (kararCita <= 5) {
-      final doz = _gelisimDestegiDozu(kararCita, yavruluCita, stokCita);
+      final doz = _gelisimDestegiDozu(kararCita, yavruluCita, stokCita, l: l);
       return BeslemeKararSonucu(
         gerekliMi: false,
         tip: 'Gelişim Desteği',
         oncelik: 'orta',
-        mesaj:
-            'Koloni gelişim düzeninde. Stok durumuna göre ölçülü 1:1 şurup desteği değerlendirilebilir.',
-        risk:
-            'Aşırı besleme yağmacılık ve kovan içi denge bozulması riski yaratabilir.',
-        gerekceler: const [
-          'Düşük çıta seviyesinde gelişim kolonisi',
-          'Karar kovan içi stok gözlemine göre verilmeli',
+        mesaj: l?.beslemeGelisimDestegiMesaj ?? 'Koloni gelişim düzeninde. Stok durumuna göre ölçülü 1:1 şurup desteği değerlendirilebilir.',
+        risk: l?.beslemeGelisimDestegiRisk ?? 'Aşırı besleme yağmacılık ve kovan içi denge bozulması riski yaratabilir.',
+        gerekceler: [
+          l?.beslemeGelisimDestegiGerekce1 ?? 'Düşük çıta seviyesinde gelişim kolonisi',
+          l?.beslemeGelisimDestegiGerekce2 ?? 'Karar kovan içi stok gözlemine göre verilmeli',
         ],
         dozBandi: doz['band']!,
         tekrarAraligi: doz['aralik']!,
-        dozNotu:
-            'Amaç yavru gelişimini desteklemek; fazla şurup verip kovan içi dengeyi bozmamak olmalıdır.',
+        dozNotu: l?.beslemeGelisimDestegiDozNotu ?? 'Amaç yavru gelişimini desteklemek; fazla şurup verip kovan içi dengeyi bozmamak olmalıdır.',
       );
     }
 
     if (kararCita <= 7 && stokCita <= 1) {
-      final doz = _gelisimDestegiDozu(kararCita, yavruluCita, stokCita);
+      final doz = _gelisimDestegiDozu(kararCita, yavruluCita, stokCita, l: l);
       return BeslemeKararSonucu(
         gerekliMi: false,
         tip: 'Ölçülü Destek',
         oncelik: 'orta',
-        mesaj:
-            'Koloni orta güçte. Stok durumuna göre ölçülü gelişim desteği değerlendirilebilir.',
-        risk:
-            'Aşırı teşvik oğul baskısı veya yağmacılık riskini artırabilir.',
-        gerekceler: const [
-          'Orta güçte koloni',
-          'Karar kovan içi stok gözlemine göre verilmeli',
+        mesaj: l?.beslemeOlculuDestekOrta7Mesaj ?? 'Koloni orta güçte. Stok durumuna göre ölçülü gelişim desteği değerlendirilebilir.',
+        risk: l?.beslemeOlculuDestekOrta7Risk ?? 'Aşırı teşvik oğul baskısı veya yağmacılık riskini artırabilir.',
+        gerekceler: [
+          l?.beslemeOlculuDestekOrta7Gerekce1 ?? 'Orta güçte koloni',
+          l?.beslemeGelisimDestegiGerekce2 ?? 'Karar kovan içi stok gözlemine göre verilmeli',
         ],
         dozBandi: doz['band']!,
         tekrarAraligi: doz['aralik']!,
-        dozNotu:
-            'Saha gözleminde polen ve nektar gelişi yeterliyse besleme azaltılabilir.',
+        dozNotu: l?.beslemeOlculuDestekOrta7DozNotu ?? 'Saha gözleminde polen ve nektar gelişi yeterliyse besleme azaltılabilir.',
       );
     }
 
-    return const BeslemeKararSonucu(
+    return BeslemeKararSonucu(
       gerekliMi: false,
       tip: 'Besleme Yönetimi',
       oncelik: 'dusuk',
-      mesaj:
-          'Besleme kararı kovan içi stok, yavru yükü ve saha nektar/polen gelişine göre verilmelidir.',
+      mesaj: l?.beslemeYonetimMesaj ?? 'Besleme kararı kovan içi stok, yavru yükü ve saha nektar/polen gelişine göre verilmelidir.',
       risk: '',
       gerekceler: [
-        'Sistem stok durumunu kesin ölçmez; saha gözlemi belirleyicidir',
+        l?.beslemeYonetimGerekce ?? 'Sistem stok durumunu kesin ölçmez; saha gözlemi belirleyicidir',
       ],
       dozBandi: '',
       tekrarAraligi: '',
-      dozNotu:
-          'Stok zayıf görülürse ölçülü destek değerlendirilebilir; yeterli görülürse yalnızca takip edilebilir.',
+      dozNotu: l?.beslemeYonetimDozNotu ?? 'Stok zayıf görülürse ölçülü destek değerlendirilebilir; yeterli görülürse yalnızca takip edilebilir.',
     );
   }
 
   static Map<String, String> _gelisimDestegiDozu(
     int toplamCita,
     int yavruluCita,
-    int stokCita,
-  ) {
+    int stokCita, {
+    AppLocalizations? l,
+  }) {
     int minMl;
     int maxMl;
 
@@ -397,63 +380,57 @@ class BeslemeKararMotoru {
 
     return {
       'band': _mlBand(minMl, maxMl),
-      'aralik': '2–3 gün arayla, saha stok durumuna göre',
+      'aralik': l?.beslemeGunArayla ?? '2–3 gün arayla, saha stok durumuna göre',
     };
   }
 
-  static Map<String, String> _hafifDestekDozu(int toplamCita) {
+  static Map<String, String> _hafifDestekDozu(int toplamCita, {AppLocalizations? l}) {
+    final aralik = l?.beslemeGunAralykKisaKontrol ?? '2–3 gün arayla, kısa süreli';
     if (toplamCita <= 5) {
-      return {
-        'band': '200–350 ml',
-        'aralik': '2–3 gün arayla, kısa süreli',
-      };
+      return {'band': '200–350 ml', 'aralik': aralik};
     }
-
-    return {
-      'band': '250–500 ml',
-      'aralik': '2–3 gün arayla, kısa süreli',
-    };
+    return {'band': '250–500 ml', 'aralik': aralik};
   }
 
-  static Map<String, String> _stokTamamlamaDozu(int toplamCita) {
+  static Map<String, String> _stokTamamlamaDozu(int toplamCita, {AppLocalizations? l}) {
     if (toplamCita <= 5) {
       return {
         'band': '500–750 ml',
-        'aralik': '2–3 gün arayla, stok kontrolüyle',
+        'aralik': l?.beslemeGunAralykStokKontrol ?? '2–3 gün arayla, stok kontrolüyle',
       };
     }
 
     if (toplamCita <= 8) {
       return {
         'band': '750 ml–1 L',
-        'aralik': '2–3 gün arayla, stok kontrolüyle',
+        'aralik': l?.beslemeGunAralykStokKontrol ?? '2–3 gün arayla, stok kontrolüyle',
       };
     }
 
     return {
       'band': '1–1.5 L',
-      'aralik': '2–3 gün arayla, stok tamamlanana kadar',
+      'aralik': l?.beslemeGunAralykTamamlanana ?? '2–3 gün arayla, stok tamamlanana kadar',
     };
   }
 
-  static Map<String, String> _proteinDestekDozu(int toplamCita) {
+  static Map<String, String> _proteinDestekDozu(int toplamCita, {AppLocalizations? l}) {
     if (toplamCita <= 5) {
       return {
         'band': '100–150 g polenli kek',
-        'aralik': 'Tüketim durumuna göre küçük parçalar halinde',
+        'aralik': l?.beslemeKekTuketim ?? 'Tüketim durumuna göre küçük parçalar halinde',
       };
     }
 
     if (toplamCita <= 8) {
       return {
         'band': '150–250 g polenli kek',
-        'aralik': 'Tüketim durumuna göre küçük parçalar halinde',
+        'aralik': l?.beslemeKekTuketim ?? 'Tüketim durumuna göre küçük parçalar halinde',
       };
     }
 
     return {
       'band': '250–400 g polenli kek',
-      'aralik': 'Tüketim durumuna göre; bozulma riski izlenerek',
+      'aralik': l?.beslemeKekBozulmaRisk ?? 'Tüketim durumuna göre; bozulma riski izlenerek',
     };
   }
 
