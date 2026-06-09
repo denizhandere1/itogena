@@ -116,7 +116,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(_sekmeDegisti);
-    _verileriYukle();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _verileriYukle());
   }
 
   @override
