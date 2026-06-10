@@ -277,6 +277,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String get soyAgaciPasifDurum => 'passive';
 
   @override
+  String soyAgaciKovanAnaYilDurum(
+      String kovanNo, String anaYili, String durum) {
+    return 'Hive $kovanNo · Queen $anaYili ($durum)';
+  }
+
+  @override
+  String soyAgaciKovanDurum(String kovanNo, String durum) {
+    return 'Hive $kovanNo ($durum)';
+  }
+
+  @override
+  String get soyAgaciBilinmiyor => 'Unknown';
+
+  @override
+  String soyAgaciKovanNo(String kovanNo) {
+    return 'Hive $kovanNo';
+  }
+
+  @override
+  String soyAgaciKaynakAnaYil(String kaynakTipi, String anaYili) {
+    return '$kaynakTipi • Queen $anaYili';
+  }
+
+  @override
+  String get soyAgaciPasifBadge => 'INACTIVE';
+
+  @override
+  String get soyAgaciSonCita => 'Last Frame';
+
+  @override
+  String get soyAgaciMaxCita => 'Max Frame';
+
+  @override
+  String get soyAgaciBalCitasi => 'Honey Frames';
+
+  @override
+  String get soyAgaciTureyenEtiket => 'Offspring';
+
+  @override
+  String get soyAgaciIlkSahaEtiketi => 'Initial field tag';
+
+  @override
+  String get soyAgaciSistemKimlik => 'System ID';
+
+  @override
+  String get soyAgaciDurumEtiket => 'Status';
+
+  @override
+  String get soyAgaciAktifMetin => 'Active';
+
+  @override
+  String get soyAgaciPasifMetin => 'Inactive';
+
+  @override
+  String get soyAgaciKoloniAnalizineGit => 'Go to colony analysis';
+
+  @override
   String get formullerBaslik => 'FORMULAS & CALCULATIONS';
 
   @override
@@ -582,6 +639,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get muayeneDetayEvet => 'Yes';
+
+  @override
+  String get muayeneYavruDuzeniBlok => 'Compact';
+
+  @override
+  String get muayeneYavruDuzeniNormal => 'Normal';
+
+  @override
+  String get muayeneYavruDuzeniDaginik => 'Scattered';
+
+  @override
+  String get muayeneYavruDuzeniKambur => 'Convex';
+
+  @override
+  String get muayeneMizacSakin => 'Calm';
+
+  @override
+  String get muayeneMizacSinirli => 'Nervous';
+
+  @override
+  String get muayeneMizacSaldirgan => 'Aggressive';
+
+  @override
+  String get muayeneBesleme11Surup => '1:1 Syrup';
+
+  @override
+  String get muayeneBesleme21Surup => '2:1 Syrup';
+
+  @override
+  String get muayeneBeslemeKek => 'Candy';
+
+  @override
+  String get muayeneBeslemeFondan => 'Fondant';
+
+  @override
+  String get muayeneYavruYokNormalBekleme =>
+      'No brood at this stage may be normal.';
+
+  @override
+  String get muayeneYavruYokTaniGerekli =>
+      'Short diagnostic observations are needed for brood absence.';
+
+  @override
+  String get muayeneYavruYokErkenPencere =>
+      'Could be an early window in an active biological process.';
+
+  @override
+  String suruplukMesajAkimOncesi(String etiket, int gun) {
+    return '$gun days until $etiket start. End feeding to reduce sugar residue risk; remove the feeder and replace with drawn comb.';
+  }
+
+  @override
+  String suruplukMesajAkimIcinde(String etiket) {
+    return 'You are in the $etiket period. No feeding should be done to reduce sugar residue risk; the feeder should already be removed.';
+  }
+
+  @override
+  String suruplukMesajUyariYok(String etiket, int gun, int varsayilanGun) {
+    return '$gun days until $etiket start. Feeder removal alert opens $varsayilanGun days before honey flow.';
+  }
+
+  @override
+  String get suruplukMesajAkimYok =>
+      'No upcoming active honey flow window found. Feeder can be reused during post-harvest feeding period.';
 
   @override
   String get muayeneDetayKapaliMeme => 'Ready sealed queen cell';
@@ -1143,6 +1264,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get koloniDetayMuayeneEkle => 'Add Inspection';
+
+  @override
+  String get muayeneListeYok =>
+      'No inspection records yet.\n\nUse the \"Add Inspection\" button below to enter the first one.';
+
+  @override
+  String get muayeneKartiDetayTooltip => 'Inspection details';
+
+  @override
+  String get muayeneKartiDuzenleTooltip => 'Edit inspection';
+
+  @override
+  String get muayeneKartiSilTooltip => 'Delete inspection';
+
+  @override
+  String get muayeneKartiCita => 'Frames';
+
+  @override
+  String get muayeneKartiYavrulu => 'Brood';
+
+  @override
+  String get muayeneKartiBalHasat => 'Honey/Harvest';
 
   @override
   String get koloniDetayOzetSurec => 'PROCESS';
@@ -3243,6 +3386,47 @@ class AppLocalizationsEn extends AppLocalizations {
       'Offspring colonies exist; however sufficient data of at least 45 days has not yet accumulated.';
 
   @override
+  String soyYorumGuclu(int yuzde) {
+    return '$yuzde% continuity. Strong lineage.';
+  }
+
+  @override
+  String soyYorumOlumlu(int yuzde) {
+    return '$yuzde% continuity. Positive lineage.';
+  }
+
+  @override
+  String soyYorumZayif(int yuzde) {
+    return '$yuzde% continuity. Weak lineage.';
+  }
+
+  @override
+  String soyYorumRiskli(int yuzde) {
+    return '$yuzde% continuity. Risky lineage.';
+  }
+
+  @override
+  String soyYorumNotr(int yuzde) {
+    return '$yuzde% continuity. Neutral lineage.';
+  }
+
+  @override
+  String get soyYorumVeriZayif => ' Data is weak, evaluate cautiously.';
+
+  @override
+  String get soyYorumVeriSinirli => ' Data is limited, monitor closely.';
+
+  @override
+  String soyYorumAktifSonen(int aktif, int sonen) {
+    return ' $aktif active, $sonen lapsed offspring colonies observed.';
+  }
+
+  @override
+  String soyYorumCokYeni(int sayi) {
+    return ' $sayi colony appears too new to evaluate.';
+  }
+
+  @override
   String get hatKararVeriYetersiz => 'Insufficient Data';
 
   @override
@@ -3406,6 +3590,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get raporDurumCokGuclu => 'Very Strong';
+
+  @override
+  String get raporDurumUretim => 'Production';
+
+  @override
+  String raporDurumDonorN(int sira) {
+    return 'Donor $sira';
+  }
+
+  @override
+  String raporKovanBiyolModelBilgi(String kovanNo, String ham, String aktif) {
+    return 'Hive $kovanNo: biological model shows $ham honey positions, $aktif frames counted with activation.';
+  }
 
   @override
   String get trendMomPatlaYici => 'Explosive growth';

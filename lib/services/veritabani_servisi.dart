@@ -1,3 +1,4 @@
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -3493,6 +3494,7 @@ class VeritabaniServisi {
   static Future<Map<String, dynamic>> suruplukKaldirmaPenceresiGetir(
     int koloniId, {
     DateTime? tarih,
+    AppLocalizations? l,
   }) async {
     final referansHam = tarih ?? DateTime.now();
     final bugun = DateTime(
@@ -3523,8 +3525,8 @@ class VeritabaniServisi {
 
       if (aktif) {
         final mesaj = kalanGun >= 0
-            ? '$etiket başlangıcına $kalanGun gün kaldı. Şeker kalıntısı riskini azaltmak için beslemeyi sonlandır; şurupluğu kaldırıp yerine petek verebilirsin.'
-            : '$etiket dönemi içindesin. Şeker kalıntısı riskini azaltmak için besleme yapılmamalı; şurupluk kaldırılmış olmalı.';
+            ? (l?.suruplukMesajAkimOncesi(etiket, kalanGun) ?? '$etiket başlangıcına $kalanGun gün kaldı. Şeker kalıntısı riskini azaltmak için beslemeyi sonlandır; şurupluğu kaldırıp yerine petek verebilirsin.')
+            : (l?.suruplukMesajAkimIcinde(etiket) ?? '$etiket dönemi içindesin. Şeker kalıntısı riskini azaltmak için besleme yapılmamalı; şurupluk kaldırılmış olmalı.');
         return {
           'aktif': true,
           'suruplukVarMi': true,
@@ -3549,7 +3551,7 @@ class VeritabaniServisi {
         'bit': bit,
         'basMetni': _isoTarih(bas),
         'bitMetni': _isoTarih(bit),
-        'mesaj': '$etiket başlangıcına $kalanGun gün var. Şurupluk kaldırma uyarısı bal akımından $varsayilanGun gün önce açılır.',
+        'mesaj': l?.suruplukMesajUyariYok(etiket, kalanGun, varsayilanGun) ?? '$etiket başlangıcına $kalanGun gün var. Şurupluk kaldırma uyarısı bal akımından $varsayilanGun gün önce açılır.',
       };
     }
 
@@ -3557,7 +3559,7 @@ class VeritabaniServisi {
       'aktif': false,
       'suruplukVarMi': true,
       'gun': varsayilanGun,
-      'mesaj': 'Yaklaşan aktif bal akımı penceresi bulunmadı. Hasat sonrası besleme döneminde şurupluk yeniden kullanılabilir.',
+      'mesaj': l?.suruplukMesajAkimYok ?? 'Yaklaşan aktif bal akımı penceresi bulunmadı. Hasat sonrası besleme döneminde şurupluk yeniden kullanılabilir.',
     };
   }
 

@@ -383,6 +383,12 @@ class ServisMetinLokalizer {
   static String? _kismiEsles(String temiz, AppLocalizations l) {
     final kucuk = temiz.toLowerCase();
 
+    if (kucuk.startsWith('donör ') && !kucuk.contains('adayı') && !kucuk.contains('havuzunda')) {
+      final numStr = temiz.substring('Donör '.length).trim();
+      final sira = int.tryParse(numStr);
+      if (sira != null) return l.raporDurumDonorN(sira);
+    }
+
     if (kucuk.contains('donör adayı') || kucuk.contains('donor adayi')) {
       return l.kolonDetayDonorAdayi;
     }

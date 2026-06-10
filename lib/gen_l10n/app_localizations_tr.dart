@@ -279,6 +279,63 @@ class AppLocalizationsTr extends AppLocalizations {
   String get soyAgaciPasifDurum => 'pasif';
 
   @override
+  String soyAgaciKovanAnaYilDurum(
+      String kovanNo, String anaYili, String durum) {
+    return 'Kovan $kovanNo · Ana $anaYili ($durum)';
+  }
+
+  @override
+  String soyAgaciKovanDurum(String kovanNo, String durum) {
+    return 'Kovan $kovanNo ($durum)';
+  }
+
+  @override
+  String get soyAgaciBilinmiyor => 'Bilinmiyor';
+
+  @override
+  String soyAgaciKovanNo(String kovanNo) {
+    return 'Kovan $kovanNo';
+  }
+
+  @override
+  String soyAgaciKaynakAnaYil(String kaynakTipi, String anaYili) {
+    return '$kaynakTipi • Ana $anaYili';
+  }
+
+  @override
+  String get soyAgaciPasifBadge => 'PASİF';
+
+  @override
+  String get soyAgaciSonCita => 'Son Çıta';
+
+  @override
+  String get soyAgaciMaxCita => 'Max Çıta';
+
+  @override
+  String get soyAgaciBalCitasi => 'Bal Çıtası';
+
+  @override
+  String get soyAgaciTureyenEtiket => 'Türeyen';
+
+  @override
+  String get soyAgaciIlkSahaEtiketi => 'İlk saha etiketi';
+
+  @override
+  String get soyAgaciSistemKimlik => 'Sistem kimlik';
+
+  @override
+  String get soyAgaciDurumEtiket => 'Durum';
+
+  @override
+  String get soyAgaciAktifMetin => 'Aktif';
+
+  @override
+  String get soyAgaciPasifMetin => 'Pasif';
+
+  @override
+  String get soyAgaciKoloniAnalizineGit => 'Koloni analizine git';
+
+  @override
   String get formullerBaslik => 'FORMÜLLER VE HESAPLAMALAR';
 
   @override
@@ -586,6 +643,70 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get muayeneDetayEvet => 'Evet';
+
+  @override
+  String get muayeneYavruDuzeniBlok => 'Blok';
+
+  @override
+  String get muayeneYavruDuzeniNormal => 'Normal';
+
+  @override
+  String get muayeneYavruDuzeniDaginik => 'Dağınık';
+
+  @override
+  String get muayeneYavruDuzeniKambur => 'Kambur';
+
+  @override
+  String get muayeneMizacSakin => 'Sakin';
+
+  @override
+  String get muayeneMizacSinirli => 'Sinirli';
+
+  @override
+  String get muayeneMizacSaldirgan => 'Saldırgan';
+
+  @override
+  String get muayeneBesleme11Surup => '1:1 Şurup';
+
+  @override
+  String get muayeneBesleme21Surup => '2:1 Şurup';
+
+  @override
+  String get muayeneBeslemeKek => 'Kek';
+
+  @override
+  String get muayeneBeslemeFondan => 'Fondan';
+
+  @override
+  String get muayeneYavruYokNormalBekleme =>
+      'Bu aşamada yavru görülmemesi normal olabilir.';
+
+  @override
+  String get muayeneYavruYokTaniGerekli =>
+      'Yavru yokluğu için kısa tanı gözlemleri gerekli.';
+
+  @override
+  String get muayeneYavruYokErkenPencere =>
+      'Aktif biyolojik süreçte erken pencere olabilir.';
+
+  @override
+  String suruplukMesajAkimOncesi(String etiket, int gun) {
+    return '$etiket başlangıcına $gun gün kaldı. Şeker kalıntısı riskini azaltmak için beslemeyi sonlandır; şurupluğu kaldırıp yerine petek verebilirsin.';
+  }
+
+  @override
+  String suruplukMesajAkimIcinde(String etiket) {
+    return '$etiket dönemi içindesin. Şeker kalıntısı riskini azaltmak için besleme yapılmamalı; şurupluk kaldırılmış olmalı.';
+  }
+
+  @override
+  String suruplukMesajUyariYok(String etiket, int gun, int varsayilanGun) {
+    return '$etiket başlangıcına $gun gün var. Şurupluk kaldırma uyarısı bal akımından $varsayilanGun gün önce açılır.';
+  }
+
+  @override
+  String get suruplukMesajAkimYok =>
+      'Yaklaşan aktif bal akımı penceresi bulunmadı. Hasat sonrası besleme döneminde şurupluk yeniden kullanılabilir.';
 
   @override
   String get muayeneDetayKapaliMeme => 'Hazır kapalı ana memesi var';
@@ -1147,6 +1268,28 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get koloniDetayMuayeneEkle => 'Muayene Ekle';
+
+  @override
+  String get muayeneListeYok =>
+      'Henüz muayene kaydı yok.\n\nAşağıdaki \"Muayene Ekle\" butonuyla ilk kaydı girebilirsin.';
+
+  @override
+  String get muayeneKartiDetayTooltip => 'Muayene detayı';
+
+  @override
+  String get muayeneKartiDuzenleTooltip => 'Muayeneyi düzenle';
+
+  @override
+  String get muayeneKartiSilTooltip => 'Muayeneyi sil';
+
+  @override
+  String get muayeneKartiCita => 'Çıta';
+
+  @override
+  String get muayeneKartiYavrulu => 'Yavrulu';
+
+  @override
+  String get muayeneKartiBalHasat => 'Bal/Hasat';
 
   @override
   String get koloniDetayOzetSurec => 'SÜREÇ';
@@ -3242,6 +3385,47 @@ class AppLocalizationsTr extends AppLocalizations {
       'Türeyen koloniler var; ancak henüz en az 45 gün geçmiş yeterli veri oluşmamış.';
 
   @override
+  String soyYorumGuclu(int yuzde) {
+    return '%$yuzde devamlılık. Güçlü soy.';
+  }
+
+  @override
+  String soyYorumOlumlu(int yuzde) {
+    return '%$yuzde devamlılık. Olumlu soy.';
+  }
+
+  @override
+  String soyYorumZayif(int yuzde) {
+    return '%$yuzde devamlılık. Zayıf soy.';
+  }
+
+  @override
+  String soyYorumRiskli(int yuzde) {
+    return '%$yuzde devamlılık. Riskli soy.';
+  }
+
+  @override
+  String soyYorumNotr(int yuzde) {
+    return '%$yuzde devamlılık. Nötr soy.';
+  }
+
+  @override
+  String get soyYorumVeriZayif => ' Veri zayıf, dikkatli değerlendirilmeli.';
+
+  @override
+  String get soyYorumVeriSinirli => ' Veri sınırlı, izlenmeli.';
+
+  @override
+  String soyYorumAktifSonen(int aktif, int sonen) {
+    return ' $aktif aktif, $sonen sönen türeyen koloni görülüyor.';
+  }
+
+  @override
+  String soyYorumCokYeni(int sayi) {
+    return ' $sayi koloni değerlendirmeye alınamayacak kadar yeni görünüyor.';
+  }
+
+  @override
   String get hatKararVeriYetersiz => 'Veri Yetersiz';
 
   @override
@@ -3406,6 +3590,19 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get raporDurumCokGuclu => 'Çok güçlü';
+
+  @override
+  String get raporDurumUretim => 'Üretim';
+
+  @override
+  String raporDurumDonorN(int sira) {
+    return 'Donör $sira';
+  }
+
+  @override
+  String raporKovanBiyolModelBilgi(String kovanNo, String ham, String aktif) {
+    return 'Kovan $kovanNo: biyolojik modelde $ham ballı pozisyon, aktivasyonla $aktif çıta üretim hesabına alındı.';
+  }
 
   @override
   String get trendMomPatlaYici => 'Patlayıcı büyüme';

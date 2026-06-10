@@ -281,9 +281,9 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
     final durum = aktifMi ? l10n.soyAgaciAktifDurum : l10n.soyAgaciPasifDurum;
 
     if (anaYili.isNotEmpty) {
-      return 'Kovan $kovanNo · Ana $anaYili ($durum)';
+      return l10n.soyAgaciKovanAnaYilDurum(kovanNo, anaYili, durum);
     }
-    return 'Kovan $kovanNo ($durum)';
+    return l10n.soyAgaciKovanDurum(kovanNo, durum);
   }
 
   List<Map<String, dynamic>> _yasayanHatlariFiltrele(
@@ -359,7 +359,7 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
     final kovanNo = _metin(koloni['kovanNo']);
     final ilkKovanNo = _metin(koloni['ilkKovanNo'], varsayilan: '-');
     final anaYili = _metin(koloni['anaYili']);
-    final kaynakTipi = _metin(koloni['kaynakTipi'], varsayilan: 'Bilinmiyor');
+    final kaynakTipi = _metin(koloni['kaynakTipi'], varsayilan: AppLocalizations.of(context).soyAgaciBilinmiyor);
     final sistemKimlik = _metin(koloni['sistemKimlik'], varsayilan: '-');
     final aktifMi = koloni['aktifMi'] == true;
     final cocukSayisi = cocuklar.length;
@@ -400,7 +400,7 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
             childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
             leading: Icon(ikon, color: vurguRenk),
             title: Text(
-              'Kovan $kovanNo',
+              AppLocalizations.of(context).soyAgaciKovanNo(kovanNo),
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w900,
@@ -410,7 +410,7 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
-                '$kaynakTipi • Ana $anaYili',
+                AppLocalizations.of(context).soyAgaciKaynakAnaYil(kaynakTipi, anaYili),
                 style: const TextStyle(
                   fontSize: 12,
                   height: 1.35,
@@ -426,7 +426,7 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
                 border: Border.all(color: vurguRenk.withOpacity(0.22)),
               ),
               child: Text(
-                aktifMi ? '%$skor' : 'PASİF',
+                aktifMi ? '%$skor' : AppLocalizations.of(context).soyAgaciPasifBadge,
                 style: TextStyle(
                   color: vurguRenk,
                   fontSize: 12,
@@ -441,34 +441,34 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
                 children: [
                   _miniBilgiKutusu(
                     ikon: Icons.view_week_outlined,
-                    etiket: 'Son Çıta',
+                    etiket: AppLocalizations.of(context).soyAgaciSonCita,
                     deger: sonCita.toString(),
                     renk: Colors.green,
                   ),
                   _miniBilgiKutusu(
                     ikon: Icons.stacked_bar_chart_outlined,
-                    etiket: 'Max Çıta',
+                    etiket: AppLocalizations.of(context).soyAgaciMaxCita,
                     deger: maxCita.toString(),
                     renk: Colors.purple,
                   ),
                   _miniBilgiKutusu(
                     ikon: Icons.inventory_2_outlined,
-                    etiket: 'Bal Çıtası',
+                    etiket: AppLocalizations.of(context).soyAgaciBalCitasi,
                     deger: balCita.toString(),
                     renk: Colors.orange,
                   ),
                   _miniBilgiKutusu(
                     ikon: Icons.hub_outlined,
-                    etiket: 'Türeyen',
+                    etiket: AppLocalizations.of(context).soyAgaciTureyenEtiket,
                     deger: cocukSayisi.toString(),
                     renk: Colors.blueGrey,
                   ),
                 ],
               ),
               const SizedBox(height: 10),
-              _bilgiSatiri('İlk saha etiketi', ilkKovanNo),
-              _bilgiSatiri('Sistem kimlik', sistemKimlik),
-              _bilgiSatiri('Durum', aktifMi ? 'Aktif' : 'Pasif'),
+              _bilgiSatiri(AppLocalizations.of(context).soyAgaciIlkSahaEtiketi, ilkKovanNo),
+              _bilgiSatiri(AppLocalizations.of(context).soyAgaciSistemKimlik, sistemKimlik),
+              _bilgiSatiri(AppLocalizations.of(context).soyAgaciDurumEtiket, aktifMi ? AppLocalizations.of(context).soyAgaciAktifMetin : AppLocalizations.of(context).soyAgaciPasifMetin),
               const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
@@ -487,7 +487,7 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
                     );
                   },
                   icon: const Icon(Icons.open_in_new),
-                  label: const Text('Koloni analizine git'),
+                  label: Text(AppLocalizations.of(context).soyAgaciKoloniAnalizineGit),
                 ),
               ),
               if (cocuklar.isNotEmpty) ...[

@@ -1,4 +1,5 @@
 
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'package:sqflite/sqflite.dart';
 import 'veritabani_servisi.dart';
 
@@ -52,7 +53,7 @@ class SoyDevamlilikServisi {
   static const double notrMerkez = 0.70;
   static const int maxMutlakPuan = 6;
 
-  static Future<SoyDevamlilikSonucu> analizYap(int koloniId) async {
+  static Future<SoyDevamlilikSonucu> analizYap(int koloniId, {AppLocalizations? l}) async {
     final db = await VeritabaniServisi.db;
     final now = DateTime.now();
 
@@ -73,8 +74,8 @@ class SoyDevamlilikServisi {
         yasamaOrani: 0,
         guvenKatsayisi: 0,
         puan: 0,
-        durum: 'Veri Yok',
-        yorum: 'Bu koloniden türeyen kayıtlı koloni görünmüyor.',
+        durum: l?.soyDurumVeriYok ?? 'Veri Yok',
+        yorum: l?.soyYorumTureyenYok ?? 'Bu koloniden türeyen kayıtlı koloni görünmüyor.',
         veriYetersizMi: true,
       );
     }
@@ -119,9 +120,8 @@ class SoyDevamlilikServisi {
         yasamaOrani: 0,
         guvenKatsayisi: 0,
         puan: 0,
-        durum: 'Veri Yetersiz',
-        yorum:
-        'Türeyen koloniler var; ancak henüz en az 45 gün geçmiş yeterli veri oluşmamış.',
+        durum: l?.soyDurumVeriYetersiz ?? 'Veri Yetersiz',
+        yorum: l?.soyYorumVeriYetersiz ?? 'Türeyen koloniler var; ancak henüz en az 45 gün geçmiş yeterli veri oluşmamış.',
         veriYetersizMi: true,
       );
     }
@@ -142,6 +142,7 @@ class SoyDevamlilikServisi {
       toplamTureyen: toplam,
       yasamaOrani: oran,
       puan: puan,
+      l: l,
     );
 
     final yorum = _yorumUret(
@@ -152,6 +153,7 @@ class SoyDevamlilikServisi {
       yasamaOrani: oran,
       puan: puan,
       guven: guven,
+      l: l,
     );
 
     return SoyDevamlilikSonucu(
@@ -170,13 +172,14 @@ class SoyDevamlilikServisi {
   }
 
   static Future<Map<int, SoyDevamlilikSonucu>> topluAnalizYap(
-      List<int> koloniIdleri,
-      ) async {
+      List<int> koloniIdleri, {
+      AppLocalizations? l,
+      }) async {
     final Map<int, SoyDevamlilikSonucu> sonuc = {};
     final benzersiz = koloniIdleri.where((e) => e > 0).toSet().toList();
 
     for (final koloniId in benzersiz) {
-      sonuc[koloniId] = await analizYap(koloniId);
+      sonuc[koloniId] = await analizYap(koloniId, l: l);
     }
     return sonuc;
   }
@@ -252,13 +255,14 @@ class SoyDevamlilikServisi {
     required int toplamTureyen,
     required double yasamaOrani,
     required int puan,
+    AppLocalizations? l,
   }) {
-    if (toplamTureyen <= 0) return 'Veri Yok';
-    if (puan >= 4 && yasamaOrani >= 0.80) return 'Güçlü Soy';
-    if (puan >= 1 && yasamaOrani >= 0.65) return 'Olumlu Soy';
-    if (puan <= -4 || yasamaOrani < 0.40) return 'Zayıf Soy';
-    if (puan <= -1 || yasamaOrani < 0.60) return 'Riskli Soy';
-    return 'Nötr';
+    if (toplamTureyen <= 0) return l?.soyDurumVeriYok ?? 'Veri Yok';
+    if (puan >= 4 && yasamaOrani >= 0.80) return l?.soyDurumGucluSoy ?? 'Güçlü Soy';
+    if (puan >= 1 && yasamaOrani >= 0.65) return l?.soyDurumOlumluSoy ?? 'Olumlu Soy';
+    if (puan <= -4 || yasamaOrani < 0.40) return l?.soyDurumZayifSoy ?? 'Zayıf Soy';
+    if (puan <= -1 || yasamaOrani < 0.60) return l?.soyDurumRiskliSoy ?? 'Riskli Soy';
+    return l?.soyDurumNotr ?? 'Nötr';
   }
 
   static String _yorumUret({
@@ -269,43 +273,44 @@ class SoyDevamlilikServisi {
     required double yasamaOrani,
     required int puan,
     required double guven,
+    AppLocalizations? l,
   }) {
     if (toplamTureyen <= 0) {
-      return 'Bu koloniden türeyen kayıtlı koloni görünmüyor.';
+      return l?.soyYorumTureyenYok ?? 'Bu koloniden türeyen kayıtlı koloni görünmüyor.';
     }
 
     final yuzde = (yasamaOrani * 100).round();
 
     String temel;
     if (puan >= 4) {
-      temel = '%$yuzde devamlılık. Güçlü soy.';
+      temel = l?.soyYorumGuclu(yuzde) ?? '%$yuzde devamlılık. Güçlü soy.';
     } else if (puan >= 1) {
-      temel = '%$yuzde devamlılık. Olumlu soy.';
+      temel = l?.soyYorumOlumlu(yuzde) ?? '%$yuzde devamlılık. Olumlu soy.';
     } else if (puan <= -4) {
-      temel = '%$yuzde devamlılık. Zayıf soy.';
+      temel = l?.soyYorumZayif(yuzde) ?? '%$yuzde devamlılık. Zayıf soy.';
     } else if (puan <= -1) {
-      temel = '%$yuzde devamlılık. Riskli soy.';
+      temel = l?.soyYorumRiskli(yuzde) ?? '%$yuzde devamlılık. Riskli soy.';
     } else {
-      temel = '%$yuzde devamlılık. Nötr soy.';
+      temel = l?.soyYorumNotr(yuzde) ?? '%$yuzde devamlılık. Nötr soy.';
     }
 
     String veriNotu = '';
     if (guven < 0.50) {
-      veriNotu = ' Veri zayıf, dikkatli değerlendirilmeli.';
+      veriNotu = l?.soyYorumVeriZayif ?? ' Veri zayıf, dikkatli değerlendirilmeli.';
     } else if (guven < 1.0) {
-      veriNotu = ' Veri sınırlı, izlenmeli.';
+      veriNotu = l?.soyYorumVeriSinirli ?? ' Veri sınırlı, izlenmeli.';
     }
 
     String sayiNotu = '';
     if (toplamTureyen > 0) {
-      sayiNotu =
-      ' $aktifTureyen aktif, $sonenTureyen sönen türeyen koloni görülüyor.';
+      sayiNotu = l?.soyYorumAktifSonen(aktifTureyen, sonenTureyen)
+          ?? ' $aktifTureyen aktif, $sonenTureyen sönen türeyen koloni görülüyor.';
     }
 
     String yeniNotu = '';
     if (cokYeni > 0) {
-      yeniNotu =
-      ' $cokYeni koloni değerlendirmeye alınamayacak kadar yeni görünüyor.';
+      yeniNotu = l?.soyYorumCokYeni(cokYeni)
+          ?? ' $cokYeni koloni değerlendirmeye alınamayacak kadar yeni görünüyor.';
     }
 
     return '$temel$veriNotu$sayiNotu$yeniNotu'.trim();

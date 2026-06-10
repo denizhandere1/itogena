@@ -27,6 +27,41 @@ class MuayeneDetaySayfasi extends StatelessWidget {
 
   bool _boolAlan(dynamic v) => _int(v) == 1;
 
+  String _yavruDuzeniLocalize(String v, AppLocalizations l) {
+    switch (v.trim().toLowerCase()) {
+      case 'yok': return l.muayeneDetayYok;
+      case 'blok': return l.muayeneYavruDuzeniBlok;
+      case 'normal': return l.muayeneYavruDuzeniNormal;
+      case 'dağınık':
+      case 'daginik': return l.muayeneYavruDuzeniDaginik;
+      case 'kambur': return l.muayeneYavruDuzeniKambur;
+      default: return v.isEmpty ? '-' : v;
+    }
+  }
+
+  String _mizacLocalize(String v, AppLocalizations l) {
+    switch (v.trim().toLowerCase()) {
+      case 'sakin': return l.muayeneMizacSakin;
+      case 'sinirli': return l.muayeneMizacSinirli;
+      case 'saldırgan':
+      case 'saldirgan': return l.muayeneMizacSaldirgan;
+      default: return v.isEmpty ? '-' : v;
+    }
+  }
+
+  String _beslemeLocalize(String v, AppLocalizations l) {
+    switch (v.trim().toLowerCase()) {
+      case 'yok': return l.muayeneDetayYok;
+      case '1:1 şurup':
+      case '1:1 surup': return l.muayeneBesleme11Surup;
+      case '2:1 şurup':
+      case '2:1 surup': return l.muayeneBesleme21Surup;
+      case 'kek': return l.muayeneBeslemeKek;
+      case 'fondan': return l.muayeneBeslemeFondan;
+      default: return v.isEmpty ? '-' : v;
+    }
+  }
+
   String _anaKazanmaYontemiMetni(dynamic v, AppLocalizations l10n) {
     final temiz = (v ?? '').toString().trim();
     if (temiz.isEmpty) return '-';
@@ -263,10 +298,10 @@ class MuayeneDetaySayfasi extends StatelessWidget {
     final yavruluCita = _int(muayene['yavruluCita']).toString();
     final balHasat = _int(muayene['bal_cita']).toString();
 
-    final yavruDuzeni = _metin(muayene['yavruDuzeni']);
-    final mizac = _metin(muayene['mizac']);
-    final besleme = _metin(muayene['beslemeTipi']);
     final l10n = AppLocalizations.of(context);
+    final yavruDuzeni = _yavruDuzeniLocalize(_metin(muayene['yavruDuzeni']), l10n);
+    final mizac = _mizacLocalize(_metin(muayene['mizac']), l10n);
+    final besleme = _beslemeLocalize(_metin(muayene['beslemeTipi']), l10n);
     final notlar = _metin(muayene['notlar'], varsayilan: l10n.muayeneDetayYok);
     final varroaSecimleri = _varroaSecimleri(l10n);
 

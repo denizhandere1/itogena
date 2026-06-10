@@ -2772,10 +2772,10 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: Colors.amber.shade200),
             ),
-            child: const Text(
-              'Henüz muayene kaydı yok.\n\nAşağıdaki "Muayene Ekle" butonuyla ilk kaydı girebilirsin.',
+            child: Text(
+              AppLocalizations.of(context).muayeneListeYok,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13,
                 height: 1.5,
                 color: Colors.black87,
@@ -3119,18 +3119,18 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                   ),
                 ),
                 IconButton(
-                  tooltip: 'Muayene detayı',
+                  tooltip: l.muayeneKartiDetayTooltip,
                   onPressed: () => _muayeneDetayAc(m),
                   icon: const Icon(Icons.visibility_outlined,
                       color: Colors.brown),
                 ),
                 IconButton(
-                  tooltip: 'Muayeneyi düzenle',
+                  tooltip: l.muayeneKartiDuzenleTooltip,
                   onPressed: () => _muayeneDuzenle(m),
                   icon: const Icon(Icons.edit_outlined, color: Colors.blueGrey),
                 ),
                 IconButton(
-                  tooltip: 'Muayeneyi sil',
+                  tooltip: l.muayeneKartiSilTooltip,
                   onPressed: () => _muayeneSil(m),
                   icon: const Icon(Icons.delete_outline, color: Colors.red),
                 ),
@@ -3142,7 +3142,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 Expanded(
                   child: _performansMiniKarti(
                     ikon: Icons.grid_view_outlined,
-                    etiket: 'Çıta',
+                    etiket: l.muayeneKartiCita,
                     deger: cita.toString(),
                   ),
                 ),
@@ -3150,7 +3150,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 Expanded(
                   child: _performansMiniKarti(
                     ikon: Icons.hive_outlined,
-                    etiket: 'Yavrulu',
+                    etiket: l.muayeneKartiYavrulu,
                     deger: yavru.toString(),
                   ),
                 ),
@@ -3158,7 +3158,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
                 Expanded(
                   child: _performansMiniKarti(
                     ikon: Icons.inventory_2_outlined,
-                    etiket: 'Bal/Hasat',
+                    etiket: l.muayeneKartiBalHasat,
                     deger: bal.toString(),
                   ),
                 ),

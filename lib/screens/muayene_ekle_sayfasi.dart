@@ -212,8 +212,9 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   }
 
   Map<String, dynamic> _yavruYokPencereDurumunuHesapla(
-    List<Map<String, dynamic>> aktifSurecler,
-  ) {
+    List<Map<String, dynamic>> aktifSurecler, {
+    AppLocalizations? l,
+  }) {
     bool soruGoster = false;
     bool erkenPencere = false;
     String mesaj = '';
@@ -231,12 +232,12 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           erkenPencere = true;
           mesaj = baslik.isNotEmpty
               ? baslik
-              : 'Bu aşamada yavru görülmemesi normal olabilir.';
+              : (l?.muayeneYavruYokNormalBekleme ?? 'Bu aşamada yavru görülmemesi normal olabilir.');
         } else {
           soruGoster = true;
           mesaj = baslik.isNotEmpty
               ? baslik
-              : 'Yavru yokluğu için kısa tanı gözlemleri gerekli.';
+              : (l?.muayeneYavruYokTaniGerekli ?? 'Yavru yokluğu için kısa tanı gözlemleri gerekli.');
         }
         continue;
       }
@@ -254,7 +255,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
             birlesik.contains('erken olabilir')) {
           erkenPencere = true;
           if (mesaj.isEmpty) {
-            mesaj = 'Aktif biyolojik süreçte erken pencere olabilir.';
+            mesaj = l?.muayeneYavruYokErkenPencere ?? 'Aktif biyolojik süreçte erken pencere olabilir.';
           }
         }
 
@@ -265,7 +266,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           soruGoster = true;
           erkenPencere = false;
           if (mesaj.isEmpty) {
-            mesaj = 'Yavru yokluğu için kısa tanı gözlemleri gerekli.';
+            mesaj = l?.muayeneYavruYokTaniGerekli ?? 'Yavru yokluğu için kısa tanı gözlemleri gerekli.';
           }
         }
       }
@@ -279,6 +280,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
   }
 
   Future<void> _ustBilgiyiYukle() async {
+    final l = mounted ? AppLocalizations.of(context) : null;
     try {
       final koloni =
           await VeritabaniServisi.koloniOzetiGetir(widget.koloniDonemiId);
@@ -301,6 +303,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
           await VeritabaniServisi.suruplukKaldirmaPenceresiGetir(
         widget.koloniDonemiId,
         tarih: _tarih,
+        l: l,
       );
       final bool suruplukPencereAktif = suruplukPenceresi['aktif'] == true;
       final bool hasatBakimModuAktif = _hasatBakimModuAktif;
@@ -310,7 +313,7 @@ class _MuayeneEkleSayfasiState extends State<MuayeneEkleSayfasi> {
       final String suruplukMesaji =
           (suruplukPenceresi['mesaj'] ?? '').toString();
 
-      final yavruYokPencere = _yavruYokPencereDurumunuHesapla(aktifSurecler);
+      final yavruYokPencere = _yavruYokPencereDurumunuHesapla(aktifSurecler, l: l);
 
       setState(() {
         final dbKovanNo = (koloni['kovanNo'] ?? '').toString().trim();

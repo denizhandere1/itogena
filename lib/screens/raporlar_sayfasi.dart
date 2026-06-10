@@ -131,8 +131,9 @@ Future<_ArilikIstatistikHesabi> _arilikIstatistikHesapla(
 }
 
 Future<_BalPotansiyeliHesabi> _aktivasyonluBalliCitaPotansiyeliHesapla(
-    List<Map<String, dynamic>> koloniler,
-    ) async {
+    List<Map<String, dynamic>> koloniler, {
+    AppLocalizations? l,
+    }) async {
   // Tüm koloniler için modelleri aynı anda başlat — sequential await yerine paralel
   final sonuclar = await Future.wait(
     koloniler.map((koloni) async {
@@ -176,7 +177,8 @@ Future<_BalPotansiyeliHesabi> _aktivasyonluBalliCitaPotansiyeliHesapla(
     if (bilgiler.length < 5) {
       final kovanNo = (sonuc.koloni['kovanNo'] ?? '-').toString();
       bilgiler.add(
-        'Kovan $kovanNo: biyolojik modelde ${_ekFmt(sonuc.ham)} ballı pozisyon, aktivasyonla ${_ekFmt(sonuc.aktif)} çıta üretim hesabına alındı.',
+        l?.raporKovanBiyolModelBilgi(kovanNo, _ekFmt(sonuc.ham), _ekFmt(sonuc.aktif))
+          ?? 'Kovan $kovanNo: biyolojik modelde ${_ekFmt(sonuc.ham)} ballı pozisyon, aktivasyonla ${_ekFmt(sonuc.aktif)} çıta üretim hesabına alındı.',
       );
     }
   }
@@ -1194,6 +1196,7 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
   }
 
   Future<void> _verileriYukle() async {
+    final l = AppLocalizations.of(context);
     try {
       final ekonomikAriliCita = await VeritabaniServisi.ayarStringGetir(
         'ekonomik_arili_cita',
@@ -1218,6 +1221,7 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
 
       final balHesabi = await _aktivasyonluBalliCitaPotansiyeliHesapla(
         widget.aktifKoloniler,
+        l: l,
       );
       final balPotansiyeliMin = balHesabi.minKg;
       final balPotansiyeliMax = balHesabi.maxKg;

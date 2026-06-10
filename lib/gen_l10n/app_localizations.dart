@@ -578,6 +578,102 @@ abstract class AppLocalizations {
   /// **'pasif'**
   String get soyAgaciPasifDurum;
 
+  /// No description provided for @soyAgaciKovanAnaYilDurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan {kovanNo} · Ana {anaYili} ({durum})'**
+  String soyAgaciKovanAnaYilDurum(String kovanNo, String anaYili, String durum);
+
+  /// No description provided for @soyAgaciKovanDurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan {kovanNo} ({durum})'**
+  String soyAgaciKovanDurum(String kovanNo, String durum);
+
+  /// No description provided for @soyAgaciBilinmiyor.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilinmiyor'**
+  String get soyAgaciBilinmiyor;
+
+  /// No description provided for @soyAgaciKovanNo.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan {kovanNo}'**
+  String soyAgaciKovanNo(String kovanNo);
+
+  /// No description provided for @soyAgaciKaynakAnaYil.
+  ///
+  /// In tr, this message translates to:
+  /// **'{kaynakTipi} • Ana {anaYili}'**
+  String soyAgaciKaynakAnaYil(String kaynakTipi, String anaYili);
+
+  /// No description provided for @soyAgaciPasifBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'PASİF'**
+  String get soyAgaciPasifBadge;
+
+  /// No description provided for @soyAgaciSonCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son Çıta'**
+  String get soyAgaciSonCita;
+
+  /// No description provided for @soyAgaciMaxCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Max Çıta'**
+  String get soyAgaciMaxCita;
+
+  /// No description provided for @soyAgaciBalCitasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal Çıtası'**
+  String get soyAgaciBalCitasi;
+
+  /// No description provided for @soyAgaciTureyenEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Türeyen'**
+  String get soyAgaciTureyenEtiket;
+
+  /// No description provided for @soyAgaciIlkSahaEtiketi.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk saha etiketi'**
+  String get soyAgaciIlkSahaEtiketi;
+
+  /// No description provided for @soyAgaciSistemKimlik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem kimlik'**
+  String get soyAgaciSistemKimlik;
+
+  /// No description provided for @soyAgaciDurumEtiket.
+  ///
+  /// In tr, this message translates to:
+  /// **'Durum'**
+  String get soyAgaciDurumEtiket;
+
+  /// No description provided for @soyAgaciAktifMetin.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif'**
+  String get soyAgaciAktifMetin;
+
+  /// No description provided for @soyAgaciPasifMetin.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pasif'**
+  String get soyAgaciPasifMetin;
+
+  /// No description provided for @soyAgaciKoloniAnalizineGit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni analizine git'**
+  String get soyAgaciKoloniAnalizineGit;
+
   /// No description provided for @formullerBaslik.
   ///
   /// In tr, this message translates to:
@@ -1135,6 +1231,114 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Evet'**
   String get muayeneDetayEvet;
+
+  /// No description provided for @muayeneYavruDuzeniBlok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Blok'**
+  String get muayeneYavruDuzeniBlok;
+
+  /// No description provided for @muayeneYavruDuzeniNormal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Normal'**
+  String get muayeneYavruDuzeniNormal;
+
+  /// No description provided for @muayeneYavruDuzeniDaginik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dağınık'**
+  String get muayeneYavruDuzeniDaginik;
+
+  /// No description provided for @muayeneYavruDuzeniKambur.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kambur'**
+  String get muayeneYavruDuzeniKambur;
+
+  /// No description provided for @muayeneMizacSakin.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sakin'**
+  String get muayeneMizacSakin;
+
+  /// No description provided for @muayeneMizacSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sinirli'**
+  String get muayeneMizacSinirli;
+
+  /// No description provided for @muayeneMizacSaldirgan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saldırgan'**
+  String get muayeneMizacSaldirgan;
+
+  /// No description provided for @muayeneBesleme11Surup.
+  ///
+  /// In tr, this message translates to:
+  /// **'1:1 Şurup'**
+  String get muayeneBesleme11Surup;
+
+  /// No description provided for @muayeneBesleme21Surup.
+  ///
+  /// In tr, this message translates to:
+  /// **'2:1 Şurup'**
+  String get muayeneBesleme21Surup;
+
+  /// No description provided for @muayeneBeslemeKek.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kek'**
+  String get muayeneBeslemeKek;
+
+  /// No description provided for @muayeneBeslemeFondan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fondan'**
+  String get muayeneBeslemeFondan;
+
+  /// No description provided for @muayeneYavruYokNormalBekleme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu aşamada yavru görülmemesi normal olabilir.'**
+  String get muayeneYavruYokNormalBekleme;
+
+  /// No description provided for @muayeneYavruYokTaniGerekli.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavru yokluğu için kısa tanı gözlemleri gerekli.'**
+  String get muayeneYavruYokTaniGerekli;
+
+  /// No description provided for @muayeneYavruYokErkenPencere.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif biyolojik süreçte erken pencere olabilir.'**
+  String get muayeneYavruYokErkenPencere;
+
+  /// No description provided for @suruplukMesajAkimOncesi.
+  ///
+  /// In tr, this message translates to:
+  /// **'{etiket} başlangıcına {gun} gün kaldı. Şeker kalıntısı riskini azaltmak için beslemeyi sonlandır; şurupluğu kaldırıp yerine petek verebilirsin.'**
+  String suruplukMesajAkimOncesi(String etiket, int gun);
+
+  /// No description provided for @suruplukMesajAkimIcinde.
+  ///
+  /// In tr, this message translates to:
+  /// **'{etiket} dönemi içindesin. Şeker kalıntısı riskini azaltmak için besleme yapılmamalı; şurupluk kaldırılmış olmalı.'**
+  String suruplukMesajAkimIcinde(String etiket);
+
+  /// No description provided for @suruplukMesajUyariYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'{etiket} başlangıcına {gun} gün var. Şurupluk kaldırma uyarısı bal akımından {varsayilanGun} gün önce açılır.'**
+  String suruplukMesajUyariYok(String etiket, int gun, int varsayilanGun);
+
+  /// No description provided for @suruplukMesajAkimYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaklaşan aktif bal akımı penceresi bulunmadı. Hasat sonrası besleme döneminde şurupluk yeniden kullanılabilir.'**
+  String get suruplukMesajAkimYok;
 
   /// No description provided for @muayeneDetayKapaliMeme.
   ///
@@ -2126,6 +2330,48 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Muayene Ekle'**
   String get koloniDetayMuayeneEkle;
+
+  /// No description provided for @muayeneListeYok.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz muayene kaydı yok.\n\nAşağıdaki \"Muayene Ekle\" butonuyla ilk kaydı girebilirsin.'**
+  String get muayeneListeYok;
+
+  /// No description provided for @muayeneKartiDetayTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayene detayı'**
+  String get muayeneKartiDetayTooltip;
+
+  /// No description provided for @muayeneKartiDuzenleTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayeneyi düzenle'**
+  String get muayeneKartiDuzenleTooltip;
+
+  /// No description provided for @muayeneKartiSilTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Muayeneyi sil'**
+  String get muayeneKartiSilTooltip;
+
+  /// No description provided for @muayeneKartiCita.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıta'**
+  String get muayeneKartiCita;
+
+  /// No description provided for @muayeneKartiYavrulu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yavrulu'**
+  String get muayeneKartiYavrulu;
+
+  /// No description provided for @muayeneKartiBalHasat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bal/Hasat'**
+  String get muayeneKartiBalHasat;
 
   /// No description provided for @koloniDetayOzetSurec.
   ///
@@ -5721,6 +5967,60 @@ abstract class AppLocalizations {
   /// **'Türeyen koloniler var; ancak henüz en az 45 gün geçmiş yeterli veri oluşmamış.'**
   String get soyYorumVeriYetersiz;
 
+  /// No description provided for @soyYorumGuclu.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{yuzde} devamlılık. Güçlü soy.'**
+  String soyYorumGuclu(int yuzde);
+
+  /// No description provided for @soyYorumOlumlu.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{yuzde} devamlılık. Olumlu soy.'**
+  String soyYorumOlumlu(int yuzde);
+
+  /// No description provided for @soyYorumZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{yuzde} devamlılık. Zayıf soy.'**
+  String soyYorumZayif(int yuzde);
+
+  /// No description provided for @soyYorumRiskli.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{yuzde} devamlılık. Riskli soy.'**
+  String soyYorumRiskli(int yuzde);
+
+  /// No description provided for @soyYorumNotr.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{yuzde} devamlılık. Nötr soy.'**
+  String soyYorumNotr(int yuzde);
+
+  /// No description provided for @soyYorumVeriZayif.
+  ///
+  /// In tr, this message translates to:
+  /// **' Veri zayıf, dikkatli değerlendirilmeli.'**
+  String get soyYorumVeriZayif;
+
+  /// No description provided for @soyYorumVeriSinirli.
+  ///
+  /// In tr, this message translates to:
+  /// **' Veri sınırlı, izlenmeli.'**
+  String get soyYorumVeriSinirli;
+
+  /// No description provided for @soyYorumAktifSonen.
+  ///
+  /// In tr, this message translates to:
+  /// **' {aktif} aktif, {sonen} sönen türeyen koloni görülüyor.'**
+  String soyYorumAktifSonen(int aktif, int sonen);
+
+  /// No description provided for @soyYorumCokYeni.
+  ///
+  /// In tr, this message translates to:
+  /// **' {sayi} koloni değerlendirmeye alınamayacak kadar yeni görünüyor.'**
+  String soyYorumCokYeni(int sayi);
+
   /// No description provided for @hatKararVeriYetersiz.
   ///
   /// In tr, this message translates to:
@@ -6020,6 +6320,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Çok güçlü'**
   String get raporDurumCokGuclu;
+
+  /// No description provided for @raporDurumUretim.
+  ///
+  /// In tr, this message translates to:
+  /// **'Üretim'**
+  String get raporDurumUretim;
+
+  /// No description provided for @raporDurumDonorN.
+  ///
+  /// In tr, this message translates to:
+  /// **'Donör {sira}'**
+  String raporDurumDonorN(int sira);
+
+  /// No description provided for @raporKovanBiyolModelBilgi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kovan {kovanNo}: biyolojik modelde {ham} ballı pozisyon, aktivasyonla {aktif} çıta üretim hesabına alındı.'**
+  String raporKovanBiyolModelBilgi(String kovanNo, String ham, String aktif);
 
   /// No description provided for @trendMomPatlaYici.
   ///
