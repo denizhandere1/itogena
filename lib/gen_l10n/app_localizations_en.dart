@@ -110,6 +110,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get proYukselt => 'Upgrade to PRO';
 
   @override
+  String get proYukselmeSayfaBaslik => 'Itogena PRO';
+
+  @override
+  String get proYukselmeSayfaAltBaslik => 'Grow your apiaries without limits';
+
+  @override
+  String get proYukselmeYillik => 'Annual';
+
+  @override
+  String get proYukselmeYillikEnAvantajli => 'Best Value';
+
+  @override
+  String get proYukselmeAylik => 'Monthly';
+
+  @override
+  String get proYukselmeTasarruf => '17% savings';
+
+  @override
+  String get proYukselmeAboneOlYillik => 'Subscribe Annually';
+
+  @override
+  String get proYukselmeAboneOlAylik => 'Subscribe Monthly';
+
+  @override
+  String get proYukselmeGeriYukle => 'Restore Purchase';
+
+  @override
+  String get proYukselmeOtomatikYenileme =>
+      'Subscription renews automatically. Cancel anytime from the Play Store.';
+
+  @override
+  String get proYukselmeYakinda =>
+      'PRO subscription coming soon.\n\nAll features are available during the beta period.';
+
+  @override
+  String get proYukselmeGeriYuklemeYakinda =>
+      'Purchase restoration coming soon.';
+
+  @override
+  String get proOzellik1 => 'Unlimited colonies (free: 10)';
+
+  @override
+  String get proOzellik2 => 'Biological model — full analysis';
+
+  @override
+  String get proOzellik3 => 'Harvest projection';
+
+  @override
+  String get proOzellik4 => 'Performance reports';
+
+  @override
+  String get proOzellik5 => 'Line analysis';
+
+  @override
+  String get proOzellik6 => 'Colony comparison';
+
+  @override
+  String get proOzellik7 => 'Lineage tree';
+
+  @override
+  String get proOzellik8 => 'Multiple apiary management';
+
+  @override
+  String get proOzellik9 => 'Formulas and calculations';
+
+  @override
   String get anaSayfaAsistan => 'Your apiary assistant';
 
   @override

@@ -110,6 +110,72 @@ class AppLocalizationsTr extends AppLocalizations {
   String get proYukselt => 'PRO\'ya Yükselt';
 
   @override
+  String get proYukselmeSayfaBaslik => 'İtogena PRO';
+
+  @override
+  String get proYukselmeSayfaAltBaslik => 'Arılıklarınızı sınırsız büyütün';
+
+  @override
+  String get proYukselmeYillik => 'Yıllık';
+
+  @override
+  String get proYukselmeYillikEnAvantajli => 'En Avantajlı';
+
+  @override
+  String get proYukselmeAylik => 'Aylık';
+
+  @override
+  String get proYukselmeTasarruf => '%17 tasarruf';
+
+  @override
+  String get proYukselmeAboneOlYillik => 'Yıllık Abone Ol';
+
+  @override
+  String get proYukselmeAboneOlAylik => 'Aylık Abone Ol';
+
+  @override
+  String get proYukselmeGeriYukle => 'Satın Alımı Geri Yükle';
+
+  @override
+  String get proYukselmeOtomatikYenileme =>
+      'Abonelik otomatik olarak yenilenir. İstediğiniz zaman Play Store\'dan iptal edebilirsiniz.';
+
+  @override
+  String get proYukselmeYakinda =>
+      'PRO abonelik yakında kullanıma girecek.\n\nBeta sürecinde tüm özellikler açık tutulmaktadır.';
+
+  @override
+  String get proYukselmeGeriYuklemeYakinda =>
+      'Satın alım geri yükleme yakında kullanıma girecek.';
+
+  @override
+  String get proOzellik1 => 'Sınırsız koloni (ücretsiz: 10)';
+
+  @override
+  String get proOzellik2 => 'Biyolojik model — tam analiz';
+
+  @override
+  String get proOzellik3 => 'Hasat projeksiyonu';
+
+  @override
+  String get proOzellik4 => 'Performans raporları';
+
+  @override
+  String get proOzellik5 => 'Hat analizi';
+
+  @override
+  String get proOzellik6 => 'Koloni karşılaştırma';
+
+  @override
+  String get proOzellik7 => 'Soy ağacı';
+
+  @override
+  String get proOzellik8 => 'Çoklu arılık yönetimi';
+
+  @override
+  String get proOzellik9 => 'Formüller ve hesaplamalar';
+
+  @override
   String get anaSayfaAsistan => 'Arılıktaki asistanınız';
 
   @override

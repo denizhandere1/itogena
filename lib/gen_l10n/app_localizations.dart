@@ -296,6 +296,132 @@ abstract class AppLocalizations {
   /// **'PRO\'ya Yükselt'**
   String get proYukselt;
 
+  /// No description provided for @proYukselmeSayfaBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'İtogena PRO'**
+  String get proYukselmeSayfaBaslik;
+
+  /// No description provided for @proYukselmeSayfaAltBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arılıklarınızı sınırsız büyütün'**
+  String get proYukselmeSayfaAltBaslik;
+
+  /// No description provided for @proYukselmeYillik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yıllık'**
+  String get proYukselmeYillik;
+
+  /// No description provided for @proYukselmeYillikEnAvantajli.
+  ///
+  /// In tr, this message translates to:
+  /// **'En Avantajlı'**
+  String get proYukselmeYillikEnAvantajli;
+
+  /// No description provided for @proYukselmeAylik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aylık'**
+  String get proYukselmeAylik;
+
+  /// No description provided for @proYukselmeTasarruf.
+  ///
+  /// In tr, this message translates to:
+  /// **'%17 tasarruf'**
+  String get proYukselmeTasarruf;
+
+  /// No description provided for @proYukselmeAboneOlYillik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yıllık Abone Ol'**
+  String get proYukselmeAboneOlYillik;
+
+  /// No description provided for @proYukselmeAboneOlAylik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aylık Abone Ol'**
+  String get proYukselmeAboneOlAylik;
+
+  /// No description provided for @proYukselmeGeriYukle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın Alımı Geri Yükle'**
+  String get proYukselmeGeriYukle;
+
+  /// No description provided for @proYukselmeOtomatikYenileme.
+  ///
+  /// In tr, this message translates to:
+  /// **'Abonelik otomatik olarak yenilenir. İstediğiniz zaman Play Store\'dan iptal edebilirsiniz.'**
+  String get proYukselmeOtomatikYenileme;
+
+  /// No description provided for @proYukselmeYakinda.
+  ///
+  /// In tr, this message translates to:
+  /// **'PRO abonelik yakında kullanıma girecek.\n\nBeta sürecinde tüm özellikler açık tutulmaktadır.'**
+  String get proYukselmeYakinda;
+
+  /// No description provided for @proYukselmeGeriYuklemeYakinda.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın alım geri yükleme yakında kullanıma girecek.'**
+  String get proYukselmeGeriYuklemeYakinda;
+
+  /// No description provided for @proOzellik1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sınırsız koloni (ücretsiz: 10)'**
+  String get proOzellik1;
+
+  /// No description provided for @proOzellik2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Biyolojik model — tam analiz'**
+  String get proOzellik2;
+
+  /// No description provided for @proOzellik3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hasat projeksiyonu'**
+  String get proOzellik3;
+
+  /// No description provided for @proOzellik4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Performans raporları'**
+  String get proOzellik4;
+
+  /// No description provided for @proOzellik5.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hat analizi'**
+  String get proOzellik5;
+
+  /// No description provided for @proOzellik6.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni karşılaştırma'**
+  String get proOzellik6;
+
+  /// No description provided for @proOzellik7.
+  ///
+  /// In tr, this message translates to:
+  /// **'Soy ağacı'**
+  String get proOzellik7;
+
+  /// No description provided for @proOzellik8.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çoklu arılık yönetimi'**
+  String get proOzellik8;
+
+  /// No description provided for @proOzellik9.
+  ///
+  /// In tr, this message translates to:
+  /// **'Formüller ve hesaplamalar'**
+  String get proOzellik9;
+
   /// No description provided for @anaSayfaAsistan.
   ///
   /// In tr, this message translates to:

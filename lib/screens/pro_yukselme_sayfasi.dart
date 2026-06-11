@@ -17,17 +17,17 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
   static const String _yillikFiyat = '₺890/yıl';
   static const String _yillikAylikKarsiligi = '≈ ₺74,17/ay';
   static const String _aylikFiyat = '₺89/ay';
-  static const String _tasarrufYuzde = '%17 tasarruf';
 
-  static const List<String> _ozellikler = [
-    'Sınırsız koloni (ücretsiz: 10)',
-    'Biyolojik model — tam analiz',
-    'Hasat projeksiyonu',
-    'Performans raporları',
-    'Hat analizi',
-    'Koloni karşılaştırma',
-    'Soy ağacı',
-    'Çoklu arılık yönetimi',
+  List<String> _ozellikler(AppLocalizations l) => [
+    l.proOzellik1,
+    l.proOzellik2,
+    l.proOzellik3,
+    l.proOzellik4,
+    l.proOzellik5,
+    l.proOzellik6,
+    l.proOzellik7,
+    l.proOzellik8,
+    l.proOzellik9,
   ];
 
   @override
@@ -49,13 +49,13 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
           child: Column(
             children: [
-              _baslik(),
+              _baslik(l),
               const SizedBox(height: 24),
-              _ozelliklerKarti(),
+              _ozelliklerKarti(l),
               const SizedBox(height: 20),
-              _yillikKart(),
+              _yillikKart(l),
               const SizedBox(height: 10),
-              _aylikKart(),
+              _aylikKart(l),
               const SizedBox(height: 24),
               _aboneOlButonu(l),
               const SizedBox(height: 12),
@@ -67,7 +67,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
     );
   }
 
-  Widget _baslik() {
+  Widget _baslik(AppLocalizations l) {
     return Column(
       children: [
         Container(
@@ -84,9 +84,9 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
           ),
         ),
         const SizedBox(height: 14),
-        const Text(
-          'İtogena PRO',
-          style: TextStyle(
+        Text(
+          l.proYukselmeSayfaBaslik,
+          style: const TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.w900,
             color: Colors.black87,
@@ -94,7 +94,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
         ),
         const SizedBox(height: 6),
         Text(
-          'Arılıklarınızı sınırsız büyütün',
+          l.proYukselmeSayfaAltBaslik,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 14,
@@ -106,7 +106,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
     );
   }
 
-  Widget _ozelliklerKarti() {
+  Widget _ozelliklerKarti(AppLocalizations l) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -116,7 +116,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
         border: Border.all(color: Colors.amber.shade200),
       ),
       child: Column(
-        children: _ozellikler
+        children: _ozellikler(l)
             .map(
               (o) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
@@ -146,7 +146,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
     );
   }
 
-  Widget _yillikKart() {
+  Widget _yillikKart(AppLocalizations l) {
     final secili = _secili == _AbonelikTipi.yillik;
     return GestureDetector(
       onTap: () => setState(() => _secili = _AbonelikTipi.yillik),
@@ -185,9 +185,9 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
                 children: [
                   Row(
                     children: [
-                      const Text(
-                        'Yıllık',
-                        style: TextStyle(
+                      Text(
+                        l.proYukselmeYillik,
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
                         ),
@@ -202,9 +202,9 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
                           color: const Color(0xFFFFB300),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Text(
-                          'En Avantajlı',
-                          style: TextStyle(
+                        child: Text(
+                          l.proYukselmeYillikEnAvantajli,
+                          style: const TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w900,
                             color: Colors.white,
@@ -235,7 +235,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
                   ),
                 ),
                 Text(
-                  _tasarrufYuzde,
+                  l.proYukselmeTasarruf,
                   style: const TextStyle(
                     fontSize: 11,
                     color: Color(0xFF7B9B6B),
@@ -250,7 +250,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
     );
   }
 
-  Widget _aylikKart() {
+  Widget _aylikKart(AppLocalizations l) {
     final secili = _secili == _AbonelikTipi.aylik;
     return GestureDetector(
       onTap: () => setState(() => _secili = _AbonelikTipi.aylik),
@@ -274,10 +274,10 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
               color: secili ? const Color(0xFFFFB300) : Colors.grey.shade400,
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Aylık',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                l.proYukselmeAylik,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
               ),
             ),
             Text(
@@ -295,8 +295,8 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
 
   Widget _aboneOlButonu(AppLocalizations l) {
     final etiket = _secili == _AbonelikTipi.yillik
-        ? 'Yıllık Abone Ol — $_yillikFiyat'
-        : 'Aylık Abone Ol — $_aylikFiyat';
+        ? '${l.proYukselmeAboneOlYillik} — $_yillikFiyat'
+        : '${l.proYukselmeAboneOlAylik} — $_aylikFiyat';
 
     return SizedBox(
       width: double.infinity,
@@ -324,9 +324,9 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
       children: [
         TextButton(
           onPressed: _satinAlimiGeriYukle,
-          child: const Text(
-            'Satın Alımı Geri Yükle',
-            style: TextStyle(
+          child: Text(
+            l.proYukselmeGeriYukle,
+            style: const TextStyle(
               fontSize: 12,
               color: Colors.brown,
               fontWeight: FontWeight.w600,
@@ -336,7 +336,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
-            'Abonelik otomatik olarak yenilenir. İstediğiniz zaman Play Store\'dan iptal edebilirsiniz.',
+            l.proYukselmeOtomatikYenileme,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 11,
@@ -351,29 +351,27 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
 
   void _aboneOl() {
     // TODO: in_app_purchase entegrasyonu — bu blok değiştirilecek
-    // _secili == _AbonelikTipi.yillik
-    //   ? IapServisi.satin_al(yillikProductId)
-    //   : IapServisi.satin_al(aylikProductId);
+    final l = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.workspace_premium_outlined, color: Color(0xFFFFA000)),
-            SizedBox(width: 8),
-            Text('İtogena PRO'),
+            const Icon(Icons.workspace_premium_outlined, color: Color(0xFFFFA000)),
+            const SizedBox(width: 8),
+            Text(l.proYukselmeSayfaBaslik),
           ],
         ),
-        content: const Text(
-          'PRO abonelik yakında kullanıma girecek.\n\nBeta sürecinde tüm özellikler açık tutulmaktadır.',
-          style: TextStyle(height: 1.5),
+        content: Text(
+          l.proYukselmeYakinda,
+          style: const TextStyle(height: 1.5),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context).kapat),
+            child: Text(l.kapat),
           ),
         ],
       ),
@@ -382,9 +380,10 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
 
   void _satinAlimiGeriYukle() {
     // TODO: in_app_purchase.restorePurchases()
+    final l = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Satın alım geri yükleme yakında kullanıma girecek.'),
+      SnackBar(
+        content: Text(l.proYukselmeGeriYuklemeYakinda),
       ),
     );
   }
