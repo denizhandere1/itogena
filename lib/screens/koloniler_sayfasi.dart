@@ -31,7 +31,6 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   List<Map<String, dynamic>> _koloniler = [];
   bool _yukleniyor = true;
   bool _donorlerYukleniyor = false;
-  List<Map<String, dynamic>> _siraliDonorler = [];
   final Map<int, KoloniGridContext> _gridContextMap = {};
 
   final TextEditingController _aramaController = TextEditingController();
@@ -106,7 +105,6 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       _gridContextMap
         ..clear()
         ..addAll(baslangicContext);
-      _siraliDonorler = [];
       _donorRozetMap = {};
       _seciliKoloniIdleri.removeWhere(
             (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
@@ -193,7 +191,6 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       if (!mounted || token != _yuklemeToken) return;
 
       setState(() {
-        _siraliDonorler = siraliDonorler;
         _donorRozetMap = _donorMapOlustur(siraliDonorler);
         _donorlerYukleniyor = false;
       });
@@ -201,7 +198,6 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       if (!mounted || token != _yuklemeToken) return;
 
       setState(() {
-        _siraliDonorler = [];
         _donorRozetMap = {};
         _donorlerYukleniyor = false;
       });

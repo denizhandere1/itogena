@@ -936,8 +936,8 @@ class KararAsistanServisi {
             ? (l?.yonetimKontrolluBolmeBaslik ?? 'Genetik çoğaltma / kontrollü bölme penceresi')
             : (l?.yonetimSinirliiBolmeBaslik ?? 'Sınırlı bölme değerlendirmesi'),
         'mesaj': bolmeAnaPenceresi
-            ? (l?.kararBolmeGucluMesaj(balAkiminaKalanGun!) ?? 'Koloni güçlü gelişim gösteriyor ve bal akımına yaklaşık $balAkiminaKalanGun gün var. Kat seviyesine yaklaşmış olsa da bu süre içinde oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme değerlendirilebilir.')
-            : (l?.kararBolmeSinirliMesaj(balAkiminaKalanGun!) ?? 'Koloni güçlü; ancak bal akımına yaklaşık $balAkiminaKalanGun gün kaldığı için bölme kararı sınırlı ve dikkatli düşünülmeli. Ana koloni bala yetişemeyecekse bölme yerine alan/oğul yönetimi öne alınır.'),
+            ? (l?.kararBolmeGucluMesaj(balAkiminaKalanGun) ?? 'Koloni güçlü gelişim gösteriyor ve bal akımına yaklaşık $balAkiminaKalanGun gün var. Kat seviyesine yaklaşmış olsa da bu süre içinde oğul baskısı doğabilir; genetik değeri uygunsa kontrollü bölme değerlendirilebilir.')
+            : (l?.kararBolmeSinirliMesaj(balAkiminaKalanGun) ?? 'Koloni güçlü; ancak bal akımına yaklaşık $balAkiminaKalanGun gün kaldığı için bölme kararı sınırlı ve dikkatli düşünülmeli. Ana koloni bala yetişemeyecekse bölme yerine alan/oğul yönetimi öne alınır.'),
         'gerekce': l?.kararBolmeGerekce ?? 'Bölme kararı sadece çıta sayısı değildir: bal akımına kalan süre, gelişim yönü, yavru düzeni, işlevsel çıta ve genetik veto birlikte okundu.',
         'oncelik': bolmeAnaPenceresi ? 93 : 82,
         'tip': 'uyari',
