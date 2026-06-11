@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import '../utils/servis_metin_lokalizer.dart';
@@ -5,9 +6,11 @@ import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/koloni_grid_context.dart';
 import '../services/koloni_grid_context_servisi.dart';
+import '../services/premium_servisi.dart';
 import 'koloni_detay_sayfasi.dart';
 import 'yeni_koloni_sayfasi.dart';
 import 'karsilastirma_sayfasi.dart';
+import 'pro_yukselme_sayfasi.dart';
 
 class KolonilerSayfasi extends StatefulWidget {
   final String arilikAd;
@@ -33,6 +36,8 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
   final TextEditingController _aramaController = TextEditingController();
   String _hizliFiltre = 'tum';
+  Timer? _aramaTimer;
+  Map<int, String> _donorRozetMap = {};
 
   bool _karsilastirmaModu = false;
   final Set<int> _seciliKoloniIdleri = <int>{};
@@ -50,6 +55,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
   @override
   void dispose() {
+    _aramaTimer?.cancel();
     _aramaController.removeListener(_aramaDegisti);
     _aramaController.dispose();
     _tabController.dispose();
@@ -101,6 +107,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
         ..clear()
         ..addAll(baslangicContext);
       _siraliDonorler = [];
+      _donorRozetMap = {};
       _seciliKoloniIdleri.removeWhere(
             (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
       );
@@ -121,7 +128,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     required List<Map<String, dynamic>> koloniler,
     required Map<int, bool> aktiflikMap,
   }) async {
-    const int grupBoyutu = 6;
+    const int grupBoyutu = 20;
 
     for (var i = 0; i < koloniler.length; i += grupBoyutu) {
       if (!mounted || token != _yuklemeToken) return;
@@ -187,6 +194,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
       setState(() {
         _siraliDonorler = siraliDonorler;
+        _donorRozetMap = _donorMapOlustur(siraliDonorler);
         _donorlerYukleniyor = false;
       });
     } catch (_) {
@@ -194,6 +202,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
       setState(() {
         _siraliDonorler = [];
+        _donorRozetMap = {};
         _donorlerYukleniyor = false;
       });
     }
@@ -323,25 +332,28 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     return const Color(0xFFA7645E);
   }
 
-  String? _donorRozetiMetni(int koloniId) {
-    for (final item in _siraliDonorler) {
-      if (_toInt(item['koloniId']) == koloniId) {
-        final sira = _toInt(item['sira']);
-        if (sira == 1) return '1';
-        if (sira == 2) return '2';
-        if (sira == 3) return '3';
-        return 'D';
-      }
+  Map<int, String> _donorMapOlustur(List<Map<String, dynamic>> donorlar) {
+    final map = <int, String>{};
+    for (final item in donorlar) {
+      final id = _toInt(item['koloniId']);
+      if (id <= 0) continue;
+      final sira = _toInt(item['sira']);
+      map[id] = sira == 1 ? '1' : sira == 2 ? '2' : sira == 3 ? '3' : 'D';
     }
-    return null;
+    return map;
   }
 
+  String? _donorRozetiMetni(int koloniId) => _donorRozetMap[koloniId];
+
   void _aramaDegisti() {
-    if (!mounted) return;
-    setState(() {
-      _seciliKoloniIdleri.removeWhere(
-            (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
-      );
+    _aramaTimer?.cancel();
+    _aramaTimer = Timer(const Duration(milliseconds: 200), () {
+      if (!mounted) return;
+      setState(() {
+        _seciliKoloniIdleri.removeWhere(
+          (id) => !_aktifKoloniler.any((k) => _toInt(k['id']) == id),
+        );
+      });
     });
   }
 
@@ -534,7 +546,18 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
     }
   }
 
+  static const int _ucretsizKoloniLimiti = 10;
+
   Future<void> _yeniKovan() async {
+    if (!PremiumServisi.isPro &&
+        _aktifKoloniler.length >= _ucretsizKoloniLimiti) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ProYukselmeSayfasi()),
+      );
+      return;
+    }
+
     await Navigator.push(
       context,
       MaterialPageRoute(

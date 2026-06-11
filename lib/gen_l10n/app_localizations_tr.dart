@@ -1570,21 +1570,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.';
 
   @override
-  String get ayarlarGelistirici => 'GELİŞTİRİCİ';
+  String get ayarlarDestek => 'Destek & İletişim';
 
   @override
-  String get ayarlarProMod => 'PRO mod (test)';
-
-  @override
-  String get ayarlarProModAciklama =>
-      'PRO özellikleri kilit olmadan görüntüler.';
-
-  @override
-  String get ayarlarDilTest => 'Dil (test)';
-
-  @override
-  String get ayarlarDilAciklama =>
-      'Yalnızca lokalizasyon sistemine taşınan metinleri etkiler.';
+  String get ayarlarDestekAciklama =>
+      'Soru ve görüşlerin için destek@itogena.com adresine ulaşabilirsin.';
 
   @override
   String get ayarlarKaydedildi =>
@@ -2769,7 +2759,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'İTOGENA\'nın kişisel veri işleme, saklama ve kullanım politikasını aşağıdaki bağlantıdan okuyabilirsiniz.';
 
   @override
-  String get rehber20Link => 'itogaciftligi.com/itogena-gizlilik-politikasi';
+  String get rehber20Link => 'itogena.com/privacy';
 
   @override
   String get kolonGridYavruYok => 'Yavru yok';

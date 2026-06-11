@@ -441,7 +441,7 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             _madde(l.rehber20M1),
             GestureDetector(
               onTap: () => launchUrl(
-                Uri.parse('https://itogaciftligi.com/itogena-gizlilik-politikasi/'),
+                Uri.parse('https://itogena.com/privacy'),
                 mode: LaunchMode.externalApplication,
               ),
               child: Container(

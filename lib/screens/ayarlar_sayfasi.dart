@@ -9,9 +9,8 @@ import '../services/veritabani_servisi.dart';
 import '../services/karar_asistan_servisi.dart';
 import '../services/arilik_uyari_servisi.dart';
 import '../services/yedek_dosya_servisi.dart';
-import '../services/dil_servisi.dart';
+import '../services/yedek_servisi.dart';
 import '../services/guncelleme_servisi.dart';
-import '../services/premium_servisi.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
   const AyarlarSayfasi({super.key});
@@ -27,7 +26,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   bool _yukleniyor = true;
   bool _kaydediliyor = false;
   bool _yedekAliniyor = false;
-  bool _isPro = false;
   bool _yedekYukleniyor = false;
 
   String _kisBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_kis_baslangic');
@@ -61,7 +59,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _isPro = PremiumServisi.isPro;
     _ayarlariYukle();
   }
 
@@ -560,23 +557,82 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   Future<void> _yedektenYukle() async {
     if (_yedekYukleniyor || _yedekAliniyor) return;
 
+    // 1. Dosya seç ve metadata oku
+    YedekMeta? meta;
+    try {
+      meta = await YedekDosyaServisi.dosyaSecVeMetaOku();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Dosya okunamadı: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (meta == null) return; // kullanıcı iptal etti
+    final YedekMeta m = meta;
+
+    // 2. Yedek içeriğini gösteren onay dialogu
+    if (!mounted) return;
+    final l = AppLocalizations.of(context);
     final onay = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context).ayarlarGeriYukleBaslik),
-        content: Text(AppLocalizations.of(context).ayarlarGeriYukleIcerik),
+      builder: (ctx) => AlertDialog(
+        title: Text(l.ayarlarGeriYukleBaslik),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l.ayarlarGeriYukleIcerik),
+            const SizedBox(height: 16),
+            _yedekBilgiSatiri(
+              Icons.calendar_today_outlined,
+              Colors.blue,
+              'Tarih',
+              m.olusturmaTarihi,
+            ),
+            _yedekBilgiSatiri(
+              Icons.hive_outlined,
+              Colors.amber.shade800,
+              'Arılık',
+              '${m.arilikSayisi}',
+            ),
+            _yedekBilgiSatiri(
+              Icons.pest_control_outlined,
+              Colors.green.shade700,
+              'Koloni',
+              '${m.koloniSayisi}',
+            ),
+            _yedekBilgiSatiri(
+              Icons.fact_check_outlined,
+              Colors.indigo,
+              'Muayene',
+              '${m.muayeneSayisi}',
+            ),
+            if (m.uygulamaSurumu.isNotEmpty)
+              _yedekBilgiSatiri(
+                Icons.info_outline,
+                Colors.grey,
+                'Sürüm',
+                m.uygulamaSurumu,
+              ),
+          ],
+        ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(AppLocalizations.of(context).vazgec),
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(l.vazgec),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(AppLocalizations.of(context).ayarlarGeriYukleButon),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(l.ayarlarGeriYukleButon),
           ),
         ],
       ),
@@ -584,27 +640,54 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
 
     if (onay != true) return;
 
+    // 3. Geri yükle
     setState(() => _yedekYukleniyor = true);
     try {
-      await YedekDosyaServisi.yedekDosyasindanYukle();
+      await YedekDosyaServisi.metadenYukle(meta);
       await _ayarlariYukle();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context).ayarlarGeriYukleTamamlandi)),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).ayarlarGeriYukleTamamlandi),
+        ),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context).ayarlarGeriYukleHata(e.toString())),
+          content: Text(
+            AppLocalizations.of(context).ayarlarGeriYukleHata(e.toString()),
+          ),
           backgroundColor: Colors.red,
         ),
       );
     } finally {
-      if (mounted) {
-        setState(() => _yedekYukleniyor = false);
-      }
+      if (mounted) setState(() => _yedekYukleniyor = false);
     }
+  }
+
+  Widget _yedekBilgiSatiri(
+    IconData ikon,
+    Color renk,
+    String etiket,
+    String deger,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        children: [
+          Icon(ikon, size: 15, color: renk),
+          const SizedBox(width: 8),
+          Text(
+            '$etiket: ',
+            style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700),
+          ),
+          Expanded(
+            child: Text(deger, style: const TextStyle(fontSize: 12.5)),
+          ),
+        ],
+      ),
+    );
   }
 
 
@@ -1155,35 +1238,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   }
 
 
-  Widget _dilButonu(String etiket, String? kod) {
-    final secili = DilServisi.secilenKod() == (kod ?? 'sistem');
-    return Expanded(
-      child: GestureDetector(
-        onTap: () async {
-          await DilServisi.dilAyarla(kod);
-          setState(() {});
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            color: secili ? Colors.grey.shade700 : Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Center(
-            child: Text(
-              etiket,
-              style: TextStyle(
-                fontSize: 12.5,
-                fontWeight: FontWeight.w700,
-                color: secili ? Colors.white : Colors.black54,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _sistemIslemKarti({
     required String baslik,
     required String altMetin,
@@ -1269,77 +1323,18 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           ikon: Icons.privacy_tip_outlined,
           renk: Colors.teal,
           onTap: () => launchUrl(
-            Uri.parse('https://itogaciftligi.com/itogena-gizlilik-politikasi/'),
+            Uri.parse('https://itogena.com/privacy'),
             mode: LaunchMode.externalApplication,
           ),
         ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppLocalizations.of(context).ayarlarGelistirici,
-                style: const TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.grey,
-                  letterSpacing: 1,
-                ),
-              ),
-              const SizedBox(height: 8),
-              SwitchListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  AppLocalizations.of(context).ayarlarProMod,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text(
-                  AppLocalizations.of(context).ayarlarProModAciklama,
-                  style: const TextStyle(fontSize: 12),
-                ),
-                value: _isPro,
-                activeColor: const Color(0xFFFFB300),
-                onChanged: (deger) async {
-                  if (deger) {
-                    await PremiumServisi.proAktifEt();
-                  } else {
-                    await PremiumServisi.proIptalEt();
-                  }
-                  setState(() => _isPro = deger);
-                },
-              ),
-              const Divider(height: 16),
-              Text(
-                AppLocalizations.of(context).ayarlarDilTest,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                AppLocalizations.of(context).ayarlarDilAciklama,
-                style: const TextStyle(fontSize: 11.5, color: Colors.grey),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  _dilButonu('Sistem', null),
-                  const SizedBox(width: 8),
-                  _dilButonu('Türkçe', 'tr'),
-                  const SizedBox(width: 8),
-                  _dilButonu('English', 'en'),
-                ],
-              ),
-            ],
+        _sistemIslemKarti(
+          baslik: AppLocalizations.of(context).ayarlarDestek,
+          altMetin: AppLocalizations.of(context).ayarlarDestekAciklama,
+          ikon: Icons.mail_outline,
+          renk: Colors.blueGrey,
+          onTap: () => launchUrl(
+            Uri.parse('mailto:destek@itogena.com'),
+            mode: LaunchMode.externalApplication,
           ),
         ),
       ],

@@ -2841,35 +2841,17 @@ abstract class AppLocalizations {
   /// **'Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.'**
   String get ayarlarGizlilikAciklama;
 
-  /// No description provided for @ayarlarGelistirici.
+  /// No description provided for @ayarlarDestek.
   ///
   /// In tr, this message translates to:
-  /// **'GELİŞTİRİCİ'**
-  String get ayarlarGelistirici;
+  /// **'Destek & İletişim'**
+  String get ayarlarDestek;
 
-  /// No description provided for @ayarlarProMod.
+  /// No description provided for @ayarlarDestekAciklama.
   ///
   /// In tr, this message translates to:
-  /// **'PRO mod (test)'**
-  String get ayarlarProMod;
-
-  /// No description provided for @ayarlarProModAciklama.
-  ///
-  /// In tr, this message translates to:
-  /// **'PRO özellikleri kilit olmadan görüntüler.'**
-  String get ayarlarProModAciklama;
-
-  /// No description provided for @ayarlarDilTest.
-  ///
-  /// In tr, this message translates to:
-  /// **'Dil (test)'**
-  String get ayarlarDilTest;
-
-  /// No description provided for @ayarlarDilAciklama.
-  ///
-  /// In tr, this message translates to:
-  /// **'Yalnızca lokalizasyon sistemine taşınan metinleri etkiler.'**
-  String get ayarlarDilAciklama;
+  /// **'Soru ve görüşlerin için destek@itogena.com adresine ulaşabilirsin.'**
+  String get ayarlarDestekAciklama;
 
   /// No description provided for @ayarlarKaydedildi.
   ///
@@ -4818,7 +4800,7 @@ abstract class AppLocalizations {
   /// No description provided for @rehber20Link.
   ///
   /// In tr, this message translates to:
-  /// **'itogaciftligi.com/itogena-gizlilik-politikasi'**
+  /// **'itogena.com/privacy'**
   String get rehber20Link;
 
   /// No description provided for @kolonGridYavruYok.

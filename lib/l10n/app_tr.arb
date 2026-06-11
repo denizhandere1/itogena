@@ -637,11 +637,8 @@
   "ayarlarYedekUyari": "Yedekten yükleme mevcut veriyi tamamen değiştirir. Yüklemeden hemen önce yeni bir yedek almak en güvenli yaklaşımdır.",
   "ayarlarGizlilik": "Gizlilik Politikası",
   "ayarlarGizlilikAciklama": "Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.",
-  "ayarlarGelistirici": "GELİŞTİRİCİ",
-  "ayarlarProMod": "PRO mod (test)",
-  "ayarlarProModAciklama": "PRO özellikleri kilit olmadan görüntüler.",
-  "ayarlarDilTest": "Dil (test)",
-  "ayarlarDilAciklama": "Yalnızca lokalizasyon sistemine taşınan metinleri etkiler.",
+  "ayarlarDestek": "Destek & İletişim",
+  "ayarlarDestekAciklama": "Soru ve görüşlerin için destek@itogena.com adresine ulaşabilirsin.",
   "ayarlarKaydedildi": "Genel ayarlar tüm arılıklar için kaydedildi.",
   "ayarlarOzelKaydedildi": "{kapsam} arılığı için özel kalibrasyon kaydedildi.",
   "@ayarlarOzelKaydedildi": {
@@ -1042,7 +1039,7 @@
 
   "rehber20Baslik": "20. Gizlilik Politikası",
   "rehber20M1": "İTOGENA'nın kişisel veri işleme, saklama ve kullanım politikasını aşağıdaki bağlantıdan okuyabilirsiniz.",
-  "rehber20Link": "itogaciftligi.com/itogena-gizlilik-politikasi",
+  "rehber20Link": "itogena.com/privacy",
 
   "kolonGridYavruYok": "Yavru yok",
   "kolonGridMemeKontrol": "Meme kontrolü",

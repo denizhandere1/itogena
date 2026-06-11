@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:in_app_update/in_app_update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,6 +15,7 @@ class GuncellemeBilgisi {
   final String currentVersionName;
   final String mesaj;
   final String? hata;
+  final AppUpdateInfo? iapBilgisi;
 
   const GuncellemeBilgisi({
     required this.guncellemeVar,
@@ -28,6 +27,7 @@ class GuncellemeBilgisi {
     required this.currentVersionName,
     required this.mesaj,
     this.hata,
+    this.iapBilgisi,
   });
 
   bool get diyalogGoster => guncellemeVar || desteklenmeyenSurum;
@@ -68,87 +68,49 @@ class GuncellemeBilgisi {
 }
 
 class GuncellemeServisi {
-  static const String versionJsonUrl =
-      'https://itogaciftligi.com/itogena/version.json';
-
   static const String playStoreUrl =
       'https://play.google.com/store/apps/details?id=com.itogaciftligi.itogena';
 
-  static Future<GuncellemeBilgisi> kontrolEt({
-    String url = versionJsonUrl,
-    String dilKodu = 'tr',
-  }) async {
+  /// Play Store API üzerinden güncelleme kontrolü yapar.
+  /// Debug modda veya uygulama Play Store'da yayında değilken
+  /// sessizce "güncelleme yok" döner — crash veya hata snackbar'ı olmaz.
+  static Future<GuncellemeBilgisi> kontrolEt({String dilKodu = 'tr'}) async {
     final packageInfo = await PackageInfo.fromPlatform();
-    final int currentVersionCode =
+    final currentVersionCode =
         int.tryParse(packageInfo.buildNumber.trim()) ?? 0;
-    final String currentVersionName = packageInfo.version.trim();
+    final currentVersionName = packageInfo.version.trim();
 
     try {
-      final uri = Uri.parse(url);
-      final response = await http
-          .get(
-            uri,
-            headers: const {
-              'Cache-Control': 'no-cache',
-              'Pragma': 'no-cache',
-            },
-          )
-          .timeout(const Duration(seconds: 8));
+      final AppUpdateInfo info = await InAppUpdate.checkForUpdate();
 
-      if (response.statusCode != 200) {
-        return GuncellemeBilgisi.hata(
+      if (info.updateAvailability != UpdateAvailability.updateAvailable) {
+        return GuncellemeBilgisi.yok(
           currentVersionCode: currentVersionCode,
           currentVersionName: currentVersionName,
-          hata: 'Sunucu yanıtı alınamadı (${response.statusCode}).',
         );
       }
 
-      final dynamic decoded = jsonDecode(response.body);
-      if (decoded is! Map<String, dynamic>) {
-        return GuncellemeBilgisi.hata(
-          currentVersionCode: currentVersionCode,
-          currentVersionName: currentVersionName,
-          hata: 'version.json formatı geçersiz.',
-        );
-      }
-
-      final String latestVersionName =
-          (decoded['latestVersionName'] ?? '').toString().trim();
-      final int latestVersionCode =
-          int.tryParse((decoded['latestVersionCode'] ?? '').toString()) ?? 0;
-      final bool forceUpdate = decoded['forceUpdate'] == true;
-      final int minSupportedVersionCode =
-          int.tryParse((decoded['minSupportedVersionCode'] ?? '').toString()) ??
-              0;
-      final String messageTr = (decoded['messageTr'] ?? '').toString().trim();
-      final String messageEn = (decoded['messageEn'] ?? '').toString().trim();
-
-      final String mesaj = dilKodu.toLowerCase().startsWith('en')
-          ? (messageEn.isNotEmpty ? messageEn : messageTr)
-          : (messageTr.isNotEmpty ? messageTr : messageEn);
-
-      final bool desteklenmeyenSurum =
-          currentVersionCode < minSupportedVersionCode;
-      final bool guncellemeVar = latestVersionCode > currentVersionCode;
-      final bool zorunluGuncelleme = desteklenmeyenSurum || forceUpdate;
+      // Yalnızca immediate izinliyse (flexible değilse) zorunlu say.
+      // Her iki tip izinliyse kullanıcı dostu flexible tercih edilir.
+      final zorunlu =
+          info.immediateUpdateAllowed && !info.flexibleUpdateAllowed;
 
       return GuncellemeBilgisi(
-        guncellemeVar: guncellemeVar,
-        zorunluGuncelleme: zorunluGuncelleme,
-        desteklenmeyenSurum: desteklenmeyenSurum,
-        latestVersionName:
-            latestVersionName.isNotEmpty ? latestVersionName : currentVersionName,
-        latestVersionCode:
-            latestVersionCode > 0 ? latestVersionCode : currentVersionCode,
+        guncellemeVar: true,
+        zorunluGuncelleme: zorunlu,
+        desteklenmeyenSurum: false,
+        latestVersionName: '',
+        latestVersionCode: info.availableVersionCode ?? 0,
         currentVersionCode: currentVersionCode,
         currentVersionName: currentVersionName,
-        mesaj: mesaj,
+        mesaj: '',
+        iapBilgisi: info,
       );
-    } catch (e) {
-      return GuncellemeBilgisi.hata(
+    } catch (_) {
+      // Debug mod, emülatör veya Play Store dışı dağıtım — sessiz dön.
+      return GuncellemeBilgisi.yok(
         currentVersionCode: currentVersionCode,
         currentVersionName: currentVersionName,
-        hata: 'Güncelleme kontrolü yapılamadı: $e',
       );
     }
   }
@@ -178,30 +140,38 @@ class GuncellemeServisi {
               setState(() => islemde = true);
 
               try {
+                // Önce yedek al — mevcut veri her zaman korunur
                 await YedekDosyaServisi.yedekOlusturVePaylas();
 
                 if (!dialogContext.mounted) return;
 
                 ScaffoldMessenger.of(dialogContext).showSnackBar(
                   const SnackBar(
-                    content: Text(
-                      'Yedek hazırlandı. Güvenli bir yere kaydetmen önerilir.',
-                    ),
+                    content: Text('Yedek hazırlandı. Güncelleme başlatılıyor…'),
                   ),
                 );
 
-                final bool acildi = await playStoreSayfasiniAc();
-
-                if (!dialogContext.mounted) return;
-
-                if (!acildi) {
-                  ScaffoldMessenger.of(dialogContext).showSnackBar(
-                    const SnackBar(
-                      content: Text('Play Store açılamadı.'),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                  return;
+                final iap = bilgi.iapBilgisi;
+                if (iap != null) {
+                  if (zorunlu) {
+                    // Tam ekran zorunlu güncelleme — uygulama yeniden başlar
+                    await InAppUpdate.performImmediateUpdate();
+                  } else {
+                    // Arka planda indir, hazır olunca kur ve yeniden başlat
+                    await InAppUpdate.startFlexibleUpdate();
+                    await InAppUpdate.completeFlexibleUpdate();
+                  }
+                } else {
+                  // Yedek: Play Store sayfasını aç (IAP yoksa)
+                  final acildi = await playStoreSayfasiniAc();
+                  if (!acildi && dialogContext.mounted) {
+                    ScaffoldMessenger.of(dialogContext).showSnackBar(
+                      const SnackBar(
+                        content: Text('Play Store açılamadı.'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 }
 
                 if (!zorunlu && dialogContext.mounted) {
@@ -211,7 +181,7 @@ class GuncellemeServisi {
                 if (!dialogContext.mounted) return;
                 ScaffoldMessenger.of(dialogContext).showSnackBar(
                   SnackBar(
-                    content: Text('Yedek alma / güncelleme akışı başarısız: $e'),
+                    content: Text('Güncelleme başarısız: $e'),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -237,21 +207,14 @@ class GuncellemeServisi {
                       'Mevcut sürüm: ${bilgi.currentVersionName} (${bilgi.currentVersionCode})',
                       style: const TextStyle(fontSize: 13, height: 1.4),
                     ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Yeni sürüm: ${bilgi.latestVersionName} (${bilgi.latestVersionCode})',
-                      style: const TextStyle(fontSize: 13, height: 1.4),
-                    ),
                     const SizedBox(height: 12),
-                    Text(
-                      bilgi.mesaj.isNotEmpty
-                          ? bilgi.mesaj
-                          : 'Yeni sürüm hazır. Güncellemeden önce yedek alman önerilir.',
-                      style: const TextStyle(fontSize: 13, height: 1.45),
+                    const Text(
+                      'Yeni sürüm kullanıma girdi. Güncellemeden önce yedek alman önerilir.',
+                      style: TextStyle(fontSize: 13, height: 1.45),
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Güncellemeden önce otomatik JSON yedeği hazırlanır, ardından Play Store açılır.',
+                      '"Yedek Al ve Güncelle" butonuna bastığında JSON yedeği otomatik hazırlanır, ardından güncelleme başlar.',
                       style: TextStyle(
                         fontSize: 12,
                         height: 1.4,
@@ -275,9 +238,8 @@ class GuncellemeServisi {
                 actions: [
                   if (!zorunlu)
                     TextButton(
-                      onPressed: islemde
-                          ? null
-                          : () => Navigator.of(dialogContext).pop(),
+                      onPressed:
+                          islemde ? null : () => Navigator.of(dialogContext).pop(),
                       child: const Text('SONRA'),
                     ),
                   ElevatedButton(

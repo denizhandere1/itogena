@@ -724,6 +724,20 @@ class VeritabaniServisi {
   static Future<Map<int, Map<String, dynamic>>> arilikOzetleriGetir() async {
     final dbClient = await db;
     final ariliklar = await dbClient.query('ariliklar', orderBy: 'id ASC');
+    if (ariliklar.isEmpty) return {};
+
+    // Tüm kolonileri tek sorguda çek; aktifliği toplu sorgula.
+    // Eski yöntem N×M sorgu yapıyordu (arılık × koloni başına ayrı query).
+    final tumKoloniler = await dbClient.query(
+      'koloniler',
+      columns: ['id', 'arilikId', 'durum', 'skor'],
+    );
+
+    final koloniIdleri = tumKoloniler
+        .map((k) => _toInt(k['id']))
+        .where((id) => id > 0)
+        .toList();
+    final aktiflikMap = await koloniAktiflikHaritasiGetir(koloniIdleri);
 
     final Map<int, Map<String, dynamic>> sonuc = {};
 
@@ -731,12 +745,9 @@ class VeritabaniServisi {
       final arilikId = _toInt(arilik['id']);
       if (arilikId <= 0) continue;
 
-      final koloniler = await dbClient.query(
-        'koloniler',
-        columns: ['id', 'durum', 'skor'],
-        where: 'arilikId = ?',
-        whereArgs: [arilikId],
-      );
+      final koloniler = tumKoloniler
+          .where((k) => _toInt(k['arilikId']) == arilikId)
+          .toList();
 
       final toplam = koloniler.length;
       int aktif = 0;
@@ -745,9 +756,8 @@ class VeritabaniServisi {
 
       for (final koloni in koloniler) {
         final koloniId = _toInt(koloni['id']);
-        final aktifMi = koloniId > 0
-            ? await _koloniAktifMiDb(dbClient, koloniId, koloniKaydi: koloni)
-            : !sonmusDurumMu(koloni['durum']);
+        final aktifMi =
+            aktiflikMap[koloniId] ?? !sonmusDurumMu(koloni['durum']);
 
         if (aktifMi) {
           aktif++;

@@ -8,6 +8,24 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'karar_asistan_servisi.dart';
 import 'veritabani_servisi.dart';
 
+class YedekMeta {
+  final String olusturmaTarihi;
+  final String uygulamaSurumu;
+  final int arilikSayisi;
+  final int koloniSayisi;
+  final int muayeneSayisi;
+  final String jsonIcerigi;
+
+  const YedekMeta({
+    required this.olusturmaTarihi,
+    required this.uygulamaSurumu,
+    required this.arilikSayisi,
+    required this.koloniSayisi,
+    required this.muayeneSayisi,
+    required this.jsonIcerigi,
+  });
+}
+
 class YedekServisi {
   static const String uygulamaAdi = 'itogena';
   static const int yedekFormatVersiyonu = 4;
@@ -25,6 +43,57 @@ class YedekServisi {
     'koloni_numara_gecmisi',
     'ayarlar',
   ];
+
+  static const List<String> _aylar = [
+    '', 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+  ];
+
+  static String _tarihiFormatla(String isoStr) {
+    final dt = DateTime.tryParse(isoStr);
+    if (dt == null) return isoStr;
+    final saat = dt.hour.toString().padLeft(2, '0');
+    final dakika = dt.minute.toString().padLeft(2, '0');
+    return '${dt.day} ${_aylar[dt.month]} ${dt.year}, $saat:$dakika';
+  }
+
+  static YedekMeta jsonMetaOku(String jsonStr) {
+    final dynamic ham;
+    try {
+      ham = jsonDecode(jsonStr);
+    } catch (_) {
+      throw Exception('Yedek dosyası okunamadı — JSON formatı bozuk.');
+    }
+
+    if (ham is! Map<String, dynamic>) {
+      throw Exception('Yedek dosyası beklenen formatta değil.');
+    }
+
+    final meta = ham['meta'];
+    if (meta is! Map<String, dynamic>) {
+      throw Exception('Yedek dosyasında meta bilgisi bulunamadı.');
+    }
+
+    final data = ham['data'];
+    final arilikSayisi = data is Map
+        ? ((data['ariliklar'] as List?)?.length ?? 0)
+        : 0;
+    final koloniSayisi = data is Map
+        ? ((data['koloniler'] as List?)?.length ?? 0)
+        : 0;
+    final muayeneSayisi = data is Map
+        ? ((data['muayeneler'] as List?)?.length ?? 0)
+        : 0;
+
+    return YedekMeta(
+      olusturmaTarihi: _tarihiFormatla((meta['createdAt'] ?? '').toString()),
+      uygulamaSurumu: (meta['appVersionName'] ?? '').toString().trim(),
+      arilikSayisi: arilikSayisi,
+      koloniSayisi: koloniSayisi,
+      muayeneSayisi: muayeneSayisi,
+      jsonIcerigi: jsonStr,
+    );
+  }
 
   static Future<String> yedekAl() async {
     final db = await VeritabaniServisi.db;
@@ -144,14 +213,16 @@ class YedekServisi {
     final currentAppVersionCode =
         int.tryParse(packageInfo.buildNumber.trim()) ?? appVersionCode;
 
+    final yedekSurumEtiketi = backupAppVersionName.isEmpty
+        ? 'v$backupAppVersionCode'
+        : backupAppVersionName;
+
     if (backupVersion < yedekFormatVersiyonu ||
         backupSchemaVersion < schemaVersion ||
         backupDbVersion < veritabaniVersiyonu) {
       throw Exception(
-        'Bu yedek eski bir İTOGENA sürümüne ait. '
-        'Veri kaybı veya eksik alan riski nedeniyle otomatik yükleme durduruldu. '
-        'Yedek: format $backupVersion, şema $backupSchemaVersion, DB $backupDbVersion. '
-        'Gerekli: format $yedekFormatVersiyonu, şema $schemaVersion, DB $veritabaniVersiyonu.',
+        'Bu yedek ($yedekSurumEtiketi) eski bir uygulama sürümüyle oluşturulmuş '
+        've bu sürümle uyumsuz. Farklı bir yedek dene.',
       );
     }
 
@@ -159,21 +230,15 @@ class YedekServisi {
         backupSchemaVersion > schemaVersion ||
         backupDbVersion > veritabaniVersiyonu) {
       throw Exception(
-        'Bu yedek daha yeni bir İTOGENA sürümünde oluşturulmuş. '
-        'Önce uygulamayı güncellemelisin. '
-        'Yedek: format $backupVersion, şema $backupSchemaVersion, DB $backupDbVersion. '
-        'Bu uygulama: format $yedekFormatVersiyonu, şema $schemaVersion, DB $veritabaniVersiyonu.',
+        'Bu yedek daha yeni bir sürümle ($yedekSurumEtiketi) oluşturulmuş. '
+        'İTOGENA\'yı güncelle ve ardından tekrar dene.',
       );
     }
 
     if (backupAppVersionCode > currentAppVersionCode) {
-      final yedekSurum = backupAppVersionName.isEmpty
-          ? backupAppVersionCode.toString()
-          : '$backupAppVersionName ($backupAppVersionCode)';
       throw Exception(
-        'Bu yedek daha yeni bir uygulama sürümünde oluşturulmuş. '
-        'Yedek sürümü: $yedekSurum. '
-        'Önce uygulamayı güncellemelisin.',
+        'Bu yedek daha yeni bir sürümle ($yedekSurumEtiketi) oluşturulmuş. '
+        'İTOGENA\'yı güncelle ve ardından tekrar dene.',
       );
     }
   }

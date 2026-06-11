@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itogena_v45/gen_l10n/app_localizations.dart';
+import 'package:itogena_v45/screens/pro_yukselme_sayfasi.dart';
 import 'package:itogena_v45/services/premium_servisi.dart';
 
 // Belirli bir kartı/bölümü kilitler — içeriği soluk gösterir, üstüne kilit overlay'i koyar
@@ -132,28 +133,9 @@ class _KilitOverlay extends StatelessWidget {
   }
 
   void _yukseltDialoguGoster(BuildContext context, AppLocalizations l10n) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
-          children: [
-            const Icon(Icons.workspace_premium_outlined, color: Color(0xFFFFA000)),
-            const SizedBox(width: 8),
-            Text(l10n.proRozeti),
-          ],
-        ),
-        content: const Text(
-          'PRO abonelik yakında kullanıma girecek.\n\nBeta sürecinde tüm özellikler açık tutulmaktadır.',
-          style: TextStyle(height: 1.5),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(l10n.kapat),
-          ),
-        ],
-      ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const ProYukselmeSayfasi()),
     );
   }
 }

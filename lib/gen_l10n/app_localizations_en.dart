@@ -1566,20 +1566,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'View app data usage and privacy principles.';
 
   @override
-  String get ayarlarGelistirici => 'DEVELOPER';
+  String get ayarlarDestek => 'Support & Contact';
 
   @override
-  String get ayarlarProMod => 'PRO mode (test)';
-
-  @override
-  String get ayarlarProModAciklama => 'Displays PRO features without lock.';
-
-  @override
-  String get ayarlarDilTest => 'Language (test)';
-
-  @override
-  String get ayarlarDilAciklama =>
-      'Only affects texts that have been migrated to the localization system.';
+  String get ayarlarDestekAciklama =>
+      'For questions and feedback, reach us at destek@itogena.com.';
 
   @override
   String get ayarlarKaydedildi => 'General settings saved for all apiaries.';
@@ -2772,7 +2763,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'You can read İTOGENA\'s personal data processing, storage and usage policy at the link below.';
 
   @override
-  String get rehber20Link => 'itogaciftligi.com/itogena-gizlilik-politikasi';
+  String get rehber20Link => 'itogena.com/privacy';
 
   @override
   String get kolonGridYavruYok => 'No brood';

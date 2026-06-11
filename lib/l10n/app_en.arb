@@ -490,11 +490,8 @@
   "ayarlarYedekUyari": "Restoring from backup completely replaces current data. Taking a new backup immediately before loading is the safest approach.",
   "ayarlarGizlilik": "Privacy Policy",
   "ayarlarGizlilikAciklama": "View app data usage and privacy principles.",
-  "ayarlarGelistirici": "DEVELOPER",
-  "ayarlarProMod": "PRO mode (test)",
-  "ayarlarProModAciklama": "Displays PRO features without lock.",
-  "ayarlarDilTest": "Language (test)",
-  "ayarlarDilAciklama": "Only affects texts that have been migrated to the localization system.",
+  "ayarlarDestek": "Support & Contact",
+  "ayarlarDestekAciklama": "For questions and feedback, reach us at destek@itogena.com.",
   "ayarlarKaydedildi": "General settings saved for all apiaries.",
   "ayarlarOzelKaydedildi": "Custom calibration saved for {kapsam} apiary.",
   "ayarlarGeriYukleIcerik": "This operation completely replaces current data with the selected backup. It is recommended to take a current backup before proceeding. Start loading now?",
@@ -850,7 +847,7 @@
 
   "rehber20Baslik": "20. Privacy Policy",
   "rehber20M1": "You can read İTOGENA's personal data processing, storage and usage policy at the link below.",
-  "rehber20Link": "itogaciftligi.com/itogena-gizlilik-politikasi",
+  "rehber20Link": "itogena.com/privacy",
 
   "kolonGridYavruYok": "No brood",
   "kolonGridMemeKontrol": "Cell check",

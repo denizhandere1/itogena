@@ -27,7 +27,7 @@ dependencies:
   file_picker: ^8.0.0
 
   # GÜNCELLEME SİSTEMİ
-  http: ^1.2.0
+  in_app_update: ^4.2.3
   url_launcher: ^6.3.1
   package_info_plus: ^8.3.1
   speech_to_text: ^7.0.0
