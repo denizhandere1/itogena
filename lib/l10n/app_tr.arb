@@ -872,7 +872,10 @@
   "rehberProOzellik": "Özellik",
   "rehberProUcretsiz": "Ücretsiz",
   "rehberProPRO": "PRO",
-  "rehberProS1": "Sınırsız koloni kaydı",
+  "rehberProS1": "Koloni kaydı (en fazla 10)",
+  "rehberProS1b": "Sınırsız koloni",
+  "rehberProS1c": "Tek arılık yönetimi",
+  "rehberProS1d": "Çoklu arılık yönetimi",
   "rehberProS2": "Muayene formu ve geçmiş",
   "rehberProS3": "Kovan yerleşim görseli",
   "rehberProS4": "Tahmini arı sayısı",
@@ -901,7 +904,7 @@
   "rehber1M8": "Muayene, koloni veya arılık verisi değiştiğinde tüm önbellekler birlikte temizlenir; eski kararın ekranda kalma riski azaltılır.",
 
   "rehber2Baslik": "2. Ücretsiz ve PRO",
-  "rehber2Kutu": "ITOGENA'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Derin analiz, risk izleme, hasat tahmini ve raporlama PRO kapsamındadır.",
+  "rehber2Kutu": "İTOGENA'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir. Derin analiz, risk izleme, hasat tahmini, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.",
 
   "rehber3Baslik": "3. Sistem Çıtadan Ne Anlar?",
   "rehber3M1": "Çıta sayısı koloni gücünün temel saha göstergesidir; tek başına kesin karar değildir.",

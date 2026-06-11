@@ -680,7 +680,10 @@
   "rehberProOzellik": "Feature",
   "rehberProUcretsiz": "Free",
   "rehberProPRO": "PRO",
-  "rehberProS1": "Unlimited colony records",
+  "rehberProS1": "Colony records (up to 10)",
+  "rehberProS1b": "Unlimited colonies",
+  "rehberProS1c": "Single apiary management",
+  "rehberProS1d": "Multiple apiary management",
   "rehberProS2": "Inspection form and history",
   "rehberProS3": "Hive layout visual",
   "rehberProS4": "Estimated bee count",
@@ -709,7 +712,7 @@
   "rehber1M8": "When inspection, colony or apiary data changes, all caches are cleared together; the risk of an old decision remaining on screen is reduced.",
 
   "rehber2Baslik": "2. Free and PRO",
-  "rehber2Kutu": "You can use ITOGENA for free for inspection records and basic colony tracking. Deep analysis, risk monitoring, harvest estimation and reporting are PRO features.",
+  "rehber2Kutu": "You can use ITOGENA for free for inspection records and basic colony tracking. The free tier supports up to 10 colonies and 1 apiary. Deep analysis, risk monitoring, harvest estimation, reporting, and unlimited colonies/apiaries are PRO features.",
 
   "rehber3Baslik": "3. What Does the System Read from Frames?",
   "rehber3M1": "Frame count is the primary field indicator of colony strength; it is not a definitive decision on its own.",

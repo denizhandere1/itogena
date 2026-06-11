@@ -3918,8 +3918,26 @@ abstract class AppLocalizations {
   /// No description provided for @rehberProS1.
   ///
   /// In tr, this message translates to:
-  /// **'Sınırsız koloni kaydı'**
+  /// **'Koloni kaydı (en fazla 10)'**
   String get rehberProS1;
+
+  /// No description provided for @rehberProS1b.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sınırsız koloni'**
+  String get rehberProS1b;
+
+  /// No description provided for @rehberProS1c.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tek arılık yönetimi'**
+  String get rehberProS1c;
+
+  /// No description provided for @rehberProS1d.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çoklu arılık yönetimi'**
+  String get rehberProS1d;
 
   /// No description provided for @rehberProS2.
   ///
@@ -4080,7 +4098,7 @@ abstract class AppLocalizations {
   /// No description provided for @rehber2Kutu.
   ///
   /// In tr, this message translates to:
-  /// **'ITOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Derin analiz, risk izleme, hasat tahmini ve raporlama PRO kapsamındadır.'**
+  /// **'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir. Derin analiz, risk izleme, hasat tahmini, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.'**
   String get rehber2Kutu;
 
   /// No description provided for @rehber3Baslik.

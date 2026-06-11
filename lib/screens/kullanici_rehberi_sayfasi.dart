@@ -88,6 +88,9 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final satirlar = <List<Object>>[
       [l.rehberProS1, true, true],
+      [l.rehberProS1b, false, true],
+      [l.rehberProS1c, true, true],
+      [l.rehberProS1d, false, true],
       [l.rehberProS2, true, true],
       [l.rehberProS3, true, true],
       [l.rehberProS4, true, true],

@@ -2209,7 +2209,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rehberProPRO => 'PRO';
 
   @override
-  String get rehberProS1 => 'Unlimited colony records';
+  String get rehberProS1 => 'Colony records (up to 10)';
+
+  @override
+  String get rehberProS1b => 'Unlimited colonies';
+
+  @override
+  String get rehberProS1c => 'Single apiary management';
+
+  @override
+  String get rehberProS1d => 'Multiple apiary management';
 
   @override
   String get rehberProS2 => 'Inspection form and history';
@@ -2300,7 +2309,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rehber2Kutu =>
-      'You can use ITOGENA for free for inspection records and basic colony tracking. Deep analysis, risk monitoring, harvest estimation and reporting are PRO features.';
+      'You can use ITOGENA for free for inspection records and basic colony tracking. The free tier supports up to 10 colonies and 1 apiary. Deep analysis, risk monitoring, harvest estimation, reporting, and unlimited colonies/apiaries are PRO features.';
 
   @override
   String get rehber3Baslik => '3. What Does the System Read from Frames?';

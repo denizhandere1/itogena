@@ -2210,7 +2210,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get rehberProPRO => 'PRO';
 
   @override
-  String get rehberProS1 => 'Sınırsız koloni kaydı';
+  String get rehberProS1 => 'Koloni kaydı (en fazla 10)';
+
+  @override
+  String get rehberProS1b => 'Sınırsız koloni';
+
+  @override
+  String get rehberProS1c => 'Tek arılık yönetimi';
+
+  @override
+  String get rehberProS1d => 'Çoklu arılık yönetimi';
 
   @override
   String get rehberProS2 => 'Muayene formu ve geçmiş';
@@ -2301,7 +2310,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get rehber2Kutu =>
-      'ITOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Derin analiz, risk izleme, hasat tahmini ve raporlama PRO kapsamındadır.';
+      'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir. Derin analiz, risk izleme, hasat tahmini, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.';
 
   @override
   String get rehber3Baslik => '3. Sistem Çıtadan Ne Anlar?';
