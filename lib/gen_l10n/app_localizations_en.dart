@@ -1351,6 +1351,46 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get guncellemeDiyalogZorunluBaslik => 'UPDATE REQUIRED';
+
+  @override
+  String get guncellemeDiyalogYeniBaslik => 'NEW VERSION AVAILABLE';
+
+  @override
+  String guncellemeDiyalogMevcutSurum(String surum, int kod) {
+    return 'Current version: $surum ($kod)';
+  }
+
+  @override
+  String get guncellemeDiyalogMesaj =>
+      'A new version is now available. We recommend taking a backup before updating.';
+
+  @override
+  String get guncellemeDiyalogAciklama =>
+      'When you tap \"Backup & Update\", a JSON backup is automatically created and then the update begins.';
+
+  @override
+  String get guncellemeDiyalogDesteklenmeyenSurum =>
+      'This version is no longer supported. You must update to continue.';
+
+  @override
+  String get guncellemeDiyalogSonra => 'LATER';
+
+  @override
+  String get guncellemeDiyalogButon => 'BACKUP & UPDATE';
+
+  @override
+  String get guncellemeDiyalogYedekHazir => 'Backup ready. Starting update…';
+
+  @override
+  String get guncellemeDiyalogPlayStoreHata => 'Could not open Play Store.';
+
+  @override
+  String guncellemeDiyalogBasarisiz(String hata) {
+    return 'Update failed: $hata';
+  }
+
+  @override
   String get ayarlarKalibrasyonTamam =>
       'Apiary calibration defined. System can use season and honey flow context.';
 
@@ -1552,7 +1592,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ayarlarGuncelleKontrolAciklama =>
-      'If a new version is available, first prompts for backup, then opens the secure APK link.';
+      'If a new version is available, first prompts for backup, then starts the update via Play Store.';
 
   @override
   String get ayarlarYedekUyari =>

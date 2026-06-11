@@ -1355,6 +1355,47 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get guncellemeDiyalogZorunluBaslik => 'GÜNCELLEME GEREKLİ';
+
+  @override
+  String get guncellemeDiyalogYeniBaslik => 'YENİ SÜRÜM HAZIR';
+
+  @override
+  String guncellemeDiyalogMevcutSurum(String surum, int kod) {
+    return 'Mevcut sürüm: $surum ($kod)';
+  }
+
+  @override
+  String get guncellemeDiyalogMesaj =>
+      'Yeni sürüm kullanıma girdi. Güncellemeden önce yedek alman önerilir.';
+
+  @override
+  String get guncellemeDiyalogAciklama =>
+      '\"Yedek Al ve Güncelle\" butonuna bastığında JSON yedeği otomatik hazırlanır, ardından güncelleme başlar.';
+
+  @override
+  String get guncellemeDiyalogDesteklenmeyenSurum =>
+      'Bu sürüm artık desteklenmiyor. Devam etmek için güncelleme yapmalısın.';
+
+  @override
+  String get guncellemeDiyalogSonra => 'SONRA';
+
+  @override
+  String get guncellemeDiyalogButon => 'YEDEK AL VE GÜNCELLE';
+
+  @override
+  String get guncellemeDiyalogYedekHazir =>
+      'Yedek hazırlandı. Güncelleme başlatılıyor…';
+
+  @override
+  String get guncellemeDiyalogPlayStoreHata => 'Play Store açılamadı.';
+
+  @override
+  String guncellemeDiyalogBasarisiz(String hata) {
+    return 'Güncelleme başarısız: $hata';
+  }
+
+  @override
   String get ayarlarKalibrasyonTamam =>
       'Arılık kalibrasyonu tanımlı. Sistem sezon ve bal akımı bağlamını kullanabilir.';
 
@@ -1556,7 +1597,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get ayarlarGuncelleKontrolAciklama =>
-      'Yeni sürüm varsa önce yedek aldırır, ardından güvenli APK bağlantısını açar.';
+      'Yeni sürüm varsa önce yedek aldırır, ardından Play Store üzerinden güncelleme başlatır.';
 
   @override
   String get ayarlarYedekUyari =>

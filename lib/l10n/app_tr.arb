@@ -565,6 +565,23 @@
   "@ayarlarGuncellemHata": {
     "placeholders": { "hata": { "type": "String" } }
   },
+  "guncellemeDiyalogZorunluBaslik": "GÜNCELLEME GEREKLİ",
+  "guncellemeDiyalogYeniBaslik": "YENİ SÜRÜM HAZIR",
+  "guncellemeDiyalogMevcutSurum": "Mevcut sürüm: {surum} ({kod})",
+  "@guncellemeDiyalogMevcutSurum": {
+    "placeholders": { "surum": { "type": "String" }, "kod": { "type": "int" } }
+  },
+  "guncellemeDiyalogMesaj": "Yeni sürüm kullanıma girdi. Güncellemeden önce yedek alman önerilir.",
+  "guncellemeDiyalogAciklama": "\"Yedek Al ve Güncelle\" butonuna bastığında JSON yedeği otomatik hazırlanır, ardından güncelleme başlar.",
+  "guncellemeDiyalogDesteklenmeyenSurum": "Bu sürüm artık desteklenmiyor. Devam etmek için güncelleme yapmalısın.",
+  "guncellemeDiyalogSonra": "SONRA",
+  "guncellemeDiyalogButon": "YEDEK AL VE GÜNCELLE",
+  "guncellemeDiyalogYedekHazir": "Yedek hazırlandı. Güncelleme başlatılıyor…",
+  "guncellemeDiyalogPlayStoreHata": "Play Store açılamadı.",
+  "guncellemeDiyalogBasarisiz": "Güncelleme başarısız: {hata}",
+  "@guncellemeDiyalogBasarisiz": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
   "ayarlarKalibrasyonTamam": "Arılık kalibrasyonu tanımlı. Sistem sezon ve bal akımı bağlamını kullanabilir.",
   "ayarlarKalibrasyonEksik": "Arılık kalibrasyonu eksik. Sezon ve bal akımı tanımları gözden geçirilmeli.",
   "ayarlarTarihFormatNotu": "Tarih gösterimi gün/ay formatındadır; kayıt formatı sistem içinde korunur.",
@@ -633,7 +650,7 @@
   "ayarlarYedekYukle": "Yedekten Yükle",
   "ayarlarYedekYukleAciklama": "Daha önce aldığın JSON yedeğini seç ve mevcut verinin yerine yükle.",
   "ayarlarGuncelleKontrol": "Güncellemeyi Kontrol Et",
-  "ayarlarGuncelleKontrolAciklama": "Yeni sürüm varsa önce yedek aldırır, ardından güvenli APK bağlantısını açar.",
+  "ayarlarGuncelleKontrolAciklama": "Yeni sürüm varsa önce yedek aldırır, ardından Play Store üzerinden güncelleme başlatır.",
   "ayarlarYedekUyari": "Yedekten yükleme mevcut veriyi tamamen değiştirir. Yüklemeden hemen önce yeni bir yedek almak en güvenli yaklaşımdır.",
   "ayarlarGizlilik": "Gizlilik Politikası",
   "ayarlarGizlilikAciklama": "Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.",

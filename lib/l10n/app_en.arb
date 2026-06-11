@@ -430,6 +430,23 @@
   "ayarlarGeriYukleTamamlandi": "Restore from backup completed.",
   "ayarlarGeriYukleHata": "Error occurred while loading backup: {hata}",
   "ayarlarGuncellemHata": "Update check failed: {hata}",
+  "guncellemeDiyalogZorunluBaslik": "UPDATE REQUIRED",
+  "guncellemeDiyalogYeniBaslik": "NEW VERSION AVAILABLE",
+  "guncellemeDiyalogMevcutSurum": "Current version: {surum} ({kod})",
+  "@guncellemeDiyalogMevcutSurum": {
+    "placeholders": { "surum": { "type": "String" }, "kod": { "type": "int" } }
+  },
+  "guncellemeDiyalogMesaj": "A new version is now available. We recommend taking a backup before updating.",
+  "guncellemeDiyalogAciklama": "When you tap \"Backup & Update\", a JSON backup is automatically created and then the update begins.",
+  "guncellemeDiyalogDesteklenmeyenSurum": "This version is no longer supported. You must update to continue.",
+  "guncellemeDiyalogSonra": "LATER",
+  "guncellemeDiyalogButon": "BACKUP & UPDATE",
+  "guncellemeDiyalogYedekHazir": "Backup ready. Starting update…",
+  "guncellemeDiyalogPlayStoreHata": "Could not open Play Store.",
+  "guncellemeDiyalogBasarisiz": "Update failed: {hata}",
+  "@guncellemeDiyalogBasarisiz": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
   "ayarlarKalibrasyonTamam": "Apiary calibration defined. System can use season and honey flow context.",
   "ayarlarKalibrasyonEksik": "Apiary calibration missing. Season and honey flow definitions should be reviewed.",
   "ayarlarTarihFormatNotu": "Date display is in day/month format; storage format is maintained internally.",
@@ -486,7 +503,7 @@
   "ayarlarYedekYukle": "Restore from Backup",
   "ayarlarYedekYukleAciklama": "Select a previously taken JSON backup and load it in place of current data.",
   "ayarlarGuncelleKontrol": "Check for Updates",
-  "ayarlarGuncelleKontrolAciklama": "If a new version is available, first prompts for backup, then opens the secure APK link.",
+  "ayarlarGuncelleKontrolAciklama": "If a new version is available, first prompts for backup, then starts the update via Play Store.",
   "ayarlarYedekUyari": "Restoring from backup completely replaces current data. Taking a new backup immediately before loading is the safest approach.",
   "ayarlarGizlilik": "Privacy Policy",
   "ayarlarGizlilikAciklama": "View app data usage and privacy principles.",

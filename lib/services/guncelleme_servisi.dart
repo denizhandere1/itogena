@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -135,6 +136,7 @@ class GuncellemeServisi {
       builder: (dialogContext) {
         return StatefulBuilder(
           builder: (context, setState) {
+            final l = AppLocalizations.of(context);
             Future<void> guncellemeAkisi() async {
               if (islemde) return;
               setState(() => islemde = true);
@@ -146,8 +148,8 @@ class GuncellemeServisi {
                 if (!dialogContext.mounted) return;
 
                 ScaffoldMessenger.of(dialogContext).showSnackBar(
-                  const SnackBar(
-                    content: Text('Yedek hazırlandı. Güncelleme başlatılıyor…'),
+                  SnackBar(
+                    content: Text(l.guncellemeDiyalogYedekHazir),
                   ),
                 );
 
@@ -166,8 +168,8 @@ class GuncellemeServisi {
                   final acildi = await playStoreSayfasiniAc();
                   if (!acildi && dialogContext.mounted) {
                     ScaffoldMessenger.of(dialogContext).showSnackBar(
-                      const SnackBar(
-                        content: Text('Play Store açılamadı.'),
+                      SnackBar(
+                        content: Text(l.guncellemeDiyalogPlayStoreHata),
                         backgroundColor: Colors.red,
                       ),
                     );
@@ -181,7 +183,7 @@ class GuncellemeServisi {
                 if (!dialogContext.mounted) return;
                 ScaffoldMessenger.of(dialogContext).showSnackBar(
                   SnackBar(
-                    content: Text('Güncelleme başarısız: $e'),
+                    content: Text(l.guncellemeDiyalogBasarisiz(e.toString())),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -192,11 +194,11 @@ class GuncellemeServisi {
               }
             }
 
-            return WillPopScope(
-              onWillPop: () async => !zorunlu && !islemde,
+            return PopScope(
+              canPop: !zorunlu && !islemde,
               child: AlertDialog(
                 title: Text(
-                  zorunlu ? 'GÜNCELLEME GEREKLİ' : 'YENİ SÜRÜM HAZIR',
+                  zorunlu ? l.guncellemeDiyalogZorunluBaslik : l.guncellemeDiyalogYeniBaslik,
                   style: const TextStyle(fontWeight: FontWeight.w900),
                 ),
                 content: Column(
@@ -204,18 +206,18 @@ class GuncellemeServisi {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Mevcut sürüm: ${bilgi.currentVersionName} (${bilgi.currentVersionCode})',
+                      l.guncellemeDiyalogMevcutSurum(bilgi.currentVersionName, bilgi.currentVersionCode),
                       style: const TextStyle(fontSize: 13, height: 1.4),
                     ),
                     const SizedBox(height: 12),
-                    const Text(
-                      'Yeni sürüm kullanıma girdi. Güncellemeden önce yedek alman önerilir.',
-                      style: TextStyle(fontSize: 13, height: 1.45),
+                    Text(
+                      l.guncellemeDiyalogMesaj,
+                      style: const TextStyle(fontSize: 13, height: 1.45),
                     ),
                     const SizedBox(height: 10),
-                    const Text(
-                      '"Yedek Al ve Güncelle" butonuna bastığında JSON yedeği otomatik hazırlanır, ardından güncelleme başlar.',
-                      style: TextStyle(
+                    Text(
+                      l.guncellemeDiyalogAciklama,
+                      style: const TextStyle(
                         fontSize: 12,
                         height: 1.4,
                         color: Colors.black54,
@@ -223,9 +225,9 @@ class GuncellemeServisi {
                     ),
                     if (bilgi.desteklenmeyenSurum) ...[
                       const SizedBox(height: 10),
-                      const Text(
-                        'Bu sürüm artık desteklenmiyor. Devam etmek için güncelleme yapmalısın.',
-                        style: TextStyle(
+                      Text(
+                        l.guncellemeDiyalogDesteklenmeyenSurum,
+                        style: const TextStyle(
                           fontSize: 13,
                           height: 1.45,
                           fontWeight: FontWeight.w700,
@@ -240,7 +242,7 @@ class GuncellemeServisi {
                     TextButton(
                       onPressed:
                           islemde ? null : () => Navigator.of(dialogContext).pop(),
-                      child: const Text('SONRA'),
+                      child: Text(l.guncellemeDiyalogSonra),
                     ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -254,9 +256,9 @@ class GuncellemeServisi {
                             height: 18,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text(
-                            'YEDEK AL VE GÜNCELLE',
-                            style: TextStyle(fontWeight: FontWeight.w800),
+                        : Text(
+                            l.guncellemeDiyalogButon,
+                            style: const TextStyle(fontWeight: FontWeight.w800),
                           ),
                   ),
                 ],

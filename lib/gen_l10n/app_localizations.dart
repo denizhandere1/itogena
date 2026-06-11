@@ -2481,6 +2481,72 @@ abstract class AppLocalizations {
   /// **'Güncelleme kontrolü başarısız: {hata}'**
   String ayarlarGuncellemHata(String hata);
 
+  /// No description provided for @guncellemeDiyalogZorunluBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'GÜNCELLEME GEREKLİ'**
+  String get guncellemeDiyalogZorunluBaslik;
+
+  /// No description provided for @guncellemeDiyalogYeniBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'YENİ SÜRÜM HAZIR'**
+  String get guncellemeDiyalogYeniBaslik;
+
+  /// No description provided for @guncellemeDiyalogMevcutSurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut sürüm: {surum} ({kod})'**
+  String guncellemeDiyalogMevcutSurum(String surum, int kod);
+
+  /// No description provided for @guncellemeDiyalogMesaj.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni sürüm kullanıma girdi. Güncellemeden önce yedek alman önerilir.'**
+  String get guncellemeDiyalogMesaj;
+
+  /// No description provided for @guncellemeDiyalogAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'\"Yedek Al ve Güncelle\" butonuna bastığında JSON yedeği otomatik hazırlanır, ardından güncelleme başlar.'**
+  String get guncellemeDiyalogAciklama;
+
+  /// No description provided for @guncellemeDiyalogDesteklenmeyenSurum.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu sürüm artık desteklenmiyor. Devam etmek için güncelleme yapmalısın.'**
+  String get guncellemeDiyalogDesteklenmeyenSurum;
+
+  /// No description provided for @guncellemeDiyalogSonra.
+  ///
+  /// In tr, this message translates to:
+  /// **'SONRA'**
+  String get guncellemeDiyalogSonra;
+
+  /// No description provided for @guncellemeDiyalogButon.
+  ///
+  /// In tr, this message translates to:
+  /// **'YEDEK AL VE GÜNCELLE'**
+  String get guncellemeDiyalogButon;
+
+  /// No description provided for @guncellemeDiyalogYedekHazir.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yedek hazırlandı. Güncelleme başlatılıyor…'**
+  String get guncellemeDiyalogYedekHazir;
+
+  /// No description provided for @guncellemeDiyalogPlayStoreHata.
+  ///
+  /// In tr, this message translates to:
+  /// **'Play Store açılamadı.'**
+  String get guncellemeDiyalogPlayStoreHata;
+
+  /// No description provided for @guncellemeDiyalogBasarisiz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güncelleme başarısız: {hata}'**
+  String guncellemeDiyalogBasarisiz(String hata);
+
   /// No description provided for @ayarlarKalibrasyonTamam.
   ///
   /// In tr, this message translates to:
@@ -2820,7 +2886,7 @@ abstract class AppLocalizations {
   /// No description provided for @ayarlarGuncelleKontrolAciklama.
   ///
   /// In tr, this message translates to:
-  /// **'Yeni sürüm varsa önce yedek aldırır, ardından güvenli APK bağlantısını açar.'**
+  /// **'Yeni sürüm varsa önce yedek aldırır, ardından Play Store üzerinden güncelleme başlatır.'**
   String get ayarlarGuncelleKontrolAciklama;
 
   /// No description provided for @ayarlarYedekUyari.
