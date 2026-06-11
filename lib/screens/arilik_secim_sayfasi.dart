@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:itogena_v45/gen_l10n/app_localizations.dart';
 import 'ana_sayfa_kisayol.dart';
 import '../services/veritabani_servisi.dart';
+import '../services/premium_servisi.dart';
 import 'koloniler_sayfasi.dart';
 import 'raporlar_sayfasi.dart';
+import 'pro_yukselme_sayfasi.dart';
 import '../services/arilik_uyari_servisi.dart';
 
 class ArilikSecimSayfasi extends StatefulWidget {
@@ -166,6 +168,14 @@ class _ArilikSecimSayfasiState extends State<ArilikSecimSayfasi> {
   }
 
   void _arilikEkleDiyalog() {
+    if (!PremiumServisi.isPro && _ariliklar.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ProYukselmeSayfasi()),
+      );
+      return;
+    }
+
     final l = AppLocalizations.of(context);
     final controller = TextEditingController();
     DateTime kurulusTarihi = _bugun();
