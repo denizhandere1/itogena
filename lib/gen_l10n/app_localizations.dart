@@ -3045,6 +3045,36 @@ abstract class AppLocalizations {
   /// **'Soru ve görüşlerin için destek@itogena.com adresine ulaşabilirsin.'**
   String get ayarlarDestekAciklama;
 
+  /// No description provided for @ayarlarGelistirici.
+  ///
+  /// In tr, this message translates to:
+  /// **'GELİŞTİRİCİ'**
+  String get ayarlarGelistirici;
+
+  /// No description provided for @ayarlarProMod.
+  ///
+  /// In tr, this message translates to:
+  /// **'PRO Mod'**
+  String get ayarlarProMod;
+
+  /// No description provided for @ayarlarProModAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geliştirici testi: PRO özellikleri açık/kapat.'**
+  String get ayarlarProModAciklama;
+
+  /// No description provided for @ayarlarDilTest.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dil Testi'**
+  String get ayarlarDilTest;
+
+  /// No description provided for @ayarlarDilAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arayüz dilini test et. Seçim cihazda saklanır.'**
+  String get ayarlarDilAciklama;
+
   /// No description provided for @ayarlarKaydedildi.
   ///
   /// In tr, this message translates to:

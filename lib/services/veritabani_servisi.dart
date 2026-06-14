@@ -1406,10 +1406,13 @@ class VeritabaniServisi {
   static Future<int> _arilikMaksSiraGetirTx(DatabaseExecutor exec, int arilikId) async {
     if (arilikId <= 0) return 0;
     final sonuc = await exec.rawQuery(
-      "SELECT COALESCE(MAX(sahaSirasi), 0) AS maks FROM koloniler WHERE arilikId = ? AND LOWER(COALESCE(durum, 'aktif')) NOT IN ('sondu', 'söndü', 'pasif')",
+      "SELECT COALESCE(MAX(sahaSirasi), 0) AS maks, COUNT(*) AS sayi FROM koloniler WHERE arilikId = ? AND LOWER(COALESCE(durum, 'aktif')) NOT IN ('sondu', 'söndü', 'pasif')",
       [arilikId],
     );
-    return _toInt(sonuc.first['maks']);
+    final maks = _toInt(sonuc.first['maks']);
+    final sayi = _toInt(sonuc.first['sayi']);
+    // Eğer hiçbir koloni sahaSirası atanmamışsa (hepsi NULL), aktif sayıyı kullan
+    return maks > 0 ? maks : sayi;
   }
 
   static Future<void> _sirayaYerAcTx(
@@ -1460,18 +1463,12 @@ class VeritabaniServisi {
         required int istenenSira,
         int? haricKoloniId,
       }) async {
+    // Kullanıcı fiziksel slot numarası girdiyse direkt kullan (cap yok).
+    // saha sırası fiziksel pozisyon; aktif koloni sayısıyla kısıtlanmaz.
+    if (istenenSira > 0) return istenenSira;
+    // Sıra belirtilmemişse sona ekle.
     final maks = await _arilikMaksSiraGetirTx(exec, arilikId);
-    if (istenenSira <= 0) return maks + 1;
-
-    var ustSinir = maks + 1;
-    if (haricKoloniId != null && haricKoloniId > 0) {
-      ustSinir = maks;
-    }
-    if (ustSinir <= 0) ustSinir = 1;
-
-    if (istenenSira < 1) return 1;
-    if (istenenSira > ustSinir) return ustSinir;
-    return istenenSira;
+    return maks + 1;
   }
 
   static Future<void> _arilikSiralariniNormalizeEtDb(
@@ -1559,10 +1556,6 @@ class VeritabaniServisi {
             'Bu numara arılıkta aktif bir koloni tarafından kullanılıyor: $cakisanNo',
           );
         }
-      }
-
-      if (arilikId > 0) {
-        await _arilikSiralariniNormalizeEtDb(txn, arilikId: arilikId);
       }
 
       if (((kayit['ilkKovanNo'] ?? '').toString().trim()).isEmpty &&
@@ -1681,9 +1674,6 @@ class VeritabaniServisi {
       );
 
       // await _soyKimlikleriniOnar(txn);
-      if (arilikId > 0) {
-        await _arilikSiralariniNormalizeEtDb(txn, arilikId: arilikId);
-      }
       return id;
     });
 
@@ -1748,13 +1738,6 @@ class VeritabaniServisi {
         }
       }
 
-      if (eskiArilikId > 0) {
-        await _arilikSiralariniNormalizeEtDb(txn, arilikId: eskiArilikId);
-      }
-      if (yeniArilikId > 0 && yeniArilikId != eskiArilikId) {
-        await _arilikSiralariniNormalizeEtDb(txn, arilikId: yeniArilikId);
-      }
-
       final hedefSira = await _hedefSiraBelirleTx(
         txn,
         arilikId: yeniArilikId,
@@ -1763,6 +1746,7 @@ class VeritabaniServisi {
       );
 
       if (eskiArilikId != yeniArilikId) {
+        // Farklı arılığa taşıma: eski arılıkta boşluğu kapat, yenisinde yer aç
         if (eskiArilikId > 0 && eskiSira > 0) {
           await _sirayiSikistirTx(
             txn,
@@ -1779,8 +1763,17 @@ class VeritabaniServisi {
             haricKoloniId: id,
           );
         }
-      } else if (hedefSira != eskiSira && yeniArilikId > 0) {
-        if (hedefSira < eskiSira) {
+      } else if (yeniArilikId > 0) {
+        if (eskiSira <= 0) {
+          // Koloni daha önce sıra almamış: ilk kez fiziksel slota yerleştiriliyor
+          await _sirayaYerAcTx(
+            txn,
+            arilikId: yeniArilikId,
+            hedefSira: hedefSira,
+            haricKoloniId: id,
+          );
+        } else if (hedefSira < eskiSira) {
+          // Daha öne taşıma: [hedefSira, eskiSira-1] aralığını 1 ileri kaydır
           await txn.rawUpdate(
             '''
             UPDATE koloniler
@@ -1790,7 +1783,8 @@ class VeritabaniServisi {
             ''',
             [yeniArilikId, id, hedefSira, eskiSira],
           );
-        } else {
+        } else if (hedefSira > eskiSira) {
+          // Daha geriye taşıma: [eskiSira+1, hedefSira] aralığını 1 geri kaydır
           await txn.rawUpdate(
             '''
             UPDATE koloniler
@@ -1801,6 +1795,7 @@ class VeritabaniServisi {
             [yeniArilikId, id, hedefSira, eskiSira],
           );
         }
+        // hedefSira == eskiSira: hareket yok
       }
 
       final guncel = <String, dynamic>{

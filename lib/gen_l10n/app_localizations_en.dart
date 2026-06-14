@@ -1679,6 +1679,23 @@ class AppLocalizationsEn extends AppLocalizations {
       'For questions and feedback, reach us at destek@itogena.com.';
 
   @override
+  String get ayarlarGelistirici => 'DEVELOPER';
+
+  @override
+  String get ayarlarProMod => 'PRO Mode';
+
+  @override
+  String get ayarlarProModAciklama =>
+      'Developer test: toggle PRO features on/off.';
+
+  @override
+  String get ayarlarDilTest => 'Language Test';
+
+  @override
+  String get ayarlarDilAciklama =>
+      'Test the UI language. Selection is saved on device.';
+
+  @override
   String get ayarlarKaydedildi => 'General settings saved for all apiaries.';
 
   @override

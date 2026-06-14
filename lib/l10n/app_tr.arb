@@ -678,6 +678,11 @@
   "ayarlarGizlilikAciklama": "Uygulama veri kullanımı ve gizlilik ilkelerini görüntüle.",
   "ayarlarDestek": "Destek & İletişim",
   "ayarlarDestekAciklama": "Soru ve görüşlerin için destek@itogena.com adresine ulaşabilirsin.",
+  "ayarlarGelistirici": "GELİŞTİRİCİ",
+  "ayarlarProMod": "PRO Mod",
+  "ayarlarProModAciklama": "Geliştirici testi: PRO özellikleri açık/kapat.",
+  "ayarlarDilTest": "Dil Testi",
+  "ayarlarDilAciklama": "Arayüz dilini test et. Seçim cihazda saklanır.",
   "ayarlarKaydedildi": "Genel ayarlar tüm arılıklar için kaydedildi.",
   "ayarlarOzelKaydedildi": "{kapsam} arılığı için özel kalibrasyon kaydedildi.",
   "@ayarlarOzelKaydedildi": {

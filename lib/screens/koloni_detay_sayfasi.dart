@@ -475,6 +475,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         builder: (c) => MuayeneEkleSayfasi(
           koloniDonemiId: _koloniId,
           sonMuayene: _muayeneler.isNotEmpty ? _muayeneler.first : null,
+          kovanNo: _kovanNo,
         ),
       ),
     );
@@ -506,6 +507,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         builder: (c) => MuayeneEkleSayfasi(
           koloniDonemiId: _koloniId,
           muayene: muayene,
+          kovanNo: _kovanNo,
         ),
       ),
     );
@@ -1563,7 +1565,7 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
   }
 
   Widget _biyolojikModelSekmesi() {
-    if (!_biyolojikModelYuklendi && !_biyolojikModelYukleniyor) {
+    if (!_biyolojikModelYuklendi && !_biyolojikModelYukleniyor && _biyolojikModelHatasi == null) {
       Future<void>.microtask(_biyolojikModeliYukle);
     }
 

@@ -1684,6 +1684,23 @@ class AppLocalizationsTr extends AppLocalizations {
       'Soru ve görüşlerin için destek@itogena.com adresine ulaşabilirsin.';
 
   @override
+  String get ayarlarGelistirici => 'GELİŞTİRİCİ';
+
+  @override
+  String get ayarlarProMod => 'PRO Mod';
+
+  @override
+  String get ayarlarProModAciklama =>
+      'Geliştirici testi: PRO özellikleri açık/kapat.';
+
+  @override
+  String get ayarlarDilTest => 'Dil Testi';
+
+  @override
+  String get ayarlarDilAciklama =>
+      'Arayüz dilini test et. Seçim cihazda saklanır.';
+
+  @override
   String get ayarlarKaydedildi =>
       'Genel ayarlar tüm arılıklar için kaydedildi.';
 
