@@ -234,6 +234,7 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
             _madde(l.rehber1M6),
             _madde(l.rehber1M7),
             _madde(l.rehber1M8),
+            _madde(l.rehber1M9),
           ], acik: true),
 
           // ── 2 ────────────────────────────────────────────────────────

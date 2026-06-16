@@ -2402,6 +2402,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Muayene, koloni veya arılık verisi değiştiğinde tüm önbellekler birlikte temizlenir; eski kararın ekranda kalma riski azaltılır.';
 
   @override
+  String get rehber1M9 =>
+      'Koloniler listesinde app bar\'daki \"Sırayı Düzenle\" butonuyla kolonileri sürükleyerek yeniden sıralayabilirsin. Her koloni kartında sıra numarası rozeti gösterilir.';
+
+  @override
   String get rehber2Baslik => '2. Ücretsiz ve PRO';
 
   @override

@@ -4269,6 +4269,12 @@ abstract class AppLocalizations {
   /// **'Muayene, koloni veya arılık verisi değiştiğinde tüm önbellekler birlikte temizlenir; eski kararın ekranda kalma riski azaltılır.'**
   String get rehber1M8;
 
+  /// No description provided for @rehber1M9.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloniler listesinde app bar\'daki \"Sırayı Düzenle\" butonuyla kolonileri sürükleyerek yeniden sıralayabilirsin. Her koloni kartında sıra numarası rozeti gösterilir.'**
+  String get rehber1M9;
+
   /// No description provided for @rehber2Baslik.
   ///
   /// In tr, this message translates to:

@@ -2401,6 +2401,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'When inspection, colony or apiary data changes, all caches are cleared together; the risk of an old decision remaining on screen is reduced.';
 
   @override
+  String get rehber1M9 =>
+      'On the colony list, use the \"Reorder\" button in the app bar to drag and rearrange colonies. Each colony card shows an order number badge.';
+
+  @override
   String get rehber2Baslik => '2. Free and PRO';
 
   @override
