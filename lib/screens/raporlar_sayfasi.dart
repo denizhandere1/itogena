@@ -40,6 +40,7 @@ class _ArilikIstatistikHesabi {
   final int gucluSayisi;
   final int ortaSayisi;
   final int zayifSayisi;
+  final double tahminiEkonomikDeger;
 
   const _ArilikIstatistikHesabi({
     required this.kovanSayisi,
@@ -51,6 +52,7 @@ class _ArilikIstatistikHesabi {
     required this.gucluSayisi,
     required this.ortaSayisi,
     required this.zayifSayisi,
+    required this.tahminiEkonomikDeger,
   });
 }
 
@@ -117,6 +119,20 @@ Future<_ArilikIstatistikHesabi> _arilikIstatistikHesapla(
     ariliCita += _kayitliIslevselCita(koloni);
   }
 
+  final ariliCitaDegeri = double.tryParse(
+    await VeritabaniServisi.ayarStringGetir('ekonomik_arili_cita', varsayilan: '900'),
+  ) ?? 900;
+  final bosKovanDegeri = double.tryParse(
+    await VeritabaniServisi.ayarStringGetir('ekonomik_bos_kovan', varsayilan: '1500'),
+  ) ?? 1500;
+  final balKgFiyati = double.tryParse(
+    await VeritabaniServisi.ayarStringGetir('ekonomik_bal_kg_fiyat', varsayilan: '600'),
+  ) ?? 600;
+  const avgKgPerCita = (_balliCitaMinKg + _balliCitaMaxKg) / 2;
+  final tahminiEkonomikDeger = (ariliCita * ariliCitaDegeri) +
+      (kovanSayisi * bosKovanDegeri) +
+      (balliCita * avgKgPerCita * balKgFiyati);
+
   return _ArilikIstatistikHesabi(
     kovanSayisi: kovanSayisi,
     toplamCita: toplamCita,
@@ -127,6 +143,7 @@ Future<_ArilikIstatistikHesabi> _arilikIstatistikHesapla(
     gucluSayisi: guclu,
     ortaSayisi: orta,
     zayifSayisi: zayif,
+    tahminiEkonomikDeger: tahminiEkonomikDeger,
   );
 }
 
@@ -905,11 +922,6 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
     final istatistik = _arilikIstatistik;
     if (istatistik == null) return const SizedBox.shrink();
 
-    final double aktivasyonFarki =
-    (istatistik.toplamCita - istatistik.ariliCita)
-        .clamp(0, istatistik.toplamCita)
-        .toDouble();
-
     return Container(
       margin: EdgeInsets.zero,
       padding: const EdgeInsets.all(12),
@@ -957,7 +969,7 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
               _istatistikKutusu(AppLocalizations.of(context).raporlarToplamCita, istatistik.toplamCita.toString(), Colors.blueGrey),
               _istatistikKutusu(AppLocalizations.of(context).raporlarBalTemasi, _kg(istatistik.balliCita), Colors.amber.shade800),
               _istatistikKutusu(AppLocalizations.of(context).raporlarAriliCita, _kg(istatistik.ariliCita), Colors.teal),
-              _istatistikKutusu(AppLocalizations.of(context).raporlarAktivasyonFarki, _kg(aktivasyonFarki), Colors.deepOrange),
+              _istatistikKutusu(AppLocalizations.of(context).raporlarEkonomikDegerBaslik, _paraFmt(istatistik.tahminiEkonomikDeger), Colors.deepOrange),
               _istatistikKutusu(AppLocalizations.of(context).raporlarTahminiAri, _ariSayisiAraligi(istatistik.tahminiAriMin, istatistik.tahminiAriMax), Colors.brown),
               _istatistikKutusu(AppLocalizations.of(context).raporlarGuclu, istatistik.gucluSayisi.toString(), Colors.green),
               _istatistikKutusu(AppLocalizations.of(context).raporlarOrta, istatistik.ortaSayisi.toString(), Colors.orange),
@@ -1127,6 +1139,8 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
   }
 
   String _kg(double v) => v.toStringAsFixed(v.truncateToDouble() == v ? 0 : 1);
+
+  String _paraFmt(double d) => '₺${d.toStringAsFixed(0).replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => '.')}';
 
   String _ariSayisiAraligi(int min, int max) {
     if (max <= 0) return '0';
