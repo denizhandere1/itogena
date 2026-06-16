@@ -4,19 +4,40 @@ import 'package:itogena_v45/screens/pro_yukselme_sayfasi.dart';
 import 'package:itogena_v45/services/premium_servisi.dart';
 
 // Belirli bir kartı/bölümü kilitler — içeriği soluk gösterir, üstüne kilit overlay'i koyar
-class ProKapit extends StatelessWidget {
+class ProKapit extends StatefulWidget {
   final Widget child;
 
   const ProKapit({super.key, required this.child});
 
   @override
+  State<ProKapit> createState() => _ProKapitState();
+}
+
+class _ProKapitState extends State<ProKapit> {
+  @override
+  void initState() {
+    super.initState();
+    PremiumServisi.isProNotifier.addListener(_guncelle);
+  }
+
+  @override
+  void dispose() {
+    PremiumServisi.isProNotifier.removeListener(_guncelle);
+    super.dispose();
+  }
+
+  void _guncelle() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (PremiumServisi.isPro) return child;
+    if (PremiumServisi.isPro) return widget.child;
 
     return Stack(
       children: [
         IgnorePointer(
-          child: Opacity(opacity: 0.18, child: child),
+          child: Opacity(opacity: 0.18, child: widget.child),
         ),
         Positioned.fill(
           child: _KilitOverlay(tamEkran: false),
@@ -27,14 +48,35 @@ class ProKapit extends StatelessWidget {
 }
 
 // Tüm sayfayı kilitler — PRO değilse kendi Scaffold'u ile kilit ekranı gösterir
-class ProSayfaKapit extends StatelessWidget {
+class ProSayfaKapit extends StatefulWidget {
   final Widget child;
 
   const ProSayfaKapit({super.key, required this.child});
 
   @override
+  State<ProSayfaKapit> createState() => _ProSayfaKapitState();
+}
+
+class _ProSayfaKapitState extends State<ProSayfaKapit> {
+  @override
+  void initState() {
+    super.initState();
+    PremiumServisi.isProNotifier.addListener(_guncelle);
+  }
+
+  @override
+  void dispose() {
+    PremiumServisi.isProNotifier.removeListener(_guncelle);
+    super.dispose();
+  }
+
+  void _guncelle() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (PremiumServisi.isPro) return child;
+    if (PremiumServisi.isPro) return widget.child;
     return Scaffold(
       backgroundColor: const Color(0xFFFFFDE7),
       appBar: AppBar(

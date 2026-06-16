@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:itogena_v45/services/veritabani_servisi.dart';
 
 class PremiumServisi {
-  static bool _isPro = false;
+  static final ValueNotifier<bool> isProNotifier = ValueNotifier(false);
   static bool _yuklendi = false;
 
-  static bool get isPro => _isPro;
+  static bool get isPro => isProNotifier.value;
 
   // Uygulama başlarken bir kez çağrılır
   static Future<void> yukle() async {
@@ -13,18 +14,18 @@ class PremiumServisi {
       'premium_aktif',
       varsayilan: '0',
     );
-    _isPro = deger == '1';
+    isProNotifier.value = deger == '1';
     _yuklendi = true;
   }
 
   // Geliştirme/test için — ödeme sistemi kurulduğunda bu kaldırılacak
   static Future<void> proAktifEt() async {
     await VeritabaniServisi.ayarKaydet('premium_aktif', '1');
-    _isPro = true;
+    isProNotifier.value = true;
   }
 
   static Future<void> proIptalEt() async {
     await VeritabaniServisi.ayarKaydet('premium_aktif', '0');
-    _isPro = false;
+    isProNotifier.value = false;
   }
 }

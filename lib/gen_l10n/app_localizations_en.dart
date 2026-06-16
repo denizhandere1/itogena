@@ -2895,7 +2895,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'You can read İTOGENA\'s personal data processing, storage and usage policy at the link below.';
 
   @override
-  String get rehber20Link => 'itogena.com/privacy';
+  String get rehber20Link => 'itogena.com/privacy-policy';
 
   @override
   String get kolonGridYavruYok => 'No brood';

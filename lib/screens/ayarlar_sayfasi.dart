@@ -11,8 +11,6 @@ import '../services/arilik_uyari_servisi.dart';
 import '../services/yedek_dosya_servisi.dart';
 import '../services/yedek_servisi.dart';
 import '../services/guncelleme_servisi.dart';
-import '../services/premium_servisi.dart';
-import '../services/dil_servisi.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
   const AyarlarSayfasi({super.key});
@@ -29,8 +27,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   bool _kaydediliyor = false;
   bool _yedekAliniyor = false;
   bool _yedekYukleniyor = false;
-  bool _isPro = false;
-
   String _kisBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_kis_baslangic');
   String _kisBitis = VeritabaniServisi.varsayilanAyarDegeri('season_kis_bitis');
   String _uretimBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_uretim_baslangic');
@@ -182,7 +178,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       _riskMumGuvesiBitis = riskMumGuvesiBitis;
       _riskFareBaslangic = riskFareBaslangic;
       _riskFareBitis = riskFareBitis;
-      _isPro = PremiumServisi.isPro;
       _yukleniyor = false;
     });
   }
@@ -1242,35 +1237,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   }
 
 
-  Widget _dilButonu(String etiket, String? kod) {
-    final secili = DilServisi.secilenKod() == (kod ?? 'sistem');
-    return Expanded(
-      child: GestureDetector(
-        onTap: () async {
-          await DilServisi.dilAyarla(kod);
-          setState(() {});
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            color: secili ? Colors.grey.shade700 : Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Center(
-            child: Text(
-              etiket,
-              style: TextStyle(
-                fontSize: 12.5,
-                fontWeight: FontWeight.w700,
-                color: secili ? Colors.white : Colors.black54,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _sistemIslemKarti({
     required String baslik,
     required String altMetin,
@@ -1356,7 +1322,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           ikon: Icons.privacy_tip_outlined,
           renk: Colors.teal,
           onTap: () => launchUrl(
-            Uri.parse('https://itogena.com/privacy'),
+            Uri.parse('https://www.itogena.com/privacy-policy'),
             mode: LaunchMode.externalApplication,
           ),
         ),
@@ -1368,75 +1334,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
           onTap: () => launchUrl(
             Uri.parse('mailto:destek@itogena.com'),
             mode: LaunchMode.externalApplication,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppLocalizations.of(context).ayarlarGelistirici,
-                style: const TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.grey,
-                  letterSpacing: 1,
-                ),
-              ),
-              const SizedBox(height: 8),
-              SwitchListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  AppLocalizations.of(context).ayarlarProMod,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                ),
-                subtitle: Text(
-                  AppLocalizations.of(context).ayarlarProModAciklama,
-                  style: const TextStyle(fontSize: 12),
-                ),
-                value: _isPro,
-                activeColor: const Color(0xFFFFB300),
-                onChanged: (deger) async {
-                  if (deger) {
-                    await PremiumServisi.proAktifEt();
-                  } else {
-                    await PremiumServisi.proIptalEt();
-                  }
-                  setState(() => _isPro = deger);
-                },
-              ),
-              const Divider(height: 16),
-              Text(
-                AppLocalizations.of(context).ayarlarDilTest,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                AppLocalizations.of(context).ayarlarDilAciklama,
-                style: const TextStyle(fontSize: 11.5, color: Colors.grey),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  _dilButonu('Sistem', null),
-                  const SizedBox(width: 8),
-                  _dilButonu('Türkçe', 'tr'),
-                  const SizedBox(width: 8),
-                  _dilButonu('English', 'en'),
-                ],
-              ),
-            ],
           ),
         ),
       ],

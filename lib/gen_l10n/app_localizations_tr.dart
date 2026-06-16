@@ -2892,7 +2892,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'İTOGENA\'nın kişisel veri işleme, saklama ve kullanım politikasını aşağıdaki bağlantıdan okuyabilirsiniz.';
 
   @override
-  String get rehber20Link => 'itogena.com/privacy';
+  String get rehber20Link => 'itogena.com/privacy-policy';
 
   @override
   String get kolonGridYavruYok => 'Yavru yok';

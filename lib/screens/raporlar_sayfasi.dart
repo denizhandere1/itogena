@@ -254,11 +254,17 @@ class _RaporlarSayfasiState extends State<RaporlarSayfasi> {
   @override
   void initState() {
     super.initState();
+    PremiumServisi.isProNotifier.addListener(_proGuncelle);
     _verileriYukle();
+  }
+
+  void _proGuncelle() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
+    PremiumServisi.isProNotifier.removeListener(_proGuncelle);
     super.dispose();
   }
 
@@ -1181,11 +1187,17 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
   @override
   void initState() {
     super.initState();
+    PremiumServisi.isProNotifier.addListener(_proGuncelle);
     _verileriYukle();
+  }
+
+  void _proGuncelle() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
+    PremiumServisi.isProNotifier.removeListener(_proGuncelle);
     _kaydetDebounce?.cancel();
     _ariliCitaDegeriController.dispose();
     _bosKovanDegeriController.dispose();
@@ -1196,7 +1208,6 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
   }
 
   Future<void> _verileriYukle() async {
-    final l = AppLocalizations.of(context);
     try {
       final ekonomikAriliCita = await VeritabaniServisi.ayarStringGetir(
         'ekonomik_arili_cita',
@@ -1218,6 +1229,9 @@ class _EkonomikDegerSayfasiState extends State<EkonomikDegerSayfasi> {
         'ekonomik_bal_kg_fiyat',
         varsayilan: '600',
       );
+
+      if (!mounted) return;
+      final l = AppLocalizations.of(context);
 
       final balHesabi = await _aktivasyonluBalliCitaPotansiyeliHesapla(
         widget.aktifKoloniler,

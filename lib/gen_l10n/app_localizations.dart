@@ -5040,7 +5040,7 @@ abstract class AppLocalizations {
   /// No description provided for @rehber20Link.
   ///
   /// In tr, this message translates to:
-  /// **'itogena.com/privacy'**
+  /// **'itogena.com/privacy-policy'**
   String get rehber20Link;
 
   /// No description provided for @kolonGridYavruYok.
