@@ -125,13 +125,22 @@ Future<_ArilikIstatistikHesabi> _arilikIstatistikHesapla(
   final bosKovanDegeri = double.tryParse(
     await VeritabaniServisi.ayarStringGetir('ekonomik_bos_kovan', varsayilan: '1500'),
   ) ?? 1500;
+  final bosKabarmisPetekSayisi = double.tryParse(
+    await VeritabaniServisi.ayarStringGetir('ekonomik_petek_sayi', varsayilan: '0'),
+  ) ?? 0;
+  final bosKabarmisPetekDegeri = double.tryParse(
+    await VeritabaniServisi.ayarStringGetir('ekonomik_petek_deger', varsayilan: '120'),
+  ) ?? 120;
   final balKgFiyati = double.tryParse(
     await VeritabaniServisi.ayarStringGetir('ekonomik_bal_kg_fiyat', varsayilan: '600'),
   ) ?? 600;
-  const avgKgPerCita = (_balliCitaMinKg + _balliCitaMaxKg) / 2;
+  final balHesabi = await _aktivasyonluBalliCitaPotansiyeliHesapla(koloniler);
+  final tahminiBalDegeriOrta =
+      ((balHesabi.minKg + balHesabi.maxKg) / 2) * balKgFiyati;
   final tahminiEkonomikDeger = (ariliCita * ariliCitaDegeri) +
       (kovanSayisi * bosKovanDegeri) +
-      (balliCita * avgKgPerCita * balKgFiyati);
+      (bosKabarmisPetekSayisi * bosKabarmisPetekDegeri) +
+      tahminiBalDegeriOrta;
 
   return _ArilikIstatistikHesabi(
     kovanSayisi: kovanSayisi,
