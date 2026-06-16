@@ -31,7 +31,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
   late DateTime _olusturmaTarihi;
   int? _seciliKaynakKoloniId;
 
-  String _anaYili = '2025';
+  String _anaYili = DateTime.now().year.toString();
   String _kaynakTipi = 'Bölme';
   String _anaKazanmaYontemi = 'kendi_anasi';
   String _kovanTipi = 'Langstroth';
@@ -639,7 +639,7 @@ class _YeniKoloniSayfasiState extends State<YeniKoloniSayfasi> {
                 Expanded(
                   child: _dropdownField(
                     l.yeniKoloniAnaAriYili,
-                    const ['2023', '2024', '2025', '2026'],
+                    List.generate(4, (i) => (DateTime.now().year - 2 + i).toString()),
                     _anaYili,
                         (v) => setState(() => _anaYili = v!),
                   ),
