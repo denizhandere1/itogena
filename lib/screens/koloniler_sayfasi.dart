@@ -11,6 +11,7 @@ import 'koloni_detay_sayfasi.dart';
 import 'yeni_koloni_sayfasi.dart';
 import 'karsilastirma_sayfasi.dart';
 import 'pro_yukselme_sayfasi.dart';
+import 'sira_duzenle_sayfasi.dart';
 
 class KolonilerSayfasi extends StatefulWidget {
   final String arilikAd;
@@ -544,6 +545,25 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
 
   static const int _ucretsizKoloniLimiti = 10;
 
+  Future<void> _siraDuzenle() async {
+    final aktif = _aktifKoloniler;
+    if (aktif.isEmpty) return;
+    final sonuc = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => SiraDuzenleSayfasi(
+          arilikId: widget.arilikId,
+          aktifKoloniler: aktif,
+        ),
+      ),
+    );
+    if (sonuc == true) {
+      KararAsistanServisi.arilikCacheTemizle(widget.arilikId);
+      KoloniGridContextServisi.cacheTemizle();
+      await _verileriYukle();
+    }
+  }
+
   Future<void> _yeniKovan() async {
     if (!PremiumServisi.isPro &&
         _aktifKoloniler.length >= _ucretsizKoloniLimiti) {
@@ -721,6 +741,35 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
           },
         ),
         actions: [
+          if (!_karsilastirmaModu && _tabController.index == 0 && _aktifKoloniler.length > 1)
+            Padding(
+              padding: const EdgeInsets.only(right: 4),
+              child: Center(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: _siraDuzenle,
+                  child: Ink(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.30),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: Colors.black.withOpacity(0.12)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.swap_vert, size: 18, color: Colors.black87),
+                        const SizedBox(width: 5),
+                        Text(
+                          AppLocalizations.of(context).siraDuzenleButon,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.black87),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: Center(
@@ -946,6 +995,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
       itemBuilder: (_, i) => _koloniKutusu(
         koloniler[i],
         sonmusSekmesi: sonmusSekmesi,
+        siraNo: sonmusSekmesi ? null : i + 1,
       ),
     );
   }
@@ -1038,6 +1088,7 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   Widget _koloniKutusu(
       Map<String, dynamic> k, {
         required bool sonmusSekmesi,
+        int? siraNo,
       }) {
     final koloniId = _toInt(k['id']);
     final skor = _toInt(k['skor']);
@@ -1102,6 +1153,18 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
                   ),
                   child: Row(
                     children: [
+                      if (siraNo != null)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: Text(
+                            '$siraNo.',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.72),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
                       Expanded(
                         child: Text(
                           '${k['kovanNo'] ?? '-'}',

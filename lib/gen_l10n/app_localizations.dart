@@ -1964,6 +1964,30 @@ abstract class AppLocalizations {
   /// **'Koloni silinirken hata oluştu: {hata}'**
   String kolonilerSilHata(String hata);
 
+  /// No description provided for @siraDuzenleBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sırayı Düzenle'**
+  String get siraDuzenleBaslik;
+
+  /// No description provided for @siraDuzenleAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kolonileri sürükleyerek saha sıralamasını değiştirin. Değişiklikler Kaydet\'e bastığınızda uygulanır.'**
+  String get siraDuzenleAciklama;
+
+  /// No description provided for @siraDuzenleKaydedildi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sıralama kaydedildi.'**
+  String get siraDuzenleKaydedildi;
+
+  /// No description provided for @siraDuzenleButon.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sırayı Düzenle'**
+  String get siraDuzenleButon;
+
   /// No description provided for @kolonilerAktifBos.
   ///
   /// In tr, this message translates to:

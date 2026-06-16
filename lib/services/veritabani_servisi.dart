@@ -957,7 +957,7 @@ class VeritabaniServisi {
     final dbClient = await db;
     final koloniler = await dbClient.query(
       'koloniler',
-      orderBy: 'sahaSirasi ASC, id ASC',
+      orderBy: 'CASE WHEN sahaSirasi IS NULL THEN 1 ELSE 0 END ASC, sahaSirasi ASC, id ASC',
     );
 
     if (!sadeceAktifler) return koloniler;
@@ -984,7 +984,7 @@ class VeritabaniServisi {
       'koloniler',
       where: 'arilikId = ?',
       whereArgs: [arilikId],
-      orderBy: 'sahaSirasi ASC, id ASC',
+      orderBy: 'CASE WHEN sahaSirasi IS NULL THEN 1 ELSE 0 END ASC, sahaSirasi ASC, id ASC',
     );
 
     if (!sadeceAktifler) return koloniler;
@@ -1501,6 +1501,22 @@ class VeritabaniServisi {
     }
   }
 
+  static Future<void> sahaSiralariKaydet(
+      int arilikId, List<int> koloniIdleri) async {
+    if (arilikId <= 0 || koloniIdleri.isEmpty) return;
+    final dbClient = await db;
+    await dbClient.transaction((txn) async {
+      for (var i = 0; i < koloniIdleri.length; i++) {
+        await txn.update(
+          'koloniler',
+          {'sahaSirasi': i + 1},
+          where: 'id = ? AND arilikId = ?',
+          whereArgs: [koloniIdleri[i], arilikId],
+        );
+      }
+    });
+  }
+
   static Future<void> _tumArilikSiralariniNormalizeEtDb(DatabaseExecutor exec) async {
     final ariliklar = await exec.query('ariliklar');
     for (final arilik in ariliklar) {
@@ -1673,6 +1689,9 @@ class VeritabaniServisi {
         notMetni: (kayit['notMetni'] ?? '').toString(),
       );
 
+      if (arilikId > 0) {
+        await _arilikSiralariniNormalizeEtDb(txn, arilikId: arilikId);
+      }
       // await _soyKimlikleriniOnar(txn);
       return id;
     });
@@ -1872,6 +1891,12 @@ class VeritabaniServisi {
         );
       }
 
+      if (yeniArilikId > 0) {
+        await _arilikSiralariniNormalizeEtDb(txn, arilikId: yeniArilikId);
+      }
+      if (eskiArilikId > 0 && eskiArilikId != yeniArilikId) {
+        await _arilikSiralariniNormalizeEtDb(txn, arilikId: eskiArilikId);
+      }
       // await _soyKimlikleriniOnar(txn);
       return sonuc;
     });
@@ -2922,7 +2947,7 @@ class VeritabaniServisi {
         maxCitaKapasiye AS maksCita,
         skor AS saglikSkoru
       FROM koloniler
-      ORDER BY sahaSirasi ASC, id ASC
+      ORDER BY CASE WHEN sahaSirasi IS NULL THEN 1 ELSE 0 END ASC, sahaSirasi ASC, id ASC
     ''');
   }
 

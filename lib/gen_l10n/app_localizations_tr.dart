@@ -1054,6 +1054,19 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get siraDuzenleBaslik => 'Sırayı Düzenle';
+
+  @override
+  String get siraDuzenleAciklama =>
+      'Kolonileri sürükleyerek saha sıralamasını değiştirin. Değişiklikler Kaydet\'e bastığınızda uygulanır.';
+
+  @override
+  String get siraDuzenleKaydedildi => 'Sıralama kaydedildi.';
+
+  @override
+  String get siraDuzenleButon => 'Sırayı Düzenle';
+
+  @override
   String get kolonilerAktifBos => 'Bu arılıkta aktif koloni kaydı yok.';
 
   @override

@@ -1050,6 +1050,19 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get siraDuzenleBaslik => 'Reorder';
+
+  @override
+  String get siraDuzenleAciklama =>
+      'Drag colonies to change their field order. Changes apply when you tap Save.';
+
+  @override
+  String get siraDuzenleKaydedildi => 'Order saved.';
+
+  @override
+  String get siraDuzenleButon => 'Reorder';
+
+  @override
   String get kolonilerAktifBos => 'No active colony records in this apiary.';
 
   @override

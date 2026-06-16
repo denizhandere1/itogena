@@ -423,6 +423,10 @@
   "@kolonilerSilHata": {
     "placeholders": { "hata": { "type": "String" } }
   },
+  "siraDuzenleBaslik": "Sırayı Düzenle",
+  "siraDuzenleAciklama": "Kolonileri sürükleyerek saha sıralamasını değiştirin. Değişiklikler Kaydet'e bastığınızda uygulanır.",
+  "siraDuzenleKaydedildi": "Sıralama kaydedildi.",
+  "siraDuzenleButon": "Sırayı Düzenle",
   "kolonilerAktifBos": "Bu arılıkta aktif koloni kaydı yok.",
   "kolonilerSonmusBos": "Bu arılıkta sönmüş koloni kaydı yok.",
   "kolonilerKovanAra": "Kovan ara...",
