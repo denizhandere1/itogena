@@ -4,6 +4,8 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'veritabani_servisi.dart';
 
 class PremiumServisi {
+  static const bool _incelemeTestModu = true;
+
   static const String aylikId = 'itogena_pro_aylik';
   static const String yillikId = 'itogena_pro_yillik';
   static const Set<String> _urunIdleri = {aylikId, yillikId};
@@ -16,6 +18,10 @@ class PremiumServisi {
 
   // Uygulama başlarken çağrılır
   static Future<void> yukle() async {
+    if (_incelemeTestModu) {
+      isProNotifier.value = true;
+      return;
+    }
     if (_yuklendi) return;
     _yuklendi = true;
 

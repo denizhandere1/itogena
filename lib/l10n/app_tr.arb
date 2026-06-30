@@ -922,6 +922,9 @@
   "rehberProS14": "Koloni karşılaştırma",
   "rehberProS15": "Soy ağacı",
   "rehberProS16": "Formüller ve hesaplamalar",
+  "rehberProS17": "JSON Yedek Al / Yükle",
+  "rehberProS18": "PDF Rapor Dışa Aktarma",
+  "rehberProS19": "Excel Dışa Aktarma (.xlsx)",
 
   "rehber1Baslik": "1. İTOGENA Ne Yapar?",
   "rehber1Kutu": "İTOGENA, basit saha verisini zaman, süreç, soy, performans ve arılık kalibrasyonu ile birlikte okuyarak uygulanabilir koloni kararı üretir. Amaç yalnızca kayıt tutmak değil; arıcıya neyi, neden ve ne zaman yapacağını anlaşılır biçimde göstermektir.",
@@ -936,7 +939,7 @@
   "rehber1M9": "Koloniler listesinde app bar'daki \"Sırayı Düzenle\" butonuyla kolonileri sürükleyerek yeniden sıralayabilirsin. Her koloni kartında sıra numarası rozeti gösterilir.",
 
   "rehber2Baslik": "2. Ücretsiz ve PRO",
-  "rehber2Kutu": "İTOGENA'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir. Derin analiz, risk izleme, hasat tahmini, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.",
+  "rehber2Kutu": "İTOGENA'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir; JSON yedek alma/yükleme de ücretsizdir. Derin analiz, risk izleme, hasat tahmini, PDF/Excel dışa aktarma, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.",
 
   "rehber3Baslik": "3. Sistem Çıtadan Ne Anlar?",
   "rehber3M1": "Çıta sayısı koloni gücünün temel saha göstergesidir; tek başına kesin karar değildir.",
@@ -1092,6 +1095,20 @@
   "rehber20Baslik": "20. Gizlilik Politikası",
   "rehber20M1": "İTOGENA'nın kişisel veri işleme, saklama ve kullanım politikasını aşağıdaki bağlantıdan okuyabilirsiniz.",
   "rehber20Link": "itogena.com/privacy-policy",
+
+  "rehber21Baslik": "21. Muayene Sonrası Kovan Navigasyonu",
+  "rehber21Kutu": "Bir kovanın muayene formunu kaydettikten sonra aynı ekranda kalarak yan kovanlara geçiş yapabilirsiniz. Arılık sırasını koruyarak hızlı saha turu mümkündür.",
+  "rehber21M1": "Koloni detay ekranında sol ve sağ kenarlarda yarı saydam ok butonları (‹ ›) görünür; ilk ve son kolonide ilgili yön gizlenir.",
+  "rehber21M2": "Oka dokunmak veya ekranın sol/sağ kenarından yatay kaydırmak bir sonraki ya da bir önceki kovana geçişi tetikler.",
+  "rehber21M3": "Geçiş sırasında o anki sekme (Genel, Muayene, Performans…) korunmaz; koloni detay sayfası sıfırlanır.",
+  "rehber21M4": "Sıra, arılık listesindeki aktif koloni sırasını izler; \"Sırayı Düzenle\" ile ayarlanan düzen burada da geçerlidir.",
+
+  "rehber22Baslik": "22. Veri Dışa Aktarma",
+  "rehber22Kutu": "İTOGENA üç formatta dışa aktarma destekler. JSON ücretsizdir; PDF ve Excel PRO özelliğidir.",
+  "rehber22M1": "JSON Yedek (ücretsiz): Ayarlar › Sistem sekmesindeki \"Yedek Al\" butonu tüm verilerinizi JSON dosyası olarak paylaşır. Aynı cihaza veya yeni bir cihaza \"Yedeği Yükle\" ile geri yüklenebilir.",
+  "rehber22M2": "PDF Rapor (PRO): Arılık ve koloni başlıklarına göre bölünmüş, muayene tablolarını içeren A4 PDF oluşturur. Yazıcıya veya bulut depolama alanına gönderilebilir.",
+  "rehber22M3": "Excel Dışa Aktarma (PRO): Muayeneler, Koloniler ve Arılıklar olmak üç ayrı sayfadan oluşan .xlsx dosyası oluşturur; Türkçe karakter desteği tamdır.",
+  "rehber22M4": "Her iki PRO aktarım da Ayarlar › Sistem sekmesindeki ilgili butona basılarak başlatılır ve paylaşım ekranı üzerinden iletilir.",
 
   "kolonGridYavruYok": "Yavru yok",
   "kolonGridMemeKontrol": "Meme kontrolü",

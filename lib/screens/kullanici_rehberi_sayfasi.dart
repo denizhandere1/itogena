@@ -106,6 +106,9 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
       [l.rehberProS14, false, true],
       [l.rehberProS15, false, true],
       [l.rehberProS16, false, true],
+      [l.rehberProS17, true, true],
+      [l.rehberProS18, false, true],
+      [l.rehberProS19, false, true],
     ];
 
     return Container(
@@ -475,6 +478,24 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
                 ),
               ),
             ),
+          ]),
+
+          // ── 21 ───────────────────────────────────────────────────────
+          _bolum(l.rehber21Baslik, [
+            _kutu(l.rehber21Kutu),
+            _madde(l.rehber21M1),
+            _madde(l.rehber21M2),
+            _madde(l.rehber21M3),
+            _madde(l.rehber21M4),
+          ]),
+
+          // ── 22 ───────────────────────────────────────────────────────
+          _bolum(l.rehber22Baslik, [
+            _kutu(l.rehber22Kutu),
+            _madde(l.rehber22M1),
+            _madde(l.rehber22M2),
+            _madde(l.rehber22M3),
+            _madde(l.rehber22M4),
           ]),
         ],
       ),
