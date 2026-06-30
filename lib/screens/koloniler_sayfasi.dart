@@ -527,10 +527,18 @@ class _KolonilerSayfasiState extends State<KolonilerSayfasi>
   }
 
   Future<void> _detayaGit(Map<String, dynamic> k) async {
+    final mevcutListe = _aktifKoloniler;
+    final koloniId = _toInt(k['id']);
+    final indeks = mevcutListe.indexWhere((e) => _toInt(e['id']) == koloniId);
+
     final sonuc = await Navigator.push<bool>(
       context,
       MaterialPageRoute(
-        builder: (_) => KoloniDetaySayfasi(koloni: k),
+        builder: (_) => KoloniDetaySayfasi(
+          koloni: k,
+          arilikKolonileri: mevcutListe,
+          baslangicIndeksi: indeks >= 0 ? indeks : 0,
+        ),
       ),
     );
 

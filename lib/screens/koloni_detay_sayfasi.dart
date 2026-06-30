@@ -60,10 +60,14 @@ class _LejantHap extends StatelessWidget {
 
 class KoloniDetaySayfasi extends StatefulWidget {
   final Map<String, dynamic> koloni;
+  final List<Map<String, dynamic>>? arilikKolonileri;
+  final int baslangicIndeksi;
 
   const KoloniDetaySayfasi({
     super.key,
     required this.koloni,
+    this.arilikKolonileri,
+    this.baslangicIndeksi = 0,
   });
 
   @override
@@ -103,17 +107,31 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
 
   late TabController _tabController;
 
-  int get _koloniId => _toInt(widget.koloni['id']);
+  int _mevcutIndeks = 0;
+  late Map<String, dynamic> _mevcutKoloni;
+
+  int get _koloniId => _toInt(_mevcutKoloni['id']);
 
   String get _kovanNo {
     final no = _metin(_koloniOzet['kovanNo'], varsayilan: '');
     if (no.isNotEmpty) return no;
-    return _metin(widget.koloni['kovanNo']);
+    return _metin(_mevcutKoloni['kovanNo']);
   }
+
+  List<Map<String, dynamic>>? get _arilikKolonileri => widget.arilikKolonileri;
+
+  bool get _oncekiKoloniVar =>
+      _arilikKolonileri != null && _mevcutIndeks > 0;
+
+  bool get _sonrakiKoloniVar =>
+      _arilikKolonileri != null &&
+      _mevcutIndeks < _arilikKolonileri!.length - 1;
 
   @override
   void initState() {
     super.initState();
+    _mevcutKoloni = widget.koloni;
+    _mevcutIndeks = widget.baslangicIndeksi;
     _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(_sekmeDegisti);
     WidgetsBinding.instance.addPostFrameCallback((_) => _verileriYukle());
@@ -563,8 +581,43 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
     await _verileriYukle();
   }
 
+  void _koloniDegistir(int yeniIndeks) {
+    if (_arilikKolonileri == null) return;
+    if (yeniIndeks < 0 || yeniIndeks >= _arilikKolonileri!.length) return;
+
+    setState(() {
+      _mevcutIndeks = yeniIndeks;
+      _mevcutKoloni = _arilikKolonileri![yeniIndeks];
+      _muayeneler = [];
+      _tumKoloniler = [];
+      _koloniOzet = {};
+      _anaKarar = null;
+      _secilimDurumu = null;
+      _hatSonmeOzeti = {};
+      _biyolojikModel = null;
+      _biyolojikModelYukleniyor = false;
+      _biyolojikModelYuklendi = false;
+      _biyolojikModelHatasi = null;
+      _aktifSurecler = [];
+      _hacimAktivasyon = null;
+      _hacimAktivasyonHatasi = null;
+      _yonetimKararlari = [];
+      _yonetimKararlariHatasi = null;
+      _performansFuture = null;
+      _detayAnalizYukleniyor = false;
+      _detayAnalizYuklendi = false;
+      _detayAnalizHatasi = null;
+      _yukleniyor = true;
+      _seciliOzetKarti = 'surec';
+    });
+    _verileriYukle();
+  }
+
+  void _sonrakiKoloniGit() => _koloniDegistir(_mevcutIndeks + 1);
+  void _oncekiKoloniGit() => _koloniDegistir(_mevcutIndeks - 1);
+
   Future<void> _koloniNumarasiDegistir() async {
-    final mevcutNo = (_koloniOzet['kovanNo'] ?? widget.koloni['kovanNo'] ?? '')
+    final mevcutNo = (_koloniOzet['kovanNo'] ?? _mevcutKoloni['kovanNo'] ?? '')
         .toString()
         .trim();
     final controller = TextEditingController(text: mevcutNo);
@@ -664,17 +717,79 @@ class _KoloniDetaySayfasiState extends State<KoloniDetaySayfasi>
         ),
         body: SafeArea(
           bottom: false,
-          child: _yukleniyor
-              ? const Center(
-            child: CircularProgressIndicator(color: Colors.amber),
-          )
-              : TabBarView(
-            controller: _tabController,
+          child: Stack(
             children: [
-              _genelDurumSekmesi(),
-              _muayenelerSekmesi(),
-              _biyolojikModelSekmesi(),
-              _performansSekmesi(),
+              _yukleniyor
+                  ? const Center(
+                      child: CircularProgressIndicator(color: Colors.amber),
+                    )
+                  : TabBarView(
+                      controller: _tabController,
+                      children: [
+                        _genelDurumSekmesi(),
+                        _muayenelerSekmesi(),
+                        _biyolojikModelSekmesi(),
+                        _performansSekmesi(),
+                      ],
+                    ),
+              if (!_yukleniyor && _oncekiKoloniVar)
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: 56,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: _oncekiKoloniGit,
+                    onHorizontalDragEnd: (d) {
+                      if ((d.primaryVelocity ?? 0) > 250) _oncekiKoloniGit();
+                    },
+                    child: Center(
+                      child: Container(
+                        width: 44,
+                        height: 88,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.22),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(
+                          Icons.chevron_left,
+                          color: Colors.white,
+                          size: 36,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              if (!_yukleniyor && _sonrakiKoloniVar)
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: 56,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: _sonrakiKoloniGit,
+                    onHorizontalDragEnd: (d) {
+                      if ((d.primaryVelocity ?? 0) < -250) _sonrakiKoloniGit();
+                    },
+                    child: Center(
+                      child: Container(
+                        width: 44,
+                        height: 88,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.22),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                          size: 36,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
