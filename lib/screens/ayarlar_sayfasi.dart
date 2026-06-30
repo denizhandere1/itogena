@@ -11,6 +11,9 @@ import '../services/arilik_uyari_servisi.dart';
 import '../services/yedek_dosya_servisi.dart';
 import '../services/yedek_servisi.dart';
 import '../services/guncelleme_servisi.dart';
+import '../services/export_servisi.dart';
+import '../services/premium_servisi.dart';
+import 'pro_yukselme_sayfasi.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
   const AyarlarSayfasi({super.key});
@@ -27,6 +30,8 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   bool _kaydediliyor = false;
   bool _yedekAliniyor = false;
   bool _yedekYukleniyor = false;
+  bool _pdfAktariyor = false;
+  bool _excelAktariyor = false;
   String _kisBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_kis_baslangic');
   String _kisBitis = VeritabaniServisi.varsayilanAyarDegeri('season_kis_bitis');
   String _uretimBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_uretim_baslangic');
@@ -524,6 +529,64 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       if (mounted) {
         setState(() => _kaydediliyor = false);
       }
+    }
+  }
+
+  Future<void> _pdfDisaAktar() async {
+    if (!PremiumServisi.isPro) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ProYukselmeSayfasi()),
+      );
+      return;
+    }
+    if (_pdfAktariyor || _excelAktariyor) return;
+    setState(() => _pdfAktariyor = true);
+    try {
+      await ExportServisi.pdfOlusturVePaylas();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('PDF raporu paylaşım ekranına iletildi.')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('PDF oluşturulamadı: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _pdfAktariyor = false);
+    }
+  }
+
+  Future<void> _excelDisaAktar() async {
+    if (!PremiumServisi.isPro) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ProYukselmeSayfasi()),
+      );
+      return;
+    }
+    if (_excelAktariyor || _pdfAktariyor) return;
+    setState(() => _excelAktariyor = true);
+    try {
+      await ExportServisi.excelOlusturVePaylas();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Excel dosyası paylaşım ekranına iletildi.')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Excel oluşturulamadı: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _excelAktariyor = false);
     }
   }
 
@@ -1237,6 +1300,72 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   }
 
 
+  Widget _proExportKarti({
+    required String baslik,
+    required String altMetin,
+    required IconData ikon,
+    required Color renk,
+    required VoidCallback onTap,
+    bool calisiyor = false,
+  }) {
+    final isPro = PremiumServisi.isPro;
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: renk.withOpacity(0.30)),
+      ),
+      child: ListTile(
+        leading: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            CircleAvatar(
+              backgroundColor: renk.withOpacity(0.10),
+              child: calisiyor
+                  ? SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: renk),
+                    )
+                  : Icon(ikon, color: renk),
+            ),
+            if (!isPro)
+              Positioned(
+                right: -4,
+                bottom: -4,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: Colors.amber.shade700,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Text(
+                    'PRO',
+                    style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+        title: Text(
+          baslik,
+          style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
+        ),
+        subtitle: Text(altMetin, style: const TextStyle(fontSize: 12, height: 1.35)),
+        trailing: Icon(
+          isPro ? Icons.chevron_right : Icons.lock_outline,
+          color: isPro ? null : Colors.amber.shade700,
+        ),
+        onTap: calisiyor ? null : onTap,
+      ),
+    );
+  }
+
   Widget _sistemIslemKarti({
     required String baslik,
     required String altMetin,
@@ -1280,6 +1409,22 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       children: [
         _sistemBilgiKarti(),
         _uygulamaKimlikKarti(),
+        _proExportKarti(
+          baslik: 'PDF Rapor Dışa Aktar',
+          altMetin: 'Tüm arılık, koloni ve muayene verilerini PDF olarak paylaş.',
+          ikon: Icons.picture_as_pdf_outlined,
+          renk: Colors.red.shade700,
+          calisiyor: _pdfAktariyor,
+          onTap: _pdfDisaAktar,
+        ),
+        _proExportKarti(
+          baslik: 'Excel Dışa Aktar',
+          altMetin: 'Muayene ve koloni kayıtlarını .xlsx olarak paylaş.',
+          ikon: Icons.table_chart_outlined,
+          renk: Colors.green.shade700,
+          calisiyor: _excelAktariyor,
+          onTap: _excelDisaAktar,
+        ),
         _sistemIslemKarti(
           baslik: AppLocalizations.of(context).ayarlarYedekAl,
           altMetin: AppLocalizations.of(context).ayarlarYedekAlAciklama,
