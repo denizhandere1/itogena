@@ -2,7 +2,7 @@ name: itogena_v45
 description: ITOGENA Arılık Yönetim Sistemi
 publish_to: "none"
 
-version: 1.0.13+15
+version: 1.0.15+17
 
 
 environment:

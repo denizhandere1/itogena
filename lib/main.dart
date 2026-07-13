@@ -23,13 +23,27 @@ class ItogenaApp extends StatefulWidget {
   State<ItogenaApp> createState() => _ItogenaAppState();
 }
 
-class _ItogenaAppState extends State<ItogenaApp> {
+class _ItogenaAppState extends State<ItogenaApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     DilServisi.init(() {
       if (mounted) setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      PremiumServisi.dogrula();
+    }
   }
 
   @override

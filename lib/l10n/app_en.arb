@@ -48,8 +48,19 @@
   "proYukselmeAboneOlAylik": "Subscribe Monthly",
   "proYukselmeGeriYukle": "Restore Purchase",
   "proYukselmeOtomatikYenileme": "Subscription renews automatically. Cancel anytime from the Play Store.",
-  "proYukselmeYakinda": "PRO subscription coming soon.\n\nAll features are available during the beta period.",
-  "proYukselmeGeriYuklemeYakinda": "Purchase restoration coming soon.",
+  "proYukselmeUrunlerYukleniyor": "Loading prices...",
+  "proYukselmeUrunYuklemeHatasi": "Could not load prices. Check your connection and try again.",
+  "proYukselmeTekrarDene": "Try Again",
+  "proYukselmeSatinAlmaHatasi": "Purchase failed: {hata}",
+  "@proYukselmeSatinAlmaHatasi": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "proYukselmeSatinAlmaIptal": "Purchase canceled.",
+  "proYukselmeGeriYuklemeBasarili": "Your purchases have been restored.",
+  "proYukselmeGeriYuklemeBulunamadi": "No purchase found to restore.",
+  "proYukselmeZatenProBaslik": "You're already a PRO user",
+  "proYukselmeMevcutPlaniniz": "Your current plan",
+  "proYukselmeAbonelikYonet": "Manage Subscription",
   "proOzellik1": "Unlimited colonies (free: 10)",
   "proOzellik2": "Biological model — full analysis",
   "proOzellik3": "Harvest projection",
@@ -445,7 +456,14 @@
 
   "ayarlarBaslik": "SETTINGS & CALIBRATION",
   "ayarlarTabGenel": "GENERAL",
-  "ayarlarTabSistem": "SYSTEM",
+  "ayarlarTabSistem": "SYSTEM & SUBSCRIPTION",
+  "ayarlarProGirisYukselt": "Upgrade to Pro",
+  "ayarlarProGirisYukseltAciklama": "Go Pro for unlimited apiaries, PDF/Excel export and more.",
+  "ayarlarProGirisMevcutPlan": "Current Plan: Pro {plan}",
+  "@ayarlarProGirisMevcutPlan": {
+    "placeholders": { "plan": { "type": "String" } }
+  },
+  "ayarlarProGirisMevcutPlanAciklama": "Tap to view your plan.",
   "ayarlarKaydediliyor": "SAVING...",
   "ayarlarKaydet": "SAVE GENERAL SETTINGS",
   "ayarlarKaydedilemedi": "Settings could not be saved: {hata}",

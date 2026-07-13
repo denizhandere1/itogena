@@ -141,12 +141,39 @@ class AppLocalizationsEn extends AppLocalizations {
       'Subscription renews automatically. Cancel anytime from the Play Store.';
 
   @override
-  String get proYukselmeYakinda =>
-      'PRO subscription coming soon.\n\nAll features are available during the beta period.';
+  String get proYukselmeUrunlerYukleniyor => 'Loading prices...';
 
   @override
-  String get proYukselmeGeriYuklemeYakinda =>
-      'Purchase restoration coming soon.';
+  String get proYukselmeUrunYuklemeHatasi =>
+      'Could not load prices. Check your connection and try again.';
+
+  @override
+  String get proYukselmeTekrarDene => 'Try Again';
+
+  @override
+  String proYukselmeSatinAlmaHatasi(String hata) {
+    return 'Purchase failed: $hata';
+  }
+
+  @override
+  String get proYukselmeSatinAlmaIptal => 'Purchase canceled.';
+
+  @override
+  String get proYukselmeGeriYuklemeBasarili =>
+      'Your purchases have been restored.';
+
+  @override
+  String get proYukselmeGeriYuklemeBulunamadi =>
+      'No purchase found to restore.';
+
+  @override
+  String get proYukselmeZatenProBaslik => 'You\'re already a PRO user';
+
+  @override
+  String get proYukselmeMevcutPlaniniz => 'Your current plan';
+
+  @override
+  String get proYukselmeAbonelikYonet => 'Manage Subscription';
 
   @override
   String get proOzellik1 => 'Unlimited colonies (free: 10)';
@@ -1389,7 +1416,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ayarlarTabGenel => 'GENERAL';
 
   @override
-  String get ayarlarTabSistem => 'SYSTEM';
+  String get ayarlarTabSistem => 'SYSTEM & SUBSCRIPTION';
+
+  @override
+  String get ayarlarProGirisYukselt => 'Upgrade to Pro';
+
+  @override
+  String get ayarlarProGirisYukseltAciklama =>
+      'Go Pro for unlimited apiaries, PDF/Excel export and more.';
+
+  @override
+  String ayarlarProGirisMevcutPlan(String plan) {
+    return 'Current Plan: Pro $plan';
+  }
+
+  @override
+  String get ayarlarProGirisMevcutPlanAciklama => 'Tap to view your plan.';
 
   @override
   String get ayarlarKaydediliyor => 'SAVING...';
@@ -2362,6 +2404,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rehberProS16 => 'Formulas and calculations';
 
   @override
+  String get rehberProS17 => 'JSON Backup / Restore';
+
+  @override
+  String get rehberProS18 => 'PDF Report Export';
+
+  @override
+  String get rehberProS19 => 'Excel Export (.xlsx)';
+
+  @override
   String get rehber1Baslik => '1. What Does İTOGENA Do?';
 
   @override
@@ -2409,7 +2460,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rehber2Kutu =>
-      'You can use ITOGENA for free for inspection records and basic colony tracking. The free tier supports up to 10 colonies and 1 apiary. Deep analysis, risk monitoring, harvest estimation, reporting, and unlimited colonies/apiaries are PRO features.';
+      'You can use ITOGENA for free for inspection records and basic colony tracking. The free tier supports up to 10 colonies and 1 apiary; JSON backup and restore are also free. Deep analysis, risk monitoring, harvest estimation, PDF/Excel export, reporting, and unlimited colonies/apiaries are PRO features.';
 
   @override
   String get rehber3Baslik => '3. What Does the System Read from Frames?';
@@ -2913,6 +2964,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rehber20Link => 'itogena.com/privacy-policy';
+
+  @override
+  String get rehber21Baslik => '21. Post-Inspection Colony Navigation';
+
+  @override
+  String get rehber21Kutu =>
+      'After saving an inspection form you can stay on the same screen and navigate to adjacent hives. A quick field round through the apiary order is possible without going back to the list.';
+
+  @override
+  String get rehber21M1 =>
+      'Semi-transparent arrow buttons (‹ ›) appear on the left and right edges of the colony detail screen; the relevant arrow is hidden at the first and last colony.';
+
+  @override
+  String get rehber21M2 =>
+      'Tapping an arrow or swiping horizontally from the left/right edge of the screen navigates to the next or previous hive.';
+
+  @override
+  String get rehber21M3 =>
+      'The current tab (Overview, Inspection, Performance…) is not preserved during navigation; the colony detail page resets.';
+
+  @override
+  String get rehber21M4 =>
+      'The order follows the active colony order in the apiary list; the arrangement set via \"Reorder\" applies here as well.';
+
+  @override
+  String get rehber22Baslik => '22. Data Export';
+
+  @override
+  String get rehber22Kutu =>
+      'ITOGENA supports three export formats. JSON is free; PDF and Excel are PRO features.';
+
+  @override
+  String get rehber22M1 =>
+      'JSON Backup (free): The \"Backup\" button in Settings › System exports all your data as a JSON file. It can be restored to the same device or a new device using \"Restore Backup\".';
+
+  @override
+  String get rehber22M2 =>
+      'PDF Report (PRO): Generates an A4 PDF divided by apiary and colony headings, containing inspection tables. Can be sent to a printer or cloud storage.';
+
+  @override
+  String get rehber22M3 =>
+      'Excel Export (PRO): Creates a .xlsx file with three separate sheets — Inspections, Colonies and Apiaries — with full Unicode character support.';
+
+  @override
+  String get rehber22M4 =>
+      'Both PRO exports are started from the relevant button in Settings › System and shared via the device share sheet.';
 
   @override
   String get kolonGridYavruYok => 'No brood';

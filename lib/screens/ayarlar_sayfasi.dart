@@ -1403,10 +1403,43 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     );
   }
 
+  Widget _proGirisKarti() {
+    return AnimatedBuilder(
+      animation: Listenable.merge([
+        PremiumServisi.isProNotifier,
+        PremiumServisi.aktifUrunIdNotifier,
+      ]),
+      builder: (context, _) {
+        final l = AppLocalizations.of(context);
+        final isPro = PremiumServisi.isPro;
+        final urunId = PremiumServisi.aktifUrunId;
+        final planAdi = urunId == PremiumServisi.yillikId
+            ? l.proYukselmeYillik
+            : urunId == PremiumServisi.aylikId
+                ? l.proYukselmeAylik
+                : '';
+
+        return _sistemIslemKarti(
+          baslik: isPro ? l.ayarlarProGirisMevcutPlan(planAdi) : l.ayarlarProGirisYukselt,
+          altMetin: isPro
+              ? l.ayarlarProGirisMevcutPlanAciklama
+              : l.ayarlarProGirisYukseltAciklama,
+          ikon: Icons.workspace_premium_rounded,
+          renk: const Color(0xFFFFA000),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ProYukselmeSayfasi()),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _tabSistem() {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
       children: [
+        _proGirisKarti(),
         _sistemBilgiKarti(),
         _uygulamaKimlikKarti(),
         _proExportKarti(

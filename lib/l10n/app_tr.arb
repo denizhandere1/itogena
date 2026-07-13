@@ -51,8 +51,19 @@
   "proYukselmeAboneOlAylik": "Aylık Abone Ol",
   "proYukselmeGeriYukle": "Satın Alımı Geri Yükle",
   "proYukselmeOtomatikYenileme": "Abonelik otomatik olarak yenilenir. İstediğiniz zaman Play Store'dan iptal edebilirsiniz.",
-  "proYukselmeYakinda": "PRO abonelik yakında kullanıma girecek.\n\nBeta sürecinde tüm özellikler açık tutulmaktadır.",
-  "proYukselmeGeriYuklemeYakinda": "Satın alım geri yükleme yakında kullanıma girecek.",
+  "proYukselmeUrunlerYukleniyor": "Fiyatlar yükleniyor...",
+  "proYukselmeUrunYuklemeHatasi": "Fiyatlar alınamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.",
+  "proYukselmeTekrarDene": "Tekrar Dene",
+  "proYukselmeSatinAlmaHatasi": "Satın alma başarısız: {hata}",
+  "@proYukselmeSatinAlmaHatasi": {
+    "placeholders": { "hata": { "type": "String" } }
+  },
+  "proYukselmeSatinAlmaIptal": "Satın alma iptal edildi.",
+  "proYukselmeGeriYuklemeBasarili": "Satın alımlarınız geri yüklendi.",
+  "proYukselmeGeriYuklemeBulunamadi": "Geri yüklenecek bir satın alım bulunamadı.",
+  "proYukselmeZatenProBaslik": "Zaten PRO kullanıcısısınız",
+  "proYukselmeMevcutPlaniniz": "Mevcut planınız",
+  "proYukselmeAbonelikYonet": "Aboneliği Yönet",
   "proOzellik1": "Sınırsız koloni (ücretsiz: 10)",
   "proOzellik2": "Biyolojik model — tam analiz",
   "proOzellik3": "Hasat projeksiyonu",
@@ -568,7 +579,14 @@
 
   "ayarlarBaslik": "AYARLAR VE KALİBRASYON",
   "ayarlarTabGenel": "GENEL",
-  "ayarlarTabSistem": "SİSTEM",
+  "ayarlarTabSistem": "SİSTEM VE ABONELİK",
+  "ayarlarProGirisYukselt": "Pro'ya Yükselt",
+  "ayarlarProGirisYukseltAciklama": "Sınırsız arılık, PDF/Excel dışa aktarma ve daha fazlası için Pro'ya geçin.",
+  "ayarlarProGirisMevcutPlan": "Mevcut Plan: Pro {plan}",
+  "@ayarlarProGirisMevcutPlan": {
+    "placeholders": { "plan": { "type": "String" } }
+  },
+  "ayarlarProGirisMevcutPlanAciklama": "Planınızı görüntülemek için dokunun.",
   "ayarlarKaydediliyor": "KAYDEDİLİYOR...",
   "ayarlarKaydet": "GENEL AYARLARI KAYDET",
   "ayarlarKaydedilemedi": "Ayarlar kaydedilemedi: {hata}",

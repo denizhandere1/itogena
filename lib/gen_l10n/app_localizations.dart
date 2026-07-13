@@ -356,17 +356,65 @@ abstract class AppLocalizations {
   /// **'Abonelik otomatik olarak yenilenir. İstediğiniz zaman Play Store\'dan iptal edebilirsiniz.'**
   String get proYukselmeOtomatikYenileme;
 
-  /// No description provided for @proYukselmeYakinda.
+  /// No description provided for @proYukselmeUrunlerYukleniyor.
   ///
   /// In tr, this message translates to:
-  /// **'PRO abonelik yakında kullanıma girecek.\n\nBeta sürecinde tüm özellikler açık tutulmaktadır.'**
-  String get proYukselmeYakinda;
+  /// **'Fiyatlar yükleniyor...'**
+  String get proYukselmeUrunlerYukleniyor;
 
-  /// No description provided for @proYukselmeGeriYuklemeYakinda.
+  /// No description provided for @proYukselmeUrunYuklemeHatasi.
   ///
   /// In tr, this message translates to:
-  /// **'Satın alım geri yükleme yakında kullanıma girecek.'**
-  String get proYukselmeGeriYuklemeYakinda;
+  /// **'Fiyatlar alınamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.'**
+  String get proYukselmeUrunYuklemeHatasi;
+
+  /// No description provided for @proYukselmeTekrarDene.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar Dene'**
+  String get proYukselmeTekrarDene;
+
+  /// No description provided for @proYukselmeSatinAlmaHatasi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın alma başarısız: {hata}'**
+  String proYukselmeSatinAlmaHatasi(String hata);
+
+  /// No description provided for @proYukselmeSatinAlmaIptal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın alma iptal edildi.'**
+  String get proYukselmeSatinAlmaIptal;
+
+  /// No description provided for @proYukselmeGeriYuklemeBasarili.
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın alımlarınız geri yüklendi.'**
+  String get proYukselmeGeriYuklemeBasarili;
+
+  /// No description provided for @proYukselmeGeriYuklemeBulunamadi.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri yüklenecek bir satın alım bulunamadı.'**
+  String get proYukselmeGeriYuklemeBulunamadi;
+
+  /// No description provided for @proYukselmeZatenProBaslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaten PRO kullanıcısısınız'**
+  String get proYukselmeZatenProBaslik;
+
+  /// No description provided for @proYukselmeMevcutPlaniniz.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut planınız'**
+  String get proYukselmeMevcutPlaniniz;
+
+  /// No description provided for @proYukselmeAbonelikYonet.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aboneliği Yönet'**
+  String get proYukselmeAbonelikYonet;
 
   /// No description provided for @proOzellik1.
   ///
@@ -2568,8 +2616,32 @@ abstract class AppLocalizations {
   /// No description provided for @ayarlarTabSistem.
   ///
   /// In tr, this message translates to:
-  /// **'SİSTEM'**
+  /// **'SİSTEM VE ABONELİK'**
   String get ayarlarTabSistem;
+
+  /// No description provided for @ayarlarProGirisYukselt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pro\'ya Yükselt'**
+  String get ayarlarProGirisYukselt;
+
+  /// No description provided for @ayarlarProGirisYukseltAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sınırsız arılık, PDF/Excel dışa aktarma ve daha fazlası için Pro\'ya geçin.'**
+  String get ayarlarProGirisYukseltAciklama;
+
+  /// No description provided for @ayarlarProGirisMevcutPlan.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut Plan: Pro {plan}'**
+  String ayarlarProGirisMevcutPlan(String plan);
+
+  /// No description provided for @ayarlarProGirisMevcutPlanAciklama.
+  ///
+  /// In tr, this message translates to:
+  /// **'Planınızı görüntülemek için dokunun.'**
+  String get ayarlarProGirisMevcutPlanAciklama;
 
   /// No description provided for @ayarlarKaydediliyor.
   ///
@@ -4209,6 +4281,24 @@ abstract class AppLocalizations {
   /// **'Formüller ve hesaplamalar'**
   String get rehberProS16;
 
+  /// No description provided for @rehberProS17.
+  ///
+  /// In tr, this message translates to:
+  /// **'JSON Yedek Al / Yükle'**
+  String get rehberProS17;
+
+  /// No description provided for @rehberProS18.
+  ///
+  /// In tr, this message translates to:
+  /// **'PDF Rapor Dışa Aktarma'**
+  String get rehberProS18;
+
+  /// No description provided for @rehberProS19.
+  ///
+  /// In tr, this message translates to:
+  /// **'Excel Dışa Aktarma (.xlsx)'**
+  String get rehberProS19;
+
   /// No description provided for @rehber1Baslik.
   ///
   /// In tr, this message translates to:
@@ -4284,7 +4374,7 @@ abstract class AppLocalizations {
   /// No description provided for @rehber2Kutu.
   ///
   /// In tr, this message translates to:
-  /// **'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir. Derin analiz, risk izleme, hasat tahmini, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.'**
+  /// **'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir; JSON yedek alma/yükleme de ücretsizdir. Derin analiz, risk izleme, hasat tahmini, PDF/Excel dışa aktarma, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.'**
   String get rehber2Kutu;
 
   /// No description provided for @rehber3Baslik.
@@ -5072,6 +5162,78 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'itogena.com/privacy-policy'**
   String get rehber20Link;
+
+  /// No description provided for @rehber21Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'21. Muayene Sonrası Kovan Navigasyonu'**
+  String get rehber21Baslik;
+
+  /// No description provided for @rehber21Kutu.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir kovanın muayene formunu kaydettikten sonra aynı ekranda kalarak yan kovanlara geçiş yapabilirsiniz. Arılık sırasını koruyarak hızlı saha turu mümkündür.'**
+  String get rehber21Kutu;
+
+  /// No description provided for @rehber21M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Koloni detay ekranında sol ve sağ kenarlarda yarı saydam ok butonları (‹ ›) görünür; ilk ve son kolonide ilgili yön gizlenir.'**
+  String get rehber21M1;
+
+  /// No description provided for @rehber21M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oka dokunmak veya ekranın sol/sağ kenarından yatay kaydırmak bir sonraki ya da bir önceki kovana geçişi tetikler.'**
+  String get rehber21M2;
+
+  /// No description provided for @rehber21M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçiş sırasında o anki sekme (Genel, Muayene, Performans…) korunmaz; koloni detay sayfası sıfırlanır.'**
+  String get rehber21M3;
+
+  /// No description provided for @rehber21M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sıra, arılık listesindeki aktif koloni sırasını izler; \"Sırayı Düzenle\" ile ayarlanan düzen burada da geçerlidir.'**
+  String get rehber21M4;
+
+  /// No description provided for @rehber22Baslik.
+  ///
+  /// In tr, this message translates to:
+  /// **'22. Veri Dışa Aktarma'**
+  String get rehber22Baslik;
+
+  /// No description provided for @rehber22Kutu.
+  ///
+  /// In tr, this message translates to:
+  /// **'İTOGENA üç formatta dışa aktarma destekler. JSON ücretsizdir; PDF ve Excel PRO özelliğidir.'**
+  String get rehber22Kutu;
+
+  /// No description provided for @rehber22M1.
+  ///
+  /// In tr, this message translates to:
+  /// **'JSON Yedek (ücretsiz): Ayarlar › Sistem sekmesindeki \"Yedek Al\" butonu tüm verilerinizi JSON dosyası olarak paylaşır. Aynı cihaza veya yeni bir cihaza \"Yedeği Yükle\" ile geri yüklenebilir.'**
+  String get rehber22M1;
+
+  /// No description provided for @rehber22M2.
+  ///
+  /// In tr, this message translates to:
+  /// **'PDF Rapor (PRO): Arılık ve koloni başlıklarına göre bölünmüş, muayene tablolarını içeren A4 PDF oluşturur. Yazıcıya veya bulut depolama alanına gönderilebilir.'**
+  String get rehber22M2;
+
+  /// No description provided for @rehber22M3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Excel Dışa Aktarma (PRO): Muayeneler, Koloniler ve Arılıklar olmak üç ayrı sayfadan oluşan .xlsx dosyası oluşturur; Türkçe karakter desteği tamdır.'**
+  String get rehber22M3;
+
+  /// No description provided for @rehber22M4.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her iki PRO aktarım da Ayarlar › Sistem sekmesindeki ilgili butona basılarak başlatılır ve paylaşım ekranı üzerinden iletilir.'**
+  String get rehber22M4;
 
   /// No description provided for @kolonGridYavruYok.
   ///

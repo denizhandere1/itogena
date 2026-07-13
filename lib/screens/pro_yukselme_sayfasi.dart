@@ -1,5 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../gen_l10n/app_localizations.dart';
+import '../services/premium_servisi.dart';
 
 enum _AbonelikTipi { aylik, yillik }
 
@@ -13,10 +19,33 @@ class ProYukselmeSayfasi extends StatefulWidget {
 class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
   _AbonelikTipi _secili = _AbonelikTipi.yillik;
 
-  // TODO: in_app_purchase entegrasyonunda ProductDetails.price ile değiştirilecek
-  static const String _yillikFiyat = '₺890/yıl';
-  static const String _yillikAylikKarsiligi = '≈ ₺74,17/ay';
-  static const String _aylikFiyat = '₺89/ay';
+  bool _urunlerYukleniyor = true;
+  bool _urunYuklemeHatasi = false;
+  Map<String, ProductDetails> _urunler = {};
+
+  bool _islemSuruyor = false;
+
+  StreamSubscription<List<PurchaseDetails>>? _satinAlmaDinleyici;
+
+  @override
+  void initState() {
+    super.initState();
+    _urunleriYukle();
+    _satinAlmaDinleyici =
+        PremiumServisi.satinAlmaAkisi.listen(_satinAlmaGuncelle);
+    PremiumServisi.isProNotifier.addListener(_proDurumuDegisti);
+  }
+
+  @override
+  void dispose() {
+    _satinAlmaDinleyici?.cancel();
+    PremiumServisi.isProNotifier.removeListener(_proDurumuDegisti);
+    super.dispose();
+  }
+
+  void _proDurumuDegisti() {
+    if (mounted) setState(() {});
+  }
 
   List<String> _ozellikler(AppLocalizations l) => [
     l.proOzellik1,
@@ -29,6 +58,60 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
     l.proOzellik8,
     l.proOzellik9,
   ];
+
+  Future<void> _urunleriYukle() async {
+    setState(() {
+      _urunlerYukleniyor = true;
+      _urunYuklemeHatasi = false;
+    });
+    final liste = await PremiumServisi.urunleriGetir();
+    if (!mounted) return;
+    if (liste.isEmpty) {
+      setState(() {
+        _urunlerYukleniyor = false;
+        _urunYuklemeHatasi = true;
+      });
+      return;
+    }
+    setState(() {
+      _urunler = {for (final u in liste) u.id: u};
+      _urunlerYukleniyor = false;
+    });
+  }
+
+  void _satinAlmaGuncelle(List<PurchaseDetails> satinAlmalar) {
+    if (!mounted) return;
+    final l = AppLocalizations.of(context);
+    for (final s in satinAlmalar) {
+      if (!PremiumServisi.urunIdleri.contains(s.productID)) continue;
+      switch (s.status) {
+        case PurchaseStatus.pending:
+          setState(() => _islemSuruyor = true);
+          break;
+        case PurchaseStatus.purchased:
+        case PurchaseStatus.restored:
+          setState(() => _islemSuruyor = false);
+          break;
+        case PurchaseStatus.error:
+          setState(() => _islemSuruyor = false);
+          _mesajGoster(
+            l.proYukselmeSatinAlmaHatasi(s.error?.message ?? ''),
+          );
+          break;
+        case PurchaseStatus.canceled:
+          setState(() => _islemSuruyor = false);
+          _mesajGoster(l.proYukselmeSatinAlmaIptal);
+          break;
+      }
+    }
+  }
+
+  void _mesajGoster(String mesaj) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(mesaj)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +136,11 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
               const SizedBox(height: 24),
               _ozelliklerKarti(l),
               const SizedBox(height: 20),
-              _yillikKart(l),
-              const SizedBox(height: 10),
-              _aylikKart(l),
+              if (PremiumServisi.isPro)
+                _mevcutPlanKarti(l)
+              else
+                _urunAlani(l),
               const SizedBox(height: 24),
-              _aboneOlButonu(l),
-              const SizedBox(height: 12),
               _altBilgi(l),
             ],
           ),
@@ -146,8 +228,129 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
     );
   }
 
-  Widget _yillikKart(AppLocalizations l) {
+  Widget _mevcutPlanKarti(AppLocalizations l) {
+    final urunId = PremiumServisi.aktifUrunId;
+    final planAdi = urunId == PremiumServisi.yillikId
+        ? l.proYukselmeYillik
+        : urunId == PremiumServisi.aylikId
+            ? l.proYukselmeAylik
+            : null;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF8E1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFFFB300), width: 1.5),
+      ),
+      child: Column(
+        children: [
+          const Icon(
+            Icons.workspace_premium_rounded,
+            color: Color(0xFFFFA000),
+            size: 34,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            l.proYukselmeZatenProBaslik,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          ),
+          if (planAdi != null) ...[
+            const SizedBox(height: 6),
+            Text(
+              '${l.proYukselmeMevcutPlaniniz}: $planAdi',
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.brown.shade600,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+          if (urunId != null) ...[
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              onPressed: () => _abonelikYonet(urunId),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.brown,
+                side: const BorderSide(color: Color(0xFFFFB300)),
+              ),
+              icon: const Icon(Icons.settings_outlined, size: 18),
+              label: Text(l.proYukselmeAbonelikYonet),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Future<void> _abonelikYonet(String urunId) async {
+    final uri = Uri.parse(
+      'https://play.google.com/store/account/subscriptions'
+      '?sku=$urunId&package=com.itogaciftligi.itogena',
+    );
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
+  Widget _urunAlani(AppLocalizations l) {
+    if (_urunlerYukleniyor) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 28),
+        child: Column(
+          children: [
+            const CircularProgressIndicator(color: Color(0xFFFFB300)),
+            const SizedBox(height: 12),
+            Text(
+              l.proYukselmeUrunlerYukleniyor,
+              style: TextStyle(fontSize: 12.5, color: Colors.grey.shade600),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_urunYuklemeHatasi) {
+      return Column(
+        children: [
+          Text(
+            l.proYukselmeUrunYuklemeHatasi,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 13,
+              color: Colors.grey.shade700,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 12),
+          OutlinedButton(
+            onPressed: _urunleriYukle,
+            style: OutlinedButton.styleFrom(foregroundColor: Colors.brown),
+            child: Text(l.proYukselmeTekrarDene),
+          ),
+        ],
+      );
+    }
+
+    final yillik = _urunler[PremiumServisi.yillikId];
+    final aylik = _urunler[PremiumServisi.aylikId];
+
+    return Column(
+      children: [
+        if (yillik != null) _yillikKart(l, yillik),
+        if (yillik != null && aylik != null) const SizedBox(height: 10),
+        if (aylik != null) _aylikKart(l, aylik),
+        const SizedBox(height: 24),
+        _aboneOlButonu(l),
+      ],
+    );
+  }
+
+  Widget _yillikKart(AppLocalizations l, ProductDetails urun) {
     final secili = _secili == _AbonelikTipi.yillik;
+    final aylikKarsiligi = urun.rawPrice / 12;
+    final karsilikMetni =
+        '≈ ${urun.currencySymbol}${aylikKarsiligi.toStringAsFixed(2)}/ay';
+
     return GestureDetector(
       onTap: () => setState(() => _secili = _AbonelikTipi.yillik),
       child: AnimatedContainer(
@@ -215,7 +418,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    _yillikAylikKarsiligi,
+                    karsilikMetni,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey.shade600,
@@ -228,7 +431,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  _yillikFiyat,
+                  urun.price,
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -250,7 +453,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
     );
   }
 
-  Widget _aylikKart(AppLocalizations l) {
+  Widget _aylikKart(AppLocalizations l, ProductDetails urun) {
     final secili = _secili == _AbonelikTipi.aylik;
     return GestureDetector(
       onTap: () => setState(() => _secili = _AbonelikTipi.aylik),
@@ -281,7 +484,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
               ),
             ),
             Text(
-              _aylikFiyat,
+              urun.price,
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w900,
@@ -294,27 +497,43 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
   }
 
   Widget _aboneOlButonu(AppLocalizations l) {
-    final etiket = _secili == _AbonelikTipi.yillik
-        ? '${l.proYukselmeAboneOlYillik} — $_yillikFiyat'
-        : '${l.proYukselmeAboneOlAylik} — $_aylikFiyat';
+    final urun = _secili == _AbonelikTipi.yillik
+        ? _urunler[PremiumServisi.yillikId]
+        : _urunler[PremiumServisi.aylikId];
+
+    final etiket = urun == null
+        ? ''
+        : (_secili == _AbonelikTipi.yillik
+            ? '${l.proYukselmeAboneOlYillik} — ${urun.price}'
+            : '${l.proYukselmeAboneOlAylik} — ${urun.price}');
 
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: _aboneOl,
+        onPressed: (urun == null || _islemSuruyor) ? null : () => _aboneOl(urun),
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFFFFB300),
           foregroundColor: Colors.white,
+          disabledBackgroundColor: Colors.grey.shade300,
           padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
           elevation: 2,
         ),
-        child: Text(
-          etiket,
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
-        ),
+        child: _islemSuruyor
+            ? const SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: Colors.white,
+                ),
+              )
+            : Text(
+                etiket,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
+              ),
       ),
     );
   }
@@ -323,7 +542,7 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
     return Column(
       children: [
         TextButton(
-          onPressed: _satinAlimiGeriYukle,
+          onPressed: _islemSuruyor ? null : _satinAlimiGeriYukle,
           child: Text(
             l.proYukselmeGeriYukle,
             style: const TextStyle(
@@ -349,42 +568,29 @@ class _ProYukselmeSayfasiState extends State<ProYukselmeSayfasi> {
     );
   }
 
-  void _aboneOl() {
-    // TODO: in_app_purchase entegrasyonu — bu blok değiştirilecek
-    final l = AppLocalizations.of(context);
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
-          children: [
-            const Icon(Icons.workspace_premium_outlined, color: Color(0xFFFFA000)),
-            const SizedBox(width: 8),
-            Text(l.proYukselmeSayfaBaslik),
-          ],
-        ),
-        content: Text(
-          l.proYukselmeYakinda,
-          style: const TextStyle(height: 1.5),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(l.kapat),
-          ),
-        ],
-      ),
-    );
+  Future<void> _aboneOl(ProductDetails urun) async {
+    setState(() => _islemSuruyor = true);
+    final basladi = await PremiumServisi.satinaAlBaslat(urun.id);
+    if (!basladi && mounted) {
+      setState(() => _islemSuruyor = false);
+      _mesajGoster(AppLocalizations.of(context).proYukselmeUrunYuklemeHatasi);
+    }
+    // Sonuç (purchased/error/canceled) purchaseStream üzerinden _satinAlmaGuncelle'a gelir.
   }
 
-  void _satinAlimiGeriYukle() {
-    // TODO: in_app_purchase.restorePurchases()
+  Future<void> _satinAlimiGeriYukle() async {
     final l = AppLocalizations.of(context);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l.proYukselmeGeriYuklemeYakinda),
-      ),
-    );
+    final oncekiPro = PremiumServisi.isPro;
+    setState(() => _islemSuruyor = true);
+    await PremiumServisi.geriYukle();
+    // restorePurchases() isteği yollar; sonuçlar purchaseStream'e asenkron düşer.
+    await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+    setState(() => _islemSuruyor = false);
+    if (PremiumServisi.isPro && !oncekiPro) {
+      _mesajGoster(l.proYukselmeGeriYuklemeBasarili);
+    } else if (!PremiumServisi.isPro) {
+      _mesajGoster(l.proYukselmeGeriYuklemeBulunamadi);
+    }
   }
 }

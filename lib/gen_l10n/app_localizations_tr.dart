@@ -141,12 +141,39 @@ class AppLocalizationsTr extends AppLocalizations {
       'Abonelik otomatik olarak yenilenir. İstediğiniz zaman Play Store\'dan iptal edebilirsiniz.';
 
   @override
-  String get proYukselmeYakinda =>
-      'PRO abonelik yakında kullanıma girecek.\n\nBeta sürecinde tüm özellikler açık tutulmaktadır.';
+  String get proYukselmeUrunlerYukleniyor => 'Fiyatlar yükleniyor...';
 
   @override
-  String get proYukselmeGeriYuklemeYakinda =>
-      'Satın alım geri yükleme yakında kullanıma girecek.';
+  String get proYukselmeUrunYuklemeHatasi =>
+      'Fiyatlar alınamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.';
+
+  @override
+  String get proYukselmeTekrarDene => 'Tekrar Dene';
+
+  @override
+  String proYukselmeSatinAlmaHatasi(String hata) {
+    return 'Satın alma başarısız: $hata';
+  }
+
+  @override
+  String get proYukselmeSatinAlmaIptal => 'Satın alma iptal edildi.';
+
+  @override
+  String get proYukselmeGeriYuklemeBasarili =>
+      'Satın alımlarınız geri yüklendi.';
+
+  @override
+  String get proYukselmeGeriYuklemeBulunamadi =>
+      'Geri yüklenecek bir satın alım bulunamadı.';
+
+  @override
+  String get proYukselmeZatenProBaslik => 'Zaten PRO kullanıcısısınız';
+
+  @override
+  String get proYukselmeMevcutPlaniniz => 'Mevcut planınız';
+
+  @override
+  String get proYukselmeAbonelikYonet => 'Aboneliği Yönet';
 
   @override
   String get proOzellik1 => 'Sınırsız koloni (ücretsiz: 10)';
@@ -1393,7 +1420,23 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ayarlarTabGenel => 'GENEL';
 
   @override
-  String get ayarlarTabSistem => 'SİSTEM';
+  String get ayarlarTabSistem => 'SİSTEM VE ABONELİK';
+
+  @override
+  String get ayarlarProGirisYukselt => 'Pro\'ya Yükselt';
+
+  @override
+  String get ayarlarProGirisYukseltAciklama =>
+      'Sınırsız arılık, PDF/Excel dışa aktarma ve daha fazlası için Pro\'ya geçin.';
+
+  @override
+  String ayarlarProGirisMevcutPlan(String plan) {
+    return 'Mevcut Plan: Pro $plan';
+  }
+
+  @override
+  String get ayarlarProGirisMevcutPlanAciklama =>
+      'Planınızı görüntülemek için dokunun.';
 
   @override
   String get ayarlarKaydediliyor => 'KAYDEDİLİYOR...';
@@ -2363,6 +2406,15 @@ class AppLocalizationsTr extends AppLocalizations {
   String get rehberProS16 => 'Formüller ve hesaplamalar';
 
   @override
+  String get rehberProS17 => 'JSON Yedek Al / Yükle';
+
+  @override
+  String get rehberProS18 => 'PDF Rapor Dışa Aktarma';
+
+  @override
+  String get rehberProS19 => 'Excel Dışa Aktarma (.xlsx)';
+
+  @override
   String get rehber1Baslik => '1. İTOGENA Ne Yapar?';
 
   @override
@@ -2410,7 +2462,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get rehber2Kutu =>
-      'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir. Derin analiz, risk izleme, hasat tahmini, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.';
+      'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir; JSON yedek alma/yükleme de ücretsizdir. Derin analiz, risk izleme, hasat tahmini, PDF/Excel dışa aktarma, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.';
 
   @override
   String get rehber3Baslik => '3. Sistem Çıtadan Ne Anlar?';
@@ -2910,6 +2962,52 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get rehber20Link => 'itogena.com/privacy-policy';
+
+  @override
+  String get rehber21Baslik => '21. Muayene Sonrası Kovan Navigasyonu';
+
+  @override
+  String get rehber21Kutu =>
+      'Bir kovanın muayene formunu kaydettikten sonra aynı ekranda kalarak yan kovanlara geçiş yapabilirsiniz. Arılık sırasını koruyarak hızlı saha turu mümkündür.';
+
+  @override
+  String get rehber21M1 =>
+      'Koloni detay ekranında sol ve sağ kenarlarda yarı saydam ok butonları (‹ ›) görünür; ilk ve son kolonide ilgili yön gizlenir.';
+
+  @override
+  String get rehber21M2 =>
+      'Oka dokunmak veya ekranın sol/sağ kenarından yatay kaydırmak bir sonraki ya da bir önceki kovana geçişi tetikler.';
+
+  @override
+  String get rehber21M3 =>
+      'Geçiş sırasında o anki sekme (Genel, Muayene, Performans…) korunmaz; koloni detay sayfası sıfırlanır.';
+
+  @override
+  String get rehber21M4 =>
+      'Sıra, arılık listesindeki aktif koloni sırasını izler; \"Sırayı Düzenle\" ile ayarlanan düzen burada da geçerlidir.';
+
+  @override
+  String get rehber22Baslik => '22. Veri Dışa Aktarma';
+
+  @override
+  String get rehber22Kutu =>
+      'İTOGENA üç formatta dışa aktarma destekler. JSON ücretsizdir; PDF ve Excel PRO özelliğidir.';
+
+  @override
+  String get rehber22M1 =>
+      'JSON Yedek (ücretsiz): Ayarlar › Sistem sekmesindeki \"Yedek Al\" butonu tüm verilerinizi JSON dosyası olarak paylaşır. Aynı cihaza veya yeni bir cihaza \"Yedeği Yükle\" ile geri yüklenebilir.';
+
+  @override
+  String get rehber22M2 =>
+      'PDF Rapor (PRO): Arılık ve koloni başlıklarına göre bölünmüş, muayene tablolarını içeren A4 PDF oluşturur. Yazıcıya veya bulut depolama alanına gönderilebilir.';
+
+  @override
+  String get rehber22M3 =>
+      'Excel Dışa Aktarma (PRO): Muayeneler, Koloniler ve Arılıklar olmak üç ayrı sayfadan oluşan .xlsx dosyası oluşturur; Türkçe karakter desteği tamdır.';
+
+  @override
+  String get rehber22M4 =>
+      'Her iki PRO aktarım da Ayarlar › Sistem sekmesindeki ilgili butona basılarak başlatılır ve paylaşım ekranı üzerinden iletilir.';
 
   @override
   String get kolonGridYavruYok => 'Yavru yok';
