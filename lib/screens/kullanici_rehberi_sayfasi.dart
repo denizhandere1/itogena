@@ -108,7 +108,6 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
       [l.rehberProS15, false, true],
       [l.rehberProS16, false, true],
       [l.rehberProS17, true, true],
-      [l.rehberProS18, false, true],
       [l.rehberProS19, false, true],
     ];
 
@@ -494,7 +493,6 @@ class KullaniciRehberiSayfasi extends StatelessWidget {
           _bolum(l.rehber22Baslik, [
             _kutu(l.rehber22Kutu),
             _madde(l.rehber22M1),
-            _madde(l.rehber22M2),
             _madde(l.rehber22M3),
             _madde(l.rehber22M4),
           ]),

@@ -30,7 +30,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
   bool _kaydediliyor = false;
   bool _yedekAliniyor = false;
   bool _yedekYukleniyor = false;
-  bool _pdfAktariyor = false;
   bool _excelAktariyor = false;
   String _kisBaslangic = VeritabaniServisi.varsayilanAyarDegeri('season_kis_baslangic');
   String _kisBitis = VeritabaniServisi.varsayilanAyarDegeri('season_kis_bitis');
@@ -532,35 +531,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
     }
   }
 
-  Future<void> _pdfDisaAktar() async {
-    if (!PremiumServisi.isPro) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const ProYukselmeSayfasi()),
-      );
-      return;
-    }
-    if (_pdfAktariyor || _excelAktariyor) return;
-    setState(() => _pdfAktariyor = true);
-    try {
-      await ExportServisi.pdfOlusturVePaylas();
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('PDF raporu paylaşım ekranına iletildi.')),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('PDF oluşturulamadı: ${e.toString()}'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } finally {
-      if (mounted) setState(() => _pdfAktariyor = false);
-    }
-  }
-
   Future<void> _excelDisaAktar() async {
     if (!PremiumServisi.isPro) {
       Navigator.push(
@@ -569,7 +539,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
       );
       return;
     }
-    if (_excelAktariyor || _pdfAktariyor) return;
+    if (_excelAktariyor) return;
     setState(() => _excelAktariyor = true);
     try {
       await ExportServisi.excelOlusturVePaylas();
@@ -1442,14 +1412,6 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi>
         _proGirisKarti(),
         _sistemBilgiKarti(),
         _uygulamaKimlikKarti(),
-        _proExportKarti(
-          baslik: 'PDF Rapor Dışa Aktar',
-          altMetin: 'Tüm arılık, koloni ve muayene verilerini PDF olarak paylaş.',
-          ikon: Icons.picture_as_pdf_outlined,
-          renk: Colors.red.shade700,
-          calisiyor: _pdfAktariyor,
-          onTap: _pdfDisaAktar,
-        ),
         _proExportKarti(
           baslik: 'Excel Dışa Aktar',
           altMetin: 'Muayene ve koloni kayıtlarını .xlsx olarak paylaş.',

@@ -458,7 +458,7 @@
   "ayarlarTabGenel": "GENERAL",
   "ayarlarTabSistem": "SYSTEM & SUBSCRIPTION",
   "ayarlarProGirisYukselt": "Upgrade to Pro",
-  "ayarlarProGirisYukseltAciklama": "Go Pro for unlimited apiaries, PDF/Excel export and more.",
+  "ayarlarProGirisYukseltAciklama": "Go Pro for unlimited apiaries, Excel export and more.",
   "ayarlarProGirisMevcutPlan": "Current Plan: Pro {plan}",
   "@ayarlarProGirisMevcutPlan": {
     "placeholders": { "plan": { "type": "String" } }
@@ -750,7 +750,6 @@
   "rehberProS15": "Lineage tree",
   "rehberProS16": "Formulas and calculations",
   "rehberProS17": "JSON Backup / Restore",
-  "rehberProS18": "PDF Report Export",
   "rehberProS19": "Excel Export (.xlsx)",
 
   "rehber1Baslik": "1. What Does İTOGENA Do?",
@@ -766,7 +765,7 @@
   "rehber1M9": "On the colony list, use the \"Reorder\" button in the app bar to drag and rearrange colonies. Each colony card shows an order number badge.",
 
   "rehber2Baslik": "2. Free and PRO",
-  "rehber2Kutu": "You can use ITOGENA for free for inspection records and basic colony tracking. The free tier supports up to 10 colonies and 1 apiary; JSON backup and restore are also free. Deep analysis, risk monitoring, harvest estimation, PDF/Excel export, reporting, and unlimited colonies/apiaries are PRO features.",
+  "rehber2Kutu": "You can use ITOGENA for free for inspection records and basic colony tracking. The free tier supports up to 10 colonies and 1 apiary; JSON backup and restore are also free. Deep analysis, risk monitoring, harvest estimation, Excel export, reporting, and unlimited colonies/apiaries are PRO features.",
 
   "rehber3Baslik": "3. What Does the System Read from Frames?",
   "rehber3M1": "Frame count is the primary field indicator of colony strength; it is not a definitive decision on its own.",
@@ -931,11 +930,10 @@
   "rehber21M4": "The order follows the active colony order in the apiary list; the arrangement set via \"Reorder\" applies here as well.",
 
   "rehber22Baslik": "22. Data Export",
-  "rehber22Kutu": "ITOGENA supports three export formats. JSON is free; PDF and Excel are PRO features.",
+  "rehber22Kutu": "ITOGENA supports two export formats. JSON is free; Excel is a PRO feature.",
   "rehber22M1": "JSON Backup (free): The \"Backup\" button in Settings › System exports all your data as a JSON file. It can be restored to the same device or a new device using \"Restore Backup\".",
-  "rehber22M2": "PDF Report (PRO): Generates an A4 PDF divided by apiary and colony headings, containing inspection tables. Can be sent to a printer or cloud storage.",
   "rehber22M3": "Excel Export (PRO): Creates a .xlsx file with three separate sheets — Inspections, Colonies and Apiaries — with full Unicode character support.",
-  "rehber22M4": "Both PRO exports are started from the relevant button in Settings › System and shared via the device share sheet.",
+  "rehber22M4": "The PRO export is started from the relevant button in Settings › System and shared via the device share sheet.",
 
   "kolonGridYavruYok": "No brood",
   "kolonGridMemeKontrol": "Cell check",

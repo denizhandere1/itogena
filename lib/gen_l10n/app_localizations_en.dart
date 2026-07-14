@@ -1423,7 +1423,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ayarlarProGirisYukseltAciklama =>
-      'Go Pro for unlimited apiaries, PDF/Excel export and more.';
+      'Go Pro for unlimited apiaries, Excel export and more.';
 
   @override
   String ayarlarProGirisMevcutPlan(String plan) {
@@ -2410,9 +2410,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rehberProS17 => 'JSON Backup / Restore';
 
   @override
-  String get rehberProS18 => 'PDF Report Export';
-
-  @override
   String get rehberProS19 => 'Excel Export (.xlsx)';
 
   @override
@@ -2463,7 +2460,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rehber2Kutu =>
-      'You can use ITOGENA for free for inspection records and basic colony tracking. The free tier supports up to 10 colonies and 1 apiary; JSON backup and restore are also free. Deep analysis, risk monitoring, harvest estimation, PDF/Excel export, reporting, and unlimited colonies/apiaries are PRO features.';
+      'You can use ITOGENA for free for inspection records and basic colony tracking. The free tier supports up to 10 colonies and 1 apiary; JSON backup and restore are also free. Deep analysis, risk monitoring, harvest estimation, Excel export, reporting, and unlimited colonies/apiaries are PRO features.';
 
   @override
   String get rehber3Baslik => '3. What Does the System Read from Frames?';
@@ -2996,15 +2993,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rehber22Kutu =>
-      'ITOGENA supports three export formats. JSON is free; PDF and Excel are PRO features.';
+      'ITOGENA supports two export formats. JSON is free; Excel is a PRO feature.';
 
   @override
   String get rehber22M1 =>
       'JSON Backup (free): The \"Backup\" button in Settings › System exports all your data as a JSON file. It can be restored to the same device or a new device using \"Restore Backup\".';
-
-  @override
-  String get rehber22M2 =>
-      'PDF Report (PRO): Generates an A4 PDF divided by apiary and colony headings, containing inspection tables. Can be sent to a printer or cloud storage.';
 
   @override
   String get rehber22M3 =>
@@ -3012,7 +3005,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rehber22M4 =>
-      'Both PRO exports are started from the relevant button in Settings › System and shared via the device share sheet.';
+      'The PRO export is started from the relevant button in Settings › System and shared via the device share sheet.';
 
   @override
   String get kolonGridYavruYok => 'No brood';

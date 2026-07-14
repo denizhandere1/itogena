@@ -2628,7 +2628,7 @@ abstract class AppLocalizations {
   /// No description provided for @ayarlarProGirisYukseltAciklama.
   ///
   /// In tr, this message translates to:
-  /// **'Sınırsız arılık, PDF/Excel dışa aktarma ve daha fazlası için Pro\'ya geçin.'**
+  /// **'Sınırsız arılık, Excel dışa aktarma ve daha fazlası için Pro\'ya geçin.'**
   String get ayarlarProGirisYukseltAciklama;
 
   /// No description provided for @ayarlarProGirisMevcutPlan.
@@ -4293,12 +4293,6 @@ abstract class AppLocalizations {
   /// **'JSON Yedek Al / Yükle'**
   String get rehberProS17;
 
-  /// No description provided for @rehberProS18.
-  ///
-  /// In tr, this message translates to:
-  /// **'PDF Rapor Dışa Aktarma'**
-  String get rehberProS18;
-
   /// No description provided for @rehberProS19.
   ///
   /// In tr, this message translates to:
@@ -4380,7 +4374,7 @@ abstract class AppLocalizations {
   /// No description provided for @rehber2Kutu.
   ///
   /// In tr, this message translates to:
-  /// **'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir; JSON yedek alma/yükleme de ücretsizdir. Derin analiz, risk izleme, hasat tahmini, PDF/Excel dışa aktarma, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.'**
+  /// **'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir; JSON yedek alma/yükleme de ücretsizdir. Derin analiz, risk izleme, hasat tahmini, Excel dışa aktarma, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.'**
   String get rehber2Kutu;
 
   /// No description provided for @rehber3Baslik.
@@ -5214,7 +5208,7 @@ abstract class AppLocalizations {
   /// No description provided for @rehber22Kutu.
   ///
   /// In tr, this message translates to:
-  /// **'İTOGENA üç formatta dışa aktarma destekler. JSON ücretsizdir; PDF ve Excel PRO özelliğidir.'**
+  /// **'İTOGENA iki formatta dışa aktarma destekler. JSON ücretsizdir; Excel PRO özelliğidir.'**
   String get rehber22Kutu;
 
   /// No description provided for @rehber22M1.
@@ -5222,12 +5216,6 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'JSON Yedek (ücretsiz): Ayarlar › Sistem sekmesindeki \"Yedek Al\" butonu tüm verilerinizi JSON dosyası olarak paylaşır. Aynı cihaza veya yeni bir cihaza \"Yedeği Yükle\" ile geri yüklenebilir.'**
   String get rehber22M1;
-
-  /// No description provided for @rehber22M2.
-  ///
-  /// In tr, this message translates to:
-  /// **'PDF Rapor (PRO): Arılık ve koloni başlıklarına göre bölünmüş, muayene tablolarını içeren A4 PDF oluşturur. Yazıcıya veya bulut depolama alanına gönderilebilir.'**
-  String get rehber22M2;
 
   /// No description provided for @rehber22M3.
   ///
@@ -5238,7 +5226,7 @@ abstract class AppLocalizations {
   /// No description provided for @rehber22M4.
   ///
   /// In tr, this message translates to:
-  /// **'Her iki PRO aktarım da Ayarlar › Sistem sekmesindeki ilgili butona basılarak başlatılır ve paylaşım ekranı üzerinden iletilir.'**
+  /// **'PRO aktarım, Ayarlar › Sistem sekmesindeki ilgili butona basılarak başlatılır ve paylaşım ekranı üzerinden iletilir.'**
   String get rehber22M4;
 
   /// No description provided for @kolonGridYavruYok.

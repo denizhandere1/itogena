@@ -1427,7 +1427,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get ayarlarProGirisYukseltAciklama =>
-      'Sınırsız arılık, PDF/Excel dışa aktarma ve daha fazlası için Pro\'ya geçin.';
+      'Sınırsız arılık, Excel dışa aktarma ve daha fazlası için Pro\'ya geçin.';
 
   @override
   String ayarlarProGirisMevcutPlan(String plan) {
@@ -2412,9 +2412,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get rehberProS17 => 'JSON Yedek Al / Yükle';
 
   @override
-  String get rehberProS18 => 'PDF Rapor Dışa Aktarma';
-
-  @override
   String get rehberProS19 => 'Excel Dışa Aktarma (.xlsx)';
 
   @override
@@ -2465,7 +2462,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get rehber2Kutu =>
-      'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir; JSON yedek alma/yükleme de ücretsizdir. Derin analiz, risk izleme, hasat tahmini, PDF/Excel dışa aktarma, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.';
+      'İTOGENA\'yı muayene kaydı ve temel koloni takibi için ücretsiz kullanabilirsin. Ücretsiz katmanda en fazla 10 koloni ve 1 arılık yönetilebilir; JSON yedek alma/yükleme de ücretsizdir. Derin analiz, risk izleme, hasat tahmini, Excel dışa aktarma, raporlama ve sınırsız koloni/arılık PRO kapsamındadır.';
 
   @override
   String get rehber3Baslik => '3. Sistem Çıtadan Ne Anlar?';
@@ -2994,15 +2991,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get rehber22Kutu =>
-      'İTOGENA üç formatta dışa aktarma destekler. JSON ücretsizdir; PDF ve Excel PRO özelliğidir.';
+      'İTOGENA iki formatta dışa aktarma destekler. JSON ücretsizdir; Excel PRO özelliğidir.';
 
   @override
   String get rehber22M1 =>
       'JSON Yedek (ücretsiz): Ayarlar › Sistem sekmesindeki \"Yedek Al\" butonu tüm verilerinizi JSON dosyası olarak paylaşır. Aynı cihaza veya yeni bir cihaza \"Yedeği Yükle\" ile geri yüklenebilir.';
-
-  @override
-  String get rehber22M2 =>
-      'PDF Rapor (PRO): Arılık ve koloni başlıklarına göre bölünmüş, muayene tablolarını içeren A4 PDF oluşturur. Yazıcıya veya bulut depolama alanına gönderilebilir.';
 
   @override
   String get rehber22M3 =>
@@ -3010,7 +3003,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get rehber22M4 =>
-      'Her iki PRO aktarım da Ayarlar › Sistem sekmesindeki ilgili butona basılarak başlatılır ve paylaşım ekranı üzerinden iletilir.';
+      'PRO aktarım, Ayarlar › Sistem sekmesindeki ilgili butona basılarak başlatılır ve paylaşım ekranı üzerinden iletilir.';
 
   @override
   String get kolonGridYavruYok => 'Yavru yok';
