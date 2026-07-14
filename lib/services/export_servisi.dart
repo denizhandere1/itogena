@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:pdf/pdf.dart';
@@ -48,21 +49,18 @@ class ExportServisi {
   }
 
   /// Tüm veriden PDF raporu üretip paylaşım ekranını açar.
+  ///
+  /// Belge oluşturma (font ölçümü + tablo düzeni) tamamen senkron ve CPU
+  /// yoğun olduğu için ana isolate'te çalıştırılırsa büyük veri setlerinde
+  /// (çok sayıda koloni/muayene) UI donar ve ANR oluşur. Bu yüzden veri
+  /// hazırlığı burada (DB erişimi gerektirdiği için ana isolate'te) yapılır,
+  /// asıl PDF inşası ise compute() ile arka plan isolate'ine taşınır.
   static Future<void> pdfOlusturVePaylas() async {
     final ariliklar = await VeritabaniServisi.ariliklariGetir();
     final koloniler = await VeritabaniServisi.kolonileriGetir(sadeceAktifler: false);
     final muayeneler = await _muayeneleriGetir();
 
-    final arilikAdMap = <int, String>{};
-    for (final a in ariliklar) {
-      arilikAdMap[_toInt(a['id'])] = _str(a['ad']);
-    }
-
-    final koloniArilikMap = <int, int>{};
     final muayeneByKoloni = <int, List<Map<String, dynamic>>>{};
-    for (final k in koloniler) {
-      koloniArilikMap[_toInt(k['id'])] = _toInt(k['arilikId']);
-    }
     for (final m in muayeneler) {
       final id = _toInt(m['koloniId']);
       muayeneByKoloni.putIfAbsent(id, () => []).add(m);
@@ -74,6 +72,42 @@ class ExportServisi {
     }
 
     final tarih = _tarihStr();
+
+    final bytes = await compute(_pdfBytesOlustur, {
+      'ariliklar': ariliklar,
+      'koloniByArilik': koloniByArilik,
+      'muayeneByKoloni': muayeneByKoloni,
+      'tarih': tarih,
+    });
+
+    final dir = await getTemporaryDirectory();
+    final dosya = File('${dir.path}/itogena_rapor_$tarih.pdf');
+    await dosya.writeAsBytes(bytes);
+
+    await Share.shareXFiles(
+      [XFile(dosya.path)],
+      text: 'ITOGENA Arilik Raporu — $tarih',
+    );
+
+    try {
+      await dosya.delete();
+    } catch (_) {}
+  }
+
+  /// Arka plan isolate'inde çalışır: yalnızca CPU yoğun PDF inşasını yapar.
+  /// compute() ile çağrıldığı için top-level/static bir fonksiyon olmalı ve
+  /// girdi/çıktısı isolate sınırları arasında taşınabilir (Map/List/primitif)
+  /// tipte olmalıdır.
+  static Future<Uint8List> _pdfBytesOlustur(Map<String, dynamic> girdi) async {
+    final ariliklar = (girdi['ariliklar'] as List).cast<Map<String, dynamic>>();
+    final koloniByArilik = (girdi['koloniByArilik'] as Map).map(
+      (k, v) => MapEntry(k as int, (v as List).cast<Map<String, dynamic>>()),
+    );
+    final muayeneByKoloni = (girdi['muayeneByKoloni'] as Map).map(
+      (k, v) => MapEntry(k as int, (v as List).cast<Map<String, dynamic>>()),
+    );
+    final tarih = girdi['tarih'] as String;
+
     final doc = pw.Document();
 
     final headerStyle = pw.TextStyle(
@@ -216,19 +250,7 @@ class ExportServisi {
       );
     }
 
-    final bytes = await doc.save();
-    final dir = await getTemporaryDirectory();
-    final dosya = File('${dir.path}/itogena_rapor_$tarih.pdf');
-    await dosya.writeAsBytes(bytes);
-
-    await Share.shareXFiles(
-      [XFile(dosya.path)],
-      text: 'ITOGENA Arilik Raporu — $tarih',
-    );
-
-    try {
-      await dosya.delete();
-    } catch (_) {}
+    return doc.save();
   }
 
   /// Tüm veriden Excel (.xlsx) dosyası üretip paylaşım ekranını açar.

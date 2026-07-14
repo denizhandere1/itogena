@@ -25,7 +25,18 @@ class _KarsilastirmaSayfasiState extends State<KarsilastirmaSayfasi> {
   @override
   void initState() {
     super.initState();
+    PremiumServisi.isProNotifier.addListener(_proGuncelle);
     _future = KarsilastirmaOzetiServisi.getir(widget.koloniIdleri);
+  }
+
+  void _proGuncelle() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    PremiumServisi.isProNotifier.removeListener(_proGuncelle);
+    super.dispose();
   }
 
   @override

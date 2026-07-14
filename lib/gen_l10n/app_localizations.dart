@@ -4224,8 +4224,14 @@ abstract class AppLocalizations {
   /// No description provided for @rehberProS7.
   ///
   /// In tr, this message translates to:
-  /// **'Risk analizi (Varroa, arı kuşu…)'**
+  /// **'Sezonluk risk uyarıları (Varroa, arı kuşu, fare…)'**
   String get rehberProS7;
+
+  /// No description provided for @rehberProS7b.
+  ///
+  /// In tr, this message translates to:
+  /// **'Detaylı Varroa yönetim kararı'**
+  String get rehberProS7b;
 
   /// No description provided for @rehberProS8.
   ///

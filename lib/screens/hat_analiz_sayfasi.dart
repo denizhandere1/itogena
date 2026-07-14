@@ -24,7 +24,18 @@ class _HatAnalizSayfasiState extends State<HatAnalizSayfasi> {
   @override
   void initState() {
     super.initState();
+    PremiumServisi.isProNotifier.addListener(_proGuncelle);
     _verileriYukle();
+  }
+
+  void _proGuncelle() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    PremiumServisi.isProNotifier.removeListener(_proGuncelle);
+    super.dispose();
   }
 
   Future<void> _verileriYukle() async {

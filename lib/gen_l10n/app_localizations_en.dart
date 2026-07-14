@@ -2374,7 +2374,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rehberProS6 => 'Management decision detail';
 
   @override
-  String get rehberProS7 => 'Risk analysis (Varroa, bee-eater…)';
+  String get rehberProS7 => 'Seasonal risk alerts (Varroa, bee-eaters, mice…)';
+
+  @override
+  String get rehberProS7b => 'Detailed Varroa management decision';
 
   @override
   String get rehberProS8 => 'Harvest projection and quantity';

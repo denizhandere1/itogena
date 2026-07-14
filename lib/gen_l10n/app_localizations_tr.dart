@@ -2376,7 +2376,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get rehberProS6 => 'Yönetim kararı detayı';
 
   @override
-  String get rehberProS7 => 'Risk analizi (Varroa, arı kuşu…)';
+  String get rehberProS7 => 'Sezonluk risk uyarıları (Varroa, arı kuşu, fare…)';
+
+  @override
+  String get rehberProS7b => 'Detaylı Varroa yönetim kararı';
 
   @override
   String get rehberProS8 => 'Hasat projeksiyonu ve miktar';

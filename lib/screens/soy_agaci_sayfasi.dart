@@ -22,10 +22,16 @@ class _SoyAgaciSayfasiState extends State<SoyAgaciSayfasi>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    PremiumServisi.isProNotifier.addListener(_proGuncelle);
+  }
+
+  void _proGuncelle() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
+    PremiumServisi.isProNotifier.removeListener(_proGuncelle);
     _tabController.dispose();
     super.dispose();
   }
